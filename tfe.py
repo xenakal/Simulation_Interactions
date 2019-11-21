@@ -34,10 +34,10 @@ class Camera:
         
     def takePicture(self,targetList):
         #In first approach to avoid to remove items, list is emptied at the start
-        self.targetList = []
+        targetInTriangle = []
         
         #Compute the field seen by the camera
-        #alph, beta are fix now but we could imagine to change alpha, so better to compute it every time.
+        #alpha, beta are fix now but we could imagine to change alpha, so better to compute it every time.
         x1 = self.xc + math.cos(self.alpha-self.beta/2)
         y1 = self.yc + math.sin(self.alpha-self.beta/2)
         x2 = self.xc + math.cos(self.alpha+self.beta/2)
@@ -51,29 +51,35 @@ class Camera:
         p2 = -(1/m2)
         
         
+        #checking for every target if it is in the vision field of the camera.
         for target in targetList:
-             #check done like if object is a point without radius
-             margin1 = (m1*(target.xc - self.xc) + self.yc)-target.yc
-             margin2 = (m2*(target.xc - self.xc) + self.yc)-target.yc
-            
-             #finding the perpendicular crossing the target's center
-             #computing the x and y  were the two line intersect
+             #1) finding the perpendicular to the margin crossing the target's center
+             #computing the x and y  where the two line intersect
              xi1 = (p1*target.xc-m1*self.xc+self.yc-target.yc)/(p1-m1)
              yi1 = m1*(xi1-self.xc)+self.yc    #yi1 = p1*(xi1-target.xc)+target.yc 
              xi2 = (p2*target.xc-m2*self.xc+self.yc-target.yc)/(p2-m2)
              yi2 = m2*(xi2-self.xc)+self.yc    #yi2 = p2*(xi2-target.xc)+target.yc 
-             #computing distance between the center and the camera field limite
+             #computing distance between the center and the camera field limit
              d1 = math.pow(math.pow((xi1 - target.xc),2)+math.pow((yi1 - target.yc),2),0.5)
              d2 = math.pow(math.pow((xi2 - target.xc),2)+math.pow((yi2 - target.yc),2),0.5)
-        
-             if((margin1 >= 0 and margin2 <= 0) or (margin1 <= 0 and margin2 >= 0) or d1 <= target.size or d2 <= target.size):
-                self.targetDetectedList.append(target)
-                print("cam " + str(self.id) + " detect target target " + str(target.id))
-                
-        
+             
+             #2) computing the margin of the view seen by the camera
+             margin1 = ((m1*(target.xc - self.xc) + self.yc)-target.yc)*(math.cos(self.alpha)/math.fabs(math.cos(self.alpha)))
+             margin2 = ((m2*(target.xc - self.xc) + self.yc)-target.yc)*(math.cos(self.alpha)/math.fabs(math.cos(self.alpha)))
+             
+             #3) checking if the object are in the filed of vision or partially int the field
+             if((margin1 <= 0 and margin2 >= 0) or d1 <= target.size or d2 <= target.size):
+                targetInTriangle.append(target)
+                #print("cam " + str(self.id) + " detect target target " + str(target.id))
+                    
         #1) il faut également toujours modéliser le fait que si deux bojets sont les un derrière les autres
         #alors la camera ne le vois pas.
-        
+                
+        #computation of the distances
+        distanceToCam = []
+        for target in targetInTriangle:
+            distanceToCam.append(math.pow(math.pow((self.xc - target.xc),2)+math.pow((self.yc - target.yc),2),0.5))
+            
     def analysePicture():
         print('analysing picture')
     
@@ -205,17 +211,30 @@ class App:
             self.angle_view_cam = numpy.array([60,60,60,60])
         elif scenario == 1:
             #Options for the target
-            self.x_tar = numpy.array([155])
-            self.y_tar = numpy.array([40])
-            self.vx_tar = numpy.array([0])
-            self.vy_tar = numpy.array([0])
-            self.size_tar = numpy.array([50])
-            self.label_tar = numpy.array(['fix'])
+            self.x_tar = numpy.array([155,20])
+            self.y_tar = numpy.array([40,20])
+            self.vx_tar = numpy.array([0,0])
+            self.vy_tar = numpy.array([0,0])
+            self.size_tar = numpy.array([30,10])
+            self.label_tar = numpy.array(['fix','fix'])
             #Options for the cameras
             self.x_cam = numpy.array([10,310,10,310,])
             self.y_cam = numpy.array([10,10,310,310])
             self.angle_cam = numpy.array([45,135,315,225])
             self.angle_view_cam = numpy.array([60,60,60,60])
+        elif scenario == 2:
+            #Options for the target
+            self.x_tar = numpy.array([155,20,200])
+            self.y_tar = numpy.array([40,20,200])
+            self.vx_tar = numpy.array([0,0,0])
+            self.vy_tar = numpy.array([0,0,0])
+            self.size_tar = numpy.array([30,10,10])
+            self.label_tar = numpy.array(['fix','fix','fix'])
+            #Options for the cameras
+            self.x_cam = numpy.array([150,150])
+            self.y_cam = numpy.array([150,150])
+            self.angle_cam = numpy.array([225,45])
+            self.angle_view_cam = numpy.array([60,60])
             
         
         #Creating the room, the target and the camera
@@ -261,6 +280,6 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1,1)
+    myApp = App(1,0)
     myApp.main()
     
