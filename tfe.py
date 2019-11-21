@@ -36,7 +36,8 @@ class Camera:
         #In first approach to avoid to remove items, list is emptied at the start
         self.targetList = []
         
-        #Check to see if the target is in the field
+        #Compute the field seen by the camera
+        #alph, beta are fix now but we could imagine to change alpha, so better to compute it every time.
         x1 = self.xc + math.cos(self.alpha-self.beta/2)
         y1 = self.yc + math.sin(self.alpha-self.beta/2)
         x2 = self.xc + math.cos(self.alpha+self.beta/2)
@@ -45,16 +46,32 @@ class Camera:
         m1 = (self.yc-y1)/(self.xc-x1)
         m2 = (self.yc-y2)/(self.xc-x2)
         
+        #finding the the perpendicular to those line
+        p1 = -(1/m1)
+        p2 = -(1/m2)
+        
+        
         for target in targetList:
+             #check done like if object is a point without radius
              margin1 = (m1*(target.xc - self.xc) + self.yc)-target.yc
              margin2 = (m2*(target.xc - self.xc) + self.yc)-target.yc
+            
+             #finding the perpendicular crossing the target's center
+             #computing the x and y  were the two line intersect
+             xi1 = (p1*target.xc-m1*self.xc+self.yc-target.yc)/(p1-m1)
+             yi1 = m1*(xi1-self.xc)+self.yc    #yi1 = p1*(xi1-target.xc)+target.yc 
+             xi2 = (p2*target.xc-m2*self.xc+self.yc-target.yc)/(p2-m2)
+             yi2 = m2*(xi2-self.xc)+self.yc    #yi2 = p2*(xi2-target.xc)+target.yc 
+             #computing distance between the center and the camera field limite
+             d1 = math.pow(math.pow((xi1 - target.xc),2)+math.pow((yi1 - target.yc),2),0.5)
+             d2 = math.pow(math.pow((xi2 - target.xc),2)+math.pow((yi2 - target.yc),2),0.5)
         
-             if((margin1 >= 0 and margin2 <= 0) or (margin1 <= 0 and margin2 >= 0)):
+             if((margin1 >= 0 and margin2 <= 0) or (margin1 <= 0 and margin2 >= 0) or d1 <= target.size or d2 <= target.size):
                 self.targetDetectedList.append(target)
-                #print("cam " + str(self.id) + " detect target target " + str(target.id))
+                print("cam " + str(self.id) + " detect target target " + str(target.id))
                 
-        #1) ici on a la détection que si le centre se trouve au milieu, améliorer avec le rayon
-        #2) il faut également toujours modéliser le fait que si deux bojets sont les un derrière les autres
+        
+        #1) il faut également toujours modéliser le fait que si deux bojets sont les un derrière les autres
         #alors la camera ne le vois pas.
         
     def analysePicture():
@@ -152,7 +169,7 @@ class GUI:
         if(x+size >= tab[0] and x+size <= tab[0]+tab[2] and y+size >= tab[1] and y+size <= tab[1]+tab[3]):
             # render text
             label = self.font.render(str(tar_id), 10, color)
-            self.screen.blit(label, (x+5,y+5))
+            self.screen.blit(label, (x+size/2+5,y+size/2+5))
             # render form
             pygame.draw.circle(self.screen,color,(x,y),size)
         
@@ -186,6 +203,20 @@ class App:
             self.y_cam = numpy.array([10,10,310,310])
             self.angle_cam = numpy.array([45,135,315,225])
             self.angle_view_cam = numpy.array([60,60,60,60])
+        elif scenario == 1:
+            #Options for the target
+            self.x_tar = numpy.array([155])
+            self.y_tar = numpy.array([40])
+            self.vx_tar = numpy.array([0])
+            self.vy_tar = numpy.array([0])
+            self.size_tar = numpy.array([50])
+            self.label_tar = numpy.array(['fix'])
+            #Options for the cameras
+            self.x_cam = numpy.array([10,310,10,310,])
+            self.y_cam = numpy.array([10,10,310,310])
+            self.angle_cam = numpy.array([45,135,315,225])
+            self.angle_view_cam = numpy.array([60,60,60,60])
+            
         
         #Creating the room, the target and the camera
         self.myRoom = Room()
@@ -210,7 +241,7 @@ class App:
                 target.mooveTarget(1)
             
             if self.useGUI == 1:
-                time.sleep(1) #so that the GUI does go to quick 
+                time.sleep(20) #so that the GUI does go to quick 
                 self.updateGUI()
                 
         pygame.quit()
@@ -230,6 +261,6 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1)
+    myApp = App(1,1)
     myApp.main()
     
