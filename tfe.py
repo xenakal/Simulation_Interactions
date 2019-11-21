@@ -34,6 +34,7 @@ class Camera:
         
     def takePicture(self,targetList):
         #In first approach to avoid to remove items, list is emptied at the start
+        self.targetDetectedList = []
         targetInTriangle = []
         
         #Compute the field seen by the camera
@@ -80,6 +81,9 @@ class Camera:
         for target in targetInTriangle:
             distanceToCam.append(math.pow(math.pow((self.xc - target.xc),2)+math.pow((self.yc - target.yc),2),0.5))
             
+        self.targetDetectedList = targetInTriangle
+        
+        
     def analysePicture():
         print('analysing picture')
     
@@ -188,6 +192,42 @@ class GUI:
         pygame.draw.line(self.screen,CAMERA,(x,y),(x+l*math.cos(alpha-beta/2),y+l*math.sin(alpha-beta/2)), 2) 
         pygame.draw.line(self.screen,CAMERA,(x,y),(x+l*math.cos(alpha+beta/2),y+l*math.sin(alpha+beta/2)), 2)
         
+    def screenDetectedTarget(self,myRoom):
+        
+        x_off = 350
+        y_off = 50
+        color = RED
+        
+        n = 0 
+        for camera in myRoom.cameras:
+            label = self.font.render("camera " + str(camera.id), 10, WHITE)
+            self.screen.blit(label, (x_off,y_off+n*20))
+            n=n+1
+        
+        n = 0
+        label = self.font.render("target ", 10, WHITE)
+        self.screen.blit(label, (x_off,y_off-20))
+        for target in myRoom.targets:
+            label = self.font.render(str(target.id), 10, WHITE)
+            self.screen.blit(label, (x_off+80+n*20,y_off-20))
+            n=n+1
+            
+        n = 0
+        m = 0 
+        for camera in myRoom.cameras:
+            n = 0
+            for target in myRoom.targets:
+                for targetDetected in camera.targetDetectedList:    
+                    if target==targetDetected:
+                        color = GREEN
+                        break
+                    else:
+                        color = RED
+                
+                pygame.draw.circle(self.screen,color,(x_off+88+n*20,y_off+7+m*20),5)
+                n=n+1
+            m =m +1
+            
     def updateScreen(self):
         pygame.display.update() 
      
@@ -260,7 +300,7 @@ class App:
                 target.mooveTarget(1)
             
             if self.useGUI == 1:
-                time.sleep(20) #so that the GUI does go to quick 
+                time.sleep(1) #so that the GUI does go to quick 
                 self.updateGUI()
                 
         pygame.quit()
@@ -274,6 +314,7 @@ class App:
         for camera in self.myRoom.cameras:    
             self.myGUI.drawCam(camera.xc,camera.yc,camera.alpha,camera.beta,camera.id)
         
+        self.myGUI.screenDetectedTarget(self.myRoom)
         self.myGUI.updateScreen()
         
     
