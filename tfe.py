@@ -190,12 +190,12 @@ class Camera:
             ya = idca[3]
         
         line_cam_median_p = line_cam_median.linePerp(xa,ya)
-        self.projections.append(numpy.array([xa,ya,0,0]))
+        self.projections.append(numpy.array([xa,ya,0,0,0]))
         
         #limite of the field of vision on the cmaera
         proj_p1 = line_cam_median_p.lineIntersection(line_cam_1)
         proj_p2 = line_cam_median_p.lineIntersection(line_cam_2)
-        self.projections.append(numpy.array([proj_p1[0],proj_p1[1],proj_p2[0],proj_p2[1]]))
+        self.projections.append(numpy.array([proj_p1[0],proj_p1[1],proj_p2[0],proj_p2[1],0]))
         
         for obj in orderedTarget:
             target = obj[1]
@@ -213,7 +213,9 @@ class Camera:
             proj_p2 = line_cam_median_p.lineIntersection(line_cam_target_2)
             
             #print(distanceBtwTwoPoint(proj_p1[0],proj_p1[1],proj_p2[0],proj_p1[1]))
-            self.projections.append(numpy.array([proj_p1[0],proj_p1[1],proj_p2[0],proj_p2[1]]))
+            
+            self.projections.append(numpy.array([proj_p1[0],proj_p1[1],proj_p2[0],proj_p2[1],target.id]))
+            #self.projections.append(numpy.array([proj_p2[0],proj_p2[1],proj_p1[0],proj_p1[1]]))
             
         self.targetDetectedList = targetInTriangle
         
@@ -366,14 +368,15 @@ class GUI:
         x_off = 10
         y_off = 330
         
-        pygame.draw.rect(self.screen, BLACK ,(x_off,y_off,500,100))
+        pygame.draw.rect(self.screen, BLACK ,(x_off,y_off,500,200))
         
         
         n = 0 
         for camera in myRoom.cameras:
             label = self.font.render("camera " + str(camera.id), 10, WHITE)
-            pygame.draw.circle(self.screen,CAMERA,(x_off + 85 ,y_off+8+n*20),5)
-            self.screen.blit(label, (x_off,y_off+n*20))
+            self.screen.blit(label, (x_off,y_off+n*30))
+            pygame.draw.circle(self.screen,CAMERA,(x_off + 85 ,y_off+8+n*30),5)
+            
             
             m = 0
             for projection in camera.projections:
@@ -385,18 +388,22 @@ class GUI:
                 if (m>0):
                     d0 = math.floor(distanceBtwTwoPoint(ref[0],ref[1],projection[0],projection[1]))                                       
                     d1 = math.floor(distanceBtwTwoPoint(ref[0],ref[1],projection[2],projection[3]))                                       
-                    pygame.draw.circle(self.screen,CAMERA,(x_off + 85 + d0 ,y_off+8+n*20),5)
-                    pygame.draw.circle(self.screen,CAMERA,(x_off + 85 + d1 ,y_off+8+n*20),5)
+                    pygame.draw.circle(self.screen,(100+m*30,255-m*30,255),(x_off + 85 + d0 ,y_off+8+n*30),5)
+                    pygame.draw.circle(self.screen,(100+m*30,255-m*30,255),(x_off + 85 + d1 ,y_off+8+n*30),5)
+                    
+                   
                 
                     #pygame.draw.circle(self.screen,(100+n*10,0,0),(math.ceil(projection[0]),math.ceil(projection[1])),5)
                     #pygame.draw.circle(self.screen,(100+n*10,0,0),(math.ceil(projection[2]),math.ceil(projection[3])),5)
                     if (m>1):
-                        pygame.draw.line(self.screen,CAMERA,(x_off + 85 + d0,y_off+8+n*20),(x_off+85+d1,y_off+8+n*20), 2)
+                        pygame.draw.line(self.screen,(100+m*30,255-m*30,255),(x_off + 85 + d0,y_off+8+n*30),(x_off+85+d1,y_off+8+n*30), 2)
+                        label = self.font.render(str(math.floor(projection[4])), 10, (100+m*30,255-m*30,255))
+                        self.screen.blit(label, (x_off + 85 + math.ceil((d0+d1)/2),y_off+10+n*30))
                     
                                                       
                 dref = math.floor(distanceBtwTwoPoint(ref[0],ref[1],ref[2],ref[3]))
-                pygame.draw.circle(self.screen,WHITE,(x_off + 85 ,y_off+8+n*20),5)
-                pygame.draw.circle(self.screen,WHITE,(x_off + 85 + dref,y_off+8+n*20),5)
+                pygame.draw.circle(self.screen,WHITE,(x_off + 85 ,y_off+8+n*30),5)
+                pygame.draw.circle(self.screen,WHITE,(x_off + 85 + dref,y_off+8+n*30),5)
                 m = m+1
             
             n=n+1
@@ -413,11 +420,11 @@ class App:
         #Here by changing only the vectors it is possbile to create as many scenario as we want !
         if scenario == 0:
             #Options for the target
-            self.x_tar = numpy.array([55,270,40,150])
+            self.x_tar = numpy.array([55,200,40,150])
             self.y_tar = numpy.array([55,140,280,150])
             self.vx_tar = numpy.array([0,1,0,0])
             self.vy_tar = numpy.array([0,0,0,0])
-            self.size_tar = numpy.array([30,20,5,50])
+            self.size_tar = numpy.array([5,5,5,5])
             self.label_tar = numpy.array(['fix','target','obstruction','fix'])
             #Options for the cameras
             self.x_cam = numpy.array([10,310,10,310,])
@@ -475,7 +482,7 @@ class App:
                 target.mooveTarget(1)
             
             if self.useGUI == 1:
-                time.sleep(1) #so that the GUI does go to quick 
+                #time.sleep(1) #so that the GUI does go to quick 
                 self.updateGUI()
                 
         pygame.quit()
