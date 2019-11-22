@@ -53,9 +53,9 @@ class Line:
         
             if(self.vertical == 1):
                 x1 = self.x
-                y1 = math.pow(r*r-self.x*self.x,0.5)
+                y1 = math.pow((r*r-(self.x-xc)*(self.x-xc))+yc,0.5)
                 x2 = self.x
-                y2 = -math.pow(r*r-self.x*self.x,0.5)
+                y2 = -math.pow((r*r-(self.x-xc)*(self.x-xc))+yc,0.5)
             else:
                 a = 1+self.m*self.m
                 b = -2*xc-2*self.m*self.m*self.x+2*self.m*self.y-2*self.m*yc
@@ -156,12 +156,15 @@ class Camera:
         #computation of the distances
         distanceToCam = []
         for target in targetInTriangle:
-            distanceToCam.append(distanceBtwTwoPoint(self.xc,self.yc,target.xc,target.yc))
-            
-        orderedTarget = targetInTriangle
+            distanceToCam.append([math.ceil(distanceBtwTwoPoint(self.xc,self.yc,target.xc,target.yc)),target])
+        
+        distanceToCam.sort()
+        orderedTarget = distanceToCam
         proj=[]
         
-        for target in orderedTarget:
+        for obj in orderedTarget:
+            target = obj[1]
+            
             #line between target and camera
             m = 0
             if((self.xc-target.xc) == 0):
@@ -170,7 +173,6 @@ class Camera:
                 m = (self.yc-target.yc)/(self.xc-target.xc)
                 line_cam_target = Line(self.xc,self.yc,m)
                 
-           
             #perpendicular
             line_cam_target_p = line_cam_target.linePerp(target.xc,target.yc)
             #intersetion with the target
@@ -189,7 +191,7 @@ class Camera:
             xa = idca[0]
             ya = idca[1]
             
-            #print(xa,ya)
+            print(xa,ya)
             #projection of the object on this line
             proj_p1 = line_cam_median_p.lineIntersection(line_cam_target_1)
             proj_p2 = line_cam_median_p.lineIntersection(line_cam_target_2)
@@ -380,7 +382,7 @@ class App:
             self.angle_view_cam = numpy.array([60,60,60,60])
         elif scenario == 2:
             #Options for the target
-            self.x_tar = numpy.array([150,20,200])
+            self.x_tar = numpy.array([150,20,50])
             self.y_tar = numpy.array([40,20,150])
             self.vx_tar = numpy.array([0,0,0])
             self.vy_tar = numpy.array([0,0,0])
@@ -389,7 +391,7 @@ class App:
             #Options for the cameras
             self.x_cam = numpy.array([150])
             self.y_cam = numpy.array([150])
-            self.angle_cam = numpy.array([-60])
+            self.angle_cam = numpy.array([180])
             self.angle_view_cam = numpy.array([60])
             
         
@@ -437,6 +439,6 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1,1)
+    myApp = App(1,2)
     myApp.main()
     
