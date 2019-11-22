@@ -134,12 +134,12 @@ class Camera:
                     targetInTriangle.append(target)
                  
              elif (math.cos(self.alpha+self.beta/2) > 0 and math.cos(self.alpha-self.beta/2) < 0):
-                if((margin_right >= 0 and margin_left >= 0) or ((d1 <= target.size or d2 <= target.size) and self.yc < target.yc)):
+                if((margin_right >= 0 and margin_left >= 0) or ((d1 <= target.size or d2 <= target.size) and self.yc > target.yc)):
                     #print("2")
                     targetInTriangle.append(target)
                  
              elif (math.cos(self.alpha+self.beta/2) < 0 and math.cos(self.alpha-self.beta/2) > 0):
-                if((margin_right <= 0 and margin_left <= 0) or ((d1 <= target.size or d2 <= target.size) and self.yc > target.yc)):
+                if((margin_right <= 0 and margin_left <= 0) or ((d1 <= target.size or d2 <= target.size) and self.yc < target.yc)):
                     #print("3")
                     targetInTriangle.append(target)
                   
@@ -179,15 +179,23 @@ class Camera:
         
         #finding the line perpendicular to the median of the camera field to a given distance
         line_cam_median = Line(self.xc,self.yc,self.xc+math.cos(self.alpha),self.yc+math.sin(self.alpha))
-        line_cam_median_p = line_cam_median.linePerp(target.xc,target.yc)
-        idca = line_cam_median.lineCircleIntersection(100,self.xc,self.yc)
-        xa = idca[0]
-        ya = idca[1]
+        
+        idca = line_cam_median.lineCircleIntersection(200,self.xc,self.yc)
+        
+        if math.cos(self.alpha) < 0:
+            xa = idca[0]
+            ya = idca[1]
+        else:
+            xa = idca[2]
+            ya = idca[3]
+        
+        line_cam_median_p = line_cam_median.linePerp(xa,ya)
+        self.projections.append(numpy.array([xa,ya,0,0]))
         
         #limite of the field of vision on the cmaera
         proj_p1 = line_cam_median_p.lineIntersection(line_cam_1)
         proj_p2 = line_cam_median_p.lineIntersection(line_cam_2)
-        self.projections.append(numpy.array([proj_p1[0],proj_p1[1],proj_p2[0],proj_p1[1]]))
+        self.projections.append(numpy.array([proj_p1[0],proj_p1[1],proj_p2[0],proj_p2[1]]))
         
         for obj in orderedTarget:
             target = obj[1]
@@ -205,7 +213,7 @@ class Camera:
             proj_p2 = line_cam_median_p.lineIntersection(line_cam_target_2)
             
             #print(distanceBtwTwoPoint(proj_p1[0],proj_p1[1],proj_p2[0],proj_p1[1]))
-            self.projections.append(numpy.array([proj_p1[0],proj_p1[1],proj_p2[0],proj_p1[1]]))
+            self.projections.append(numpy.array([proj_p1[0],proj_p1[1],proj_p2[0],proj_p2[1]]))
             
         self.targetDetectedList = targetInTriangle
         
@@ -309,7 +317,7 @@ class GUI:
             # render form
             pygame.draw.circle(self.screen,color,(x,y),size)
         
-    def drawCam(self,x,y,alpha,beta,cam_id,color = 0 , l = 200):
+    def drawCam(self,x,y,alpha,beta,cam_id,color = 0 , l = 100):
         # render text
         label = self.font.render(str(cam_id), 10, CAMERA)
         self.screen.blit(label, (x+5,y+5))
@@ -367,20 +375,29 @@ class GUI:
             pygame.draw.circle(self.screen,CAMERA,(x_off + 85 ,y_off+8+n*20),5)
             self.screen.blit(label, (x_off,y_off+n*20))
             
-            
+            m = 0
             for projection in camera.projections:
-                ref = camera.projections[0]
-                d0 = math.floor(distanceBtwTwoPoint(ref[0],ref[1],projection[0],projection[1]))                                       
-                d1 = math.floor(distanceBtwTwoPoint(ref[0],ref[1],projection[2],projection[3]))                                       
-                pygame.draw.circle(self.screen,CAMERA,(x_off + 85 + d0 ,y_off+8+n*20),5)
-                pygame.draw.circle(self.screen,CAMERA,(x_off + 85 + d1  ,y_off+8+n*20),5)
-                if ref[0] != projection[0]:
-                    pygame.draw.line(self.screen,CAMERA,(x_off + 85 + d0,y_off+8+n*20),(x_off+85+d1,y_off+8+n*20), 2)
+            
+                midle = camera.projections[0]
+                #pygame.draw.circle(self.screen,CAMERA,(math.ceil(midle[0]),math.ceil(midle[1])),5)
+                ref = camera.projections[1]
+                
+                if (m>0):
+                    d0 = math.floor(distanceBtwTwoPoint(ref[0],ref[1],projection[0],projection[1]))                                       
+                    d1 = math.floor(distanceBtwTwoPoint(ref[0],ref[1],projection[2],projection[3]))                                       
+                    pygame.draw.circle(self.screen,CAMERA,(x_off + 85 + d0 ,y_off+8+n*20),5)
+                    pygame.draw.circle(self.screen,CAMERA,(x_off + 85 + d1 ,y_off+8+n*20),5)
+                
+                    #pygame.draw.circle(self.screen,(100+n*10,0,0),(math.ceil(projection[0]),math.ceil(projection[1])),5)
+                    #pygame.draw.circle(self.screen,(100+n*10,0,0),(math.ceil(projection[2]),math.ceil(projection[3])),5)
+                    if (m>1):
+                        pygame.draw.line(self.screen,CAMERA,(x_off + 85 + d0,y_off+8+n*20),(x_off+85+d1,y_off+8+n*20), 2)
                     
-                d0 = math.floor(distanceBtwTwoPoint(ref[0],ref[1],ref[0],ref[1]))                                       
-                d1 = math.floor(distanceBtwTwoPoint(ref[0],ref[1],ref[2],ref[3]))
-                pygame.draw.circle(self.screen,WHITE,(x_off + 85 + d0 ,y_off+8+n*20),5)
-                pygame.draw.circle(self.screen,WHITE,(x_off + 85 + d1  ,y_off+8+n*20),5) 
+                                                      
+                dref = math.floor(distanceBtwTwoPoint(ref[0],ref[1],ref[2],ref[3]))
+                pygame.draw.circle(self.screen,WHITE,(x_off + 85 ,y_off+8+n*20),5)
+                pygame.draw.circle(self.screen,WHITE,(x_off + 85 + dref,y_off+8+n*20),5)
+                m = m+1
             
             n=n+1
                 
@@ -409,12 +426,12 @@ class App:
             self.angle_view_cam = numpy.array([60,60,60,60])
         elif scenario == 1:
             #Options for the target
-            self.x_tar = numpy.array([155,20])
-            self.y_tar = numpy.array([40,20])
-            self.vx_tar = numpy.array([0,0])
-            self.vy_tar = numpy.array([0,0])
-            self.size_tar = numpy.array([30,10])
-            self.label_tar = numpy.array(['fix','fix'])
+            self.x_tar = numpy.array([150])
+            self.y_tar = numpy.array([150])
+            self.vx_tar = numpy.array([0])
+            self.vy_tar = numpy.array([0])
+            self.size_tar = numpy.array([20])
+            self.label_tar = numpy.array(['fix'])
             #Options for the cameras
             self.x_cam = numpy.array([10,310,10,310,])
             self.y_cam = numpy.array([10,10,310,310])
@@ -423,7 +440,7 @@ class App:
         elif scenario == 2:
             #Options for the target
             self.x_tar = numpy.array([150,20,50,110])
-            self.y_tar = numpy.array([40,20,150,180])
+            self.y_tar = numpy.array([40,20,250,280])
             self.vx_tar = numpy.array([0,0,0,0])
             self.vy_tar = numpy.array([0,0,0,0])
             self.size_tar = numpy.array([30,10,10,15])
@@ -431,7 +448,7 @@ class App:
             #Options for the cameras
             self.x_cam = numpy.array([150])
             self.y_cam = numpy.array([150])
-            self.angle_cam = numpy.array([-120])
+            self.angle_cam = numpy.array([120])
             self.angle_view_cam = numpy.array([60])
             
         
