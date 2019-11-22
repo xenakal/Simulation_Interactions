@@ -38,22 +38,35 @@ class Line:
     def lineIntersection(self,line):
             if(line.m == self.m):
                 return 0
+            elif(self.vertical == 1):
+                y = line.m*(self.x-line.x)+line.y
+                return numpy.array([self.x,y])
+            elif(line.vertical == 1):
+                y = self.m*(line.x-self.x)+self.y
+                return numpy.array([line.x,y]) 
             else:
                 x = (line.m*line.x-self.m*self.x-line.y+self.y)/(line.m-self.m)
                 y = self.m*(x-self.x)+self.y
                 return numpy.array([x,y])
         
     def lineCircleIntersection(self,r,xc,yc):
-            a = 1+self.m*self.m
-            b = -2*xc-2*self.m*self.m*self.x+2*self.m*self.y-2*self.m*yc
-            c = xc*xc+self.m*self.m*self.x*self.x-2*self.m*self.y*self.x+self.y*self.y+2*self.m*yc*self.x-2*yc*self.y+yc*yc-r*r
-            
-            delta = b*b-4*a*c
         
-            x1 = (-b-math.pow(delta,0.5))/(2*a)
-            x2 = (-b+math.pow(delta,0.5))/(2*a)
-            y1 = self.m*(x1-self.x)+self.y
-            y2 = self.m*(x2-self.x)+self.y
+            if(self.vertical == 1):
+                x1 = self.x
+                y1 = math.pow(r*r-self.x*self.x,0.5)
+                x2 = self.x
+                y2 = -math.pow(r*r-self.x*self.x,0.5)
+            else:
+                a = 1+self.m*self.m
+                b = -2*xc-2*self.m*self.m*self.x+2*self.m*self.y-2*self.m*yc
+                c = xc*xc+self.m*self.m*self.x*self.x-2*self.m*self.y*self.x+self.y*self.y+2*self.m*yc*self.x-2*yc*self.y+yc*yc-r*r
+                
+                delta = b*b-4*a*c
+            
+                x1 = (-b-math.pow(delta,0.5))/(2*a)
+                x2 = (-b+math.pow(delta,0.5))/(2*a)
+                y1 = self.m*(x1-self.x)+self.y
+                y2 = self.m*(x2-self.x)+self.y
             
             return numpy.array([x1,y1,x2,y2])
         
