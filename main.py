@@ -1,13 +1,4 @@
-import numpy
-import math
-import time
-import pygame
-from pygame.locals import *
-
-from elements.camera import *
 from elements.room import *
-from elements.target import *
-from utils.line import *
 from utils.GUI import *
 
 
@@ -68,14 +59,14 @@ class App:
             self.updateGUI()
 
     def main(self):
-        while True:  # Boucle d'événements
+        while True:  # events loop
             # camera is taking a picture
             for camera in self.myRoom.cameras:
                 camera.takePicture(self.myRoom.targets)
 
             # Object are moving in the room
             for target in self.myRoom.targets:
-                target.mooveTarget(1)
+                target.moveTarget(1)
 
             if self.useGUI == 1:
                 # time.sleep(1) #so that the GUI does go to quick
