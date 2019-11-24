@@ -1,4 +1,6 @@
 from elements.target import *
+from elements.camera import *
+import numpy
 
 
 class Room:
