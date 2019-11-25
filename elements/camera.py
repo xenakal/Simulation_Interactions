@@ -1,5 +1,43 @@
+import math
 from utils.line import *
 from utils.queueFIFO import *
+
+
+def avgSpeedFunc(positions):
+    if len(positions) <= 1:  # one position or less not enough to calculate speed
+        return 0
+    prevPos = positions[0]
+    stepTime = 1  # TODO: see what the actual time increment is
+    avgSpeed = 0.0
+    for curPos in positions:
+        stepDistance = distanceBtwTwoPoint(prevPos[0], prevPos[1], curPos[0], curPos[1])
+        avgSpeed += stepDistance / stepTime
+        prevPos = curPos
+
+    avgSpeed = avgSpeed / (len(positions) - 1)
+    return avgSpeed
+
+
+# Returns direction as the angle (in degrees) between the horizontal and the line making the direction
+def avgDirectionFunc(positions):
+    if len(positions) <= 1:  # one position or less not enough to calculate direction
+        return 0
+    prevPos = positions[0]
+    avgDir = 0
+    for curPos in positions:
+        edgesRatio = (curPos[1]-prevPos[1]) / (curPos[0]-prevPos[0])  # TODO: check why this gives a warning
+        stepDirection = math.asin(edgesRatio)
+        avgDir += stepDirection
+        prevPos = curPos
+
+    avgDir = avgDir / (len(positions) - 1)
+    return avgDir
+
+
+
+
+def calcNextPos(position, speed, direction):
+    return 1
 
 
 class Camera:
@@ -143,13 +181,13 @@ class Camera:
             if hidden == 0 or hidden == 1:
                 self.targetDetectedList.append(numpy.array([target, actual_projection, hidden]))
 
-        self.updatePreviousPos()
+        self.updatePreviousPos()  # remember the previous positions of the different targets
 
     def updatePreviousPos(self):
         for targetObj in self.targetDetectedList:
             if targetObj[0].id not in self.previousPositions:
-                self.previousPositions[targetObj[0].id] = QueueFIFO()
-            self.previousPositions[targetObj[0].id].enqueue([targetObj[0].xc, targetObj[0].yc])
+                self.previousPositions[targetObj[0].id] = QueueFIFO()  # create new entry in dict
+            self.previousPositions[targetObj[0].id].enqueue([targetObj[0].xc, targetObj[0].yc])  # update dict
 
     def objectsInField(self, targetInTriangle, margin_left, margin_right, target, d1, d2):
         if math.cos(self.alpha + self.beta / 2) > 0 and math.cos(self.alpha - self.beta / 2) > 0:
@@ -208,12 +246,13 @@ class Camera:
 
     def predictPath(self, target):
         #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate.
-        prevPositions = self.previousPositions[target.id].getQueue
+        prevPositions = self.previousPositions[target.id].getQueue()
         #  Calculate average velocity
-        ...  # TODO
+        avgSpeed = avgSpeedFunc(prevPositions)
         #  Calculate average direction
-        ...  # TODO
-        nextPositions = None
+        avgDirection = avgDirectionFunc(prevPositions)
+        #  Use avg velocity and direction to estimate next position
+        nextPositions = calcNextPos(prevPositions[0], avgSpeed, avgDirection)
         return nextPositions
 
     def analysePicture(self):
