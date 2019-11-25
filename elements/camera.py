@@ -242,8 +242,7 @@ class Camera:
             d3 = distanceBtwTwoPoint(ref_proj_p1[0],ref_proj_p1[1],proj_p2[0],proj_p2[1])
             
             # checking if the point is not in another target thus the camera cannot see it
-            for targetAlreadyDetected in self.targetDetectedList:
-                
+            for targetAlreadyDetected in targeList:
                 projection = targetAlreadyDetected[1]
                 #if the projection is between two projection then the object cannot be seen by the camera
                 d0 = distanceBtwTwoPoint(ref_proj_p1[0],ref_proj_p1[1],projection[0],projection[1])
@@ -304,7 +303,8 @@ class Camera:
                 else:
                     actuall_projection = numpy.array([ref_proj_p2[0],ref_proj_p2[1],proj_p2[0],proj_p2[1]])    
             #if the taget is not complietely hidden then it added      
-            if (hidden == 0 or hidden == 1 and distanceBtwTwoPoint(proj_p1[0],proj_p1[1],proj_p2[0],proj_p2[1]) > seuil):
+            if ((hidden == 0 or hidden == 1) and distanceBtwTwoPoint(proj_p1[0],proj_p1[1],proj_p2[0],proj_p2[1]) > seuil):
+                print(hidden)
                 targeList.append(numpy.array([target,actuall_projection,hidden]))
                 
         
