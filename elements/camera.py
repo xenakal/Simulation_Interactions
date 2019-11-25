@@ -20,7 +20,7 @@ class Camera:
 
         # Info on targets
         self.previousPositions = dict()  # dictionary where key="target.id" and value="queueFIFO[(x,y)]".
-        # not a list as indexes may change?
+        # not a list as indexes may change if relative positions change
 
     def takePicture(self, targetList):
         # In first approach to avoid to remove items, list is emptied at the start
@@ -210,9 +210,9 @@ class Camera:
         #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate.
         prevPositions = self.previousPositions[target.id].getQueue
         #  Calculate average velocity
-        ...
+        ...  # TODO
         #  Calculate average direction
-        ...
+        ...  # TODO
         nextPositions = None
         return nextPositions
 
@@ -224,4 +224,3 @@ class Camera:
 
     def writeOnTheWhiteBoard(self):
         print('writting on the white board')
-
