@@ -17,6 +17,10 @@ class Camera:
         self.targetDetectedList = []
         self.limitProjection = []
 
+        # Info on targets
+        self.previousPositions = dict()  # dictionary where key="target.id" and value="queueFIFO[(x,y)]".
+        # not a list as indexes may change?
+
     def takePicture(self, targetList):
         # In first approach to avoid to remove items, list is emptied at the start
         self.targetDetectedList = []
@@ -38,7 +42,7 @@ class Camera:
             line_cam_1_p = line_cam_1.linePerp(target.xc, target.yc)
             line_cam_2_p = line_cam_2.linePerp(target.xc, target.yc)
             # 1) finding the perpendicular to the margin crossing the target's center
-            # computing the x and y  where the two line intersect
+            # computing the x and y  where the two lines intersect
             i1 = line_cam_1_p.lineIntersection(line_cam_1)
             i2 = line_cam_2_p.lineIntersection(line_cam_2)
 
@@ -50,53 +54,7 @@ class Camera:
             margin_left = ((m2 * (target.xc - self.xc) + self.yc) - target.yc)
 
             # 3) checking if the object are in the filed of vision or partially int the field
-            if (math.cos(self.alpha + self.beta / 2) > 0 and math.cos(self.alpha - self.beta / 2) > 0):
-                if ((margin_right <= 0 and margin_left >= 0) or (
-                        (d1 <= target.size or d2 <= target.size) and self.xc < target.xc)):
-                    # print("1")
-                    targetInTriangle.append(target)
-
-            elif (math.cos(self.alpha + self.beta / 2) > 0 and math.cos(self.alpha - self.beta / 2) < 0):
-                if ((margin_right >= 0 and margin_left >= 0) or (
-                        (d1 <= target.size or d2 <= target.size) and self.yc > target.yc)):
-                    # print("2")
-                    targetInTriangle.append(target)
-
-            elif (math.cos(self.alpha + self.beta / 2) < 0 and math.cos(self.alpha - self.beta / 2) > 0):
-                if ((margin_right <= 0 and margin_left <= 0) or (
-                        (d1 <= target.size or d2 <= target.size) and self.yc < target.yc)):
-                    # print("3")
-                    targetInTriangle.append(target)
-
-            elif (math.cos(self.alpha + self.beta / 2) < 0 and math.cos(self.alpha - self.beta / 2) < 0):
-                if ((margin_right >= 0 and margin_left <= 0) or (
-                        (d1 <= target.size or d2 <= target.size) and self.xc > target.xc)):
-                    # print("4")
-                    targetInTriangle.append(target)
-
-            elif (math.cos(self.alpha + self.beta / 2) > 0 and math.cos(self.alpha - self.beta / 2) == 0):
-                if ((self.xc - target.xc < 0 and margin_left <= 0) or (
-                        (d1 <= target.size or d2 <= target.size) and self.yc > target.yc)):
-                    # print("5")
-                    targetInTriangle.append(target)
-
-            elif (math.cos(self.alpha + self.beta / 2) < 0 and math.cos(self.alpha - self.beta / 2) == 0):
-                if ((self.xc - target.xc > 0 and margin_left >= 0) or (
-                        (d1 <= target.size or d2 <= target.size) and self.yc < target.yc)):
-                    # print("6")
-                    targetInTriangle.append(target)
-
-            elif (math.cos(self.alpha + self.beta / 2) == 0 and math.cos(self.alpha - self.beta / 2) > 0):
-                if ((self.xc - target.xc < 0 and margin_right <= 0) or (
-                        (d1 <= target.size or d2 <= target.size) and self.yc < target.yc)):
-                    # print("7")
-                    targetInTriangle.append(target)
-
-            elif (math.cos(self.alpha + self.beta / 2) == 0 and math.cos(self.alpha - self.beta / 2) < 0):
-                if ((self.xc - target.xc > 0 and margin_right <= 0) or (
-                        (d1 <= target.size or d2 <= target.size) and self.yc > target.yc)):
-                    # print("8")
-                    targetInTriangle.append(target)
+            targetInTriangle = self.objectsInField(targetInTriangle, margin_left, margin_right, target, d1, d2)
 
         # computation of the distances
         distanceToCam = []
@@ -161,7 +119,7 @@ class Camera:
                     # the object is hidden
                     hidden = 2
                     break
-                # the object is partially hiden
+                # the object is partially hidden
                 elif cdt1:
                     projection = numpy.array([projection[0], projection[1], proj_p2[0], proj_p2[1]])
                     hidden = 1
@@ -184,11 +142,83 @@ class Camera:
             if hidden == 0 or hidden == 1:
                 self.targetDetectedList.append(numpy.array([target, actual_projection, hidden]))
 
-    def analysePicture():
+        self.updatePreviousPos()
+
+    def updatePreviousPos(self):
+        for targetObj in self.targetDetectedList:
+            self.previousPositions[targetObj[0].id].enqueue([targetObj[0].xc, targetObj[0].yc])
+
+    def objectsInField(self, targetInTriangle, margin_left, margin_right, target, d1, d2):
+        if math.cos(self.alpha + self.beta / 2) > 0 and math.cos(self.alpha - self.beta / 2) > 0:
+            if ((margin_right <= 0 and margin_left >= 0) or (
+                    (d1 <= target.size or d2 <= target.size) and self.xc < target.xc)):
+                # print("1")
+                targetInTriangle.append(target)
+
+        elif math.cos(self.alpha + self.beta / 2) > 0 and math.cos(self.alpha - self.beta / 2) < 0:
+            if ((margin_right >= 0 and margin_left >= 0) or (
+                    (d1 <= target.size or d2 <= target.size) and self.yc > target.yc)):
+                # print("2")
+                targetInTriangle.append(target)
+
+        elif math.cos(self.alpha + self.beta / 2) < 0 and math.cos(self.alpha - self.beta / 2) > 0:
+            if ((margin_right <= 0 and margin_left <= 0) or (
+                    (d1 <= target.size or d2 <= target.size) and self.yc < target.yc)):
+                # print("3")
+                targetInTriangle.append(target)
+
+        elif math.cos(self.alpha + self.beta / 2) < 0 and math.cos(self.alpha - self.beta / 2) < 0:
+            if ((margin_right >= 0 and margin_left <= 0) or (
+                    (d1 <= target.size or d2 <= target.size) and self.xc > target.xc)):
+                # print("4")
+                targetInTriangle.append(target)
+
+        elif math.cos(self.alpha + self.beta / 2) > 0 and math.cos(self.alpha - self.beta / 2) == 0:
+            if ((self.xc - target.xc < 0 and margin_left <= 0) or (
+                    (d1 <= target.size or d2 <= target.size) and self.yc > target.yc)):
+                # print("5")
+                targetInTriangle.append(target)
+
+        elif math.cos(self.alpha + self.beta / 2) < 0 and math.cos(self.alpha - self.beta / 2) == 0:
+            if ((self.xc - target.xc > 0 and margin_left >= 0) or (
+                    (d1 <= target.size or d2 <= target.size) and self.yc < target.yc)):
+                # print("6")
+                targetInTriangle.append(target)
+
+        elif math.cos(self.alpha + self.beta / 2) == 0 and math.cos(self.alpha - self.beta / 2) > 0:
+            if ((self.xc - target.xc < 0 and margin_right <= 0) or (
+                    (d1 <= target.size or d2 <= target.size) and self.yc < target.yc)):
+                # print("7")
+                targetInTriangle.append(target)
+
+        elif math.cos(self.alpha + self.beta / 2) == 0 and math.cos(self.alpha - self.beta / 2) < 0:
+            if ((self.xc - target.xc > 0 and margin_right <= 0) or (
+                    (d1 <= target.size or d2 <= target.size) and self.yc > target.yc)):
+                # print("8")
+                targetInTriangle.append(target)
+
+        return targetInTriangle
+
+    def predictPaths(self):
+        for targetObj in self.targetDetectedList:
+            self.predictPath(targetObj[0])
+
+    def predictPath(self, target):
+        #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate.
+        prevPositions = self.previousPositions[target.id].getQueue
+        #  Calculate average velocity
+        ...
+        #  Calculate average direction
+        ...
+        nextPositions = None
+        return nextPositions
+
+    def analysePicture(self):
         print('analysing picture')
 
-    def sendMessageToCam():
+    def sendMessageToCam(self):
         print('sending message')
 
-    def writeOnTheWhiteBoard():
+    def writeOnTheWhiteBoard(self):
         print('writting on the white board')
+
