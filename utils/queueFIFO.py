@@ -6,7 +6,7 @@ Elements are enqueued in the end of the list and dequeued from the beginning.
  """
 
 
-class queueFIFO:
+class QueueFIFO:
 
     def __init__(self):
         self.queue = [None] * SIZE

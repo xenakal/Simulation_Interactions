@@ -1,4 +1,5 @@
 from utils.line import *
+from utils.queueFIFO import *
 
 
 class Camera:
@@ -146,6 +147,8 @@ class Camera:
 
     def updatePreviousPos(self):
         for targetObj in self.targetDetectedList:
+            if targetObj[0].id not in self.previousPositions:
+                self.previousPositions[targetObj[0].id] = QueueFIFO()
             self.previousPositions[targetObj[0].id].enqueue([targetObj[0].xc, targetObj[0].yc])
 
     def objectsInField(self, targetInTriangle, margin_left, margin_right, target, d1, d2):
