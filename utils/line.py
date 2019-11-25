@@ -16,6 +16,9 @@ class Line:
         else:
             self.m = (y - y1) / (x - x1)
             self.vertical = 0
+            
+    def getSlope(self):
+        return numpy.array([self.m,self.vertical])
 
     def linePerp(self, x, y):
         if self.m == 0:

@@ -66,7 +66,7 @@ class App:
             # camera is taking a picture
             for camera in self.myRoom.cameras:
                 camera.takePicture(self.myRoom.targets)
-                camera.predictPaths()
+                #camera.predictPaths()
 
             # Object are moving in the room
             for target in self.myRoom.targets:
