@@ -1,6 +1,8 @@
 import math
 from utils.line import *
 from utils.queueFIFO import *
+from elements.target import*
+import numpy as np
 
 
 def avgSpeedFunc(positions):
@@ -174,11 +176,13 @@ class Camera:
     def sortDetectedTarget(self,targetInTriangle):
         # computation of the distances
         distanceToCam = []
+        dtype = [('distance', int), ('target', Target)]
         for target in targetInTriangle:
-            distanceToCam.append([math.ceil(distanceBtwTwoPoint(self.xc, self.yc, target[0].xc, target[0].yc)), target])
-
-        distanceToCam.sort()
-        return distanceToCam.copy()
+            distanceToCam.append([(math.ceil(distanceBtwTwoPoint(self.xc, self.yc, target[0].xc, target[0].yc)), target)])
+            
+        a = np.array(distanceToCam, dtype=dtype)
+        np.sort(a, order='distance')                       
+        return a.copy()
     
     
     def computeProjection(self,orderedTarget,l_projection,seuil):
@@ -217,9 +221,8 @@ class Camera:
         #3) projection of all the targest
         ##################################
         for obj in orderedTarget:
-            
-            object_crossing_bound = obj[1][1]
-            target = obj[1][0]
+            object_crossing_bound = obj['target'][0][1]
+            target = obj['target'][0][0]
             hidden = 0
             
             #line between target and camera     
@@ -304,7 +307,6 @@ class Camera:
                     actuall_projection = numpy.array([ref_proj_p2[0],ref_proj_p2[1],proj_p2[0],proj_p2[1]])    
             #if the taget is not complietely hidden then it added      
             if ((hidden == 0 or hidden == 1) and distanceBtwTwoPoint(proj_p1[0],proj_p1[1],proj_p2[0],proj_p2[1]) > seuil):
-                print(hidden)
                 targeList.append(numpy.array([target,actuall_projection,hidden]))
                 
         

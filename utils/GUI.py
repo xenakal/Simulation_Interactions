@@ -19,7 +19,7 @@ class GUI:
     def __init__(self):
         pygame.init()
         # pygame.display.init()
-        self.screen = pygame.display.set_mode((640, 960), pygame.RESIZABLE)
+        self.screen = pygame.display.set_mode((1220, 960), pygame.RESIZABLE)
         pygame.display.set_caption("Camera simulation")
         self.font = pygame.font.SysFont("monospace", 15)
 

@@ -34,16 +34,17 @@ class App:
             self.angle_view_cam = numpy.array([60, 60, 60, 60])
         elif scenario == 2:
             # Options for the target
-            self.x_tar = numpy.array([120, 20, 50, 110])
-            self.y_tar = numpy.array([200, 20, 250, 280])
-            self.vx_tar = numpy.array([0, 0, 0, 0])
-            self.vy_tar = numpy.array([0, 0, 0, 0])
-            self.size_tar = numpy.array([15, 10, 10, 15])
-            self.label_tar = numpy.array(['fix', 'fix', 'fix', 'fix'])
+            self.x_tar = numpy.array([50,100,150,200,250,50,50,50,50,50,50,100,150,200,250,250,250,250 ])
+            self.y_tar = numpy.array([50, 50, 50,50,50,50,100,150,200,250,250,250,250,250,250,200,150,100])
+            self.vx_tar = numpy.array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+            self.vy_tar = numpy.array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+            self.size_tar = numpy.array([10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10])
+            self.label_tar = numpy.array(['fix','fix','fix','fix','fix','fix','fix','fix','fix',
+                                          'fix','fix','fix','fix','fix', 'fix','fix', 'fix','fix'])
             # Options for the cameras
             self.x_cam = numpy.array([150])
             self.y_cam = numpy.array([150])
-            self.angle_cam = numpy.array([120])
+            self.angle_cam = numpy.array([0])
             self.angle_view_cam = numpy.array([60])
 
         # Creating the room, the target and the camera
@@ -95,5 +96,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, 0)
+    myApp = App(1, 2)
     myApp.main()
