@@ -82,6 +82,21 @@ class App:
             self.angle_cam = numpy.array([0,45,-45])
             self.angle_view_cam = numpy.array([60,60,60])
             self.fix_cam = [1,1,1]
+            
+        elif scenario == 5:
+            # Options for the target
+            self.x_tar = numpy.array([155,230,200])
+            self.y_tar = numpy.array([155,155,155])
+            self.vx_tar = numpy.array([0,0,0])
+            self.vy_tar = numpy.array([0,0,0])
+            self.size_tar = numpy.array([20,5,6])
+            self.label_tar = numpy.array(['fix','target','target'])
+            # Options for the cameras
+            self.x_cam = numpy.array([10,310])
+            self.y_cam = numpy.array([155,155])
+            self.angle_cam = numpy.array([0,180])
+            self.angle_view_cam = numpy.array([60,60])
+            self.fix_cam = [1,1,1]
 
         # Creating the room, the target and the camera
         self.myRoom = Room()
@@ -132,5 +147,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, 2)
+    myApp = App(1, 5)
     myApp.main()
