@@ -159,8 +159,6 @@ class Camera:
             xa = idca[0]
             ya = idca[1]
             
-            print('ici')
-
         else:
             xa = idca[2]
             ya = idca[3]
