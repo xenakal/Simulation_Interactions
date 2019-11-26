@@ -19,6 +19,8 @@ class App:
             self.y_cam = numpy.array([10, 10, 310, 310])
             self.angle_cam = numpy.array([45, 135, 315, 225])
             self.angle_view_cam = numpy.array([60, 60, 60, 60])
+            self.fix_cam = [1,1,1,1]
+            
         elif scenario == 1:
             # Options for the target
             self.x_tar = numpy.array([150, 20, 280])
@@ -32,25 +34,28 @@ class App:
             self.y_cam = numpy.array([10, 10, 310, 310])
             self.angle_cam = numpy.array([45, 135, 315, 225])
             self.angle_view_cam = numpy.array([60, 60, 60, 60])
+            self.fix_cam = [1,1,1,1]
+            
         elif scenario == 2:
             # Options for the target
-            self.x_tar = numpy.array([50,100,150,200,250,50,50,50,50,50,50,100,150,200,250,250,250,250 ])
-            self.y_tar = numpy.array([50, 50, 50,50,50,50,100,150,200,250,250,250,250,250,250,200,150,100])
-            self.vx_tar = numpy.array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
-            self.vy_tar = numpy.array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
-            self.size_tar = numpy.array([10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10])
-            self.label_tar = numpy.array(['fix','fix','fix','fix','fix','fix','fix','fix','fix',
-                                          'fix','fix','fix','fix','fix', 'fix','fix', 'fix','fix'])
+            self.x_tar = numpy.array([250,200,150,100,50,50,50,50,50,100,150,200,250,250,250,250 ])
+            self.y_tar = numpy.array([50, 50, 50,50,50,100,150,200,250,250,250,250,250,200,150,100])
+            self.vx_tar = numpy.array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+            self.vy_tar = numpy.array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+            self.size_tar = numpy.array([10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10])
+            self.label_tar = numpy.array(['fix','fix','fix','fix','fix','fix','fix','fix',
+                                          'fix','fix','fix','fix','fix', 'fix','fix', 'fix'])
             # Options for the cameras
             self.x_cam = numpy.array([150])
             self.y_cam = numpy.array([150])
-            self.angle_cam = numpy.array([0])
+            self.angle_cam = numpy.array([90])
             self.angle_view_cam = numpy.array([60])
+            self.fix_cam = [1]
 
         # Creating the room, the target and the camera
         self.myRoom = Room()
         self.myRoom.createTargets(self.x_tar, self.y_tar, self.vx_tar, self.vy_tar, self.label_tar, self.size_tar)
-        self.myRoom.createCameras(self.x_cam, self.y_cam, self.angle_cam, self.angle_view_cam)
+        self.myRoom.createCameras(self.x_cam, self.y_cam, self.angle_cam, self.angle_view_cam,self.fix_cam)
 
         # The program can also run completely with out the GUI interface
         self.useGUI = useGUI
@@ -71,7 +76,7 @@ class App:
 
             # Object are moving in the room
             for target in self.myRoom.targets:
-                target.moveTarget(1)
+                target.moveTarget(0)
 
             if self.useGUI == 1:
                 time.sleep(1)  # so that the GUI doesn't go to quick

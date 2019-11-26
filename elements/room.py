@@ -25,11 +25,11 @@ class Room:
     def removeTarget(self):
         print('removed')
 
-    def createCameras(self, cam_x, cam_y, cam_alpha, cam_beta):
+    def createCameras(self, cam_x, cam_y, cam_alpha, cam_beta,fix):
         for n in cam_x:
             self.cameras.append(Camera(self.camerasNumber, cam_x[self.camerasNumber],
                                        cam_y[self.camerasNumber], cam_alpha[self.camerasNumber]
-                                       , cam_beta[self.camerasNumber]))
+                                       , cam_beta[self.camerasNumber],fix[self.camerasNumber]))
             self.camerasNumber = self.camerasNumber + 1
 
     def removeCamera(self, cam_x, cam_y, cam_alpha, cam_beta):

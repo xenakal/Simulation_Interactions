@@ -56,12 +56,15 @@ class GUI:
             self.screen.blit(label, (camera.xc + 5, camera.yc + 5))
             # render form
             pygame.draw.circle(self.screen, CAMERA, (camera.xc, camera.yc), 5)
+            pygame.draw.line(self.screen, BLACK, (camera.xc, camera.yc),
+                             (camera.xc + l * math.cos(camera.alpha),
+                              camera.yc + l * math.sin(camera.alpha)), 2)
             pygame.draw.line(self.screen, CAMERA, (camera.xc, camera.yc),
-                             (camera.xc + l * math.cos(camera.alpha - camera.beta / 2),
-                              camera.yc + l * math.sin(camera.alpha - camera.beta / 2)), 2)
+                             (camera.xc + l * math.cos(camera.alpha - (camera.beta / 2)),
+                              camera.yc + l * math.sin(camera.alpha - (camera.beta / 2))), 2)
             pygame.draw.line(self.screen, CAMERA, (camera.xc, camera.yc),
-                             (camera.xc + l * math.cos(camera.alpha + camera.beta / 2),
-                              camera.yc + l * math.sin(camera.alpha + camera.beta / 2)), 2)
+                             (camera.xc + l * math.cos(camera.alpha + (camera.beta / 2)),
+                              camera.yc + l * math.sin(camera.alpha + (camera.beta / 2))), 2)
 
     def screenDetectedTarget(self, myRoom):
 
@@ -112,9 +115,9 @@ class GUI:
             pygame.draw.circle(self.screen, CAMERA, (x_off + 85, y_off + 8 + n * 30), 5)
 
             m = 0
-            ref = camera.limitProjection
+            ref = camera.limitProjection.copy()
             detected = camera.targetDetectedList.copy()
-            detected.reverse()
+            #detected.reverse()
 
             for target in detected:
                 projection = target[1]
