@@ -122,7 +122,7 @@ class App:
 
             # Object are moving in the room
             for target in self.myRoom.targets:
-                target.moveTarget(1)
+                target.moveTarget(1,self.myRoom,'linear')
 
             if self.useGUI == 1:
                 time.sleep(1)  # so that the GUI doesn't go to quick
@@ -147,5 +147,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, 5)
+    myApp = App(1, 1)
     myApp.main()
