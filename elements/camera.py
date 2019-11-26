@@ -93,6 +93,7 @@ class Camera:
     
         
     def objectsInField(self,targetList):
+        self.targetDetectedList = []
         targetInTriangle = []
         # Compute the field seen by the camera
         line_cam_right = Line(self.xc, self.yc, self.xc + math.cos(self.alpha - self.beta / 2),
@@ -209,11 +210,11 @@ class Camera:
               
             
             #a) checking if the target is outside from the camera bound
-            print(target.id)
-            print(proj_p1_cam_frame[1])
-            print(proj_p2_cam_frame[1])
-            print(ref_proj_left_cam_frame)
-            print(ref_proj_right_cam_frame)
+            #print(target.id)
+            #print(proj_p1_cam_frame[1])
+            #print(proj_p2_cam_frame[1])
+            #print(ref_proj_left_cam_frame)
+            #print(ref_proj_right_cam_frame)
             
             if(proj_p1_cam_frame[1] < ref_proj_right_cam_frame[1] and proj_p1_cam_frame[1] < 0 ):
                 proj_p1[0] = ref_proj_right[0]

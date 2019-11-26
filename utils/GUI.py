@@ -91,7 +91,8 @@ class GUI:
         for camera in myRoom.cameras:
             n = 0
             for target in myRoom.targets:
-                for targetDetected in camera.targetDetectedList:
+                color = RED
+                for targetDetected in camera.targetDetectedList.copy():
                     if target == targetDetected[0]:
                         color = GREEN
                         break
@@ -117,7 +118,7 @@ class GUI:
             m = 0
             ref = camera.limitProjection.copy()
             detected = camera.targetDetectedList.copy()
-            #detected.reverse()
+            detected.reverse()
 
             for target in detected:
                 projection = target[1]

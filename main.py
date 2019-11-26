@@ -50,7 +50,38 @@ class App:
             self.y_cam = numpy.array([150])
             self.angle_cam = numpy.array([90])
             self.angle_view_cam = numpy.array([60])
-            self.fix_cam = [1]
+            self.fix_cam = [0]
+            
+        elif scenario == 3:
+            # Options for the target
+            self.x_tar = numpy.array([250,200,150,100,50,50,50,50,50,100,150,200,250,250,250,250 ])
+            self.y_tar = numpy.array([50, 50, 50,50,50,100,150,200,250,250,250,250,250,200,150,100])
+            self.vx_tar = numpy.array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+            self.vy_tar = numpy.array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+            self.size_tar = numpy.array([10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10])
+            self.label_tar = numpy.array(['fix','fix','fix','fix','fix','fix','fix','fix',
+                                          'fix','fix','fix','fix','fix', 'fix','fix', 'fix'])
+            # Options for the cameras
+            self.x_cam = numpy.array([150])
+            self.y_cam = numpy.array([150])
+            self.angle_cam = numpy.array([90])
+            self.angle_view_cam = numpy.array([10])
+            self.fix_cam = [0]
+            
+        elif scenario == 4:
+            # Options for the target
+            self.x_tar = numpy.array([30,40,45,30,120,200])
+            self.y_tar = numpy.array([30,40,30,60,155,20])
+            self.vx_tar = numpy.array([0,0,0,0,0,0])
+            self.vy_tar = numpy.array([0,0,0,0,0,5])
+            self.size_tar = numpy.array([5,5,5,10,20,5])
+            self.label_tar = numpy.array(['fix','fix','fix','fix','fix','target'])
+            # Options for the cameras
+            self.x_cam = numpy.array([150,20,20])
+            self.y_cam = numpy.array([150,20,250])
+            self.angle_cam = numpy.array([0,45,-45])
+            self.angle_view_cam = numpy.array([60,60,60])
+            self.fix_cam = [1,1,1]
 
         # Creating the room, the target and the camera
         self.myRoom = Room()
@@ -76,7 +107,7 @@ class App:
 
             # Object are moving in the room
             for target in self.myRoom.targets:
-                target.moveTarget(0)
+                target.moveTarget(1)
 
             if self.useGUI == 1:
                 time.sleep(1)  # so that the GUI doesn't go to quick
@@ -101,5 +132,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, 2)
+    myApp = App(1, 4)
     myApp.main()
