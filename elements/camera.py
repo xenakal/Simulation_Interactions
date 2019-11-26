@@ -151,16 +151,20 @@ class Camera:
         #finding the median 
         line_cam_median = Line(self.xc, self.yc, self.xc + math.cos(self.alpha), self.yc + math.sin(self.alpha))
         # finding the distance l_projection on the line => intersection beetween a line and a circle
-        idca = line_cam_median.lineCircleIntersection(l_projection, self.xc, self.yc)
+        idca = line_cam_median.lineCircleIntersection(l_projection, self.xc, self.yc)    
         #two solution
-        if (math.cos(self.alpha) <= 0 and self.alpha != math.pi/2):
+        
+        
+        if (math.cos(self.alpha) <= 0 or self.alpha == math.pi/2):
             xa = idca[0]
             ya = idca[1]
+            
+            print('ici')
 
         else:
             xa = idca[2]
             ya = idca[3]
-        
+                
         #finally finding the line
         line_cam_median_p = line_cam_median.linePerp(xa, ya)
         
