@@ -23,12 +23,12 @@ class App:
             
         elif scenario == 1:
             # Options for the target
-            self.x_tar = numpy.array([155, 155, 200])
-            self.y_tar = numpy.array([155, 260, 270])
-            self.vx_tar = numpy.array([0, 0, 5])
-            self.vy_tar = numpy.array([0, 0, 0])
-            self.size_tar = numpy.array([35, 35, 5])
-            self.label_tar = numpy.array(['fix', "fix", "target"])
+            self.x_tar = numpy.array([155, 155, 200, 50])
+            self.y_tar = numpy.array([155, 260, 170, 250])
+            self.vx_tar = numpy.array([0, 0, 5,0])
+            self.vy_tar = numpy.array([0, 0, 0, 0])
+            self.size_tar = numpy.array([35, 35, 5, 20])
+            self.label_tar = numpy.array(['fix', "fix", "target","fix"])
             # Options for the cameras
             self.x_cam = numpy.array([10, 310, 10, 310, ])
             self.y_cam = numpy.array([10, 10, 310, 310])
@@ -117,15 +117,16 @@ class App:
         while run:  # Events loop
             # camera is taking a picture
             for camera in self.myRoom.cameras:
+                pass
                 camera.takePicture(self.myRoom.targets)
-                #camera.predictPaths()
+                camera.predictPaths()
 
             # Object are moving in the room
             for target in self.myRoom.targets:
                 target.moveTarget(1,self.myRoom,'linear')
 
             if self.useGUI == 1:
-                time.sleep(1)  # so that the GUI doesn't go to quick
+                time.sleep(0.1)  # so that the GUI doesn't go to quick
                 self.updateGUI()
                 run = self.myGUI.getGUI_Info()
 

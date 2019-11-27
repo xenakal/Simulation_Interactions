@@ -118,7 +118,7 @@ class GUI:
             m = 0
             ref = camera.limitProjection.copy()
             detected = camera.targetDetectedList.copy()
-            detected.reverse()
+            #detected.reverse()
 
             for target in detected:
                 projection = target[1]

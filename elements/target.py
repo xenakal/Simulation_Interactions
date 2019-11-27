@@ -4,6 +4,13 @@ import math
 import time
 import random
 
+def limitToValueMax(valueMax,value):
+    if value > valueMax:
+        return valueMax
+    elif value < -valueMax:
+        return -valueMax
+    else:
+        return value
 
 class Target:
     def __init__(self, tar_id, tar_x, tar_y, tar_vx, tar_vy, tar_label, tar_size):
@@ -30,12 +37,17 @@ class Target:
             self.vy = tar_vy
 
         #PathPlanning
-        self.xgoal = 10
-        self.ygoal = 300
-        self.k_att = 1
-        self.k_rep = 1000000
-        self.d_rep = tar_size + 20
+        self.xgoal = [30, 250,  20]
+        self.ygoal = [300, 30,  20]
         
+        self.k_att = 5
+        self.k_rep = 500000000
+        self.d_rep = tar_size + math.ceil(0.5*tar_size)
+        
+        self.F_att_max = 10
+        self.vx_max = 5
+        self.vy_max = 5
+            
         # size
         self.size = tar_size
         
@@ -55,14 +67,20 @@ class Target:
     
     def pathPlanning(self,delta_time,myRoom):
         
-        if (self.label != 'fix'):
-        
-            F_att_x = -self.k_att*(self.xc-self.xgoal)
-            F_att_y = -self.k_att*(self.yc-self.ygoal)
+        if (self.label != 'fix'):    
+            if math.fabs(self.xc-self.xgoal[0]) <= 20 and math.fabs(self.yc-self.ygoal[0]) <= 20 and len(self.xgoal) > 1:
+                del self.xgoal[0]
+                del self.ygoal[0]
             
-            print("Fatty : " + str(F_att_y))
-            print("Fattx : " + str(F_att_x))
+            xgoal = self.xgoal[0]
+            ygoal = self.ygoal[0]
             
+            F_att_x = -self.k_att*(self.xc-xgoal)
+            F_att_y = -self.k_att*(self.yc-ygoal)
+           
+            limitToValueMax(self.F_att_max,F_att_x)
+            limitToValueMax(self.F_att_max,F_att_y)
+               
             F_rep_x = 0
             F_rep_y = 0
             
@@ -71,27 +89,34 @@ class Target:
                     dx = (self.xc-target.xc)
                     dy = (self.yc-target.yc)
                     d = math.pow(dx*dx+dy*dy,0.5)
-                    print("target " + str(target.id) + ": distance " +str(d))
                     
-                    if(d < target.d_rep):    
-                        F_rep_x = F_rep_x + self.k_rep*((1/target.d_rep)-(1/dx))*(1/(dx*dx))
-                        F_rep_y = F_rep_y + self.k_rep*((1/target.d_rep)-(1/dy))*(1/(dy*dy))
-            
-            
-            print("Frepy : " + str(F_rep_y))
-            print("Frepx : " + str(F_rep_x))
-            
+                    if(d < target.d_rep):
+                        #print("target : " + str( target.id))
+                        if dx == 0:
+                            pass
+                        else:
+                            F_rep_x = F_rep_x + self.k_rep*((1/d)-(1/target.d_rep))*(1/(d*d*d))*dx
+                        if dy == 0:
+                            pass
+                        else:
+                            F_rep_y = F_rep_y + self.k_rep*((1/d)-(1/target.d_rep))*(1/(d*d*d))*dy
+                        
+                        #print(dx)
+                        #print(dy)
+                        #print("Frep x : " +str(F_rep_x))
+                        #print("Frep y : " +str( F_rep_y))
+                    
             Fx = F_att_x + F_rep_x
             Fy = F_att_y + F_rep_y
             
-            print("Fx : " + str(Fx))
-            print("Fy : " + str(Fy))
+            self.vx = 0.01*Fx
+            self.vy = 0.01*Fy
+            limitToValueMax(self.vx_max,self.vx)
+            limitToValueMax(self.vy_max,self.vy)
+            #print("===============")
+            self.xc = self.xc + math.ceil(self.vx * delta_time)
+            self.yc = self.yc + math.ceil(self.vy * delta_time)
             
-            self.vx = 0.005 * Fx
-            self.vy = 0.005 * Fy
-        
-            print("vx : " + str(self.vx))
-            print("vy : " + str(self.vy))
             
-            self.xc = math.ceil(self.xc + self.vx * delta_time)
-            self.yc = math.ceil(self.yc + self.vy * delta_time)
+            
+                
