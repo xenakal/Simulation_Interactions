@@ -30,10 +30,10 @@ class Target:
             self.vy = tar_vy
 
         #PathPlanning
-        self.xgoal = 0
-        self.ygoal = 0
+        self.xgoal = 10
+        self.ygoal = 300
         self.k_att = 1
-        self.k_rep = 2
+        self.k_rep = 1000000
         self.d_rep = tar_size + 20
         
         # size
@@ -54,27 +54,44 @@ class Target:
             
     
     def pathPlanning(self,delta_time,myRoom):
-        F_att_x = -self.k_att*(self.xgoal - self.xc)
-        F_att_y = -self.k_att*(self.ygoal - self.yc)
-        
-        F_rep_x = 0
-        F_rep_y = 0
-        
-        for target in myRoom.targets:
-            if(target != self):
-                dx = (self.xc-target.xc)
-                dy = (self.yc-target.yc)
-                d = math.pow(dx*dx+dy*dy,0.5)
-                
-                if(d < target.d_rep):
-                    F_rep_x = F_rep_x + self.k_rep*((1/target.d_rep)-(1/dx))*(1/(dx*dx))
-                    F_rep_y = F_rep_y + self.k_rep*((1/target.d_rep)-(1/dy))*(1/(dy*dy))
-        
-        Fx = -F_att_x + F_rep_x
-        Fy = -F_att_y + F_rep_y
         
         if (self.label != 'fix'):
-            self.vx = 0.1 * Fx
-            self.vy = 0.1 * Fy
+        
+            F_att_x = -self.k_att*(self.xc-self.xgoal)
+            F_att_y = -self.k_att*(self.yc-self.ygoal)
+            
+            print("Fatty : " + str(F_att_y))
+            print("Fattx : " + str(F_att_x))
+            
+            F_rep_x = 0
+            F_rep_y = 0
+            
+            for target in myRoom.targets:
+                if(target != self):
+                    dx = (self.xc-target.xc)
+                    dy = (self.yc-target.yc)
+                    d = math.pow(dx*dx+dy*dy,0.5)
+                    print("target " + str(target.id) + ": distance " +str(d))
+                    
+                    if(d < target.d_rep):    
+                        F_rep_x = F_rep_x + self.k_rep*((1/target.d_rep)-(1/dx))*(1/(dx*dx))
+                        F_rep_y = F_rep_y + self.k_rep*((1/target.d_rep)-(1/dy))*(1/(dy*dy))
+            
+            
+            print("Frepy : " + str(F_rep_y))
+            print("Frepx : " + str(F_rep_x))
+            
+            Fx = F_att_x + F_rep_x
+            Fy = F_att_y + F_rep_y
+            
+            print("Fx : " + str(Fx))
+            print("Fy : " + str(Fy))
+            
+            self.vx = 0.005 * Fx
+            self.vy = 0.005 * Fy
+        
+            print("vx : " + str(self.vx))
+            print("vy : " + str(self.vy))
+            
             self.xc = math.ceil(self.xc + self.vx * delta_time)
             self.yc = math.ceil(self.yc + self.vy * delta_time)

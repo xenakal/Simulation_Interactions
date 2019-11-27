@@ -23,11 +23,11 @@ class App:
             
         elif scenario == 1:
             # Options for the target
-            self.x_tar = numpy.array([150, 20, 280])
-            self.y_tar = numpy.array([150, 20, 280])
+            self.x_tar = numpy.array([155, 155, 200])
+            self.y_tar = numpy.array([155, 260, 270])
             self.vx_tar = numpy.array([0, 0, 5])
             self.vy_tar = numpy.array([0, 0, 0])
-            self.size_tar = numpy.array([20, 6, 2])
+            self.size_tar = numpy.array([35, 35, 5])
             self.label_tar = numpy.array(['fix', "fix", "target"])
             # Options for the cameras
             self.x_cam = numpy.array([10, 310, 10, 310, ])
