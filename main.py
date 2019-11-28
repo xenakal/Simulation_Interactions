@@ -25,12 +25,12 @@ class App:
 
         elif scenario == 1:
             # Options for the target
-            self.x_tar = numpy.array([150, 20, 280])
-            self.y_tar = numpy.array([150, 20, 280])
-            self.vx_tar = numpy.array([0, 0, 5])
-            self.vy_tar = numpy.array([0, 0, 0])
-            self.size_tar = numpy.array([20, 6, 2])
-            self.label_tar = numpy.array(['fix', "fix", "target"])
+            self.x_tar = numpy.array([155, 155, 200, 50])
+            self.y_tar = numpy.array([155, 260, 170, 250])
+            self.vx_tar = numpy.array([0, 0, 5, 0])
+            self.vy_tar = numpy.array([0, 0, 0, 0])
+            self.size_tar = numpy.array([35, 35, 5, 20])
+            self.label_tar = numpy.array(['fix', "fix", "target", "fix"])
             # Options for the cameras
             self.x_cam = numpy.array([10, 310, 10, 310, ])
             self.y_cam = numpy.array([10, 10, 310, 310])
@@ -85,6 +85,21 @@ class App:
             self.angle_view_cam = numpy.array([60, 60, 60])
             self.fix_cam = [1, 1, 1]
 
+        elif scenario == 5:
+            # Options for the target
+            self.x_tar = numpy.array([155, 230, 200])
+            self.y_tar = numpy.array([155, 155, 155])
+            self.vx_tar = numpy.array([0, 0, 0])
+            self.vy_tar = numpy.array([0, 0, 0])
+            self.size_tar = numpy.array([20, 5, 6])
+            self.label_tar = numpy.array(['fix', 'target', 'target'])
+            # Options for the cameras
+            self.x_cam = numpy.array([10, 310])
+            self.y_cam = numpy.array([155, 155])
+            self.angle_cam = numpy.array([0, 180])
+            self.angle_view_cam = numpy.array([60, 60])
+            self.fix_cam = [1, 1, 1]
+
         # Creating the room, the target and the camera
         self.myRoom = Room()
         self.myRoom.createTargets(self.x_tar, self.y_tar, self.vx_tar, self.vy_tar, self.label_tar, self.size_tar)
@@ -104,12 +119,13 @@ class App:
         while run:  # Events loop
             # camera is taking a picture
             for camera in self.myRoom.cameras:
+                pass
                 camera.takePicture(self.myRoom.targets)
                 camera.predictPaths()
 
             # Object are moving in the room
             for target in self.myRoom.targets:
-                target.moveTarget(1)
+                target.moveTarget(1, self.myRoom, 'path_planning')
 
             if self.useGUI == 1:
                 time.sleep(TIMESTEP)  # so that the GUI doesn't go to quick
@@ -135,5 +151,4 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, 0)
-    myApp.main()
+    myApp = App(1, 1)

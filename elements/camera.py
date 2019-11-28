@@ -145,41 +145,71 @@ class Camera:
         # computation of the distances
         distanceToCam = []
         orderedTarget = []
-
+       
         for target in targetInTriangle:
-            distanceToCam.append([(math.ceil(distanceBtwTwoPoint(self.xc, self.yc, target.xc, target.yc)), target)])
-
-        dtype = [('distance', int), ('target', Target)]
-        a = np.array(distanceToCam, dtype=dtype)
-        np.sort(a, order='distance')
-
-        # keeping just the target
+            distanceToCam.append((math.ceil(distanceBtwTwoPoint(self.xc, self.yc, target.xc, target.yc)), target))
+        
+        dtype = [('distance',int),('target', Target)] 
+        a = np.array(distanceToCam,dtype=dtype)
+        
+        try : 
+            a = np.sort(a,axis = 0 ,order='distance')
+        except TypeError:
+            print("something went wrong with cam (unable to sort): " + str(self.id))
+      
+        #keeping just the target
         for element in a:
-            orderedTarget.append(element['target'][0])
-
+            orderedTarget.append(element['target'])
+            
         return orderedTarget
 
     def computeProjection(self, orderedTarget, l_projection, seuil):
         targeList = []
         proj_cam_view_limit = []
+        
+#        #IN CAM FRAME
+#        #finding the two limits
+#       
+#        line_cam_left = Line(0,0,math.cos(self.beta/2),math.sin(self.beta / 2))
+#        line_cam_right = Line(0,0,math.cos(self.beta/2),-math.sin(self.beta/2))
+#        line_projection = Line(l_projection,0,l_projection,2)
+#        
+#        ref_proj_left_cam_frame = line_projection.lineIntersection(line_cam_left)
+#        ref_proj_right_cam_frame = line_projection.lineIntersection(line_cam_right)
+#        
+#        for target in orderedTarget:
+#            
+#            coord_cam_frame = self.coord_from_WorldFrame_to_CamFrame(target.xc,target.yc)
+#            #line between target and camera     
+#            line_cam_target = Line(0,0,coord_cam_frame[0],coord_cam_frame[1])   
+#            line_cam_target_p = line_cam_target.linePerp(coord_cam_frame[0],coord_cam_frame[1])
+#            #intersetion with the target
+#            idc = line_cam_target_p.lineCircleIntersection(target.size,coord_cam_frame[0],coord_cam_frame[1])
+#            #line that contains the target
+#            line_cam_target_left = Line(0,0,idc[0],idc[1])
+#            line_cam_target_right = Line(0,0,idc[2],idc[3])
+#            #projection of the object on this line
+#            proj_left_cam_frame = line_projection.lineIntersection(line_cam_target_left)
+#            proj_pright_cam_frame = line_projection.lineIntersection(line_cam_target_right)
+#        
+#            if(proj_left_cam_frame[1] <= proj_pright_cam_frame[1]):
+#                print("ok")
+
 
         # 1) finding the line perpendicular to the median of the camera field to a given distance
         ########################################################################################
         # finding the median
         line_cam_median = Line(self.xc, self.yc, self.xc + math.cos(self.alpha), self.yc + math.sin(self.alpha))
         # finding the distance l_projection on the line => intersection beetween a line and a circle
-        idca = line_cam_median.lineCircleIntersection(l_projection, self.xc, self.yc)
-        # two solution
-
-        if math.cos(self.alpha) <= 0 or self.alpha == math.pi / 2:
+        idca = line_cam_median.lineCircleIntersection(l_projection, self.xc, self.yc)    
+        #two solutions
+        if math.cos(self.alpha) <= 0 or self.alpha == math.pi/2:
             xa = idca[0]
-            ya = idca[1]
-
+            ya = idca[1]    
         else:
             xa = idca[2]
-            ya = idca[3]
-
-        # finally finding the line
+            ya = idca[3]       
+        #finally finding the line
         line_cam_median_p = line_cam_median.linePerp(xa, ya)
 
         # 2) projection of the limit
@@ -188,62 +218,41 @@ class Camera:
         line_cam_right = Line(self.xc, self.yc, self.xc + math.cos(self.alpha - self.beta / 2),
                               self.yc + math.sin(self.alpha - self.beta / 2))
         line_cam_left = Line(self.xc, self.yc, self.xc + math.cos(self.alpha + self.beta / 2),
-                             self.yc + math.sin(self.alpha + self.beta / 2))
-
+                              self.yc + math.sin(self.alpha + self.beta / 2))
         # projection of the limit of the field of vision on the camera
         ref_proj_left = line_cam_median_p.lineIntersection(line_cam_left)
         ref_proj_right = line_cam_median_p.lineIntersection(line_cam_right)
-
         # projection in cam frame
         ref_proj_left_cam_frame = self.coord_from_WorldFrame_to_CamFrame(ref_proj_left[0], ref_proj_left[1])
         ref_proj_right_cam_frame = self.coord_from_WorldFrame_to_CamFrame(ref_proj_right[0], ref_proj_right[1])
 
         proj_cam_view_limit = numpy.array([ref_proj_left[0], ref_proj_left[1], ref_proj_right[0], ref_proj_right[1]])
 
-        # 3) projection of all the targest
+        # 3) projection of all the targets
         ##################################
         for target in orderedTarget:
-            object_crossing_bound = 0
             hidden = 0
 
-            # line between target and camera
-            line_cam_target = Line(self.xc, self.yc, target.xc, target.yc)
-            # perpendicular
-            line_cam_target_p = line_cam_target.linePerp(target.xc, target.yc)
-            # intersetion with the target
-            idc = line_cam_target_p.lineCircleIntersection(target.size, target.xc, target.yc)
-            # line that contains the target
-            line_cam_target_1 = Line(self.xc, self.yc, idc[0], idc[1])
-            line_cam_target_2 = Line(self.xc, self.yc, idc[2], idc[3])
-            # projection of the object on this line
+            #line between target and camera     
+            line_cam_target = Line(self.xc,self.yc,target.xc,target.yc)   
+            #perpendicular
+            line_cam_target_p = line_cam_target.linePerp(target.xc,target.yc)
+            #intersetion with the target
+            idc = line_cam_target_p.lineCircleIntersection(target.size,target.xc,target.yc)
+            #line that contains the target
+            line_cam_target_1 = Line(self.xc,self.yc,idc[0],idc[1])
+            line_cam_target_2 = Line(self.xc,self.yc,idc[2],idc[3])
+            #projection of the object on this line
             proj_p1 = line_cam_median_p.lineIntersection(line_cam_target_1)
             proj_p2 = line_cam_median_p.lineIntersection(line_cam_target_2)
             # projection in cam frame
             proj_p1_cam_frame = self.coord_from_WorldFrame_to_CamFrame(proj_p1[0], proj_p1[1])
             proj_p2_cam_frame = self.coord_from_WorldFrame_to_CamFrame(proj_p2[0], proj_p2[1])
 
-            # projectio if the object is not hidden
+            # projection if the object is not hidden
             actual_projection_worldFrame = numpy.array([proj_p1[0], proj_p1[1], proj_p2[0], proj_p2[1]])
 
-            # a) checking if the target is outside from the camera bound
-            # print(target.id)
-            # print(proj_p1_cam_frame[1])
-            # print(proj_p2_cam_frame[1])
-            # print(ref_proj_left_cam_frame)
-            # print(ref_proj_right_cam_frame)
-
-            if proj_p1_cam_frame[1] < ref_proj_right_cam_frame[1] and proj_p1_cam_frame[1] < 0:
-                proj_p1[0] = ref_proj_right[0]
-                proj_p1[1] = ref_proj_right[1]
-            if proj_p1_cam_frame[1] > ref_proj_left_cam_frame[1] and proj_p1_cam_frame[1] > 0:
-                proj_p1[0] = ref_proj_left[0]
-                proj_p1[1] = ref_proj_left[1]
-            if proj_p2_cam_frame[1] < ref_proj_right_cam_frame[1] and proj_p2_cam_frame[1] < 0:
-                proj_p2[0] = ref_proj_right[0]
-                proj_p2[1] = ref_proj_right[1]
-            if proj_p2_cam_frame[1] > ref_proj_left_cam_frame[1] and proj_p2_cam_frame[1] > 0:
-                proj_p2[0] = ref_proj_left[0]
-                proj_p2[1] = ref_proj_left[1]
+            
 
             # computing the distance from the left side of the camera
             d0 = distanceBtwTwoPoint(ref_proj_left[0], ref_proj_left[1], proj_p1[0], proj_p1[1])
@@ -258,7 +267,7 @@ class Camera:
                 d2 = distanceBtwTwoPoint(ref_proj_left[0], ref_proj_left[1], projection[0], projection[1])
                 d3 = distanceBtwTwoPoint(ref_proj_left[0], ref_proj_left[1], projection[2], projection[3])
 
-                # condtion to modify the projection seen by the camera
+                # condition to modify the projection seen by the camera
                 cdt1 = (d2 > d0 > d3)  # d0 in the middle
                 cdt2 = (d2 < d0 < d3)  # d0 in the middle
                 cdt3 = (d2 < d1 < d3)  # d1 in the middle
@@ -279,7 +288,7 @@ class Camera:
                     # the object is hidden
                     hidden = 2
                     break
-                # the object is partially hiden
+                # the object is partially hidden
                 elif cdt1 or cdt2:
                     if cdt5 or cdt8:
                         proj_p1[0] = projection[0]
@@ -302,6 +311,26 @@ class Camera:
                 else:
                     # the object is not hidden
                     pass
+                
+            # checking if the target is outside from the camera bound
+            # print(target.id)
+            # print(proj_p1_cam_frame[1])
+            # print(proj_p2_cam_frame[1])
+            # print(ref_proj_left_cam_frame)
+            # print(ref_proj_right_cam_frame)
+
+            if proj_p1_cam_frame[1] < ref_proj_right_cam_frame[1] and proj_p1_cam_frame[1] < 0:
+                proj_p1[0] = ref_proj_right[0]
+                proj_p1[1] = ref_proj_right[1]
+            if proj_p1_cam_frame[1] > ref_proj_left_cam_frame[1] and proj_p1_cam_frame[1] > 0:
+                proj_p1[0] = ref_proj_left[0]
+                proj_p1[1] = ref_proj_left[1]
+            if proj_p2_cam_frame[1] < ref_proj_right_cam_frame[1] and proj_p2_cam_frame[1] < 0:
+                proj_p2[0] = ref_proj_right[0]
+                proj_p2[1] = ref_proj_right[1]
+            if proj_p2_cam_frame[1] > ref_proj_left_cam_frame[1] and proj_p2_cam_frame[1] > 0:
+                proj_p2[0] = ref_proj_left[0]
+                proj_p2[1] = ref_proj_left[1]
 
             # saving the new actual position
             actual_projection_worldFrame = numpy.array([proj_p1[0], proj_p1[1], proj_p2[0], proj_p2[1]])
