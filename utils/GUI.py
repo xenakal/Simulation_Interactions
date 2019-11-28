@@ -1,4 +1,5 @@
 import pygame
+import copy
 from pygame.locals import *
 from utils.line import *
 
@@ -9,10 +10,23 @@ BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 
 CAMERA = (200, 0, 0)
+PREDICTION = (100, 100, 100)
 
 FIX = (200, 120, 0)
 TARGET = (0, 250, 0)
 OBSTRUCTION = (0, 50, 0)
+
+
+def updateScreen():
+    pygame.display.update()
+
+
+def getGUI_Info():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or (event.type == KEYDOWN and event.key != 308):
+            pygame.quit()
+            return False
+    return True
 
 
 class GUI:
@@ -37,10 +51,10 @@ class GUI:
             elif target.label == "obstruction":
                 color = OBSTRUCTION
 
-            # so that it is onltarget.yc draw in the square
+            # so that it is only target.yc drawn in the square
             if (tab[0] <= target.xc + target.size <= tab[0] + tab[
-                2] and tab[1] <= target.yc + target.size <= tab[1] + tab[3]):
-                # render tetarget.xct
+                2] and tab[1] <= target.yc + target.size <= tab[1] + tab[3]):  # target inside room
+                # render the target.xct
                 label = self.font.render(str(target.id), 10, color)
                 self.screen.blit(label, (target.xc + target.size / 2 + 5, target.yc + target.size / 2 + 5))
                 # render form
@@ -86,7 +100,6 @@ class GUI:
             self.screen.blit(label, (x_off + 80 + n * 20, y_off - 20))
             n = n + 1
 
-        n = 0
         m = 0
         for camera in myRoom.cameras:
             n = 0
@@ -137,12 +150,27 @@ class GUI:
                 pygame.draw.circle(self.screen, WHITE, (x_off + 85 + dref, y_off + 8 + n * 30), 5)
             n = n + 1
 
-    def updateScreen(self):
-        pygame.display.update()
+    def drawPredictions(self, myRoom):
+        for camera in myRoom.cameras:
+            for target in myRoom.targets:
+                if target in camera.predictedPositions:
+                    print("ID of camera predicting target " + str(target.id) + ": " + str(camera.id))
+                    self.drawTargetPrediction(target, camera.predictedPositions[target], myRoom.coord, camera.id)
 
-    def getGUI_Info(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == KEYDOWN:
-                pygame.quit()
-                return False
-        return True
+    def drawTargetPrediction(self, target, predictedPos, tab, camID):
+        color = PREDICTION
+        predictedTarget = copy.deepcopy(target)
+        predictedTarget.xc = predictedPos.getQueue()[-1][0]
+        predictedTarget.yc = predictedPos.getQueue()[-1][1]
+        # so that it is only target.yc drawn in the square
+        if (tab[0] <= predictedTarget.xc + predictedTarget.size <= tab[0] + tab[
+            2] and tab[1] <= predictedTarget.yc + predictedTarget.size <= tab[1] + tab[3]):  # target inside room
+            # render the target.xct
+            predictionFont = pygame.font.Font(None, 12)
+            label = predictionFont.render("t: " + str(predictedTarget.id) + ", c: " + str(camID), 10, color)
+            self.screen.blit(label, (predictedTarget.xc + predictedTarget.size / 2 + 5, predictedTarget.yc + predictedTarget.size / 2 + 5))
+            # render form
+            pygame.draw.circle(self.screen, color, (predictedTarget.xc, predictedTarget.yc), predictedTarget.size)
+            if predictedTarget.size >= 5:
+                pygame.draw.circle(self.screen, predictedTarget.color, (predictedTarget.xc, predictedTarget.yc),
+                                   math.floor(predictedTarget.size - 0.5 * predictedTarget.size))

@@ -2,6 +2,7 @@ import math
 from utils.line import *
 from utils.queueFIFO import *
 from elements.target import *
+import main
 import numpy as np
 
 
@@ -27,17 +28,35 @@ def avgDirectionFunc(positions):
     prevPos = positions[0]
     avgDir = 0
     for curPos in positions:
-        edgesRatio = (curPos[1] - prevPos[1]) / (curPos[0] - prevPos[0])  # TODO: check why this gives a warning
-        stepDirection = math.asin(edgesRatio)
-        avgDir += stepDirection
+        dy = curPos[1] - prevPos[1]
+        dx = curPos[0] - prevPos[0]
+        # print("dx = ", dx)
+        # print("dy = ", dy)
+        if dx == 0:  # going vertically
+            if dy > 0:
+                avgDir += math.pi  # going up
+
+            elif dy < 0:
+                avgDir += 3/2 * math.pi  # going down
+            else:
+                pass
+        else:
+            edgesRatio = dy / dx
+            # print(edgesRatio)
+            stepDirection = math.atan(edgesRatio)
+            avgDir += stepDirection
         prevPos = curPos
 
-    avgDir = avgDir / (len(positions) - 1)
+    # avgDir = avgDir / (len(positions) - 1)
+    # avgDir = 2*math.pi
     return avgDir
 
 
 def calcNextPos(position, speed, direction):
-    return 1
+    travelDistance = main.TIMESTEP * 4 * speed
+    xPrediction = position[0] + math.cos(direction)*travelDistance
+    yPrediction = position[1] + math.sin(direction)*travelDistance
+    return [int(xPrediction), int(yPrediction)]
 
 
 class Camera:
@@ -58,14 +77,15 @@ class Camera:
         self.limitProjection = []
 
         # Info on targets
-        self.previousPositions = dict()  # dictionary where key="target.id" and value="queueFIFO[(x,y)]".
+        self.previousPositions = dict()  # dictionary where key="target" and value="queueFIFO[(x,y)]".
         # not a list as indexes may change if relative positions change
+        self.predictedPositions = dict()  # key="target" and value=queueFIFO([predicted_xc, predicted_yc])
 
     def takePicture(self, targetList, l_projection=200, seuil=3):
         # In first approach to avoid to remove items, list is emptied at the start
-        self.targetDetectedList = []
+        self.targetDetectedList = []  # list containing target objects
         self.limitProjection = []
-        # 1)  Finding all the object that are in the triangle
+        # 1)  Finding all the objects that are in the triangle
         targetInTriangle = self.objectsInField(targetList)
 
         # 2) Sort target from the closer to more far away
@@ -74,12 +94,12 @@ class Camera:
         # 3) Compute the projection and suppress hidden target
         tab = self.computeProjection(orderedTarget, l_projection, seuil)
         self.limitProjection = tab[0]
-        self.targetDetectedList = tab[1]
+        self.targetDetectedList = tab[1]  # [target objects, position, hidden]
 
         # 4)remember the previous positions of the different targets
         self.updatePreviousPos()
 
-        # 5) if the camera is not fixe it can rotate
+        # 5) if the camera is not fix it can rotate
         self.cam_rotate(math.radians(1))
 
     def coord_from_WorldFrame_to_CamFrame(self, x, y):
@@ -105,7 +125,7 @@ class Camera:
             coord_cam_frame = self.coord_from_WorldFrame_to_CamFrame(target.xc, target.yc)
             alpha_target_camFrame = math.atan2(coord_cam_frame[1], coord_cam_frame[0])
             d_cam_target = distanceBtwTwoPoint(coord_cam_frame[0], coord_cam_frame[1], 0, 0)
-            beta_target = math.atan2(target.size / 2, d_cam_target)  # beetwen the center and the border ofthe target
+            beta_target = math.atan2(target.size / 2, d_cam_target)  # between the center and the border of the target
 
             margin_high = alpha_target_camFrame <= math.fabs(self.beta / 2) + math.fabs(beta_target)
             margin_low = alpha_target_camFrame >= -(math.fabs(self.beta / 2) + math.fabs(beta_target))
@@ -203,7 +223,7 @@ class Camera:
             proj_p2_cam_frame = self.coord_from_WorldFrame_to_CamFrame(proj_p2[0], proj_p2[1])
 
             # projectio if the object is not hidden
-            actuall_projection_worldFrame = numpy.array([proj_p1[0], proj_p1[1], proj_p2[0], proj_p2[1]])
+            actual_projection_worldFrame = numpy.array([proj_p1[0], proj_p1[1], proj_p2[0], proj_p2[1]])
 
             # a) checking if the target is outside from the camera bound
             # print(target.id)
@@ -283,39 +303,51 @@ class Camera:
                     # the object is not hidden
                     pass
 
-            # saving the new actuall postion
-            actuall_projection_worldFrame = numpy.array([proj_p1[0], proj_p1[1], proj_p2[0], proj_p2[1]])
+            # saving the new actual position
+            actual_projection_worldFrame = numpy.array([proj_p1[0], proj_p1[1], proj_p2[0], proj_p2[1]])
 
-            # if the taget is not complietely hidden then it added
+            # if the target is not completely hidden then it added
             if ((hidden == 0 or hidden == 1) and distanceBtwTwoPoint(proj_p1[0], proj_p1[1], proj_p2[0],
                                                                      proj_p2[1]) > seuil):
-                targeList.append(numpy.array([target, actuall_projection_worldFrame, hidden]))
+                targeList.append(numpy.array([target, actual_projection_worldFrame, hidden]))
 
         return numpy.array([proj_cam_view_limit, targeList])
 
+    #  This method will return bullshit predictions if object disappears and reappears elsewhere
     def updatePreviousPos(self):
-        for targetObj in self.targetDetectedList:
-            if targetObj[0].id not in self.previousPositions:
-                self.previousPositions[targetObj[0].id] = QueueFIFO()  # create new entry in dict
-            self.previousPositions[targetObj[0].id].enqueue([targetObj[0].xc, targetObj[0].yc])  # update dict
+        for target in self.targetDetectedList:
+            targetObj = target[0]  # target object
+            if targetObj.label == 'target':
+                if targetObj not in self.previousPositions:  # not encountered the object yet
+                    self.previousPositions[targetObj] = QueueFIFO()  # create new entry in dict
+                self.previousPositions[targetObj].enqueue([targetObj.xc, targetObj.yc])  # update dict
 
     def cam_rotate(self, step):
         if self.fix == 0:
             self.alpha = self.alpha + step
 
+    #  Predict the paths of all targets previously
     def predictPaths(self):
-        for targetObj in self.targetDetectedList:
-            self.predictPath(targetObj[0])
+        #  for target in self.targetDetectedList:
+        for targetObj in self.previousPositions:
+            #  targetObj = target[0]
+            #  if targetObj in self.previousPositions:
+            if targetObj not in self.predictedPositions:
+                self.predictedPositions[targetObj] = QueueFIFO()
+            self.predictedPositions[targetObj].enqueue(self.nextPos(targetObj))
 
-    def predictPath(self, target):
-        #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate.
-        prevPositions = self.previousPositions[target.id].getQueue()
+    # target is a target object (not a list with other attributes of the target as in targetDetectedList)
+    def nextPos(self, target):
+
+        #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate
+        prevPositions = self.previousPositions[target].getQueue()
         #  Calculate average velocity
         avgSpeed = avgSpeedFunc(prevPositions)
         #  Calculate average direction
         avgDirection = avgDirectionFunc(prevPositions)
         #  Use avg velocity and direction to estimate next position
-        nextPositions = calcNextPos(prevPositions[0], avgSpeed, avgDirection)
+        # nextPositions = calcNextPos(prevPositions[-1], avgSpeed, avgDirection)
+        nextPositions = calcNextPos([target.xc, target.yc], avgSpeed, avgDirection)
         return nextPositions
 
     def analysePicture(self):
@@ -326,3 +358,6 @@ class Camera:
 
     def writeOnTheWhiteBoard(self):
         print('writting on the white board')
+
+
+

@@ -36,3 +36,10 @@ class Target:
         # easy solution need to be investigated
         self.xc = self.xc + self.vx * time
         self.yc = self.yc + self.vy * time
+
+    ''' hash and eq used to have target object as dictionary in camera '''
+    def __hash__(self):
+        return hash(self.id)
+
+    def __eq__(self, other):
+        return self.id == other.id
