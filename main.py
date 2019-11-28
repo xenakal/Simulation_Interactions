@@ -119,11 +119,11 @@ class App:
             for camera in self.myRoom.cameras:
                 pass
                 camera.takePicture(self.myRoom.targets)
-                camera.predictPaths()
+                #camera.predictPaths()
 
             # Object are moving in the room
             for target in self.myRoom.targets:
-                target.moveTarget(1,self.myRoom,'linear')
+                target.moveTarget(1,self.myRoom,'path_planning')
 
             if self.useGUI == 1:
                 time.sleep(0.1)  # so that the GUI doesn't go to quick

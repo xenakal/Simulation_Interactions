@@ -125,13 +125,17 @@ class Camera:
         # computation of the distances
         distanceToCam = []
         orderedTarget = []
-        
+       
         for target in targetInTriangle:
             distanceToCam.append((math.ceil(distanceBtwTwoPoint(self.xc, self.yc, target.xc, target.yc)), target))
         
-        dtype = [('distance', int), ('target', Target)] 
+        dtype = [('distance',int),('target', Target)] 
         a = np.array(distanceToCam,dtype=dtype)
-        a = np.sort(a,order='distance')
+        
+        try : 
+            a = np.sort(a,axis = 0 ,order='distance')
+        except TypeError:
+            print("something went wrong with cam (unable to sort): " + str(self.id))
       
         #keeping just the target
         for element in a:
@@ -228,25 +232,7 @@ class Camera:
             # projectio if the object is not hidden
             actuall_projection_worldFrame = numpy.array([proj_p1[0], proj_p1[1], proj_p2[0], proj_p2[1]])
 
-            # a) checking if the target is outside from the camera bound
-            # print(target.id)
-            # print(proj_p1_cam_frame[1])
-            # print(proj_p2_cam_frame[1])
-            # print(ref_proj_left_cam_frame)
-            # print(ref_proj_right_cam_frame)
-
-            if proj_p1_cam_frame[1] < ref_proj_right_cam_frame[1] and proj_p1_cam_frame[1] < 0:
-                proj_p1[0] = ref_proj_right[0]
-                proj_p1[1] = ref_proj_right[1]
-            if proj_p1_cam_frame[1] > ref_proj_left_cam_frame[1] and proj_p1_cam_frame[1] > 0:
-                proj_p1[0] = ref_proj_left[0]
-                proj_p1[1] = ref_proj_left[1]
-            if proj_p2_cam_frame[1] < ref_proj_right_cam_frame[1] and proj_p2_cam_frame[1] < 0:
-                proj_p2[0] = ref_proj_right[0]
-                proj_p2[1] = ref_proj_right[1]
-            if proj_p2_cam_frame[1] > ref_proj_left_cam_frame[1] and proj_p2_cam_frame[1] > 0:
-                proj_p2[0] = ref_proj_left[0]
-                proj_p2[1] = ref_proj_left[1]
+            
 
             # computing the distance from the left side of the camera
             d0 = distanceBtwTwoPoint(ref_proj_left[0], ref_proj_left[1], proj_p1[0], proj_p1[1])
@@ -305,6 +291,26 @@ class Camera:
                 else:
                     # the object is not hidden
                     pass
+                
+            # checking if the target is outside from the camera bound
+            # print(target.id)
+            # print(proj_p1_cam_frame[1])
+            # print(proj_p2_cam_frame[1])
+            # print(ref_proj_left_cam_frame)
+            # print(ref_proj_right_cam_frame)
+
+            if proj_p1_cam_frame[1] < ref_proj_right_cam_frame[1] and proj_p1_cam_frame[1] < 0:
+                proj_p1[0] = ref_proj_right[0]
+                proj_p1[1] = ref_proj_right[1]
+            if proj_p1_cam_frame[1] > ref_proj_left_cam_frame[1] and proj_p1_cam_frame[1] > 0:
+                proj_p1[0] = ref_proj_left[0]
+                proj_p1[1] = ref_proj_left[1]
+            if proj_p2_cam_frame[1] < ref_proj_right_cam_frame[1] and proj_p2_cam_frame[1] < 0:
+                proj_p2[0] = ref_proj_right[0]
+                proj_p2[1] = ref_proj_right[1]
+            if proj_p2_cam_frame[1] > ref_proj_left_cam_frame[1] and proj_p2_cam_frame[1] > 0:
+                proj_p2[0] = ref_proj_left[0]
+                proj_p2[1] = ref_proj_left[1]
 
             # saving the new actuall postion
             actuall_projection_worldFrame = numpy.array([proj_p1[0], proj_p1[1], proj_p2[0], proj_p2[1]])
@@ -313,6 +319,7 @@ class Camera:
             if ((hidden == 0 or hidden == 1) and distanceBtwTwoPoint(proj_p1[0], proj_p1[1], proj_p2[0],
                                                                      proj_p2[1]) > seuil):
                 targeList.append(numpy.array([target, actuall_projection_worldFrame, hidden]))
+                
 
         return numpy.array([proj_cam_view_limit, targeList])
 

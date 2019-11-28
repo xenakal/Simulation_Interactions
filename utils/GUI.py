@@ -118,7 +118,11 @@ class GUI:
             m = 0
             ref = camera.limitProjection.copy()
             detected = camera.targetDetectedList.copy()
-            #detected.reverse()
+            try:
+                detected.reverse()
+            except AttributeError:
+                print("Unable to resverse, cam : " + str(camera.id))
+            
 
             for target in detected:
                 projection = target[1]
