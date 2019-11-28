@@ -8,6 +8,19 @@ class App:
     def __init__(self, useGUI=1, scenario=0):
 
         # Here by changing only the vectors it is possible to create as many scenario as we want !
+        if scenario == -1:
+            self.x_tar = numpy.array([55])
+            self.y_tar = numpy.array([55])
+            self.vx_tar = numpy.array([0])
+            self.vy_tar = numpy.array([4])
+            self.size_tar = numpy.array([5])
+            self.label_tar = numpy.array(['target'])
+            # Options for the cameras
+            self.x_cam = numpy.array([10])
+            self.y_cam = numpy.array([10])
+            self.angle_cam = numpy.array([45])
+            self.angle_view_cam = numpy.array([60])
+            self.fix_cam = [1]
         if scenario == 0:
             # Options for the target
             self.x_tar = numpy.array([55, 200, 40, 150])
@@ -119,13 +132,12 @@ class App:
         while run:  # Events loop
             # camera is taking a picture
             for camera in self.myRoom.cameras:
-                pass
                 camera.takePicture(self.myRoom.targets)
                 camera.predictPaths()
 
             # Object are moving in the room
             for target in self.myRoom.targets:
-                target.moveTarget(1, self.myRoom, 'path_planning')
+                target.moveTarget(1, self.myRoom, 'linear')
 
             if self.useGUI == 1:
                 time.sleep(TIMESTEP)  # so that the GUI doesn't go to quick
@@ -151,4 +163,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, 1)
+    myApp = App(1, -1)
+    myApp.main()

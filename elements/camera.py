@@ -27,7 +27,7 @@ def avgDirectionFunc(positions):
         return 0
     prevPos = positions[0]
     avgDir = 0
-    for curPos in positions:
+    for curPos in positions[1:]:
         dy = curPos[1] - prevPos[1]
         dx = curPos[0] - prevPos[0]
         # print("dx = ", dx)
@@ -35,9 +35,8 @@ def avgDirectionFunc(positions):
         if dx == 0:  # going vertically
             if dy > 0:
                 avgDir += math.pi  # going up
-
             elif dy < 0:
-                avgDir += 3/2 * math.pi  # going down
+                avgDir += 3 / 2 * math.pi  # going down
             else:
                 pass
         else:
@@ -47,15 +46,16 @@ def avgDirectionFunc(positions):
             avgDir += stepDirection
         prevPos = curPos
 
-    # avgDir = avgDir / (len(positions) - 1)
+    avgDir = avgDir / (len(positions) - 1)
     # avgDir = 2*math.pi
+    print("avgDir " + str(avgDir))
     return avgDir
 
 
 def calcNextPos(position, speed, direction):
     travelDistance = main.TIMESTEP * 4 * speed
-    xPrediction = position[0] + math.cos(direction)*travelDistance
-    yPrediction = position[1] + math.sin(direction)*travelDistance
+    xPrediction = position[0] + math.cos(direction) * travelDistance
+    yPrediction = position[1] + math.sin(direction) * travelDistance
     return [int(xPrediction), int(yPrediction)]
 
 
@@ -145,71 +145,70 @@ class Camera:
         # computation of the distances
         distanceToCam = []
         orderedTarget = []
-       
+
         for target in targetInTriangle:
             distanceToCam.append((math.ceil(distanceBtwTwoPoint(self.xc, self.yc, target.xc, target.yc)), target))
-        
-        dtype = [('distance',int),('target', Target)] 
-        a = np.array(distanceToCam,dtype=dtype)
-        
-        try : 
-            a = np.sort(a,axis = 0 ,order='distance')
+
+        dtype = [('distance', int), ('target', Target)]
+        a = np.array(distanceToCam, dtype=dtype)
+
+        try:
+            a = np.sort(a, axis=0, order='distance')
         except TypeError:
             print("something went wrong with cam (unable to sort): " + str(self.id))
-      
-        #keeping just the target
+
+        # keeping just the target
         for element in a:
             orderedTarget.append(element['target'])
-            
+
         return orderedTarget
 
     def computeProjection(self, orderedTarget, l_projection, seuil):
         targeList = []
         proj_cam_view_limit = []
-        
-#        #IN CAM FRAME
-#        #finding the two limits
-#       
-#        line_cam_left = Line(0,0,math.cos(self.beta/2),math.sin(self.beta / 2))
-#        line_cam_right = Line(0,0,math.cos(self.beta/2),-math.sin(self.beta/2))
-#        line_projection = Line(l_projection,0,l_projection,2)
-#        
-#        ref_proj_left_cam_frame = line_projection.lineIntersection(line_cam_left)
-#        ref_proj_right_cam_frame = line_projection.lineIntersection(line_cam_right)
-#        
-#        for target in orderedTarget:
-#            
-#            coord_cam_frame = self.coord_from_WorldFrame_to_CamFrame(target.xc,target.yc)
-#            #line between target and camera     
-#            line_cam_target = Line(0,0,coord_cam_frame[0],coord_cam_frame[1])   
-#            line_cam_target_p = line_cam_target.linePerp(coord_cam_frame[0],coord_cam_frame[1])
-#            #intersetion with the target
-#            idc = line_cam_target_p.lineCircleIntersection(target.size,coord_cam_frame[0],coord_cam_frame[1])
-#            #line that contains the target
-#            line_cam_target_left = Line(0,0,idc[0],idc[1])
-#            line_cam_target_right = Line(0,0,idc[2],idc[3])
-#            #projection of the object on this line
-#            proj_left_cam_frame = line_projection.lineIntersection(line_cam_target_left)
-#            proj_pright_cam_frame = line_projection.lineIntersection(line_cam_target_right)
-#        
-#            if(proj_left_cam_frame[1] <= proj_pright_cam_frame[1]):
-#                print("ok")
 
+        #        #IN CAM FRAME
+        #        #finding the two limits
+        #
+        #        line_cam_left = Line(0,0,math.cos(self.beta/2),math.sin(self.beta / 2))
+        #        line_cam_right = Line(0,0,math.cos(self.beta/2),-math.sin(self.beta/2))
+        #        line_projection = Line(l_projection,0,l_projection,2)
+        #
+        #        ref_proj_left_cam_frame = line_projection.lineIntersection(line_cam_left)
+        #        ref_proj_right_cam_frame = line_projection.lineIntersection(line_cam_right)
+        #
+        #        for target in orderedTarget:
+        #
+        #            coord_cam_frame = self.coord_from_WorldFrame_to_CamFrame(target.xc,target.yc)
+        #            #line between target and camera
+        #            line_cam_target = Line(0,0,coord_cam_frame[0],coord_cam_frame[1])
+        #            line_cam_target_p = line_cam_target.linePerp(coord_cam_frame[0],coord_cam_frame[1])
+        #            #intersetion with the target
+        #            idc = line_cam_target_p.lineCircleIntersection(target.size,coord_cam_frame[0],coord_cam_frame[1])
+        #            #line that contains the target
+        #            line_cam_target_left = Line(0,0,idc[0],idc[1])
+        #            line_cam_target_right = Line(0,0,idc[2],idc[3])
+        #            #projection of the object on this line
+        #            proj_left_cam_frame = line_projection.lineIntersection(line_cam_target_left)
+        #            proj_pright_cam_frame = line_projection.lineIntersection(line_cam_target_right)
+        #
+        #            if(proj_left_cam_frame[1] <= proj_pright_cam_frame[1]):
+        #                print("ok")
 
         # 1) finding the line perpendicular to the median of the camera field to a given distance
         ########################################################################################
         # finding the median
         line_cam_median = Line(self.xc, self.yc, self.xc + math.cos(self.alpha), self.yc + math.sin(self.alpha))
         # finding the distance l_projection on the line => intersection beetween a line and a circle
-        idca = line_cam_median.lineCircleIntersection(l_projection, self.xc, self.yc)    
-        #two solutions
-        if math.cos(self.alpha) <= 0 or self.alpha == math.pi/2:
+        idca = line_cam_median.lineCircleIntersection(l_projection, self.xc, self.yc)
+        # two solutions
+        if math.cos(self.alpha) <= 0 or self.alpha == math.pi / 2:
             xa = idca[0]
-            ya = idca[1]    
+            ya = idca[1]
         else:
             xa = idca[2]
-            ya = idca[3]       
-        #finally finding the line
+            ya = idca[3]
+            # finally finding the line
         line_cam_median_p = line_cam_median.linePerp(xa, ya)
 
         # 2) projection of the limit
@@ -218,7 +217,7 @@ class Camera:
         line_cam_right = Line(self.xc, self.yc, self.xc + math.cos(self.alpha - self.beta / 2),
                               self.yc + math.sin(self.alpha - self.beta / 2))
         line_cam_left = Line(self.xc, self.yc, self.xc + math.cos(self.alpha + self.beta / 2),
-                              self.yc + math.sin(self.alpha + self.beta / 2))
+                             self.yc + math.sin(self.alpha + self.beta / 2))
         # projection of the limit of the field of vision on the camera
         ref_proj_left = line_cam_median_p.lineIntersection(line_cam_left)
         ref_proj_right = line_cam_median_p.lineIntersection(line_cam_right)
@@ -233,16 +232,16 @@ class Camera:
         for target in orderedTarget:
             hidden = 0
 
-            #line between target and camera     
-            line_cam_target = Line(self.xc,self.yc,target.xc,target.yc)   
-            #perpendicular
-            line_cam_target_p = line_cam_target.linePerp(target.xc,target.yc)
-            #intersetion with the target
-            idc = line_cam_target_p.lineCircleIntersection(target.size,target.xc,target.yc)
-            #line that contains the target
-            line_cam_target_1 = Line(self.xc,self.yc,idc[0],idc[1])
-            line_cam_target_2 = Line(self.xc,self.yc,idc[2],idc[3])
-            #projection of the object on this line
+            # line between target and camera
+            line_cam_target = Line(self.xc, self.yc, target.xc, target.yc)
+            # perpendicular
+            line_cam_target_p = line_cam_target.linePerp(target.xc, target.yc)
+            # intersetion with the target
+            idc = line_cam_target_p.lineCircleIntersection(target.size, target.xc, target.yc)
+            # line that contains the target
+            line_cam_target_1 = Line(self.xc, self.yc, idc[0], idc[1])
+            line_cam_target_2 = Line(self.xc, self.yc, idc[2], idc[3])
+            # projection of the object on this line
             proj_p1 = line_cam_median_p.lineIntersection(line_cam_target_1)
             proj_p2 = line_cam_median_p.lineIntersection(line_cam_target_2)
             # projection in cam frame
@@ -251,8 +250,6 @@ class Camera:
 
             # projection if the object is not hidden
             actual_projection_worldFrame = numpy.array([proj_p1[0], proj_p1[1], proj_p2[0], proj_p2[1]])
-
-            
 
             # computing the distance from the left side of the camera
             d0 = distanceBtwTwoPoint(ref_proj_left[0], ref_proj_left[1], proj_p1[0], proj_p1[1])
@@ -311,7 +308,7 @@ class Camera:
                 else:
                     # the object is not hidden
                     pass
-                
+
             # checking if the target is outside from the camera bound
             # print(target.id)
             # print(proj_p1_cam_frame[1])
@@ -342,6 +339,10 @@ class Camera:
 
         return numpy.array([proj_cam_view_limit, targeList])
 
+    def cam_rotate(self, step):
+        if self.fix == 0:
+            self.alpha = self.alpha + step
+
     #  This method will return bullshit predictions if object disappears and reappears elsewhere
     def updatePreviousPos(self):
         for target in self.targetDetectedList:
@@ -351,14 +352,11 @@ class Camera:
                     self.previousPositions[targetObj] = QueueFIFO()  # create new entry in dict
                 self.previousPositions[targetObj].enqueue([targetObj.xc, targetObj.yc])  # update dict
 
-    def cam_rotate(self, step):
-        if self.fix == 0:
-            self.alpha = self.alpha + step
-
     #  Predict the paths of all targets previously
     def predictPaths(self):
         #  for target in self.targetDetectedList:
         for targetObj in self.previousPositions:
+            print("predictPaths")
             #  targetObj = target[0]
             #  if targetObj in self.previousPositions:
             if targetObj not in self.predictedPositions:
@@ -369,24 +367,14 @@ class Camera:
     def nextPos(self, target):
 
         #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate
-        prevPositions = self.previousPositions[target].getQueue()
+        prevPos = self.previousPositions[target].getQueue()
+        for pos in prevPos:
+            print(pos)
         #  Calculate average velocity
-        avgSpeed = avgSpeedFunc(prevPositions)
+        avgSpeed = avgSpeedFunc(prevPos)
         #  Calculate average direction
-        avgDirection = avgDirectionFunc(prevPositions)
+        avgDirection = avgDirectionFunc(prevPos)
         #  Use avg velocity and direction to estimate next position
         # nextPositions = calcNextPos(prevPositions[-1], avgSpeed, avgDirection)
         nextPositions = calcNextPos([target.xc, target.yc], avgSpeed, avgDirection)
         return nextPositions
-
-    def analysePicture(self):
-        print('analysing picture')
-
-    def sendMessageToCam(self):
-        print('sending message')
-
-    def writeOnTheWhiteBoard(self):
-        print('writting on the white board')
-
-
-

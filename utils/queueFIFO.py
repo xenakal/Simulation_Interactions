@@ -18,10 +18,10 @@ class QueueFIFO:
     def enqueue(self, elem):
         self.empty = False
         self.queue[self.nextItemIndex] = elem
-        self.nextItemIndex = (self.nextItemIndex + 1) % (SIZE - 1)  # start filling from the beginning when queue full
+        self.nextItemIndex = (self.nextItemIndex + 1) % SIZE  # start filling from the beginning when queue full
         if self.nextItemIndex <= self.firstItemIndex:  # will happen when the queue is full
             self.full = True
-            self.firstItemIndex = (self.firstItemIndex + 1) % (SIZE - 1)  # from there on: first == next
+            self.firstItemIndex = (self.firstItemIndex + 1) % SIZE  # from there on: first == next
 
     # returns the values held in the queue in chronological order from oldest to newest
     def getQueue(self):
@@ -31,10 +31,10 @@ class QueueFIFO:
 
         index = self.firstItemIndex
         chronologicalOrder.append(self.queue[index])
-        index = (index + 1) % (SIZE - 1)
+        index = (index + 1) % SIZE
         while not index == self.nextItemIndex:
             chronologicalOrder.append(self.queue[index])
-            index = (index + 1) % (SIZE - 1)
+            index = (index + 1) % SIZE
 
         return chronologicalOrder
 

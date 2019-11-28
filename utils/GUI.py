@@ -33,7 +33,8 @@ class GUI:
     def __init__(self):
         pygame.init()
         # pygame.display.init()
-        self.screen = pygame.display.set_mode((1220, 960), pygame.RESIZABLE)
+        # self.screen = pygame.display.set_mode((1220, 960), pygame.RESIZABLE)
+        self.screen = pygame.display.set_mode((800, 500), pygame.RESIZABLE)
         pygame.display.set_caption("Camera simulation")
         self.font = pygame.font.SysFont("monospace", 15)
 
@@ -158,7 +159,7 @@ class GUI:
         for camera in myRoom.cameras:
             for target in myRoom.targets:
                 if target in camera.predictedPositions:
-                    print("ID of camera predicting target " + str(target.id) + ": " + str(camera.id))
+                    #  print("ID of camera predicting target " + str(target.id) + ": " + str(camera.id))
                     self.drawTargetPrediction(target, camera.predictedPositions[target], myRoom.coord, camera.id)
 
     def drawTargetPrediction(self, target, predictedPos, tab, camID):
@@ -171,7 +172,7 @@ class GUI:
             2] and tab[1] <= predictedTarget.yc + predictedTarget.size <= tab[1] + tab[3]):  # target inside room
             # render the target.xct
             predictionFont = pygame.font.Font(None, 12)
-            label = predictionFont.render("t: " + str(predictedTarget.id) + ", c: " + str(camID), 10, color)
+            label = predictionFont.render("t: " + str(predictedTarget.id) + ", c: " + str(camID), 12, color)
             self.screen.blit(label, (predictedTarget.xc + predictedTarget.size / 2 + 5, predictedTarget.yc + predictedTarget.size / 2 + 5))
             # render form
             pygame.draw.circle(self.screen, color, (predictedTarget.xc, predictedTarget.yc), predictedTarget.size)
