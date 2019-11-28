@@ -15,11 +15,12 @@ def limitToValueMax(valueMax, value):
 
 
 class Target:
-    def __init__(self, tar_id, tar_x, tar_y, tar_vx, tar_vy, tar_label, tar_size):
+    def __init__(self, tar_id, tar_x, tar_y, tar_vx, tar_vy,tar_traj,tar_label, tar_size):
         # Label
         self.shape = "round"
         self.id = tar_id
         self.label = tar_label
+        self.trajectory = tar_traj
         # color from the object
         r = random.randrange(20, 230, 1)
         g = random.randrange(20, 230, 1)
@@ -61,7 +62,8 @@ class Target:
     def __eq__(self, other):
         return self.id == other.id
 
-    def moveTarget(self, delta_time, myRoom, type_mvt):
+    def moveTarget(self, delta_time, myRoom):
+        type_mvt = self.trajectory
         # easy solution need to be investeagted
         if type_mvt == 'linear':
             self.xc = self.xc + self.vx * delta_time

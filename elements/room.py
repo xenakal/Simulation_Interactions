@@ -14,10 +14,10 @@ class Room:
         self.cameras = []
         self.camerasNumber = 0
 
-    def createTargets(self, tar_x, tar_y, tar_vx, tar_vy, tar_label, tar_size):
+    def createTargets(self, tar_x, tar_y, tar_vx, tar_vy,tar_traj, tar_label, tar_size):
         for _ in tar_x:
             self.targets.append(Target(self.targetNumber, tar_x[self.targetNumber], tar_y[self.targetNumber],
-                                       tar_vx[self.targetNumber], tar_vy[self.targetNumber],
+                                       tar_vx[self.targetNumber], tar_vy[self.targetNumber],tar_traj[self.targetNumber],
                                        tar_label[self.targetNumber]
                                        , tar_size[self.targetNumber]))
             self.targetNumber = self.targetNumber + 1
