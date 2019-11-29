@@ -65,6 +65,7 @@ class Camera:
         # Label
         self.id = cam_id
         self.status = 'agent'
+        self.isActive = 1
 
         # Location on the map
         self.xc = cam_x
@@ -82,6 +83,17 @@ class Camera:
         # not a list as indexes may change if relative positions change
         self.predictedPositions = dict()  # key="target" and value=queueFIFO([predicted_xc, predicted_yc])
 
+    def run(self,myRoom):
+            if self.isActive == 1:
+               self.takePicture(myRoom.targets)
+               self.predictPaths()
+    
+    def camDesactivate(self):
+        self.isActive = 0
+        
+    def camActivate(self):
+        self.isActive = 1 
+    
     def takePicture(self, targetList, l_projection=200, seuil=3):
         # In first approach to avoid to remove items, list is emptied at the start
         self.targetDetectedList = []  # list containing target objects

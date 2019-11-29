@@ -71,15 +71,16 @@ class GUI:
             self.screen.blit(label, (camera.xc + 5, camera.yc + 5))
             # render form
             pygame.draw.circle(self.screen, CAMERA, (camera.xc, camera.yc), 5)
-            pygame.draw.line(self.screen, BLACK, (camera.xc, camera.yc),
-                             (camera.xc + l * math.cos(camera.alpha),
-                              camera.yc + l * math.sin(camera.alpha)), 2)
-            pygame.draw.line(self.screen, CAMERA, (camera.xc, camera.yc),
-                             (camera.xc + l * math.cos(camera.alpha - (camera.beta / 2)),
-                              camera.yc + l * math.sin(camera.alpha - (camera.beta / 2))), 2)
-            pygame.draw.line(self.screen, CAMERA, (camera.xc, camera.yc),
-                             (camera.xc + l * math.cos(camera.alpha + (camera.beta / 2)),
-                              camera.yc + l * math.sin(camera.alpha + (camera.beta / 2))), 2)
+            if camera.isActive == 1:
+                pygame.draw.line(self.screen, BLACK, (camera.xc, camera.yc),
+                                 (camera.xc + l * math.cos(camera.alpha),
+                                  camera.yc + l * math.sin(camera.alpha)), 2)
+                pygame.draw.line(self.screen, CAMERA, (camera.xc, camera.yc),
+                                 (camera.xc + l * math.cos(camera.alpha - (camera.beta / 2)),
+                                  camera.yc + l * math.sin(camera.alpha - (camera.beta / 2))), 2)
+                pygame.draw.line(self.screen, CAMERA, (camera.xc, camera.yc),
+                                 (camera.xc + l * math.cos(camera.alpha + (camera.beta / 2)),
+                                  camera.yc + l * math.sin(camera.alpha + (camera.beta / 2))), 2)
 
     def screenDetectedTarget(self, myRoom):
 

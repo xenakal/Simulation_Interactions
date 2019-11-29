@@ -13,6 +13,7 @@ class App:
             self.y_tar = numpy.array([55])
             self.vx_tar = numpy.array([0])
             self.vy_tar = numpy.array([4])
+            self.traj_tar = numpy.array(["linear"])
             self.size_tar = numpy.array([5])
             self.label_tar = numpy.array(['target'])
             # Options for the cameras
@@ -27,6 +28,7 @@ class App:
             self.y_tar = numpy.array([55, 140, 280, 150])
             self.vx_tar = numpy.array([0, 4, 0, 0])
             self.vy_tar = numpy.array([0, 0, 0, 0])
+            self.traj_tar = numpy.array(['linear','linear','linear','linear'])
             self.size_tar = numpy.array([5, 5, 5, 5])
             self.label_tar = numpy.array(['fix', 'target', 'obstruction', 'fix'])
             # Options for the cameras
@@ -42,6 +44,7 @@ class App:
             self.y_tar = numpy.array([155, 260, 170, 250])
             self.vx_tar = numpy.array([0, 0, 5, 0])
             self.vy_tar = numpy.array([0, 0, 0, 0])
+            self.traj_tar = numpy.array(['linear','linear','linear','linear'])
             self.size_tar = numpy.array([35, 35, 5, 20])
             self.label_tar = numpy.array(['fix', "fix", "target", "fix"])
             # Options for the cameras
@@ -57,6 +60,8 @@ class App:
             self.y_tar = numpy.array([50, 50, 50, 50, 50, 100, 150, 200, 250, 250, 250, 250, 250, 200, 150, 100])
             self.vx_tar = numpy.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
             self.vy_tar = numpy.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+            self.traj_tar = numpy.array(['linear','linear','linear','linear','linear','linear','linear','linear','linear','linear','linear','linear'
+                                         ,'linear','linear','linear','linear'])
             self.size_tar = numpy.array([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10])
             self.label_tar = numpy.array(['fix', 'fix', 'fix', 'fix', 'fix', 'fix', 'fix', 'fix',
                                           'fix', 'fix', 'fix', 'fix', 'fix', 'fix', 'fix', 'fix'])
@@ -73,6 +78,8 @@ class App:
             self.y_tar = numpy.array([50, 50, 50, 50, 50, 100, 150, 200, 250, 250, 250, 250, 250, 200, 150, 100])
             self.vx_tar = numpy.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
             self.vy_tar = numpy.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+            self.traj_tar = numpy.array(['linear','linear','linear','linear','linear','linear','linear','linear','linear','linear','linear','linear'
+                                         ,'linear','linear','linear','linear'])
             self.size_tar = numpy.array([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10])
             self.label_tar = numpy.array(['fix', 'fix', 'fix', 'fix', 'fix', 'fix', 'fix', 'fix',
                                           'fix', 'fix', 'fix', 'fix', 'fix', 'fix', 'fix', 'fix'])
@@ -89,6 +96,7 @@ class App:
             self.y_tar = numpy.array([30, 40, 30, 60, 155, 20])
             self.vx_tar = numpy.array([0, 0, 0, 0, 0, 0])
             self.vy_tar = numpy.array([0, 0, 0, 0, 0, 5])
+            self.traj_tar = numpy.array(['linear','linear','linear','linear','linear','linear'])
             self.size_tar = numpy.array([5, 5, 5, 10, 20, 5])
             self.label_tar = numpy.array(['fix', 'fix', 'fix', 'fix', 'fix', 'target'])
             # Options for the cameras
@@ -104,6 +112,7 @@ class App:
             self.y_tar = numpy.array([155, 155, 155])
             self.vx_tar = numpy.array([0, 0, 0])
             self.vy_tar = numpy.array([0, 0, 0])
+            self.traj_tar = numpy.array(['linear','linear','linear'])
             self.size_tar = numpy.array([20, 5, 6])
             self.label_tar = numpy.array(['fix', 'target', 'target'])
             # Options for the cameras
@@ -115,7 +124,7 @@ class App:
 
         # Creating the room, the target and the camera
         self.myRoom = Room()
-        self.myRoom.createTargets(self.x_tar, self.y_tar, self.vx_tar, self.vy_tar, self.label_tar, self.size_tar)
+        self.myRoom.createTargets(self.x_tar, self.y_tar, self.vx_tar, self.vy_tar,self.traj_tar,self.label_tar, self.size_tar)
         self.myRoom.createCameras(self.x_cam, self.y_cam, self.angle_cam, self.angle_view_cam, self.fix_cam)
 
         # The program can also run completely with out the GUI interface
@@ -132,12 +141,11 @@ class App:
         while run:  # Events loop
             # camera is taking a picture
             for camera in self.myRoom.cameras:
-                camera.takePicture(self.myRoom.targets)
-                camera.predictPaths()
-
+                camera.run(self.myRoom)
+                
             # Object are moving in the room
             for target in self.myRoom.targets:
-                target.moveTarget(1, self.myRoom, 'linear')
+                target.moveTarget(1, self.myRoom)
 
             if self.useGUI == 1:
                 time.sleep(TIMESTEP)  # so that the GUI doesn't go to quick
