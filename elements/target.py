@@ -65,13 +65,16 @@ class Target:
     def moveTarget(self, delta_time, myRoom):
         type_mvt = self.trajectory
         # easy solution need to be investeagted
-        if type_mvt == 'linear':
+        if type_mvt == 'line':
+            self.xc = self.xc + math.ceil(self.vx * delta_time)
+            self.yc = self.yc + math.ceil(self.vy * delta_time)
+        elif type_mvt == 'linear':
             self.rectiligneTrajectory(delta_time, myRoom)
-        if type_mvt == 'circular':
+        elif type_mvt == 'circular':
             pass
-        if type_mvt == 'elliptic':
+        elif type_mvt == 'elliptic':
             pass
-        if type_mvt == 'path_planning':
+        elif type_mvt == 'path_planning':
             self.potentialField(delta_time, myRoom)
             
     def rectiligneTrajectory(self, delta_time, myRoom):
@@ -85,7 +88,7 @@ class Target:
             
             xgoal = self.xgoal[0]
             ygoal = self.ygoal[0]
-            
+                   
             if(self.xc - xgoal != 0):
                 v_x = -self.vx_max * (self.xc - xgoal)/math.fabs((self.xc - xgoal))
             else:
