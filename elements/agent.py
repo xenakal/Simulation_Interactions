@@ -3,6 +3,9 @@ import queue
 import mailbox
 import time
 
+TARGET0 = 25 
+TARGET1 = 26
+
 #pas utilisé autre solution
 class Pipeline(queue.Queue):
     def __init__(self):
@@ -31,6 +34,7 @@ class Agent:
         threading.Timer(1,self.thread_processImage)
         threading.Timer(1,self.thread_recLoop)
         
+        
         self.clear()
     
     def run(self):
@@ -41,34 +45,28 @@ class Agent:
         #self.thread_rL.join()
     
     def writeLog(self, message):
-        
         return 'agent '+str(self.id)+' '+message
 
     def thread_processImage(self):
         t = 0
-        while(t < 5):
-            #print("1 Agent"+str(self.id))
-            time.sleep(1)
+        while(True):
+            time.sleep(0.2)
             self.defineWhomToSend(t)
             t = t + 1
         
-        exit(0)
      
     def thread_recLoop(self):
         t = 0
-        while(t < 5):
-            #print("2 Agent"+str(self.id))
-            time.sleep(1)
+        while(True):
+            time.sleep(0.2)
             self.recMess()
             t = t + 1
-        
-        exit(0)
     
     def defineWhomToSend(self,m):
-        if(self.id == 8):
-                self.sendMess("Hello "+str(m),9)
-        elif(self.id == 9):
-                self.sendMess("Hello "+str(m),8)
+        if(self.id == TARGET1):
+                self.sendMess("Hello "+str(m),TARGET0)
+        elif(self.id == TARGET0 ):
+                self.sendMess("Hello "+str(m),TARGET1)
         
     def parseRecMess(self,m):
         print(m)
@@ -124,19 +122,25 @@ class Agent:
         return succes
     
     def clear(self):
+        #if(self.thread_pI.is_alive() == False and self.thread_pI.is_alive() == False):
         self.mbox.close()
   
         
 if __name__ == "__main__":
     
-    agent0 = Agent(8)
-    agent1 = Agent(9)
+    agent0 = Agent(TARGET0)
+    agent1 = Agent(TARGET1)
     agent0.run()
     agent1.run()
-
-    #agent0.clear()
-    #agent1.clear()
-    #exit(0)
+    
+    cdt1 = agent0.thread_pI.is_alive() #or agent0.thread_rL.is_alive()
+    cdt2 = agent1.thread_pI.is_alive() #or agent1.thread_rL.is_alive()
+    
+    t = 0
+    while(t < 10):
+        t = t+1
+        time.sleep(2)
+    exit(0)
     
     
 #    def thread_agent0():
