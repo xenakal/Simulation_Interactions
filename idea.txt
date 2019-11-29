@@ -1,0 +1,4 @@
+#agent repo for python
+pade
+spade
+osbrain

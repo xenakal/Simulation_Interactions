@@ -2,6 +2,7 @@ from elements.room import *
 from utils.GUI import *
 
 TIMESTEP = 1
+TIMEPAUSE = 0.1
 
 
 class App:
@@ -148,7 +149,7 @@ class App:
                 target.moveTarget(1, self.myRoom)
 
             if self.useGUI == 1:
-                time.sleep(TIMESTEP)  # so that the GUI doesn't go to quick
+                time.sleep(TIMEPAUSE)  # so that the GUI doesn't go to quick
                 self.updateGUI()
                 run = getGUI_Info()
 

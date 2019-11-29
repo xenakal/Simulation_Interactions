@@ -83,6 +83,7 @@ class Camera:
         self.predictedPositions = dict()  # key="target" and value=queueFIFO([predicted_xc, predicted_yc])
 
     def run(self,myRoom):
+        
             if self.isActive == 1:
                self.takePicture(myRoom.targets)
                self.predictPaths()
@@ -91,7 +92,8 @@ class Camera:
         self.isActive = 0
         
     def camActivate(self):
-        self.isActive = 1 
+        self.isActive = 1
+    
     
     def takePicture(self, targetList, l_projection=200, seuil=3):
         # In first approach to avoid to remove items, list is emptied at the start
