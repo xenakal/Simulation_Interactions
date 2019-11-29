@@ -87,7 +87,7 @@ class Camera:
         
             if self.isActive == 1:
                self.takePicture(myRoom.targets)
-               self.predictPaths()
+               #self.predictPaths()
     
     def camDesactivate(self):
         self.isActive = 0

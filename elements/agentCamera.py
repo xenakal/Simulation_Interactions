@@ -1,28 +1,30 @@
 import threading
 import mailbox
 import time
-from elements.target import *
-from elements.camera import *
 
 TARGET0 = 25 
 TARGET1 = 26
 
-class Agent:
-    def __init__(self, idAgent):
+class AgentCam:
+    def __init__(self, idAgent,camera,room):
         self.id = idAgent
+        self.cam = camera
+        self.myRoom = room
         self.mbox = mailbox.mbox('agent'+str(idAgent))
         self.mbox.clear()
     
-        self.thread_pI = threading.Thread(target=self.thread_processImage) #,daemon=True)
+        self.thread_pI = threading.Thread(target=self.thread_processImage,args=(self.myRoom,)) #,daemon=True)
         self.thread_rL = threading.Thread(target=self.thread_recLoop) #,daemon=True)
         
         threading.Timer(1,self.thread_processImage)
         threading.Timer(1,self.thread_recLoop)
         
         
-        self.clear()
+        self.run()
+        #self.clear()
     
     def run(self):
+        pass
         self.thread_pI.start()
         self.thread_rL.start()
          
@@ -32,27 +34,23 @@ class Agent:
     def writeLog(self, message):
         return 'agent '+str(self.id)+' '+message
 
-    def thread_processImage(self):
-        t = 0
+    def thread_processImage(self,myRoom):
         while(True):
-            time.sleep(0.2)
+            self.cam.run(myRoom)
+            self.defineWhomToSend("Hello ",myRoom)
+            time.sleep(0.2) 
             
-            self.defineWhomToSend(t)
-            t = t + 1
-        
-     
     def thread_recLoop(self):
-        t = 0
         while(True):
             time.sleep(0.2)
             self.recMess()
-            t = t + 1
+            
     
-    def defineWhomToSend(self,m):
-        if(self.id == TARGET1):
-                self.sendMess("Hello "+str(m),TARGET0)
-        elif(self.id == TARGET0 ):
-                self.sendMess("Hello "+str(m),TARGET1)
+    def defineWhomToSend(self,m,myRoom):
+        #pour le moemnt les camera s'envoie des hello 
+        for agent in myRoom.agentCam:
+            if(agent.id != self.id):
+                self.sendMess(m +str(agent.id),agent.id)
         
     def parseRecMess(self,m):
         print(m)
@@ -82,15 +80,17 @@ class Agent:
                 sender_ID = 0 #should be in the message
                 if(is_ACK_NACK == 1):
                     message = "Ack ..."
-                    #succes = self.sendMess(self, message, sender_ID)
+                    succes = self.sendMess(self, message, sender_ID)
                 elif(is_ACK_NACK == 2):
                     succes = message = "Nack ..."
-                    #self.sendMess(self, message, sender_ID)
+                    self.sendMess(self, message, sender_ID)
                                         
         except mailbox.ExternalClashError:
-            print("not possible to read the message")
+            pass
+            #print("not possible to read the message")
         except FileExistsError:
-            print("file does not exist ??")
+            pass
+            #print("file does not exist ??")
     
     def sendMess(self, m, receiverID):
         succes = -1
@@ -105,10 +105,12 @@ class Agent:
             finally:
                 mbox.unlock()
         except mailbox.ExternalClashError:
+            pass
             #message not sent
-            print("not possible to send the message")
+            #print("not possible to send the message")
         except FileExistsError:
-            print("file does not exist ??")
+            pass
+            #print("file does not exist ??")
         return succes
     
     def clear(self):
@@ -117,20 +119,8 @@ class Agent:
   
         
 if __name__ == "__main__":
-    
-    agent0 = Agent(TARGET0)
-    agent1 = Agent(TARGET1)
-    agent0.run()
-    agent1.run()
-    
-    cdt1 = agent0.thread_pI.is_alive() #or agent0.thread_rL.is_alive()
-    cdt2 = agent1.thread_pI.is_alive() #or agent1.thread_rL.is_alive()
-    
-    t = 0
-    while(t < 100):
-        t = t+1
-        time.sleep(2)
-    exit(0)
+    pass
+ 
     
     
     

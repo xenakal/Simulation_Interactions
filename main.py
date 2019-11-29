@@ -31,7 +31,7 @@ class App:
             self.vy_tar = numpy.array([0, 0, 0, 0])
             self.traj_tar = numpy.array(['linear','linear','linear','linear'])
             self.size_tar = numpy.array([5, 5, 5, 5])
-            self.label_tar = numpy.array(['fix', 'target', 'obstruction', 'fix'])
+            self.label_tar = numpy.array(['fix', 'fix', 'obstruction', 'fix'])
             # Options for the cameras
             self.x_cam = numpy.array([10, 310, 10, 310, ])
             self.y_cam = numpy.array([10, 10, 310, 310])
@@ -126,7 +126,8 @@ class App:
         # Creating the room, the target and the camera
         self.myRoom = Room()
         self.myRoom.createTargets(self.x_tar, self.y_tar, self.vx_tar, self.vy_tar,self.traj_tar,self.label_tar, self.size_tar)
-        self.myRoom.createCameras(self.x_cam, self.y_cam, self.angle_cam, self.angle_view_cam, self.fix_cam)
+        #self.myRoom.createCameras(self.x_cam, self.y_cam, self.angle_cam, self.angle_view_cam, self.fix_cam)
+        self.myRoom.createAgentCam(self.x_cam, self.y_cam, self.angle_cam, self.angle_view_cam, self.fix_cam,self.myRoom)
 
         # The program can also run completely with out the GUI interface
         self.useGUI = useGUI
@@ -142,8 +143,9 @@ class App:
         while run:  # Events loop
             # camera is taking a picture
             for camera in self.myRoom.cameras:
-                camera.run(self.myRoom)
-                
+                #camera.run(self.myRoom)
+                pass
+            
             # Object are moving in the room
             for target in self.myRoom.targets:
                 target.moveTarget(1, self.myRoom)
@@ -172,5 +174,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, -1)
+    myApp = App(1, 0)
     myApp.main()
