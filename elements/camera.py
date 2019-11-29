@@ -171,6 +171,8 @@ class Camera:
             a = np.sort(a, axis=0, order='distance')
         except TypeError:
             print("something went wrong with cam (unable to sort): " + str(self.id))
+        except SystemError:
+            pass
 
         # keeping just the target
         for element in a:
