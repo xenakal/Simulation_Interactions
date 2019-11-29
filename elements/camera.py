@@ -27,16 +27,17 @@ def avgDirectionFunc(positions):
         return 0
     prevPos = positions[0]
     avgDir = 0
+    counter = 0
     for curPos in positions[1:]:
         dy = curPos[1] - prevPos[1]
         dx = curPos[0] - prevPos[0]
         # print("dx = ", dx)
         # print("dy = ", dy)
         if dx == 0:  # going vertically
-            if dy > 0:
+            if dy < 0:
                 avgDir += math.pi  # going up
-            elif dy < 0:
-                avgDir += 3 / 2 * math.pi  # going down
+            elif dy > 0:
+                avgDir += 3/2 * math.pi  # going down
             else:
                 pass
         else:
@@ -45,9 +46,9 @@ def avgDirectionFunc(positions):
             stepDirection = math.atan(edgesRatio)
             avgDir += stepDirection
         prevPos = curPos
+        counter += 1
 
-    avgDir = avgDir / (len(positions) - 1)
-    # avgDir = 2*math.pi
+    avgDir = avgDir / counter
     print("avgDir " + str(avgDir))
     return avgDir
 
