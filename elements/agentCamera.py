@@ -2,8 +2,6 @@ import threading
 import mailbox
 import time
 
-TARGET0 = 25 
-TARGET1 = 26
 
 class AgentCam:
     def __init__(self, idAgent,camera,room):
@@ -19,7 +17,6 @@ class AgentCam:
         threading.Timer(1,self.thread_processImage)
         threading.Timer(1,self.thread_recLoop)
         
-        
         self.run()
         #self.clear()
     
@@ -30,9 +27,6 @@ class AgentCam:
          
         #self.thread_pI.join()
         #self.thread_rL.join()
-    
-    def writeLog(self, message):
-        return 'agent '+str(self.id)+' '+message
 
     def thread_processImage(self,myRoom):
         while(True):
@@ -55,7 +49,8 @@ class AgentCam:
     def parseRecMess(self,m):
         print(m)
         return 0
-        
+    
+    #la fonction renvoie -1 quand les messages n'ont pas été lu
     def recMess(self):
         succes = -1
         #Reading the message 
@@ -92,6 +87,7 @@ class AgentCam:
             pass
             #print("file does not exist ??")
     
+    #la fonction renvoie -1 quand le message n'a pas été envoyé mais ne s'occupe pas de le réenvoyer ! 
     def sendMess(self, m, receiverID):
         succes = -1
         try: 
@@ -113,6 +109,10 @@ class AgentCam:
             #print("file does not exist ??")
         return succes
     
+    def writeLog(self, message):
+        return 'agent '+str(self.id)+' '+message
+    
+    #J'ai pas encore trouvé comment faire ça de manière propre
     def clear(self):
         #if(self.thread_pI.is_alive() == False and self.thread_pI.is_alive() == False):
         self.mbox.close()
