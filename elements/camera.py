@@ -87,7 +87,7 @@ class Camera:
         
             if self.isActive == 1:
                self.takePicture(myRoom.targets)
-               #self.predictPaths()
+               self.predictPaths()
     
     def camDesactivate(self):
         self.isActive = 0
@@ -97,25 +97,26 @@ class Camera:
     
     
     def takePicture(self, targetList, l_projection=200, seuil=3):
-        # In first approach to avoid to remove items, list is emptied at the start
-        self.targetDetectedList = []  # list containing target objects
-        self.limitProjection = []
-        # 1)  Finding all the objects that are in the triangle
-        targetInTriangle = self.objectsInField(targetList)
+        if self.isActive == 1:
+            # In first approach to avoid to remove items, list is emptied at the start
+            self.targetDetectedList = []  # list containing target objects
+            self.limitProjection = []
+            # 1)  Finding all the objects that are in the triangle
+            targetInTriangle = self.objectsInField(targetList)
 
-        # 2) Sort target from the closer to more far away
-        orderedTarget = self.sortDetectedTarget(targetInTriangle)
+            # 2) Sort target from the closer to more far away
+            orderedTarget = self.sortDetectedTarget(targetInTriangle)
 
-        # 3) Compute the projection and suppress hidden target
-        tab = self.computeProjection(orderedTarget, l_projection, seuil)
-        self.limitProjection = tab[0]
-        self.targetDetectedList = tab[1]  # [target objects, position, hidden]
+            # 3) Compute the projection and suppress hidden target
+            tab = self.computeProjection(orderedTarget, l_projection, seuil)
+            self.limitProjection = tab[0]
+            self.targetDetectedList = tab[1]  # [target objects, position, hidden]
 
-        # 4)remember the previous positions of the different targets
-        self.updatePreviousPos()
+            # 4)remember the previous positions of the different targets
+            self.updatePreviousPos()
 
-        # 5) if the camera is not fix it can rotate
-        self.cam_rotate(math.radians(1))
+            # 5) if the camera is not fix it can rotate
+            self.cam_rotate(math.radians(1))
 
     def coord_from_WorldFrame_to_CamFrame(self, x, y):
         xi = x - self.xc
