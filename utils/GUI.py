@@ -137,7 +137,6 @@ class GUI:
                 detected.reverse()
             except AttributeError:
                 print("Unable to resverse, cam : " + str(camera.id))
-            
 
             for target in detected:
                 projection = target[1]
@@ -160,7 +159,6 @@ class GUI:
         for camera in myRoom.cameras:
             for target in myRoom.targets:
                 if target in camera.predictedPositions:
-                    #  print("ID of camera predicting target " + str(target.id) + ": " + str(camera.id))
                     self.drawTargetPrediction(target, camera.predictedPositions[target], myRoom.coord, camera.id)
 
     def drawTargetPrediction(self, target, predictedPos, tab, camID):
@@ -173,8 +171,9 @@ class GUI:
             2] and tab[1] <= predictedTarget.yc + predictedTarget.size <= tab[1] + tab[3]):  # target inside room
             # render the target.xct
             predictionFont = pygame.font.Font(None, 12)
-            label = predictionFont.render("t: " + str(predictedTarget.id) + ", c: " + str(camID), 12, color)
-            self.screen.blit(label, (predictedTarget.xc + predictedTarget.size / 2 + 5, predictedTarget.yc + predictedTarget.size / 2 + 5))
+            label = predictionFont.render("t: " + str(predictedTarget.id), 12, color)
+            self.screen.blit(label, (
+                predictedTarget.xc + predictedTarget.size / 2 + 5, predictedTarget.yc + predictedTarget.size / 2 + 5))
             # render form
             pygame.draw.circle(self.screen, color, (predictedTarget.xc, predictedTarget.yc), predictedTarget.size)
             if predictedTarget.size >= 5:

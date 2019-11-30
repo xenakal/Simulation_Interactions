@@ -2,6 +2,7 @@ from elements.room import *
 from utils.GUI import *
 
 TIMESTEP = 1
+TIMEPAUSE = 1
 
 
 class App:
@@ -19,10 +20,11 @@ class App:
             # Options for the cameras
             self.x_cam = numpy.array([10])
             self.y_cam = numpy.array([10])
-            self.angle_cam = numpy.array([45])
+            self.angle_cam = numpy.array([75])
             self.angle_view_cam = numpy.array([60])
             self.fix_cam = [1]
-        if scenario == 0:
+
+        elif scenario == 0:
             # Options for the target
             self.x_tar = numpy.array([55, 200, 40, 150])
             self.y_tar = numpy.array([55, 140, 280, 150])
@@ -30,7 +32,7 @@ class App:
             self.vy_tar = numpy.array([0, 0, 0, 0])
             self.traj_tar = numpy.array(['linear', 'linear', 'linear', 'linear'])
             self.size_tar = numpy.array([5, 5, 5, 5])
-            self.label_tar = numpy.array(['fix', 'target', 'obstruction', 'fix'])
+            self.label_tar = numpy.array(['fix', 'fix', 'obstruction', 'fix'])
             # Options for the cameras
             self.x_cam = numpy.array([10, 310, 10, 310, ])
             self.y_cam = numpy.array([10, 10, 310, 310])
@@ -126,11 +128,16 @@ class App:
             self.angle_view_cam = numpy.array([60, 60])
             self.fix_cam = [1, 1, 1]
 
+        else:
+            print("this scenario number doesn't exist, sorry...")
+            return
+
         # Creating the room, the target and the camera
         self.myRoom = Room()
         self.myRoom.createTargets(self.x_tar, self.y_tar, self.vx_tar, self.vy_tar, self.traj_tar, self.label_tar,
                                   self.size_tar)
         self.myRoom.createCameras(self.x_cam, self.y_cam, self.angle_cam, self.angle_view_cam, self.fix_cam)
+        #  self.myRoom.createAgentCam(self.x_cam, self.y_cam, self.angle_cam, self.angle_view_cam, self.fix_cam,self.myRoom)
 
         # The program can also run completely with out the GUI interface
         self.useGUI = useGUI
@@ -147,13 +154,14 @@ class App:
             # camera is taking a picture
             for camera in self.myRoom.cameras:
                 camera.run(self.myRoom)
+                #pass
 
             # Object are moving in the room
             for target in self.myRoom.targets:
                 target.moveTarget(1, self.myRoom)
 
             if self.useGUI == 1:
-                time.sleep(TIMESTEP)  # so that the GUI doesn't go to quick
+                time.sleep(TIMEPAUSE)  # so that the GUI doesn't go to quick
                 self.updateGUI()
                 run = getGUI_Info()
 
@@ -176,5 +184,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, 4)
+    myApp = App(1, 1)
     myApp.main()

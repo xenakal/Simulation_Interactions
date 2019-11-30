@@ -65,17 +65,46 @@ class Target:
     def moveTarget(self, delta_time, myRoom):
         type_mvt = self.trajectory
         # easy solution need to be investeagted
-        if type_mvt == 'linear':
-            self.xc = self.xc + self.vx * delta_time
-            self.yc = self.yc + self.vy * delta_time
-        if type_mvt == 'circular':
+        if type_mvt == 'line':
+            self.xc = self.xc + math.ceil(self.vx * delta_time)
+            self.yc = self.yc + math.ceil(self.vy * delta_time)
+        elif type_mvt == 'linear':
+            self.rectiligneTrajectory(delta_time, myRoom)
+        elif type_mvt == 'circular':
             pass
-        if type_mvt == 'elliptic':
+        elif type_mvt == 'elliptic':
             pass
-        if type_mvt == 'path_planning':
-            self.pathPlanning(delta_time, myRoom)
+        elif type_mvt == 'path_planning':
+            self.potentialField(delta_time, myRoom)
+            
+    def rectiligneTrajectory(self, delta_time, myRoom):
+        
+        if self.label != 'fix':
+            
+            if math.fabs(self.xc - self.xgoal[0]) <= 10 and math.fabs(self.yc - self.ygoal[0]) <= 10 and len(
+                    self.xgoal) > 1:
+                del self.xgoal[0]
+                del self.ygoal[0]
+            
+            xgoal = self.xgoal[0]
+            ygoal = self.ygoal[0]
+                   
+            if(self.xc - xgoal != 0):
+                v_x = -self.vx_max * (self.xc - xgoal)/math.fabs((self.xc - xgoal))
+            else:
+                v_x = 0
+                
+            if(self.yc - ygoal != 0):
+                v_y = -self.vy_max* (self.yc - ygoal)/math.fabs((self.yc - ygoal))
+            else:
+                v_y = 0
+            
+        
+            self.xc = self.xc + math.ceil(v_x * delta_time)
+            self.yc = self.yc + math.ceil(v_y * delta_time)
+            
 
-    def pathPlanning(self, delta_time, myRoom):
+    def potentialField(self, delta_time, myRoom):
 
         if self.label != 'fix':
             if math.fabs(self.xc - self.xgoal[0]) <= 20 and math.fabs(self.yc - self.ygoal[0]) <= 20 and len(

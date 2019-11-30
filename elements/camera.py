@@ -38,16 +38,14 @@ def avgDirectionFunc(positions):
         counter += 1
 
     avgDir = avgDir / counter
-    print("avgDir " + str(avgDir))
+    #  print("avgDir " + str(avgDir))
     return avgDir
 
 
 def calcNextPos(position, speed, direction):
-    travelDistance = main.TIMESTEP * 4 * speed
+    travelDistance = main.TIMESTEP * 2 * speed
     xPrediction = position[0] + math.cos(direction) * travelDistance
     yPrediction = position[1] + math.sin(direction) * travelDistance  # -: the coordinates are oposite to the cartesian
-    print("curPos: " + str(position[1]))
-    print("estimPos: " + str(yPrediction))
     return [int(xPrediction), int(yPrediction)]
 
 
@@ -75,16 +73,16 @@ class Camera:
         self.predictedPositions = dict()  # key="target" and value=queueFIFO([predicted_xc, predicted_yc])
 
     def run(self, myRoom):
-            if self.isActive == 1:
-               self.takePicture(myRoom.targets)
-               self.predictPaths()
-    
+        if self.isActive == 1:
+            self.takePicture(myRoom.targets)
+            self.predictPaths()
+
     def camDesactivate(self):
         self.isActive = 0
-        
+
     def camActivate(self):
-        self.isActive = 1 
-    
+        self.isActive = 1
+
     def takePicture(self, targetList, l_projection=200, seuil=3):
         # In first approach to avoid to remove items, list is emptied at the start
         self.targetDetectedList = []  # list containing target objects
@@ -160,6 +158,8 @@ class Camera:
             a = np.sort(a, axis=0, order='distance')
         except TypeError:
             print("something went wrong with cam (unable to sort): " + str(self.id))
+        except SystemError:
+            pass
 
         # keeping just the target
         for element in a:
@@ -360,7 +360,6 @@ class Camera:
     def predictPaths(self):
         #  for target in self.targetDetectedList:
         for targetObj in self.previousPositions:
-            print("predictPaths")
             #  targetObj = target[0]
             #  if targetObj in self.previousPositions:
             if targetObj not in self.predictedPositions:
@@ -372,8 +371,8 @@ class Camera:
 
         #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate
         prevPos = self.previousPositions[target].getQueue()
-        for pos in prevPos:
-            print(pos)
+        #for pos in prevPos:
+        #    print(pos)
         #  Calculate average velocity
         avgSpeed = avgSpeedFunc(prevPos)
         #  Calculate average direction
