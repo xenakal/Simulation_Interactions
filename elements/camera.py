@@ -31,32 +31,21 @@ def avgDirectionFunc(positions):
     for curPos in positions[1:]:
         dy = curPos[1] - prevPos[1]
         dx = curPos[0] - prevPos[0]
-        # print("dx = ", dx)
-        # print("dy = ", dy)
-        if dx == 0:  # going vertically
-            if dy < 0:
-                avgDir += math.pi  # going up
-            elif dy > 0:
-                avgDir += 3/2 * math.pi  # going down
-            else:
-                pass
-        else:
-            edgesRatio = dy / dx
-            # print(edgesRatio)
-            stepDirection = math.atan(edgesRatio)
-            avgDir += stepDirection
+        stepDirection = math.atan2(float(dy), float(dx))
+        avgDir += stepDirection
+
         prevPos = curPos
         counter += 1
 
     avgDir = avgDir / counter
-    print("avgDir " + str(avgDir))
+    #  print("avgDir " + str(avgDir))
     return avgDir
 
 
 def calcNextPos(position, speed, direction):
-    travelDistance = main.TIMESTEP * 4 * speed
+    travelDistance = main.TIMESTEP * 2 * speed
     xPrediction = position[0] + math.cos(direction) * travelDistance
-    yPrediction = position[1] + math.sin(direction) * travelDistance
+    yPrediction = position[1] + math.sin(direction) * travelDistance  # -: the coordinates are oposite to the cartesian
     return [int(xPrediction), int(yPrediction)]
 
 
@@ -83,19 +72,18 @@ class Camera:
         # not a list as indexes may change if relative positions change
         self.predictedPositions = dict()  # key="target" and value=queueFIFO([predicted_xc, predicted_yc])
 
-    def run(self,myRoom):
-        
-            if self.isActive == 1:
-               self.takePicture(myRoom.targets)
-               self.predictPaths()
-    
+
+    def run(self, myRoom):
+        if self.isActive == 1:
+            self.takePicture(myRoom.targets)
+            self.predictPaths()
+
     def camDesactivate(self):
         self.isActive = 0
-        
+
     def camActivate(self):
         self.isActive = 1
-    
-    
+
     def takePicture(self, targetList, l_projection=200, seuil=3):
         if self.isActive == 1:
             # In first approach to avoid to remove items, list is emptied at the start
@@ -374,7 +362,6 @@ class Camera:
     def predictPaths(self):
         #  for target in self.targetDetectedList:
         for targetObj in self.previousPositions:
-            print("predictPaths")
             #  targetObj = target[0]
             #  if targetObj in self.previousPositions:
             if targetObj not in self.predictedPositions:
@@ -386,8 +373,8 @@ class Camera:
 
         #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate
         prevPos = self.previousPositions[target].getQueue()
-        for pos in prevPos:
-            print(pos)
+        #for pos in prevPos:
+        #    print(pos)
         #  Calculate average velocity
         avgSpeed = avgSpeedFunc(prevPos)
         #  Calculate average direction
