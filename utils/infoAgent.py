@@ -70,6 +70,15 @@ class InformationTable:
         for info in info_index:
             if(info.target.id == target.id):
                 return info_index.followedByCam
+            
+    def isTargetDetected(self,targetID):
+        info_index = self.info_room[len(self.info_room)-1]
+        
+        for info in info_index:
+            if(info.target.id == targetID):
+                return True
+            
+        return False
     
     def wasTargetAlreadyDeteced(self,target):
         size = len(self.info_room) 

@@ -1,8 +1,22 @@
-2019-12-01 20:14:28,629 - agent1 - INFO - Agent initialized and  starts
-2019-12-01 20:14:36,394 - agent1 - WARNING - Mailbox file error
-2019-12-01 20:14:36,395 - agent1 - WARNING - Mailbox file error
-2019-12-01 20:14:36,416 - agent1 - INFO - RECEIVED : time :
-50- from agent :0 - to agent :1 - request - target1
+2019-12-01 21:58:20,219 - agent1 - INFO - Agent initialized and  starts
+2019-12-01 21:58:20,357 - agent1 - INFO - SEND     : time :0- from agent :1 - to agent :0 - request - 1
+2019-12-01 21:58:20,585 - agent1 - INFO - SEND     : time :0- from agent :1 - to agent :0 - request - 1
+2019-12-01 21:58:21,039 - agent1 - WARNING - Mailbox file error
+2019-12-01 21:58:21,451 - agent1 - WARNING - Mailbox file error
+2019-12-01 21:58:21,660 - agent1 - INFO - SEND     : time :0- from agent :1 - to agent :0 - request - 1
+2019-12-01 21:58:21,686 - agent1 - WARNING - Mailbox file error
+2019-12-01 21:58:21,702 - agent1 - INFO - RECEIVED : time :
+0- from agent :0 - to agent :1 - ack - 1
 
-2019-12-01 20:14:36,419 - agent1 - INFO - time :50- from agent :1 - to agent :0 - nack - target1
+2019-12-01 21:58:21,881 - agent1 - INFO - SEND     : time :0- from agent :1 - to agent :0 - request - 1
+2019-12-01 21:58:22,097 - agent1 - WARNING - Mailbox file error
+2019-12-01 21:58:22,303 - agent1 - WARNING - Mailbox file error
+2019-12-01 21:58:24,290 - agent1 - WARNING - Mailbox file error
+2019-12-01 21:58:24,314 - agent1 - INFO - RECEIVED : time :
+17- from agent :0 - to agent :1 - request - 1
+
+2019-12-01 21:58:28,012 - agent1 - INFO - RECEIVED : time :
+50- from agent :0 - to agent :1 - request - 1
+
+2019-12-01 21:58:28,015 - agent1 - INFO - SEND     : time :50- from agent :1 - to agent :0 - nack - 1
 

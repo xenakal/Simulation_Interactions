@@ -3,7 +3,6 @@ import mailbox
 import time
 import logging
 import numpy as np
-import re
 from elements.target import*
 from utils.infoAgent import*
 
@@ -99,7 +98,7 @@ class AgentCam:
                 #if the room dispositon has evolve we create a new table
                 if(my_previousTime != my_time):
                     my_previousTime = my_time
-                    self.updateTable(my_time,"newPicture",picture)
+                    self.updateTable("newPicture",picture)
                     s = self.table.printFieldRoom()
                     self.log_room.info(s)
                     
@@ -124,18 +123,30 @@ class AgentCam:
             self.recMess()
             #self.tableau.modifyInfo(self,target,camera,t):
             #self.updateTable(picture,prediction)
-            
-    def updateTable(self,time,type_update,picture):    
+           
+    #ATTENTION avec cette fonction parce qu'elle est appelée par plusieurs thread => peut poser des problèmes dans les tableaux de sauvegarde  
+    def updateTable(self,type_update,objet):    
         #create a new colums in the table to save the information of the picture  
         if(type_update == "newPicture"):
+            picture = objet
             targets = []
             for elem in picture:
                 targets.append(elem[0])
-            self.table.updateInfoRoom(time,targets,self.cam,-1)
+            self.table.updateInfoRoom(self.myRoom.time,targets,self.cam,-1)
             
         #modify the information of the message     
-        elif(type_update == "newPicture"):
-            pass
+        elif(type_update == "infoFromOtherCam"):
+            
+            index = 0 #à changer
+            m = objet.split("-")
+            
+            #COMMENT LA CAMERA PEUT SAVOIR COMBIEN DE ACK ou NACK elle doit recevoir  ?????
+            if m[0] == "ack":
+                pass
+                #self.table.updateInfoRoomField(self,index,m[6],1,m[3],distance)
+            if m[0] == "nack":
+                pass
+                #self.table.updateInfoRoomField(self,index,m[6],-1,m[3],distance)
         else:
             pass
 
@@ -149,7 +160,7 @@ class AgentCam:
             if actual_target.label == "target":
                 #critère à modifier sur le fait qu'un message à déjà été envoyé
                 isDetected = self.table.wasTargetAlreadyDeteced(actual_target)
-                if(not isDetected):
+                if(not isDetected or self.myRoom.time <= 1):
                     self.sendMessageType("request",0,actual_target,"")
                     
             elif actual_target.label == "obstruction":
@@ -175,13 +186,45 @@ class AgentCam:
                 #YES ---> tell the camera to follow it
                     
                 #NO  ----> sending a message to the user to inform that the target is no more followed
-    
+                             
+    def parse_respondRecMess(self,m):
+        att = m.split("-")
+        #reconstruction de l'objet message
+        rec_mes = Message(att[0],att[1],att[2],att[3],att[4])
+        self.log_message.info('RECEIVED : '+ rec_mes.printMessage())
+        
+        if(rec_mes.messageType == "request"):
+            #if faut parser le messat (att[4]) pour récupérer l'id + distance
+                
+            if self.table.isTargetDetected(int(rec_mes.message)):
+                #If the target is seen => distances # AJouté la condition
+                #if(distance < distance 2)
+                    typeMessage="ack"
+                #else:
+                    typeMessage="nack"   
+            else:
+            #If the target is not seen then ACK
+                typeMessage ="ack"
+            
+            self.sendMessageType(typeMessage,rec_mes.receiverID,0,rec_mes)
+            
+            #Update the table
+            if(rec_mes.messageType == "request"):
+                message = typeMessage +'-'+m
+                self.updateTable("infoFromOtherCam",message)
+            
+        elif(rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
+            #ici il faut stocker les info dans le tableau
+            pass
+       
+       
+    #Ici il faut faire enc sorte d'etre sur que le message à été envoyé parce qu'il se peut qu'il ne soit pas du tout envoyé 
     def sendMessageType(self, typeMessage, reiceiverID , target , m):
         if(typeMessage == "request"):
             for agent in self.myRoom.agentCam:
                         if(agent.id != self.id):
-                            m = Message(self.myRoom.time,self.id,agent.id,typeMessage,"target"+str(target.id))
-                            succes = self.sendMess(m)
+                            m = Message(self.myRoom.time,self.id,agent.id,typeMessage,str(target.id)) #ici il faut aussi transmettre la distance
+                            self.sendMess(m)
                             
         elif(typeMessage == "ack"):
             m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.message)
@@ -199,20 +242,7 @@ class AgentCam:
             m = Message(self.myRoom.time,self.id,agent.id,typeMessage,message)
             self.sendMess(m)
                             
-    def parse_respondRecMess(self,m):
-        att = m.split("-")
-        #reconstruction de l'objet message
-        rec_mes = Message(att[0],att[1],att[2],att[3],att[4])
-        self.log_message.info('RECEIVED : '+ rec_mes.printMessage())
-        
-        if(rec_mes.messageType == "request" or rec_mes.messageType == "heartbeat"):
-            #typeMessage = ACK_NACK() ?
-            typeMessage ='nack'
-            self.sendMessageType(typeMessage,rec_mes.receiverID,0,rec_mes)
-            
-        elif(rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
-            #ici il faut stocker les info dans le tableau
-            pass
+    
     
     def recMess(self):
         succes = -1
@@ -252,7 +282,7 @@ class AgentCam:
             mbox.lock()
             try:
                 mbox.add(m.simpleFormatMessage()) #apparament on ne peut pas transférer d'objet
-                self.log_message.info(m.printMessage())
+                self.log_message.info('SEND     : '+m.printMessage())
                 mbox.flush()
                 succes = 0
                 #print("message sent successfully")   
