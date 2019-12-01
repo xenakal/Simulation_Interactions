@@ -1,5 +1,8 @@
+import shutil
+import os
 from elements.room import *
 from utils.GUI import *
+
 
 TIMESTEP = 1
 TIMEPAUSE = 1
@@ -185,6 +188,10 @@ class App:
     
         for agent in self.myRoom.agentCam:
             agent.clear()
+        
+        shutil.rmtree("mailbox",ignore_errors = True)
+        os.mkdir("mailbox")
+        
 
     def updateGUI(self):
         self.myGUI.drawRoom(self.myRoom.coord)

@@ -4,6 +4,7 @@ import time
 import numpy as np
 from elements.target import*
 
+NAME_MAILBOX = "mailbox/MailBox_Agent"
 
 class InformationTable:
     def __init__(self, cameras, targets, nTime = 1):
@@ -47,7 +48,7 @@ class AgentCam:
         self.tableau = InformationTable(self.myRoom.cameras,self.myRoom.targets,10)
         
         #Communication
-        self.mbox = mailbox.mbox('agent'+str(idAgent))
+        self.mbox = mailbox.mbox(NAME_MAILBOX+str(idAgent))
         self.mbox.clear()
         
         #Threads
@@ -129,7 +130,7 @@ class AgentCam:
     def recMess(self):
         succes = -1
         #Reading the message 
-        mbox_rec = mailbox.mbox('agent'+str(self.id))
+        mbox_rec = mailbox.mbox(NAME_MAILBOX+str(self.id))
         try:
             mbox_rec.lock()
             keys = mbox_rec.keys()
@@ -167,7 +168,7 @@ class AgentCam:
     def sendMess(self, m, receiverID):
         succes = -1
         try: 
-            mbox = mailbox.mbox('agent'+str(receiverID))
+            mbox = mailbox.mbox(NAME_MAILBOX+str(receiverID))
             mbox.lock()
             try:
                 key = mbox.add("Agent"+str(self.id)+":"+m)
