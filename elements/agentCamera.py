@@ -1,10 +1,12 @@
 import threading
 import mailbox
 import time
+import logging
 import numpy as np
 from elements.target import*
 
 NAME_MAILBOX = "mailbox/MailBox_Agent"
+NAME_LOG_PATH = "log/log_agent/Agent" 
 
 class InformationTable:
     def __init__(self, cameras, targets, nTime = 1):
@@ -58,7 +60,27 @@ class AgentCam:
         threading.Timer(1,self.thread_processImage)
         threading.Timer(1,self.thread_recLoop)
         
+        #log
+        # create logger with 'spam_application'
+        logger = logging.getLogger('agent'+str(self.id))
+        logger.setLevel(logging.DEBUG)
+        # create file handler which logs even debug messages
+        fh = logging.FileHandler(NAME_LOG_PATH+str(self.id),"w+")
+        fh.setLevel(logging.DEBUG)
+        # create console handler with a higher log level
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.ERROR)
+        # create formatter and add it to the handlers
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        fh.setFormatter(formatter)
+        ch.setFormatter(formatter)
+        # add the handlers to the logger
+        logger.addHandler(fh)
+        logger.addHandler(ch)
         
+        logger.info('Program start')
+        
+        #Startrun()
         self.run()
     
     def run(self):
@@ -120,7 +142,7 @@ class AgentCam:
             #1) check if a camera has also a view
                 #YES ---> tell the camera to follow it
                     
-                #NO  ----> sending a message to the user to inform that the target is no more followed7
+                #NO  ----> sending a message to the user to inform that the target is no more followed
     
     def parseRecMess(self,m):
         print(m)
@@ -177,6 +199,15 @@ class AgentCam:
                 #print("message sent successfully")   
             finally:
                 mbox.unlock()
+                
+        ##############################
+                
+            #1) on choppe la ref de l'agent à qui on envoie
+            #refAgent = getRef()
+            #refAgent.recMess()
+                
+        ##############################
+            
         except mailbox.ExternalClashError:
             pass
             #message not sent
