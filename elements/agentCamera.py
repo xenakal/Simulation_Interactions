@@ -1,21 +1,60 @@
 import threading
 import mailbox
 import time
+import numpy as np
+from elements.target import*
 
 
+class InformationTable:
+    def __init__(self, cameras, targets, nTime = 1):
+        self.times = range(0,nTime)
+        self.cameras = cameras
+        self.targets = targets
+    
+        self.info = self.initInfo()
+        
+       
+    def initInfo(self):
+        #target is the target we are looking
+        #seenByCam tells if that target is currently seen (0 = No 1 = YES)
+        #camIncharge tells which cam is in charge of tracking that object (-1 is the init value)
+        #distance is the distance between the target and the cam (-1 is the init value)
+        #time is the instance from which the information is from
+        infoType = [('target', Target),('seenByCam',int),('camInCharge',int),('distance', int),('time',int)]
+        info = []
+        for time in self.times:
+            for camera in self.cameras:
+                for targets in self.targets:
+                    info.append((Target(),0,-1,-1,-1))
+        
+        return np.array(info, dtype=infoType)
+    
+    #should delete the last time and add a new colone for the new time
+    def updateInfo(self,target,t):
+        pass
+    
+    def modifyInfo(self,target,camera,t):
+         pass
+    
+        
 class AgentCam:
     def __init__(self, idAgent,camera,room):
+        #Attributes
         self.id = idAgent
         self.cam = camera
         self.myRoom = room
+        self.tableau = InformationTable(self.myRoom.cameras,self.myRoom.targets,10)
+        
+        #Communication
         self.mbox = mailbox.mbox('agent'+str(idAgent))
         self.mbox.clear()
-    
+        
+        #Threads
         self.thread_pI = threading.Thread(target=self.thread_processImage,args=(self.myRoom,)) #,daemon=True)
         self.thread_rL = threading.Thread(target=self.thread_recLoop) #,daemon=True)
-        
         threading.Timer(1,self.thread_processImage)
         threading.Timer(1,self.thread_recLoop)
+        
         
         self.run()
         #self.clear()
@@ -29,19 +68,38 @@ class AgentCam:
         #self.thread_rL.join()
 
     def thread_processImage(self,myRoom):
+        state = "takePicture"
+        nextstate = state
         while(True):
-            self.cam.run(myRoom)
-            self.defineWhomToSend("Hello ",myRoom)
-            time.sleep(0.2) 
+            
+            state = nextstate
+            
+            if state == "takePicture":
+                picture = self.cam.takePicture(myRoom.targets)
+                #self.tableau.updateInfo(self,target,myRoom.t)
+                nextstate = "makePrediction"
+                
+            elif state == "makePrediction":
+                prediction = self.cam.predictPaths()
+                #d'autre prédiction peuvent être réalisées à cette étape
+                nextstate = "sendMessage"
+                
+            elif state == "sendMessage":
+                #Base on the prediction we can decide what we would send
+                self.defineWhomToSend("Hello ",myRoom)
+                nextstate = "takePicture"
+                time.sleep(0.2)
+            else:
+                print("FSM not working proerly")
+            
             
     def thread_recLoop(self):
         while(True):
-            time.sleep(0.2)
             self.recMess()
-            
-    
+            #self.tableau.modifyInfo(self,target,camera,t):
+                
     def defineWhomToSend(self,m,myRoom):
-        #pour le moemnt les camera s'envoie des hello 
+        #Different tags can be use
         for agent in myRoom.agentCam:
             if(agent.id != self.id):
                 self.sendMess(m +str(agent.id),agent.id)
@@ -73,10 +131,10 @@ class AgentCam:
                 
                 #Sending a ACK or NACK
                 sender_ID = 0 #should be in the message
-                if(is_ACK_NACK == 1):
+                if(is_ACK_NACK == "ACK"):
                     message = "Ack ..."
                     succes = self.sendMess(self, message, sender_ID)
-                elif(is_ACK_NACK == 2):
+                elif(is_ACK_NACK == "NACK"):
                     succes = message = "Nack ..."
                     self.sendMess(self, message, sender_ID)
                                         
@@ -86,6 +144,7 @@ class AgentCam:
         except FileExistsError:
             pass
             #print("file does not exist ??")
+            
     
     #la fonction renvoie -1 quand le message n'a pas été envoyé mais ne s'occupe pas de le réenvoyer ! 
     def sendMess(self, m, receiverID):
@@ -112,7 +171,7 @@ class AgentCam:
     def writeLog(self, message):
         return 'agent '+str(self.id)+' '+message
     
-    #J'ai pas encore trouvé comment faire ça de manière propre
+    #J'ai pas encore trouvé comment faire ça de façon propre
     def clear(self):
         #if(self.thread_pI.is_alive() == False and self.thread_pI.is_alive() == False):
         self.mbox.close()

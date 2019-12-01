@@ -15,7 +15,7 @@ def limitToValueMax(valueMax, value):
 
 
 class Target:
-    def __init__(self, tar_id, tar_x, tar_y, tar_vx, tar_vy,tar_traj,tar_label, tar_size):
+    def __init__(self, tar_id=-1, tar_x=-1, tar_y=-1, tar_vx=0, tar_vy=0,tar_traj='fix',tar_trajChoice = 0,tar_label='fix', tar_size = 5):
         # Label
         self.shape = "round"
         self.id = tar_id
@@ -40,9 +40,14 @@ class Target:
             self.vy = tar_vy
 
         # PathPlanning
-        self.xgoal = [30, 250, 20]
-        self.ygoal = [300, 30, 20]
-
+        if tar_trajChoice == 0:
+            self.xgoal = [30, 250, 20]
+            self.ygoal = [300, 30, 20]
+        elif tar_trajChoice == 1:
+            pass
+        else:
+            print("Trajectory choice not recognnize !")
+            
         self.k_att = 5
         self.k_rep = 500000000
         self.d_rep = tar_size + math.ceil(0.5 * tar_size)
@@ -65,6 +70,8 @@ class Target:
     def moveTarget(self, delta_time, myRoom):
         type_mvt = self.trajectory
         # easy solution need to be investeagted
+        if type_mvt == 'fix':
+            pass
         if type_mvt == 'line':
             self.xc = self.xc + math.ceil(self.vx * delta_time)
             self.yc = self.yc + math.ceil(self.vy * delta_time)
@@ -74,8 +81,10 @@ class Target:
             pass
         elif type_mvt == 'elliptic':
             pass
-        elif type_mvt == 'path_planning':
+        elif type_mvt == 'potential_field':
             self.potentialField(delta_time, myRoom)
+        else:
+            print("planning method not recognize")
             
     def rectiligneTrajectory(self, delta_time, myRoom):
         
