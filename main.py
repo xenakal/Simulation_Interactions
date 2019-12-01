@@ -5,13 +5,16 @@ from utils.GUI import *
 
 
 TIMESTEP = 1
-TIMEPAUSE = 1
+TIMEPAUSE = 0.1
 
 USE_AGENT = 1
 
 
 class App:
     def __init__(self, useGUI=1, scenario=0):
+        #clean the file mailbox
+        shutil.rmtree("mailbox",ignore_errors = True)
+        os.mkdir("mailbox")
 
         # Here by changing only the vectors it is possible to create as many scenario as we want !
         if scenario == -1:
@@ -184,7 +187,7 @@ class App:
                 if self.useGUI == 1:
                     pygame.quit()
 
-            t = t + 1
+            self.myRoom.time = self.myRoom.time + 1
     
         for agent in self.myRoom.agentCam:
             agent.clear()

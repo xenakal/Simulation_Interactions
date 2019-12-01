@@ -104,6 +104,8 @@ class Camera:
 
             # 5) if the camera is not fix it can rotate
             self.cam_rotate(math.radians(1))
+            
+            return tab[1].copy()
 
     def coord_from_WorldFrame_to_CamFrame(self, x, y):
         xi = x - self.xc
@@ -169,7 +171,7 @@ class Camera:
         return orderedTarget
 
     def computeProjection(self, orderedTarget, l_projection, seuil):
-        targeList = []
+        targetList = []
         proj_cam_view_limit = []
 
         #        #IN CAM FRAME
@@ -260,7 +262,7 @@ class Camera:
             d0 = distanceBtwTwoPoint(ref_proj_left[0], ref_proj_left[1], proj_p1[0], proj_p1[1])
             d1 = distanceBtwTwoPoint(ref_proj_left[0], ref_proj_left[1], proj_p2[0], proj_p2[1])
             # checking if the point is not in another target thus the camera cannot see it
-            for targetAlreadyDetected in targeList:
+            for targetAlreadyDetected in targetList:
                 projection = targetAlreadyDetected[1]
 
                 # X = lprojection due to the frame transformation thus we can focus on y
@@ -340,9 +342,9 @@ class Camera:
             # if the target is not completely hidden then it added
             if ((hidden == 0 or hidden == 1) and distanceBtwTwoPoint(proj_p1[0], proj_p1[1], proj_p2[0],
                                                                      proj_p2[1]) > seuil):
-                targeList.append(numpy.array([target, actual_projection_worldFrame, hidden]))
+                targetList.append(numpy.array([target, actual_projection_worldFrame, hidden]))
 
-        return numpy.array([proj_cam_view_limit, targeList])
+        return numpy.array([proj_cam_view_limit, targetList])
 
     def cam_rotate(self, step):
         if self.fix == 0:

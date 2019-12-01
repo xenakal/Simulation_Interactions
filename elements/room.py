@@ -17,7 +17,9 @@ class Room:
         # agentCam
         self.agentCam = []
         self.agentCamNumber = 0
-
+        # time
+        self.time = 0
+        
     def createTargets(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj,trajChoice_tar, tar_label, tar_size):
         for _ in tar_x:
             self.targets.append(Target(self.targetNumber, tar_x[self.targetNumber], tar_y[self.targetNumber],

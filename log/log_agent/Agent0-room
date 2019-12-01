@@ -1,0 +1,897 @@
+2019-12-01 19:28:12,951 - room0 - INFO - 
+2019-12-01 19:28:15,332 - room0 - INFO - time : 0 target 0
+
+2019-12-01 19:28:15,536 - room0 - INFO - time : 0 target 0
+time : 2 target 0
+
+2019-12-01 19:28:15,739 - room0 - INFO - time : 0 target 0
+time : 2 target 0
+time : 4 target 0
+
+2019-12-01 19:28:15,942 - room0 - INFO - time : 0 target 0
+time : 2 target 0
+time : 4 target 0
+time : 6 target 0
+
+2019-12-01 19:28:16,145 - room0 - INFO - time : 0 target 0
+time : 2 target 0
+time : 4 target 0
+time : 6 target 0
+time : 8 target 0
+
+2019-12-01 19:28:16,357 - room0 - INFO - time : 0 target 0
+time : 2 target 0
+time : 4 target 0
+time : 6 target 0
+time : 8 target 0
+time : 10 target 0
+
+2019-12-01 19:28:16,561 - room0 - INFO - time : 0 target 0
+time : 2 target 0
+time : 4 target 0
+time : 6 target 0
+time : 8 target 0
+time : 10 target 0
+time : 12 target 0
+
+2019-12-01 19:28:16,768 - room0 - INFO - time : 0 target 0
+time : 2 target 0
+time : 4 target 0
+time : 6 target 0
+time : 8 target 0
+time : 10 target 0
+time : 12 target 0
+time : 14 target 0
+
+2019-12-01 19:28:16,971 - room0 - INFO - time : 0 target 0
+time : 2 target 0
+time : 4 target 0
+time : 6 target 0
+time : 8 target 0
+time : 10 target 0
+time : 12 target 0
+time : 14 target 0
+time : 15 target 0
+
+2019-12-01 19:28:17,175 - room0 - INFO - time : 2 target 0
+time : 4 target 0
+time : 6 target 0
+time : 8 target 0
+time : 10 target 0
+time : 12 target 0
+time : 14 target 0
+time : 15 target 0
+time : 17 target 0
+
+2019-12-01 19:28:17,388 - room0 - INFO - time : 4 target 0
+time : 6 target 0
+time : 8 target 0
+time : 10 target 0
+time : 12 target 0
+time : 14 target 0
+time : 15 target 0
+time : 17 target 0
+time : 19 target 0
+time : 19 target 1
+
+2019-12-01 19:28:17,596 - room0 - INFO - time : 6 target 0
+time : 8 target 0
+time : 10 target 0
+time : 12 target 0
+time : 14 target 0
+time : 15 target 0
+time : 17 target 0
+time : 19 target 0
+time : 19 target 1
+time : 21 target 0
+time : 21 target 1
+
+2019-12-01 19:28:17,802 - room0 - INFO - time : 8 target 0
+time : 10 target 0
+time : 12 target 0
+time : 14 target 0
+time : 15 target 0
+time : 17 target 0
+time : 19 target 0
+time : 19 target 1
+time : 21 target 0
+time : 21 target 1
+time : 23 target 0
+time : 23 target 1
+
+2019-12-01 19:28:18,007 - room0 - INFO - time : 10 target 0
+time : 12 target 0
+time : 14 target 0
+time : 15 target 0
+time : 17 target 0
+time : 19 target 0
+time : 19 target 1
+time : 21 target 0
+time : 21 target 1
+time : 23 target 0
+time : 23 target 1
+time : 25 target 0
+time : 25 target 1
+
+2019-12-01 19:28:18,211 - room0 - INFO - time : 12 target 0
+time : 14 target 0
+time : 15 target 0
+time : 17 target 0
+time : 19 target 0
+time : 19 target 1
+time : 21 target 0
+time : 21 target 1
+time : 23 target 0
+time : 23 target 1
+time : 25 target 0
+time : 25 target 1
+time : 26 target 0
+time : 26 target 1
+
+2019-12-01 19:28:18,415 - room0 - INFO - time : 14 target 0
+time : 15 target 0
+time : 17 target 0
+time : 19 target 0
+time : 19 target 1
+time : 21 target 0
+time : 21 target 1
+time : 23 target 0
+time : 23 target 1
+time : 25 target 0
+time : 25 target 1
+time : 26 target 0
+time : 26 target 1
+time : 28 target 0
+time : 28 target 1
+
+2019-12-01 19:28:18,619 - room0 - INFO - time : 15 target 0
+time : 17 target 0
+time : 19 target 0
+time : 19 target 1
+time : 21 target 0
+time : 21 target 1
+time : 23 target 0
+time : 23 target 1
+time : 25 target 0
+time : 25 target 1
+time : 26 target 0
+time : 26 target 1
+time : 28 target 0
+time : 28 target 1
+time : 30 target 0
+time : 30 target 1
+
+2019-12-01 19:28:18,824 - room0 - INFO - time : 17 target 0
+time : 19 target 0
+time : 19 target 1
+time : 21 target 0
+time : 21 target 1
+time : 23 target 0
+time : 23 target 1
+time : 25 target 0
+time : 25 target 1
+time : 26 target 0
+time : 26 target 1
+time : 28 target 0
+time : 28 target 1
+time : 30 target 0
+time : 30 target 1
+time : 32 target 0
+time : 32 target 1
+
+2019-12-01 19:28:19,028 - room0 - INFO - time : 19 target 0
+time : 19 target 1
+time : 21 target 0
+time : 21 target 1
+time : 23 target 0
+time : 23 target 1
+time : 25 target 0
+time : 25 target 1
+time : 26 target 0
+time : 26 target 1
+time : 28 target 0
+time : 28 target 1
+time : 30 target 0
+time : 30 target 1
+time : 32 target 0
+time : 32 target 1
+time : 34 target 0
+time : 34 target 1
+
+2019-12-01 19:28:19,232 - room0 - INFO - time : 21 target 0
+time : 21 target 1
+time : 23 target 0
+time : 23 target 1
+time : 25 target 0
+time : 25 target 1
+time : 26 target 0
+time : 26 target 1
+time : 28 target 0
+time : 28 target 1
+time : 30 target 0
+time : 30 target 1
+time : 32 target 0
+time : 32 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+
+2019-12-01 19:28:19,436 - room0 - INFO - time : 23 target 0
+time : 23 target 1
+time : 25 target 0
+time : 25 target 1
+time : 26 target 0
+time : 26 target 1
+time : 28 target 0
+time : 28 target 1
+time : 30 target 0
+time : 30 target 1
+time : 32 target 0
+time : 32 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 37 target 0
+time : 37 target 1
+
+2019-12-01 19:28:19,641 - room0 - INFO - time : 25 target 0
+time : 25 target 1
+time : 26 target 0
+time : 26 target 1
+time : 28 target 0
+time : 28 target 1
+time : 30 target 0
+time : 30 target 1
+time : 32 target 0
+time : 32 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 37 target 0
+time : 37 target 1
+time : 39 target 0
+time : 39 target 1
+
+2019-12-01 19:28:19,848 - room0 - INFO - time : 26 target 0
+time : 26 target 1
+time : 28 target 0
+time : 28 target 1
+time : 30 target 0
+time : 30 target 1
+time : 32 target 0
+time : 32 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 37 target 0
+time : 37 target 1
+time : 39 target 0
+time : 39 target 1
+time : 41 target 0
+time : 41 target 1
+
+2019-12-01 19:28:20,052 - room0 - INFO - time : 28 target 0
+time : 28 target 1
+time : 30 target 0
+time : 30 target 1
+time : 32 target 0
+time : 32 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 37 target 0
+time : 37 target 1
+time : 39 target 0
+time : 39 target 1
+time : 41 target 0
+time : 41 target 1
+time : 43 target 0
+time : 43 target 1
+
+2019-12-01 19:28:20,256 - room0 - INFO - time : 30 target 0
+time : 30 target 1
+time : 32 target 0
+time : 32 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 37 target 0
+time : 37 target 1
+time : 39 target 0
+time : 39 target 1
+time : 41 target 0
+time : 41 target 1
+time : 43 target 0
+time : 43 target 1
+time : 44 target 0
+time : 44 target 1
+
+2019-12-01 19:28:20,460 - room0 - INFO - time : 32 target 0
+time : 32 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 37 target 0
+time : 37 target 1
+time : 39 target 0
+time : 39 target 1
+time : 41 target 0
+time : 41 target 1
+time : 43 target 0
+time : 43 target 1
+time : 44 target 0
+time : 44 target 1
+time : 46 target 0
+
+2019-12-01 19:28:20,664 - room0 - INFO - time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 37 target 0
+time : 37 target 1
+time : 39 target 0
+time : 39 target 1
+time : 41 target 0
+time : 41 target 1
+time : 43 target 0
+time : 43 target 1
+time : 44 target 0
+time : 44 target 1
+time : 46 target 0
+time : 48 target 0
+
+2019-12-01 19:28:20,868 - room0 - INFO - time : 35 target 0
+time : 35 target 1
+time : 37 target 0
+time : 37 target 1
+time : 39 target 0
+time : 39 target 1
+time : 41 target 0
+time : 41 target 1
+time : 43 target 0
+time : 43 target 1
+time : 44 target 0
+time : 44 target 1
+time : 46 target 0
+time : 48 target 0
+time : 50 target 0
+
+2019-12-01 19:28:21,073 - room0 - INFO - time : 37 target 0
+time : 37 target 1
+time : 39 target 0
+time : 39 target 1
+time : 41 target 0
+time : 41 target 1
+time : 43 target 0
+time : 43 target 1
+time : 44 target 0
+time : 44 target 1
+time : 46 target 0
+time : 48 target 0
+time : 50 target 0
+time : 52 target 0
+
+2019-12-01 19:28:21,277 - room0 - INFO - time : 39 target 0
+time : 39 target 1
+time : 41 target 0
+time : 41 target 1
+time : 43 target 0
+time : 43 target 1
+time : 44 target 0
+time : 44 target 1
+time : 46 target 0
+time : 48 target 0
+time : 50 target 0
+time : 52 target 0
+time : 54 target 0
+
+2019-12-01 19:28:21,484 - room0 - INFO - time : 41 target 0
+time : 41 target 1
+time : 43 target 0
+time : 43 target 1
+time : 44 target 0
+time : 44 target 1
+time : 46 target 0
+time : 48 target 0
+time : 50 target 0
+time : 52 target 0
+time : 54 target 0
+time : 55 target 0
+
+2019-12-01 19:28:21,688 - room0 - INFO - time : 43 target 0
+time : 43 target 1
+time : 44 target 0
+time : 44 target 1
+time : 46 target 0
+time : 48 target 0
+time : 50 target 0
+time : 52 target 0
+time : 54 target 0
+time : 55 target 0
+time : 57 target 0
+
+2019-12-01 19:28:21,892 - room0 - INFO - time : 44 target 0
+time : 44 target 1
+time : 46 target 0
+time : 48 target 0
+time : 50 target 0
+time : 52 target 0
+time : 54 target 0
+time : 55 target 0
+time : 57 target 0
+time : 59 target 0
+
+2019-12-01 19:28:22,096 - room0 - INFO - time : 46 target 0
+time : 48 target 0
+time : 50 target 0
+time : 52 target 0
+time : 54 target 0
+time : 55 target 0
+time : 57 target 0
+time : 59 target 0
+time : 61 target 0
+
+2019-12-01 19:28:22,324 - room0 - INFO - time : 48 target 0
+time : 50 target 0
+time : 52 target 0
+time : 54 target 0
+time : 55 target 0
+time : 57 target 0
+time : 59 target 0
+time : 61 target 0
+time : 63 target 0
+time : 63 target 1
+
+2019-12-01 19:28:22,529 - room0 - INFO - time : 50 target 0
+time : 52 target 0
+time : 54 target 0
+time : 55 target 0
+time : 57 target 0
+time : 59 target 0
+time : 61 target 0
+time : 63 target 0
+time : 63 target 1
+time : 65 target 0
+time : 65 target 1
+
+2019-12-01 19:28:22,737 - room0 - INFO - time : 52 target 0
+time : 54 target 0
+time : 55 target 0
+time : 57 target 0
+time : 59 target 0
+time : 61 target 0
+time : 63 target 0
+time : 63 target 1
+time : 65 target 0
+time : 65 target 1
+time : 66 target 0
+time : 66 target 1
+
+2019-12-01 19:28:22,941 - room0 - INFO - time : 54 target 0
+time : 55 target 0
+time : 57 target 0
+time : 59 target 0
+time : 61 target 0
+time : 63 target 0
+time : 63 target 1
+time : 65 target 0
+time : 65 target 1
+time : 66 target 0
+time : 66 target 1
+time : 68 target 0
+time : 68 target 1
+
+2019-12-01 19:28:23,146 - room0 - INFO - time : 55 target 0
+time : 57 target 0
+time : 59 target 0
+time : 61 target 0
+time : 63 target 0
+time : 63 target 1
+time : 65 target 0
+time : 65 target 1
+time : 66 target 0
+time : 66 target 1
+time : 68 target 0
+time : 68 target 1
+time : 70 target 0
+time : 70 target 1
+
+2019-12-01 19:28:23,350 - room0 - INFO - time : 57 target 0
+time : 59 target 0
+time : 61 target 0
+time : 63 target 0
+time : 63 target 1
+time : 65 target 0
+time : 65 target 1
+time : 66 target 0
+time : 66 target 1
+time : 68 target 0
+time : 68 target 1
+time : 70 target 0
+time : 70 target 1
+time : 72 target 1
+time : 72 target 0
+
+2019-12-01 19:28:23,555 - room0 - INFO - time : 59 target 0
+time : 61 target 0
+time : 63 target 0
+time : 63 target 1
+time : 65 target 0
+time : 65 target 1
+time : 66 target 0
+time : 66 target 1
+time : 68 target 0
+time : 68 target 1
+time : 70 target 0
+time : 70 target 1
+time : 72 target 1
+time : 72 target 0
+time : 74 target 1
+time : 74 target 0
+
+2019-12-01 19:28:23,759 - room0 - INFO - time : 61 target 0
+time : 63 target 0
+time : 63 target 1
+time : 65 target 0
+time : 65 target 1
+time : 66 target 0
+time : 66 target 1
+time : 68 target 0
+time : 68 target 1
+time : 70 target 0
+time : 70 target 1
+time : 72 target 1
+time : 72 target 0
+time : 74 target 1
+time : 74 target 0
+time : 75 target 1
+time : 75 target 0
+
+2019-12-01 19:28:23,963 - room0 - INFO - time : 63 target 0
+time : 63 target 1
+time : 65 target 0
+time : 65 target 1
+time : 66 target 0
+time : 66 target 1
+time : 68 target 0
+time : 68 target 1
+time : 70 target 0
+time : 70 target 1
+time : 72 target 1
+time : 72 target 0
+time : 74 target 1
+time : 74 target 0
+time : 75 target 1
+time : 75 target 0
+time : 77 target 1
+time : 77 target 0
+
+2019-12-01 19:28:24,167 - room0 - INFO - time : 65 target 0
+time : 65 target 1
+time : 66 target 0
+time : 66 target 1
+time : 68 target 0
+time : 68 target 1
+time : 70 target 0
+time : 70 target 1
+time : 72 target 1
+time : 72 target 0
+time : 74 target 1
+time : 74 target 0
+time : 75 target 1
+time : 75 target 0
+time : 77 target 1
+time : 77 target 0
+time : 79 target 1
+time : 79 target 0
+
+2019-12-01 19:28:24,372 - room0 - INFO - time : 66 target 0
+time : 66 target 1
+time : 68 target 0
+time : 68 target 1
+time : 70 target 0
+time : 70 target 1
+time : 72 target 1
+time : 72 target 0
+time : 74 target 1
+time : 74 target 0
+time : 75 target 1
+time : 75 target 0
+time : 77 target 1
+time : 77 target 0
+time : 79 target 1
+time : 79 target 0
+time : 81 target 1
+time : 81 target 0
+
+2019-12-01 19:28:24,577 - room0 - INFO - time : 68 target 0
+time : 68 target 1
+time : 70 target 0
+time : 70 target 1
+time : 72 target 1
+time : 72 target 0
+time : 74 target 1
+time : 74 target 0
+time : 75 target 1
+time : 75 target 0
+time : 77 target 1
+time : 77 target 0
+time : 79 target 1
+time : 79 target 0
+time : 81 target 1
+time : 81 target 0
+time : 83 target 1
+time : 83 target 0
+
+2019-12-01 19:28:24,781 - room0 - INFO - time : 70 target 0
+time : 70 target 1
+time : 72 target 1
+time : 72 target 0
+time : 74 target 1
+time : 74 target 0
+time : 75 target 1
+time : 75 target 0
+time : 77 target 1
+time : 77 target 0
+time : 79 target 1
+time : 79 target 0
+time : 81 target 1
+time : 81 target 0
+time : 83 target 1
+time : 83 target 0
+time : 84 target 1
+time : 84 target 0
+
+2019-12-01 19:28:24,986 - room0 - INFO - time : 72 target 1
+time : 72 target 0
+time : 74 target 1
+time : 74 target 0
+time : 75 target 1
+time : 75 target 0
+time : 77 target 1
+time : 77 target 0
+time : 79 target 1
+time : 79 target 0
+time : 81 target 1
+time : 81 target 0
+time : 83 target 1
+time : 83 target 0
+time : 84 target 1
+time : 84 target 0
+time : 86 target 0
+
+2019-12-01 19:28:25,192 - room0 - INFO - time : 74 target 1
+time : 74 target 0
+time : 75 target 1
+time : 75 target 0
+time : 77 target 1
+time : 77 target 0
+time : 79 target 1
+time : 79 target 0
+time : 81 target 1
+time : 81 target 0
+time : 83 target 1
+time : 83 target 0
+time : 84 target 1
+time : 84 target 0
+time : 86 target 0
+time : 88 target 0
+
+2019-12-01 19:28:25,402 - room0 - INFO - time : 75 target 1
+time : 75 target 0
+time : 77 target 1
+time : 77 target 0
+time : 79 target 1
+time : 79 target 0
+time : 81 target 1
+time : 81 target 0
+time : 83 target 1
+time : 83 target 0
+time : 84 target 1
+time : 84 target 0
+time : 86 target 0
+time : 88 target 0
+time : 90 target 0
+
+2019-12-01 19:28:25,606 - room0 - INFO - time : 77 target 1
+time : 77 target 0
+time : 79 target 1
+time : 79 target 0
+time : 81 target 1
+time : 81 target 0
+time : 83 target 1
+time : 83 target 0
+time : 84 target 1
+time : 84 target 0
+time : 86 target 0
+time : 88 target 0
+time : 90 target 0
+time : 92 target 0
+
+2019-12-01 19:28:25,810 - room0 - INFO - time : 79 target 1
+time : 79 target 0
+time : 81 target 1
+time : 81 target 0
+time : 83 target 1
+time : 83 target 0
+time : 84 target 1
+time : 84 target 0
+time : 86 target 0
+time : 88 target 0
+time : 90 target 0
+time : 92 target 0
+time : 93 target 0
+
+2019-12-01 19:28:26,013 - room0 - INFO - time : 81 target 1
+time : 81 target 0
+time : 83 target 1
+time : 83 target 0
+time : 84 target 1
+time : 84 target 0
+time : 86 target 0
+time : 88 target 0
+time : 90 target 0
+time : 92 target 0
+time : 93 target 0
+time : 95 target 0
+
+2019-12-01 19:28:26,217 - room0 - INFO - time : 83 target 1
+time : 83 target 0
+time : 84 target 1
+time : 84 target 0
+time : 86 target 0
+time : 88 target 0
+time : 90 target 0
+time : 92 target 0
+time : 93 target 0
+time : 95 target 0
+time : 97 target 0
+
+2019-12-01 19:28:26,420 - room0 - INFO - time : 84 target 1
+time : 84 target 0
+time : 86 target 0
+time : 88 target 0
+time : 90 target 0
+time : 92 target 0
+time : 93 target 0
+time : 95 target 0
+time : 97 target 0
+time : 99 target 0
+
+2019-12-01 19:28:26,624 - room0 - INFO - time : 86 target 0
+time : 88 target 0
+time : 90 target 0
+time : 92 target 0
+time : 93 target 0
+time : 95 target 0
+time : 97 target 0
+time : 99 target 0
+time : 100 target 0
+
+2019-12-01 19:28:26,827 - room0 - INFO - time : 88 target 0
+time : 90 target 0
+time : 92 target 0
+time : 93 target 0
+time : 95 target 0
+time : 97 target 0
+time : 99 target 0
+time : 100 target 0
+time : 102 target 0
+
+2019-12-01 19:28:27,032 - room0 - INFO - time : 90 target 0
+time : 92 target 0
+time : 93 target 0
+time : 95 target 0
+time : 97 target 0
+time : 99 target 0
+time : 100 target 0
+time : 102 target 0
+time : 104 target 0
+
+2019-12-01 19:28:27,235 - room0 - INFO - time : 92 target 0
+time : 93 target 0
+time : 95 target 0
+time : 97 target 0
+time : 99 target 0
+time : 100 target 0
+time : 102 target 0
+time : 104 target 0
+time : 106 target 0
+
+2019-12-01 19:28:27,440 - room0 - INFO - time : 93 target 0
+time : 95 target 0
+time : 97 target 0
+time : 99 target 0
+time : 100 target 0
+time : 102 target 0
+time : 104 target 0
+time : 106 target 0
+time : 108 target 0
+
+2019-12-01 19:28:27,647 - room0 - INFO - time : 95 target 0
+time : 97 target 0
+time : 99 target 0
+time : 100 target 0
+time : 102 target 0
+time : 104 target 0
+time : 106 target 0
+time : 108 target 0
+time : 109 target 0
+
+2019-12-01 19:28:27,852 - room0 - INFO - time : 97 target 0
+time : 99 target 0
+time : 100 target 0
+time : 102 target 0
+time : 104 target 0
+time : 106 target 0
+time : 108 target 0
+time : 109 target 0
+time : 111 target 0
+
+2019-12-01 19:28:28,056 - room0 - INFO - time : 99 target 0
+time : 100 target 0
+time : 102 target 0
+time : 104 target 0
+time : 106 target 0
+time : 108 target 0
+time : 109 target 0
+time : 111 target 0
+time : 113 target 0
+
+2019-12-01 19:28:28,263 - room0 - INFO - time : 100 target 0
+time : 102 target 0
+time : 104 target 0
+time : 106 target 0
+time : 108 target 0
+time : 109 target 0
+time : 111 target 0
+time : 113 target 0
+time : 115 target 0
+
+2019-12-01 19:28:28,468 - room0 - INFO - time : 102 target 0
+time : 104 target 0
+time : 106 target 0
+time : 108 target 0
+time : 109 target 0
+time : 111 target 0
+time : 113 target 0
+time : 115 target 0
+time : 117 target 0
+
+2019-12-01 19:28:28,673 - room0 - INFO - time : 104 target 0
+time : 106 target 0
+time : 108 target 0
+time : 109 target 0
+time : 111 target 0
+time : 113 target 0
+time : 115 target 0
+time : 117 target 0
+time : 118 target 0
+
+2019-12-01 19:28:28,894 - room0 - INFO - time : 106 target 0
+time : 108 target 0
+time : 109 target 0
+time : 111 target 0
+time : 113 target 0
+time : 115 target 0
+time : 117 target 0
+time : 118 target 0
+time : 120 target 0
+
+2019-12-01 19:28:29,102 - room0 - INFO - time : 108 target 0
+time : 109 target 0
+time : 111 target 0
+time : 113 target 0
+time : 115 target 0
+time : 117 target 0
+time : 118 target 0
+time : 120 target 0
+time : 121 target 0
+
