@@ -1,10 +1,9 @@
 import math
+import main
+import numpy as np
 from utils.line import *
 from utils.queueFIFO import *
 from elements.target import *
-import main
-import numpy as np
-
 
 def avgSpeedFunc(positions):
     if len(positions) <= 1:  # one position or less not enough to calculate speed

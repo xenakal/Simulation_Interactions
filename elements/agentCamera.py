@@ -1,29 +1,31 @@
 import threading
 import mailbox
 import time
-#from element.target import*
+import numpy as np
+from elements.target import*
+
 
 class InformationTable:
     def __init__(self, cameras, targets, nTime = 1):
-        
-        self.info = initInfo()
-        
         self.times = range(0,nTime)
         self.cameras = cameras
         self.targets = targets
     
-    def initInfo():
+        self.info = self.initInfo()
+        
+       
+    def initInfo(self):
         #target is the target we are looking
         #seenByCam tells if that target is currently seen (0 = No 1 = YES)
         #camIncharge tells which cam is in charge of tracking that object (-1 is the init value)
         #distance is the distance between the target and the cam (-1 is the init value)
         #time is the instance from which the information is from
-        infoType = [('target', target),('seenByCam',int),('camInCharge',int),('distance', int),('time',int)]
+        infoType = [('target', Target),('seenByCam',int),('camInCharge',int),('distance', int),('time',int)]
         info = []
-        for camera in self.camera:
-            for targets in self.targets:
-                for time in self.times:
-                    info.append((Target(),0,-1,-1))
+        for time in self.times:
+            for camera in self.cameras:
+                for targets in self.targets:
+                    info.append((Target(),0,-1,-1,-1))
         
         return np.array(info, dtype=infoType)
     
@@ -41,7 +43,7 @@ class AgentCam:
         self.id = idAgent
         self.cam = camera
         self.myRoom = room
-        #self.tableau = InformationTable()
+        self.tableau = InformationTable(self.myRoom.cameras,self.myRoom.targets,10)
         
         #Communication
         self.mbox = mailbox.mbox('agent'+str(idAgent))
@@ -78,7 +80,7 @@ class AgentCam:
                 nextstate = "makePrediction"
                 
             elif state == "makePrediction":
-                #self.cam.predictPaths()
+                prediction = self.cam.predictPaths()
                 #d'autre prédiction peuvent être réalisées à cette étape
                 nextstate = "sendMessage"
                 
