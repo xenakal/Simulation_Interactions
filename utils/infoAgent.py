@@ -7,6 +7,9 @@ class Message():
         self.message = message
         self.messageType = messageType
         self.timeStamp = timeStamp
+     
+    def simpleFormatMessage(self):
+        return str(self.timeStamp)+'-'+str(self.senderID)+'-'+str(self.receiverID)+'-'+self.messageType + '-' +self.message  
         
     def printMessage(self):
         return 'time :' + str(self.timeStamp) + '- from agent :'+str(self.senderID)+' - to agent :'+str(self.receiverID)+' - '+self.messageType + ' - ' +self.message    

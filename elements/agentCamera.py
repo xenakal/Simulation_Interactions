@@ -3,6 +3,7 @@ import mailbox
 import time
 import logging
 import numpy as np
+import re
 from elements.target import*
 from utils.infoAgent import*
 
@@ -146,13 +147,11 @@ class AgentCam:
         #A) ACTION BASED ON WHAT THE CAMERA SEES
         #New target detected
             if actual_target.label == "target":
-                
                 #critère à modifier sur le fait qu'un message à déjà été envoyé
                 isDetected = self.table.wasTargetAlreadyDeteced(actual_target)
                 if(not isDetected):
-                    self.sendMessageType(time,"request",0,actual_target,"")
+                    self.sendMessageType("request",0,actual_target,"")
                     
-                        
             elif actual_target.label == "obstruction":
                 pass
             elif actual_target.label == "fix":
@@ -177,35 +176,43 @@ class AgentCam:
                     
                 #NO  ----> sending a message to the user to inform that the target is no more followed
     
-    def sendMessageType(self,time, typeMessage, reiceiverID , target , m):
-        
+    def sendMessageType(self, typeMessage, reiceiverID , target , m):
         if(typeMessage == "request"):
             for agent in self.myRoom.agentCam:
                         if(agent.id != self.id):
-                            m = Message(time,self.id,agent.id,typeMessage,"target"+str(target.id))
-                            self.sendMess(m)
+                            m = Message(self.myRoom.time,self.id,agent.id,typeMessage,"target"+str(target.id))
+                            succes = self.sendMess(m)
                             
         elif(typeMessage == "ack"):
-            m = Message(time,self.id,m.senderID,typeMessage,m.message)
+            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.message)
             self.sendMess(m)
                             
         elif(typeMessage == "nack"):
-            m = Message(time,self.id,m.senderID,typeMessage,m.message)
+            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.message)
             self.sendMess(m)
                             
         elif(typeMessage == "heartbeat"):
-            m = Message(time,self.id,receiverID,typeMessage,m)
+            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,m)
             self.sendMess(m)
                             
         elif(typeMessage == "information"):
-            m = Message(time,self.id,agent.id,typeMessage,message)
+            m = Message(self.myRoom.time,self.id,agent.id,typeMessage,message)
             self.sendMess(m)
                             
-    
-    def parseRecMess(self,m):
-        #print(m)
-        self.log_message.info('RECEIVED : '+ m)
-        return 0
+    def parse_respondRecMess(self,m):
+        att = m.split("-")
+        #reconstruction de l'objet message
+        rec_mes = Message(att[0],att[1],att[2],att[3],att[4])
+        self.log_message.info('RECEIVED : '+ rec_mes.printMessage())
+        
+        if(rec_mes.messageType == "request" or rec_mes.messageType == "heartbeat"):
+            #typeMessage = ACK_NACK() ?
+            typeMessage ='nack'
+            self.sendMessageType(typeMessage,rec_mes.receiverID,0,rec_mes)
+            
+        elif(rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
+            #ici il faut stocker les info dans le tableau
+            pass
     
     def recMess(self):
         succes = -1
@@ -215,16 +222,13 @@ class AgentCam:
             mbox_rec.lock()
             keys = mbox_rec.keys()
             try:
+                succes = 0 
                 for key in keys: 
                     m = mbox_rec.get_string(key)
                     
                     if (m != ""):  
-                          needToReply = self.parseRecMess(m)
-                          
-                          #Sending a ACK or NACK
-                          if(needToReply  == 1):
-                             succes = self.sendMess(self, message, sender_ID)
-                            
+                          self.parse_respondRecMess(m)
+                        
                           if (succes == 0): #if we respond then the message is remove from the mail box   
                              mbox_rec.remove(key)
                              mbox_rec.flush()
@@ -247,7 +251,7 @@ class AgentCam:
             mbox = mailbox.mbox(NAME_MAILBOX+str(m.receiverID))
             mbox.lock()
             try:
-                mbox.add(m.printMessage()) #apparament on ne peut pas transférer d'objet
+                mbox.add(m.simpleFormatMessage()) #apparament on ne peut pas transférer d'objet
                 self.log_message.info(m.printMessage())
                 mbox.flush()
                 succes = 0
