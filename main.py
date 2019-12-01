@@ -182,6 +182,9 @@ class App:
                     pygame.quit()
 
             t = t + 1
+    
+        for agent in self.myRoom.agentCam:
+            agent.clear()
 
     def updateGUI(self):
         self.myGUI.drawRoom(self.myRoom.coord)

@@ -10,7 +10,7 @@ class InformationTable:
         self.times = range(0,nTime)
         self.cameras = cameras
         self.targets = targets
-    
+     
         self.info = self.initInfo()
         #print(self.info)
         
@@ -51,6 +51,7 @@ class AgentCam:
         self.mbox.clear()
         
         #Threads
+        self.threadRun = 1
         self.thread_pI = threading.Thread(target=self.thread_processImage,args=(self.myRoom,)) #,daemon=True)
         self.thread_rL = threading.Thread(target=self.thread_recLoop) #,daemon=True)
         threading.Timer(1,self.thread_processImage)
@@ -58,10 +59,8 @@ class AgentCam:
         
         
         self.run()
-        #self.clear()
     
     def run(self):
-        pass
         self.thread_pI.start()
         self.thread_rL.start()
          
@@ -71,7 +70,7 @@ class AgentCam:
     def thread_processImage(self,myRoom):
         state = "takePicture"
         nextstate = state
-        while(True):
+        while(self.threadRun == 1):
             
             state = nextstate
             
@@ -95,7 +94,7 @@ class AgentCam:
             
             
     def thread_recLoop(self):
-        while(True):
+        while(self.threadRun == 1):
             self.recMess()
             #self.tableau.modifyInfo(self,target,camera,t):
                 
@@ -191,7 +190,9 @@ class AgentCam:
     
     #J'ai pas encore trouvé comment faire ça de façon propre
     def clear(self):
-        #if(self.thread_pI.is_alive() == False and self.thread_pI.is_alive() == False):
+        self.threadRun = 0
+        while(self.thread_pI.is_alive() and self.thread_pI.is_alive()):
+            pass
         self.mbox.close()
   
         
