@@ -78,11 +78,12 @@ class AgentCam:
         logger.addHandler(fh)
         logger.addHandler(ch)
         
-        logger.info('Program start')
+        self.log = logger
         
         #Startrun()
         self.run()
-    
+        self.log.info('Agent initialized and  starts')
+        
     def run(self):
         self.thread_pI.start()
         self.thread_rL.start()
@@ -145,7 +146,7 @@ class AgentCam:
                 #NO  ----> sending a message to the user to inform that the target is no more followed
     
     def parseRecMess(self,m):
-        print(m)
+        self.log.info('RECEIVED : '+ m)
         return 0
     
     #la fonction renvoie -1 quand les messages n'ont pas été lu
@@ -179,11 +180,9 @@ class AgentCam:
                     self.sendMess(self, message, sender_ID)
                                         
         except mailbox.ExternalClashError:
-            pass
-            #print("not possible to read the message")
+            self.log.debug("Not possible to read messages")
         except FileExistsError:
-            pass
-            #print("file does not exist ??")
+            self.log.warning("Mailbox file error")
             
     
     #la fonction renvoie -1 quand le message n'a pas été envoyé mais ne s'occupe pas de le réenvoyer ! 
@@ -193,7 +192,9 @@ class AgentCam:
             mbox = mailbox.mbox(NAME_MAILBOX+str(receiverID))
             mbox.lock()
             try:
-                key = mbox.add("Agent"+str(self.id)+":"+m)
+                message = self.formatMessage(m,receiverID)
+                mbox.add(message)
+                self.log.info("SEND     :"+message)
                 mbox.flush()
                 succes = 0
                 #print("message sent successfully")   
@@ -209,16 +210,14 @@ class AgentCam:
         ##############################
             
         except mailbox.ExternalClashError:
-            pass
-            #message not sent
-            #print("not possible to send the message")
+            self.log.debug("Not possible to send messages")
         except FileExistsError:
-            pass
-            #print("file does not exist ??")
+            self.log.warning("Mailbox file error")
+            
         return succes
     
-    def writeLog(self, message):
-        return 'agent '+str(self.id)+' '+message
+    def formatMessage(self, message,receiverID):
+        return 'from agent'+str(self.id)+' - to agent'+str(receiverID)+' : '+message
     
     #J'ai pas encore trouvé comment faire ça de façon propre
     def clear(self):

@@ -1,1 +1,119 @@
-2019-12-01 13:32:39,246 - agent1 - INFO - Program start
+2019-12-01 14:38:43,792 - agent1 - INFO - Agent initialized and  starts
+2019-12-01 14:38:43,918 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:44,168 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:44,192 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:44,375 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:44,381 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:44,403 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:44,406 - agent1 - INFO - SEND     :from agent1 - to agent0 : Hello 0
+2019-12-01 14:38:44,411 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:44,471 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:44,532 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:44,679 - agent1 - INFO - SEND     :from agent1 - to agent0 : Hello 0
+2019-12-01 14:38:44,961 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:44,988 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:44,989 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:44,995 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:45,003 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:45,012 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:45,194 - agent1 - DEBUG - Not possible to send messages
+2019-12-01 14:38:45,214 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:45,224 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:45,234 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:45,401 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:45,473 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:45,497 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:45,500 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:45,548 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:45,608 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:45,815 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:46,034 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:46,160 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:46,164 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:46,166 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:46,175 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:46,181 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:46,245 - agent1 - INFO - SEND     :from agent1 - to agent0 : Hello 0
+2019-12-01 14:38:46,390 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:46,395 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:46,397 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:46,399 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:46,408 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:46,415 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:46,480 - agent1 - DEBUG - Not possible to send messages
+2019-12-01 14:38:46,685 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:46,823 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:46,831 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:46,833 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:46,838 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:46,897 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:47,040 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,041 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,049 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,050 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,055 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:47,103 - agent1 - INFO - SEND     :from agent1 - to agent0 : Hello 0
+2019-12-01 14:38:47,255 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:47,258 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:47,262 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,265 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,272 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,277 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:47,326 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:47,480 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,481 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,489 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,493 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:47,533 - agent1 - INFO - SEND     :from agent1 - to agent0 : Hello 0
+2019-12-01 14:38:47,759 - agent1 - DEBUG - Not possible to send messages
+2019-12-01 14:38:47,900 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:47,903 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,904 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,911 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,913 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:47,918 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:47,964 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:48,170 - agent1 - DEBUG - Not possible to send messages
+2019-12-01 14:38:48,376 - agent1 - INFO - SEND     :from agent1 - to agent0 : Hello 0
+2019-12-01 14:38:48,593 - agent1 - INFO - SEND     :from agent1 - to agent0 : Hello 0
+2019-12-01 14:38:48,735 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:48,739 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:48,741 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:48,793 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:48,795 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:48,801 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:48,816 - agent1 - WARNING - Mailbox file error
+2019-12-01 14:38:49,001 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:49,003 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:49,005 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:49,013 - agent1 - DEBUG - Not possible to read messages
+2019-12-01 14:38:49,017 - agent1 - INFO - RECEIVED : 
+from agent0 - to agent1 : Hello 1
+
+2019-12-01 14:38:49,021 - agent1 - WARNING - Mailbox file error
