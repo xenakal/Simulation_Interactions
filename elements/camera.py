@@ -42,7 +42,7 @@ def avgDirectionFunc(positions):
 
 
 def calcNextPos(position, speed, direction):
-    travelDistance = main.TIMESTEP * 2 * speed
+    travelDistance = main.TIMESTEP * 4 * speed
     xPrediction = position[0] + math.cos(direction) * travelDistance
     yPrediction = position[1] + math.sin(direction) * travelDistance  # -: the coordinates are oposite to the cartesian
     return [int(xPrediction), int(yPrediction)]

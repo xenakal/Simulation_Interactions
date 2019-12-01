@@ -4,7 +4,7 @@ from utils.GUI import *
 TIMESTEP = 1
 TIMEPAUSE = 1
 
-USE_AGENT = 0
+USE_AGENT = 1
 
 class App:
     def __init__(self, useGUI=1, scenario=0):
@@ -120,14 +120,14 @@ class App:
 
         elif scenario == 5:
             # Options for the target
-            self.x_tar = numpy.array([155, 230, 200])
-            self.y_tar = numpy.array([155, 155, 155])
-            self.vx_tar = numpy.array([0, 0, 0])
-            self.vy_tar = numpy.array([0, 0, 0])
-            self.traj_tar = numpy.array(['linear', 'linear', 'linear'])
-            self.trajChoice_tar = numpy.array([0, 0, 0])
+            self.x_tar = numpy.array([155, 20])
+            self.y_tar = numpy.array([155, 20])
+            self.vx_tar = numpy.array([0, 0])
+            self.vy_tar = numpy.array([0, 0])
+            self.traj_tar = numpy.array(['linear', 'linear'])
+            self.trajChoice_tar = numpy.array([0, 1])
             self.size_tar = numpy.array([20, 5, 6])
-            self.label_tar = numpy.array(['fix', 'target', 'target'])
+            self.label_tar = numpy.array(['fix', 'target'])
             # Options for the cameras
             self.x_cam = numpy.array([10, 310])
             self.y_cam = numpy.array([155, 155])

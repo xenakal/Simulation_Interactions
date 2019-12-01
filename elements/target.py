@@ -44,7 +44,8 @@ class Target:
             self.xgoal = [30, 250, 20]
             self.ygoal = [300, 30, 20]
         elif tar_trajChoice == 1:
-            pass
+            self.xgoal = [200, 200, 20]
+            self.ygoal = [100, 180, 200]
         else:
             print("Trajectory choice not recognnize !")
             

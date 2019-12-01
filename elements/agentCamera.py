@@ -12,6 +12,7 @@ class InformationTable:
         self.targets = targets
     
         self.info = self.initInfo()
+        #print(self.info)
         
        
     def initInfo(self):
@@ -25,7 +26,7 @@ class InformationTable:
         for time in self.times:
             for camera in self.cameras:
                 for targets in self.targets:
-                    info.append((Target(),0,-1,-1,-1))
+                    info.append((Target(),0,-1,-1,time))
         
         return np.array(info, dtype=infoType)
     
@@ -100,10 +101,27 @@ class AgentCam:
                 
     def defineWhomToSend(self,m,myRoom):
         #Different tags can be use
-        for agent in myRoom.agentCam:
-            if(agent.id != self.id):
-                self.sendMess(m +str(agent.id),agent.id)
         
+        #A) ACTION BASED ON WHAT THE CAMERA SEES
+        #New target detected
+            #1) check if already followed by a camera  ?
+                #YES ---> checking if we have a better view
+                    #YES ---> sending a message
+                    #NO finish
+        
+                #NO  send a request to the other cam
+                for agent in myRoom.agentCam:
+                    if(agent.id != self.id):
+                        self.sendMess(m +str(agent.id),agent.id)
+            
+        #B) ACTION BASED ON WHAT THE CAMERA CAN PREDICTE
+        #target will be hidden / leave the field of the camera
+            #analyse(prediction) --> tags
+            #1) check if a camera has also a view
+                #YES ---> tell the camera to follow it
+                    
+                #NO  ----> sending a message to the user to inform that the target is no more followed7
+    
     def parseRecMess(self,m):
         print(m)
         return 0
