@@ -14,7 +14,7 @@ class App:
             self.y_tar = numpy.array([55])
             self.vx_tar = numpy.array([4])
             self.vy_tar = numpy.array([4])
-            self.traj_tar = numpy.array(["linear"])
+            self.traj_tar = numpy.array(["path_planning"])
             self.size_tar = numpy.array([5])
             self.label_tar = numpy.array(['target'])
             # Options for the cameras
@@ -184,5 +184,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, 1)
+    myApp = App(1, -1)
     myApp.main()
