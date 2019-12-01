@@ -6,6 +6,7 @@ TIMEPAUSE = 1
 
 USE_AGENT = 1
 
+
 class App:
     def __init__(self, useGUI=1, scenario=0):
 
@@ -194,5 +195,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, 1)
+    myApp = App(1, -1)
     myApp.main()
