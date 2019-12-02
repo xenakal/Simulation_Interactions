@@ -10,15 +10,51 @@ class Message():
         self.timeStamp = timeStamp
         self.specialNumber = random.random() * 10000000000000000
 
-     
-    def simpleFormatMessage(self):
-        return str(self.timeStamp)+'-'+str(self.senderID)+'-'+str(self.receiverID)+'-'+self.messageType + '-' +self.message +'-'+str(self.specialNumber)
+    def modifyMessageFromString(self,s):
+        att = s.split("-")
+        self.senderID = att[2]
+        self.receiverID = att[3]
+        self.message = att[5]
+        self.messageType = att[4]
+        self.timeStamp = att[1]
+        self.specialNumber = float(att[0])
+    
+    def formatMessageType(self):
+        base =  str(self.specialNumber)+'-'+ str(self.timeStamp)+'-'+str(self.senderID)+'-'+str(self.receiverID)+'-'+self.messageType
+        if self.messageType == 'request' or self.messageType == 'request_all':
+            message = "target" + '_' + self.message
+        elif self.messageType == 'ack' or self.messageType == 'nack':
+            message = self.message
+        elif self.messageType == 'information':
+            message = self.message
+        elif self.messageType == 'information':
+            message = self.message
+            
+        return base +'-'+ message
+    
+    def parseMessageType(self):
+        if self.messageType == 'request' or self.messageType == 'request_all':
+            att = self.message.split('_')
+            message = int(att[1])  #information utile 
+        elif self.messageType == 'ack' or self.messageType == 'nack':
+            message = message
+        elif self.messageType == 'information':
+            message = self.message
+        elif self.messageType == 'information':
+            message = self.message
+            
+        return message
         
     def printMessage(self):
-        return 'message #'+str(self.specialNumber)+' - time :' + str(self.timeStamp) + '- from agent :'+str(self.senderID)+' - to agent :'+str(self.receiverID)+' - '+self.messageType + ' - ' +self.message    
-    
-    def setSpecialNumber(self,s):
-        self.specialNumber = s
+        return 'message #'+str(self.specialNumber)+' - time :' + str(self.timeStamp) + '- from agent :'+str(self.senderID)+' - to agent :'+str(self.receiverID)+' - '+self.messageType + ' - ' +self.message  
+        
+         
+        
+class MessageBound():
+    def __init__(self,messageSend, messageReceived):
+        #il faut checker si les TAG sont les mêmes
+        self.messageSend = messageSend
+        self.receiverID = receiverID
     
 class TargetInfos():
     def __init__(self,timeStamp, target, followedByCam = -1,cam  = -1,distance = -1):
@@ -26,8 +62,8 @@ class TargetInfos():
         self.target = target
         self.seenByCam_and_distance = [(cam,distance)]
         self.followedByCam =  followedByCam
-        self.ack_received = 0
-        self.nack_received = 0
+        #self.ack_received = 0
+        #self.nack_received = 0
     
     
 class InformationTable:
@@ -36,8 +72,16 @@ class InformationTable:
         self.cameras = cameras
         self.targets = targets
     
-        self.info_room =  [] #self.initInfo()
-        self.info_message = self.initInfoMessage()
+        self.info_room =  []
+        
+        #List to know what has been send, receive and what could be process
+        #A implémenter dans la classe agentCamera, à chaque fois qu'un message est envoyé il est ajouté
+        # recu idem, puis une fonction parcours pour voir si il y a un match en les recus et les envoyés
+        #Si c'est le cas suppression dens liste d'attente et ajout lié dans la liste des informations traitable
+        self.info_messageSend = []
+        self.info_messageReceived = []
+        self.info_messageBound = []
+        
         #print(self.info_room
     
     def initInfoMessage(self):
@@ -106,58 +150,6 @@ class InformationTable:
                 
         return s     
                     
-    def addInfoMessage(self,camSenderID,camReceiverID,message):
-        n = 0
-        m = 0
-        
-        for camera in self.cameras:
-            if camera.id == camSenderID:
-                break
-            else:
-                n = n + 1
-                
-        for camera in self.cameras:
-            if camera.id == camReceiverID:
-                break
-            else:
-                m = m + 1
-        try:
-            self.info_message[n][m].append(message)
-        except IndexError:
-            print(str(n)+","+str(m) + " // sender :" + str(camSenderID) + " --> receiver :" + str(camReceiverID) + " // num : " + str(message.specialNumber))
-            print("ERREUR :not abble to store message ?????")         
-        
-    def remInfoMessage(self,camSenderID,camReceiverIDmessage):
-        n = 0
-        m = 0
-        
-        for camera in self.cameras:
-            if camera.id == camSenderID:
-                break
-            else:
-                n = n + 1
-                
-        for camera in self.cameras:
-            if camera.id == camReceiverID:
-                break
-            else:
-                m = m + 1
-        try:
-            self.info_message[n][m].append(message)
-        except IndexError:
-            print(str(n)+","+str(m) + " // sender :" + str(camSenderID) + " --> receiver :" + str(camReceiverID) + " // num : " + str(message.specialNumber))
-            print("ERREUR :not abble to delete message ?????")    
-
-    
-#    def checkMessageInInfoMessage(self,message):
-#        for n in range(0,len(self.cameras)-1):
-#            for m in range(0,len(self.cameras)-1):
-#                for savedMessage in self.info_message[n][m]:
-#                    if message.specialNumber == savedMessage.specialNumber:
-#                        return True
-#                    
-#        return False
-        
 if __name__ == "__main__":
    table = InformationTable(0,1,2)
    print(table.info_message)

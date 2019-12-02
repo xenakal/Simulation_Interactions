@@ -46,7 +46,8 @@ class Room:
                             , cam_beta[self.camerasNumber], fix[self.camerasNumber])
             self.cameras.append(camera)
             self.camerasNumber = self.camerasNumber + 1
-
+        
+        for camera in self.cameras:
             self.agentCam.append(AgentCam(self.agentCamNumber, camera, myRoom))
             self.agentCamNumber = self.agentCamNumber + 1
 

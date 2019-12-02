@@ -7,7 +7,7 @@ from utils.GUI import *
 TIMESTEP = 1
 TIMEPAUSE = 0.1
 
-USE_AGENT = 0
+USE_AGENT = 1
 
 
 class App:

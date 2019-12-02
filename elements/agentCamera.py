@@ -101,8 +101,7 @@ class AgentCam:
                     self.updateTable("newPicture",picture)
                     s = self.table.printFieldRoom()
                     self.log_room.info(s)
-                    self.log_room.info(self.table.info_message)
-                    
+
                 nextstate = "makePrediction"
                 
             elif state == "makePrediction":
@@ -190,16 +189,16 @@ class AgentCam:
                 #NO  ----> sending a message to the user to inform that the target is no more followed
                              
     def parse_respondRecMess(self,m):
-        att = m.split("-")
         #reconstruction de l'objet message
-        rec_mes = Message(att[0],att[1],att[2],att[3],att[4])
-        rec_mes.setSpecialNumber(float(att[5])) #should not be use but we can only pass a string
+        rec_mes = Message(0,0,0,0,0)
+        rec_mes.modifyMessageFromString(m)
+        
         self.log_message.info('RECEIVED : '+ rec_mes.printMessage())
         
         if(rec_mes.messageType == "request_all"):
             #if faut parser le messat (att[4]) pour récupérer l'id + distance
                 
-            if self.table.isTargetDetected(int(rec_mes.message)):
+            if self.table.isTargetDetected(rec_mes.parseMessageType()):
                 #If the target is seen => distances # AJouté la condition
                 #if(distance < distance 2)
                     typeMessage="ack"
@@ -212,9 +211,9 @@ class AgentCam:
             self.sendMessageType(typeMessage,rec_mes.receiverID,0,rec_mes)
             
             #Update the table
-            if(rec_mes.messageType == "request_all"):
-                message = typeMessage +'-'+m
-                self.updateTable("infoFromOtherCam",message)
+            #if(rec_mes.messageType == "request_all"):
+                #message = typeMessage +'-'+m
+                #self.updateTable("infoFromOtherCam",message)
             
         elif(rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
             #ici il faut stocker les info dans le tableau
@@ -235,19 +234,19 @@ class AgentCam:
             self.sendMess(m)
                             
         elif(typeMessage == "ack"):
-            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.message)
+            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.formatMessageType())
             self.sendMess(m)
                             
         elif(typeMessage == "nack"):
-            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.message)
+            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.formatMessageType())
             self.sendMess(m)
                             
         elif(typeMessage == "heartbeat"):
-            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,m)
+            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,"heartbeat")
             self.sendMess(m)
                             
         elif(typeMessage == "information"):
-            m = Message(self.myRoom.time,self.id,agent.id,typeMessage,message)
+            m = Message(self.myRoom.time,self.id,agent.id,typeMessage,"what ever for now")
             self.sendMess(m)
                             
     
@@ -289,12 +288,13 @@ class AgentCam:
             mbox = mailbox.mbox(NAME_MAILBOX+str(m.receiverID))
             mbox.lock()
             try:
-                mbox.add(m.simpleFormatMessage()) #apparament on ne peut pas transférer d'objet
+                mbox.add(m.formatMessageType()) #apparament on ne peut pas transférer d'objet
                 self.log_message.info('SEND     : '+m.printMessage())
                 mbox.flush()
                 
                 #saving the message in a data base to remember it was sent
-                self.table.addInfoMessage(self.id,m.receiverID,m) #Ici il faut empêcher que les deux thread accède au même tableau en même temps
+                #self.table.addMessageSend()
+            
                 succes = 0
                 #print("message sent successfully")   
             finally:
