@@ -101,6 +101,7 @@ class AgentCam:
                     self.updateTable("newPicture",picture)
                     s = self.table.printFieldRoom()
                     self.log_room.info(s)
+                    self.log_room.info(self.table.info_message)
                     
                 nextstate = "makePrediction"
                 
@@ -132,6 +133,7 @@ class AgentCam:
             targets = []
             for elem in picture:
                 targets.append(elem[0])
+                
             self.table.updateInfoRoom(self.myRoom.time,targets,self.cam,-1)
             
         #modify the information of the message     
@@ -161,7 +163,7 @@ class AgentCam:
                 #critère à modifier sur le fait qu'un message à déjà été envoyé
                 isDetected = self.table.wasTargetAlreadyDeteced(actual_target)
                 if(not isDetected or self.myRoom.time <= 1):
-                    self.sendMessageType("request",0,actual_target,"")
+                    self.sendMessageType("request_all",0,actual_target,"")
                     
             elif actual_target.label == "obstruction":
                 pass
@@ -191,9 +193,10 @@ class AgentCam:
         att = m.split("-")
         #reconstruction de l'objet message
         rec_mes = Message(att[0],att[1],att[2],att[3],att[4])
+        rec_mes.setSpecialNumber(float(att[5])) #should not be use but we can only pass a string
         self.log_message.info('RECEIVED : '+ rec_mes.printMessage())
         
-        if(rec_mes.messageType == "request"):
+        if(rec_mes.messageType == "request_all"):
             #if faut parser le messat (att[4]) pour récupérer l'id + distance
                 
             if self.table.isTargetDetected(int(rec_mes.message)):
@@ -209,22 +212,27 @@ class AgentCam:
             self.sendMessageType(typeMessage,rec_mes.receiverID,0,rec_mes)
             
             #Update the table
-            if(rec_mes.messageType == "request"):
+            if(rec_mes.messageType == "request_all"):
                 message = typeMessage +'-'+m
                 self.updateTable("infoFromOtherCam",message)
             
         elif(rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
             #ici il faut stocker les info dans le tableau
+            #besoin d'une méthode pour compte les hack ou les nack
             pass
        
        
     #Ici il faut faire enc sorte d'etre sur que le message à été envoyé parce qu'il se peut qu'il ne soit pas du tout envoyé 
-    def sendMessageType(self, typeMessage, reiceiverID , target , m):
-        if(typeMessage == "request"):
+    def sendMessageType(self, typeMessage, receiverID , target , m):
+        if(typeMessage == "request_all"):
             for agent in self.myRoom.agentCam:
                         if(agent.id != self.id):
                             m = Message(self.myRoom.time,self.id,agent.id,typeMessage,str(target.id)) #ici il faut aussi transmettre la distance
                             self.sendMess(m)
+                            
+        elif(typeMessage == "request"):
+            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,str(target.id)) #ici il faut aussi transmettre la distance
+            self.sendMess(m)
                             
         elif(typeMessage == "ack"):
             m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.message)
@@ -269,7 +277,7 @@ class AgentCam:
         except mailbox.ExternalClashError:
             self.log_message.debug("Not possible to read messages")
         except FileExistsError:
-            self.log_message.warning("Mailbox file error")
+            self.log_message.warning("Mailbox file error RECEIVE")
         
         return succes
             
@@ -284,6 +292,9 @@ class AgentCam:
                 mbox.add(m.simpleFormatMessage()) #apparament on ne peut pas transférer d'objet
                 self.log_message.info('SEND     : '+m.printMessage())
                 mbox.flush()
+                
+                #saving the message in a data base to remember it was sent
+                self.table.addInfoMessage(self.id,m.receiverID,m) #Ici il faut empêcher que les deux thread accède au même tableau en même temps
                 succes = 0
                 #print("message sent successfully")   
             finally:
@@ -300,7 +311,7 @@ class AgentCam:
         except mailbox.ExternalClashError:
             self.log_message.debug("Not possible to send messages")
         except FileExistsError:
-            self.log_message.warning("Mailbox file error")
+            self.log_message.warning("Mailbox file error SEND")
             
         return succes
     

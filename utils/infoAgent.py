@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 class Message():
     def __init__(self,timeStamp,senderID, receiverID, messageType,message):
@@ -7,22 +8,28 @@ class Message():
         self.message = message
         self.messageType = messageType
         self.timeStamp = timeStamp
+        self.specialNumber = random.random() * 10000000000000000
+
      
     def simpleFormatMessage(self):
-        return str(self.timeStamp)+'-'+str(self.senderID)+'-'+str(self.receiverID)+'-'+self.messageType + '-' +self.message  
+        return str(self.timeStamp)+'-'+str(self.senderID)+'-'+str(self.receiverID)+'-'+self.messageType + '-' +self.message +'-'+str(self.specialNumber)
         
     def printMessage(self):
-        return 'time :' + str(self.timeStamp) + '- from agent :'+str(self.senderID)+' - to agent :'+str(self.receiverID)+' - '+self.messageType + ' - ' +self.message    
-         
+        return 'message #'+str(self.specialNumber)+' - time :' + str(self.timeStamp) + '- from agent :'+str(self.senderID)+' - to agent :'+str(self.receiverID)+' - '+self.messageType + ' - ' +self.message    
+    
+    def setSpecialNumber(self,s):
+        self.specialNumber = s
+    
 class TargetInfos():
     def __init__(self,timeStamp, target, followedByCam = -1,cam  = -1,distance = -1):
         self.timeStamp = timeStamp
         self.target = target
         self.seenByCam_and_distance = [(cam,distance)]
         self.followedByCam =  followedByCam
+        self.ack_received = 0
+        self.nack_received = 0
     
     
-
 class InformationTable:
     def __init__(self, cameras, targets, nTime = 5):
         self.times = nTime
@@ -36,8 +43,10 @@ class InformationTable:
     def initInfoMessage(self):
         info_message = []
         for camera in self.cameras:
+            info_cam = []
             for camera in self.cameras:
-                info_message.append([])
+                info_cam.append([])
+            info_message.append(info_cam)
                 
         return info_message
         
@@ -96,50 +105,61 @@ class InformationTable:
                 s = s + ("time : " + str(info.timeStamp) + " target " + str(info.target.id) +"\n")
                 
         return s     
-    
-               
-                      
-    def addInfoMessage(self,camReceiverID,camSenderID,message):
+                    
+    def addInfoMessage(self,camSenderID,camReceiverID,message):
         n = 0
         m = 0
+        
         for camera in self.cameras:
-            if camera.id == camReceiverID:
+            if camera.id == camSenderID:
                 break
             else:
                 n = n + 1
                 
         for camera in self.cameras:
-            if camera.id == camSenderID:
+            if camera.id == camReceiverID:
                 break
             else:
                 m = m + 1
-                
-        self.info_message[n,m].append(message)
+        try:
+            self.info_message[n][m].append(message)
+        except IndexError:
+            print(str(n)+","+str(m) + " // sender :" + str(camSenderID) + " --> receiver :" + str(camReceiverID) + " // num : " + str(message.specialNumber))
+            print("ERREUR :not abble to store message ?????")         
         
-    def remInfoMessage(self,camReceiverID,camSenderID,message):
+    def remInfoMessage(self,camSenderID,camReceiverIDmessage):
         n = 0
         m = 0
+        
         for camera in self.cameras:
-            if camera.id == camReceiverID:
+            if camera.id == camSenderID:
                 break
             else:
                 n = n + 1
                 
         for camera in self.cameras:
-            if camera.id == camSenderID:
+            if camera.id == camReceiverID:
                 break
             else:
                 m = m + 1
-                
-        self.info_message[n,m].remove(message)
-                
-        
-            
+        try:
+            self.info_message[n][m].append(message)
+        except IndexError:
+            print(str(n)+","+str(m) + " // sender :" + str(camSenderID) + " --> receiver :" + str(camReceiverID) + " // num : " + str(message.specialNumber))
+            print("ERREUR :not abble to delete message ?????")    
+
     
-    def modifyInfo(self,target,camera,t):
-         pass
+#    def checkMessageInInfoMessage(self,message):
+#        for n in range(0,len(self.cameras)-1):
+#            for m in range(0,len(self.cameras)-1):
+#                for savedMessage in self.info_message[n][m]:
+#                    if message.specialNumber == savedMessage.specialNumber:
+#                        return True
+#                    
+#        return False
         
 if __name__ == "__main__":
-   pass
+   table = InformationTable(0,1,2)
+   print(table.info_message)
     
     
