@@ -195,9 +195,14 @@ class AgentCam:
         
         self.log_message.info('RECEIVED : '+ rec_mes.printMessage())
         
-        if(rec_mes.messageType == "request_all"):
+        rep = 0
+        recID =  0
+        
+        if(rec_mes.messageType == "request_all" or rec_mes.messageType == "request"):
             #if faut parser le messat (att[4]) pour récupérer l'id + distance
-                
+            
+            rep = rec_mes
+            
             if self.table.isTargetDetected(rec_mes.parseMessageType()):
                 #If the target is seen => distances # AJouté la condition
                 #if(distance < distance 2)
@@ -207,18 +212,31 @@ class AgentCam:
             else:
             #If the target is not seen then ACK
                 typeMessage ="ack"
-            
+                
+        elif(rec_mes.messageType == "information"):
+            pass
+        elif(rec_mes.messageType == "heartbeat"):
+            pass
+        else:
+            pass
+        
+
+         #no need to answer
+        if(rec_mes.messageType == "ack" or rec_mes.messageType == "nack" ):
+            pass
+        else:
             self.sendMessageType(typeMessage,rec_mes.receiverID,0,rec_mes)
             
-            #Update the table
-            #if(rec_mes.messageType == "request_all"):
+            
+          #Update the table
+          #if(rec_mes.messageType == "request_all"):
                 #message = typeMessage +'-'+m
                 #self.updateTable("infoFromOtherCam",message)
             
-        elif(rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
+          #elif(rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
             #ici il faut stocker les info dans le tableau
             #besoin d'une méthode pour compte les hack ou les nack
-            pass
+            #pass
        
        
     #Ici il faut faire enc sorte d'etre sur que le message à été envoyé parce qu'il se peut qu'il ne soit pas du tout envoyé 
@@ -246,7 +264,7 @@ class AgentCam:
             self.sendMess(m)
                             
         elif(typeMessage == "information"):
-            m = Message(self.myRoom.time,self.id,agent.id,typeMessage,"what ever for now")
+            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,"what ever for now")
             self.sendMess(m)
                             
     
