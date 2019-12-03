@@ -2,27 +2,31 @@ import numpy as np
 import random
 
 class Message():
-    def __init__(self,timeStamp,senderID, receiverID, messageType,message):
+    def __init__(self,timeStamp,senderID,senderSignature,receiverID,receiverSignature, messageType,message):
         self.senderID = senderID
+        self.senderSignature = senderSignature
         self.receiverID = receiverID
+        self.receiverSignature = receiverSignature
         self.message = message
         self.messageType = messageType
         self.timeStamp = timeStamp
-        self.specialNumber = random.random() * 10000000000000000
+        self.signature = random.random() * 10000000000000000
         self.formatMessageType()
 
     def modifyMessageFromString(self,s):
         att = s.split("-")
         self.senderID = att[2]
-        self.receiverID = att[3]
-        self.message = att[5]
-        self.messageType = att[4]
+        self.senderSignature = [3]
+        self.receiverID = att[4]
+        self.receiverSignature = [5]
+        self.message = att[7]
+        self.messageType = att[6]
         self.timeStamp = att[1]
-        self.specialNumber = float(att[0])
+        self.signature = float(att[0])
         self.formatMessageType()
         
     def formatMessageType(self):
-        base =  str(self.specialNumber)+'-'+ str(self.timeStamp)+'-'+str(self.senderID)+'-'+str(self.receiverID)+'-'+str(self.messageType)
+        base =  str(self.signature)+'-'+ str(self.timeStamp)+'-'+str(self.senderID)+'-'+str(self.senderSignature)+'-'+str(self.receiverID)+'-'+str(self.receiverSignature)+'-'+str(self.messageType)
         if self.messageType == 'request' or self.messageType == 'request_all':
             message = "target" + '_' + str(self.message)
         elif self.messageType == 'ack' or self.messageType == 'nack':
@@ -52,7 +56,11 @@ class Message():
         return message
         
     def printMessage(self):
-        return 'message #'+str(self.specialNumber)+' - time :' + str(self.timeStamp) + '- from agent :'+str(self.senderID)+' - to agent :'+str(self.receiverID)+' - '+self.messageType + ' - '+str(self.message)
+        s1 = 'message #'+str(self.signature)+' - time :'
+        s2 = str(self.timeStamp) + '- from agent :'+str(self.senderID)+' - to agent :'+str(self.receiverID)
+        s3 = ' - '+self.messageType + ' - '+str(self.message)
+        return  s1+s2+s3
+    
         
         
 class ListMessage():

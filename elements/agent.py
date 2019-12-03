@@ -6,21 +6,23 @@ import numpy as np
 from elements.target import*
 from utils.message import*
 
+NAME_LOG_PATH = "log/log_agent/Agent"
 NAME_MAILBOX = "mailbox/MailBox_Agent"
 MULTI_THREAD = 0 
         
 class Agent:
-    def __init__(self, idAgent,camera,room):
+    def __init__(self,idAgent,room):
         #Attributes
         self.id = idAgent
         self.myRoom = room
+        self.signature = random.random() * 10000000000000000
         
         #Communication
         self.info_messageSent = ListMessage("Sent")
         self.info_messageReceived = ListMessage("Received")
         self.info_messageToSend = ListMessage("ToSend")
         
-        self.mbox = mailbox.mbox(NAME_MAILBOX+str(idAgent))
+        self.mbox = mailbox.mbox(NAME_MAILBOX+str(self.id))
         self.mbox.clear()
         
         #Threads
@@ -114,28 +116,27 @@ class Agent:
         pass
                 
             
-    #Ici il faut faire enc sorte d'etre sur que le message à été envoyé parce qu'il se peut qu'il ne soit pas du tout envoyé 
-    def sendMessageType(self,typeMessage,m,receiverID=0):
+    def sendMessageType(self,typeMessage,m,receiverID=0,receiverSignature=0):
         if(typeMessage == "request_all"):
             for agent in self.myRoom.agentCam:
                         if(agent.id != self.id):
-                            m = Message(self.myRoom.time,self.id,agent.id,typeMessage,m) #ici il faut aussi transmettre la distance
+                            m = Message(self.myRoom.time,self.id,self.signature,agent.id,agent.signature,typeMessage,m) #ici il faut aussi transmettre la distance
                             self.info_messageToSend.addMessage(m)
 
         elif(typeMessage == "request"):
-            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,m) #ici il faut aussi transmettre la distance
+            m = Message(self.myRoom.time,self.id,self.signature,receiverID,m.receiverSignature,typeMessage,m) #ici il faut aussi transmettre la distance
                             
         elif(typeMessage == "ack"):
-            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.formatMessageType())
+            m = Message(self.myRoom.time,self.id,self.signature,m.senderID,m.receiverSignature,typeMessage,m.formatMessageType())
                             
         elif(typeMessage == "nack"):
-            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.formatMessageType())
+            m = Message(self.myRoom.time,self.id,self.signature,receiverID,receiverSignature,typeMessage,m.formatMessageType())
                             
         elif(typeMessage == "heartbeat"):
-            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,"heartbeat")
+            m = Message(self.myRoom.time,self.id,self.signature,receiverID,receiverSignature,typeMessage,"heartbeat")
                             
         elif(typeMessage == "information"):
-            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,"what ever for now")
+            m = Message(self.myRoom.time,self.id,self.signature,receiverID,receiverSignature,typeMessage,"what ever for now")
         
         else:
             m = -1
@@ -148,7 +149,7 @@ class Agent:
     ############################
     def parseRecMess(self,m):
         #reconstruction de l'objet message
-        rec_mes = Message(0,0,0,0,0)
+        rec_mes = Message(0,0,0,0,0,0,0)
         rec_mes.modifyMessageFromString(m)
         
         self.info_messageReceived.addMessage(rec_mes)

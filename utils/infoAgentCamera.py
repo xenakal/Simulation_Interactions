@@ -7,8 +7,8 @@ class TargetInfos():
         self.target = target
         self.seenByCam_and_distance = [(cam,distance)]
         self.followedByCam =  followedByCam
-        #self.ack_received = 0
-        #self.nack_received = 0
+        self.ack_received = 0
+        self.nack_received = 0
     
 class InformationTable:
     def __init__(self, cameras, targets, nTime = 5):

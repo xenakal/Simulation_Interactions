@@ -195,7 +195,6 @@ class App:
         shutil.rmtree("mailbox",ignore_errors = True)
         os.mkdir("mailbox")
         
-
     def updateGUI(self):
         self.myGUI.drawRoom(self.myRoom.coord)
         self.myGUI.drawTarget(self.myRoom.targets, self.myRoom.coord)
