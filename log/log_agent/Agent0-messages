@@ -1,75 +1,65 @@
-2019-12-03 10:26:28,771 - agent0 - INFO - Agent initialized and  starts
-2019-12-03 10:26:28,907 - agent0 - INFO - SEND     : message #571657032460487.5 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:28,944 - agent0 - INFO - RECEIVED : message #7980234093899746.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-03 12:21:12,728 - agent0 - INFO - Agent initialized and  starts
+2019-12-03 12:21:12,872 - agent0 - INFO - SEND     : message #3346627655232234.0 - time :0- from agent :0 - to agent :1 - request_all - 0
+2019-12-03 12:21:12,902 - agent0 - INFO - RECEIVED : message #2725638465337298.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
 
-2019-12-03 10:26:29,043 - agent0 - INFO - SEND     : message #7542329681195689.0 - time :0- from agent :0 - to agent :1 - ack - 7980234093899746.0-0-1-0-request_all-target_target_0
+2019-12-03 12:21:12,948 - agent0 - INFO - SEND     : message #6471024531449441.0 - time :0- from agent :0 - to agent :1 - request_all - 0
+2019-12-03 12:21:13,102 - agent0 - INFO - SEND     : message #8816941887853467.0 - time :0- from agent :0 - to agent :1 - ack - 2725638465337298.0-0-1-0-request_all-target_target_0
 
-2019-12-03 10:26:29,081 - agent0 - INFO - SEND     : message #8959634561100481.0 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:29,100 - agent0 - INFO - SEND     : message #5444114310748986.0 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:29,121 - agent0 - INFO - RECEIVED : message #9419942278180610.0 - time :0- from agent :1 - to agent :0 - ack - 571657032460487.5
-2019-12-03 10:26:29,208 - agent0 - INFO - RECEIVED : message #8387620264768182.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-03 12:21:13,168 - agent0 - INFO - SEND     : message #6690301428156126.0 - time :0- from agent :0 - to agent :1 - request_all - 0
+2019-12-03 12:21:13,186 - agent0 - WARNING - Mailbox file error RECEIVE
+2019-12-03 12:21:13,324 - agent0 - INFO - SEND     : message #1704966886812382.5 - time :0- from agent :0 - to agent :1 - request_all - 0
+2019-12-03 12:21:13,392 - agent0 - INFO - RECEIVED : message #336541166045336.56 - time :0- from agent :1 - to agent :0 - ack - 3346627655232234.0
+2019-12-03 12:21:13,458 - agent0 - INFO - RECEIVED : message #9948619401484676.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
 
-2019-12-03 10:26:29,345 - agent0 - INFO - RECEIVED : message #4627142694705554.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-03 12:21:13,549 - agent0 - INFO - RECEIVED : message #1879127641125505.2 - time :0- from agent :1 - to agent :0 - request_all - target_0
 
-2019-12-03 10:26:29,402 - agent0 - INFO - SEND     : message #995730536824984.8 - time :0- from agent :0 - to agent :1 - ack - 8387620264768182.0-0-1-0-request_all-target_target_0
+2019-12-03 12:21:13,571 - agent0 - INFO - RECEIVED : message #575246545708094.6 - time :0- from agent :1 - to agent :0 - request_all - target_0
 
-2019-12-03 10:26:29,437 - agent0 - INFO - SEND     : message #3373728984478790.0 - time :0- from agent :0 - to agent :1 - ack - 4627142694705554.0-0-1-0-request_all-target_target_0
+2019-12-03 12:21:13,651 - agent0 - INFO - SEND     : message #6277584935823631.0 - time :0- from agent :0 - to agent :1 - ack - 1879127641125505.2-0-1-0-request_all-target_target_0
 
-2019-12-03 10:26:29,472 - agent0 - INFO - SEND     : message #9507717523156096.0 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:29,654 - agent0 - INFO - SEND     : message #9345689996971084.0 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:29,740 - agent0 - INFO - SEND     : message #4076173480849787.5 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:29,789 - agent0 - INFO - SEND     : message #1139912973356167.5 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:29,828 - agent0 - INFO - RECEIVED : message #7356638542976059.0 - time :0- from agent :1 - to agent :0 - ack - 8959634561100481.0
-2019-12-03 10:26:29,851 - agent0 - INFO - RECEIVED : message #7873069733992074.0 - time :0- from agent :1 - to agent :0 - ack - 5444114310748986.0
-2019-12-03 10:26:29,935 - agent0 - INFO - RECEIVED : message #8166396948352869.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-03 12:21:13,671 - agent0 - INFO - SEND     : message #6514481107261052.0 - time :0- from agent :0 - to agent :1 - ack - 575246545708094.6-0-1-0-request_all-target_target_0
 
-2019-12-03 10:26:29,955 - agent0 - INFO - RECEIVED : message #9144486912547620.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-03 12:21:13,691 - agent0 - INFO - SEND     : message #5584769968568729.0 - time :0- from agent :0 - to agent :1 - request_all - 0
+2019-12-03 12:21:13,754 - agent0 - INFO - RECEIVED : message #9187996843885220.0 - time :0- from agent :1 - to agent :0 - ack - 6690301428156126.0
+2019-12-03 12:21:13,773 - agent0 - INFO - RECEIVED : message #560465277987649.56 - time :0- from agent :1 - to agent :0 - ack - 1704966886812382.5
+2019-12-03 12:21:13,806 - agent0 - INFO - RECEIVED : message #9459000222229396.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
 
-2019-12-03 10:26:29,979 - agent0 - INFO - RECEIVED : message #2182698437909990.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-03 12:21:13,840 - agent0 - INFO - SEND     : message #4070590763038284.5 - time :0- from agent :0 - to agent :1 - ack - 9948619401484676.0-0-1-0-request_all-target_target_0
 
-2019-12-03 10:26:30,002 - agent0 - INFO - RECEIVED : message #454496346857595.75 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-03 12:21:13,928 - agent0 - INFO - SEND     : message #6590367761217298.0 - time :0- from agent :0 - to agent :1 - ack - 9459000222229396.0-0-1-0-request_all-target_target_0
 
-2019-12-03 10:26:30,034 - agent0 - INFO - SEND     : message #2764492684226062.0 - time :0- from agent :0 - to agent :1 - ack - 8166396948352869.0-0-1-0-request_all-target_target_0
+2019-12-03 12:21:13,956 - agent0 - INFO - SEND     : message #8121100263497462.0 - time :0- from agent :0 - to agent :1 - request_all - 0
+2019-12-03 12:21:14,002 - agent0 - INFO - RECEIVED : message #6726934044696955.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
 
-2019-12-03 10:26:30,052 - agent0 - INFO - SEND     : message #9317826271168692.0 - time :0- from agent :0 - to agent :1 - ack - 9144486912547620.0-0-1-0-request_all-target_target_0
+2019-12-03 12:21:14,016 - agent0 - INFO - RECEIVED : message #3989781141139212.5 - time :0- from agent :1 - to agent :0 - ack - 5584769968568729.0
+2019-12-03 12:21:14,140 - agent0 - INFO - SEND     : message #267325876013553.28 - time :0- from agent :0 - to agent :1 - ack - 6726934044696955.0-0-1-0-request_all-target_target_0
 
-2019-12-03 10:26:30,119 - agent0 - INFO - SEND     : message #6161566835917880.0 - time :0- from agent :0 - to agent :1 - ack - 2182698437909990.0-0-1-0-request_all-target_target_0
+2019-12-03 12:21:14,204 - agent0 - INFO - SEND     : message #2490659235100205.5 - time :0- from agent :0 - to agent :1 - request_all - 0
+2019-12-03 12:21:14,230 - agent0 - INFO - SEND     : message #3680113803352446.0 - time :0- from agent :0 - to agent :1 - request_all - 0
+2019-12-03 12:21:14,265 - agent0 - INFO - SEND     : message #3117721858031924.5 - time :0- from agent :0 - to agent :1 - request_all - 0
+2019-12-03 12:21:14,304 - agent0 - INFO - SEND     : message #5695443195893922.0 - time :0- from agent :0 - to agent :1 - request_all - 0
+2019-12-03 12:21:14,394 - agent0 - INFO - RECEIVED : message #9585120442713880.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
 
-2019-12-03 10:26:30,146 - agent0 - INFO - SEND     : message #9272114474498732.0 - time :0- from agent :0 - to agent :1 - ack - 454496346857595.75-0-1-0-request_all-target_target_0
+2019-12-03 12:21:14,417 - agent0 - INFO - RECEIVED : message #3163820987307533.0 - time :0- from agent :1 - to agent :0 - ack - 8121100263497462.0
+2019-12-03 12:21:14,438 - agent0 - INFO - RECEIVED : message #7625213306749615.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
 
-2019-12-03 10:26:30,172 - agent0 - INFO - SEND     : message #8348676557529405.0 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:30,205 - agent0 - WARNING - Mailbox file error SEND
-2019-12-03 10:26:30,216 - agent0 - INFO - RECEIVED : message #49035740921865.58 - time :0- from agent :1 - to agent :0 - ack - 9507717523156096.0
-2019-12-03 10:26:30,237 - agent0 - INFO - RECEIVED : message #5694271577719549.0 - time :0- from agent :1 - to agent :0 - ack - 9345689996971084.0
-2019-12-03 10:26:30,315 - agent0 - INFO - RECEIVED : message #1854464290499327.0 - time :0- from agent :1 - to agent :0 - ack - 4076173480849787.5
-2019-12-03 10:26:30,363 - agent0 - INFO - RECEIVED : message #6537128494055524.0 - time :0- from agent :1 - to agent :0 - ack - 1139912973356167.5
-2019-12-03 10:26:30,381 - agent0 - INFO - RECEIVED : message #6301373742614490.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-03 12:21:14,522 - agent0 - INFO - RECEIVED : message #1537340559001271.2 - time :0- from agent :1 - to agent :0 - request_all - target_0
 
-2019-12-03 10:26:30,408 - agent0 - INFO - SEND     : message #9567761029134424.0 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:30,480 - agent0 - INFO - SEND     : message #867072357819122.0 - time :0- from agent :0 - to agent :1 - ack - 6301373742614490.0-0-1-0-request_all-target_target_0
+2019-12-03 12:21:14,540 - agent0 - INFO - SEND     : message #9669499111048586.0 - time :0- from agent :0 - to agent :1 - request_all - 0
+2019-12-03 12:21:14,557 - agent0 - INFO - SEND     : message #6661732194389932.0 - time :0- from agent :0 - to agent :1 - ack - 9585120442713880.0-0-1-0-request_all-target_target_0
 
-2019-12-03 10:26:30,503 - agent0 - INFO - SEND     : message #522765251374767.1 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:30,569 - agent0 - INFO - RECEIVED : message #6499979849605727.0 - time :0- from agent :1 - to agent :0 - ack - 8348676557529405.0
-2019-12-03 10:26:30,588 - agent0 - INFO - RECEIVED : message #5993598999738321.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-03 12:21:14,579 - agent0 - INFO - SEND     : message #9538741163547410.0 - time :0- from agent :0 - to agent :1 - ack - 7625213306749615.0-0-1-0-request_all-target_target_0
 
-2019-12-03 10:26:30,675 - agent0 - INFO - SEND     : message #8269591638041132.0 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:30,693 - agent0 - WARNING - Mailbox file error RECEIVE
-2019-12-03 10:26:30,703 - agent0 - INFO - SEND     : message #9307026770927536.0 - time :0- from agent :0 - to agent :1 - ack - 5993598999738321.0-0-1-0-request_all-target_target_0
+2019-12-03 12:21:14,595 - agent0 - INFO - SEND     : message #2155683311349469.0 - time :0- from agent :0 - to agent :1 - ack - 1537340559001271.2-0-1-0-request_all-target_target_0
 
-2019-12-03 10:26:30,762 - agent0 - INFO - SEND     : message #1315224730498788.5 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:30,794 - agent0 - INFO - SEND     : message #2369993834836597.0 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:30,809 - agent0 - INFO - SEND     : message #8002936117897144.0 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-03 10:26:30,828 - agent0 - INFO - RECEIVED : message #8287202160876628.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-03 12:21:14,611 - agent0 - INFO - SEND     : message #236511520538390.53 - time :0- from agent :0 - to agent :1 - request_all - 0
+2019-12-03 12:21:14,628 - agent0 - INFO - RECEIVED : message #9540498331983808.0 - time :0- from agent :1 - to agent :0 - ack - 2490659235100205.5
+2019-12-03 12:21:14,689 - agent0 - INFO - RECEIVED : message #2958695480859925.5 - time :0- from agent :1 - to agent :0 - ack - 3680113803352446.0
+2019-12-03 12:21:14,708 - agent0 - INFO - RECEIVED : message #1999611112542337.8 - time :0- from agent :1 - to agent :0 - ack - 3117721858031924.5
+2019-12-03 12:21:14,726 - agent0 - INFO - RECEIVED : message #631395976528491.5 - time :0- from agent :1 - to agent :0 - ack - 5695443195893922.0
+2019-12-03 12:21:14,745 - agent0 - INFO - RECEIVED : message #3073361051904893.5 - time :0- from agent :1 - to agent :0 - request_all - target_0
 
-2019-12-03 10:26:30,843 - agent0 - INFO - RECEIVED : message #9065231720842422.0 - time :0- from agent :1 - to agent :0 - ack - 9567761029134424.0
-2019-12-03 10:26:30,868 - agent0 - INFO - RECEIVED : message #7201065698423230.0 - time :0- from agent :1 - to agent :0 - ack - 522765251374767.1
-2019-12-03 10:26:30,971 - agent0 - INFO - SEND     : message #2126743343144724.8 - time :1- from agent :0 - to agent :1 - ack - 8287202160876628.0-0-1-0-request_all-target_target_0
+2019-12-03 12:21:14,767 - agent0 - INFO - SEND     : message #1805789374618693.8 - time :2- from agent :0 - to agent :1 - ack - 3073361051904893.5-0-1-0-request_all-target_target_0
 
-2019-12-03 10:26:31,018 - agent0 - INFO - RECEIVED : message #4937213940110704.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
-
-2019-12-03 10:26:31,074 - agent0 - INFO - SEND     : message #5637385763087764.0 - time :2- from agent :0 - to agent :1 - ack - 4937213940110704.0-0-1-0-request_all-target_target_0
-
-2019-12-03 10:26:31,153 - agent0 - INFO - RECEIVED : message #2536259302448949.0 - time :1- from agent :1 - to agent :0 - ack - 8269591638041132.0
-2019-12-03 10:26:31,204 - agent0 - INFO - RECEIVED : message #7639043200973831.0 - time :1- from agent :1 - to agent :0 - ack - 2369993834836597.0
-2019-12-03 10:26:31,239 - agent0 - INFO - RECEIVED : message #873080574492052.2 - time :1- from agent :1 - to agent :0 - ack - 1315224730498788.5
-2019-12-03 10:26:31,312 - agent0 - INFO - RECEIVED : message #8468529170331529.0 - time :1- from agent :1 - to agent :0 - ack - 8002936117897144.0
+2019-12-03 12:21:14,784 - agent0 - INFO - RECEIVED : message #3241623451856483.5 - time :2- from agent :1 - to agent :0 - ack - 9669499111048586.0
+2019-12-03 12:21:14,882 - agent0 - INFO - RECEIVED : message #4232085997004745.5 - time :2- from agent :1 - to agent :0 - ack - 236511520538390.53

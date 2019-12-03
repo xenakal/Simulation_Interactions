@@ -1,136 +1,246 @@
 import threading
 import mailbox
 import time
-from elements.target import *
-from elements.camera import *
+import logging
+import numpy as np
+from elements.target import*
+from utils.message import*
 
-TARGET0 = 25 
-TARGET1 = 26
-
-class Agent:
-    def __init__(self, idAgent):
-        self.id = idAgent
-        self.mbox = mailbox.mbox('agent'+str(idAgent))
-        self.mbox.clear()
-    
-        self.thread_pI = threading.Thread(target=self.thread_processImage) #,daemon=True)
-        self.thread_rL = threading.Thread(target=self.thread_recLoop) #,daemon=True)
+NAME_MAILBOX = "mailbox/MailBox_Agent"
+MULTI_THREAD = 0 
         
+class Agent:
+    def __init__(self, idAgent,camera,room):
+        #Attributes
+        self.id = idAgent
+        self.myRoom = room
+        
+        #Communication
+        self.info_messageSent = ListMessage("Sent")
+        self.info_messageReceived = ListMessage("Received")
+        self.info_messageToSend = ListMessage("ToSend")
+        
+        self.mbox = mailbox.mbox(NAME_MAILBOX+str(idAgent))
+        self.mbox.clear()
+        
+        #Threads
+        self.threadRun = 1
+        self.thread_pI = threading.Thread(target=self.thread_processImage) 
+        self.thread_rL = threading.Thread(target=self.thread_recLoop)
         threading.Timer(1,self.thread_processImage)
         threading.Timer(1,self.thread_recLoop)
         
+        #log_message
+        # create logger_message with 'spam_application'
+        logger_message = logging.getLogger('agent'+str(self.id))
+        logger_message.setLevel(logging.INFO)
+        # create file handler which log_messages even debug messages
+        fh = logging.FileHandler(NAME_LOG_PATH+str(self.id)+"-messages","w+")
+        fh.setLevel(logging.DEBUG)
+        # create console handler with a higher log_message level
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.ERROR)
+        # create formatter and add it to the handlers
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        fh.setFormatter(formatter)
+        ch.setFormatter(formatter)
+        # add the handlers to the logger_message
+        logger_message.addHandler(fh)
+        logger_message.addHandler(ch)
         
-        self.clear()
-    
+        self.log_message = logger_message
+        
+        #Startrun()
+        self.run()
+        self.log_message.info('Agent initialized and  starts')
+        
     def run(self):
         self.thread_pI.start()
-        self.thread_rL.start()
-         
-        #self.thread_pI.join()
-        #self.thread_rL.join()
-    
-    def writeLog(self, message):
-        return 'agent '+str(self.id)+' '+message
+        if MULTI_THREAD == 1:
+            self.thread_rL.start()
 
     def thread_processImage(self):
-        t = 0
-        while(True):
-            time.sleep(0.2)
-            
-            self.defineWhomToSend(t)
-            t = t + 1
-        
-     
-    def thread_recLoop(self):
-        t = 0
-        while(True):
-            time.sleep(0.2)
-            self.recMess()
-            t = t + 1
+        state = "processData"
+        nextstate = state
     
-    def defineWhomToSend(self,m):
-        if(self.id == TARGET1):
-                self.sendMess("Hello "+str(m),TARGET0)
-        elif(self.id == TARGET0 ):
-                self.sendMess("Hello "+str(m),TARGET1)
+        my_time = self.myRoom.time
+        my_previousTime = my_time-1
+         
+        picture = []
+        while(self.threadRun == 1):
+            
+            state = nextstate
+            my_time = self.myRoom.time
+              
+            if nextstate == "processData":
+                #Prediction based on messages
+                self.processInfoMemory()
+                nextstate = "sendMessage"
+            
+            
+            elif state == "sendMessage": 
+                self.sendAllMessage()
+                
+                if MULTI_THREAD != 1:
+                        self.recAllMess()
+                        self.processRecMess()
+                else:
+                    time.sleep(0.2)
+                
+                nextstate = "processData"
+                
+            else:
+                print("FSM not working proerly")
+            
+            
+    def thread_recLoop(self):
+        while(self.threadRun == 1):
+            self.recAllMess()
+            self.processRecMess()
+            
+           
+    ############################
+    #   Stor and process information
+    ############################  
+    def updateTable(self,type_update,objet):    
+       pass
+    
+    #define what message to send in terms of the info store in memory
+    def processInfoMemory(self):
+       pass
+    
+    #Save informations and if needed prepare a response            
+    def processRecMess(self):
+        pass
+                
+            
+    #Ici il faut faire enc sorte d'etre sur que le message à été envoyé parce qu'il se peut qu'il ne soit pas du tout envoyé 
+    def sendMessageType(self,typeMessage,m,receiverID=0):
+        if(typeMessage == "request_all"):
+            for agent in self.myRoom.agentCam:
+                        if(agent.id != self.id):
+                            m = Message(self.myRoom.time,self.id,agent.id,typeMessage,m) #ici il faut aussi transmettre la distance
+                            self.info_messageToSend.addMessage(m)
+
+        elif(typeMessage == "request"):
+            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,m) #ici il faut aussi transmettre la distance
+                            
+        elif(typeMessage == "ack"):
+            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.formatMessageType())
+                            
+        elif(typeMessage == "nack"):
+            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.formatMessageType())
+                            
+        elif(typeMessage == "heartbeat"):
+            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,"heartbeat")
+                            
+        elif(typeMessage == "information"):
+            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,"what ever for now")
         
+        else:
+            m = -1
+            
+        if m != -1 and typeMessage !=  'request_all':
+            self.info_messageToSend.addMessage(m)
+            
+    ############################
+    #   Receive Information
+    ############################
     def parseRecMess(self,m):
-        print(m)
-        return 0
+        #reconstruction de l'objet message
+        rec_mes = Message(0,0,0,0,0)
+        rec_mes.modifyMessageFromString(m)
         
-    def recMess(self):
+        self.info_messageReceived.addMessage(rec_mes)
+        self.log_message.info('RECEIVED : '+ rec_mes.printMessage())
+    
+    
+    def recAllMess(self):
         succes = -1
         #Reading the message 
-        mbox_rec = mailbox.mbox('agent'+str(self.id))
+        mbox_rec = mailbox.mbox(NAME_MAILBOX+str(self.id))
         try:
             mbox_rec.lock()
             keys = mbox_rec.keys()
-            is_ACK_NACK = 0
             try:
-                for key in keys:
-                    is_ACK_NACK = 0 
+                succes = 0 
+                for key in keys: 
                     m = mbox_rec.get_string(key)
                     
                     if (m != ""):  
-                          is_ACK_NACK = self.parseRecMess(m) 
-                          mbox_rec.remove(key)
-                          mbox_rec.flush()
+                          self.parseRecMess(m) #We put the message in the stack of received message BUT not response !
+                          
+                          if (succes == 0): #if we respond then the message is remove from the mail box   
+                             mbox_rec.remove(key)
+                             mbox_rec.flush()
             finally:
                 mbox_rec.unlock()
-                
-                #Sending a ACK or NACK
-                sender_ID = 0 #should be in the message
-                if(is_ACK_NACK == 1):
-                    message = "Ack ..."
-                    #succes = self.sendMess(self, message, sender_ID)
-                elif(is_ACK_NACK == 2):
-                    succes = message = "Nack ..."
-                    #self.sendMess(self, message, sender_ID)
-                                        
+            
+            
         except mailbox.ExternalClashError:
-            print("not possible to read the message")
+            self.log_message.debug("Not possible to read messages")
         except FileExistsError:
-            print("file does not exist ??")
+            self.log_message.warning("Mailbox file error RECEIVE")
+        
+        return succes
+      
+    ############################
+    #   Send Information
+    ############################  
+    def sendAllMessage(self):
+        for message in self.info_messageToSend.getList():
+            isSend = self.sendMess(message)
+            if isSend == 0:
+                    self.info_messageToSend.delMessage(message)
+                    self.info_messageSent.addMessage(message)
+            
     
-    def sendMess(self, m, receiverID):
+    #la fonction renvoie -1 quand le message n'a pas été envoyé mais ne s'occupe pas de le réenvoyer ! 
+    def sendMess(self, m):
         succes = -1
         try: 
-            mbox = mailbox.mbox('agent'+str(receiverID))
+            mbox = mailbox.mbox(NAME_MAILBOX+str(m.receiverID))
             mbox.lock()
             try:
-                key = mbox.add("Agent"+str(self.id)+":"+m)
+                mbox.add(m.formatMessageType()) #apparament on ne peut pas transférer d'objet
+                self.log_message.info('SEND     : '+m.printMessage())
                 mbox.flush()
+                
+                #saving the message in a data base to remember it was sent
+                #self.table.addMessageSend()
+            
                 succes = 0
                 #print("message sent successfully")   
             finally:
                 mbox.unlock()
+                
+        ##############################
+                
+            #1) on choppe la ref de l'agent à qui on envoie
+            #refAgent = getRef()
+            #refAgent.recMess()
+                
+        ##############################
+            
         except mailbox.ExternalClashError:
-            #message not sent
-            print("not possible to send the message")
+            self.log_message.debug("Not possible to send messages")
         except FileExistsError:
-            print("file does not exist ??")
+            self.log_message.warning("Mailbox file error SEND")
+            
         return succes
     
+    
     def clear(self):
-        #if(self.thread_pI.is_alive() == False and self.thread_pI.is_alive() == False):
+        self.threadRun = 0
+        while(self.thread_pI.is_alive() and self.thread_pI.is_alive()):
+            pass
         self.mbox.close()
   
         
 if __name__ == "__main__":
-    
-    agent0 = Agent(TARGET0)
-    agent1 = Agent(TARGET1)
-    agent0.run()
-    agent1.run()
-    
-    cdt1 = agent0.thread_pI.is_alive() #or agent0.thread_rL.is_alive()
-    cdt2 = agent1.thread_pI.is_alive() #or agent1.thread_rL.is_alive()
-    
-    t = 0
-    while(t < 100):
-        t = t+1
-        time.sleep(2)
-    exit(0)
+    pass
+ 
     
     
     
+

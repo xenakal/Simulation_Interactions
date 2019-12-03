@@ -4,7 +4,8 @@ import time
 import logging
 import numpy as np
 from elements.target import*
-from utils.infoAgent import*
+from utils.infoAgentCamera import*
+from utils.message import*
 
 NAME_MAILBOX = "mailbox/MailBox_Agent"
 NAME_LOG_PATH = "log/log_agent/Agent"
@@ -20,6 +21,10 @@ class AgentCam:
         self.table = InformationTable(self.myRoom.cameras,self.myRoom.targets,10)
         
         #Communication
+        self.info_messageSent = ListMessage("Sent")
+        self.info_messageReceived = ListMessage("Received")
+        self.info_messageToSend = ListMessage("ToSend")
+        
         self.mbox = mailbox.mbox(NAME_MAILBOX+str(idAgent))
         self.mbox.clear()
         
@@ -118,9 +123,9 @@ class AgentCam:
             
             
             elif state == "sendMessage":
-                self.log_room.info(self.table.info_messageSent.printMyList())
-                self.log_room.info(self.table.info_messageReceived.printMyList())
-                self.log_room.info(self.table.info_messageToSend.printMyList())
+                self.log_room.info(self.info_messageSent.printMyList())
+                self.log_room.info(self.info_messageReceived.printMyList())
+                self.log_room.info(self.info_messageToSend.printMyList())
                 
                 self.sendAllMessage()
                 
@@ -140,8 +145,6 @@ class AgentCam:
         while(self.threadRun == 1):
             self.recAllMess()
             self.processRecMess()
-            #self.tableau.modifyInfo(self,target,camera,t):
-            #self.updateTable(picture,prediction)
             
            
     ############################
@@ -200,7 +203,7 @@ class AgentCam:
         
     #Save informations and if needed prepare a response            
     def processRecMess(self):
-        for rec_mes in self.table.info_messageReceived.getList():
+        for rec_mes in self.info_messageReceived.getList():
             if(rec_mes.messageType == "request_all" or rec_mes.messageType == "request"):
                 #Update Info
                 self.updateTable("infoFromOtherCam",rec_mes)
@@ -229,7 +232,7 @@ class AgentCam:
                 self.sendMessageType(typeMessage,rep_mes,rec_mes.receiverID)
             
             #message supress from the wainting list
-            self.table.info_messageReceived.delMessage(rec_mes)
+            self.info_messageReceived.delMessage(rec_mes)
                 
             
     #Ici il faut faire enc sorte d'etre sur que le message à été envoyé parce qu'il se peut qu'il ne soit pas du tout envoyé 
@@ -238,7 +241,7 @@ class AgentCam:
             for agent in self.myRoom.agentCam:
                         if(agent.id != self.id):
                             m = Message(self.myRoom.time,self.id,agent.id,typeMessage,m) #ici il faut aussi transmettre la distance
-                            self.table.info_messageToSend.addMessage(m)
+                            self.info_messageToSend.addMessage(m)
 
         elif(typeMessage == "request"):
             m = Message(self.myRoom.time,self.id,receiverID,typeMessage,m) #ici il faut aussi transmettre la distance
@@ -259,7 +262,7 @@ class AgentCam:
             m = -1
             
         if m != -1 and typeMessage !=  'request_all':
-            self.table.info_messageToSend.addMessage(m)
+            self.info_messageToSend.addMessage(m)
             
     ############################
     #   Receive Information
@@ -269,7 +272,7 @@ class AgentCam:
         rec_mes = Message(0,0,0,0,0)
         rec_mes.modifyMessageFromString(m)
         
-        self.table.info_messageReceived.addMessage(rec_mes)
+        self.info_messageReceived.addMessage(rec_mes)
         self.log_message.info('RECEIVED : '+ rec_mes.printMessage())
     
     
@@ -306,11 +309,11 @@ class AgentCam:
     #   Send Information
     ############################  
     def sendAllMessage(self):
-        for message in self.table.info_messageToSend.getList():
+        for message in self.info_messageToSend.getList():
             isSend = self.sendMess(message)
             if isSend == 0:
-                    self.table.info_messageToSend.delMessage(message)
-                    self.table.info_messageSent.addMessage(message)
+                    self.info_messageToSend.delMessage(message)
+                    self.info_messageSent.addMessage(message)
             
     
     #la fonction renvoie -1 quand le message n'a pas été envoyé mais ne s'occupe pas de le réenvoyer ! 
@@ -347,7 +350,6 @@ class AgentCam:
             
         return succes
     
-    #J'ai pas encore trouvé comment faire ça de façon propre
     def clear(self):
         self.threadRun = 0
         while(self.thread_pI.is_alive() and self.thread_pI.is_alive()):
