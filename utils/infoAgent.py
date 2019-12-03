@@ -1,6 +1,16 @@
 import numpy as np
 import random
 
+class TargetInfos():
+    def __init__(self,timeStamp, target, followedByCam = -1,cam  = -1,distance = -1):
+        self.timeStamp = timeStamp
+        self.target = target
+        self.seenByCam_and_distance = [(cam,distance)]
+        self.followedByCam =  followedByCam
+        #self.ack_received = 0
+        #self.nack_received = 0
+        
+
 class Message():
     def __init__(self,timeStamp,senderID, receiverID, messageType,message):
         self.senderID = senderID
@@ -9,6 +19,7 @@ class Message():
         self.messageType = messageType
         self.timeStamp = timeStamp
         self.specialNumber = random.random() * 10000000000000000
+        self.formatMessageType()
 
     def modifyMessageFromString(self,s):
         att = s.split("-")
@@ -18,53 +29,65 @@ class Message():
         self.messageType = att[4]
         self.timeStamp = att[1]
         self.specialNumber = float(att[0])
-    
+        self.formatMessageType()
+        
     def formatMessageType(self):
-        base =  str(self.specialNumber)+'-'+ str(self.timeStamp)+'-'+str(self.senderID)+'-'+str(self.receiverID)+'-'+self.messageType
+        base =  str(self.specialNumber)+'-'+ str(self.timeStamp)+'-'+str(self.senderID)+'-'+str(self.receiverID)+'-'+str(self.messageType)
         if self.messageType == 'request' or self.messageType == 'request_all':
-            message = "target" + '_' + self.message
+            message = "target" + '_' + str(self.message)
         elif self.messageType == 'ack' or self.messageType == 'nack':
             message = self.message
         elif self.messageType == 'information':
             message = self.message
         elif self.messageType == 'information':
             message = self.message
+        else:
+            message = ""
             
         return base +'-'+ message
     
     def parseMessageType(self):
         if self.messageType == 'request' or self.messageType == 'request_all':
             att = self.message.split('_')
-            message = int(att[1])  #information utile 
+            message = att[1]  #information utile 
         elif self.messageType == 'ack' or self.messageType == 'nack':
-            message = message
+            message = self.message
         elif self.messageType == 'information':
             message = self.message
         elif self.messageType == 'information':
+            message = self.message
+        else:
             message = self.message
             
         return message
         
     def printMessage(self):
-        return 'message #'+str(self.specialNumber)+' - time :' + str(self.timeStamp) + '- from agent :'+str(self.senderID)+' - to agent :'+str(self.receiverID)+' - '+self.messageType + ' - ' +self.message  
+        return 'message #'+str(self.specialNumber)+' - time :' + str(self.timeStamp) + '- from agent :'+str(self.senderID)+' - to agent :'+str(self.receiverID)+' - '+self.messageType + ' - '+str(self.message)
         
-         
         
-class MessageBound():
-    def __init__(self,messageSend, messageReceived):
-        #il faut checker si les TAG sont les mêmes
-        self.messageSend = messageSend
-        self.receiverID = receiverID
+class ListMessage():
+    def __init__(self,name):
+        self.myList = []
+        self.name = name
+        
+    def getList(self):
+        return self.myList.copy()
     
-class TargetInfos():
-    def __init__(self,timeStamp, target, followedByCam = -1,cam  = -1,distance = -1):
-        self.timeStamp = timeStamp
-        self.target = target
-        self.seenByCam_and_distance = [(cam,distance)]
-        self.followedByCam =  followedByCam
-        #self.ack_received = 0
-        #self.nack_received = 0
+    def addMessage(self,message):
+        self.myList.append(message)
+        
+    def delMessage(self,message):
+        self.myList.remove(message)
     
+    def findMessage(self,message):
+        pass #à implémenter
+    
+    def printMyList(self):
+        s = self.name + "\n"
+        for message in self.myList:
+            s = s + message.printMessage() +  "\n"
+        
+        return s
     
 class InformationTable:
     def __init__(self, cameras, targets, nTime = 5):
@@ -78,9 +101,9 @@ class InformationTable:
         #A implémenter dans la classe agentCamera, à chaque fois qu'un message est envoyé il est ajouté
         # recu idem, puis une fonction parcours pour voir si il y a un match en les recus et les envoyés
         #Si c'est le cas suppression dens liste d'attente et ajout lié dans la liste des informations traitable
-        self.info_messageSend = []
-        self.info_messageReceived = []
-        self.info_messageBound = []
+        self.info_messageSent = ListMessage("Sent")
+        self.info_messageReceived = ListMessage("Received")
+        self.info_messageToSend = ListMessage("ToSend")
         
         #print(self.info_room
     
@@ -151,7 +174,7 @@ class InformationTable:
         return s     
                     
 if __name__ == "__main__":
-   table = InformationTable(0,1,2)
-   print(table.info_message)
+    pass
+   
     
     

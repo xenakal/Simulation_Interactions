@@ -9,6 +9,7 @@ from utils.infoAgent import*
 NAME_MAILBOX = "mailbox/MailBox_Agent"
 NAME_LOG_PATH = "log/log_agent/Agent"
 
+MULTI_THREAD = 0 
         
 class AgentCam:
     def __init__(self, idAgent,camera,room):
@@ -24,8 +25,8 @@ class AgentCam:
         
         #Threads
         self.threadRun = 1
-        self.thread_pI = threading.Thread(target=self.thread_processImage) #,daemon=True)
-        self.thread_rL = threading.Thread(target=self.thread_recLoop) #,daemon=True)
+        self.thread_pI = threading.Thread(target=self.thread_processImage) 
+        self.thread_rL = threading.Thread(target=self.thread_recLoop)
         threading.Timer(1,self.thread_processImage)
         threading.Timer(1,self.thread_recLoop)
         
@@ -74,10 +75,8 @@ class AgentCam:
         
     def run(self):
         self.thread_pI.start()
-        self.thread_rL.start()
-         
-        #self.thread_pI.join()
-        #self.thread_rL.join()
+        if MULTI_THREAD == 1:
+            self.thread_rL.start()
 
     def thread_processImage(self):
         state = "takePicture"
@@ -101,30 +100,53 @@ class AgentCam:
                     self.updateTable("newPicture",picture)
                     s = self.table.printFieldRoom()
                     self.log_room.info(s)
-
-                nextstate = "makePrediction"
-                
+                    nextstate = "makePrediction" # Avoir si on peut améliorer les prédictions avec les mes recu
+                else:
+                    nextstate = "processData"
+             
+             
             elif state == "makePrediction":
+                #Prediction based on a picture
                 prediction = self.cam.predictPaths()
-                #d'autre prédiction peuvent être réalisées à cette étape
+                nextstate = "processData"
+              
+              
+            elif nextstate == "processData":
+                #Prediction based on messages
+                self.processInfoMemory()
                 nextstate = "sendMessage"
-                
+            
+            
             elif state == "sendMessage":
-                #Base on the prediction we can decide what we would send
-                self.defineWhomToSendWhat(my_time,picture)
+                self.log_room.info(self.table.info_messageSent.printMyList())
+                self.log_room.info(self.table.info_messageReceived.printMyList())
+                self.log_room.info(self.table.info_messageToSend.printMyList())
+                
+                self.sendAllMessage()
+                
+                if MULTI_THREAD != 1:
+                        self.recAllMess()
+                        self.processRecMess()
+                else:
+                    time.sleep(0.2)
+                
                 nextstate = "takePicture"
-                time.sleep(0.2)
+                
             else:
                 print("FSM not working proerly")
             
             
     def thread_recLoop(self):
         while(self.threadRun == 1):
-            self.recMess()
+            self.recAllMess()
+            self.processRecMess()
             #self.tableau.modifyInfo(self,target,camera,t):
             #self.updateTable(picture,prediction)
+            
            
-    #ATTENTION avec cette fonction parce qu'elle est appelée par plusieurs thread => peut poser des problèmes dans les tableaux de sauvegarde  
+    ############################
+    #   Stor and process information
+    ############################  
     def updateTable(self,type_update,objet):    
         #create a new colums in the table to save the information of the picture  
         if(type_update == "newPicture"):
@@ -137,39 +159,26 @@ class AgentCam:
             
         #modify the information of the message     
         elif(type_update == "infoFromOtherCam"):
-            
-            index = 0 #à changer
-            m = objet.split("-")
-            
-            #COMMENT LA CAMERA PEUT SAVOIR COMBIEN DE ACK ou NACK elle doit recevoir  ?????
-            if m[0] == "ack":
-                pass
-                #self.table.updateInfoRoomField(self,index,m[6],1,m[3],distance)
-            if m[0] == "nack":
-                pass
-                #self.table.updateInfoRoomField(self,index,m[6],-1,m[3],distance)
+            pass    
         else:
             pass
 
-                
-    def defineWhomToSendWhat(self,time,picture):
+    
+    #define what message to send in terms of the info store in memory
+    def processInfoMemory(self):
         #Different tags can be use
-        for elem in picture:
-            actual_target = elem[0]
-        #A) ACTION BASED ON WHAT THE CAMERA SEES
-        #New target detected
-            if actual_target.label == "target":
-                #critère à modifier sur le fait qu'un message à déjà été envoyé
-                isDetected = self.table.wasTargetAlreadyDeteced(actual_target)
-                if(not isDetected or self.myRoom.time <= 1):
-                    self.sendMessageType("request_all",0,actual_target,"")
+        if(self.myRoom.time < 1):
+                    self.sendMessageType('request_all',0)
                     
-            elif actual_target.label == "obstruction":
-                pass
-            elif actual_target.label == "fix":
-                pass
-            else:
-                print("In agentCamera, defineWhomToSend : wrong label chosen")
+                    
+#            if actual_target.label == "target":
+#                pass
+#            elif actual_target.label == "obstruction":
+#                pass
+#            elif actual_target.label == "fix":
+#                pass
+            
+            
             
                 
             #1) check if already followed by a camera  ?
@@ -187,89 +196,84 @@ class AgentCam:
                 #YES ---> tell the camera to follow it
                     
                 #NO  ----> sending a message to the user to inform that the target is no more followed
+        
+        
+    #Save informations and if needed prepare a response            
+    def processRecMess(self):
+        for rec_mes in self.table.info_messageReceived.getList():
+            if(rec_mes.messageType == "request_all" or rec_mes.messageType == "request"):
+                #Update Info
+                self.updateTable("infoFromOtherCam",rec_mes)
                              
-    def parse_respondRecMess(self,m):
+                rep_mes = rec_mes
+                if self.table.isTargetDetected(rec_mes.parseMessageType()):
+                    #If the target is seen => distances # AJouté la condition
+                    #if(distance < distance 2)
+                        typeMessage="ack"
+                    #else:
+                        typeMessage="nack"   
+                else:
+                #If the target is not seen then ACK
+                    typeMessage ="ack"
+            
+            elif(rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
+                rep_mes = -1
+            elif(rec_mes.messageType == "information"):
+                pass
+            elif(rec_mes.messageType == "heartbeat"):
+                pass
+            else:
+                pass
+    
+            if(rep_mes !=-1):
+                self.sendMessageType(typeMessage,rep_mes,rec_mes.receiverID)
+            
+            #message supress from the wainting list
+            self.table.info_messageReceived.delMessage(rec_mes)
+                
+            
+    #Ici il faut faire enc sorte d'etre sur que le message à été envoyé parce qu'il se peut qu'il ne soit pas du tout envoyé 
+    def sendMessageType(self,typeMessage,m,receiverID=0):
+        if(typeMessage == "request_all"):
+            for agent in self.myRoom.agentCam:
+                        if(agent.id != self.id):
+                            m = Message(self.myRoom.time,self.id,agent.id,typeMessage,m) #ici il faut aussi transmettre la distance
+                            self.table.info_messageToSend.addMessage(m)
+
+        elif(typeMessage == "request"):
+            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,m) #ici il faut aussi transmettre la distance
+                            
+        elif(typeMessage == "ack"):
+            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.formatMessageType())
+                            
+        elif(typeMessage == "nack"):
+            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.formatMessageType())
+                            
+        elif(typeMessage == "heartbeat"):
+            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,"heartbeat")
+                            
+        elif(typeMessage == "information"):
+            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,"what ever for now")
+        
+        else:
+            m = -1
+            
+        if m != -1 and typeMessage !=  'request_all':
+            self.table.info_messageToSend.addMessage(m)
+            
+    ############################
+    #   Receive Information
+    ############################
+    def parseRecMess(self,m):
         #reconstruction de l'objet message
         rec_mes = Message(0,0,0,0,0)
         rec_mes.modifyMessageFromString(m)
         
+        self.table.info_messageReceived.addMessage(rec_mes)
         self.log_message.info('RECEIVED : '+ rec_mes.printMessage())
-        
-        rep = 0
-        recID =  0
-        
-        if(rec_mes.messageType == "request_all" or rec_mes.messageType == "request"):
-            #if faut parser le messat (att[4]) pour récupérer l'id + distance
-            
-            rep = rec_mes
-            
-            if self.table.isTargetDetected(rec_mes.parseMessageType()):
-                #If the target is seen => distances # AJouté la condition
-                #if(distance < distance 2)
-                    typeMessage="ack"
-                #else:
-                    typeMessage="nack"   
-            else:
-            #If the target is not seen then ACK
-                typeMessage ="ack"
-                
-        elif(rec_mes.messageType == "information"):
-            pass
-        elif(rec_mes.messageType == "heartbeat"):
-            pass
-        else:
-            pass
-        
-
-         #no need to answer
-        if(rec_mes.messageType == "ack" or rec_mes.messageType == "nack" ):
-            pass
-        else:
-            self.sendMessageType(typeMessage,rec_mes.receiverID,0,rec_mes)
-            
-            
-          #Update the table
-          #if(rec_mes.messageType == "request_all"):
-                #message = typeMessage +'-'+m
-                #self.updateTable("infoFromOtherCam",message)
-            
-          #elif(rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
-            #ici il faut stocker les info dans le tableau
-            #besoin d'une méthode pour compte les hack ou les nack
-            #pass
-       
-       
-    #Ici il faut faire enc sorte d'etre sur que le message à été envoyé parce qu'il se peut qu'il ne soit pas du tout envoyé 
-    def sendMessageType(self, typeMessage, receiverID , target , m):
-        if(typeMessage == "request_all"):
-            for agent in self.myRoom.agentCam:
-                        if(agent.id != self.id):
-                            m = Message(self.myRoom.time,self.id,agent.id,typeMessage,str(target.id)) #ici il faut aussi transmettre la distance
-                            self.sendMess(m)
-                            
-        elif(typeMessage == "request"):
-            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,str(target.id)) #ici il faut aussi transmettre la distance
-            self.sendMess(m)
-                            
-        elif(typeMessage == "ack"):
-            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.formatMessageType())
-            self.sendMess(m)
-                            
-        elif(typeMessage == "nack"):
-            m = Message(self.myRoom.time,self.id,m.senderID,typeMessage,m.formatMessageType())
-            self.sendMess(m)
-                            
-        elif(typeMessage == "heartbeat"):
-            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,"heartbeat")
-            self.sendMess(m)
-                            
-        elif(typeMessage == "information"):
-            m = Message(self.myRoom.time,self.id,receiverID,typeMessage,"what ever for now")
-            self.sendMess(m)
-                            
     
     
-    def recMess(self):
+    def recAllMess(self):
         succes = -1
         #Reading the message 
         mbox_rec = mailbox.mbox(NAME_MAILBOX+str(self.id))
@@ -282,8 +286,8 @@ class AgentCam:
                     m = mbox_rec.get_string(key)
                     
                     if (m != ""):  
-                          self.parse_respondRecMess(m)
-                        
+                          self.parseRecMess(m) #We put the message in the stack of received message BUT not response !
+                          
                           if (succes == 0): #if we respond then the message is remove from the mail box   
                              mbox_rec.remove(key)
                              mbox_rec.flush()
@@ -297,6 +301,16 @@ class AgentCam:
             self.log_message.warning("Mailbox file error RECEIVE")
         
         return succes
+      
+    ############################
+    #   Send Information
+    ############################  
+    def sendAllMessage(self):
+        for message in self.table.info_messageToSend.getList():
+            isSend = self.sendMess(message)
+            if isSend == 0:
+                    self.table.info_messageToSend.delMessage(message)
+                    self.table.info_messageSent.addMessage(message)
             
     
     #la fonction renvoie -1 quand le message n'a pas été envoyé mais ne s'occupe pas de le réenvoyer ! 
