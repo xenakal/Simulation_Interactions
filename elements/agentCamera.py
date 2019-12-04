@@ -123,7 +123,7 @@ class AgentCam(Agent):
     
     #define what message to send in terms of the info store in memory
     def processInfoMemory(self):
-        if(self.myRoom.time < 1):
+        if(self.myRoom.time < 12):
                     self.sendMessageType('request',1,True,0,0) 
                     
 #            if actual_target.label == "target":
