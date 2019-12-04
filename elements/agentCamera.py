@@ -121,7 +121,7 @@ class AgentCam(Agent):
     def processInfoMemory(self):
         #Different tags can be use
         if(self.myRoom.time < 1):
-                    self.sendMessageType('request_all',0,0) # A modifier
+                    self.sendMessageType('request',1,True,0,0) # A modifier
                     
                     
 #            if actual_target.label == "target":
@@ -152,7 +152,7 @@ class AgentCam(Agent):
     def processRecMess(self):
 
         for rec_mes in self.info_messageReceived.getList():
-            if(rec_mes.messageType == "request_all" or rec_mes.messageType == "request"):
+            if(rec_mes.messageType == "request"):
                 #Update Info
                 self.updateTable("infoFromOtherCam",rec_mes)
                             
@@ -167,9 +167,12 @@ class AgentCam(Agent):
                 else:
                 #If the target is not seen then ACK
                     typeMessage ="ack"
+                    
+                    
+                self.sendMessageType(typeMessage,rep_mes,False)
             
             elif(rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
-                rep_mes = -1
+                pass
 
             elif(rec_mes.messageType == "information"):
                 pass
@@ -179,10 +182,7 @@ class AgentCam(Agent):
 
             else:
                 pass
-
-            if(rep_mes !=-1):
-                self.sendMessageType(typeMessage,rep_mes,rec_mes.receiverID,rec_mes.receiverSignature)
-
+    
             #message supress from the wainting list
             self.info_messageReceived.delMessage(rec_mes)
     

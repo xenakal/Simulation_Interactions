@@ -1,19 +1,231 @@
-2019-12-04 00:57:09,870 - agent0 - INFO - Agent initialized and  starts
-2019-12-04 00:57:10,037 - agent0 - INFO - SEND     : message #5420678251125055.0 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-04 00:57:10,330 - agent0 - INFO - SEND     : message #5185011570559561.0 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-04 00:57:10,569 - agent0 - INFO - RECEIVED : message #6101358422108338.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-04 19:49:36,125 - agent0 - INFO - Agent initialized and  starts
+2019-12-04 19:49:36,266 - agent0 - INFO - SEND     : Timestamp: 0 message#:9261224483728218
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: request Message: 1
 
-2019-12-04 00:57:10,818 - agent0 - INFO - RECEIVED : message #3532531528930463.5 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-04 19:49:36,369 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:7989454426534055
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: request Message: 1
 
-2019-12-04 00:57:10,981 - agent0 - INFO - SEND     : message #9014232840140490.0 - time :0- from agent :0 - to agent :1 - ack - 6101358422108338.0-0-1-[3]-0-[5]-request_all-target_target_0
+2019-12-04 19:49:36,420 - agent0 - INFO - SEND     : Timestamp: 0 message#:9644264690017216
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: ack Message: 7989454426534055
 
-2019-12-04 00:57:11,239 - agent0 - INFO - SEND     : message #3912687012473198.5 - time :0- from agent :0 - to agent :1 - ack - 3532531528930463.5-0-1-[3]-0-[5]-request_all-target_target_0
+2019-12-04 19:49:36,441 - agent0 - INFO - SEND     : Timestamp: 0 message#:902653219070755
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: request Message: 1
 
-2019-12-04 00:57:11,476 - agent0 - INFO - SEND     : message #8114574860813831.0 - time :0- from agent :0 - to agent :1 - request_all - 0
-2019-12-04 00:57:11,716 - agent0 - INFO - RECEIVED : message #1495175568164323.0 - time :0- from agent :1 - to agent :0 - ack - 5420678251125055.0
-2019-12-04 00:57:11,951 - agent0 - INFO - RECEIVED : message #5903193901860675.0 - time :0- from agent :1 - to agent :0 - ack - 5185011570559561.0
-2019-12-04 00:57:12,144 - agent0 - INFO - RECEIVED : message #9165080699996206.0 - time :0- from agent :1 - to agent :0 - request_all - target_0
+2019-12-04 19:49:36,530 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:2530318934034333
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: ack Message: 9261224483728218
 
-2019-12-04 00:57:12,301 - agent0 - INFO - SEND     : message #7395097047661173.0 - time :7- from agent :0 - to agent :1 - ack - 9165080699996206.0-0-1-[3]-0-[5]-request_all-target_target_0
+2019-12-04 19:49:36,580 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:4756811380755966
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: request Message: 1
 
-2019-12-04 00:57:12,544 - agent0 - INFO - RECEIVED : message #2647470405782307.5 - time :7- from agent :1 - to agent :0 - ack - 8114574860813831.0
+2019-12-04 19:49:36,623 - agent0 - INFO - SEND     : Timestamp: 0 message#:5054443395160878
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: ack Message: 4756811380755966
+
+2019-12-04 19:49:36,646 - agent0 - INFO - SEND     : Timestamp: 0 message#:7434795094618746
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: request Message: 1
+
+2019-12-04 19:49:36,694 - agent0 - WARNING - Mailbox file error RECEIVE
+2019-12-04 19:49:36,777 - agent0 - INFO - SEND     : Timestamp: 0 message#:4200593465090697
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: request Message: 1
+
+2019-12-04 19:49:36,857 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:9994495244350696
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: ack Message: 902653219070755
+
+2019-12-04 19:49:36,920 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:9903547160435618
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: request Message: 1
+
+2019-12-04 19:49:37,003 - agent0 - INFO - SEND     : Timestamp: 0 message#:8292890593544334
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: request Message: 1
+
+2019-12-04 19:49:37,026 - agent0 - INFO - SEND     : Timestamp: 0 message#:4671198778038883
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: ack Message: 9903547160435618
+
+2019-12-04 19:49:37,108 - agent0 - INFO - SEND     : Timestamp: 0 message#:8030501914067364
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: request Message: 1
+
+2019-12-04 19:49:37,132 - agent0 - INFO - SEND     : Timestamp: 0 message#:722624290826621
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: request Message: 1
+
+2019-12-04 19:49:37,158 - agent0 - INFO - SEND     : Timestamp: 0 message#:9715679774637302
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: request Message: 1
+
+2019-12-04 19:49:37,170 - agent0 - WARNING - Mailbox file error RECEIVE
+2019-12-04 19:49:37,181 - agent0 - INFO - SEND     : Timestamp: 0 message#:7826221096295594
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: request Message: 1
+
+2019-12-04 19:49:37,243 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:795151502275441
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: request Message: 1
+
+2019-12-04 19:49:37,269 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:9226224926438916
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: ack Message: 7434795094618746
+
+2019-12-04 19:49:37,290 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:9597866019117866
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: ack Message: 4200593465090697
+
+2019-12-04 19:49:37,314 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:1827935364840152
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: request Message: 1
+
+2019-12-04 19:49:37,343 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:297974392770846
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: request Message: 1
+
+2019-12-04 19:49:37,422 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:1783474559138560
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: request Message: 1
+
+2019-12-04 19:49:37,501 - agent0 - INFO - SEND     : Timestamp: 0 message#:3899920449893800
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: ack Message: 795151502275441
+
+2019-12-04 19:49:37,520 - agent0 - INFO - SEND     : Timestamp: 0 message#:5220978430503076
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: ack Message: 1827935364840152
+
+2019-12-04 19:49:37,592 - agent0 - INFO - SEND     : Timestamp: 0 message#:2038972903996155
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: ack Message: 297974392770846
+
+2019-12-04 19:49:37,611 - agent0 - INFO - SEND     : Timestamp: 0 message#:6463524055515611
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: ack Message: 1783474559138560
+
+2019-12-04 19:49:37,633 - agent0 - INFO - SEND     : Timestamp: 0 message#:5693164048837993
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: request Message: 1
+
+2019-12-04 19:49:37,653 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:8190322992221959
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: ack Message: 8292890593544334
+
+2019-12-04 19:49:37,720 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:3497837411884614
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: ack Message: 8030501914067364
+
+2019-12-04 19:49:37,748 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:3875713542105504
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: ack Message: 722624290826621
+
+2019-12-04 19:49:37,769 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:5420255623587106
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: ack Message: 9715679774637302
+
+2019-12-04 19:49:37,838 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:5245739417256321
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: ack Message: 7826221096295594
+
+2019-12-04 19:49:37,866 - agent0 - INFO - SEND     : Timestamp: 0 message#:6070061402469026
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: request Message: 1
+
+2019-12-04 19:49:37,949 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:5778182535345041
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: request Message: 1
+
+2019-12-04 19:49:37,967 - agent0 - INFO - RECEIVED : Timestamp: 0 message#:1810686574182025
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: ack Message: 5693164048837993
+
+2019-12-04 19:49:37,990 - agent0 - INFO - SEND     : Timestamp: 1 message#:442546574095931
+From: 0 sender#529077025549301
+Receiver list : 
+To: 1 receiver#7315829417415882
+Type: ack Message: 5778182535345041
+
+2019-12-04 19:49:38,079 - agent0 - INFO - RECEIVED : Timestamp: 1 message#:668654766297134
+From: 1 sender#7315829417415882
+Receiver list : 
+To: 0 receiver#529077025549301
+Type: ack Message: 6070061402469026
+

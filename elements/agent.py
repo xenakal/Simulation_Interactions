@@ -15,7 +15,7 @@ class Agent:
         #Attributes
         self.id = idAgent
         self.myRoom = room
-        self.signature = random.random() * 10000000000000000
+        self.signature = int(random.random() * 10000000000000000)+100 #always higher than 100
         
         #Communication
         self.info_messageSent = ListMessage("Sent")
@@ -102,7 +102,7 @@ class Agent:
             
            
     ############################
-    #   Stor and process information
+    #   Store and process information
     ############################  
     def updateTable(self,type_update,objet):    
        pass
@@ -116,44 +116,18 @@ class Agent:
         pass
                 
             
-    def sendMessageType(self,typeMessage,m,receiverID=0,receiverSignature=0):
-        if(typeMessage == "request_all"):
-            for agent in self.myRoom.agentCam:
-                        if(agent.id != self.id):
-                            m = Message(self.myRoom.time,self.id,self.signature,agent.id,agent.signature,typeMessage,m) #ici il faut aussi transmettre la distance
-                            self.info_messageToSend.addMessage(m)
-
-        elif(typeMessage == "request"):
-            m = Message(self.myRoom.time,self.id,self.signature,receiverID,m.receiverSignature,typeMessage,m) #ici il faut aussi transmettre la distance
-                            
-        elif(typeMessage == "ack"):
-            m = Message(self.myRoom.time,self.id,self.signature,m.senderID,m.receiverSignature,typeMessage,m.formatMessageType())
-                            
-        elif(typeMessage == "nack"):
-            m = Message(self.myRoom.time,self.id,self.signature,receiverID,receiverSignature,typeMessage,m.formatMessageType())
-                            
-        elif(typeMessage == "heartbeat"):
-            m = Message(self.myRoom.time,self.id,self.signature,receiverID,receiverSignature,typeMessage,"heartbeat")
-                            
-        elif(typeMessage == "information"):
-            m = Message(self.myRoom.time,self.id,self.signature,receiverID,receiverSignature,typeMessage,"what ever for now")
-        
-        else:
-            m = -1
-            
-        if m != -1 and typeMessage !=  'request_all':
-            self.info_messageToSend.addMessage(m)
+    
             
     ############################
     #   Receive Information
     ############################
     def parseRecMess(self,m):
         #reconstruction de l'objet message
-        rec_mes = Message(0,0,0,0,0,0,0)
+        rec_mes = Message(0,0,0,0,0)
         rec_mes.modifyMessageFromString(m)
         
         self.info_messageReceived.addMessage(rec_mes)
-        self.log_message.info('RECEIVED : '+ rec_mes.printMessage())
+        self.log_message.info('RECEIVED : '+ rec_mes.formatMessageType())
     
     
     def recAllMess(self):
@@ -199,36 +173,75 @@ class Agent:
     #la fonction renvoie -1 quand le message n'a pas été envoyé mais ne s'occupe pas de le réenvoyer ! 
     def sendMess(self, m):
         succes = -1
-        try: 
-            mbox = mailbox.mbox(NAME_MAILBOX+str(m.receiverID))
-            mbox.lock()
-            try:
-                mbox.add(m.formatMessageType()) #apparament on ne peut pas transférer d'objet
-                self.log_message.info('SEND     : '+m.printMessage())
-                mbox.flush()
-                
-                #saving the message in a data base to remember it was sent
-                #self.table.addMessageSend()
-            
-                succes = 0
-                #print("message sent successfully")   
-            finally:
-                mbox.unlock()
-                
-        ##############################
-                
-            #1) on choppe la ref de l'agent à qui on envoie
-            #refAgent = getRef()
-            #refAgent.recMess()
-                
-        ##############################
-            
-        except mailbox.ExternalClashError:
-            self.log_message.debug("Not possible to send messages")
-        except FileExistsError:
-            self.log_message.warning("Mailbox file error SEND")
+        
+        for receiver in m.remainingReceiver:
+            try: 
+                mbox = mailbox.mbox(NAME_MAILBOX+str(receiver[0]))
+                mbox.lock()
+                try:
+                    mbox.add(m.formatMessageType()) #apparament on ne peut pas transférer d'objet
+                    self.log_message.info('SEND     : '+m.formatMessageType())
+                    mbox.flush()
+                    
+                    #saving the message in a data base to remember it was sent
+                    #self.table.addMessageSend()
+                    
+                    m.notifySendTo(receiver[0],receiver[1])
+                    
+                    if m.isMessageSentToEveryReceiver():
+                        succes = 0
+                    else:
+                        succes = 1 #message partially sent
+                    #print("message sent successfully")   
+                finally:
+                    mbox.unlock()
+        
+            ##############################
+                if MULTI_THREAD != 1:
+                    pass
+                    #Agentreceive.recAllMess()
+                    #Agentreceive.processRecMess()
+            ##############################
+                            
+            except mailbox.ExternalClashError:
+                self.log_message.debug("Not possible to send messages")
+            except FileExistsError:
+                self.log_message.warning("Mailbox file error SEND")
             
         return succes
+    
+    
+    def sendMessageType(self,typeMessage,m,to_all=False,receiverID=-1,receiverSignature=-1):
+        m_format = Message(-1,-1,-1,'init',"")
+        
+        if(typeMessage == "request"):
+            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m) #ici il faut aussi transmettre la distance
+                            
+        elif(typeMessage == "ack"):
+            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m.signature)
+            m_format.addReceiver(m.senderID,m.senderSignature)
+                            
+        elif(typeMessage == "nack"):
+            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m.signature)
+            m_format.addReceiver(m.senderID,m.senderSignature)
+                            
+        elif(typeMessage == "heartbeat"):
+            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,"heartbeat")
+                            
+        elif(typeMessage == "information"):
+            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,"what ever for now")
+        
+        if to_all:
+            for agent in self.myRoom.agentCam:
+                if(agent.id != self.id):
+                    m_format.addReceiver(agent.id,agent.signature)
+         
+        if m_format.getReceiverNumber() > 0: #and receiverID != -1 and receiverSignature != -1 :
+            self.info_messageToSend.addMessage(m_format)
+            
+    ############################
+    # Other
+    ############################
     
     
     def clear(self):
