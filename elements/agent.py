@@ -127,7 +127,7 @@ class Agent:
         rec_mes.modifyMessageFromString(m)
         
         self.info_messageReceived.addMessage(rec_mes)
-        self.log_message.info('RECEIVED : '+ rec_mes.formatMessageType())
+        self.log_message.info('RECEIVED : \n'+ rec_mes.formatMessageType())
     
     
     def recAllMess(self):
@@ -180,19 +180,14 @@ class Agent:
                 mbox.lock()
                 try:
                     mbox.add(m.formatMessageType()) #apparament on ne peut pas transférer d'objet
-                    self.log_message.info('SEND     : '+m.formatMessageType())
+                    self.log_message.info('SEND     : \n'+m.formatMessageType())
                     mbox.flush()
-                    
-                    #saving the message in a data base to remember it was sent
-                    #self.table.addMessageSend()
-                    
                     m.notifySendTo(receiver[0],receiver[1])
                     
                     if m.isMessageSentToEveryReceiver():
                         succes = 0
                     else:
                         succes = 1 #message partially sent
-                    #print("message sent successfully")   
                 finally:
                     mbox.unlock()
         
@@ -231,12 +226,17 @@ class Agent:
         elif(typeMessage == "information"):
             m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,"what ever for now")
         
+        
         if to_all:
             for agent in self.myRoom.agentCam:
                 if(agent.id != self.id):
                     m_format.addReceiver(agent.id,agent.signature)
-         
-        if m_format.getReceiverNumber() > 0: #and receiverID != -1 and receiverSignature != -1 :
+        
+        
+        cdt1 = m_format.getReceiverNumber() > 0
+        cdt2 = self.info_messageToSend.isMessageWithSameMessage(m_format)
+        cdt3 = self.info_messageSent.isMessageWithSameMessage(m_format)
+        if  cdt1 and not cdt2 and not cdt3 : 
             self.info_messageToSend.addMessage(m_format)
             
     ############################

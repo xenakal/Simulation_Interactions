@@ -88,7 +88,7 @@ class Message():
                 self.remainingReceiver.remove(message)
     
     def isMessageSentToEveryReceiver(self):
-        if len(self.receiverID_Signature)  == 0:
+        if len(self.remainingReceiver)==0:
             return True
         else:
             return False
@@ -97,7 +97,10 @@ class ListMessage():
     def __init__(self,name):
         self.myList = []
         self.name = name
-        
+    
+    def getSize(self):
+        return len(self.myList)
+    
     def getList(self):
         return self.myList.copy()
     
@@ -107,14 +110,66 @@ class ListMessage():
     def delMessage(self,message):
         self.myList.remove(message)
     
-    def findMessage(self,message):
-        pass #à implémenter
+    def removeMessageAfterGivenTime(self,time,deltaTime):
+        for message in self.myList:
+            if message.timeStamp + deltaTime >= time:
+                self.myList.remove(message)
+    
+    def receiverInCommun_WithSimilarMessage_InList(self,messageToFind):
+        receiverInCommun = []
+        for message in self.myList:
+            if message.messageType == messageToFind.messageType and message.message == messageToFind.message:
+                for receiver in message.receiverID_Signature:
+                    ID = receiver[0]
+                    Signature = receiver[1]
+                    for receiverCompare in messageToFind.receiverID_Signature:
+                        IDCompare = receiverCompare[0]
+                        SignatureCompare = receiverCompare[1]
+                        if ID == IDCompare and Signature == SignatureCompare:
+                            receiverInCommun.append(receiver)
+                            break
+                        
+        return receiverInCommun.copy()
+    
+    def receiverMissing_WithSimilarMessage_InList(self,messageToFind):
+        receiverInCommun = self.receiverInCommun_WithSimilarMessage_InList(messageToFind)
+        receiverMissing = []
+               
+        if len(receiverInCommun) >= len(messageToFind.receiverID_Signature):
+            return receiverMissing
+        
+        else:
+            receiverMissing = messageToFind.receiverID_Signature.copy()
+            for receiver in messageToFind.receiverID_Signature:
+                ID = receiver[0]
+                Signature = receiver[1]
+                for receiverCompare in receiverInCommun:
+                    IDCompare = receiverCompare[0]
+                    SignatureCompare = receiverCompare[1]                           
+                    if ID == IDCompare and Signature == SignatureCompare:
+                        receiverMissing.remove(receiver)
+                        break
+            return receiverMissing
+                                    
+    
+    def isMessageInTheList(self,messageToFind):
+        for message in self.myList:
+            if message.signature == messageToFind.signature:
+                return True
+            
+        return False
+    
+    def isMessageWithSameMessage(self,messageToFind):
+        for message in self.myList:
+            if message.message == messageToFind.message:
+                return True
+        return False
+                
     
     def printMyList(self):
         s = self.name + "\n"
         for message in self.myList:
-            s = s + message.formatMessageType()+"\n"
-        
+            s = s + message.formatMessageType()+"\n" 
         return s
     
 class reponseHandler_Message():
@@ -159,21 +214,36 @@ class reponseHandler_Message():
                     self.nack.append(rec_message)
                 
 if __name__ == "__main__":
-        message = Message(0,1,545448,'request','salut')
-        message.addReceiver(0,10000)
-        message.addReceiver(1,10500)
+        message1 = Message(0,1,545448,'request','salut')
+        message1.addReceiver(0,10000)
         
-        s1 = message.formatMessageType()
-        print(s1)
-        message.modifyMessageFromString(s1)
+        message2 = Message(0,1,545448,'ack','Hey salut')
+        message2.addReceiver(0,10000)
+        message2.addReceiver(1,10500)
         
-        message = Message(0,1,545448,'ack','Hey salut')
-        s2 = message.formatMessageType()
-        print(s2)
-       
-        message.modifyMessageFromString(s1)
-        s3 = message.formatMessageType()
-        print(s3)
+        
+        message3 = Message(0,1,545448,'request','salut')
+        message3.addReceiver(0,10000)
+        message3.addReceiver(1,10500)
+        
+        messageList = ListMessage("test")
+        messageList.addMessage(message1)
+        messageList.addMessage(message2)
+        
+        
+        print(messageList.printMyList())
+        print(messageList.isMessageInTheList(message2))
+        print(messageList.isMessageInTheList(message3))
+        print(messageList.isMessageWithSameMessage(message2))
+        print(messageList.isMessageWithSameMessage(message3))
+        print(messageList.receiverInCommun_WithSimilarMessage_InList(message3))
+        print(messageList.receiverMissing_WithSimilarMessage_InList(message3))
+        print(messageList.receiverInCommun_WithSimilarMessage_InList(message2))
+        print(messageList.receiverMissing_WithSimilarMessage_InList(message2))
+    
+        
+        
+        
             
             
         

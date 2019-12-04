@@ -37,9 +37,7 @@ class AgentCam(Agent):
         
         super().__init__(idAgent,room)
         
-        
-        
-        
+           
     def thread_processImage(self):
         state = "takePicture"
         nextstate = state
@@ -80,10 +78,16 @@ class AgentCam(Agent):
             
             
             elif state == "sendMessage":
-                self.log_room.info(self.info_messageSent.printMyList())
-                self.log_room.info(self.info_messageReceived.printMyList())
-                self.log_room.info(self.info_messageToSend.printMyList())
+                cdt1 = self.info_messageSent.getSize() > 0
+                cdt2 = self.info_messageReceived.getSize()> 0
+                cdt3 = self.info_messageToSend.getSize()> 0
                 
+                if(cdt1 or cdt2 or cdt3):
+                    self.log_room.info(self.info_messageSent.printMyList())
+                    self.log_room.info(self.info_messageReceived.printMyList())
+                    self.log_room.info(self.info_messageToSend.printMyList())
+                
+                self.info_messageSent.removeMessageAfterGivenTime(my_time,10)                
                 self.sendAllMessage()
                 
                 if MULTI_THREAD != 1:
@@ -97,9 +101,9 @@ class AgentCam(Agent):
             else:
                 print("FSM not working proerly")
            
-    ############################
-    #   Stor and process information
-    ############################  
+    #################################
+    #   Store and process information
+    ################################# 
     def updateTable(self,type_update,objet):    
         #create a new colums in the table to save the information of the picture  
         if(type_update == "newPicture"):
@@ -119,10 +123,8 @@ class AgentCam(Agent):
     
     #define what message to send in terms of the info store in memory
     def processInfoMemory(self):
-        #Different tags can be use
         if(self.myRoom.time < 1):
-                    self.sendMessageType('request',1,True,0,0) # A modifier
-                    
+                    self.sendMessageType('request',1,True,0,0) 
                     
 #            if actual_target.label == "target":
 #                pass
