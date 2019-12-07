@@ -4,16 +4,23 @@ import re
 
 
 class Message():
-    def __init__(self,timeStamp,senderID,senderSignature,messageType,message):
-        self.senderID = int(senderID)
-        self.senderSignature = int(senderSignature)
-        self.receiverID_Signature = []
-        self.message = message
-        self.messageType = messageType
+    def __init__(self,timeStamp,senderID,senderSignature,messageType,message,targetID=-1):
         self.timeStamp = timeStamp
         self.signature = int(random.random() * 10000000000000000)
         
+        self.senderID = int(senderID)
+        self.senderSignature = int(senderSignature)
+        self.receiverID_Signature = []
         self.remainingReceiver = []
+
+        self.targetRef = targetID
+        
+        self.message = message
+        self.messageType = messageType
+        
+       
+        self.ack = []
+        self.nack = []
 
     def modifyMessageFromString(self,s):
         
@@ -21,8 +28,7 @@ class Message():
         
         s = s.replace("\n","")
         s = s.replace(" ","")
-        attribut = re.split("Timestamp:|message#:|From:|sender#|Receiverlist:|Type:|Message:",s)
-        
+        attribut = re.split("Timestamp:|message#:|From:|sender#|Receiverlist:|Type:|target:|Message:",s)
         
         self.timeStamp = int(attribut[1])
         self.signature = int(attribut[2])
@@ -41,8 +47,9 @@ class Message():
             except IndexError:
                 pass
             
-        self.messageType = attribut[6]   
-        self.message = attribut[7]
+        self.messageType = attribut[6]
+        self.targetRef = attribut[7]
+        self.message = attribut[8]
         
     def formatMessageType(self):
         s1 = "Timestamp: "+str(self.timeStamp)+' message#:'+str(self.signature)+"\n"
@@ -51,7 +58,7 @@ class Message():
         for receiver in self.receiverID_Signature:
             s3 = s3 + "To: "+ str(receiver[0]) +" receiver#"+str(receiver[1])+"\n"
             
-        s4 = 'Type: '+str(self.messageType) + " Message: "
+        s4 = 'Type: '+str(self.messageType) + " target: "+str(self.targetRef)+  " Message: "
         base = s1+s2+s3+s4
             
         return base + str(self.message) +"\n"
@@ -61,14 +68,6 @@ class Message():
         
     def printMessage(self):
         print(self.formatMessageType())
-        
-    def getMessageInACK_NACK(self):
-        if (self.messageType == "ack" or self.messageType == "nack"):
-            message = Message(0,0,0,0,0,0)
-            message.modifyMessageFromString(self.formatMessageType)
-        else:
-            message = -1
-        return message
     
     def getReceiverNumber(self):
         return len(self.receiverID_Signature)
@@ -92,6 +91,57 @@ class Message():
             return True
         else:
             return False
+    
+    def get_AckNumber(self):
+        return len(self.ack)
+    
+    def get_NackNumber(self):
+        return len(self.nack)
+    
+    def is_numberACK_NACK_complete(self):
+        if self.messageType == 'request':
+            if self.get_AckNumber + self.get_NackNumber  >= self.message.getReceiverNumber():
+                return True
+            else:
+                return False
+            
+    def is_not_approved(self):
+        if self.messageType =='request':
+            if self.get_NackNumber > 0:
+                return True
+            else:
+                return False
+            
+            
+    def is_approved(self):
+        if self.messageType == 'request':
+            if int(self.get_AckNumber()) >= int(self.getReceiverNumber()):
+                return True
+            else:
+                return False      
+        
+    def add_ACK_NACK(self,rec_message):
+        if rec_message.messageType == 'ack' or rec_message.messageType == 'nack':
+            if (self.signature == int(rec_message.message)):
+                if(rec_message.messageType == "ack"):
+                    self.ack.append(rec_message)        
+                elif (rec_messsage.messageType == "nack"):
+                    self.nack.append(rec_message)
+            return True
+        else:
+            return False
+              
+    def getMessageInACK_NACK(self):
+        if (self.messageType == "ack" or self.messageType == "nack"):
+            message_in = Message(0,0,0,0,0)
+            message_in.modifyMessageFromString(self.formatMessageType())
+            message_in.printMessage
+        else:
+            message_in = -1
+        
+        
+        return message_in
+        
         
 class ListMessage():
     def __init__(self,name):
@@ -112,7 +162,7 @@ class ListMessage():
     
     def removeMessageAfterGivenTime(self,time,deltaTime):
         for message in self.myList:
-            if message.timeStamp + deltaTime >= time:
+            if message.timeStamp + deltaTime <= time:
                 self.myList.remove(message)
     
     def receiverInCommun_WithSimilarMessage_InList(self,messageToFind):
@@ -171,54 +221,13 @@ class ListMessage():
         for message in self.myList:
             s = s + message.formatMessageType()+"\n" 
         return s
-    
-class reponseHandler_Message():
-    def __init__(self,message):
-        self.message = message
-        self.ack = []
-        self.nack = []
-        
-    def get_ack(self):
-            return self.ack.copy()
-        
-    def get_nack(self):
-        return self.nack.copy()
-    
-    def get_AckNumber(self):
-        return len(self.ack)
-    
-    def get_NackNumber(self):
-        return len(self.nack)
-    
-    def is_numberACK_NACK_complete(self):
-        if message.messageType == 'request' or message.messageType == 'aquire':
-            if self.get_AckNumber + self.get_NackNumber  >= self.message.getReceiverNumber():
-                return True
-            else:
-                return False
-            
-    def is_Approved(self):
-        if message.messageType == 'request' or message.messageType == 'aquire':
-            if self.get_AckNumber >= self.message.getReceiverNumber():
-                return True
-            else:
-                return False
-                
-        
-    def add(self,rec_message):
-        if self.messageType == 'ack' or self.messageType == 'nack':
-             if (self.message.signature == rec_message.getMessageInACK_NACK().signature):
-                if(rec_message.messageType == "ack"):
-                    self.ack.append(rec_message)        
-                elif (rec_messsage.messageType == "nack"):
-                    self.nack.append(rec_message)
                 
 if __name__ == "__main__":
         message1 = Message(0,1,545448,'request','salut')
         message1.addReceiver(0,10000)
+        message1.addReceiver(1,10500)
         
-        message2 = Message(0,1,545448,'ack','Hey salut')
-        message2.addReceiver(0,10000)
+        message2 = Message(0,1,5448,'ack',message1.signature)
         message2.addReceiver(1,10500)
         
         
@@ -240,7 +249,9 @@ if __name__ == "__main__":
         print(messageList.receiverMissing_WithSimilarMessage_InList(message3))
         print(messageList.receiverInCommun_WithSimilarMessage_InList(message2))
         print(messageList.receiverMissing_WithSimilarMessage_InList(message2))
-    
+        print(message1.add_ACK_NACK(message2))
+        print(message1.add_ACK_NACK(message3))
+        print(message1.is_approved())
         
         
         

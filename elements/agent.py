@@ -206,18 +206,18 @@ class Agent:
         return succes
     
     
-    def sendMessageType(self,typeMessage,m,to_all=False,receiverID=-1,receiverSignature=-1):
+    def sendMessageType(self,typeMessage,m,to_all=False,target =-1, receiverID=-1,receiverSignature=-1):
         m_format = Message(-1,-1,-1,'init',"")
         
         if(typeMessage == "request"):
-            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m) #ici il faut aussi transmettre la distance
+            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m,target) #ici il faut aussi transmettre la distance
                             
         elif(typeMessage == "ack"):
-            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m.signature)
+            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m.signature,m.targetRef)
             m_format.addReceiver(m.senderID,m.senderSignature)
                             
         elif(typeMessage == "nack"):
-            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m.signature)
+            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m.signature,m.targetRef)
             m_format.addReceiver(m.senderID,m.senderSignature)
                             
         elif(typeMessage == "heartbeat"):

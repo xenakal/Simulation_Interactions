@@ -1,194 +1,2189 @@
-2019-12-04 22:38:31,859 - room0 - INFO - 
-2019-12-04 22:38:31,994 - room0 - INFO - Sent
+2019-12-07 18:24:09,888 - room0 - INFO - 
+2019-12-07 18:24:10,038 - room0 - INFO - Sent
 
-2019-12-04 22:38:31,996 - room0 - INFO - Received
+2019-12-07 18:24:10,039 - room0 - INFO - Received
 
-2019-12-04 22:38:31,997 - room0 - INFO - ToSend
-Timestamp: 0 message#:9972187341028880
-From: 0 sender#8970734986778308
+2019-12-07 18:24:10,040 - room0 - INFO - ToSend
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
 Receiver list : 
-To: 1 receiver#1049878531783732
-Type: request Message: 1
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
 
 
-2019-12-04 22:38:32,448 - room0 - INFO - Sent
-Timestamp: 0 message#:9972187341028880
-From: 0 sender#8970734986778308
+2019-12-07 18:24:10,496 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
 Receiver list : 
-To: 1 receiver#1049878531783732
-Type: request Message: 1
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
 
 
-2019-12-04 22:38:32,451 - room0 - INFO - Received
-
-2019-12-04 22:38:32,457 - room0 - INFO - ToSend
-Timestamp: 0 message#:4454643210645324
-From: 0 sender#8970734986778308
+2019-12-07 18:24:10,498 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
 Receiver list : 
-To: 1 receiver#1049878531783732
-Type: ack Message: 7903622020889047
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
 
 
-2019-12-04 22:38:32,895 - room0 - INFO - Sent
-Timestamp: 0 message#:4454643210645324
-From: 0 sender#8970734986778308
+2019-12-07 18:24:10,499 - room0 - INFO - ToSend
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
 Receiver list : 
-To: 1 receiver#1049878531783732
-Type: ack Message: 7903622020889047
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
 
 
-2019-12-04 22:38:32,896 - room0 - INFO - Received
+2019-12-07 18:24:11,797 - room0 - INFO - time : 0 target 0
 
-2019-12-04 22:38:32,896 - room0 - INFO - ToSend
-Timestamp: 0 message#:78451091573420
-From: 0 sender#8970734986778308
+2019-12-07 18:24:11,799 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
 Receiver list : 
-To: 1 receiver#1049878531783732
-Type: request Message: 1
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
 
-
-2019-12-04 22:38:33,291 - room0 - INFO - Sent
-Timestamp: 0 message#:78451091573420
-From: 0 sender#8970734986778308
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
 Receiver list : 
-To: 1 receiver#1049878531783732
-Type: request Message: 1
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
 
 
-2019-12-04 22:38:33,297 - room0 - INFO - Received
-
-2019-12-04 22:38:33,298 - room0 - INFO - ToSend
-Timestamp: 0 message#:2512543671695435
-From: 0 sender#8970734986778308
+2019-12-07 18:24:11,800 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
 Receiver list : 
-To: 1 receiver#1049878531783732
-Type: ack Message: 8474830207114958
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
 
 
-2019-12-04 22:38:33,328 - room0 - INFO - Sent
+2019-12-07 18:24:11,801 - room0 - INFO - ToSend
 
-2019-12-04 22:38:33,330 - room0 - INFO - Received
-
-2019-12-04 22:38:33,331 - room0 - INFO - ToSend
-Timestamp: 0 message#:2512543671695435
-From: 0 sender#8970734986778308
+2019-12-07 18:24:11,805 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
 Receiver list : 
-To: 1 receiver#1049878531783732
-Type: ack Message: 8474830207114958
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
 
-Timestamp: 0 message#:9038973931156660
-From: 0 sender#8970734986778308
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
 Receiver list : 
-To: 1 receiver#1049878531783732
-Type: request Message: 1
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
 
 
-2019-12-04 22:38:34,449 - room0 - INFO - time : 0 target 0
-
-2019-12-04 22:38:34,449 - room0 - INFO - Sent
-Timestamp: 0 message#:2512543671695435
-From: 0 sender#8970734986778308
+2019-12-07 18:24:11,809 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
 Receiver list : 
-To: 1 receiver#1049878531783732
-Type: ack Message: 8474830207114958
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
 
-Timestamp: 0 message#:9038973931156660
-From: 0 sender#8970734986778308
+
+2019-12-07 18:24:11,810 - room0 - INFO - ToSend
+
+2019-12-07 18:24:11,823 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
 Receiver list : 
-To: 1 receiver#1049878531783732
-Type: request Message: 1
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
 
-
-2019-12-04 22:38:34,450 - room0 - INFO - Received
-
-2019-12-04 22:38:34,451 - room0 - INFO - ToSend
-
-2019-12-04 22:38:34,454 - room0 - INFO - Sent
-Timestamp: 0 message#:9038973931156660
-From: 0 sender#8970734986778308
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
 Receiver list : 
-To: 1 receiver#1049878531783732
-Type: request Message: 1
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
 
 
-2019-12-04 22:38:34,455 - room0 - INFO - Received
+2019-12-07 18:24:11,824 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
 
-2019-12-04 22:38:34,456 - room0 - INFO - ToSend
 
-2019-12-04 22:38:34,546 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:11,825 - room0 - INFO - ToSend
+
+2019-12-07 18:24:11,831 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:11,833 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:11,833 - room0 - INFO - ToSend
+
+2019-12-07 18:24:11,839 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:11,843 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:11,845 - room0 - INFO - ToSend
+
+2019-12-07 18:24:11,850 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:11,851 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:11,856 - room0 - INFO - ToSend
+
+2019-12-07 18:24:11,880 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+
+2019-12-07 18:24:11,882 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:11,883 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:11,884 - room0 - INFO - ToSend
+
+2019-12-07 18:24:11,893 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:11,894 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:11,894 - room0 - INFO - ToSend
+
+2019-12-07 18:24:11,907 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:11,909 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:11,910 - room0 - INFO - ToSend
+
+2019-12-07 18:24:11,930 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:11,933 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:11,934 - room0 - INFO - ToSend
+
+2019-12-07 18:24:11,952 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:11,953 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:11,955 - room0 - INFO - ToSend
+
+2019-12-07 18:24:11,984 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:11,986 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:11,987 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,008 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+
+2019-12-07 18:24:12,009 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,010 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,010 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,018 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,019 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,020 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,031 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,032 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,033 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,037 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,040 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,041 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,046 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,049 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,050 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,055 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,058 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,059 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,064 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,067 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,068 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,076 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,077 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,078 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,085 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,086 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,087 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,094 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,095 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,095 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,107 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+
+2019-12-07 18:24:12,108 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,109 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,109 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,120 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,121 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,121 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,130 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,131 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,131 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,143 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,144 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,144 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,152 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,153 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,153 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,157 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,161 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,162 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,166 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,170 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,171 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,175 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,179 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,180 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,187 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,188 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,189 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,196 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,197 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,198 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,205 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,210 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,211 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,223 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+
+2019-12-07 18:24:12,226 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,227 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,228 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,237 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,238 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,238 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,242 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,243 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,247 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,255 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,256 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,257 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,260 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,265 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,266 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,274 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,275 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,276 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,280 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,284 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,285 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,289 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,293 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,293 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,298 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,299 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,299 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,308 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,308 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,309 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,317 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,322 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,323 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,336 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+
+2019-12-07 18:24:12,337 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,337 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,338 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,349 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,350 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,350 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,359 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,359 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,360 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,368 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,373 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,373 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,378 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,382 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,383 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,387 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,391 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,392 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,399 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,400 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,401 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,405 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,409 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,410 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,414 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,418 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,419 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,424 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,425 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,429 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,443 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,447 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,448 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,452 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
+
+2019-12-07 18:24:12,456 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,458 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,459 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,464 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,468 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,469 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,475 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,479 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,480 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,487 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,488 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,489 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,493 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,497 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,498 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,502 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,503 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,506 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,514 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,516 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,516 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,520 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,521 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,525 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,530 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,531 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,531 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,539 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,540 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,540 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,549 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,553 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,554 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,568 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 
-2019-12-04 22:38:34,694 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:12,569 - room0 - INFO - Sent
+Timestamp: 0 message#:9416904998129380
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,569 - room0 - INFO - Received
+Timestamp: 0 message#:288364827145736
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,570 - room0 - INFO - ToSend
+
+2019-12-07 18:24:12,573 - room0 - INFO - Sent
+Timestamp: 0 message#:8544445071387415
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 288364827145736
+
+
+2019-12-07 18:24:12,574 - room0 - INFO - Received
+
+2019-12-07 18:24:12,575 - room0 - INFO - ToSend
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,584 - room0 - INFO - Sent
+
+2019-12-07 18:24:12,585 - room0 - INFO - Received
+
+2019-12-07 18:24:12,585 - room0 - INFO - ToSend
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,987 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
 
-2019-12-04 22:38:34,737 - room0 - INFO - time : 0 target 0
-time : 9 target 0
-time : 10 target 0
-time : 11 target 0
+2019-12-07 18:24:12,994 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
 
-2019-12-04 22:38:34,916 - room0 - INFO - time : 0 target 0
-time : 9 target 0
-time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 
-2019-12-04 22:38:34,978 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:12,997 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:12,999 - room0 - INFO - ToSend
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,344 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
 
-2019-12-04 22:38:35,119 - room0 - INFO - time : 0 target 0
-time : 9 target 0
-time : 10 target 0
-time : 11 target 0
-time : 12 target 0
-time : 13 target 0
-time : 14 target 0
+2019-12-07 18:24:13,347 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
 
-2019-12-04 22:38:35,202 - room0 - INFO - time : 0 target 0
-time : 9 target 0
-time : 10 target 0
-time : 11 target 0
-time : 12 target 0
-time : 13 target 0
-time : 14 target 0
-time : 15 target 0
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
 
-2019-12-04 22:38:35,319 - room0 - INFO - time : 0 target 0
+
+2019-12-07 18:24:13,349 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,351 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,391 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 
-2019-12-04 22:38:35,439 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:13,395 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,398 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,399 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,427 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,435 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,436 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,448 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,453 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,455 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,466 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,467 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,468 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,478 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,479 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,480 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,500 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
 time : 17 target 0
 
-2019-12-04 22:38:35,547 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:13,501 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,502 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,503 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,513 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,514 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,514 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,525 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,526 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,527 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,536 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,537 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,538 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,547 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,548 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,551 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,560 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,561 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,561 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,566 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,569 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,570 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,578 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,579 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,579 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,589 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,590 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,590 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,599 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,603 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,604 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,627 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -196,14 +2191,280 @@ time : 17 target 0
 time : 18 target 1
 time : 18 target 0
 
-2019-12-04 22:38:35,675 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:13,628 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,629 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,630 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,639 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,640 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,640 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,645 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,648 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,649 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,654 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,654 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,655 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,663 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,664 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,664 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,673 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,674 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,677 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,686 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,687 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,688 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,692 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,696 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,696 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,701 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,705 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,706 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,710 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,714 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,715 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,727 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,731 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,738 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,748 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -213,14 +2474,148 @@ time : 18 target 0
 time : 19 target 1
 time : 19 target 0
 
-2019-12-04 22:38:35,789 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:13,749 - room0 - INFO - Sent
+Timestamp: 10 message#:7683352050295273
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: request target: 0 Message: 1
+
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,750 - room0 - INFO - Received
+Timestamp: 10 message#:5470000069740643
+From: 1 sender#2270718273113740
+Receiver list : 
+To: 0 receiver#5328108333518105
+Type: request target: 0 Message: 1
+
+
+2019-12-07 18:24:13,750 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,759 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,759 - room0 - INFO - Received
+
+2019-12-07 18:24:13,760 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,768 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,769 - room0 - INFO - Received
+
+2019-12-07 18:24:13,769 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,777 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,778 - room0 - INFO - Received
+
+2019-12-07 18:24:13,778 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,787 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,788 - room0 - INFO - Received
+
+2019-12-07 18:24:13,789 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,797 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,797 - room0 - INFO - Received
+
+2019-12-07 18:24:13,798 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,806 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,807 - room0 - INFO - Received
+
+2019-12-07 18:24:13,807 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,816 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,817 - room0 - INFO - Received
+
+2019-12-07 18:24:13,817 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,825 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,826 - room0 - INFO - Received
+
+2019-12-07 18:24:13,826 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,840 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,843 - room0 - INFO - Received
+
+2019-12-07 18:24:13,844 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,864 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -232,14 +2627,148 @@ time : 19 target 0
 time : 20 target 1
 time : 20 target 0
 
-2019-12-04 22:38:35,910 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:13,865 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,866 - room0 - INFO - Received
+
+2019-12-07 18:24:13,866 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,874 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,875 - room0 - INFO - Received
+
+2019-12-07 18:24:13,875 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,884 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,885 - room0 - INFO - Received
+
+2019-12-07 18:24:13,885 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,893 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,894 - room0 - INFO - Received
+
+2019-12-07 18:24:13,895 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,902 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,903 - room0 - INFO - Received
+
+2019-12-07 18:24:13,904 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,908 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,911 - room0 - INFO - Received
+
+2019-12-07 18:24:13,912 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,920 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,921 - room0 - INFO - Received
+
+2019-12-07 18:24:13,921 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,926 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,929 - room0 - INFO - Received
+
+2019-12-07 18:24:13,930 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,935 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,938 - room0 - INFO - Received
+
+2019-12-07 18:24:13,939 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,944 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,947 - room0 - INFO - Received
+
+2019-12-07 18:24:13,948 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,963 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,966 - room0 - INFO - Received
+
+2019-12-07 18:24:13,967 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,979 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -253,14 +2782,148 @@ time : 20 target 0
 time : 21 target 1
 time : 21 target 0
 
-2019-12-04 22:38:36,031 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:13,981 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,981 - room0 - INFO - Received
+
+2019-12-07 18:24:13,982 - room0 - INFO - ToSend
+
+2019-12-07 18:24:13,990 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:13,991 - room0 - INFO - Received
+
+2019-12-07 18:24:13,992 - room0 - INFO - ToSend
+
+2019-12-07 18:24:14,000 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:14,000 - room0 - INFO - Received
+
+2019-12-07 18:24:14,001 - room0 - INFO - ToSend
+
+2019-12-07 18:24:14,009 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:14,010 - room0 - INFO - Received
+
+2019-12-07 18:24:14,010 - room0 - INFO - ToSend
+
+2019-12-07 18:24:14,019 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:14,019 - room0 - INFO - Received
+
+2019-12-07 18:24:14,020 - room0 - INFO - ToSend
+
+2019-12-07 18:24:14,028 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:14,029 - room0 - INFO - Received
+
+2019-12-07 18:24:14,029 - room0 - INFO - ToSend
+
+2019-12-07 18:24:14,038 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:14,039 - room0 - INFO - Received
+
+2019-12-07 18:24:14,039 - room0 - INFO - ToSend
+
+2019-12-07 18:24:14,047 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:14,048 - room0 - INFO - Received
+
+2019-12-07 18:24:14,051 - room0 - INFO - ToSend
+
+2019-12-07 18:24:14,056 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:14,057 - room0 - INFO - Received
+
+2019-12-07 18:24:14,060 - room0 - INFO - ToSend
+
+2019-12-07 18:24:14,068 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:14,073 - room0 - INFO - Received
+
+2019-12-07 18:24:14,074 - room0 - INFO - ToSend
+
+2019-12-07 18:24:14,084 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:14,089 - room0 - INFO - Received
+
+2019-12-07 18:24:14,090 - room0 - INFO - ToSend
+
+2019-12-07 18:24:14,100 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -276,14 +2939,28 @@ time : 21 target 0
 time : 22 target 1
 time : 22 target 0
 
-2019-12-04 22:38:36,156 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:14,101 - room0 - INFO - Sent
+Timestamp: 13 message#:7333311965942384
+From: 0 sender#5328108333518105
+Receiver list : 
+To: 1 receiver#2270718273113740
+Type: ack target: 0 Message: 5470000069740643
+
+
+2019-12-07 18:24:14,106 - room0 - INFO - Received
+
+2019-12-07 18:24:14,107 - room0 - INFO - ToSend
+
+2019-12-07 18:24:14,220 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -301,14 +2978,16 @@ time : 22 target 0
 time : 23 target 1
 time : 23 target 0
 
-2019-12-04 22:38:36,276 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:14,326 - room0 - INFO - time : 0 target 0
+time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -328,14 +3007,15 @@ time : 23 target 0
 time : 24 target 0
 time : 24 target 1
 
-2019-12-04 22:38:36,395 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:14,446 - room0 - INFO - time : 3 target 0
+time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -357,14 +3037,14 @@ time : 24 target 1
 time : 25 target 0
 time : 25 target 1
 
-2019-12-04 22:38:36,513 - room0 - INFO - time : 0 target 0
+2019-12-07 18:24:14,579 - room0 - INFO - time : 4 target 0
+time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
 time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -388,13 +3068,13 @@ time : 25 target 1
 time : 26 target 0
 time : 26 target 1
 
-2019-12-04 22:38:36,632 - room0 - INFO - time : 9 target 0
+2019-12-07 18:24:14,701 - room0 - INFO - time : 5 target 0
+time : 6 target 0
+time : 7 target 0
+time : 8 target 0
+time : 9 target 0
 time : 10 target 0
-time : 11 target 0
-time : 12 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -420,12 +3100,12 @@ time : 26 target 1
 time : 27 target 0
 time : 27 target 1
 
-2019-12-04 22:38:36,757 - room0 - INFO - time : 10 target 0
-time : 11 target 0
-time : 12 target 0
+2019-12-07 18:24:14,833 - room0 - INFO - time : 6 target 0
+time : 7 target 0
+time : 8 target 0
+time : 9 target 0
+time : 10 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -453,11 +3133,11 @@ time : 27 target 1
 time : 28 target 0
 time : 28 target 1
 
-2019-12-04 22:38:36,867 - room0 - INFO - time : 11 target 0
-time : 12 target 0
+2019-12-07 18:24:14,957 - room0 - INFO - time : 7 target 0
+time : 8 target 0
+time : 9 target 0
+time : 10 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -487,10 +3167,10 @@ time : 28 target 1
 time : 29 target 0
 time : 29 target 1
 
-2019-12-04 22:38:37,002 - room0 - INFO - time : 12 target 0
+2019-12-07 18:24:15,080 - room0 - INFO - time : 8 target 0
+time : 9 target 0
+time : 10 target 0
 time : 13 target 0
-time : 14 target 0
-time : 15 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -522,9 +3202,9 @@ time : 29 target 1
 time : 30 target 0
 time : 30 target 1
 
-2019-12-04 22:38:37,102 - room0 - INFO - time : 13 target 0
-time : 14 target 0
-time : 15 target 0
+2019-12-07 18:24:15,203 - room0 - INFO - time : 9 target 0
+time : 10 target 0
+time : 13 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -558,8 +3238,8 @@ time : 30 target 1
 time : 31 target 0
 time : 31 target 1
 
-2019-12-04 22:38:37,219 - room0 - INFO - time : 14 target 0
-time : 15 target 0
+2019-12-07 18:24:15,327 - room0 - INFO - time : 10 target 0
+time : 13 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -595,7 +3275,7 @@ time : 31 target 1
 time : 32 target 0
 time : 32 target 1
 
-2019-12-04 22:38:37,337 - room0 - INFO - time : 15 target 0
+2019-12-07 18:24:15,442 - room0 - INFO - time : 13 target 0
 time : 16 target 1
 time : 16 target 0
 time : 17 target 1
@@ -633,7 +3313,7 @@ time : 32 target 1
 time : 33 target 0
 time : 33 target 1
 
-2019-12-04 22:38:37,465 - room0 - INFO - time : 16 target 1
+2019-12-07 18:24:15,563 - room0 - INFO - time : 16 target 1
 time : 16 target 0
 time : 17 target 1
 time : 17 target 0
@@ -672,7 +3352,7 @@ time : 33 target 1
 time : 34 target 0
 time : 34 target 1
 
-2019-12-04 22:38:37,593 - room0 - INFO - time : 17 target 1
+2019-12-07 18:24:15,691 - room0 - INFO - time : 17 target 1
 time : 17 target 0
 time : 18 target 1
 time : 18 target 0
@@ -711,7 +3391,7 @@ time : 34 target 1
 time : 35 target 0
 time : 35 target 1
 
-2019-12-04 22:38:37,715 - room0 - INFO - time : 18 target 1
+2019-12-07 18:24:15,809 - room0 - INFO - time : 18 target 1
 time : 18 target 0
 time : 19 target 1
 time : 19 target 0
@@ -750,7 +3430,7 @@ time : 35 target 1
 time : 36 target 0
 time : 36 target 1
 
-2019-12-04 22:38:37,858 - room0 - INFO - time : 19 target 1
+2019-12-07 18:24:15,931 - room0 - INFO - time : 19 target 1
 time : 19 target 0
 time : 20 target 1
 time : 20 target 0
@@ -789,7 +3469,7 @@ time : 36 target 1
 time : 37 target 0
 time : 37 target 1
 
-2019-12-04 22:38:37,957 - room0 - INFO - time : 20 target 1
+2019-12-07 18:24:16,053 - room0 - INFO - time : 20 target 1
 time : 20 target 0
 time : 21 target 1
 time : 21 target 0
@@ -828,7 +3508,7 @@ time : 37 target 1
 time : 38 target 0
 time : 38 target 1
 
-2019-12-04 22:38:38,093 - room0 - INFO - time : 21 target 1
+2019-12-07 18:24:16,177 - room0 - INFO - time : 21 target 1
 time : 21 target 0
 time : 22 target 1
 time : 22 target 0
@@ -867,7 +3547,7 @@ time : 38 target 1
 time : 39 target 0
 time : 39 target 1
 
-2019-12-04 22:38:38,214 - room0 - INFO - time : 22 target 1
+2019-12-07 18:24:16,298 - room0 - INFO - time : 22 target 1
 time : 22 target 0
 time : 23 target 1
 time : 23 target 0
@@ -905,7 +3585,7 @@ time : 39 target 0
 time : 39 target 1
 time : 40 target 0
 
-2019-12-04 22:38:38,317 - room0 - INFO - time : 23 target 1
+2019-12-07 18:24:16,418 - room0 - INFO - time : 23 target 1
 time : 23 target 0
 time : 24 target 0
 time : 24 target 1
@@ -942,7 +3622,7 @@ time : 39 target 1
 time : 40 target 0
 time : 41 target 0
 
-2019-12-04 22:38:38,441 - room0 - INFO - time : 24 target 0
+2019-12-07 18:24:16,534 - room0 - INFO - time : 24 target 0
 time : 24 target 1
 time : 25 target 0
 time : 25 target 1
@@ -978,7 +3658,7 @@ time : 40 target 0
 time : 41 target 0
 time : 42 target 0
 
-2019-12-04 22:38:38,571 - room0 - INFO - time : 25 target 0
+2019-12-07 18:24:16,651 - room0 - INFO - time : 25 target 0
 time : 25 target 1
 time : 26 target 0
 time : 26 target 1
@@ -1013,7 +3693,7 @@ time : 41 target 0
 time : 42 target 0
 time : 43 target 0
 
-2019-12-04 22:38:38,690 - room0 - INFO - time : 26 target 0
+2019-12-07 18:24:16,772 - room0 - INFO - time : 26 target 0
 time : 26 target 1
 time : 27 target 0
 time : 27 target 1
@@ -1047,7 +3727,7 @@ time : 42 target 0
 time : 43 target 0
 time : 44 target 0
 
-2019-12-04 22:38:38,794 - room0 - INFO - time : 27 target 0
+2019-12-07 18:24:16,903 - room0 - INFO - time : 27 target 0
 time : 27 target 1
 time : 28 target 0
 time : 28 target 1
@@ -1079,4 +3759,975 @@ time : 42 target 0
 time : 43 target 0
 time : 44 target 0
 time : 45 target 0
+
+2019-12-07 18:24:17,020 - room0 - INFO - time : 28 target 0
+time : 28 target 1
+time : 29 target 0
+time : 29 target 1
+time : 30 target 0
+time : 30 target 1
+time : 31 target 0
+time : 31 target 1
+time : 32 target 0
+time : 32 target 1
+time : 33 target 0
+time : 33 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 36 target 0
+time : 36 target 1
+time : 37 target 0
+time : 37 target 1
+time : 38 target 0
+time : 38 target 1
+time : 39 target 0
+time : 39 target 1
+time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+
+2019-12-07 18:24:17,144 - room0 - INFO - time : 29 target 0
+time : 29 target 1
+time : 30 target 0
+time : 30 target 1
+time : 31 target 0
+time : 31 target 1
+time : 32 target 0
+time : 32 target 1
+time : 33 target 0
+time : 33 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 36 target 0
+time : 36 target 1
+time : 37 target 0
+time : 37 target 1
+time : 38 target 0
+time : 38 target 1
+time : 39 target 0
+time : 39 target 1
+time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+
+2019-12-07 18:24:17,267 - room0 - INFO - time : 30 target 0
+time : 30 target 1
+time : 31 target 0
+time : 31 target 1
+time : 32 target 0
+time : 32 target 1
+time : 33 target 0
+time : 33 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 36 target 0
+time : 36 target 1
+time : 37 target 0
+time : 37 target 1
+time : 38 target 0
+time : 38 target 1
+time : 39 target 0
+time : 39 target 1
+time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+
+2019-12-07 18:24:17,387 - room0 - INFO - time : 31 target 0
+time : 31 target 1
+time : 32 target 0
+time : 32 target 1
+time : 33 target 0
+time : 33 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 36 target 0
+time : 36 target 1
+time : 37 target 0
+time : 37 target 1
+time : 38 target 0
+time : 38 target 1
+time : 39 target 0
+time : 39 target 1
+time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+
+2019-12-07 18:24:17,503 - room0 - INFO - time : 32 target 0
+time : 32 target 1
+time : 33 target 0
+time : 33 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 36 target 0
+time : 36 target 1
+time : 37 target 0
+time : 37 target 1
+time : 38 target 0
+time : 38 target 1
+time : 39 target 0
+time : 39 target 1
+time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+
+2019-12-07 18:24:17,629 - room0 - INFO - time : 33 target 0
+time : 33 target 1
+time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 36 target 0
+time : 36 target 1
+time : 37 target 0
+time : 37 target 1
+time : 38 target 0
+time : 38 target 1
+time : 39 target 0
+time : 39 target 1
+time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+
+2019-12-07 18:24:17,750 - room0 - INFO - time : 34 target 0
+time : 34 target 1
+time : 35 target 0
+time : 35 target 1
+time : 36 target 0
+time : 36 target 1
+time : 37 target 0
+time : 37 target 1
+time : 38 target 0
+time : 38 target 1
+time : 39 target 0
+time : 39 target 1
+time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+
+2019-12-07 18:24:17,857 - room0 - INFO - time : 35 target 0
+time : 35 target 1
+time : 36 target 0
+time : 36 target 1
+time : 37 target 0
+time : 37 target 1
+time : 38 target 0
+time : 38 target 1
+time : 39 target 0
+time : 39 target 1
+time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+
+2019-12-07 18:24:17,986 - room0 - INFO - time : 36 target 0
+time : 36 target 1
+time : 37 target 0
+time : 37 target 1
+time : 38 target 0
+time : 38 target 1
+time : 39 target 0
+time : 39 target 1
+time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+
+2019-12-07 18:24:18,098 - room0 - INFO - time : 37 target 0
+time : 37 target 1
+time : 38 target 0
+time : 38 target 1
+time : 39 target 0
+time : 39 target 1
+time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+
+2019-12-07 18:24:18,213 - room0 - INFO - time : 38 target 0
+time : 38 target 1
+time : 39 target 0
+time : 39 target 1
+time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+
+2019-12-07 18:24:18,430 - room0 - INFO - time : 39 target 0
+time : 39 target 1
+time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+
+2019-12-07 18:24:18,456 - room0 - INFO - time : 40 target 0
+time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+
+2019-12-07 18:24:18,570 - room0 - INFO - time : 41 target 0
+time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+
+2019-12-07 18:24:18,693 - room0 - INFO - time : 42 target 0
+time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+
+2019-12-07 18:24:18,810 - room0 - INFO - time : 43 target 0
+time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+
+2019-12-07 18:24:18,932 - room0 - INFO - time : 44 target 0
+time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+
+2019-12-07 18:24:19,045 - room0 - INFO - time : 45 target 0
+time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+time : 63 target 1
+time : 63 target 0
+
+2019-12-07 18:24:19,176 - room0 - INFO - time : 46 target 0
+time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+time : 63 target 1
+time : 63 target 0
+time : 64 target 1
+time : 64 target 0
+
+2019-12-07 18:24:19,290 - room0 - INFO - time : 47 target 0
+time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+time : 63 target 1
+time : 63 target 0
+time : 64 target 1
+time : 64 target 0
+time : 65 target 1
+time : 65 target 0
+
+2019-12-07 18:24:19,411 - room0 - INFO - time : 48 target 0
+time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+time : 63 target 1
+time : 63 target 0
+time : 64 target 1
+time : 64 target 0
+time : 65 target 1
+time : 65 target 0
+time : 66 target 1
+time : 66 target 0
+
+2019-12-07 18:24:19,522 - room0 - INFO - time : 49 target 0
+time : 49 target 1
+time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+time : 63 target 1
+time : 63 target 0
+time : 64 target 1
+time : 64 target 0
+time : 65 target 1
+time : 65 target 0
+time : 66 target 1
+time : 66 target 0
+time : 67 target 1
+time : 67 target 0
+
+2019-12-07 18:24:19,679 - room0 - INFO - time : 50 target 0
+time : 50 target 1
+time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+time : 63 target 1
+time : 63 target 0
+time : 64 target 1
+time : 64 target 0
+time : 65 target 1
+time : 65 target 0
+time : 66 target 1
+time : 66 target 0
+time : 67 target 1
+time : 67 target 0
+time : 68 target 1
+time : 68 target 0
+
+2019-12-07 18:24:19,794 - room0 - INFO - time : 51 target 0
+time : 51 target 1
+time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+time : 63 target 1
+time : 63 target 0
+time : 64 target 1
+time : 64 target 0
+time : 65 target 1
+time : 65 target 0
+time : 66 target 1
+time : 66 target 0
+time : 67 target 1
+time : 67 target 0
+time : 68 target 1
+time : 68 target 0
+time : 69 target 1
+time : 69 target 0
+
+2019-12-07 18:24:19,933 - room0 - INFO - time : 52 target 0
+time : 52 target 1
+time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+time : 63 target 1
+time : 63 target 0
+time : 64 target 1
+time : 64 target 0
+time : 65 target 1
+time : 65 target 0
+time : 66 target 1
+time : 66 target 0
+time : 67 target 1
+time : 67 target 0
+time : 68 target 1
+time : 68 target 0
+time : 69 target 1
+time : 69 target 0
+time : 70 target 1
+time : 70 target 0
+
+2019-12-07 18:24:20,046 - room0 - INFO - time : 53 target 0
+time : 53 target 1
+time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+time : 63 target 1
+time : 63 target 0
+time : 64 target 1
+time : 64 target 0
+time : 65 target 1
+time : 65 target 0
+time : 66 target 1
+time : 66 target 0
+time : 67 target 1
+time : 67 target 0
+time : 68 target 1
+time : 68 target 0
+time : 69 target 1
+time : 69 target 0
+time : 70 target 1
+time : 70 target 0
+time : 71 target 0
+
+2019-12-07 18:24:20,164 - room0 - INFO - time : 54 target 0
+time : 54 target 1
+time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+time : 63 target 1
+time : 63 target 0
+time : 64 target 1
+time : 64 target 0
+time : 65 target 1
+time : 65 target 0
+time : 66 target 1
+time : 66 target 0
+time : 67 target 1
+time : 67 target 0
+time : 68 target 1
+time : 68 target 0
+time : 69 target 1
+time : 69 target 0
+time : 70 target 1
+time : 70 target 0
+time : 71 target 0
+time : 72 target 0
+
+2019-12-07 18:24:20,286 - room0 - INFO - time : 55 target 0
+time : 55 target 1
+time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+time : 63 target 1
+time : 63 target 0
+time : 64 target 1
+time : 64 target 0
+time : 65 target 1
+time : 65 target 0
+time : 66 target 1
+time : 66 target 0
+time : 67 target 1
+time : 67 target 0
+time : 68 target 1
+time : 68 target 0
+time : 69 target 1
+time : 69 target 0
+time : 70 target 1
+time : 70 target 0
+time : 71 target 0
+time : 72 target 0
+time : 73 target 0
+
+2019-12-07 18:24:20,397 - room0 - INFO - time : 56 target 0
+time : 56 target 1
+time : 57 target 0
+time : 57 target 1
+time : 58 target 1
+time : 58 target 0
+time : 59 target 1
+time : 59 target 0
+time : 60 target 1
+time : 60 target 0
+time : 61 target 1
+time : 61 target 0
+time : 62 target 1
+time : 62 target 0
+time : 63 target 1
+time : 63 target 0
+time : 64 target 1
+time : 64 target 0
+time : 65 target 1
+time : 65 target 0
+time : 66 target 1
+time : 66 target 0
+time : 67 target 1
+time : 67 target 0
+time : 68 target 1
+time : 68 target 0
+time : 69 target 1
+time : 69 target 0
+time : 70 target 1
+time : 70 target 0
+time : 71 target 0
+time : 72 target 0
+time : 73 target 0
+time : 74 target 0
 

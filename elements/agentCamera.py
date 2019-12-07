@@ -87,7 +87,8 @@ class AgentCam(Agent):
                     self.log_room.info(self.info_messageReceived.printMyList())
                     self.log_room.info(self.info_messageToSend.printMyList())
                 
-                self.info_messageSent.removeMessageAfterGivenTime(my_time,10)                
+                self.info_messageSent.removeMessageAfterGivenTime(my_time,10)
+                self.info_messageReceived.removeMessageAfterGivenTime(my_time,10)
                 self.sendAllMessage()
                 
                 if MULTI_THREAD != 1:
@@ -152,15 +153,14 @@ class AgentCam(Agent):
          #Save informations and if needed prepare a response            
 
     def processRecMess(self):
-
         for rec_mes in self.info_messageReceived.getList():
+            
             if(rec_mes.messageType == "request"):
                 #Update Info
                 self.updateTable("infoFromOtherCam",rec_mes)
                             
                 rep_mes = rec_mes
                 if self.table.isTargetDetected(rec_mes.parseMessageType()):
-
                     #If the target is seen => distances # AJouté la condition
                     #if(distance < distance 2)
                         typeMessage="ack"
@@ -170,15 +170,20 @@ class AgentCam(Agent):
                 #If the target is not seen then ACK
                     typeMessage ="ack"
                     
-                    
                 self.sendMessageType(typeMessage,rep_mes,False)
+                #self.info_messageReceived.delMessage(rec_mes)
             
             elif(rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
-                pass
-
-            elif(rec_mes.messageType == "information"):
-                pass
-
+                for mes_sent in self.info_messageSent.getList():
+                    added = mes_sent.add_ACK_NACK(rec_mes)
+                    self.info_messageReceived.delMessage(rec_mes)
+                    if added:
+                        if mes_sent.is_approved():
+                            print("all Ack received") #do some stuff
+                        elif mes_sent.is_not_Approved():
+                            pass #do some stuff
+                        break
+                    
             elif(rec_mes.messageType == "heartbeat"):
                 pass
 
@@ -186,7 +191,8 @@ class AgentCam(Agent):
                 pass
     
             #message supress from the wainting list
-            self.info_messageReceived.delMessage(rec_mes)
+            
+            #self.info_messageReceived.delMessage(rec_mes)
     
   
         
