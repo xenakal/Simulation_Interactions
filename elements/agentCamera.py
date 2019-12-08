@@ -14,7 +14,7 @@ class AgentCam(Agent):
     def __init__(self,idAgent,camera,room):
         #Attributes
         self.cam = camera
-        self.table = InformationTable(room.cameras,room.targets,20)
+        self.memory = InformationMemory(20)
         
         #log_room
         logger_room = logging.getLogger('room'+str(idAgent))
@@ -57,9 +57,9 @@ class AgentCam(Agent):
                 #if the room dispositon has evolve we create a new table
                 if(my_previousTime != my_time):
                     my_previousTime = my_time
-                    self.updateTable("newPicture",picture)
-                    s = self.table.printFieldRoom()
-                    self.log_room.info(s)
+                    self.updateMemory("newPicture",picture)
+                    #s = self.memory.printFieldRoom()
+                    #self.log_room.info(s)
                     nextstate = "makePrediction" # Avoir si on peut améliorer les prédictions avec les mes recu
                 else:
                     nextstate = "processData"
@@ -105,7 +105,7 @@ class AgentCam(Agent):
     #################################
     #   Store and process information
     ################################# 
-    def updateTable(self,type_update,objet):    
+    def updateMemory(self,type_update,objet):    
         #create a new colums in the table to save the information of the picture  
         if(type_update == "newPicture"):
             picture = objet
@@ -113,7 +113,7 @@ class AgentCam(Agent):
             for elem in picture:
                 targets.append(elem[0])
                 
-            self.table.updateInfoRoom(self.myRoom.time,targets,self.cam,-1)
+            #self.memory.newTimeInfoRoom(self.myRoom.time,targets,self.cam,-1)
             
         #modify the information of the message     
         elif(type_update == "infoFromOtherCam"):
@@ -157,18 +157,19 @@ class AgentCam(Agent):
             
             if(rec_mes.messageType == "request"):
                 #Update Info
-                self.updateTable("infoFromOtherCam",rec_mes)
+                self.updateMemory("infoFromOtherCam",rec_mes)
                             
                 rep_mes = rec_mes
-                if self.table.isTargetDetected(rec_mes.parseMessageType()):
+                typeMessage="ack"
+                #if self.memory.isTargetDetected(rec_mes.parseMessageType()):
                     #If the target is seen => distances # AJouté la condition
                     #if(distance < distance 2)
-                        typeMessage="ack"
+                        #typeMessage="ack"
                     #else:
-                        typeMessage="nack"   
-                else:
+                        #typeMessage="nack"   
+                #else:
                 #If the target is not seen then ACK
-                    typeMessage ="ack"
+                    #typeMessage ="ack"
                     
                 self.sendMessageType(typeMessage,rep_mes,False)
                 #self.info_messageReceived.delMessage(rec_mes)
@@ -179,7 +180,7 @@ class AgentCam(Agent):
                     self.info_messageReceived.delMessage(rec_mes)
                     if added:
                         if mes_sent.is_approved():
-                            print("all Ack received") #do some stuff
+                            pass #print("all Ack received") #do some stuff
                         elif mes_sent.is_not_Approved():
                             pass #do some stuff
                         break

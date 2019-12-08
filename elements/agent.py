@@ -114,9 +114,6 @@ class Agent:
     #Save informations and if needed prepare a response            
     def processRecMess(self):
         pass
-                
-            
-    
             
     ############################
     #   Receive Information

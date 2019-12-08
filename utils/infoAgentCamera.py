@@ -2,90 +2,121 @@ import numpy as np
 import random
 
 class TargetInfos():
-    def __init__(self,timeStamp, target, followedByCam = -1,cam  = -1,distance = -1):
+    def __init__(self,timeStamp, targetID, followedByCam = -1,seenByCam  = False,distance = -1):
         self.timeStamp = timeStamp
-        self.target = target
-        self.seenByCam_and_distance = [(cam,distance)]
+        self.targetID = targetID
+        self.seenByCam = seenByCam
+        self.distance = distance
         self.followedByCam =  followedByCam
-        self.ack_received = 0
-        self.nack_received = 0
     
-class InformationTable:
-    def __init__(self, cameras, targets, nTime = 5):
+    def copyTargetInfo_newTime(self,time):
+        return TargetInfos(time,self.targetID,self.followedByCam,self.seenByCam,self.distance)
+               
+    def setTimeStamp(self,time):
+        self.timeStamp = time
+    
+class InformationMemory:
+    def __init__(self, nTime = 5,currentTime = 0):
         self.times = nTime
-        self.cameras = cameras
-        self.targets = targets
+        self.currentTime = currentTime
+        self.info_room =[]    
     
-        self.info_room =  []
-        
-    def initInfoMessage(self):
-        info_message = []
-        for camera in self.cameras:
-            info_cam = []
-            for camera in self.cameras:
-                info_cam.append([])
-            info_message.append(info_cam)
+    def computeIndexBasedOnTime(self,infoTime):
+        if infoTime > self.currentTime - len(self.info_room)-1:
+            if len(self.info_room) > 0:
+                return (len(self.info_room) - 1) - (self.currentTime - infoTime)
+            else:
+                return 0
+          
+    def addNewTime(self,time):
+        self.currentTime = time
+        n = len(self.info_room)
+        timeTab = []
+        if n > 0:
+            for element in self.info_room[n-1]:
+                timeTab.append(element.copyTargetInfo_newTime(time))
                 
-        return info_message
-        
-    
-    def updateInfoRoom(self,time,targetDetected,cam ,distance):
-        if len(self.info_room) >= self.times:
+        if n > self.times-1:
             del self.info_room[0]
             
-        timeTab = []
-        for target in targetDetected:
-            followedByCam = -1 
-            if len(self.info_room) >= 1:
-               followedByCam = self.getInfoRoomCamInCharge
-               
-            timeTab.append(TargetInfos(time,target,followedByCam,cam,distance))
-                    
         self.info_room.append(timeTab)
+    
         
-    def updateInfoRoomField(self,index,target,camInCharge,camera,distance):
+    def addTarget(self,infoTime,targetID):
+        index = self.computeIndexBasedOnTime(infoTime)
+        for element in self.info_room[index]:
+            if element.targetID == targetID:
+                return False
+    
+        self.info_room[index].append(TargetInfos(infoTime,targetID))
+        return True
+         
+    def updateTarget_info(self,infoTime,targetID,camInCharge,camera,distance):
+        index =  computeIndexBasedOnTime(infoTime)
         info_index = self.info_room[index]
         for info in info_index:
-            if(info.target.id == target.id):
-                info_index.seenByCam_and_distance.append(camera,distance)
-                info_index.followedByCam = camInCharge
+            if(info.targetID == targetID):
+                info_index.seenByCam=camera
                 info_index.distance = distance
+                info_index.followedByCam = camInCharge
                 break
-            
-    def getInfoRoomCamInCharge(self,index,target):
+    
+    def isTargetDetected(self,infoTime,targetID):
+        index = computeIndexBasedOnTime(infoTime)
         info_index = self.info_room[index]
         for info in info_index:
-            if(info.target.id == target.id):
-                return info_index.followedByCam
-            
-    def isTargetDetected(self,targetID):
-        info_index = self.info_room[len(self.info_room)-1]
-        
-        for info in info_index:
-            if(info.target.id == targetID):
-                return True
-            
+            if(info.targetID == targetID):
+                if(info.seenByCam):
+                    return True    
         return False
     
-    def wasTargetAlreadyDeteced(self,target):
+    def wasTargetAlreadyDeteced(self,targetID):
         size = len(self.info_room) 
         if (size > 0):
             info_index = self.info_room[size-2]
             for info in info_index:
-                if(info.target.id == target.id):
+                if(info.targetID == targetID):
                     return True
-        return False  
+        return False
+    
+    def getCamInCharge(self,infoTime,targetID):
+        index = computeIndexBasedOnTime(infoTime)
+        for info in self.info_room[index]:
+            if(info.targetID == targetID):
+                return info.followedByCam
+    
+   
+    
+    
+    def memoryToString(self):
+        s ="Memory \n"
+        
+        for timeStamp in self.info_room:
+                for info in timeStamp:
+                    s = s + ("time : " + str(info.timeStamp) + " target " + str(info.targetID) +"\n")
             
-    def printFieldRoom(self):
-        s = ""
-        for n in  range(0,len(self.info_room)-1):
-            for info in self.info_room[n]:
-                s = s + ("time : " + str(info.timeStamp) + " target " + str(info.target.id) +"\n")
-                
-        return s     
+        return s
+            
                     
 if __name__ == "__main__":
-    pass
+    memory = InformationMemory(3)
+    print(memory.memoryToString())
+    
+    memory.addNewTime(1)
+    memory.addTarget(1,"test")
+    memory.addTarget(1,"test1")
+    print(memory.memoryToString())
+    
+    memory.addNewTime(2)
+    print(memory.memoryToString())
+    memory.addNewTime(3)
+    print(memory.memoryToString())
+    memory.addNewTime(4)
+    print(memory.memoryToString())
+    memory.addNewTime(5)
+    print(memory.memoryToString())
+    
+    
    
     
     
