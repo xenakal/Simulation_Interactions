@@ -1,58 +1,30 @@
-2019-12-08 17:37:57,440 - agent1 - INFO - Agent initialized and  starts
-2019-12-08 17:37:57,570 - agent1 - INFO - SEND     : 
-Timestamp: 0 message#:3194331616749811
-From: 1 sender#5479626448751908
+2019-12-09 01:29:46,712 - agent1 - INFO - Agent initialized and  starts
+2019-12-09 01:29:46,875 - agent1 - INFO - SEND     : 
+Timestamp: 0 message#:2213757874597374
+From: 1 sender#5042507469732582
 Receiver list : 
-To: 0 receiver#1920381877078028
-Type: request target: 0 Message: 1
+To: 0 receiver#9925116359853448
+Type: request target: 1 Message: 319.88279103446627
 
-2019-12-08 17:37:57,660 - agent1 - INFO - RECEIVED : 
-Timestamp: 0 message#:1162156897419558
-From: 0 sender#1920381877078028
+2019-12-09 01:29:47,206 - agent1 - INFO - RECEIVED : 
+Timestamp: 0 message#:9084616085979138
+From: 0 sender#9925116359853448
 Receiver list : 
-To: 1 receiver#5479626448751908
-Type: request target: 0 Message: 1
+To: 1 receiver#5042507469732582
+Type: ack target: 1 Message: 2213757874597374
 
-2019-12-08 17:37:57,802 - agent1 - INFO - SEND     : 
-Timestamp: 0 message#:947128892926646
-From: 1 sender#5479626448751908
+2019-12-09 01:29:51,843 - agent1 - INFO - RECEIVED : 
+Timestamp: 16 message#:8289531733734588
+From: 0 sender#9925116359853448
 Receiver list : 
-To: 0 receiver#1920381877078028
-Type: ack target: 0 Message: 1162156897419558
+To: 1 receiver#5042507469732582
+Type: request target: 1 Message: 109.77249200050075
 
-2019-12-08 17:37:57,891 - agent1 - INFO - RECEIVED : 
-Timestamp: 0 message#:7491619486492752
-From: 0 sender#1920381877078028
+2019-12-09 01:29:51,861 - agent1 - WARNING - Mailbox file error SEND
+2019-12-09 01:29:51,874 - agent1 - INFO - SEND     : 
+Timestamp: 16 message#:4488053569806610
+From: 1 sender#5042507469732582
 Receiver list : 
-To: 1 receiver#5479626448751908
-Type: ack target: 0 Message: 3194331616749811
-
-2019-12-08 17:38:02,186 - agent1 - WARNING - Mailbox file error SEND
-2019-12-08 17:38:02,205 - agent1 - INFO - SEND     : 
-Timestamp: 10 message#:7206591386145748
-From: 1 sender#5479626448751908
-Receiver list : 
-To: 0 receiver#1920381877078028
-Type: request target: 0 Message: 1
-
-2019-12-08 17:38:02,226 - agent1 - INFO - RECEIVED : 
-Timestamp: 10 message#:1669406073685612
-From: 0 sender#1920381877078028
-Receiver list : 
-To: 1 receiver#5479626448751908
-Type: request target: 0 Message: 1
-
-2019-12-08 17:38:02,249 - agent1 - INFO - SEND     : 
-Timestamp: 10 message#:1589941173855664
-From: 1 sender#5479626448751908
-Receiver list : 
-To: 0 receiver#1920381877078028
-Type: ack target: 0 Message: 1669406073685612
-
-2019-12-08 17:38:02,317 - agent1 - INFO - RECEIVED : 
-Timestamp: 10 message#:9792650341926462
-From: 0 sender#1920381877078028
-Receiver list : 
-To: 1 receiver#5479626448751908
-Type: ack target: 0 Message: 7206591386145748
+To: 0 receiver#9925116359853448
+Type: ack target: 1 Message: 8289531733734588
 

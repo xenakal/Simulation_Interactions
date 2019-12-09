@@ -202,6 +202,7 @@ class App:
         self.myGUI.drawProjection(self.myRoom)
         self.myGUI.screenDetectedTarget(self.myRoom)
         self.myGUI.drawPredictions(self.myRoom)
+        self.myGUI.drawTargetFollowedByCam(self.myRoom)
         updateScreen()
 
 

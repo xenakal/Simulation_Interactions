@@ -8,6 +8,7 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
 
 CAMERA = (200, 0, 0)
 PREDICTION = (100, 100, 100)
@@ -154,6 +155,14 @@ class GUI:
                 pygame.draw.circle(self.screen, WHITE, (x_off + 85, y_off + 8 + n * 30), 5)
                 pygame.draw.circle(self.screen, WHITE, (x_off + 85 + dref, y_off + 8 + n * 30), 5)
             n = n + 1
+            
+    def drawTargetFollowedByCam(self,myRoom):
+        for agent in myRoom.agentCam:
+            for info in agent.memory.info_room[len(agent.memory.info_room)-1]:
+                if info.followedByCam != -1 :
+                    pygame.draw.line(self.screen, info.target.color , (agent.cam.xc,agent.cam.yc),
+                                 (info.target.xc,info.target.yc), 2)
+                
 
     def drawPredictions(self, myRoom):
         for camera in myRoom.cameras:

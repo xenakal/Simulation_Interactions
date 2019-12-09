@@ -63,9 +63,6 @@ class Message():
             
         return base + str(self.message) +"\n"
     
-    def parseMessageType(self):    
-        return self.message
-        
     def printMessage(self):
         print(self.formatMessageType())
     
@@ -107,7 +104,7 @@ class Message():
             
     def is_not_approved(self):
         if self.messageType =='request':
-            if self.get_NackNumber > 0:
+            if self.get_NackNumber() > 0:
                 return True
             else:
                 return False
