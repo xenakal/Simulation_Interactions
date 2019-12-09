@@ -63,18 +63,32 @@ class InformationMemory:
     
     def addTargetFromID(self,infoTime,targetID,myRoom):
         index = self.computeIndexBasedOnTime(infoTime)
-        for element in self.info_room[index]:
+        
+        try:
+            info_index = self.info_room[index]
+        except IndexError:
+            print("error")
+            info_index = self.info_room[len(self.info_room)-1]
+            
+        for element in info_index :
             if element.target.id == targetID:
                 return False #if already in the list
          
         newTar = TargetInfos(infoTime,targetID)
         test = newTar.setTargetFromID(targetID,myRoom)
-        self.info_room[index].append(newTar) 
+        info_index.append(newTar) 
         return True #otherwise add it
          
     def updateTarget_info(self,infoTime,target,camInCharge,camera,distance):
         index =  computeIndexBasedOnTime(infoTime)
-        info_index = self.info_room[index]
+        
+        try:
+            info_index = self.info_room[index]
+        except IndexError:
+            print("error")
+            info_index = self.info_room[len(self.info_room)-1]
+        
+        
         for info in info_index:
             if(info.target.id == target.id):
                 info_index.seenByCam=camera
@@ -123,7 +137,14 @@ class InformationMemory:
     
     def setfollowedByCam(self,infoTime,targetID,agentID):
         index = self.computeIndexBasedOnTime(infoTime)
-        for info in self.info_room[index]:
+        
+        try:
+            info_index = self.info_room[index]
+        except IndexError:
+            print("error")
+            info_index = self.info_room[len(self.info_room)-1]
+        
+        for info in info_index:
             if str(info.target.id) == str(targetID):
                 info.followedByCam = agentID
                 return True
