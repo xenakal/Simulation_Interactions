@@ -40,3 +40,6 @@ class QueueFIFO:
 
     def isEmpty(self):
         return self.empty
+
+    def printQueue(self):
+        print(self.queue)
