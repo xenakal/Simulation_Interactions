@@ -11,6 +11,13 @@ class TargetInfos():
     
     def copyTargetInfo_newTime(self,time,seenByCam):
         return TargetInfos(time,self.target,seenByCam,self.followedByCam,self.distance)
+    
+    def setTargetFromID(self,targetID,myRoom):
+        for target in myRoom.targets:
+            if(str(target.id) == str(targetID)):
+                self.target = target
+                return True
+        return False
                
     def setTimeStamp(self,time):
         self.timeStamp = time
@@ -52,6 +59,17 @@ class InformationMemory:
                 return False #if already in the list
             
         self.info_room[index].append(TargetInfos(infoTime,target)) 
+        return True #otherwise add it
+    
+    def addTargetFromID(self,infoTime,targetID,myRoom):
+        index = self.computeIndexBasedOnTime(infoTime)
+        for element in self.info_room[index]:
+            if element.target.id == targetID:
+                return False #if already in the list
+         
+        newTar = TargetInfos(infoTime,targetID)
+        test = newTar.setTargetFromID(targetID,myRoom)
+        self.info_room[index].append(newTar) 
         return True #otherwise add it
          
     def updateTarget_info(self,infoTime,target,camInCharge,camera,distance):
@@ -97,7 +115,6 @@ class InformationMemory:
             print("error")
             info_index = self.info_room[len(self.info_room)-1]
             
-        
         for info in self.info_room[index]:
             if(info.target.id == target.id):
                 info.setSeenByCam(True)
@@ -107,10 +124,10 @@ class InformationMemory:
     def setfollowedByCam(self,infoTime,targetID,agentID):
         index = self.computeIndexBasedOnTime(infoTime)
         for info in self.info_room[index]:
-            if(info.target.id == targetID):
+            if str(info.target.id) == str(targetID):
                 info.followedByCam = agentID
                 return True
-        return false
+        return False
     
     
     def getCamInCharge(self,infoTime,target):
@@ -118,7 +135,6 @@ class InformationMemory:
         for info in self.info_room[index]:
             if(info.target.id == target.id):
                 return info.followedByCam
-    
    
     
     
@@ -127,28 +143,15 @@ class InformationMemory:
         
         for timeStamp in self.info_room:
                 for info in timeStamp:
-                    s = s + ("time : " + str(info.timeStamp) + " target " + str(info.target.id) + " : " + str(info.seenByCam) + "\n")
+                    s1 ="time : " + str(info.timeStamp) + " target " + str(info.target.id)  
+                    s2 =" seen : " + str(info.seenByCam) + " lock : " + str(info.followedByCam) + "\n"
+                    s = s + s1 + s2
             
         return s
             
                     
 if __name__ == "__main__":
-    memory = InformationMemory(3)
-    print(memory.memoryToString())
-    
-    memory.addNewTime(1)
-    memory.addTarget(1,"test")
-    memory.addTarget(1,"test1")
-    print(memory.memoryToString())
-    
-    memory.addNewTime(2)
-    print(memory.memoryToString())
-    memory.addNewTime(3)
-    print(memory.memoryToString())
-    memory.addNewTime(4)
-    print(memory.memoryToString())
-    memory.addNewTime(5)
-    print(memory.memoryToString())
+   pass
     
     
    

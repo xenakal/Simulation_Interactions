@@ -203,36 +203,41 @@ class Agent:
         return succes
     
     
-    def sendMessageType(self,typeMessage,m,to_all=False,target =-1, receiverID=-1,receiverSignature=-1):
+    def sendMessageType(self,typeMessage,m,to_all=False,target =-1, receiverID_Signature=-1):
         m_format = Message(-1,-1,-1,'init',"")
         
         if(typeMessage == "request"):
-            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m,target) #ici il faut aussi transmettre la distance
+            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m,target)
+        
+        elif(typeMessage == "wanted"):
+            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m,target)
+        
+        elif(typeMessage == "locked"):
+            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m.signature,m.targetRef)
+            to_all=True
                             
         elif(typeMessage == "ack"):
             m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m.signature,m.targetRef)
             m_format.addReceiver(m.senderID,m.senderSignature)
+            to_all=False 
                             
         elif(typeMessage == "nack"):
             m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,m.signature,m.targetRef)
             m_format.addReceiver(m.senderID,m.senderSignature)
+            to_all=False
                             
         elif(typeMessage == "heartbeat"):
-            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,"heartbeat")
-                            
-        elif(typeMessage == "information"):
-            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,"what ever for now")
-        
+            m_format = Message(self.myRoom.time,self.id,self.signature,typeMessage,"heartbeat",target)
         
         if to_all:
             for agent in self.myRoom.agentCam:
                 if(agent.id != self.id):
                     m_format.addReceiver(agent.id,agent.signature)
-        
+            
         
         cdt1 = m_format.getReceiverNumber() > 0
-        cdt2 = self.info_messageToSend.isMessageWithSameMessage(m_format)
-        cdt3 = self.info_messageSent.isMessageWithSameMessage(m_format)
+        cdt2 = self.info_messageToSend.isMessageWithSameTypeSameAgentRef(m_format)
+        cdt3 = self.info_messageSent.isMessageWithSameTypeSameAgentRef(m_format)
         if  cdt1 and not cdt2 and not cdt3 : 
             self.info_messageToSend.addMessage(m_format)
             

@@ -82,6 +82,12 @@ class Camera:
 
     def camActivate(self):
         self.isActive = 1
+        
+    def isActivate(self):
+        if self.isActive == 1:
+            return True
+        else:
+            return False
 
     def takePicture(self, targetList, l_projection=200, seuil=3):
         if self.isActive == 1:

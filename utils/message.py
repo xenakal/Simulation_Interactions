@@ -211,6 +211,12 @@ class ListMessage():
             if message.message == messageToFind.message:
                 return True
         return False
+    
+    def isMessageWithSameTypeSameAgentRef(self,messageToFind):
+        for message in self.myList:
+            if message.targetRef == messageToFind.targetRef and message.messageType == messageToFind.messageType :
+                return True
+        return False
                 
     
     def printMyList(self):
