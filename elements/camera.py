@@ -5,6 +5,9 @@ from utils.line import *
 from utils.queueFIFO import *
 from elements.target import *
 
+NUMBER_PREDICTIONS = 3
+
+
 def avgSpeedFunc(positions):
     if len(positions) <= 1:  # one position or less not enough to calculate speed
         return 0
@@ -44,7 +47,7 @@ def avgDirectionFunc(positions):
 def calcNextPos(position, speed, direction):
     travelDistance = main.TIMESTEP * 4 * speed
     xPrediction = position[0] + math.cos(direction) * travelDistance
-    yPrediction = position[1] + math.sin(direction) * travelDistance  # -: the coordinates are oposite to the cartesian
+    yPrediction = position[1] + math.sin(direction) * travelDistance  # -: the coordinates are opposite to the cartesian
     return [int(xPrediction), int(yPrediction)]
 
 
@@ -70,7 +73,6 @@ class Camera:
         self.previousPositions = dict()  # dictionary where key="target" and value="queueFIFO[(x,y)]".
         # not a list as indexes may change if relative positions change
         self.predictedPositions = dict()  # key="target" and value=queueFIFO([predicted_xc, predicted_yc])
-
 
     def run(self, myRoom):
         if self.isActive == 1:
@@ -365,28 +367,41 @@ class Camera:
                     self.previousPositions[targetObj] = QueueFIFO()  # create new entry in dict
                 self.previousPositions[targetObj].enqueue([targetObj.xc, targetObj.yc])  # update dict
 
-    #  Predict the paths of all targets previously
+    #  Predict the paths of all targets previously seen as a list with the NUMBER_PREDICTIONS next estimated positions
     def predictPaths(self):
-        #  for target in self.targetDetectedList:
         for targetObj in self.previousPositions:
-            #  targetObj = target[0]
-            #  if targetObj in self.previousPositions:
-            if targetObj not in self.predictedPositions:
-                self.predictedPositions[targetObj] = QueueFIFO()
-            self.predictedPositions[targetObj].enqueue(self.nextPos(targetObj))
+            self.predictedPositions[targetObj] = self.nextPositions(targetObj)
+            #  if targetObj not in self.predictedPositions:
+                #  self.predictedPositions[targetObj] = [None] * NUMBER_PREDICTIONS
+            #  self.predictedPositions[targetObj].enqueue(self.nextPos(targetObj))
 
     # target is a target object (not a list with other attributes of the target as in targetDetectedList)
     def nextPos(self, target):
-
         #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate
         prevPos = self.previousPositions[target].getQueue()
-        #for pos in prevPos:
-        #    print(pos)
         #  Calculate average velocity
         avgSpeed = avgSpeedFunc(prevPos)
         #  Calculate average direction
         avgDirection = avgDirectionFunc(prevPos)
         #  Use avg velocity and direction to estimate next position
-        # nextPositions = calcNextPos(prevPositions[-1], avgSpeed, avgDirection)
         nextPositions = calcNextPos([target.xc, target.yc], avgSpeed, avgDirection)
         return nextPositions
+
+    def nextPositions(self, target):
+        predictedPos = [None] * NUMBER_PREDICTIONS
+        #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate
+        prevPos = self.previousPositions[target].getQueue()
+        currPos = [target.xc, target.yc]
+
+        for i in range(NUMBER_PREDICTIONS):
+            #  Estimate next position
+            avgSpeed = avgSpeedFunc(prevPos)  # calculate average velocity
+            avgDirection = avgDirectionFunc(prevPos)  # calculate average direction
+            nextPos = calcNextPos(currPos, avgSpeed, avgDirection)  # estimate next position
+            predictedPos[i] = nextPos
+            # Update needed values
+            prevPos = prevPos[1:]  # include new pos for next iteration
+            prevPos.append(currPos)
+            currPos = nextPos
+
+        return predictedPos

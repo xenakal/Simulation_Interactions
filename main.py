@@ -4,10 +4,10 @@ from elements.room import *
 from utils.GUI import *
 
 
-TIMESTEP = 1
-TIMEPAUSE = 0.1
+TIMESTEP = 0.5
+TIMEPAUSE = 0.2
 
-USE_AGENT = 1
+USE_AGENT = 0
 
 
 class App:
@@ -192,7 +192,7 @@ class App:
         for agent in self.myRoom.agentCam:
             agent.clear()
         
-        shutil.rmtree("mailbox",ignore_errors = True)
+        shutil.rmtree("mailbox", ignore_errors=True)
         os.mkdir("mailbox")
         
     def updateGUI(self):
@@ -208,5 +208,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, 5)
+    myApp = App(1, -1)
     myApp.main()

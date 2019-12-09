@@ -155,24 +155,24 @@ class GUI:
                 pygame.draw.circle(self.screen, WHITE, (x_off + 85, y_off + 8 + n * 30), 5)
                 pygame.draw.circle(self.screen, WHITE, (x_off + 85 + dref, y_off + 8 + n * 30), 5)
             n = n + 1
-            
-    def drawTargetFollowedByCam(self,myRoom):
+
+    def drawTargetFollowedByCam(self, myRoom):
         for agent in myRoom.agentCam:
-            index = len(agent.memory.info_room)-1
+            index = len(agent.memory.info_room) - 1
             if index > -1:
                 for info in agent.memory.info_room[index]:
-                    if info.followedByCam == agent.id :
-                        pygame.draw.line(self.screen, info.target.color , (agent.cam.xc,agent.cam.yc),
-                                     (info.target.xc,info.target.yc), 2)
-                
+                    if info.followedByCam == agent.id:
+                        pygame.draw.line(self.screen, info.target.color, (agent.cam.xc, agent.cam.yc),
+                                         (info.target.xc, info.target.yc), 2)
 
     def drawPredictions(self, myRoom):
         for camera in myRoom.cameras:
             for target in myRoom.targets:
                 if target in camera.predictedPositions:
-                    self.drawTargetPrediction(target, camera.predictedPositions[target], myRoom.coord, camera.id)
+                    #self.drawTargetPrediction(target, camera.predictedPositions[target], myRoom.coord)
+                    self.drawTargetPredictionNew(target, camera.predictedPositions[target])
 
-    def drawTargetPrediction(self, target, predictedPos, tab, camID):
+    def drawTargetPrediction(self, target, predictedPos, tab):
         color = PREDICTION
         predictedTarget = copy.deepcopy(target)
         predictedTarget.xc = predictedPos.getQueue()[-1][0]
@@ -190,3 +190,13 @@ class GUI:
             if predictedTarget.size >= 5:
                 pygame.draw.circle(self.screen, predictedTarget.color, (predictedTarget.xc, predictedTarget.yc),
                                    math.floor(predictedTarget.size - 0.5 * predictedTarget.size))
+
+    # predictionPos is a list with the N next predicted positions
+    def drawTargetPredictionNew(self, target, predictionPos):
+        predictedTarget = copy.deepcopy(target)
+        #print("target x = ", predictedTarget.xc)
+        #print("target y = ", predictedTarget.yc)
+        #print("target predictions = ", predictionPos)
+        predictionPos.insert(0, [predictedTarget.xc, predictedTarget.yc])
+        pygame.draw.lines(self.screen, PREDICTION, False, predictionPos)
+
