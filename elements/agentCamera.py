@@ -158,7 +158,7 @@ class AgentCam(Agent):
             index = self.memory.computeIndexBasedOnTime(time)
             myList = self.memory.info_room[index]
         except IndexError:
-            print(error1)
+            print("error1")
             myList = self.memory.info_room[len(self.memory.info_room)-1]
            
         

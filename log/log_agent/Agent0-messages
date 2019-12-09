@@ -1,24 +1,24 @@
-2019-12-09 11:58:05,007 - agent0 - INFO - Agent initialized and  starts
-2019-12-09 11:58:05,232 - agent0 - INFO - RECEIVED : 
-Timestamp: 0 message#:586957800591645
-From: 1 sender#4320917018514785
+2019-12-09 12:05:05,349 - agent0 - INFO - Agent initialized and  starts
+2019-12-09 12:05:05,584 - agent0 - INFO - RECEIVED : 
+Timestamp: 0 message#:8354078059566734
+From: 1 sender#511960870067793
 Receiver list : 
-To: 0 receiver#5005009293030481
+To: 0 receiver#6853658649596351
 Type: request target: 1 Message: 319.88279103446627
 
-2019-12-09 11:58:05,305 - agent0 - WARNING - Mailbox file error SEND
-2019-12-09 11:58:05,425 - agent0 - WARNING - Mailbox file error SEND
-2019-12-09 11:58:05,457 - agent0 - INFO - SEND     : 
-Timestamp: 0 message#:2955097004607686
-From: 0 sender#5005009293030481
+2019-12-09 12:05:05,624 - agent0 - WARNING - Mailbox file error SEND
+2019-12-09 12:05:05,662 - agent0 - INFO - SEND     : 
+Timestamp: 0 message#:101315811484076
+From: 0 sender#6853658649596351
 Receiver list : 
-To: 1 receiver#4320917018514785
-Type: ack target: 1 Message: 586957800591645
+To: 1 receiver#511960870067793
+Type: ack target: 1 Message: 8354078059566734
 
-2019-12-09 11:58:05,836 - agent0 - INFO - RECEIVED : 
-Timestamp: 0 message#:4625566277013297
-From: 1 sender#4320917018514785
+2019-12-09 12:05:05,703 - agent0 - WARNING - Mailbox file error RECEIVE
+2019-12-09 12:05:05,728 - agent0 - INFO - RECEIVED : 
+Timestamp: 0 message#:4722313269819320
+From: 1 sender#511960870067793
 Receiver list : 
-To: 0 receiver#5005009293030481
-Type: locked target: 1 Message: 586957800591645
+To: 0 receiver#6853658649596351
+Type: locked target: 1 Message: 8354078059566734
 

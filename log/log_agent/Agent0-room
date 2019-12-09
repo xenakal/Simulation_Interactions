@@ -1,13 +1,13 @@
-2019-12-09 11:58:05,013 - room0 - INFO - Memory 
+2019-12-09 12:05:05,347 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 
-2019-12-09 11:58:08,368 - room0 - INFO - Memory 
+2019-12-09 12:05:08,473 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
 time : 1 target 1 seen : False lock : 1
 
-2019-12-09 11:58:08,475 - room0 - INFO - Memory 
+2019-12-09 12:05:08,590 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -15,7 +15,7 @@ time : 1 target 1 seen : False lock : 1
 time : 2 target 0 seen : True lock : -1
 time : 2 target 1 seen : False lock : 1
 
-2019-12-09 11:58:08,598 - room0 - INFO - Memory 
+2019-12-09 12:05:08,710 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -25,7 +25,7 @@ time : 2 target 1 seen : False lock : 1
 time : 3 target 0 seen : True lock : -1
 time : 3 target 1 seen : False lock : 1
 
-2019-12-09 11:58:08,709 - room0 - INFO - Memory 
+2019-12-09 12:05:08,806 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -37,7 +37,7 @@ time : 3 target 1 seen : False lock : 1
 time : 4 target 0 seen : True lock : -1
 time : 4 target 1 seen : False lock : 1
 
-2019-12-09 11:58:08,821 - room0 - INFO - Memory 
+2019-12-09 12:05:08,934 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -51,7 +51,7 @@ time : 4 target 1 seen : False lock : 1
 time : 5 target 0 seen : True lock : -1
 time : 5 target 1 seen : False lock : 1
 
-2019-12-09 11:58:08,935 - room0 - INFO - Memory 
+2019-12-09 12:05:09,054 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -67,7 +67,7 @@ time : 5 target 1 seen : False lock : 1
 time : 6 target 0 seen : True lock : -1
 time : 6 target 1 seen : False lock : 1
 
-2019-12-09 11:58:09,049 - room0 - INFO - Memory 
+2019-12-09 12:05:09,155 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -85,7 +85,7 @@ time : 6 target 1 seen : False lock : 1
 time : 7 target 0 seen : True lock : -1
 time : 7 target 1 seen : False lock : 1
 
-2019-12-09 11:58:09,153 - room0 - INFO - Memory 
+2019-12-09 12:05:09,269 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -105,7 +105,7 @@ time : 7 target 1 seen : False lock : 1
 time : 8 target 0 seen : True lock : -1
 time : 8 target 1 seen : False lock : 1
 
-2019-12-09 11:58:09,274 - room0 - INFO - Memory 
+2019-12-09 12:05:09,390 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -127,7 +127,7 @@ time : 8 target 1 seen : False lock : 1
 time : 9 target 0 seen : True lock : -1
 time : 9 target 1 seen : False lock : 1
 
-2019-12-09 11:58:09,384 - room0 - INFO - Memory 
+2019-12-09 12:05:09,501 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -151,7 +151,7 @@ time : 9 target 1 seen : False lock : 1
 time : 10 target 0 seen : True lock : -1
 time : 10 target 1 seen : False lock : 1
 
-2019-12-09 11:58:09,493 - room0 - INFO - Memory 
+2019-12-09 12:05:09,616 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -177,7 +177,7 @@ time : 10 target 1 seen : False lock : 1
 time : 11 target 0 seen : True lock : -1
 time : 11 target 1 seen : False lock : 1
 
-2019-12-09 11:58:09,604 - room0 - INFO - Memory 
+2019-12-09 12:05:09,729 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -205,7 +205,7 @@ time : 11 target 1 seen : False lock : 1
 time : 12 target 0 seen : True lock : -1
 time : 12 target 1 seen : False lock : 1
 
-2019-12-09 11:58:09,720 - room0 - INFO - Memory 
+2019-12-09 12:05:09,840 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -235,7 +235,7 @@ time : 12 target 1 seen : False lock : 1
 time : 13 target 0 seen : True lock : -1
 time : 13 target 1 seen : False lock : 1
 
-2019-12-09 11:58:09,834 - room0 - INFO - Memory 
+2019-12-09 12:05:09,943 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -267,7 +267,7 @@ time : 13 target 1 seen : False lock : 1
 time : 14 target 0 seen : True lock : -1
 time : 14 target 1 seen : False lock : 1
 
-2019-12-09 11:58:09,946 - room0 - INFO - Memory 
+2019-12-09 12:05:10,056 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -301,7 +301,7 @@ time : 14 target 1 seen : False lock : 1
 time : 15 target 0 seen : True lock : -1
 time : 15 target 1 seen : False lock : 1
 
-2019-12-09 11:58:10,089 - room0 - INFO - Memory 
+2019-12-09 12:05:10,165 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -337,7 +337,7 @@ time : 15 target 1 seen : False lock : 1
 time : 16 target 0 seen : True lock : -1
 time : 16 target 1 seen : True lock : 1
 
-2019-12-09 11:58:10,189 - room0 - INFO - Memory 
+2019-12-09 12:05:10,284 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -375,7 +375,7 @@ time : 16 target 1 seen : True lock : 1
 time : 17 target 0 seen : True lock : -1
 time : 17 target 1 seen : True lock : 1
 
-2019-12-09 11:58:10,308 - room0 - INFO - Memory 
+2019-12-09 12:05:10,408 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -415,7 +415,7 @@ time : 17 target 1 seen : True lock : 1
 time : 18 target 0 seen : True lock : -1
 time : 18 target 1 seen : True lock : 1
 
-2019-12-09 11:58:10,441 - room0 - INFO - Memory 
+2019-12-09 12:05:10,534 - room0 - INFO - Memory 
 time : 0 target 0 seen : True lock : -1
 time : 0 target 1 seen : False lock : 1
 time : 1 target 0 seen : True lock : -1
@@ -457,7 +457,7 @@ time : 18 target 1 seen : True lock : 1
 time : 19 target 0 seen : True lock : -1
 time : 19 target 1 seen : True lock : 1
 
-2019-12-09 11:58:10,553 - room0 - INFO - Memory 
+2019-12-09 12:05:10,640 - room0 - INFO - Memory 
 time : 1 target 0 seen : True lock : -1
 time : 1 target 1 seen : False lock : 1
 time : 2 target 0 seen : True lock : -1
@@ -499,7 +499,7 @@ time : 19 target 1 seen : True lock : 1
 time : 20 target 0 seen : True lock : -1
 time : 20 target 1 seen : True lock : 1
 
-2019-12-09 11:58:10,666 - room0 - INFO - Memory 
+2019-12-09 12:05:10,759 - room0 - INFO - Memory 
 time : 2 target 0 seen : True lock : -1
 time : 2 target 1 seen : False lock : 1
 time : 3 target 0 seen : True lock : -1
@@ -541,7 +541,7 @@ time : 20 target 1 seen : True lock : 1
 time : 21 target 0 seen : True lock : -1
 time : 21 target 1 seen : True lock : 1
 
-2019-12-09 11:58:10,789 - room0 - INFO - Memory 
+2019-12-09 12:05:10,895 - room0 - INFO - Memory 
 time : 3 target 0 seen : True lock : -1
 time : 3 target 1 seen : False lock : 1
 time : 4 target 0 seen : True lock : -1
@@ -583,7 +583,7 @@ time : 21 target 1 seen : True lock : 1
 time : 22 target 0 seen : True lock : -1
 time : 22 target 1 seen : True lock : 1
 
-2019-12-09 11:58:10,905 - room0 - INFO - Memory 
+2019-12-09 12:05:11,007 - room0 - INFO - Memory 
 time : 4 target 0 seen : True lock : -1
 time : 4 target 1 seen : False lock : 1
 time : 5 target 0 seen : True lock : -1
@@ -625,7 +625,7 @@ time : 22 target 1 seen : True lock : 1
 time : 23 target 0 seen : True lock : -1
 time : 23 target 1 seen : True lock : 1
 
-2019-12-09 11:58:11,029 - room0 - INFO - Memory 
+2019-12-09 12:05:11,131 - room0 - INFO - Memory 
 time : 5 target 0 seen : True lock : -1
 time : 5 target 1 seen : False lock : 1
 time : 6 target 0 seen : True lock : -1
@@ -667,7 +667,7 @@ time : 23 target 1 seen : True lock : 1
 time : 24 target 0 seen : True lock : -1
 time : 24 target 1 seen : True lock : 1
 
-2019-12-09 11:58:11,145 - room0 - INFO - Memory 
+2019-12-09 12:05:11,247 - room0 - INFO - Memory 
 time : 6 target 0 seen : True lock : -1
 time : 6 target 1 seen : False lock : 1
 time : 7 target 0 seen : True lock : -1
@@ -709,7 +709,7 @@ time : 24 target 1 seen : True lock : 1
 time : 25 target 0 seen : True lock : -1
 time : 25 target 1 seen : True lock : 1
 
-2019-12-09 11:58:11,261 - room0 - INFO - Memory 
+2019-12-09 12:05:11,356 - room0 - INFO - Memory 
 time : 7 target 0 seen : True lock : -1
 time : 7 target 1 seen : False lock : 1
 time : 8 target 0 seen : True lock : -1
@@ -751,7 +751,7 @@ time : 25 target 1 seen : True lock : 1
 time : 26 target 0 seen : True lock : -1
 time : 26 target 1 seen : True lock : 1
 
-2019-12-09 11:58:11,385 - room0 - INFO - Memory 
+2019-12-09 12:05:11,481 - room0 - INFO - Memory 
 time : 8 target 0 seen : True lock : -1
 time : 8 target 1 seen : False lock : 1
 time : 9 target 0 seen : True lock : -1
@@ -793,7 +793,7 @@ time : 26 target 1 seen : True lock : 1
 time : 27 target 0 seen : True lock : -1
 time : 27 target 1 seen : True lock : 1
 
-2019-12-09 11:58:11,493 - room0 - INFO - Memory 
+2019-12-09 12:05:11,592 - room0 - INFO - Memory 
 time : 9 target 0 seen : True lock : -1
 time : 9 target 1 seen : False lock : 1
 time : 10 target 0 seen : True lock : -1
@@ -835,7 +835,7 @@ time : 27 target 1 seen : True lock : 1
 time : 28 target 0 seen : True lock : -1
 time : 28 target 1 seen : True lock : 1
 
-2019-12-09 11:58:11,614 - room0 - INFO - Memory 
+2019-12-09 12:05:11,717 - room0 - INFO - Memory 
 time : 10 target 0 seen : True lock : -1
 time : 10 target 1 seen : False lock : 1
 time : 11 target 0 seen : True lock : -1
@@ -877,7 +877,7 @@ time : 28 target 1 seen : True lock : 1
 time : 29 target 0 seen : True lock : -1
 time : 29 target 1 seen : True lock : 1
 
-2019-12-09 11:58:11,735 - room0 - INFO - Memory 
+2019-12-09 12:05:11,825 - room0 - INFO - Memory 
 time : 11 target 0 seen : True lock : -1
 time : 11 target 1 seen : False lock : 1
 time : 12 target 0 seen : True lock : -1
@@ -919,7 +919,7 @@ time : 29 target 1 seen : True lock : 1
 time : 30 target 0 seen : True lock : -1
 time : 30 target 1 seen : True lock : 1
 
-2019-12-09 11:58:11,855 - room0 - INFO - Memory 
+2019-12-09 12:05:11,946 - room0 - INFO - Memory 
 time : 12 target 0 seen : True lock : -1
 time : 12 target 1 seen : False lock : 1
 time : 13 target 0 seen : True lock : -1
@@ -961,7 +961,7 @@ time : 30 target 1 seen : True lock : 1
 time : 31 target 0 seen : True lock : -1
 time : 31 target 1 seen : True lock : 1
 
-2019-12-09 11:58:11,974 - room0 - INFO - Memory 
+2019-12-09 12:05:12,067 - room0 - INFO - Memory 
 time : 13 target 0 seen : True lock : -1
 time : 13 target 1 seen : False lock : 1
 time : 14 target 0 seen : True lock : -1
@@ -1003,7 +1003,7 @@ time : 31 target 1 seen : True lock : 1
 time : 32 target 0 seen : True lock : -1
 time : 32 target 1 seen : True lock : 1
 
-2019-12-09 11:58:12,092 - room0 - INFO - Memory 
+2019-12-09 12:05:12,189 - room0 - INFO - Memory 
 time : 14 target 0 seen : True lock : -1
 time : 14 target 1 seen : False lock : 1
 time : 15 target 0 seen : True lock : -1
@@ -1045,7 +1045,7 @@ time : 32 target 1 seen : True lock : 1
 time : 33 target 0 seen : True lock : -1
 time : 33 target 1 seen : True lock : 1
 
-2019-12-09 11:58:12,211 - room0 - INFO - Memory 
+2019-12-09 12:05:12,303 - room0 - INFO - Memory 
 time : 15 target 0 seen : True lock : -1
 time : 15 target 1 seen : False lock : 1
 time : 16 target 0 seen : True lock : -1
@@ -1087,7 +1087,7 @@ time : 33 target 1 seen : True lock : 1
 time : 34 target 0 seen : True lock : -1
 time : 34 target 1 seen : True lock : 1
 
-2019-12-09 11:58:12,334 - room0 - INFO - Memory 
+2019-12-09 12:05:12,421 - room0 - INFO - Memory 
 time : 16 target 0 seen : True lock : -1
 time : 16 target 1 seen : True lock : 1
 time : 17 target 0 seen : True lock : -1
@@ -1129,7 +1129,7 @@ time : 34 target 1 seen : True lock : 1
 time : 35 target 0 seen : True lock : -1
 time : 35 target 1 seen : True lock : 1
 
-2019-12-09 11:58:12,445 - room0 - INFO - Memory 
+2019-12-09 12:05:12,541 - room0 - INFO - Memory 
 time : 17 target 0 seen : True lock : -1
 time : 17 target 1 seen : True lock : 1
 time : 18 target 0 seen : True lock : -1
@@ -1171,7 +1171,7 @@ time : 35 target 1 seen : True lock : 1
 time : 36 target 0 seen : True lock : -1
 time : 36 target 1 seen : True lock : 1
 
-2019-12-09 11:58:12,560 - room0 - INFO - Memory 
+2019-12-09 12:05:12,654 - room0 - INFO - Memory 
 time : 18 target 0 seen : True lock : -1
 time : 18 target 1 seen : True lock : 1
 time : 19 target 0 seen : True lock : -1
@@ -1213,7 +1213,7 @@ time : 36 target 1 seen : True lock : 1
 time : 37 target 0 seen : True lock : -1
 time : 37 target 1 seen : True lock : 1
 
-2019-12-09 11:58:12,685 - room0 - INFO - Memory 
+2019-12-09 12:05:12,779 - room0 - INFO - Memory 
 time : 19 target 0 seen : True lock : -1
 time : 19 target 1 seen : True lock : 1
 time : 20 target 0 seen : True lock : -1
@@ -1255,7 +1255,7 @@ time : 37 target 1 seen : True lock : 1
 time : 38 target 0 seen : True lock : -1
 time : 38 target 1 seen : True lock : 1
 
-2019-12-09 11:58:12,802 - room0 - INFO - Memory 
+2019-12-09 12:05:12,896 - room0 - INFO - Memory 
 time : 20 target 0 seen : True lock : -1
 time : 20 target 1 seen : True lock : 1
 time : 21 target 0 seen : True lock : -1
@@ -1297,7 +1297,7 @@ time : 38 target 1 seen : True lock : 1
 time : 39 target 0 seen : True lock : -1
 time : 39 target 1 seen : True lock : 1
 
-2019-12-09 11:58:12,919 - room0 - INFO - Memory 
+2019-12-09 12:05:13,010 - room0 - INFO - Memory 
 time : 21 target 0 seen : True lock : -1
 time : 21 target 1 seen : True lock : 1
 time : 22 target 0 seen : True lock : -1
@@ -1339,7 +1339,7 @@ time : 39 target 1 seen : True lock : 1
 time : 40 target 0 seen : True lock : -1
 time : 40 target 1 seen : False lock : 1
 
-2019-12-09 11:58:13,035 - room0 - INFO - Memory 
+2019-12-09 12:05:13,128 - room0 - INFO - Memory 
 time : 22 target 0 seen : True lock : -1
 time : 22 target 1 seen : True lock : 1
 time : 23 target 0 seen : True lock : -1
@@ -1381,7 +1381,7 @@ time : 40 target 1 seen : False lock : 1
 time : 41 target 0 seen : True lock : -1
 time : 41 target 1 seen : False lock : 1
 
-2019-12-09 11:58:13,163 - room0 - INFO - Memory 
+2019-12-09 12:05:13,250 - room0 - INFO - Memory 
 time : 23 target 0 seen : True lock : -1
 time : 23 target 1 seen : True lock : 1
 time : 24 target 0 seen : True lock : -1
@@ -1423,7 +1423,7 @@ time : 41 target 1 seen : False lock : 1
 time : 42 target 0 seen : True lock : -1
 time : 42 target 1 seen : False lock : 1
 
-2019-12-09 11:58:13,275 - room0 - INFO - Memory 
+2019-12-09 12:05:13,366 - room0 - INFO - Memory 
 time : 24 target 0 seen : True lock : -1
 time : 24 target 1 seen : True lock : 1
 time : 25 target 0 seen : True lock : -1
@@ -1465,7 +1465,7 @@ time : 42 target 1 seen : False lock : 1
 time : 43 target 0 seen : True lock : -1
 time : 43 target 1 seen : False lock : 1
 
-2019-12-09 11:58:13,387 - room0 - INFO - Memory 
+2019-12-09 12:05:13,494 - room0 - INFO - Memory 
 time : 25 target 0 seen : True lock : -1
 time : 25 target 1 seen : True lock : 1
 time : 26 target 0 seen : True lock : -1
@@ -1507,7 +1507,7 @@ time : 43 target 1 seen : False lock : 1
 time : 44 target 0 seen : True lock : -1
 time : 44 target 1 seen : False lock : 1
 
-2019-12-09 11:58:13,503 - room0 - INFO - Memory 
+2019-12-09 12:05:13,619 - room0 - INFO - Memory 
 time : 26 target 0 seen : True lock : -1
 time : 26 target 1 seen : True lock : 1
 time : 27 target 0 seen : True lock : -1
@@ -1549,7 +1549,7 @@ time : 44 target 1 seen : False lock : 1
 time : 45 target 0 seen : True lock : -1
 time : 45 target 1 seen : False lock : 1
 
-2019-12-09 11:58:13,616 - room0 - INFO - Memory 
+2019-12-09 12:05:13,735 - room0 - INFO - Memory 
 time : 27 target 0 seen : True lock : -1
 time : 27 target 1 seen : True lock : 1
 time : 28 target 0 seen : True lock : -1
@@ -1591,7 +1591,7 @@ time : 45 target 1 seen : False lock : 1
 time : 46 target 0 seen : True lock : -1
 time : 46 target 1 seen : False lock : 1
 
-2019-12-09 11:58:13,735 - room0 - INFO - Memory 
+2019-12-09 12:05:13,860 - room0 - INFO - Memory 
 time : 28 target 0 seen : True lock : -1
 time : 28 target 1 seen : True lock : 1
 time : 29 target 0 seen : True lock : -1
@@ -1633,7 +1633,7 @@ time : 46 target 1 seen : False lock : 1
 time : 47 target 0 seen : True lock : -1
 time : 47 target 1 seen : False lock : 1
 
-2019-12-09 11:58:13,847 - room0 - INFO - Memory 
+2019-12-09 12:05:13,984 - room0 - INFO - Memory 
 time : 29 target 0 seen : True lock : -1
 time : 29 target 1 seen : True lock : 1
 time : 30 target 0 seen : True lock : -1
@@ -1675,7 +1675,7 @@ time : 47 target 1 seen : False lock : 1
 time : 48 target 0 seen : True lock : -1
 time : 48 target 1 seen : False lock : 1
 
-2019-12-09 11:58:13,961 - room0 - INFO - Memory 
+2019-12-09 12:05:14,101 - room0 - INFO - Memory 
 time : 30 target 0 seen : True lock : -1
 time : 30 target 1 seen : True lock : 1
 time : 31 target 0 seen : True lock : -1
@@ -1717,7 +1717,7 @@ time : 48 target 1 seen : False lock : 1
 time : 49 target 0 seen : True lock : -1
 time : 49 target 1 seen : True lock : 1
 
-2019-12-09 11:58:14,075 - room0 - INFO - Memory 
+2019-12-09 12:05:14,228 - room0 - INFO - Memory 
 time : 31 target 0 seen : True lock : -1
 time : 31 target 1 seen : True lock : 1
 time : 32 target 0 seen : True lock : -1
@@ -1759,7 +1759,7 @@ time : 49 target 1 seen : True lock : 1
 time : 50 target 0 seen : True lock : -1
 time : 50 target 1 seen : True lock : 1
 
-2019-12-09 11:58:14,198 - room0 - INFO - Memory 
+2019-12-09 12:05:14,341 - room0 - INFO - Memory 
 time : 32 target 0 seen : True lock : -1
 time : 32 target 1 seen : True lock : 1
 time : 33 target 0 seen : True lock : -1
@@ -1801,7 +1801,7 @@ time : 50 target 1 seen : True lock : 1
 time : 51 target 0 seen : True lock : -1
 time : 51 target 1 seen : True lock : 1
 
-2019-12-09 11:58:14,304 - room0 - INFO - Memory 
+2019-12-09 12:05:14,469 - room0 - INFO - Memory 
 time : 33 target 0 seen : True lock : -1
 time : 33 target 1 seen : True lock : 1
 time : 34 target 0 seen : True lock : -1
@@ -1843,7 +1843,7 @@ time : 51 target 1 seen : True lock : 1
 time : 52 target 0 seen : True lock : -1
 time : 52 target 1 seen : True lock : 1
 
-2019-12-09 11:58:14,422 - room0 - INFO - Memory 
+2019-12-09 12:05:14,584 - room0 - INFO - Memory 
 time : 34 target 0 seen : True lock : -1
 time : 34 target 1 seen : True lock : 1
 time : 35 target 0 seen : True lock : -1
@@ -1885,7 +1885,7 @@ time : 52 target 1 seen : True lock : 1
 time : 53 target 0 seen : True lock : -1
 time : 53 target 1 seen : True lock : 1
 
-2019-12-09 11:58:14,548 - room0 - INFO - Memory 
+2019-12-09 12:05:14,700 - room0 - INFO - Memory 
 time : 35 target 0 seen : True lock : -1
 time : 35 target 1 seen : True lock : 1
 time : 36 target 0 seen : True lock : -1
@@ -1927,7 +1927,7 @@ time : 53 target 1 seen : True lock : 1
 time : 54 target 0 seen : True lock : -1
 time : 54 target 1 seen : True lock : 1
 
-2019-12-09 11:58:14,665 - room0 - INFO - Memory 
+2019-12-09 12:05:14,816 - room0 - INFO - Memory 
 time : 36 target 0 seen : True lock : -1
 time : 36 target 1 seen : True lock : 1
 time : 37 target 0 seen : True lock : -1
@@ -1969,7 +1969,7 @@ time : 54 target 1 seen : True lock : 1
 time : 55 target 0 seen : True lock : -1
 time : 55 target 1 seen : True lock : 1
 
-2019-12-09 11:58:14,793 - room0 - INFO - Memory 
+2019-12-09 12:05:14,931 - room0 - INFO - Memory 
 time : 37 target 0 seen : True lock : -1
 time : 37 target 1 seen : True lock : 1
 time : 38 target 0 seen : True lock : -1
@@ -2011,7 +2011,7 @@ time : 55 target 1 seen : True lock : 1
 time : 56 target 0 seen : True lock : -1
 time : 56 target 1 seen : True lock : 1
 
-2019-12-09 11:58:14,930 - room0 - INFO - Memory 
+2019-12-09 12:05:15,041 - room0 - INFO - Memory 
 time : 38 target 0 seen : True lock : -1
 time : 38 target 1 seen : True lock : 1
 time : 39 target 0 seen : True lock : -1
@@ -2053,7 +2053,7 @@ time : 56 target 1 seen : True lock : 1
 time : 57 target 0 seen : True lock : -1
 time : 57 target 1 seen : True lock : 1
 
-2019-12-09 11:58:15,053 - room0 - INFO - Memory 
+2019-12-09 12:05:15,163 - room0 - INFO - Memory 
 time : 39 target 0 seen : True lock : -1
 time : 39 target 1 seen : True lock : 1
 time : 40 target 0 seen : True lock : -1
@@ -2095,7 +2095,7 @@ time : 57 target 1 seen : True lock : 1
 time : 58 target 0 seen : True lock : -1
 time : 58 target 1 seen : True lock : 1
 
-2019-12-09 11:58:15,177 - room0 - INFO - Memory 
+2019-12-09 12:05:15,278 - room0 - INFO - Memory 
 time : 40 target 0 seen : True lock : -1
 time : 40 target 1 seen : False lock : 1
 time : 41 target 0 seen : True lock : -1
@@ -2137,7 +2137,7 @@ time : 58 target 1 seen : True lock : 1
 time : 59 target 0 seen : True lock : -1
 time : 59 target 1 seen : True lock : 1
 
-2019-12-09 11:58:15,300 - room0 - INFO - Memory 
+2019-12-09 12:05:15,392 - room0 - INFO - Memory 
 time : 41 target 0 seen : True lock : -1
 time : 41 target 1 seen : False lock : 1
 time : 42 target 0 seen : True lock : -1
@@ -2179,7 +2179,7 @@ time : 59 target 1 seen : True lock : 1
 time : 60 target 0 seen : True lock : -1
 time : 60 target 1 seen : True lock : 1
 
-2019-12-09 11:58:15,422 - room0 - INFO - Memory 
+2019-12-09 12:05:15,513 - room0 - INFO - Memory 
 time : 42 target 0 seen : True lock : -1
 time : 42 target 1 seen : False lock : 1
 time : 43 target 0 seen : True lock : -1
@@ -2221,7 +2221,7 @@ time : 60 target 1 seen : True lock : 1
 time : 61 target 0 seen : True lock : -1
 time : 61 target 1 seen : True lock : 1
 
-2019-12-09 11:58:15,536 - room0 - INFO - Memory 
+2019-12-09 12:05:15,669 - room0 - INFO - Memory 
 time : 43 target 0 seen : True lock : -1
 time : 43 target 1 seen : False lock : 1
 time : 44 target 0 seen : True lock : -1
@@ -2263,7 +2263,7 @@ time : 61 target 1 seen : True lock : 1
 time : 62 target 0 seen : True lock : -1
 time : 62 target 1 seen : True lock : 1
 
-2019-12-09 11:58:15,680 - room0 - INFO - Memory 
+2019-12-09 12:05:15,779 - room0 - INFO - Memory 
 time : 44 target 0 seen : True lock : -1
 time : 44 target 1 seen : False lock : 1
 time : 45 target 0 seen : True lock : -1
@@ -2305,7 +2305,7 @@ time : 62 target 1 seen : True lock : 1
 time : 63 target 0 seen : True lock : -1
 time : 63 target 1 seen : True lock : 1
 
-2019-12-09 11:58:15,781 - room0 - INFO - Memory 
+2019-12-09 12:05:15,898 - room0 - INFO - Memory 
 time : 45 target 0 seen : True lock : -1
 time : 45 target 1 seen : False lock : 1
 time : 46 target 0 seen : True lock : -1
@@ -2347,7 +2347,7 @@ time : 63 target 1 seen : True lock : 1
 time : 64 target 0 seen : True lock : -1
 time : 64 target 1 seen : True lock : 1
 
-2019-12-09 11:58:15,903 - room0 - INFO - Memory 
+2019-12-09 12:05:16,013 - room0 - INFO - Memory 
 time : 46 target 0 seen : True lock : -1
 time : 46 target 1 seen : False lock : 1
 time : 47 target 0 seen : True lock : -1
@@ -2389,7 +2389,7 @@ time : 64 target 1 seen : True lock : 1
 time : 65 target 0 seen : True lock : -1
 time : 65 target 1 seen : True lock : 1
 
-2019-12-09 11:58:16,016 - room0 - INFO - Memory 
+2019-12-09 12:05:16,128 - room0 - INFO - Memory 
 time : 47 target 0 seen : True lock : -1
 time : 47 target 1 seen : False lock : 1
 time : 48 target 0 seen : True lock : -1
@@ -2431,7 +2431,7 @@ time : 65 target 1 seen : True lock : 1
 time : 66 target 0 seen : True lock : -1
 time : 66 target 1 seen : True lock : 1
 
-2019-12-09 11:58:16,137 - room0 - INFO - Memory 
+2019-12-09 12:05:16,239 - room0 - INFO - Memory 
 time : 48 target 0 seen : True lock : -1
 time : 48 target 1 seen : False lock : 1
 time : 49 target 0 seen : True lock : -1
@@ -2473,7 +2473,7 @@ time : 66 target 1 seen : True lock : 1
 time : 67 target 0 seen : True lock : -1
 time : 67 target 1 seen : True lock : 1
 
-2019-12-09 11:58:16,267 - room0 - INFO - Memory 
+2019-12-09 12:05:16,353 - room0 - INFO - Memory 
 time : 49 target 0 seen : True lock : -1
 time : 49 target 1 seen : True lock : 1
 time : 50 target 0 seen : True lock : -1
@@ -2515,7 +2515,7 @@ time : 67 target 1 seen : True lock : 1
 time : 68 target 0 seen : True lock : -1
 time : 68 target 1 seen : True lock : 1
 
-2019-12-09 11:58:16,394 - room0 - INFO - Memory 
+2019-12-09 12:05:16,466 - room0 - INFO - Memory 
 time : 50 target 0 seen : True lock : -1
 time : 50 target 1 seen : True lock : 1
 time : 51 target 0 seen : True lock : -1
@@ -2557,7 +2557,7 @@ time : 68 target 1 seen : True lock : 1
 time : 69 target 0 seen : True lock : -1
 time : 69 target 1 seen : True lock : 1
 
-2019-12-09 11:58:16,500 - room0 - INFO - Memory 
+2019-12-09 12:05:16,590 - room0 - INFO - Memory 
 time : 51 target 0 seen : True lock : -1
 time : 51 target 1 seen : True lock : 1
 time : 52 target 0 seen : True lock : -1
@@ -2599,7 +2599,7 @@ time : 69 target 1 seen : True lock : 1
 time : 70 target 0 seen : True lock : -1
 time : 70 target 1 seen : True lock : 1
 
-2019-12-09 11:58:16,620 - room0 - INFO - Memory 
+2019-12-09 12:05:16,699 - room0 - INFO - Memory 
 time : 52 target 0 seen : True lock : -1
 time : 52 target 1 seen : True lock : 1
 time : 53 target 0 seen : True lock : -1
@@ -2641,7 +2641,7 @@ time : 70 target 1 seen : True lock : 1
 time : 71 target 0 seen : True lock : -1
 time : 71 target 1 seen : False lock : 1
 
-2019-12-09 11:58:16,745 - room0 - INFO - Memory 
+2019-12-09 12:05:16,819 - room0 - INFO - Memory 
 time : 53 target 0 seen : True lock : -1
 time : 53 target 1 seen : True lock : 1
 time : 54 target 0 seen : True lock : -1
@@ -2683,7 +2683,7 @@ time : 71 target 1 seen : False lock : 1
 time : 72 target 0 seen : True lock : -1
 time : 72 target 1 seen : False lock : 1
 
-2019-12-09 11:58:16,872 - room0 - INFO - Memory 
+2019-12-09 12:05:16,942 - room0 - INFO - Memory 
 time : 54 target 0 seen : True lock : -1
 time : 54 target 1 seen : True lock : 1
 time : 55 target 0 seen : True lock : -1
@@ -2725,7 +2725,7 @@ time : 72 target 1 seen : False lock : 1
 time : 73 target 0 seen : True lock : -1
 time : 73 target 1 seen : False lock : 1
 
-2019-12-09 11:58:16,989 - room0 - INFO - Memory 
+2019-12-09 12:05:17,062 - room0 - INFO - Memory 
 time : 55 target 0 seen : True lock : -1
 time : 55 target 1 seen : True lock : 1
 time : 56 target 0 seen : True lock : -1
@@ -2767,7 +2767,7 @@ time : 73 target 1 seen : False lock : 1
 time : 74 target 0 seen : True lock : -1
 time : 74 target 1 seen : False lock : 1
 
-2019-12-09 11:58:17,091 - room0 - INFO - Memory 
+2019-12-09 12:05:17,175 - room0 - INFO - Memory 
 time : 56 target 0 seen : True lock : -1
 time : 56 target 1 seen : True lock : 1
 time : 57 target 0 seen : True lock : -1
@@ -2809,7 +2809,7 @@ time : 74 target 1 seen : False lock : 1
 time : 75 target 0 seen : True lock : -1
 time : 75 target 1 seen : False lock : 1
 
-2019-12-09 11:58:17,209 - room0 - INFO - Memory 
+2019-12-09 12:05:17,301 - room0 - INFO - Memory 
 time : 57 target 0 seen : True lock : -1
 time : 57 target 1 seen : True lock : 1
 time : 58 target 0 seen : True lock : -1
@@ -2851,7 +2851,7 @@ time : 75 target 1 seen : False lock : 1
 time : 76 target 0 seen : True lock : -1
 time : 76 target 1 seen : False lock : 1
 
-2019-12-09 11:58:17,327 - room0 - INFO - Memory 
+2019-12-09 12:05:17,424 - room0 - INFO - Memory 
 time : 58 target 0 seen : True lock : -1
 time : 58 target 1 seen : True lock : 1
 time : 59 target 0 seen : True lock : -1
@@ -2893,7 +2893,7 @@ time : 76 target 1 seen : False lock : 1
 time : 77 target 0 seen : True lock : -1
 time : 77 target 1 seen : False lock : 1
 
-2019-12-09 11:58:17,451 - room0 - INFO - Memory 
+2019-12-09 12:05:17,548 - room0 - INFO - Memory 
 time : 59 target 0 seen : True lock : -1
 time : 59 target 1 seen : True lock : 1
 time : 60 target 0 seen : True lock : -1
@@ -2935,7 +2935,7 @@ time : 77 target 1 seen : False lock : 1
 time : 78 target 0 seen : True lock : -1
 time : 78 target 1 seen : False lock : 1
 
-2019-12-09 11:58:17,565 - room0 - INFO - Memory 
+2019-12-09 12:05:17,661 - room0 - INFO - Memory 
 time : 60 target 0 seen : True lock : -1
 time : 60 target 1 seen : True lock : 1
 time : 61 target 0 seen : True lock : -1
@@ -2977,7 +2977,7 @@ time : 78 target 1 seen : False lock : 1
 time : 79 target 0 seen : True lock : -1
 time : 79 target 1 seen : False lock : 1
 
-2019-12-09 11:58:17,690 - room0 - INFO - Memory 
+2019-12-09 12:05:17,777 - room0 - INFO - Memory 
 time : 61 target 0 seen : True lock : -1
 time : 61 target 1 seen : True lock : 1
 time : 62 target 0 seen : True lock : -1
@@ -3019,7 +3019,7 @@ time : 79 target 1 seen : False lock : 1
 time : 80 target 0 seen : True lock : -1
 time : 80 target 1 seen : False lock : 1
 
-2019-12-09 11:58:17,807 - room0 - INFO - Memory 
+2019-12-09 12:05:17,912 - room0 - INFO - Memory 
 time : 62 target 0 seen : True lock : -1
 time : 62 target 1 seen : True lock : 1
 time : 63 target 0 seen : True lock : -1
@@ -3061,7 +3061,7 @@ time : 80 target 1 seen : False lock : 1
 time : 81 target 0 seen : True lock : -1
 time : 81 target 1 seen : False lock : 1
 
-2019-12-09 11:58:17,920 - room0 - INFO - Memory 
+2019-12-09 12:05:18,015 - room0 - INFO - Memory 
 time : 63 target 0 seen : True lock : -1
 time : 63 target 1 seen : True lock : 1
 time : 64 target 0 seen : True lock : -1
@@ -3103,7 +3103,7 @@ time : 81 target 1 seen : False lock : 1
 time : 82 target 0 seen : True lock : -1
 time : 82 target 1 seen : False lock : 1
 
-2019-12-09 11:58:18,048 - room0 - INFO - Memory 
+2019-12-09 12:05:18,140 - room0 - INFO - Memory 
 time : 64 target 0 seen : True lock : -1
 time : 64 target 1 seen : True lock : 1
 time : 65 target 0 seen : True lock : -1
@@ -3145,7 +3145,7 @@ time : 82 target 1 seen : False lock : 1
 time : 83 target 0 seen : True lock : -1
 time : 83 target 1 seen : False lock : 1
 
-2019-12-09 11:58:18,153 - room0 - INFO - Memory 
+2019-12-09 12:05:18,257 - room0 - INFO - Memory 
 time : 65 target 0 seen : True lock : -1
 time : 65 target 1 seen : True lock : 1
 time : 66 target 0 seen : True lock : -1
@@ -3187,7 +3187,7 @@ time : 83 target 1 seen : False lock : 1
 time : 84 target 0 seen : True lock : -1
 time : 84 target 1 seen : False lock : 1
 
-2019-12-09 11:58:18,281 - room0 - INFO - Memory 
+2019-12-09 12:05:18,366 - room0 - INFO - Memory 
 time : 66 target 0 seen : True lock : -1
 time : 66 target 1 seen : True lock : 1
 time : 67 target 0 seen : True lock : -1
@@ -3229,7 +3229,7 @@ time : 84 target 1 seen : False lock : 1
 time : 85 target 0 seen : True lock : -1
 time : 85 target 1 seen : False lock : 1
 
-2019-12-09 11:58:18,398 - room0 - INFO - Memory 
+2019-12-09 12:05:18,487 - room0 - INFO - Memory 
 time : 67 target 0 seen : True lock : -1
 time : 67 target 1 seen : True lock : 1
 time : 68 target 0 seen : True lock : -1
@@ -3271,7 +3271,7 @@ time : 85 target 1 seen : False lock : 1
 time : 86 target 0 seen : True lock : -1
 time : 86 target 1 seen : False lock : 1
 
-2019-12-09 11:58:18,520 - room0 - INFO - Memory 
+2019-12-09 12:05:18,601 - room0 - INFO - Memory 
 time : 68 target 0 seen : True lock : -1
 time : 68 target 1 seen : True lock : 1
 time : 69 target 0 seen : True lock : -1
@@ -3313,7 +3313,7 @@ time : 86 target 1 seen : False lock : 1
 time : 87 target 0 seen : True lock : -1
 time : 87 target 1 seen : False lock : 1
 
-2019-12-09 11:58:18,635 - room0 - INFO - Memory 
+2019-12-09 12:05:18,719 - room0 - INFO - Memory 
 time : 69 target 0 seen : True lock : -1
 time : 69 target 1 seen : True lock : 1
 time : 70 target 0 seen : True lock : -1
@@ -3355,7 +3355,7 @@ time : 87 target 1 seen : False lock : 1
 time : 88 target 0 seen : True lock : -1
 time : 88 target 1 seen : False lock : 1
 
-2019-12-09 11:58:18,743 - room0 - INFO - Memory 
+2019-12-09 12:05:18,835 - room0 - INFO - Memory 
 time : 70 target 0 seen : True lock : -1
 time : 70 target 1 seen : True lock : 1
 time : 71 target 0 seen : True lock : -1
@@ -3397,7 +3397,7 @@ time : 88 target 1 seen : False lock : 1
 time : 89 target 0 seen : True lock : -1
 time : 89 target 1 seen : False lock : 1
 
-2019-12-09 11:58:18,873 - room0 - INFO - Memory 
+2019-12-09 12:05:18,949 - room0 - INFO - Memory 
 time : 71 target 0 seen : True lock : -1
 time : 71 target 1 seen : False lock : 1
 time : 72 target 0 seen : True lock : -1
@@ -3439,7 +3439,7 @@ time : 89 target 1 seen : False lock : 1
 time : 90 target 0 seen : True lock : -1
 time : 90 target 1 seen : False lock : 1
 
-2019-12-09 11:58:18,986 - room0 - INFO - Memory 
+2019-12-09 12:05:19,065 - room0 - INFO - Memory 
 time : 72 target 0 seen : True lock : -1
 time : 72 target 1 seen : False lock : 1
 time : 73 target 0 seen : True lock : -1
@@ -3481,7 +3481,7 @@ time : 90 target 1 seen : False lock : 1
 time : 91 target 0 seen : True lock : -1
 time : 91 target 1 seen : False lock : 1
 
-2019-12-09 11:58:19,094 - room0 - INFO - Memory 
+2019-12-09 12:05:19,188 - room0 - INFO - Memory 
 time : 73 target 0 seen : True lock : -1
 time : 73 target 1 seen : False lock : 1
 time : 74 target 0 seen : True lock : -1
@@ -3523,7 +3523,7 @@ time : 91 target 1 seen : False lock : 1
 time : 92 target 0 seen : True lock : -1
 time : 92 target 1 seen : False lock : 1
 
-2019-12-09 11:58:19,222 - room0 - INFO - Memory 
+2019-12-09 12:05:19,303 - room0 - INFO - Memory 
 time : 74 target 0 seen : True lock : -1
 time : 74 target 1 seen : False lock : 1
 time : 75 target 0 seen : True lock : -1
@@ -3565,7 +3565,7 @@ time : 92 target 1 seen : False lock : 1
 time : 93 target 0 seen : True lock : -1
 time : 93 target 1 seen : False lock : 1
 
-2019-12-09 11:58:19,346 - room0 - INFO - Memory 
+2019-12-09 12:05:19,454 - room0 - INFO - Memory 
 time : 75 target 0 seen : True lock : -1
 time : 75 target 1 seen : False lock : 1
 time : 76 target 0 seen : True lock : -1
@@ -3607,7 +3607,7 @@ time : 93 target 1 seen : False lock : 1
 time : 94 target 0 seen : True lock : -1
 time : 94 target 1 seen : False lock : 1
 
-2019-12-09 11:58:19,457 - room0 - INFO - Memory 
+2019-12-09 12:05:19,561 - room0 - INFO - Memory 
 time : 76 target 0 seen : True lock : -1
 time : 76 target 1 seen : False lock : 1
 time : 77 target 0 seen : True lock : -1
@@ -3649,7 +3649,7 @@ time : 94 target 1 seen : False lock : 1
 time : 95 target 0 seen : True lock : -1
 time : 95 target 1 seen : False lock : 1
 
-2019-12-09 11:58:19,568 - room0 - INFO - Memory 
+2019-12-09 12:05:19,680 - room0 - INFO - Memory 
 time : 77 target 0 seen : True lock : -1
 time : 77 target 1 seen : False lock : 1
 time : 78 target 0 seen : True lock : -1
@@ -3691,7 +3691,7 @@ time : 95 target 1 seen : False lock : 1
 time : 96 target 0 seen : True lock : -1
 time : 96 target 1 seen : False lock : 1
 
-2019-12-09 11:58:19,684 - room0 - INFO - Memory 
+2019-12-09 12:05:19,810 - room0 - INFO - Memory 
 time : 78 target 0 seen : True lock : -1
 time : 78 target 1 seen : False lock : 1
 time : 79 target 0 seen : True lock : -1
@@ -3733,7 +3733,7 @@ time : 96 target 1 seen : False lock : 1
 time : 97 target 0 seen : True lock : -1
 time : 97 target 1 seen : False lock : 1
 
-2019-12-09 11:58:19,807 - room0 - INFO - Memory 
+2019-12-09 12:05:19,917 - room0 - INFO - Memory 
 time : 79 target 0 seen : True lock : -1
 time : 79 target 1 seen : False lock : 1
 time : 80 target 0 seen : True lock : -1
@@ -3775,7 +3775,7 @@ time : 97 target 1 seen : False lock : 1
 time : 98 target 0 seen : True lock : -1
 time : 98 target 1 seen : False lock : 1
 
-2019-12-09 11:58:19,934 - room0 - INFO - Memory 
+2019-12-09 12:05:20,051 - room0 - INFO - Memory 
 time : 80 target 0 seen : True lock : -1
 time : 80 target 1 seen : False lock : 1
 time : 81 target 0 seen : True lock : -1
@@ -3817,7 +3817,7 @@ time : 98 target 1 seen : False lock : 1
 time : 99 target 0 seen : True lock : -1
 time : 99 target 1 seen : False lock : 1
 
-2019-12-09 11:58:20,099 - room0 - INFO - Memory 
+2019-12-09 12:05:20,200 - room0 - INFO - Memory 
 time : 81 target 0 seen : True lock : -1
 time : 81 target 1 seen : False lock : 1
 time : 82 target 0 seen : True lock : -1
@@ -3859,7 +3859,7 @@ time : 99 target 1 seen : False lock : 1
 time : 100 target 0 seen : True lock : -1
 time : 100 target 1 seen : False lock : 1
 
-2019-12-09 11:58:20,241 - room0 - INFO - Memory 
+2019-12-09 12:05:20,315 - room0 - INFO - Memory 
 time : 82 target 0 seen : True lock : -1
 time : 82 target 1 seen : False lock : 1
 time : 83 target 0 seen : True lock : -1
@@ -3901,7 +3901,7 @@ time : 100 target 1 seen : False lock : 1
 time : 101 target 0 seen : True lock : -1
 time : 101 target 1 seen : False lock : 1
 
-2019-12-09 11:58:20,374 - room0 - INFO - Memory 
+2019-12-09 12:05:20,429 - room0 - INFO - Memory 
 time : 83 target 0 seen : True lock : -1
 time : 83 target 1 seen : False lock : 1
 time : 84 target 0 seen : True lock : -1
@@ -3943,7 +3943,7 @@ time : 101 target 1 seen : False lock : 1
 time : 102 target 0 seen : True lock : -1
 time : 102 target 1 seen : False lock : 1
 
-2019-12-09 11:58:20,490 - room0 - INFO - Memory 
+2019-12-09 12:05:20,554 - room0 - INFO - Memory 
 time : 84 target 0 seen : True lock : -1
 time : 84 target 1 seen : False lock : 1
 time : 85 target 0 seen : True lock : -1
@@ -3985,7 +3985,7 @@ time : 102 target 1 seen : False lock : 1
 time : 103 target 0 seen : True lock : -1
 time : 103 target 1 seen : False lock : 1
 
-2019-12-09 11:58:20,608 - room0 - INFO - Memory 
+2019-12-09 12:05:20,670 - room0 - INFO - Memory 
 time : 85 target 0 seen : True lock : -1
 time : 85 target 1 seen : False lock : 1
 time : 86 target 0 seen : True lock : -1
@@ -4027,7 +4027,7 @@ time : 103 target 1 seen : False lock : 1
 time : 104 target 0 seen : True lock : -1
 time : 104 target 1 seen : False lock : 1
 
-2019-12-09 11:58:20,719 - room0 - INFO - Memory 
+2019-12-09 12:05:20,791 - room0 - INFO - Memory 
 time : 86 target 0 seen : True lock : -1
 time : 86 target 1 seen : False lock : 1
 time : 87 target 0 seen : True lock : -1
@@ -4069,7 +4069,7 @@ time : 104 target 1 seen : False lock : 1
 time : 105 target 0 seen : True lock : -1
 time : 105 target 1 seen : False lock : 1
 
-2019-12-09 11:58:20,846 - room0 - INFO - Memory 
+2019-12-09 12:05:20,908 - room0 - INFO - Memory 
 time : 87 target 0 seen : True lock : -1
 time : 87 target 1 seen : False lock : 1
 time : 88 target 0 seen : True lock : -1
@@ -4111,7 +4111,7 @@ time : 105 target 1 seen : False lock : 1
 time : 106 target 0 seen : True lock : -1
 time : 106 target 1 seen : False lock : 1
 
-2019-12-09 11:58:20,961 - room0 - INFO - Memory 
+2019-12-09 12:05:21,028 - room0 - INFO - Memory 
 time : 88 target 0 seen : True lock : -1
 time : 88 target 1 seen : False lock : 1
 time : 89 target 0 seen : True lock : -1
@@ -4153,7 +4153,7 @@ time : 106 target 1 seen : False lock : 1
 time : 107 target 0 seen : True lock : -1
 time : 107 target 1 seen : False lock : 1
 
-2019-12-09 11:58:21,078 - room0 - INFO - Memory 
+2019-12-09 12:05:21,141 - room0 - INFO - Memory 
 time : 89 target 0 seen : True lock : -1
 time : 89 target 1 seen : False lock : 1
 time : 90 target 0 seen : True lock : -1
@@ -4195,7 +4195,7 @@ time : 107 target 1 seen : False lock : 1
 time : 108 target 0 seen : True lock : -1
 time : 108 target 1 seen : False lock : 1
 
-2019-12-09 11:58:21,199 - room0 - INFO - Memory 
+2019-12-09 12:05:21,265 - room0 - INFO - Memory 
 time : 90 target 0 seen : True lock : -1
 time : 90 target 1 seen : False lock : 1
 time : 91 target 0 seen : True lock : -1
@@ -4237,7 +4237,7 @@ time : 108 target 1 seen : False lock : 1
 time : 109 target 0 seen : True lock : -1
 time : 109 target 1 seen : False lock : 1
 
-2019-12-09 11:58:21,322 - room0 - INFO - Memory 
+2019-12-09 12:05:21,387 - room0 - INFO - Memory 
 time : 91 target 0 seen : True lock : -1
 time : 91 target 1 seen : False lock : 1
 time : 92 target 0 seen : True lock : -1
@@ -4278,4 +4278,298 @@ time : 109 target 0 seen : True lock : -1
 time : 109 target 1 seen : False lock : 1
 time : 110 target 0 seen : True lock : -1
 time : 110 target 1 seen : False lock : 1
+
+2019-12-09 12:05:21,501 - room0 - INFO - Memory 
+time : 92 target 0 seen : True lock : -1
+time : 92 target 1 seen : False lock : 1
+time : 93 target 0 seen : True lock : -1
+time : 93 target 1 seen : False lock : 1
+time : 94 target 0 seen : True lock : -1
+time : 94 target 1 seen : False lock : 1
+time : 95 target 0 seen : True lock : -1
+time : 95 target 1 seen : False lock : 1
+time : 96 target 0 seen : True lock : -1
+time : 96 target 1 seen : False lock : 1
+time : 97 target 0 seen : True lock : -1
+time : 97 target 1 seen : False lock : 1
+time : 98 target 0 seen : True lock : -1
+time : 98 target 1 seen : False lock : 1
+time : 99 target 0 seen : True lock : -1
+time : 99 target 1 seen : False lock : 1
+time : 100 target 0 seen : True lock : -1
+time : 100 target 1 seen : False lock : 1
+time : 101 target 0 seen : True lock : -1
+time : 101 target 1 seen : False lock : 1
+time : 102 target 0 seen : True lock : -1
+time : 102 target 1 seen : False lock : 1
+time : 103 target 0 seen : True lock : -1
+time : 103 target 1 seen : False lock : 1
+time : 104 target 0 seen : True lock : -1
+time : 104 target 1 seen : False lock : 1
+time : 105 target 0 seen : True lock : -1
+time : 105 target 1 seen : False lock : 1
+time : 106 target 0 seen : True lock : -1
+time : 106 target 1 seen : False lock : 1
+time : 107 target 0 seen : True lock : -1
+time : 107 target 1 seen : False lock : 1
+time : 108 target 0 seen : True lock : -1
+time : 108 target 1 seen : False lock : 1
+time : 109 target 0 seen : True lock : -1
+time : 109 target 1 seen : False lock : 1
+time : 110 target 0 seen : True lock : -1
+time : 110 target 1 seen : False lock : 1
+time : 111 target 0 seen : True lock : -1
+time : 111 target 1 seen : False lock : 1
+
+2019-12-09 12:05:21,634 - room0 - INFO - Memory 
+time : 93 target 0 seen : True lock : -1
+time : 93 target 1 seen : False lock : 1
+time : 94 target 0 seen : True lock : -1
+time : 94 target 1 seen : False lock : 1
+time : 95 target 0 seen : True lock : -1
+time : 95 target 1 seen : False lock : 1
+time : 96 target 0 seen : True lock : -1
+time : 96 target 1 seen : False lock : 1
+time : 97 target 0 seen : True lock : -1
+time : 97 target 1 seen : False lock : 1
+time : 98 target 0 seen : True lock : -1
+time : 98 target 1 seen : False lock : 1
+time : 99 target 0 seen : True lock : -1
+time : 99 target 1 seen : False lock : 1
+time : 100 target 0 seen : True lock : -1
+time : 100 target 1 seen : False lock : 1
+time : 101 target 0 seen : True lock : -1
+time : 101 target 1 seen : False lock : 1
+time : 102 target 0 seen : True lock : -1
+time : 102 target 1 seen : False lock : 1
+time : 103 target 0 seen : True lock : -1
+time : 103 target 1 seen : False lock : 1
+time : 104 target 0 seen : True lock : -1
+time : 104 target 1 seen : False lock : 1
+time : 105 target 0 seen : True lock : -1
+time : 105 target 1 seen : False lock : 1
+time : 106 target 0 seen : True lock : -1
+time : 106 target 1 seen : False lock : 1
+time : 107 target 0 seen : True lock : -1
+time : 107 target 1 seen : False lock : 1
+time : 108 target 0 seen : True lock : -1
+time : 108 target 1 seen : False lock : 1
+time : 109 target 0 seen : True lock : -1
+time : 109 target 1 seen : False lock : 1
+time : 110 target 0 seen : True lock : -1
+time : 110 target 1 seen : False lock : 1
+time : 111 target 0 seen : True lock : -1
+time : 111 target 1 seen : False lock : 1
+time : 112 target 0 seen : True lock : -1
+time : 112 target 1 seen : False lock : 1
+
+2019-12-09 12:05:21,754 - room0 - INFO - Memory 
+time : 94 target 0 seen : True lock : -1
+time : 94 target 1 seen : False lock : 1
+time : 95 target 0 seen : True lock : -1
+time : 95 target 1 seen : False lock : 1
+time : 96 target 0 seen : True lock : -1
+time : 96 target 1 seen : False lock : 1
+time : 97 target 0 seen : True lock : -1
+time : 97 target 1 seen : False lock : 1
+time : 98 target 0 seen : True lock : -1
+time : 98 target 1 seen : False lock : 1
+time : 99 target 0 seen : True lock : -1
+time : 99 target 1 seen : False lock : 1
+time : 100 target 0 seen : True lock : -1
+time : 100 target 1 seen : False lock : 1
+time : 101 target 0 seen : True lock : -1
+time : 101 target 1 seen : False lock : 1
+time : 102 target 0 seen : True lock : -1
+time : 102 target 1 seen : False lock : 1
+time : 103 target 0 seen : True lock : -1
+time : 103 target 1 seen : False lock : 1
+time : 104 target 0 seen : True lock : -1
+time : 104 target 1 seen : False lock : 1
+time : 105 target 0 seen : True lock : -1
+time : 105 target 1 seen : False lock : 1
+time : 106 target 0 seen : True lock : -1
+time : 106 target 1 seen : False lock : 1
+time : 107 target 0 seen : True lock : -1
+time : 107 target 1 seen : False lock : 1
+time : 108 target 0 seen : True lock : -1
+time : 108 target 1 seen : False lock : 1
+time : 109 target 0 seen : True lock : -1
+time : 109 target 1 seen : False lock : 1
+time : 110 target 0 seen : True lock : -1
+time : 110 target 1 seen : False lock : 1
+time : 111 target 0 seen : True lock : -1
+time : 111 target 1 seen : False lock : 1
+time : 112 target 0 seen : True lock : -1
+time : 112 target 1 seen : False lock : 1
+time : 113 target 0 seen : True lock : -1
+time : 113 target 1 seen : False lock : 1
+
+2019-12-09 12:05:21,858 - room0 - INFO - Memory 
+time : 95 target 0 seen : True lock : -1
+time : 95 target 1 seen : False lock : 1
+time : 96 target 0 seen : True lock : -1
+time : 96 target 1 seen : False lock : 1
+time : 97 target 0 seen : True lock : -1
+time : 97 target 1 seen : False lock : 1
+time : 98 target 0 seen : True lock : -1
+time : 98 target 1 seen : False lock : 1
+time : 99 target 0 seen : True lock : -1
+time : 99 target 1 seen : False lock : 1
+time : 100 target 0 seen : True lock : -1
+time : 100 target 1 seen : False lock : 1
+time : 101 target 0 seen : True lock : -1
+time : 101 target 1 seen : False lock : 1
+time : 102 target 0 seen : True lock : -1
+time : 102 target 1 seen : False lock : 1
+time : 103 target 0 seen : True lock : -1
+time : 103 target 1 seen : False lock : 1
+time : 104 target 0 seen : True lock : -1
+time : 104 target 1 seen : False lock : 1
+time : 105 target 0 seen : True lock : -1
+time : 105 target 1 seen : False lock : 1
+time : 106 target 0 seen : True lock : -1
+time : 106 target 1 seen : False lock : 1
+time : 107 target 0 seen : True lock : -1
+time : 107 target 1 seen : False lock : 1
+time : 108 target 0 seen : True lock : -1
+time : 108 target 1 seen : False lock : 1
+time : 109 target 0 seen : True lock : -1
+time : 109 target 1 seen : False lock : 1
+time : 110 target 0 seen : True lock : -1
+time : 110 target 1 seen : False lock : 1
+time : 111 target 0 seen : True lock : -1
+time : 111 target 1 seen : False lock : 1
+time : 112 target 0 seen : True lock : -1
+time : 112 target 1 seen : False lock : 1
+time : 113 target 0 seen : True lock : -1
+time : 113 target 1 seen : False lock : 1
+time : 114 target 0 seen : True lock : -1
+time : 114 target 1 seen : False lock : 1
+
+2019-12-09 12:05:21,985 - room0 - INFO - Memory 
+time : 96 target 0 seen : True lock : -1
+time : 96 target 1 seen : False lock : 1
+time : 97 target 0 seen : True lock : -1
+time : 97 target 1 seen : False lock : 1
+time : 98 target 0 seen : True lock : -1
+time : 98 target 1 seen : False lock : 1
+time : 99 target 0 seen : True lock : -1
+time : 99 target 1 seen : False lock : 1
+time : 100 target 0 seen : True lock : -1
+time : 100 target 1 seen : False lock : 1
+time : 101 target 0 seen : True lock : -1
+time : 101 target 1 seen : False lock : 1
+time : 102 target 0 seen : True lock : -1
+time : 102 target 1 seen : False lock : 1
+time : 103 target 0 seen : True lock : -1
+time : 103 target 1 seen : False lock : 1
+time : 104 target 0 seen : True lock : -1
+time : 104 target 1 seen : False lock : 1
+time : 105 target 0 seen : True lock : -1
+time : 105 target 1 seen : False lock : 1
+time : 106 target 0 seen : True lock : -1
+time : 106 target 1 seen : False lock : 1
+time : 107 target 0 seen : True lock : -1
+time : 107 target 1 seen : False lock : 1
+time : 108 target 0 seen : True lock : -1
+time : 108 target 1 seen : False lock : 1
+time : 109 target 0 seen : True lock : -1
+time : 109 target 1 seen : False lock : 1
+time : 110 target 0 seen : True lock : -1
+time : 110 target 1 seen : False lock : 1
+time : 111 target 0 seen : True lock : -1
+time : 111 target 1 seen : False lock : 1
+time : 112 target 0 seen : True lock : -1
+time : 112 target 1 seen : False lock : 1
+time : 113 target 0 seen : True lock : -1
+time : 113 target 1 seen : False lock : 1
+time : 114 target 0 seen : True lock : -1
+time : 114 target 1 seen : False lock : 1
+time : 115 target 0 seen : True lock : -1
+time : 115 target 1 seen : False lock : 1
+
+2019-12-09 12:05:22,098 - room0 - INFO - Memory 
+time : 97 target 0 seen : True lock : -1
+time : 97 target 1 seen : False lock : 1
+time : 98 target 0 seen : True lock : -1
+time : 98 target 1 seen : False lock : 1
+time : 99 target 0 seen : True lock : -1
+time : 99 target 1 seen : False lock : 1
+time : 100 target 0 seen : True lock : -1
+time : 100 target 1 seen : False lock : 1
+time : 101 target 0 seen : True lock : -1
+time : 101 target 1 seen : False lock : 1
+time : 102 target 0 seen : True lock : -1
+time : 102 target 1 seen : False lock : 1
+time : 103 target 0 seen : True lock : -1
+time : 103 target 1 seen : False lock : 1
+time : 104 target 0 seen : True lock : -1
+time : 104 target 1 seen : False lock : 1
+time : 105 target 0 seen : True lock : -1
+time : 105 target 1 seen : False lock : 1
+time : 106 target 0 seen : True lock : -1
+time : 106 target 1 seen : False lock : 1
+time : 107 target 0 seen : True lock : -1
+time : 107 target 1 seen : False lock : 1
+time : 108 target 0 seen : True lock : -1
+time : 108 target 1 seen : False lock : 1
+time : 109 target 0 seen : True lock : -1
+time : 109 target 1 seen : False lock : 1
+time : 110 target 0 seen : True lock : -1
+time : 110 target 1 seen : False lock : 1
+time : 111 target 0 seen : True lock : -1
+time : 111 target 1 seen : False lock : 1
+time : 112 target 0 seen : True lock : -1
+time : 112 target 1 seen : False lock : 1
+time : 113 target 0 seen : True lock : -1
+time : 113 target 1 seen : False lock : 1
+time : 114 target 0 seen : True lock : -1
+time : 114 target 1 seen : False lock : 1
+time : 115 target 0 seen : True lock : -1
+time : 115 target 1 seen : False lock : 1
+time : 116 target 0 seen : True lock : -1
+time : 116 target 1 seen : False lock : 1
+
+2019-12-09 12:05:22,218 - room0 - INFO - Memory 
+time : 98 target 0 seen : True lock : -1
+time : 98 target 1 seen : False lock : 1
+time : 99 target 0 seen : True lock : -1
+time : 99 target 1 seen : False lock : 1
+time : 100 target 0 seen : True lock : -1
+time : 100 target 1 seen : False lock : 1
+time : 101 target 0 seen : True lock : -1
+time : 101 target 1 seen : False lock : 1
+time : 102 target 0 seen : True lock : -1
+time : 102 target 1 seen : False lock : 1
+time : 103 target 0 seen : True lock : -1
+time : 103 target 1 seen : False lock : 1
+time : 104 target 0 seen : True lock : -1
+time : 104 target 1 seen : False lock : 1
+time : 105 target 0 seen : True lock : -1
+time : 105 target 1 seen : False lock : 1
+time : 106 target 0 seen : True lock : -1
+time : 106 target 1 seen : False lock : 1
+time : 107 target 0 seen : True lock : -1
+time : 107 target 1 seen : False lock : 1
+time : 108 target 0 seen : True lock : -1
+time : 108 target 1 seen : False lock : 1
+time : 109 target 0 seen : True lock : -1
+time : 109 target 1 seen : False lock : 1
+time : 110 target 0 seen : True lock : -1
+time : 110 target 1 seen : False lock : 1
+time : 111 target 0 seen : True lock : -1
+time : 111 target 1 seen : False lock : 1
+time : 112 target 0 seen : True lock : -1
+time : 112 target 1 seen : False lock : 1
+time : 113 target 0 seen : True lock : -1
+time : 113 target 1 seen : False lock : 1
+time : 114 target 0 seen : True lock : -1
+time : 114 target 1 seen : False lock : 1
+time : 115 target 0 seen : True lock : -1
+time : 115 target 1 seen : False lock : 1
+time : 116 target 0 seen : True lock : -1
+time : 116 target 1 seen : False lock : 1
+time : 117 target 0 seen : True lock : -1
+time : 117 target 1 seen : False lock : 1
 
