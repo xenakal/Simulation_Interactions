@@ -27,7 +27,7 @@ class Room:
                                        tar_traj[self.targetNumber],trajChoice_tar[self.targetNumber],
                                        tar_label[self.targetNumber]
                                        , tar_size[self.targetNumber]))
-            self.targetNumber = self.targetNumber + 1
+            self.targetNumber += 1
 
     def removeTarget(self):
         print('removed')
@@ -37,7 +37,7 @@ class Room:
             self.cameras.append(Camera(self.camerasNumber, cam_x[self.camerasNumber],
                                        cam_y[self.camerasNumber], cam_alpha[self.camerasNumber]
                                        , cam_beta[self.camerasNumber], fix[self.camerasNumber]))
-            self.camerasNumber = self.camerasNumber + 1
+            self.camerasNumber += 1
 
     def createAgentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix, myRoom):
         for _ in cam_x:
@@ -49,7 +49,7 @@ class Room:
         
         for camera in self.cameras:
             self.agentCam.append(AgentCam(self.agentCamNumber, camera, myRoom))
-            self.agentCamNumber = self.agentCamNumber + 1
+            self.agentCamNumber += 1
 
     def removeCamera(self, cam_x, cam_y, cam_alpha, cam_beta):
         print('removed')

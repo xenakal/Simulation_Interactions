@@ -168,35 +168,14 @@ class GUI:
     def drawPredictions(self, myRoom):
         for camera in myRoom.cameras:
             for target in myRoom.targets:
-                if target in camera.predictedPositions:
-                    #self.drawTargetPrediction(target, camera.predictedPositions[target], myRoom.coord)
-                    self.drawTargetPredictionNew(target, camera.predictedPositions[target])
+                camTargetsDetected = [x[0] for x in camera.targetDetectedList]
+                if (target in camera.predictedPositions and target in camTargetsDetected):
+                    self.drawTargetPrediction(target, camera.predictedPositions[target])
 
-    def drawTargetPrediction(self, target, predictedPos, tab):
-        color = PREDICTION
-        predictedTarget = copy.deepcopy(target)
-        predictedTarget.xc = predictedPos.getQueue()[-1][0]
-        predictedTarget.yc = predictedPos.getQueue()[-1][1]
-        # so that it is only target.yc drawn in the square
-        if (tab[0] <= predictedTarget.xc + predictedTarget.size <= tab[0] + tab[
-            2] and tab[1] <= predictedTarget.yc + predictedTarget.size <= tab[1] + tab[3]):  # target inside room
-            # render the target.xct
-            predictionFont = pygame.font.Font(None, 12)
-            label = predictionFont.render("t: " + str(predictedTarget.id), 12, color)
-            self.screen.blit(label, (
-                predictedTarget.xc + predictedTarget.size / 2 + 5, predictedTarget.yc + predictedTarget.size / 2 + 5))
-            # render form
-            pygame.draw.circle(self.screen, color, (predictedTarget.xc, predictedTarget.yc), predictedTarget.size)
-            if predictedTarget.size >= 5:
-                pygame.draw.circle(self.screen, predictedTarget.color, (predictedTarget.xc, predictedTarget.yc),
-                                   math.floor(predictedTarget.size - 0.5 * predictedTarget.size))
 
     # predictionPos is a list with the N next predicted positions
-    def drawTargetPredictionNew(self, target, predictionPos):
+    def drawTargetPrediction(self, target, predictionPos):
         predictedTarget = copy.deepcopy(target)
-        #print("target x = ", predictedTarget.xc)
-        #print("target y = ", predictedTarget.yc)
-        #print("target predictions = ", predictionPos)
         predictionPos.insert(0, [predictedTarget.xc, predictedTarget.yc])
         pygame.draw.lines(self.screen, PREDICTION, False, predictionPos)
 

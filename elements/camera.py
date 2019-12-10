@@ -371,9 +371,6 @@ class Camera:
     def predictPaths(self):
         for targetObj in self.previousPositions:
             self.predictedPositions[targetObj] = self.nextPositions(targetObj)
-            #  if targetObj not in self.predictedPositions:
-                #  self.predictedPositions[targetObj] = [None] * NUMBER_PREDICTIONS
-            #  self.predictedPositions[targetObj].enqueue(self.nextPos(targetObj))
 
     # target is a target object (not a list with other attributes of the target as in targetDetectedList)
     def nextPos(self, target):

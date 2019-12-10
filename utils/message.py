@@ -139,7 +139,8 @@ class Message():
         
         return message_in
         
-        
+
+''' List of messages '''
 class ListMessage():
     def __init__(self,name):
         self.myList = []

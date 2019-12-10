@@ -57,8 +57,7 @@ class AgentCam(Agent):
 
             if state == "takePicture":
                 picture = self.cam.takePicture(self.myRoom.targets)
-
-                # if the room dispositon has evolve we create a new
+                # if the room dispositon has evolved we create a new
                 if (not self.cam.isActivate()):
                     time.sleep(0.2)
                     nextstate = "takePicture"
@@ -68,7 +67,7 @@ class AgentCam(Agent):
                     self.updateMemory("newPicture", picture)
                     s = self.memory.memoryToString()
                     self.log_room.info(s)
-                    nextstate = "makePrediction"  # Avoir si on peut améliorer les prédictions avec les mes recu
+                    nextstate = "makePrediction"  # Avoir si on peut améliorer les prédictions avec les mess recu
                 else:
                     nextstate = "processData"
 
@@ -121,11 +120,12 @@ class AgentCam(Agent):
             picture = objet
             # adding all the target seen
             for elem in picture:
+                targetObj = elem[0]
                 # When added from the previous time value
                 # The target is by default unseen
                 # If it is seen in the picture this line changes the value
-                self.memory.addTarget(self.myRoom.time, elem[0])
-                self.memory.setSeenByCam(self.myRoom.time, elem[0], True)  # set that the target is seen
+                self.memory.addTarget(self.myRoom.time, targetObj)
+                self.memory.setSeenByCam(self.myRoom.time, targetObj, True)  # set that the target is seen
 
         # modify the information of the message
         elif type_update == "infoFromOtherCam":
