@@ -30,10 +30,10 @@ class Agent:
         self.threadRun = 1
         self.thread_pI = threading.Thread(target=self.thread_processImage)
         self.thread_rL = threading.Thread(target=self.thread_recLoop)
-        threading.Timer(1, self.thread_processImage)
-        threading.Timer(1, self.thread_recLoop)
-
         # log_message
+        threading.Timer(2,self.thread_processImage)
+        threading.Timer(2,self.thread_recLoop)
+
         # create logger_message with 'spam_application'
         logger_message = logging.getLogger('agent' + str(self.id))
         logger_message.setLevel(logging.INFO)
@@ -54,7 +54,6 @@ class Agent:
         self.log_message = logger_message
 
         # Startrun()
-        self.run()
         self.log_message.info('Agent initialized and  starts')
 
     def run(self):

@@ -73,7 +73,7 @@ class Target:
         # easy solution need to be investeagted
         if type_mvt == 'fix':
             pass
-        if type_mvt == 'line':
+        elif type_mvt == 'line':
             self.xc = self.xc + math.ceil(self.vx * delta_time)
             self.yc = self.yc + math.ceil(self.vy * delta_time)
         elif type_mvt == 'linear':

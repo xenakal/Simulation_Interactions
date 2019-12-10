@@ -141,6 +141,23 @@ class App:
             self.angle_cam = numpy.array([0, 180])
             self.angle_view_cam = numpy.array([60, 60])
             self.fix_cam = [1, 1, 1]
+        
+        elif scenario == 6:
+            # Options for the target
+            self.x_tar = numpy.array([155, 20])
+            self.y_tar = numpy.array([155, 20])
+            self.vx_tar = numpy.array([0, 0])
+            self.vy_tar = numpy.array([0, 0])
+            self.traj_tar = numpy.array(['linear','fix'])
+            self.trajChoice_tar = numpy.array([0, 1])
+            self.size_tar = numpy.array([20, 5, 6])
+            self.label_tar = numpy.array(['fix', 'target'])
+            # Options for the cameras
+            self.x_cam = numpy.array([10, 310, 155])
+            self.y_cam = numpy.array([155, 155, 10])
+            self.angle_cam = numpy.array([0, 180, 90])
+            self.angle_view_cam = numpy.array([60, 60 ,30])
+            self.fix_cam = [1, 1, 1]
 
         else:
             print("this scenario number doesn't exist, sorry...")
@@ -154,7 +171,9 @@ class App:
             self.myRoom.createCameras(self.x_cam, self.y_cam, self.angle_cam, self.angle_view_cam, self.fix_cam)
         elif USE_AGENT == 1:
             self.myRoom.createAgentCam(self.x_cam, self.y_cam, self.angle_cam, self.angle_view_cam, self.fix_cam,self.myRoom)
-
+            
+            for agent in self.myRoom.agentCam:
+                agent.run()
         # The program can also run completely with out the GUI interface
         self.useGUI = useGUI
         if useGUI == 1:
@@ -208,5 +227,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, -1)
+    myApp = App(1, 6)
     myApp.main()
