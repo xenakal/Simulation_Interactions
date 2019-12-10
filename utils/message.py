@@ -117,12 +117,12 @@ class Message():
             else:
                 return False      
         
-    def add_ACK_NACK(self,rec_message):
+    def add_ACK_NACK(self, rec_message):
         if rec_message.messageType == 'ack' or rec_message.messageType == 'nack':
             if (self.signature == int(rec_message.message)):
                 if(rec_message.messageType == "ack"):
                     self.ack.append(rec_message)        
-                elif (rec_messsage.messageType == "nack"):
+                elif(rec_message.messageType == "nack"):
                     self.nack.append(rec_message)
             return True
         else:

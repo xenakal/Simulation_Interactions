@@ -372,18 +372,6 @@ class Camera:
         for targetObj in self.previousPositions:
             self.predictedPositions[targetObj] = self.nextPositions(targetObj)
 
-    # target is a target object (not a list with other attributes of the target as in targetDetectedList)
-    def nextPos(self, target):
-        #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate
-        prevPos = self.previousPositions[target].getQueue()
-        #  Calculate average velocity
-        avgSpeed = avgSpeedFunc(prevPos)
-        #  Calculate average direction
-        avgDirection = avgDirectionFunc(prevPos)
-        #  Use avg velocity and direction to estimate next position
-        nextPositions = calcNextPos([target.xc, target.yc], avgSpeed, avgDirection)
-        return nextPositions
-
     def nextPositions(self, target):
         predictedPos = [None] * NUMBER_PREDICTIONS
         #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate

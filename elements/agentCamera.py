@@ -74,7 +74,8 @@ class AgentCam(Agent):
 
             elif state == "makePrediction":
                 # Prediction based on a picture
-                prediction = self.cam.predictPaths()
+                #prediction = self.cam.predictPaths()
+                self.memory.makePredictions()
                 nextstate = "processData"
 
             elif nextstate == "processData":

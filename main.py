@@ -7,13 +7,13 @@ from utils.GUI import *
 TIMESTEP = 0.5
 TIMEPAUSE = 0.2
 
-USE_AGENT = 0
+USE_AGENT = 1
 
 
 class App:
     def __init__(self, useGUI=1, scenario=0):
         #clean the file mailbox
-        shutil.rmtree("mailbox",ignore_errors = True)
+        shutil.rmtree("mailbox", ignore_errors = True)
         os.mkdir("mailbox")
 
         # Here by changing only the vectors it is possible to create as many scenario as we want !
