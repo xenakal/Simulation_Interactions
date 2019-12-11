@@ -220,7 +220,10 @@ class App:
         self.myGUI.drawCam(self.myRoom.cameras)
         self.myGUI.drawProjection(self.myRoom)
         self.myGUI.screenDetectedTarget(self.myRoom)
-        self.myGUI.drawPredictions(self.myRoom)
+        if USE_AGENT:
+            self.myGUI.drawPredictions(self.myRoom)
+        else:
+            self.myGUI.drawPredictionsOld(self.myRoom)
         self.myGUI.drawTargetFollowedByCam(self.myRoom)
         updateScreen()
 

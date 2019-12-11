@@ -165,6 +165,7 @@ class GUI:
                         pygame.draw.line(self.screen, info.target.color, (agent.cam.xc, agent.cam.yc),
                                          (info.target.xc, info.target.yc), 2)
 
+    #  Used if cameras are used (if agents, then use drawPredictions)
     def drawPredictionsOld(self, myRoom):
         for camera in myRoom.cameras:
             for target in myRoom.targets:
