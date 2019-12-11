@@ -64,29 +64,33 @@ class AgentCam(Agent):
                 picture = self.cam.takePicture(self.myRoom.targets)
                 time.sleep(TIME_PICTURE)
 
-                # if the room dispositon has evolved we create a new
                 if (not self.cam.isActivate()):
                     nextstate = "takePicture"
                 else:
-                    my_previousTime = self.myRoom.time
-                    self.updateMemory("newPicture", picture)
-                    self.log_room.info(self.memory.memoryToString())
-                    nextstate = "processData"  # Avoir si on peut améliorer les prédictions avec les mess recu
+                    if my_previousTime != self.myRoom.time: #Si la photo est nouvelle
+                        my_previousTime = self.myRoom.time
+                        self.memory.addNewTime(self.myRoom.time)
+                        for elem in picture:
+                            self.memory.addTarget(self.myRoom.time, elem[0])
+                            self.memory.setSeenByCam(self.myRoom.time, elem[0], True)
+                            self.log_room.info(self.memory.memoryToString())
 
+                    nextstate = "processData"  # Avoir si on peut améliorer les prédictions avec les mess recu
 
             elif nextstate == "processData":
                 # self.memory.makePredictions()
-                # self.processInfoMemory(my_time)
+                self.process_InfoMemory(self.myRoom.time)
                 nextstate = "sendMessage"
 
             elif state == "sendMessage":
                 self.info_messageSent.removeMessageAfterGivenTime(self.myRoom.time, 10)
                 self.info_messageReceived.removeMessageAfterGivenTime(self.myRoom.time, 10)
-                #self.sendAllMessage()
+                self.sendAllMessage()
                 if MULTI_THREAD != 1:
                     pass
-                    #self.recAllMess()
-                    #self.processRecMess()
+                    self.recAllMess()
+                    self.process_Message_received()
+                    self.process_Message_sent()
 
                 time.sleep(TIME_SEND_READ_MESSAGE)
                 nextstate = "takePicture"
@@ -95,105 +99,72 @@ class AgentCam(Agent):
 
     def thread_recLoop(self):
         while self.threadRun == 1:
-                self.recAllMess()
-                self.processRecMess()
+            self.recAllMess()
+            self.process_Message_received()
+            self.process_Message_sent()
 
-    #################################
-    #   Store and process information
-    ################################# 
-    def updateMemory(self, type_update, objet):
-        # create a new colums in the table to save the information of the picture
-        if type_update == "newPicture":
-            # copy the information from last time, all the target unseen
-            self.memory.addNewTime(self.myRoom.time)
-            picture = objet
-            # adding all the target seen
-            for elem in picture:
-                targetObj = elem[0]
-                # When added from the previous time value
-                # The target is by default unseen
-                # If it is seen in the picture this line changes the value
-                self.memory.addTarget(self.myRoom.time, targetObj)
-                self.memory.setSeenByCam(self.myRoom.time, targetObj, True)  # set that the target is seen
-
-        # modify the information of the message
-        elif type_update == "infoFromOtherCam":
-            message = objet
-            if message.messageType == "request":
-                if message.is_approved():  # if a request is succesfull
-                    self.memory.setfollowedByCam(self.myRoom.time, message.targetRef, self.id)
-                else:  # check to see if a target can be discover by the cam during a request
-                    self.memory.addTargetFromID(self.myRoom.time, message.targetRef, self.myRoom)
-
-            elif message.messageType == "locked":  # Ohter camera knos that the target is lock
-                self.memory.setfollowedByCam(self.myRoom.time, message.targetRef, message.senderID)
-
-            elif message.messageType == "ack" or message.messageType == "nack":
-                pass
-
-            elif message.messageType == "heartbeat":
-                pass
-
-        else:
-            pass
-
-    # define what message to send in terms of the info store in memory
-    def processInfoMemory(self, time):
-        # IMPORTANT we can decide on which time we base the message we send
-        try:
-            index = self.memory.computeIndexBasedOnTime(time)
-            myList = self.memory.info_room[index]
-        except IndexError:
-            print("error1")
-            myList = self.memory.info_room[len(self.memory.info_room) - 1]
-
-        for info in myList:
-
+    def process_InfoMemory(self, time):
+        for info in  self.memory.get_Info_T(time):
             if info.target.label == "target":
-                # if the cam sees the object and the object is not followed by an ohter cam
                 if info.seenByCam and info.followedByCam == -1:
-                    # Then send a request to follow this target
-                    # Also signal to other cam that this target exit
                     dx = self.cam.xc - info.target.xc
                     dy = self.cam.yc - info.target.yc
-                    distance = math.pow(dx * dx + dy * dy, 0.5)
-                    self.sendMessageType('request', distance, True, info.target.id)
+                    distance = math.pow(dx*dx + dy*dy, 0.5)
+                    self.send_message_request(distance,info.target.id)
 
             elif info.target.label == "obstruction":
                 pass
             elif info.target.label == "fix":
                 pass
 
-    def processRecMess(self):
+    def process_Message_sent(self):
+        for message_sent in self.info_messageSent.getList():
+            if message_sent.is_approved():
+                if message_sent.messageType == "request":
+                        self.memory.setfollowedByCam(self.myRoom.time, message_sent.targetRef, self.id)
+                        self.send_message_locked(message_sent)
+
+                self.info_messageSent.delMessage(message_sent)
+            elif message_sent.is_not_approved():
+                self.info_messageSent.delMessage(message_sent)
+
+    def process_Message_received(self):
         for rec_mes in self.info_messageReceived.getList():
-            if (rec_mes.messageType == "request"):
+            if rec_mes.messageType == "request":
                 self.received_message_request(rec_mes)
-            elif (rec_mes.messageType == "locked"):
+            elif rec_mes.messageType == "locked":
                 self.received_message_locked(rec_mes)
-            elif (rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
+            elif rec_mes.messageType == "ack" or rec_mes.messageType == "nack":
                 self.received_message_ackNack(rec_mes)
 
             self.info_messageReceived.delMessage(rec_mes)
 
-    def send_message_request(self,information,target,receiverList,to_all):
+    def send_message_request(self,information,target,receivers=[]):
         m = Message(self.myRoom.time, self.id, self.signature, "request", information, target)
-        if to_all:
+        if len(receivers) == 0:
             for agent in self.myRoom.agentCam:
-                if (agent.id != self.id):
+                if agent.id != self.id:
                     m.addReceiver(agent.id, agent.signature)
-        cdt1 = m.getReceiverNumber() > 0
-        cdt2 = self.info_messageToSend.isMessageWithSameTypeSameAgentRef(m)
-        cdt3 = self.info_messageSent.isMessageWithSameTypeSameAgentRef(m)
-        if cdt1 and not cdt2 and not cdt3:
+        else:
+            for receiver in receivers:
+                m.addReceiver(receiver[0],receiver[1])
+
+        cdt1 = self.info_messageToSend.isMessageWithSameTypeSameAgentRef(m)
+        cdt2 = self.info_messageSent.isMessageWithSameTypeSameAgentRef(m)
+        if not cdt1 and not cdt2:
             self.info_messageToSend.addMessage(m)
 
-    def send_message_locked(self,message,to_all):
-        m_format = Message(self.myRoom.time, self.id, self.signature, "locked", message.signature, message.targetRef)
-        if to_all:
+    def send_message_locked(self,message,receivers=[]):
+        m = Message(self.myRoom.time, self.id, self.signature, "locked", message.signature, message.targetRef)
+        if len(receivers) == 0:
             for agent in self.myRoom.agentCam:
-                if (agent.id != self.id):
-                    message.addReceiver(agent.id, agent.signature)
-        self.info_messageToSend.addMessage(message)
+                if agent.id != self.id:
+                    m.addReceiver(agent.id, agent.signature)
+        else:
+            for receiver in receivers:
+                m.addReceiver(receiver[0], receiver[1])
+
+        self.info_messageToSend.addMessage(m)
 
     def send_message_ackNack(self,message,typeMessage):
         m = Message(self.myRoom.time, self.id, self.signature, typeMessage, message.signature, message.targetRef)
@@ -210,29 +181,19 @@ class AgentCam(Agent):
             typeMessage = "nack"
 
         # Update Info
-        self.updateMemory("infoFromOtherCam",message)
+        self.memory.addTargetFromID(self.myRoom.time, message.targetRef, self.myRoom)
         # Response
-        self.send_message_ackNack(self,message,typeMessage)
+        self.send_message_ackNack(message,typeMessage)
 
     def received_message_locked(self,message):
         # Update Info
-        self.updateMemory("infoFromOtherCam", message)
+        self.memory.setfollowedByCam(self.myRoom.time, message.targetRef, message.senderID)
         # Response
-        self.send_message_ackNack(self, message,"ack")
+        self.send_message_ackNack(message,"ack")
 
     def received_message_ackNack(self,message):
         for sent_mes in self.info_messageSent.getList():
-            added = sent_mes.add_ACK_NACK(message)
-            if added:
-                if sent_mes.messageType == "request":
-                    if sent_mes.is_approved():
-                        # Update Info
-                        self.updateMemory("infoFromOtherCam", sent_mes)
-                        # Response
-                        self.send_message_locked()
-                    elif sent_mes.is_not_approved():
-                        pass  # can be directly remove
-
+            sent_mes.add_ACK_NACK(message)
 
 
 if __name__ == "__main__":

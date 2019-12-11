@@ -1,1 +1,31 @@
-2019-12-11 15:53:36,636 - agent0 - INFO - Agent initialized and  starts
+2019-12-11 18:33:13,763 - agent0 - WARNING - Mailbox file error RECEIVE
+2019-12-11 18:33:14,022 - agent0 - INFO - RECEIVED : 
+Timestamp: 0 message#:9646701370122420
+From: 1 sender#2324862971671970
+Receiver list : 
+To: 0 receiver#8709300416830472
+To: 2 receiver#6282913847043893
+Type: request target: 1 Message: 319.88279103446627
+
+2019-12-11 18:33:14,283 - agent0 - INFO - SEND     : 
+Timestamp: 0 message#:5461948321874529
+From: 0 sender#8709300416830472
+Receiver list : 
+To: 1 receiver#2324862971671970
+Type: ack target: 1 Message: 9646701370122420
+
+2019-12-11 18:33:15,061 - agent0 - INFO - RECEIVED : 
+Timestamp: 3 message#:6825541113871296
+From: 1 sender#2324862971671970
+Receiver list : 
+To: 0 receiver#8709300416830472
+To: 2 receiver#6282913847043893
+Type: locked target: 1 Message: 9646701370122420
+
+2019-12-11 18:33:15,317 - agent0 - INFO - SEND     : 
+Timestamp: 5 message#:8774281531720871
+From: 0 sender#8709300416830472
+Receiver list : 
+To: 1 receiver#2324862971671970
+Type: ack target: 1 Message: 6825541113871296
+

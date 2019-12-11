@@ -1,1 +1,60 @@
-2019-12-11 15:53:36,636 - agent1 - INFO - Agent initialized and  starts
+2019-12-11 18:33:13,764 - agent1 - INFO - SEND     : 
+Timestamp: 0 message#:9646701370122420
+From: 1 sender#2324862971671970
+Receiver list : 
+To: 0 receiver#8709300416830472
+To: 2 receiver#6282913847043893
+Type: request target: 1 Message: 319.88279103446627
+
+2019-12-11 18:33:14,026 - agent1 - INFO - SEND     : 
+Timestamp: 0 message#:9646701370122420
+From: 1 sender#2324862971671970
+Receiver list : 
+To: 0 receiver#8709300416830472
+To: 2 receiver#6282913847043893
+Type: request target: 1 Message: 319.88279103446627
+
+2019-12-11 18:33:14,293 - agent1 - INFO - RECEIVED : 
+Timestamp: 0 message#:5461948321874529
+From: 0 sender#8709300416830472
+Receiver list : 
+To: 1 receiver#2324862971671970
+Type: ack target: 1 Message: 9646701370122420
+
+2019-12-11 18:33:14,555 - agent1 - INFO - RECEIVED : 
+Timestamp: 1 message#:7574574397629039
+From: 2 sender#6282913847043893
+Receiver list : 
+To: 1 receiver#2324862971671970
+Type: ack target: 1 Message: 9646701370122420
+
+2019-12-11 18:33:14,814 - agent1 - INFO - SEND     : 
+Timestamp: 3 message#:6825541113871296
+From: 1 sender#2324862971671970
+Receiver list : 
+To: 0 receiver#8709300416830472
+To: 2 receiver#6282913847043893
+Type: locked target: 1 Message: 9646701370122420
+
+2019-12-11 18:33:15,076 - agent1 - INFO - SEND     : 
+Timestamp: 3 message#:6825541113871296
+From: 1 sender#2324862971671970
+Receiver list : 
+To: 0 receiver#8709300416830472
+To: 2 receiver#6282913847043893
+Type: locked target: 1 Message: 9646701370122420
+
+2019-12-11 18:33:15,340 - agent1 - INFO - RECEIVED : 
+Timestamp: 5 message#:8774281531720871
+From: 0 sender#8709300416830472
+Receiver list : 
+To: 1 receiver#2324862971671970
+Type: ack target: 1 Message: 6825541113871296
+
+2019-12-11 18:33:15,602 - agent1 - INFO - RECEIVED : 
+Timestamp: 6 message#:4002051021018286
+From: 2 sender#6282913847043893
+Receiver list : 
+To: 1 receiver#2324862971671970
+Type: ack target: 1 Message: 6825541113871296
+

@@ -147,7 +147,7 @@ class App:
             self.y_tar = numpy.array([155, 20])
             self.vx_tar = numpy.array([0, 0])
             self.vy_tar = numpy.array([0, 0])
-            self.traj_tar = numpy.array(['linear','fix'])
+            self.traj_tar = numpy.array(['linear','linear'])
             self.trajChoice_tar = numpy.array([0, 1])
             self.size_tar = numpy.array([20, 5, 6])
             self.label_tar = numpy.array(['fix', 'target'])
@@ -229,5 +229,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, 5)
+    myApp = App(1, 6)
     myApp.main()

@@ -21,8 +21,8 @@ class Agent:
         self.info_messageReceived = ListMessage("Received")
         self.info_messageToSend = ListMessage("ToSend")
 
-        self.mbox = mailbox.mbox(NAME_MAILBOX + str(self.id))
-        self.mbox.clear()
+        mbox = mailbox.mbox(NAME_MAILBOX + str(self.id))
+        mbox.clear()
 
         # Threads
         self.threadRun = 1
@@ -51,10 +51,6 @@ class Agent:
 
         self.log_message = logger_message
 
-        # Startrun()
-        self.log_message.info('Agent initialized and  starts')
-
-
     ############################
     #   Receive Information
     ############################
@@ -62,7 +58,6 @@ class Agent:
         # reconstruction de l'objet message
         rec_mes = Message(0, 0, 0, 0, 0)
         rec_mes.modifyMessageFromString(m)
-
         self.info_messageReceived.addMessage(rec_mes)
         self.log_message.info('RECEIVED : \n' + rec_mes.formatMessageType())
 
@@ -125,12 +120,6 @@ class Agent:
                 finally:
                     mbox.unlock()
 
-            ##############################
-                if MULTI_THREAD != 1:
-                    pass
-                    # Agentreceive.recAllMess()
-                    # Agentreceive.processRecMess()
-            ##############################
             except mailbox.ExternalClashError:
                 self.log_message.debug("Not possible to send messages")
             except FileExistsError:
@@ -146,7 +135,8 @@ class Agent:
         self.threadRun = 0
         while (self.thread_pI.is_alive() and self.thread_pI.is_alive()):
             pass
-        self.mbox.close()
+        mbox = mailbox.mbox(NAME_MAILBOX + str(self.id))
+        mbox.close()
 
 
 if __name__ == "__main__":
