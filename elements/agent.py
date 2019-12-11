@@ -8,8 +8,6 @@ from utils.message import *
 
 NAME_LOG_PATH = "log/log_agent/Agent"
 NAME_MAILBOX = "mailbox/MailBox_Agent"
-MULTI_THREAD = 0
-
 
 class Agent:
     def __init__(self, idAgent, room):
@@ -56,62 +54,6 @@ class Agent:
         # Startrun()
         self.log_message.info('Agent initialized and  starts')
 
-    def run(self):
-        self.thread_pI.start()
-        if MULTI_THREAD == 1:
-            self.thread_rL.start()
-
-    def thread_processImage(self):
-        state = "processData"
-        nextstate = state
-
-        my_time = self.myRoom.time
-        my_previousTime = my_time - 1
-
-        picture = []
-        while (self.threadRun == 1):
-
-            state = nextstate
-            my_time = self.myRoom.time
-
-            if nextstate == "processData":
-                # Prediction based on messages
-                self.processInfoMemory()
-                nextstate = "sendMessage"
-
-
-            elif state == "sendMessage":
-                self.sendAllMessage()
-
-                if MULTI_THREAD != 1:
-                    self.recAllMess()
-                    self.processRecMess()
-                else:
-                    time.sleep(0.2)
-
-                nextstate = "processData"
-
-            else:
-                print("FSM not working proerly")
-
-    def thread_recLoop(self):
-        while self.threadRun == 1:
-            self.recAllMess()
-            self.processRecMess()
-
-    ############################
-    #   Store and process information
-    ############################  
-    def updateTable(self, type_update, objet):
-        pass
-
-    # define what message to send in terms of the info store in memory
-    def processInfoMemory(self):
-        pass
-
-    # Save informations and if needed prepare a response
-    def processRecMess(self):
-        pass
 
     ############################
     #   Receive Information
@@ -183,56 +125,18 @@ class Agent:
                 finally:
                     mbox.unlock()
 
-                ##############################
+            ##############################
                 if MULTI_THREAD != 1:
                     pass
                     # Agentreceive.recAllMess()
                     # Agentreceive.processRecMess()
             ##############################
-
             except mailbox.ExternalClashError:
                 self.log_message.debug("Not possible to send messages")
             except FileExistsError:
                 self.log_message.warning("Mailbox file error SEND")
 
         return succes
-
-    def sendMessageType(self, typeMessage, m, to_all=False, target=-1, receiverID_Signature=-1):
-        m_format = Message(-1, -1, -1, 'init', "")
-
-        if (typeMessage == "request"):
-            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m, target)
-
-        elif (typeMessage == "wanted"):
-            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m, target)
-
-        elif (typeMessage == "locked"):
-            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m.signature, m.targetRef)
-            to_all = True
-
-        elif (typeMessage == "ack"):
-            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m.signature, m.targetRef)
-            m_format.addReceiver(m.senderID, m.senderSignature)
-            to_all = False
-
-        elif (typeMessage == "nack"):
-            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m.signature, m.targetRef)
-            m_format.addReceiver(m.senderID, m.senderSignature)
-            to_all = False
-
-        elif (typeMessage == "heartbeat"):
-            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, "heartbeat", target)
-
-        if to_all:
-            for agent in self.myRoom.agentCam:
-                if (agent.id != self.id):
-                    m_format.addReceiver(agent.id, agent.signature)
-
-        cdt1 = m_format.getReceiverNumber() > 0
-        cdt2 = self.info_messageToSend.isMessageWithSameTypeSameAgentRef(m_format)
-        cdt3 = self.info_messageSent.isMessageWithSameTypeSameAgentRef(m_format)
-        if cdt1 and not cdt2 and not cdt3:
-            self.info_messageToSend.addMessage(m_format)
 
     ############################
     # Other

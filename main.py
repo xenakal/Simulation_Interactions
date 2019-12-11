@@ -9,7 +9,6 @@ TIMEPAUSE = 0.2
 
 USE_AGENT = 1
 
-
 class App:
     def __init__(self, useGUI=1, scenario=0):
         #clean the file mailbox

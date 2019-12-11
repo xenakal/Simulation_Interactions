@@ -8,15 +8,23 @@ from elements.target import *
 from utils.infoAgentCamera import *
 from utils.message import *
 
-NAME_MAILBOX = "mailbox/MailBox_Agent"
+TIME_PICTURE = 0.2
+TIME_SEND_READ_MESSAGE = 0.05
 
+MULTI_THREAD = 0
+NAME_MAILBOX = "mailbox/MailBox_Agent"
 
 class AgentCam(Agent):
     def __init__(self, idAgent, camera, room):
         # Attributes
         self.cam = camera
-        self.cam.camDesactivate()
+        #self.cam.camDesactivate()
         self.memory = InformationMemory(20)
+
+        # Threads
+        self.threadRun = 1
+        self.thread_pI = threading.Thread(target=self.thread_processImage)
+        self.thread_rL = threading.Thread(target=self.thread_recLoop)
 
         # log_room
         logger_room = logging.getLogger('room' + str(idAgent))
@@ -39,76 +47,56 @@ class AgentCam(Agent):
 
         super().__init__(idAgent, room)
 
+    def run(self):
+        self.thread_pI.start()
+        if MULTI_THREAD == 1:
+            self.thread_rL.start()
+
     def thread_processImage(self):
         state = "takePicture"
         nextstate = state
+        my_previousTime = self.myRoom.time - 1
 
-        my_time = self.myRoom.time
-        my_previousTime = my_time - 1
-
-        picture = []
         while (self.threadRun == 1):
-
             state = nextstate
-            my_time = self.myRoom.time
-
-            if my_time > -1:
-                self.cam.camActivate()
 
             if state == "takePicture":
                 picture = self.cam.takePicture(self.myRoom.targets)
+                time.sleep(TIME_PICTURE)
+
                 # if the room dispositon has evolved we create a new
                 if (not self.cam.isActivate()):
-                    time.sleep(0.2)
                     nextstate = "takePicture"
-
-                elif (my_previousTime != my_time):
-                    my_previousTime = my_time
-                    self.updateMemory("newPicture", picture)
-                    s = self.memory.memoryToString()
-                    self.log_room.info(s)
-                    nextstate = "makePrediction"  # Avoir si on peut améliorer les prédictions avec les mess recu
                 else:
-                    nextstate = "processData"
+                    my_previousTime = self.myRoom.time
+                    self.updateMemory("newPicture", picture)
+                    self.log_room.info(self.memory.memoryToString())
+                    nextstate = "processData"  # Avoir si on peut améliorer les prédictions avec les mess recu
 
-
-            elif state == "makePrediction":
-                # Prediction based on a picture
-                #prediction = self.cam.predictPaths()
-                self.memory.makePredictions()
-                nextstate = "processData"
 
             elif nextstate == "processData":
-                # Prediction based on messages
-                # All the message a written based on the value of my_time
-                self.processInfoMemory(my_time)
+                # self.memory.makePredictions()
+                # self.processInfoMemory(my_time)
                 nextstate = "sendMessage"
 
             elif state == "sendMessage":
-                cdt1 = self.info_messageSent.getSize() > 0
-                cdt2 = self.info_messageReceived.getSize() > 0
-                cdt3 = self.info_messageToSend.getSize() > 0
-
-                if cdt1 or cdt2 or cdt3:
-                    pass
-                    # self.log_room.info(self.info_messageSent.printMyList())
-                    # self.log_room.info(self.info_messageReceived.printMyList())
-                    # self.log_room.info(self.info_messageToSend.printMyList())
-
-                self.info_messageSent.removeMessageAfterGivenTime(my_time, 10)
-                self.info_messageReceived.removeMessageAfterGivenTime(my_time, 10)
-                self.sendAllMessage()
-
+                self.info_messageSent.removeMessageAfterGivenTime(self.myRoom.time, 10)
+                self.info_messageReceived.removeMessageAfterGivenTime(self.myRoom.time, 10)
+                #self.sendAllMessage()
                 if MULTI_THREAD != 1:
-                    self.recAllMess()
-                    self.processRecMess()
-                else:
-                    time.sleep(0.2)
+                    pass
+                    #self.recAllMess()
+                    #self.processRecMess()
 
+                time.sleep(TIME_SEND_READ_MESSAGE)
                 nextstate = "takePicture"
-
             else:
                 print("FSM not working proerly")
+
+    def thread_recLoop(self):
+        while self.threadRun == 1:
+                self.recAllMess()
+                self.processRecMess()
 
     #################################
     #   Store and process information
@@ -225,6 +213,44 @@ class AgentCam(Agent):
 
             # message supress from the wainting list
             self.info_messageReceived.delMessage(rec_mes)
+
+
+    def sendMessageType(self, typeMessage, m, to_all=False, target=-1, receiverID_Signature=-1):
+        m_format = Message(-1, -1, -1, 'init', "")
+
+        if (typeMessage == "request"):
+            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m, target)
+
+        elif (typeMessage == "wanted"):
+            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m, target)
+
+        elif (typeMessage == "locked"):
+            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m.signature, m.targetRef)
+            to_all = True
+
+        elif (typeMessage == "ack"):
+            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m.signature, m.targetRef)
+            m_format.addReceiver(m.senderID, m.senderSignature)
+            to_all = False
+
+        elif (typeMessage == "nack"):
+            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m.signature, m.targetRef)
+            m_format.addReceiver(m.senderID, m.senderSignature)
+            to_all = False
+
+        elif (typeMessage == "heartbeat"):
+            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, "heartbeat", target)
+
+        if to_all:
+            for agent in self.myRoom.agentCam:
+                if (agent.id != self.id):
+                    m_format.addReceiver(agent.id, agent.signature)
+
+        cdt1 = m_format.getReceiverNumber() > 0
+        cdt2 = self.info_messageToSend.isMessageWithSameTypeSameAgentRef(m_format)
+        cdt3 = self.info_messageSent.isMessageWithSameTypeSameAgentRef(m_format)
+        if cdt1 and not cdt2 and not cdt3:
+            self.info_messageToSend.addMessage(m_format)
 
 
 if __name__ == "__main__":
