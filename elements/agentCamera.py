@@ -166,91 +166,73 @@ class AgentCam(Agent):
 
     def processRecMess(self):
         for rec_mes in self.info_messageReceived.getList():
-
             if (rec_mes.messageType == "request"):
-
-                typeMessage = "ack"
-                if self.memory.isTargetDetected(self.myRoom.time, rec_mes.targetRef):
-                    # If the target is seen => distances # AJouté la condition
-                    # if(distance < distance 2)
-                    # typeMessage="ack"
-                    # else:
-                    typeMessage = "nack"
-
-                    # Update Info
-                self.updateMemory("infoFromOtherCam", rec_mes)
-                # Response
-                self.sendMessageType(typeMessage, rec_mes, False)
-
-
+                self.received_message_request(rec_mes)
             elif (rec_mes.messageType == "locked"):
-                # Update Info
-                self.updateMemory("infoFromOtherCam", rec_mes)
-                # Response
-                self.sendMessageType("ack", rec_mes, False)
-
-
+                self.received_message_locked(rec_mes)
             elif (rec_mes.messageType == "ack" or rec_mes.messageType == "nack"):
-                for sent_mes in self.info_messageSent.getList():
-                    added = sent_mes.add_ACK_NACK(rec_mes)
-                    if added:
-                        if sent_mes.messageType == "request":
-                            if sent_mes.is_approved():
-                                # Update Info
-                                self.updateMemory("infoFromOtherCam", sent_mes)
-                                # Response
-                                self.sendMessageType("locked", sent_mes, True)
+                self.received_message_ackNack(rec_mes)
 
-                            elif sent_mes.is_not_approved():
-                                pass  # do some stuff
-
-
-            elif (rec_mes.messageType == "heartbeat"):
-                pass
-
-            else:
-                pass
-
-            # message supress from the wainting list
             self.info_messageReceived.delMessage(rec_mes)
 
-
-    def sendMessageType(self, typeMessage, m, to_all=False, target=-1, receiverID_Signature=-1):
-        m_format = Message(-1, -1, -1, 'init', "")
-
-        if (typeMessage == "request"):
-            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m, target)
-
-        elif (typeMessage == "wanted"):
-            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m, target)
-
-        elif (typeMessage == "locked"):
-            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m.signature, m.targetRef)
-            to_all = True
-
-        elif (typeMessage == "ack"):
-            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m.signature, m.targetRef)
-            m_format.addReceiver(m.senderID, m.senderSignature)
-            to_all = False
-
-        elif (typeMessage == "nack"):
-            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, m.signature, m.targetRef)
-            m_format.addReceiver(m.senderID, m.senderSignature)
-            to_all = False
-
-        elif (typeMessage == "heartbeat"):
-            m_format = Message(self.myRoom.time, self.id, self.signature, typeMessage, "heartbeat", target)
-
+    def send_message_request(self,information,target,receiverList,to_all):
+        m = Message(self.myRoom.time, self.id, self.signature, "request", information, target)
         if to_all:
             for agent in self.myRoom.agentCam:
                 if (agent.id != self.id):
-                    m_format.addReceiver(agent.id, agent.signature)
-
-        cdt1 = m_format.getReceiverNumber() > 0
-        cdt2 = self.info_messageToSend.isMessageWithSameTypeSameAgentRef(m_format)
-        cdt3 = self.info_messageSent.isMessageWithSameTypeSameAgentRef(m_format)
+                    m.addReceiver(agent.id, agent.signature)
+        cdt1 = m.getReceiverNumber() > 0
+        cdt2 = self.info_messageToSend.isMessageWithSameTypeSameAgentRef(m)
+        cdt3 = self.info_messageSent.isMessageWithSameTypeSameAgentRef(m)
         if cdt1 and not cdt2 and not cdt3:
-            self.info_messageToSend.addMessage(m_format)
+            self.info_messageToSend.addMessage(m)
+
+    def send_message_locked(self,message,to_all):
+        m_format = Message(self.myRoom.time, self.id, self.signature, "locked", message.signature, message.targetRef)
+        if to_all:
+            for agent in self.myRoom.agentCam:
+                if (agent.id != self.id):
+                    message.addReceiver(agent.id, agent.signature)
+        self.info_messageToSend.addMessage(message)
+
+    def send_message_ackNack(self,message,typeMessage):
+        m = Message(self.myRoom.time, self.id, self.signature, typeMessage, message.signature, message.targetRef)
+        m.addReceiver(message.senderID, message.senderSignature)
+        self.info_messageToSend.addMessage(m)
+
+    def received_message_request(self,message):
+        typeMessage = "ack"
+        if self.memory.isTargetDetected(self.myRoom.time, message.targetRef):
+            # If the target is seen => distances # AJouté la condition
+            # if(distance < distance 2)
+            # typeMessage="ack"
+            # else:
+            typeMessage = "nack"
+
+        # Update Info
+        self.updateMemory("infoFromOtherCam",message)
+        # Response
+        self.send_message_ackNack(self,message,typeMessage)
+
+    def received_message_locked(self,message):
+        # Update Info
+        self.updateMemory("infoFromOtherCam", message)
+        # Response
+        self.send_message_ackNack(self, message,"ack")
+
+    def received_message_ackNack(self,message):
+        for sent_mes in self.info_messageSent.getList():
+            added = sent_mes.add_ACK_NACK(message)
+            if added:
+                if sent_mes.messageType == "request":
+                    if sent_mes.is_approved():
+                        # Update Info
+                        self.updateMemory("infoFromOtherCam", sent_mes)
+                        # Response
+                        self.send_message_locked()
+                    elif sent_mes.is_not_approved():
+                        pass  # can be directly remove
+
 
 
 if __name__ == "__main__":

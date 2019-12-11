@@ -37,7 +37,6 @@ class InformationMemory:
         self.predictedPositions = dict()
 
     def get_Info_T(self, infoTime):
-        print(self.info_room)
         for info in self.info_room:
             if len(info)>0:
                  if info[0].timeStamp == infoTime:
