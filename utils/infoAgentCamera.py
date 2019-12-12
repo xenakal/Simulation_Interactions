@@ -94,7 +94,7 @@ class InformationMemory:
 
     def isTargetDetected(self, infoTime, targetID):
         for info in self.get_Info_T(infoTime):
-            if (info.target.id == targetID):
+            if info.target.id == targetID:
                 return info.seenByCam
         return False
 

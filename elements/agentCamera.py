@@ -8,7 +8,7 @@ from elements.target import *
 from utils.infoAgentCamera import *
 from utils.message import *
 
-TIME_PICTURE = 0.2
+TIME_PICTURE = 0.05
 TIME_SEND_READ_MESSAGE = 0.05
 
 MULTI_THREAD = 0
@@ -140,7 +140,7 @@ class AgentCam(Agent):
             self.info_messageReceived.delMessage(rec_mes)
 
     def send_message_request(self,information,target,receivers=[]):
-        m = Message(self.myRoom.time, self.id, self.signature, "request", information, target)
+        m = Message_Check_ACK_NACK(self.myRoom.time, self.id, self.signature, "request", information, target)
         if len(receivers) == 0:
             for agent in self.myRoom.agentCam:
                 if agent.id != self.id:
@@ -155,7 +155,7 @@ class AgentCam(Agent):
             self.info_messageToSend.addMessage(m)
 
     def send_message_locked(self,message,receivers=[]):
-        m = Message(self.myRoom.time, self.id, self.signature, "locked", message.signature, message.targetRef)
+        m = Message_Check_ACK_NACK(self.myRoom.time, self.id, self.signature, "locked", message.signature, message.targetRef)
         if len(receivers) == 0:
             for agent in self.myRoom.agentCam:
                 if agent.id != self.id:
@@ -167,7 +167,7 @@ class AgentCam(Agent):
         self.info_messageToSend.addMessage(m)
 
     def send_message_ackNack(self,message,typeMessage):
-        m = Message(self.myRoom.time, self.id, self.signature, typeMessage, message.signature, message.targetRef)
+        m = Message_Check_ACK_NACK(self.myRoom.time, self.id, self.signature, typeMessage, message.signature, message.targetRef)
         m.addReceiver(message.senderID, message.senderSignature)
         self.info_messageToSend.addMessage(m)
 

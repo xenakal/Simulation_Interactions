@@ -29,9 +29,6 @@ class Room:
                                        , tar_size[self.targetNumber]))
             self.targetNumber += 1
 
-    def removeTarget(self):
-        print('removed')
-
     def createCameras(self, cam_x, cam_y, cam_alpha, cam_beta, fix):
         for _ in cam_x:
             self.cameras.append(Camera(self.camerasNumber, cam_x[self.camerasNumber],
@@ -50,6 +47,3 @@ class Room:
         for camera in self.cameras:
             self.agentCam.append(AgentCam(self.agentCamNumber, camera, myRoom))
             self.agentCamNumber += 1
-
-    def removeCamera(self, cam_x, cam_y, cam_alpha, cam_beta):
-        print('removed')

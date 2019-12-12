@@ -2,10 +2,11 @@ import shutil
 import os
 from elements.room import *
 from utils.GUI import *
+from utils.motion import *
 
 
 TIMESTEP = 0.5
-TIMEPAUSE = 0.2
+TIME_BTW_FRAMES = 0.08
 
 USE_AGENT = 1
 
@@ -170,7 +171,6 @@ class App:
             self.myRoom.createCameras(self.x_cam, self.y_cam, self.angle_cam, self.angle_view_cam, self.fix_cam)
         elif USE_AGENT == 1:
             self.myRoom.createAgentCam(self.x_cam, self.y_cam, self.angle_cam, self.angle_view_cam, self.fix_cam,self.myRoom)
-            
             for agent in self.myRoom.agentCam:
                 agent.run()
         # The program can also run completely with out the GUI interface
@@ -185,7 +185,8 @@ class App:
         tmax = 1000
         run = True
         while run:  # Events loop
-            
+            time.sleep(TIME_BTW_FRAMES)  # so that the GUI doesn't go to quick
+
             if USE_AGENT == 0:
                 # camera is taking a picture
                 for camera in self.myRoom.cameras:
@@ -193,10 +194,9 @@ class App:
 
             # Object are moving in the room
             for target in self.myRoom.targets:
-                target.moveTarget(1, self.myRoom)
+                moveTarget(target,1,self.myRoom)
 
             if self.useGUI == 1:
-                time.sleep(TIMEPAUSE)  # so that the GUI doesn't go to quick
                 self.updateGUI()
                 run = getGUI_Info()
 

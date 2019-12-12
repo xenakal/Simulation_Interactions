@@ -1,60 +1,123 @@
-2019-12-11 18:33:13,764 - agent1 - INFO - SEND     : 
-Timestamp: 0 message#:9646701370122420
-From: 1 sender#2324862971671970
+2019-12-12 10:54:59,476 - agent1 - WARNING - Mailbox file error SEND
+2019-12-12 10:54:59,477 - agent1 - WARNING - Mailbox file error SEND
+2019-12-12 10:54:59,584 - agent1 - WARNING - Mailbox file error SEND
+2019-12-12 10:54:59,590 - agent1 - INFO - SEND     : 
+Timestamp: 0 message#:9819061759218974
+From: 1 sender#8418198754050116
 Receiver list : 
-To: 0 receiver#8709300416830472
-To: 2 receiver#6282913847043893
+To: 0 receiver#4469029470235675
+To: 2 receiver#6312315626213969
 Type: request target: 1 Message: 319.88279103446627
 
-2019-12-11 18:33:14,026 - agent1 - INFO - SEND     : 
-Timestamp: 0 message#:9646701370122420
-From: 1 sender#2324862971671970
+2019-12-12 10:54:59,702 - agent1 - INFO - SEND     : 
+Timestamp: 0 message#:9819061759218974
+From: 1 sender#8418198754050116
 Receiver list : 
-To: 0 receiver#8709300416830472
-To: 2 receiver#6282913847043893
+To: 0 receiver#4469029470235675
+To: 2 receiver#6312315626213969
 Type: request target: 1 Message: 319.88279103446627
 
-2019-12-11 18:33:14,293 - agent1 - INFO - RECEIVED : 
-Timestamp: 0 message#:5461948321874529
-From: 0 sender#8709300416830472
+2019-12-12 10:54:59,824 - agent1 - INFO - RECEIVED : 
+Timestamp: 1 message#:7132127613340239
+From: 2 sender#6312315626213969
 Receiver list : 
-To: 1 receiver#2324862971671970
-Type: ack target: 1 Message: 9646701370122420
+To: 1 receiver#8418198754050116
+Type: ack target: 1 Message: 9819061759218974
 
-2019-12-11 18:33:14,555 - agent1 - INFO - RECEIVED : 
-Timestamp: 1 message#:7574574397629039
-From: 2 sender#6282913847043893
+2019-12-12 10:54:59,938 - agent1 - INFO - RECEIVED : 
+Timestamp: 2 message#:7760996785721817
+From: 0 sender#4469029470235675
 Receiver list : 
-To: 1 receiver#2324862971671970
-Type: ack target: 1 Message: 9646701370122420
+To: 1 receiver#8418198754050116
+Type: ack target: 1 Message: 9819061759218974
 
-2019-12-11 18:33:14,814 - agent1 - INFO - SEND     : 
-Timestamp: 3 message#:6825541113871296
-From: 1 sender#2324862971671970
+2019-12-12 10:55:00,047 - agent1 - INFO - SEND     : 
+Timestamp: 4 message#:4439381452835883
+From: 1 sender#8418198754050116
 Receiver list : 
-To: 0 receiver#8709300416830472
-To: 2 receiver#6282913847043893
-Type: locked target: 1 Message: 9646701370122420
+To: 0 receiver#4469029470235675
+To: 2 receiver#6312315626213969
+Type: locked target: 1 Message: 9819061759218974
 
-2019-12-11 18:33:15,076 - agent1 - INFO - SEND     : 
-Timestamp: 3 message#:6825541113871296
-From: 1 sender#2324862971671970
+2019-12-12 10:55:00,056 - agent1 - INFO - SEND     : 
+Timestamp: 5 message#:6046935751394432
+From: 1 sender#8418198754050116
 Receiver list : 
-To: 0 receiver#8709300416830472
-To: 2 receiver#6282913847043893
-Type: locked target: 1 Message: 9646701370122420
+To: 0 receiver#4469029470235675
+To: 2 receiver#6312315626213969
+Type: request target: 1 Message: 286.9233347080715
 
-2019-12-11 18:33:15,340 - agent1 - INFO - RECEIVED : 
-Timestamp: 5 message#:8774281531720871
-From: 0 sender#8709300416830472
+2019-12-12 10:55:00,166 - agent1 - INFO - SEND     : 
+Timestamp: 4 message#:4439381452835883
+From: 1 sender#8418198754050116
 Receiver list : 
-To: 1 receiver#2324862971671970
-Type: ack target: 1 Message: 6825541113871296
+To: 0 receiver#4469029470235675
+To: 2 receiver#6312315626213969
+Type: locked target: 1 Message: 9819061759218974
 
-2019-12-11 18:33:15,602 - agent1 - INFO - RECEIVED : 
-Timestamp: 6 message#:4002051021018286
-From: 2 sender#6282913847043893
+2019-12-12 10:55:00,175 - agent1 - INFO - SEND     : 
+Timestamp: 5 message#:6046935751394432
+From: 1 sender#8418198754050116
 Receiver list : 
-To: 1 receiver#2324862971671970
-Type: ack target: 1 Message: 6825541113871296
+To: 0 receiver#4469029470235675
+To: 2 receiver#6312315626213969
+Type: request target: 1 Message: 286.9233347080715
+
+2019-12-12 10:55:00,291 - agent1 - INFO - RECEIVED : 
+Timestamp: 6 message#:1961940903228380
+From: 0 sender#4469029470235675
+Receiver list : 
+To: 1 receiver#8418198754050116
+Type: ack target: 1 Message: 4439381452835883
+
+2019-12-12 10:55:00,302 - agent1 - INFO - RECEIVED : 
+Timestamp: 6 message#:4557008410256056
+From: 0 sender#4469029470235675
+Receiver list : 
+To: 1 receiver#8418198754050116
+Type: ack target: 1 Message: 6046935751394432
+
+2019-12-12 10:55:00,415 - agent1 - INFO - RECEIVED : 
+Timestamp: 7 message#:8247595106948781
+From: 2 sender#6312315626213969
+Receiver list : 
+To: 1 receiver#8418198754050116
+Type: ack target: 1 Message: 4439381452835883
+
+2019-12-12 10:55:00,425 - agent1 - INFO - RECEIVED : 
+Timestamp: 7 message#:6201531054889580
+From: 2 sender#6312315626213969
+Receiver list : 
+To: 1 receiver#8418198754050116
+Type: ack target: 1 Message: 6046935751394432
+
+2019-12-12 10:55:00,532 - agent1 - INFO - SEND     : 
+Timestamp: 9 message#:1704715467623971
+From: 1 sender#8418198754050116
+Receiver list : 
+To: 0 receiver#4469029470235675
+To: 2 receiver#6312315626213969
+Type: locked target: 1 Message: 6046935751394432
+
+2019-12-12 10:55:00,647 - agent1 - INFO - SEND     : 
+Timestamp: 9 message#:1704715467623971
+From: 1 sender#8418198754050116
+Receiver list : 
+To: 0 receiver#4469029470235675
+To: 2 receiver#6312315626213969
+Type: locked target: 1 Message: 6046935751394432
+
+2019-12-12 10:55:00,765 - agent1 - INFO - RECEIVED : 
+Timestamp: 12 message#:7059957010025963
+From: 0 sender#4469029470235675
+Receiver list : 
+To: 1 receiver#8418198754050116
+Type: ack target: 1 Message: 1704715467623971
+
+2019-12-12 10:55:00,880 - agent1 - INFO - RECEIVED : 
+Timestamp: 13 message#:8689826214457256
+From: 2 sender#6312315626213969
+Receiver list : 
+To: 1 receiver#8418198754050116
+Type: ack target: 1 Message: 1704715467623971
 
