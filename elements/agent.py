@@ -20,6 +20,7 @@ class Agent:
         self.info_messageSent = ListMessage("Sent")
         self.info_messageReceived = ListMessage("Received")
         self.info_messageToSend = ListMessage("ToSend")
+        self.message_stat = Agent_statistic(idAgent)
 
         mbox = mailbox.mbox(NAME_MAILBOX + str(self.id))
         mbox.clear()
@@ -58,6 +59,8 @@ class Agent:
         # reconstruction de l'objet message
         rec_mes = Message(0, 0, 0, 0, 0)
         rec_mes.modifyMessageFromString(m)
+
+        self.message_stat.count_message_received(rec_mes.senderID)
         self.info_messageReceived.addMessage(rec_mes)
         self.log_message.info('RECEIVED : \n' + rec_mes.formatMessageType())
 
@@ -110,11 +113,12 @@ class Agent:
                 mbox.lock()
                 try:
                     mbox.add(m.formatMessageType())  # apparament on ne peut pas transférer d'objet
-                    self.log_message.info('SEND     : \n' + m.formatMessageType())
+                    self.message_stat.count_message_send(receiver[0])
+
                     mbox.flush()
                     m.notifySendTo(receiver[0], receiver[1])
-
                     if m.isMessageSentToEveryReceiver():
+                        self.log_message.info('SEND     : \n' + m.formatMessageType())
                         succes = 0
                     else:
                         succes = 1  # message partially sent
@@ -127,6 +131,8 @@ class Agent:
                 self.log_message.warning("Mailbox file error SEND")
             except PermissionError:
                 self.log_message.warning("Windows error")
+            except FileNotFoundError:
+                self.log_message.warning("Mailbox file error SEND")
 
         return succes
 
@@ -141,6 +147,41 @@ class Agent:
         mbox = mailbox.mbox(NAME_MAILBOX + str(self.id))
         mbox.close()
 
+class Agent_statistic:
+    def __init__(self,id):
+        self.id = id
+        self.send_message_statistic = []
+        self.receive_message_statistic = []
+
+    def init_message_static(self,room):
+        tab0 = []
+        tab1 = []
+        for camera in room.cameras:
+            tab0.append([camera.id,0])
+            tab1.append([camera.id,0])
+
+        self.send_message_statistic = tab0.copy()
+        self.receive_message_statistic = tab1.copy()
+
+    def count_message_send(self,receiverID):
+        for element in self.send_message_statistic:
+                if element[0] == receiverID:
+                    element[1] = element[1]+1
+
+    def count_message_received(self,senderID):
+        for element in self.receive_message_statistic:
+                if element[0] == senderID:
+                    element[1] = element[1]+1
+
+    def to_string(self):
+        s = "Statistic message \n"
+        for element in self.send_message_statistic:
+            if element[0] != self.id:
+                s = s + "Sender agent: " + str(self.id) + " receiver agent: "+str(element[0]) + ", # messages = " + str(element[1]) +"\n"
+        for element in self.receive_message_statistic:
+            if element[0] != self.id:
+                s = s + "Receiver agent: "+ str(self.id) + " sender agent: " + str(element[0])  + ", # messages = " + str(element[1]) +"\n"
+        return s
 
 if __name__ == "__main__":
     pass

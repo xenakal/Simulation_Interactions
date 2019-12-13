@@ -61,7 +61,6 @@ class Message():
                     pass
             except IndexError:
                 pass
-            
         self.messageType = attribut[6]
         self.targetRef = attribut[7]
         self.message = attribut[8]

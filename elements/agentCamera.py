@@ -58,6 +58,10 @@ class AgentCam(Agent):
         nextstate = state
         my_previousTime = self.myRoom.time - 1
 
+        self.message_stat.init_message_static(self.myRoom)
+        self.memoryList.init_estimator_list(self.myRoom)
+        self.memoryList.get_agent_target_list(0,0)
+
         while (self.threadRun == 1):
             state = nextstate
 
@@ -75,11 +79,10 @@ class AgentCam(Agent):
                             self.memory.addTargetEstimatorFromID(self.myRoom.time,self.id,elem[0].id,self.myRoom)
                             self.memory.setSeenByCam(self.myRoom.time, elem[0].id, True)
                             #self.log_room.info(self.memory.memoryToString())
-
                             self.memoryList.set_current_time(self.myRoom.time)
                             self.memoryList.add_create_target_estimator(self.myRoom,self.myRoom.time,elem[0].id,self.id,True)
-                            self.log_room.info(self.memoryList.to_string())
 
+                        self.log_room.info(self.memoryList.statistic_to_string() + self.message_stat.to_string())
                     nextstate = "processData"  # Avoir si on peut améliorer les prédictions avec les mess recu
 
             elif nextstate == "processData":
@@ -109,9 +112,12 @@ class AgentCam(Agent):
             self.process_Message_sent()
 
     def process_InfoMemory(self, time):
-        for estimator in self.memoryList.estimatorList:
-            if estimator.agent_ID == self.id:
-                self.send_message_memory(estimator)
+        self.memoryList.sort_memories()
+        for element in self.memoryList.estimator_list:
+            for estimator in element[2]:
+                if estimator.agent_ID == self.id:
+                    pass
+                    #self.send_message_memory(estimator)
 
         for info in  self.memory.get_Info_T(time):
             if info.target_label == "target":
@@ -119,7 +125,7 @@ class AgentCam(Agent):
                     dx = self.cam.xc - info.position[0]
                     dy = self.cam.yc - info.position[1]
                     distance = math.pow(dx*dx + dy*dy, 0.5)
-                    #self.send_message_request(distance,info.target_ID)
+                    self.send_message_request(distance,info.target_ID)
 
             elif info.target_label == "obstruction":
                 pass
@@ -179,10 +185,11 @@ class AgentCam(Agent):
             for receiver in receivers:
                 m.addReceiver(receiver[0],receiver[1])
 
-        cdt1 = self.info_messageToSend.isMessageWithSameTypeSameAgentRef(m)
-        cdt2 = self.info_messageSent.isMessageWithSameTypeSameAgentRef(m)
-        if not cdt1 and not cdt2:
-            self.info_messageToSend.addMessage(m)
+        self.info_messageToSend.addMessage(m)
+        #cdt1 = self.info_messageToSend.isMessageWithSameTypeSameAgentRef(m)
+        #cdt2 = self.info_messageSent.isMessageWithSameTypeSameAgentRef(m)
+        #if not cdt1 and not cdt2:
+
 
     def send_message_locked(self,message,receivers=[]):
         m = Message_Check_ACK_NACK(self.myRoom.time, self.id, self.signature, "locked", message.signature, message.targetRef)
