@@ -16,6 +16,11 @@ class Agent:
         self.myRoom = room
         self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
 
+        r = random.randrange(20, 230, 1)
+        g = random.randrange(20, 230, 1)
+        b = random.randrange(20, 255, 1)
+        self.color = (r, g, b)
+
         # Communication
         self.info_messageSent = ListMessage("Sent")
         self.info_messageReceived = ListMessage("Received")

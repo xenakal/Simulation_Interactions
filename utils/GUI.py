@@ -65,13 +65,14 @@ class GUI:
                     pygame.draw.circle(self.screen, target.color, (target.xc, target.yc),
                                        math.floor(target.size - 0.5 * target.size))
 
-    def drawCam(self, cameras, color=0, l=100):
-        for camera in cameras:
+    def drawCam(self, myRoom, color=0, l=100):
+        for agent in myRoom.agentCam:
+            camera = agent.cam
             # render text
             label = self.font.render(str(camera.id), 10, CAMERA)
             self.screen.blit(label, (camera.xc + 5, camera.yc + 5))
             # render form
-            pygame.draw.circle(self.screen, CAMERA, (camera.xc, camera.yc), 5)
+            pygame.draw.circle(self.screen, agent.color, (camera.xc, camera.yc), 5)
             if camera.isActive == 1:
                 pygame.draw.line(self.screen, BLACK, (camera.xc, camera.yc),
                                  (camera.xc + l * math.cos(camera.alpha),
@@ -156,14 +157,21 @@ class GUI:
                 pygame.draw.circle(self.screen, WHITE, (x_off + 85 + dref, y_off + 8 + n * 30), 5)
             n = n + 1
 
-    def drawTargetFollowedByCam(self, myRoom):
+    def drawMemory(self,myRoom):
         for agent in myRoom.agentCam:
-            index = len(agent.memory.info_room) - 1
-            if index > -1:
-                for info in agent.memory.info_room[index]:
-                    if info.followedByCam == agent.id:
-                        pygame.draw.line(self.screen, YELLOW, (agent.cam.xc, agent.cam.yc),
-                                         (info.position[0], info.position[1]), 2)
+            for target in myRoom.targets:
+                for estimator in agent.memory.memory_agent.get_target_list(target.id):
+                    pygame.draw.circle(self.screen, agent.color, (estimator.position[0],estimator.position[1]), 2)
+
+    def drawTargetFollowedByCam(self, myRoom):
+        pass
+        #for agent in myRoom.agentCam:
+            #index = len(agent.memory.info_room) - 1
+            #if index > -1:
+                #for info in agent.memory.info_room[index]:
+                    #if info.followedByCam == agent.id:
+                        #pygame.draw.line(self.screen, YELLOW, (agent.cam.xc, agent.cam.yc),
+                                         #(info.position[0], info.position[1]), 2)
 
     #  Used if cameras are used (if agents, then use drawPredictions)
     def drawPredictionsOld(self, myRoom):
@@ -176,8 +184,9 @@ class GUI:
     def drawPredictions(self, myRoom):
         for agent in myRoom.agentCam:
             for target in myRoom.targets:
-                if (target in agent.memory.predictedPositions):
-                    self.drawTargetPrediction(target, agent.memory.predictedPositions[target])
+                pass
+                #if (target in agent.memory.predictedPositions):
+                    #self.drawTargetPrediction(target, agent.memory.predictedPositions[target])
 
     # predictionPos is a list with the N next predicted positions
     def drawTargetPrediction(self, target, predictionPos):

@@ -216,7 +216,7 @@ class App:
     def updateGUI(self):
         self.myGUI.drawRoom(self.myRoom.coord)
         self.myGUI.drawTarget(self.myRoom.targets, self.myRoom.coord)
-        self.myGUI.drawCam(self.myRoom.cameras)
+        self.myGUI.drawCam(self.myRoom)
         self.myGUI.drawProjection(self.myRoom)
         self.myGUI.screenDetectedTarget(self.myRoom)
         if USE_AGENT:
@@ -224,6 +224,7 @@ class App:
         else:
             self.myGUI.drawPredictionsOld(self.myRoom)
         self.myGUI.drawTargetFollowedByCam(self.myRoom)
+        self.myGUI.drawMemory(self.myRoom)
         updateScreen()
 
 
