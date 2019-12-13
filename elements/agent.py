@@ -86,6 +86,8 @@ class Agent:
             self.log_message.debug("Not possible to read messages")
         except FileExistsError:
             self.log_message.warning("Mailbox file error RECEIVE")
+        except PermissionError:
+            self.log_message.warning("Windows error")
 
         return succes
 
@@ -102,7 +104,6 @@ class Agent:
     # la fonction renvoie -1 quand le message n'a pas été envoyé mais ne s'occupe pas de le réenvoyer !
     def sendMess(self, m):
         succes = -1
-
         for receiver in m.remainingReceiver:
             try:
                 mbox = mailbox.mbox(NAME_MAILBOX + str(receiver[0]))
@@ -124,6 +125,8 @@ class Agent:
                 self.log_message.debug("Not possible to send messages")
             except FileExistsError:
                 self.log_message.warning("Mailbox file error SEND")
+            except PermissionError:
+                self.log_message.warning("Windows error")
 
         return succes
 

@@ -162,8 +162,8 @@ class GUI:
             if index > -1:
                 for info in agent.memory.info_room[index]:
                     if info.followedByCam == agent.id:
-                        pygame.draw.line(self.screen, info.target.color, (agent.cam.xc, agent.cam.yc),
-                                         (info.target.xc, info.target.yc), 2)
+                        pygame.draw.line(self.screen, YELLOW, (agent.cam.xc, agent.cam.yc),
+                                         (info.position[0], info.position[1]), 2)
 
     #  Used if cameras are used (if agents, then use drawPredictions)
     def drawPredictionsOld(self, myRoom):

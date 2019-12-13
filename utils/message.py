@@ -76,6 +76,7 @@ class Message():
         s4 = 'Type: '+str(self.messageType) + " target: "+str(self.targetRef)+  " Message: "
         base = s1+s2+s3+s4
         return base + str(self.message) +"\n"
+
 class Message_Check_ACK_NACK(Message):
     def __init__(self, timeStamp, senderID, senderSignature, messageType, message, targetID=-1):
         self.ack = []
