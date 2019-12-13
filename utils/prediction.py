@@ -1,3 +1,27 @@
+    '''
+    En gros la prédiction doit se faire sur la classe memory
+    
+    Dans la classe memory il y a deux tableau
+    1) self.memory_all_agent = TargetEstimatorList()
+        contient toutes les données:
+            - photo
+            - estimatorTarget recu d'un autre agent 
+            
+    2)self.memory_agent = FusionEstimatorList()
+        C'EST SUR CE VECTEUR QUE DOIT SE FAIRE LA PREDICTION 
+        
+        c'est un vecteur qui contient pour chaque target une position possible sur la carte.
+        Cette position est calculée en fonction des différentes informations disponible dans le tableau 1)
+        
+        self.memory_agent.room.room_representation est un liste qui se présente sous cette forme
+        [[target.id,[liste de estimatorTarget (ceux du target.id pour tous les temps)]] [target.id,[liste de estimatorTarget (ceux du target.id pour tous les temps)] ...]
+        
+        pour accéder la liste en question il est utile d'utiliser la fonction suivante
+        get_target_list(TargetID)
+        la liste retourné contient toutes les informations connues sur le target pour les temps allant de 0 au temps actuel
+        (réprésentation par des petits points sur la carte
+    '''
+
     def makePredictions(self):
         time = self.currentTime
         for targetInfosObj in self.info_room[-1]:

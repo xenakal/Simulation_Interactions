@@ -6,7 +6,7 @@ from utils.motion import *
 
 
 TIMESTEP = 0.5
-TIME_BTW_FRAMES = 0.08
+TIME_BTW_FRAMES = 0.1
 
 USE_AGENT = 1
 

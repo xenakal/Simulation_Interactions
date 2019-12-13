@@ -9,8 +9,8 @@ from utils.estimator import *
 from utils.message import *
 from utils.memory import *
 
-TIME_PICTURE = 0.1
-TIME_SEND_READ_MESSAGE = 0.05
+TIME_PICTURE = 0.05
+TIME_SEND_READ_MESSAGE = 0.01
 
 MULTI_THREAD = 0
 NAME_MAILBOX = "mailbox/MailBox_Agent"
