@@ -163,6 +163,14 @@ class GUI:
                 for estimator in agent.memory.memory_agent.get_target_list(target.id):
                     pygame.draw.circle(self.screen, agent.color, (estimator.position[0],estimator.position[1]), 2)
 
+    def drawMemoryAll(self,myRoom,num):
+        for agent_to_draw in myRoom.agentCam:
+            if agent_to_draw.id == num:
+                for agent in myRoom.agentCam:
+                    for target in myRoom.targets:
+                         for estimator in agent.memory.memory_all_agent.get_estimator_time_target_agent(-1,target.id,agent.id):
+                             pygame.draw.circle(self.screen, agent.color, (estimator.position[0],estimator.position[1]), 2)
+
     def drawTargetFollowedByCam(self, myRoom):
         pass
         #for agent in myRoom.agentCam:

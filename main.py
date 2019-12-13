@@ -6,7 +6,7 @@ from utils.motion import *
 
 
 TIMESTEP = 0.5
-TIME_BTW_FRAMES = 0.1
+TIME_BTW_FRAMES = 0.2
 
 USE_AGENT = 1
 
@@ -144,14 +144,14 @@ class App:
         
         elif scenario == 6:
             # Options for the target
-            self.x_tar = numpy.array([155, 20])
-            self.y_tar = numpy.array([155, 20])
-            self.vx_tar = numpy.array([0, 0])
-            self.vy_tar = numpy.array([0, 0])
-            self.traj_tar = numpy.array(['linear','linear'])
-            self.trajChoice_tar = numpy.array([0, 1])
+            self.x_tar = numpy.array([155, 20,30])
+            self.y_tar = numpy.array([155, 20,50])
+            self.vx_tar = numpy.array([0, 0,0])
+            self.vy_tar = numpy.array([0, 0,0])
+            self.traj_tar = numpy.array(['linear','linear','linear'])
+            self.trajChoice_tar = numpy.array([0, 1,0])
             self.size_tar = numpy.array([20, 5, 6])
-            self.label_tar = numpy.array(['fix', 'target'])
+            self.label_tar = numpy.array(['fix', 'target','obstruction'])
             # Options for the cameras
             self.x_cam = numpy.array([10, 310, 155])
             self.y_cam = numpy.array([155, 155, 10])
@@ -224,7 +224,12 @@ class App:
         else:
             self.myGUI.drawPredictionsOld(self.myRoom)
         self.myGUI.drawTargetFollowedByCam(self.myRoom)
+
+        #visualisation de la mémoire finale de tous les agents
         self.myGUI.drawMemory(self.myRoom)
+
+        #visualisation de la mémoire total de l'agent
+        #self.myGUI.drawMemoryAll(self.myRoom,1)
         updateScreen()
 
 

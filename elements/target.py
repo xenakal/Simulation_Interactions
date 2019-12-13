@@ -28,8 +28,8 @@ class Target:
             self.vy = tar_vy
         # PathPlanning
         if tar_trajChoice == 0:
-            self.xgoal = [30, 250, 20]
-            self.ygoal = [300, 30, 20]
+            self.xgoal = [30, 200,250, 20]
+            self.ygoal = [300, 250,30, 20]
         elif tar_trajChoice == 1:
             self.xgoal = [200, 200, 20]
             self.ygoal = [100, 180, 200]

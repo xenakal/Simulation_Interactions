@@ -42,28 +42,33 @@ class Message():
             return False
 
     def modifyMessageFromString(self,s):
-        self.clearReceiver()
-        s = s.replace("\n","")
-        s = s.replace(" ","")
-        attribut = re.split("Timestamp:|message#:|From:|sender#|Receiverlist:|Type:|target:|Message:",s)
-        self.timeStamp = int(attribut[1])
-        self.signature = int(attribut[2])
-        self.senderID = int(attribut[3])
-        self.senderSignature = int(attribut[4])
-        receivers = re.split("To:",attribut[5])
-        for receiver in receivers:
-            info = receiver.split("receiver#")
-            try:
-                if(info == ""):
-                    pass #end of the chain
-                else:
-                    self.addReceiver(info[0],info[1])
+
+        try:
+            self.clearReceiver()
+            s = s.replace("\n","")
+            s = s.replace(" ","")
+            attribut = re.split("Timestamp:|message#:|From:|sender#|Receiverlist:|Type:|target:|Message:",s)
+            self.timeStamp = int(attribut[1])
+            self.signature = int(attribut[2])
+            self.senderID = int(attribut[3])
+            self.senderSignature = int(attribut[4])
+            receivers = re.split("To:",attribut[5])
+            for receiver in receivers:
+                info = receiver.split("receiver#")
+                try:
+                    if(info == ""):
+                        pass #end of the chain
+                    else:
+                        self.addReceiver(info[0],info[1])
+                        pass
+                except IndexError:
                     pass
-            except IndexError:
-                pass
-        self.messageType = attribut[6]
-        self.targetRef = attribut[7]
-        self.message = attribut[8]
+            self.messageType = attribut[6]
+            self.targetRef = attribut[7]
+            self.message = attribut[8]
+            
+        except IndexError:
+            print("erreur")
         
     def formatMessageType(self):
         s1 = "Timestamp: "+str(self.timeStamp)+' message#:'+str(self.signature)+"\n"
