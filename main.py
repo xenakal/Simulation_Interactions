@@ -6,7 +6,7 @@ from utils.motion import *
 
 
 TIMESTEP = 0.5
-TIME_BTW_FRAMES = 0.2
+TIME_BTW_FRAMES = 0.1
 
 USE_AGENT = 1
 
@@ -194,7 +194,9 @@ class App:
 
             # Object are moving in the room
             for target in self.myRoom.targets:
+                target.save_position()
                 moveTarget(target,1,self.myRoom)
+
 
             if self.useGUI == 1:
                 self.updateGUI()
@@ -218,6 +220,7 @@ class App:
         self.myGUI.GUI_room.drawTarget(self.myRoom.targets, self.myRoom.coord)
         self.myGUI.GUI_room.drawCam(self.myRoom)
         self.myGUI.GUI_projection.drawProjection(self.myRoom)
+        self.myGUI.GUI_option.draw_option()
 
         self.myGUI.GUI_ATD.screenDetectedTarget(self.myRoom)
 
@@ -227,6 +230,8 @@ class App:
             else:
                 self.myGUI.drawPredictionsOld(self.myRoom)
 
+        if self.myGUI.GUI_option.draw_real_trajectory:
+            self.myGUI.GUI_room.drawTarget_all_postion(self.myRoom)
 
         if self.myGUI.GUI_option.draw_memory_agent:
             self.myGUI.GUI_memories.drawMemory(self.myRoom)

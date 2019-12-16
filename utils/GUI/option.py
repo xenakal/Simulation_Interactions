@@ -1,17 +1,77 @@
 import pygame
 from pygame.locals import *
 
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
+
+
 class GUI_option:
-    def __init__(self):
+    def __init__(self,screen):
+        self.screen = screen
+        self.font = pygame.font.SysFont("monospace", 15)
+
         self.modify_option = False
+        self.draw_real_trajectory = False
         self.draw_prediction = False
         self.draw_memory_agent = False
         self.draw_memory_all_agent = False
         self.modify_agent = False
         self.modify_target = False
 
-        self.agent_to_display = []
-        self.target_to_display = []
+        self.agent_to_display = ["0","1","2"]
+        self.target_to_display = ["0","1","2"]
+
+    def draw_option(self):
+        x_offset = 340
+        y_offset = 10
+        y_range = 15
+        y_pas = 15
+
+        pygame.draw.rect(self.screen, BLACK, (x_offset, y_offset, 350, 300))
+
+        s = "o - Option modifiable: " + str(self.modify_option)
+        label = self.font.render(s, 10, WHITE)
+        self.screen.blit(label, (x_offset,y_offset))
+
+        s = "r - real trajectory: " + str(self.draw_real_trajectory)
+        label = self.font.render(s, 10, WHITE)
+        self.screen.blit(label, (x_offset, y_offset + y_range))
+        y_range = y_range+y_pas
+
+        s = "e - memory agent information gathered: " + str(self.draw_memory_all_agent)
+        label = self.font.render(s, 10, WHITE)
+        self.screen.blit(label, (x_offset, y_offset+y_range))
+        y_range = y_range+y_pas
+
+        s = "z - memory agent after fusion: " + str(self.draw_memory_agent)
+        label = self.font.render(s, 10, WHITE)
+        self.screen.blit(label, (x_offset, y_offset+y_range))
+        y_range = y_range+y_pas
+
+        s = "c - modify agent: " + str(self.modify_agent)
+        label = self.font.render(s, 10, WHITE)
+        self.screen.blit(label, (x_offset, y_offset+y_range))
+        y_range = y_range+y_pas
+
+        s = "0-9 - list: " + str(self.agent_to_display)
+        label = self.font.render(s, 10, WHITE)
+        self.screen.blit(label, (x_offset, y_offset +y_range))
+        y_range = y_range+y_pas
+
+        s = "t - modify target: " + str(self.modify_target)
+        label = self.font.render(s, 10, WHITE)
+        self.screen.blit(label, (x_offset, y_offset+y_range))
+        y_range = y_range+y_pas
+
+        s = "0-9 - list: " + str(self.target_to_display)
+        label = self.font.render(s, 10, WHITE)
+        self.screen.blit(label, (x_offset, y_offset + y_range))
+
+
 
     def option_agent(self,event_key):
         #print(pygame.key.name(event_key))
@@ -90,6 +150,8 @@ class GUI_option:
             self.modify_agent = not self.modify_agent
         elif event_key == K_t:
             self.modify_target = not self.modify_target
+        elif event_key == K_r:
+            self.draw_real_trajectory = not self.draw_real_trajectory
 
     def getGUI_Info(self):
         for event in pygame.event.get():
@@ -102,6 +164,7 @@ class GUI_option:
                         pass
                         # print("Take the control of one of the target !")
                     elif event.key == K_ESCAPE:
+                        pygame.quit()
                         return False
 
                     if self.modify_option:

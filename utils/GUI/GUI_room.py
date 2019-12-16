@@ -16,9 +16,12 @@ TARGET = (0, 250, 0)
 OBSTRUCTION = (0, 50, 0)
 
 class GUI_room:
-    def __init__(self,screen):
+    def __init__(self,screen,agent,target):
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 15)
+
+        self.agent_to_display = agent
+        self.target_to_display = target
 
 
     def drawRoom(self, tab, color=0):
@@ -45,6 +48,14 @@ class GUI_room:
                 if target.size >= 5:
                     pygame.draw.circle(self.screen, target.color, (target.xc, target.yc),
                                        math.floor(target.size - 0.5 * target.size))
+
+    def drawTarget_all_postion(self,room):
+        for target in room.targets:
+            for id in self.target_to_display:
+                if target.id == int(id):
+                    for position in target.all_position:
+                        pygame.draw.circle(self.screen, target.color, (position[0], position[1]), 1)
+
 
     def drawCam(self, myRoom, color=0, l=100):
         for agent in myRoom.agentCam:

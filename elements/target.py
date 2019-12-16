@@ -41,10 +41,13 @@ class Target:
         self.d_rep = tar_size + math.ceil(0.5 * tar_size)
 
         self.F_att_max = 10
-        self.vx_max = 5
-        self.vy_max = 5
+        self.vx_max = 1
+        self.vy_max = 1
         # size
         self.size = tar_size
+
+        #to rembember is position
+        self.all_position = []
 
     ''' hash and eq used to have target object as dictionary in camera '''
 
@@ -53,5 +56,8 @@ class Target:
 
     def __eq__(self, other):
         return self.id == other.id
+
+    def save_position(self):
+        self.all_position.append([self.xc,self.yc])
 
 

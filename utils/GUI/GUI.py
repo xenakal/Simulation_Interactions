@@ -29,9 +29,9 @@ class GUI:
         # self.screen = pygame.display.set_mode((1220, 960), pygame.RESIZABLE)
         self.screen = pygame.display.set_mode((800, 500), pygame.RESIZABLE)
 
-        self.GUI_option = GUI_option()
+        self.GUI_option = GUI_option(self.screen)
 
-        self.GUI_room = GUI_room(self.screen)
+        self.GUI_room = GUI_room(self.screen,self.GUI_option.agent_to_display,self.GUI_option.target_to_display)
         self.GUI_memories = GUI_memories(self.screen,self.GUI_option.agent_to_display,self.GUI_option.target_to_display)
         self.GUI_projection = GUI_projection(self.screen)
         self.GUI_ATD = GUI_Agent_Target_Detected(self.screen)
@@ -42,10 +42,6 @@ class GUI:
 
     def updateScreen(self):
         pygame.display.update()
-
-
-
-
 
     #  Used if cameras are used (if agents, then use drawPredictions)
     def drawPredictionsOld(self, myRoom):

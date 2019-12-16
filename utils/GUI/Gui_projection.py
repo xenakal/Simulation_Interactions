@@ -12,7 +12,7 @@ class GUI_projection:
         x_off = 10
         y_off = 330
 
-        pygame.draw.rect(self.screen, BLACK, (x_off, y_off, 500, 200))
+        pygame.draw.rect(self.screen, BLACK, (x_off, y_off, 550, 200))
 
         n = 0
         for camera in myRoom.cameras:

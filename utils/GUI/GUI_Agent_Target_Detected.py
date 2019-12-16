@@ -9,7 +9,7 @@ class GUI_Agent_Target_Detected:
 
     def screenDetectedTarget(self, myRoom):
         x_off = 350
-        y_off = 50
+        y_off = 200
         color = RED
 
         n = 0
