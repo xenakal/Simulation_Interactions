@@ -3,11 +3,11 @@ import mailbox
 import time
 import logging
 import numpy as np
-from elements.agent import *
 from elements.target import *
-from utils.estimator import *
-from utils.message import *
-from utils.memory import *
+from multi_angent.agent import *
+from multi_angent.estimator import *
+from multi_angent.message import *
+from multi_angent.memory import *
 
 TIME_PICTURE = 0.05
 TIME_SEND_READ_MESSAGE = 0.01

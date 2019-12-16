@@ -4,10 +4,10 @@ import time
 import logging
 import numpy as np
 from elements.target import *
-from utils.message import *
+from multi_angent.message import *
 
 NAME_LOG_PATH = "log/log_agent/Agent"
-NAME_MAILBOX = "mailbox/MailBox_Agent"
+NAME_MAILBOX = "utils/mailbox/MailBox_Agent"
 
 class Agent:
     def __init__(self, idAgent, room):

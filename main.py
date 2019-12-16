@@ -1,7 +1,7 @@
 import shutil
 import os
-from elements.room import *
-from utils.GUI import *
+from multi_angent.room import *
+from utils.GUI.GUI import *
 from utils.motion import *
 
 
@@ -13,8 +13,8 @@ USE_AGENT = 1
 class App:
     def __init__(self, useGUI=1, scenario=0):
         #clean the file mailbox
-        shutil.rmtree("mailbox", ignore_errors = True)
-        os.mkdir("mailbox")
+        shutil.rmtree("utils/mailbox", ignore_errors = True)
+        os.mkdir("utils/mailbox")
 
         # Here by changing only the vectors it is possible to create as many scenario as we want !
         if scenario == -1:
@@ -198,7 +198,7 @@ class App:
 
             if self.useGUI == 1:
                 self.updateGUI()
-                run = getGUI_Info()
+                run = self.myGUI.GUI_option.getGUI_Info()
 
             if t > tmax:
                 run = False
@@ -210,27 +210,31 @@ class App:
         for agent in self.myRoom.agentCam:
             agent.clear()
         
-        shutil.rmtree("mailbox", ignore_errors=True)
-        os.mkdir("mailbox")
-        
+        shutil.rmtree("utils/mailbox", ignore_errors=True)
+        os.mkdir("utils/mailbox")
+
     def updateGUI(self):
-        self.myGUI.drawRoom(self.myRoom.coord)
-        self.myGUI.drawTarget(self.myRoom.targets, self.myRoom.coord)
-        self.myGUI.drawCam(self.myRoom)
-        self.myGUI.drawProjection(self.myRoom)
-        self.myGUI.screenDetectedTarget(self.myRoom)
-        if USE_AGENT:
-            self.myGUI.drawPredictions(self.myRoom)
-        else:
-            self.myGUI.drawPredictionsOld(self.myRoom)
-        self.myGUI.drawTargetFollowedByCam(self.myRoom)
+        self.myGUI.GUI_room.drawRoom(self.myRoom.coord)
+        self.myGUI.GUI_room.drawTarget(self.myRoom.targets, self.myRoom.coord)
+        self.myGUI.GUI_room.drawCam(self.myRoom)
+        self.myGUI.GUI_projection.drawProjection(self.myRoom)
 
-        #visualisation de la mémoire finale de tous les agents
-        self.myGUI.drawMemory(self.myRoom)
+        self.myGUI.GUI_ATD.screenDetectedTarget(self.myRoom)
 
-        #visualisation de la mémoire total de l'agent
-        #self.myGUI.drawMemoryAll(self.myRoom,1)
-        updateScreen()
+        if self.myGUI.GUI_option.draw_prediction:
+            if USE_AGENT:
+                self.myGUI.drawPredictions(self.myRoom)
+            else:
+                self.myGUI.drawPredictionsOld(self.myRoom)
+
+
+        if self.myGUI.GUI_option.draw_memory_agent:
+            self.myGUI.GUI_memories.drawMemory(self.myRoom)
+
+        if self.myGUI.GUI_option.draw_memory_all_agent:
+            self.myGUI.GUI_memories.drawMemoryAll(self.myRoom)
+
+        self.myGUI.updateScreen()
 
 
 if __name__ == "__main__":
