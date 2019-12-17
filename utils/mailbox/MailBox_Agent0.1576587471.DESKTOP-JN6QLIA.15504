@@ -1,12 +1,4 @@
 From MAILER-DAEMON Tue Dec 17 12:57:48 2019
-Timestamp: 2 message#:7123745906732605
-From: 1 sender#8799877198031143
-Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#1#From#1#Target_ID#0#Target_label#fixx:153y:158Seenbytheagent:Truefollowedbyagent:-1Estimation:False
-
-From MAILER-DAEMON Tue Dec 17 12:57:48 2019
 Timestamp: 2 message#:5279565555925688
 From: 1 sender#8799877198031143
 Receiver list : 
@@ -325,12 +317,4 @@ Receiver list :
 To: 0 receiver#3403574636749292
 To: 1 receiver#8799877198031143
 Type: memory target: 0 Message: #Timestamp#12#From#2#Target_ID#0#Target_label#fixx:151y:158Seenbytheagent:Truefollowedbyagent:-1Estimation:False
-
-From MAILER-DAEMON Tue Dec 17 12:57:52 2019
-Timestamp: 13 message#:2927405949323751
-From: 1 sender#8799877198031143
-Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 2 Message: #Timestamp#13#From#1#Target_ID#2#Target_label#obstructionx:32y:60Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
