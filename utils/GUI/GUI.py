@@ -65,39 +65,3 @@ class GUI:
         pygame.draw.lines(self.screen, PREDICTION, False, predictionPos)
 
 
-class Button:
-    def __init__(self,x,y,w,h):
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
-
-        self.label = "test"
-        self.color_released = WHITE
-        self.color_pressed = YELLOW
-        self.color_mouse_on = BLUE
-        self.color_label = BLACK
-
-        self.pressed = False
-
-    def draw(self,window):
-        if self.check_mouse_pos(window):
-            pygame.draw.rect(window, self.color_mouse_on, Rect(self.x, self.y, self.w, self.h))
-        else:
-            if self.pressed:
-                pygame.draw.rect(window,self.color_pressed,Rect(self.x,self.y,self.w,self.h))
-            else:
-                pygame.draw.rect(window, self.color_released, Rect(self.x, self.y, self.w, self.h))
-
-    def check_mouse_pos(self,window):
-        (pos_x,pos_y) = pygame.mouse.get_pos()
-        if (pos_x > self.x and pos_x < self.x+self.w) and (pos_y > self.y and pos_y < self.y+self.h):
-            return True
-        else:
-            return  False
-
-    def check_mouse_clik(self,window):
-        self.draw(window)
-        if self.check_mouse_pos(window):
-            if pygame.mouse.get_pressed:
-                self.pressed = not self.pressed

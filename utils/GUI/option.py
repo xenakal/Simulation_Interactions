@@ -1,5 +1,7 @@
 import pygame
 from pygame.locals import *
+from utils.GUI.GUI import *
+from utils.GUI.Button import *
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -8,11 +10,20 @@ BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
 
+CAMERA = (200, 0, 0)
+PREDICTION = (100, 100, 100)
+
+FIX = (200, 120, 0)
+TARGET = (0, 250, 0)
+OBSTRUCTION = (0, 50, 0)
 
 class GUI_option:
     def __init__(self,screen):
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 15)
+
+        self.position_mouse = []
+
 
         self.modify_option = False
         self.draw_real_trajectory = False
@@ -24,6 +35,19 @@ class GUI_option:
 
         self.agent_to_display = ["0","1","2"]
         self.target_to_display = ["0","1","2"]
+
+    def update_mouse_position(self):
+        self.position_mouse.append([pygame.mouse.get_pos()])
+
+    def suppress_mouse_position(self, position):
+        self.position_mouse.remove(position)
+
+    def check_button(self,button):
+        for position in self.position_mouse:
+            (pos_x,pos_y) = position[0]
+            if button.check_click(self.screen,pos_x,pos_y):
+                self.suppress_mouse_position(position)
+
 
     def draw_option(self):
         x_offset = 340
@@ -72,7 +96,6 @@ class GUI_option:
         self.screen.blit(label, (x_offset, y_offset + y_range))
 
 
-
     def option_agent(self,event_key):
         #print(pygame.key.name(event_key))
         add = None
@@ -104,7 +127,6 @@ class GUI_option:
                 self.agent_to_display.remove(add)
             except ValueError:
                 self.agent_to_display.append(add)
-
 
     def option_target(self,event_key):
         #print(pygame.key.name(event_key))
@@ -175,8 +197,11 @@ class GUI_option:
                             self.option_target(event.key)
 
 
-            elif type_event == MOUSEMOTION and event.buttons[0] == 1:
-                pass
-                # print("Button pressed") #pour utiliser des boutton
+            elif type_event == MOUSEMOTION and event.buttons[0] == 1: #déplacement + boutton enfoncer
+                print("Déplacement") #pour utiliser des boutton
+
+            elif type_event == MOUSEBUTTONDOWN: #MOUSEBUTTONUP
+                self.update_mouse_position()
+                print("button pressed")
 
         return True

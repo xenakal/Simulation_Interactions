@@ -3,6 +3,20 @@ from elements.camera import*
 from utils.GUI.GUI import*
 import pygame
 
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
+
+CAMERA = (200, 0, 0)
+PREDICTION = (100, 100, 100)
+
+FIX = (200, 120, 0)
+TARGET = (0, 250, 0)
+OBSTRUCTION = (0, 50, 0)
+
 class GUI_projection:
     def __init__(self,screen):
         self.screen = screen
@@ -12,7 +26,7 @@ class GUI_projection:
         x_off = 10
         y_off = 330
 
-        pygame.draw.rect(self.screen, BLACK, (x_off, y_off, 550, 200))
+        pygame.draw.rect(self.screen, BLACK, (x_off, y_off, 500, 200))
 
         n = 0
         for camera in myRoom.cameras:

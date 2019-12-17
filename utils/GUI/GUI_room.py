@@ -1,6 +1,5 @@
 import pygame
 from utils.GUI.GUI import*
-
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -14,6 +13,7 @@ PREDICTION = (100, 100, 100)
 FIX = (200, 120, 0)
 TARGET = (0, 250, 0)
 OBSTRUCTION = (0, 50, 0)
+
 
 class GUI_room:
     def __init__(self,screen,agent,target):

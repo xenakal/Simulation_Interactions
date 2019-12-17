@@ -1,6 +1,20 @@
 from utils.GUI.GUI import*
+from utils.GUI.Button import*
 import pygame
 
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
+
+CAMERA = (200, 0, 0)
+PREDICTION = (100, 100, 100)
+
+FIX = (200, 120, 0)
+TARGET = (0, 250, 0)
+OBSTRUCTION = (0, 50, 0)
 
 class GUI_Agent_Target_Detected:
     def __init__(self,screen):
