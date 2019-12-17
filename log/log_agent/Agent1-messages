@@ -434,3 +434,19 @@ To: 0 receiver#3403574636749292
 To: 2 receiver#4474902035318382
 Type: memory target: 1 Message: #Timestamp#12#From#1#Target_ID#1#Target_label#targetx:34y:29Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
+2019-12-17 13:57:50,579 - agent1 - INFO - SEND     : 
+Timestamp: 12 message#:7853319411140852
+From: 1 sender#8799877198031143
+Receiver list : 
+To: 0 receiver#3403574636749292
+To: 2 receiver#4474902035318382
+Type: memory target: 2 Message: #Timestamp#12#From#1#Target_ID#2#Target_label#obstructionx:33y:64Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-17 13:57:51,013 - agent1 - INFO - SEND     : 
+Timestamp: 12 message#:4766875650511863
+From: 1 sender#8799877198031143
+Receiver list : 
+To: 0 receiver#3403574636749292
+To: 2 receiver#4474902035318382
+Type: memory target: 0 Message: #Timestamp#12#From#1#Target_ID#0#Target_label#fixx:156y:153Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+

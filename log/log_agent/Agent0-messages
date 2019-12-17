@@ -416,3 +416,27 @@ To: 0 receiver#3403574636749292
 To: 2 receiver#4474902035318382
 Type: memory target: 1 Message: #Timestamp#0#From#1#Target_ID#1#Target_label#targetx:24y:18Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
+2019-12-17 13:57:50,573 - agent0 - INFO - RECEIVED : 
+Timestamp: 1 message#:1929363865310120
+From: 1 sender#8799877198031143
+Receiver list : 
+To: 0 receiver#3403574636749292
+To: 2 receiver#4474902035318382
+Type: memory target: 2 Message: #Timestamp#0#From#1#Target_ID#2#Target_label#obstructionx:29y:49Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-17 13:57:50,855 - agent0 - INFO - RECEIVED : 
+Timestamp: 1 message#:2466653860979383
+From: 2 sender#4474902035318382
+Receiver list : 
+To: 0 receiver#3403574636749292
+Type: ack target: 0 Message: 7575831061296336
+
+2019-12-17 13:57:51,351 - agent0 - INFO - RECEIVED : 
+Timestamp: 2 message#:7123745906732605
+From: 1 sender#8799877198031143
+Receiver list : 
+To: 0 receiver#3403574636749292
+To: 2 receiver#4474902035318382
+Type: memory target: 0 Message: #Timestamp#1#From#1#Target_ID#0#Target_label#fixx:153y:158Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-17 13:57:51,732 - agent0 - WARNING - Windows error
