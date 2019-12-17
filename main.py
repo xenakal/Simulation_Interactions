@@ -218,7 +218,8 @@ class App:
         self.myGUI.refresh()
         self.myGUI.display_menu()
 
-        if self.myGUI.buttonList.find_button_state("Simulation"):
+        if self.myGUI.button_menu.find_button_state("Simulation"):
+            self.myGUI.display_simulation_button()
             self.myGUI.GUI_room.drawRoom(self.myRoom.coord)
             self.myGUI.GUI_room.drawTarget(self.myRoom.targets, self.myRoom.coord)
             self.myGUI.GUI_room.drawCam(self.myRoom)
@@ -229,20 +230,20 @@ class App:
                 else:
                     self.myGUI.drawPredictionsOld(self.myRoom)
 
-            if self.myGUI.GUI_option.draw_real_trajectory:
+            if self.myGUI.button_simulation_1.find_button_state("real T") or self.myGUI.GUI_option.draw_real_trajectory:
                 self.myGUI.GUI_room.drawTarget_all_postion(self.myRoom)
 
-            if self.myGUI.GUI_option.draw_memory_agent:
+            if self.myGUI.button_simulation_1.find_button_state("M agent") or self.myGUI.GUI_option.draw_memory_agent:
                 self.myGUI.GUI_memories.drawMemory(self.myRoom)
 
-            if self.myGUI.GUI_option.draw_memory_all_agent:
+            if self.myGUI.button_simulation_1.find_button_state("M all agent") or self.myGUI.GUI_option.draw_memory_all_agent:
                 self.myGUI.GUI_memories.drawMemoryAll(self.myRoom)
 
-        if self.myGUI.buttonList.find_button_state("Camera"):
+        if self.myGUI.button_menu.find_button_state("Camera"):
             self.myGUI.GUI_projection.drawProjection(self.myRoom)
             self.myGUI.GUI_ATD.screenDetectedTarget(self.myRoom)
 
-        if self.myGUI.buttonList.find_button_state("Option"):
+        if self.myGUI.button_menu.find_button_state("Option"):
             self.myGUI.GUI_option.draw_option()
 
 

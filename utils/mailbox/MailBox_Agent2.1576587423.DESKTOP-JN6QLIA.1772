@@ -1,0 +1,294 @@
+From MAILER-DAEMON Tue Dec 17 12:57:01 2019
+Timestamp: 572 message#:4581435641653525
+From: 0 sender#5027007731697411
+Receiver list : 
+To: 1 receiver#8525507796345664
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#568#From#0#Target_ID#0#Target_label#fixx:158y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:01 2019
+Timestamp: 577 message#:2256795527784008
+From: 0 sender#5027007731697411
+Receiver list : 
+To: 1 receiver#8525507796345664
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#572#From#0#Target_ID#0#Target_label#fixx:150y:150Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:01 2019
+Timestamp: 577 message#:8569423760862923
+From: 0 sender#5027007731697411
+Receiver list : 
+To: 1 receiver#8525507796345664
+To: 2 receiver#4690994081245982
+Type: memory target: 2 Message: #Timestamp#572#From#0#Target_ID#2#Target_label#obstructionx:253y:73Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 581 message#:9991172261801156
+From: 0 sender#5027007731697411
+Receiver list : 
+To: 2 receiver#4690994081245982
+Type: ack target: 0 Message: 9721414261447068
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 581 message#:4363974683833366
+From: 0 sender#5027007731697411
+Receiver list : 
+To: 2 receiver#4690994081245982
+Type: ack target: 0 Message: 2859540986249332
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 584 message#:2148524512689866
+From: 0 sender#5027007731697411
+Receiver list : 
+To: 1 receiver#8525507796345664
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#582#From#0#Target_ID#0#Target_label#fixx:154y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 584 message#:3183253180465548
+From: 0 sender#5027007731697411
+Receiver list : 
+To: 1 receiver#8525507796345664
+To: 2 receiver#4690994081245982
+Type: memory target: 2 Message: #Timestamp#582#From#0#Target_ID#2#Target_label#obstructionx:250y:72Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 584 message#:7725472955156659
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#583#From#1#Target_ID#0#Target_label#fixx:157y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 584 message#:6381661096752307
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 1 Message: #Timestamp#583#From#1#Target_ID#1#Target_label#targetx:24y:200Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 586 message#:558371219047343
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#584#From#1#Target_ID#0#Target_label#fixx:154y:150Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 586 message#:4163244534754438
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 1 Message: #Timestamp#584#From#1#Target_ID#1#Target_label#targetx:24y:198Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 586 message#:8413066062685645
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 2 Message: #Timestamp#527#From#1#Target_ID#2#Target_label#obstructionx:254y:125Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 587 message#:4784426405025148
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#586#From#1#Target_ID#0#Target_label#fixx:158y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 587 message#:6353625299774948
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 1 Message: #Timestamp#586#From#1#Target_ID#1#Target_label#targetx:24y:200Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 589 message#:8742000442137213
+From: 0 sender#5027007731697411
+Receiver list : 
+To: 1 receiver#8525507796345664
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#584#From#0#Target_ID#0#Target_label#fixx:150y:158Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 589 message#:6917011563369653
+From: 0 sender#5027007731697411
+Receiver list : 
+To: 1 receiver#8525507796345664
+To: 2 receiver#4690994081245982
+Type: memory target: 2 Message: #Timestamp#584#From#0#Target_ID#2#Target_label#obstructionx:247y:61Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 590 message#:302918329463599
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#587#From#1#Target_ID#0#Target_label#fixx:156y:152Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 590 message#:6086487363957485
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 1 Message: #Timestamp#587#From#1#Target_ID#1#Target_label#targetx:19y:196Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 590 message#:1181360913000587
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 2 Message: #Timestamp#527#From#1#Target_ID#2#Target_label#obstructionx:254y:125Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 593 message#:8938005296623187
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 1 Message: #Timestamp#591#From#1#Target_ID#1#Target_label#targetx:19y:204Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:02 2019
+Timestamp: 593 message#:837704627636111
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 2 Message: #Timestamp#527#From#1#Target_ID#2#Target_label#obstructionx:254y:125Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 591 message#:6933541130465349
+From: 0 sender#5027007731697411
+Receiver list : 
+To: 1 receiver#8525507796345664
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#589#From#0#Target_ID#0#Target_label#fixx:156y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 591 message#:2722944716169265
+From: 0 sender#5027007731697411
+Receiver list : 
+To: 1 receiver#8525507796345664
+To: 2 receiver#4690994081245982
+Type: memory target: 2 Message: #Timestamp#589#From#0#Target_ID#2#Target_label#obstructionx:245y:62Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 591 message#:8551746902488636
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#590#From#1#Target_ID#0#Target_label#fixx:156y:153Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 591 message#:2851196458596676
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 1 Message: #Timestamp#590#From#1#Target_ID#1#Target_label#targetx:20y:199Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 593 message#:7435478281702652
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#591#From#1#Target_ID#0#Target_label#fixx:152y:154Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 594 message#:6680353517544990
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#593#From#1#Target_ID#0#Target_label#fixx:151y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 594 message#:2124869437475611
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 1 Message: #Timestamp#593#From#1#Target_ID#1#Target_label#targetx:18y:199Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 595 message#:1108336072476434
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#594#From#1#Target_ID#0#Target_label#fixx:153y:154Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 595 message#:9643314059474062
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 1 Message: #Timestamp#594#From#1#Target_ID#1#Target_label#targetx:15y:203Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 595 message#:2059200423495293
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 2 Message: #Timestamp#527#From#1#Target_ID#2#Target_label#obstructionx:254y:125Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 597 message#:7287773263735898
+From: 0 sender#5027007731697411
+Receiver list : 
+To: 1 receiver#8525507796345664
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#591#From#0#Target_ID#0#Target_label#fixx:158y:150Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 597 message#:5923266650468823
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#595#From#1#Target_ID#0#Target_label#fixx:152y:150Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 597 message#:2120597916376920
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 1 Message: #Timestamp#595#From#1#Target_ID#1#Target_label#targetx:24y:201Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 599 message#:4467076344619720
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 0 Message: #Timestamp#597#From#1#Target_ID#0#Target_label#fixx:154y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 599 message#:3440182072451717
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 1 Message: #Timestamp#597#From#1#Target_ID#1#Target_label#targetx:18y:201Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Tue Dec 17 12:57:03 2019
+Timestamp: 599 message#:7729740916549813
+From: 1 sender#8525507796345664
+Receiver list : 
+To: 0 receiver#5027007731697411
+To: 2 receiver#4690994081245982
+Type: memory target: 2 Message: #Timestamp#527#From#1#Target_ID#2#Target_label#obstructionx:254y:125Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+

@@ -36,6 +36,7 @@ class GUI_option:
         self.agent_to_display = ["0","1","2"]
         self.target_to_display = ["0","1","2"]
 
+
     def update_mouse_position(self):
         self.position_mouse.append([pygame.mouse.get_pos()])
 
@@ -56,6 +57,32 @@ class GUI_option:
                 for button_to_turn_off in list:
                     button_to_turn_off.set_button(False)
                 button.set_button(True)
+
+    def option_add_agent(self,agentID):
+        try:
+            self.agent_to_display.index(agentID)
+        except ValueError:
+            self.agent_to_display.append(agentID)
+
+    def option_remove_agent(self, agentID):
+        try:
+            self.agent_to_display.index(agentID)
+            self.agent_to_display.remove(agentID)
+        except ValueError:
+            pass
+
+    def option_add_target(self,targetID):
+        try:
+            self.target_to_display.index(targetID)
+        except ValueError:
+            self.target_to_display.append(targetID)
+
+    def option_remove_target(self, targetID):
+        try:
+            self.target_to_display.index(targetID)
+            self.target_to_display.remove(targetID)
+        except ValueError:
+            pass
 
     def draw_option(self):
         x_offset = 0
