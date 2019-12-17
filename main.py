@@ -152,7 +152,7 @@ class App:
             self.size_tar = numpy.array([20, 5, 6])
             self.label_tar = numpy.array(['fix', 'target','obstruction'])
             # Options for the cameras
-            self.x_cam = numpy.array([10, 310, 155])
+            self.x_cam = numpy.array([0, 300, 150])
             self.y_cam = numpy.array([155, 155, 10])
             self.angle_cam = numpy.array([0, 180, 90])
             self.angle_view_cam = numpy.array([60, 60 ,30])
@@ -215,28 +215,36 @@ class App:
         os.mkdir("utils/mailbox")
 
     def updateGUI(self):
-        self.myGUI.GUI_room.drawRoom(self.myRoom.coord)
-        self.myGUI.GUI_room.drawTarget(self.myRoom.targets, self.myRoom.coord)
-        self.myGUI.GUI_room.drawCam(self.myRoom)
-        self.myGUI.GUI_projection.drawProjection(self.myRoom)
-        self.myGUI.GUI_option.draw_option()
+        self.myGUI.refresh()
+        self.myGUI.display_menu()
 
-        self.myGUI.GUI_ATD.screenDetectedTarget(self.myRoom)
+        if self.myGUI.buttonList.find_button_state("Simulation"):
+            self.myGUI.GUI_room.drawRoom(self.myRoom.coord)
+            self.myGUI.GUI_room.drawTarget(self.myRoom.targets, self.myRoom.coord)
+            self.myGUI.GUI_room.drawCam(self.myRoom)
 
-        if self.myGUI.GUI_option.draw_prediction:
-            if USE_AGENT:
-                self.myGUI.drawPredictions(self.myRoom)
-            else:
-                self.myGUI.drawPredictionsOld(self.myRoom)
+            if self.myGUI.GUI_option.draw_prediction:
+                if USE_AGENT:
+                    self.myGUI.drawPredictions(self.myRoom)
+                else:
+                    self.myGUI.drawPredictionsOld(self.myRoom)
 
-        if self.myGUI.GUI_option.draw_real_trajectory:
-            self.myGUI.GUI_room.drawTarget_all_postion(self.myRoom)
+            if self.myGUI.GUI_option.draw_real_trajectory:
+                self.myGUI.GUI_room.drawTarget_all_postion(self.myRoom)
 
-        if self.myGUI.GUI_option.draw_memory_agent:
-            self.myGUI.GUI_memories.drawMemory(self.myRoom)
+            if self.myGUI.GUI_option.draw_memory_agent:
+                self.myGUI.GUI_memories.drawMemory(self.myRoom)
 
-        if self.myGUI.GUI_option.draw_memory_all_agent:
-            self.myGUI.GUI_memories.drawMemoryAll(self.myRoom)
+            if self.myGUI.GUI_option.draw_memory_all_agent:
+                self.myGUI.GUI_memories.drawMemoryAll(self.myRoom)
+
+        if self.myGUI.buttonList.find_button_state("Camera"):
+            self.myGUI.GUI_projection.drawProjection(self.myRoom)
+            self.myGUI.GUI_ATD.screenDetectedTarget(self.myRoom)
+
+        if self.myGUI.buttonList.find_button_state("Option"):
+            self.myGUI.GUI_option.draw_option()
+
 
         self.myGUI.updateScreen()
 

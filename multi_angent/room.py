@@ -7,7 +7,7 @@ import numpy
 class Room:
     def __init__(self):
         # Room attributes
-        self.coord = numpy.array([10, 10, 300, 300])  # x y l h
+        self.coord = numpy.array([0, 0, 300, 300])  # x y l h
         # target in the room
         self.targets = []
         self.targetNumber = 0

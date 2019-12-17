@@ -23,8 +23,8 @@ class GUI_projection:
         self.font = pygame.font.SysFont("monospace", 15)
 
     def drawProjection(self, myRoom):
-        x_off = 10
-        y_off = 330
+        x_off = 20
+        y_off = 40
 
         pygame.draw.rect(self.screen, BLACK, (x_off, y_off, 500, 200))
 

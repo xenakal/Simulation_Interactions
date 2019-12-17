@@ -2,12 +2,18 @@ import pygame
 from utils.GUI.GUI import*
 
 class GUI_memories:
-    def __init__(self, screen,agent,target):
+    def __init__(self, screen,agent,target,x_off,y_off,scaleX,scaleY):
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 15)
 
         self.agent_to_display = agent
         self.target_to_display = target
+
+        self.x_offset = x_off
+        self.y_offset = y_off
+        self.scale_x = scaleX
+        self.scale_y = scaleY
+
 
     def drawMemory(self, myRoom):
         for agent in myRoom.agentCam:
@@ -18,7 +24,7 @@ class GUI_memories:
                             for id_target_to_draw in self.target_to_display:
                                 if estimator.target_ID == int(id_target_to_draw):
                                     pygame.draw.circle(self.screen, agent.color,
-                                                       (estimator.position[0], estimator.position[1]), 2)
+                                                       (self.x_offset+int(estimator.position[0]*self.scale_x), self.y_offset+int(estimator.position[1]*self.scale_y)), 2)
 
 
     def drawMemoryAll(self, myRoom):
@@ -32,4 +38,4 @@ class GUI_memories:
                                 for id_target_to_draw in self.target_to_display:
                                     if estimator.target_ID == int(id_target_to_draw):
                                         pygame.draw.circle(self.screen, agent.color,
-                                                           (estimator.position[0], estimator.position[1]), 2)
+                                                           (self.x_offset+int(estimator.position[0]*self.scale_x),self.y_offset+int(estimator.position[1]*self.scale_y)), 2)

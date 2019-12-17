@@ -15,30 +15,36 @@ BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
 
-CAMERA = (200, 0, 0)
-PREDICTION = (100, 100, 100)
-
-FIX = (200, 120, 0)
-TARGET = (0, 250, 0)
-OBSTRUCTION = (0, 50, 0)
+BACKGROUND = RED
 
 class GUI:
     def __init__(self):
         pygame.init()
         # pygame.display.init()
         # self.screen = pygame.display.set_mode((1220, 960), pygame.RESIZABLE)
-        self.screen = pygame.display.set_mode((800, 500), pygame.RESIZABLE)
+        self.w = 800
+        self.h = 500
+        self.screen = pygame.display.set_mode((self.w, self.h), pygame.RESIZABLE)
+
+        self.buttonList = ButtonList(["Simulation","Camera","Stat","Option"],10,-30,0,0,100,30)
 
         self.GUI_option = GUI_option(self.screen)
 
-        self.GUI_room = GUI_room(self.screen,self.GUI_option.agent_to_display,self.GUI_option.target_to_display)
-        self.GUI_memories = GUI_memories(self.screen,self.GUI_option.agent_to_display,self.GUI_option.target_to_display)
+        self.GUI_room = GUI_room(self.screen,self.GUI_option.agent_to_display,self.GUI_option.target_to_display,50,50,400,400)
+        self.GUI_memories = GUI_memories(self.screen,self.GUI_option.agent_to_display,self.GUI_option.target_to_display,50,50,4/3,4/3)
+
         self.GUI_projection = GUI_projection(self.screen)
         self.GUI_ATD = GUI_Agent_Target_Detected(self.screen)
 
         pygame.display.set_caption("Camera simulation")
         self.font = pygame.font.SysFont("monospace", 15)
 
+    def refresh(self):
+        pygame.draw.rect(self.screen, BLACK, (0,0,self.w,self.h))
+
+    def display_menu(self):
+        self.GUI_option.check_list(self.buttonList.list)
+        self.buttonList.draw(self.screen)
 
     def updateScreen(self):
         pygame.display.update()

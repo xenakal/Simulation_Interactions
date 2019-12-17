@@ -24,7 +24,7 @@ class Button:
         self.h = h
 
         self.font = pygame.font.SysFont("monospace", 15)
-        self.texte = name
+        self.text = name
 
         self.color_released = WHITE
         self.color_pressed = YELLOW
@@ -39,8 +39,11 @@ class Button:
             else:
                 pygame.draw.rect(window, self.color_released, Rect(self.x, self.y, self.w, self.h))
 
-            label = self.font.render(self.texte, 10, BLACK)
-            window.blit(label, (self.x -5+ self.h/2, self.y -5+ self.w/2))
+            label = self.font.render(self.text, 10, BLACK)
+            window.blit(label, (self.x, self.y))
+
+    def set_button(self,state):
+        self.pressed = state
 
     def check_mouse_pos(self,window,pos_x,pos_y):
         if (pos_x > self.x and pos_x < self.x+self.w) and (pos_y > self.y and pos_y < self.y+self.h):
@@ -54,7 +57,6 @@ class Button:
             self.draw(window)
             return True
         return False
-
 
 class ButtonList():
     def __init__(self, names, delta_x, delta_y,x,y,w,h):
@@ -71,8 +73,28 @@ class ButtonList():
 
         self.add_button(names)
 
+    def draw(self,window):
+        for button in self.list:
+            button.draw(window)
+
     def add_button(self, names):
         for name in names:
             self.list.append(Button(name,self.x,self.y,self.w,self.h))
             self.x = self.x + self.delta_x+self.w
             self.y = self.y + self.delta_y+self.h
+
+    def check_click(self,window,pos_x,pos_y):
+        for button in self.list:
+            if button.check_click():
+                return True
+        return False
+
+    def find_button(self,name):
+        for button in self.list:
+            if button.text == name:
+                return button
+
+    def find_button_state(self,name):
+        for button in self.list:
+            if button.text == name:
+                return button.pressed

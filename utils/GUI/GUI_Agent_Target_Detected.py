@@ -22,8 +22,8 @@ class GUI_Agent_Target_Detected:
         self.font = pygame.font.SysFont("monospace", 15)
 
     def screenDetectedTarget(self, myRoom):
-        x_off = 350
-        y_off = 200
+        x_off = 400
+        y_off = 60
         color = RED
 
         n = 0
