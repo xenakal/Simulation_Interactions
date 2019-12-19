@@ -1,452 +1,1862 @@
-2019-12-17 13:57:48,245 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:48,292 - agent1 - INFO - RECEIVED : 
-Timestamp: 0 message#:7575831061296336
-From: 0 sender#3403574636749292
+2019-12-19 10:21:41,673 - agent1 - WARNING - Mailbox file error SEND
+2019-12-19 10:21:41,696 - agent1 - INFO - RECEIVED : 
+Timestamp: 3 message#:9498828518768622
+From: 0 sender#7452430973156378
 Receiver list : 
-To: 1 receiver#8799877198031143
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#0#From#0#Target_ID#0#Target_label#fixx:154y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#0#From#0#Target_ID#0#Target_label#fixx:157y:154Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,381 - agent1 - INFO - SEND     : 
-Timestamp: 0 message#:9906597356969968
-From: 1 sender#8799877198031143
+2019-12-19 10:21:42,262 - agent1 - INFO - SEND     : 
+Timestamp: 3 message#:5830832467355216
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#0#From#1#Target_ID#0#Target_label#fixx:154y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#0#From#1#Target_ID#0#Target_label#fixx:158y:154Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,387 - agent1 - INFO - SEND     : 
-Timestamp: 0 message#:1140781217691708
-From: 1 sender#8799877198031143
+2019-12-19 10:21:42,266 - agent1 - WARNING - Mailbox file error SEND
+2019-12-19 10:21:42,276 - agent1 - INFO - SEND     : 
+Timestamp: 3 message#:3039840604536110
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 1 Message: #Timestamp#0#From#1#Target_ID#1#Target_label#targetx:24y:18Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#0#From#1#Target_ID#2#Target_label#obstructionx:30y:53Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,394 - agent1 - INFO - SEND     : 
-Timestamp: 0 message#:8767035246613478
-From: 1 sender#8799877198031143
+2019-12-19 10:21:42,313 - agent1 - INFO - RECEIVED : 
+Timestamp: 4 message#:8823028366221717
+From: 0 sender#7452430973156378
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 2 Message: #Timestamp#0#From#1#Target_ID#2#Target_label#obstructionx:29y:49Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 5830832467355216
 
-2019-12-17 13:57:48,405 - agent1 - INFO - SEND     : 
-Timestamp: 0 message#:5013045017890948
-From: 1 sender#8799877198031143
+2019-12-19 10:21:42,327 - agent1 - INFO - RECEIVED : 
+Timestamp: 9 message#:2877395738713008
+From: 0 sender#7452430973156378
 Receiver list : 
-To: 0 receiver#3403574636749292
-Type: ack target: 0 Message: 7575831061296336
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#3#From#0#Target_ID#0#Target_label#fixx:157y:156Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,410 - agent1 - INFO - RECEIVED : 
-Timestamp: 0 message#:3048964750171961
-From: 0 sender#3403574636749292
+2019-12-19 10:21:42,889 - agent1 - INFO - SEND     : 
+Timestamp: 3 message#:9591942864581964
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 1 receiver#8799877198031143
-Type: ack target: 0 Message: 9906597356969968
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#0#From#1#Target_ID#1#Target_label#targetx:16y:17Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,514 - agent1 - WARNING - Mailbox file error RECEIVE
-2019-12-17 13:57:48,585 - agent1 - INFO - SEND     : 
-Timestamp: 1 message#:8947382278513379
-From: 1 sender#8799877198031143
+2019-12-19 10:21:42,900 - agent1 - INFO - SEND     : 
+Timestamp: 4 message#:4949869507536322
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#0#From#1#Target_ID#0#Target_label#fixx:154y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 9498828518768622
 
-2019-12-17 13:57:48,596 - agent1 - INFO - SEND     : 
-Timestamp: 1 message#:1774058276912822
-From: 1 sender#8799877198031143
+2019-12-19 10:21:42,912 - agent1 - INFO - SEND     : 
+Timestamp: 9 message#:4004639404277195
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 1 Message: #Timestamp#0#From#1#Target_ID#1#Target_label#targetx:24y:18Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#3#From#1#Target_ID#0#Target_label#fixx:158y:151Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,607 - agent1 - INFO - SEND     : 
-Timestamp: 1 message#:1929363865310120
-From: 1 sender#8799877198031143
+2019-12-19 10:21:42,917 - agent1 - INFO - SEND     : 
+Timestamp: 9 message#:4032459524875255
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 2 Message: #Timestamp#0#From#1#Target_ID#2#Target_label#obstructionx:29y:49Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#3#From#1#Target_ID#1#Target_label#targetx:26y:24Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,624 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:48,630 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:48,647 - agent1 - INFO - RECEIVED : 
-Timestamp: 0 message#:5935087607795759
-From: 0 sender#3403574636749292
+2019-12-19 10:21:42,926 - agent1 - INFO - SEND     : 
+Timestamp: 9 message#:1376951927467395
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 1 receiver#8799877198031143
-Type: ack target: 0 Message: 9906597356969968
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#3#From#1#Target_ID#2#Target_label#obstructionx:28y:48Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,657 - agent1 - INFO - RECEIVED : 
-Timestamp: 0 message#:2255998647275126
-From: 2 sender#4474902035318382
+2019-12-19 10:21:42,935 - agent1 - INFO - SEND     : 
+Timestamp: 10 message#:7262913384084161
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 1 receiver#8799877198031143
-Type: memory target: 0 Message: #Timestamp#0#From#2#Target_ID#0#Target_label#fixx:156y:154Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 2877395738713008
 
-2019-12-17 13:57:48,667 - agent1 - INFO - RECEIVED : 
-Timestamp: 0 message#:5520819967457342
-From: 0 sender#3403574636749292
+2019-12-19 10:21:42,970 - agent1 - INFO - RECEIVED : 
+Timestamp: 3 message#:8440517063219378
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 1 receiver#8799877198031143
-Type: ack target: 0 Message: 9906597356969968
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#0#From#2#Target_ID#0#Target_label#fixx:159y:154Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,677 - agent1 - INFO - RECEIVED : 
-Timestamp: 1 message#:8678086803175836
-From: 0 sender#3403574636749292
+2019-12-19 10:21:42,979 - agent1 - INFO - RECEIVED : 
+Timestamp: 9 message#:5326503684093019
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 1 receiver#8799877198031143
-Type: ack target: 0 Message: 9906597356969968
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#3#From#2#Target_ID#0#Target_label#fixx:158y:152Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,686 - agent1 - INFO - RECEIVED : 
-Timestamp: 2 message#:3017678775236592
-From: 0 sender#3403574636749292
+2019-12-19 10:21:42,988 - agent1 - INFO - RECEIVED : 
+Timestamp: 9 message#:3890312987482890
+From: 0 sender#7452430973156378
 Receiver list : 
-To: 1 receiver#8799877198031143
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#1#From#0#Target_ID#0#Target_label#fixx:155y:150Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 3039840604536110
 
-2019-12-17 13:57:48,696 - agent1 - INFO - RECEIVED : 
-Timestamp: 2 message#:8430379623045773
-From: 2 sender#4474902035318382
+2019-12-19 10:21:42,999 - agent1 - INFO - RECEIVED : 
+Timestamp: 15 message#:796560546301458
+From: 0 sender#7452430973156378
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 1 receiver#8799877198031143
-Type: memory target: 0 Message: #Timestamp#1#From#2#Target_ID#0#Target_label#fixx:153y:151Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#9#From#0#Target_ID#0#Target_label#fixx:152y:150Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,699 - agent1 - WARNING - Windows error
-2019-12-17 13:57:48,771 - agent1 - INFO - SEND     : 
-Timestamp: 2 message#:7123745906732605
-From: 1 sender#8799877198031143
+2019-12-19 10:21:43,569 - agent1 - INFO - SEND     : 
+Timestamp: 17 message#:5232501826130106
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#1#From#1#Target_ID#0#Target_label#fixx:153y:158Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 8440517063219378
 
-2019-12-17 13:57:48,795 - agent1 - INFO - SEND     : 
-Timestamp: 2 message#:5279565555925688
-From: 1 sender#8799877198031143
+2019-12-19 10:21:43,579 - agent1 - INFO - SEND     : 
+Timestamp: 17 message#:3985858361809811
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 2 Message: #Timestamp#1#From#1#Target_ID#2#Target_label#obstructionx:34y:47Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 5326503684093019
 
-2019-12-17 13:57:48,801 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:48,810 - agent1 - INFO - SEND     : 
-Timestamp: 3 message#:3761346896261901
-From: 1 sender#8799877198031143
+2019-12-19 10:21:43,584 - agent1 - INFO - SEND     : 
+Timestamp: 17 message#:6401742110257088
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-Type: ack target: 0 Message: 3017678775236592
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 796560546301458
 
-2019-12-17 13:57:48,849 - agent1 - INFO - RECEIVED : 
-Timestamp: 2 message#:8430379623045773
-From: 2 sender#4474902035318382
+2019-12-19 10:21:43,624 - agent1 - INFO - RECEIVED : 
+Timestamp: 14 message#:3783109268779950
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 1 receiver#8799877198031143
-Type: memory target: 0 Message: #Timestamp#1#From#2#Target_ID#0#Target_label#fixx:153y:151Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#9#From#2#Target_ID#0#Target_label#fixx:150y:153Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,849 - agent1 - WARNING - Mailbox file error RECEIVE
-2019-12-17 13:57:48,923 - agent1 - INFO - SEND     : 
-Timestamp: 2 message#:985213317215358
-From: 1 sender#8799877198031143
+2019-12-19 10:21:43,635 - agent1 - INFO - RECEIVED : 
+Timestamp: 15 message#:3933386813552073
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 1 Message: #Timestamp#1#From#1#Target_ID#1#Target_label#targetx:17y:16Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 9591942864581964
 
-2019-12-17 13:57:48,933 - agent1 - INFO - SEND     : 
-Timestamp: 3 message#:6246587397208225
-From: 1 sender#8799877198031143
+2019-12-19 10:21:43,647 - agent1 - INFO - RECEIVED : 
+Timestamp: 15 message#:6110027097909184
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 2 receiver#4474902035318382
-Type: ack target: 0 Message: 2255998647275126
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 5830832467355216
 
-2019-12-17 13:57:48,944 - agent1 - INFO - SEND     : 
-Timestamp: 3 message#:6700720507377336
-From: 1 sender#8799877198031143
+2019-12-19 10:21:43,658 - agent1 - INFO - RECEIVED : 
+Timestamp: 15 message#:2402794787118278
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 2 receiver#4474902035318382
-Type: ack target: 0 Message: 8430379623045773
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 3039840604536110
 
-2019-12-17 13:57:48,956 - agent1 - INFO - SEND     : 
-Timestamp: 3 message#:9486860241737908
-From: 1 sender#8799877198031143
+2019-12-19 10:21:43,669 - agent1 - INFO - RECEIVED : 
+Timestamp: 15 message#:9831032794340342
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#2#From#1#Target_ID#0#Target_label#fixx:151y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 4004639404277195
 
-2019-12-17 13:57:48,967 - agent1 - INFO - SEND     : 
-Timestamp: 3 message#:9867511965365044
-From: 1 sender#8799877198031143
+2019-12-19 10:21:43,681 - agent1 - INFO - RECEIVED : 
+Timestamp: 21 message#:9936782745710562
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 1 Message: #Timestamp#2#From#1#Target_ID#1#Target_label#targetx:17y:21Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#14#From#2#Target_ID#0#Target_label#fixx:158y:150Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:48,971 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:48,971 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:48,980 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:49,009 - agent1 - INFO - RECEIVED : 
-Timestamp: 2 message#:8430379623045773
-From: 2 sender#4474902035318382
+2019-12-19 10:21:44,243 - agent1 - INFO - SEND     : 
+Timestamp: 15 message#:4225234766111498
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 1 receiver#8799877198031143
-Type: memory target: 0 Message: #Timestamp#1#From#2#Target_ID#0#Target_label#fixx:153y:151Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#9#From#1#Target_ID#0#Target_label#fixx:154y:153Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,019 - agent1 - INFO - RECEIVED : 
-Timestamp: 0 message#:67637491758297
-From: 2 sender#4474902035318382
+2019-12-19 10:21:44,253 - agent1 - INFO - SEND     : 
+Timestamp: 15 message#:5090630552365893
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 1 receiver#8799877198031143
-Type: ack target: 1 Message: 1140781217691708
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#9#From#1#Target_ID#1#Target_label#targetx:24y:24Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,030 - agent1 - INFO - RECEIVED : 
-Timestamp: 0 message#:5433368842598210
-From: 2 sender#4474902035318382
+2019-12-19 10:21:44,262 - agent1 - INFO - SEND     : 
+Timestamp: 15 message#:3334449482236645
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 1 receiver#8799877198031143
-Type: ack target: 0 Message: 9906597356969968
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#9#From#1#Target_ID#2#Target_label#obstructionx:33y:58Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,042 - agent1 - INFO - RECEIVED : 
-Timestamp: 0 message#:2095097985059117
-From: 2 sender#4474902035318382
+2019-12-19 10:21:44,271 - agent1 - INFO - SEND     : 
+Timestamp: 22 message#:7962193166315824
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 1 receiver#8799877198031143
-Type: ack target: 2 Message: 8767035246613478
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#15#From#1#Target_ID#0#Target_label#fixx:150y:156Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,053 - agent1 - INFO - RECEIVED : 
-Timestamp: 2 message#:9062344467478260
-From: 2 sender#4474902035318382
+2019-12-19 10:21:44,280 - agent1 - INFO - SEND     : 
+Timestamp: 22 message#:4080662868114913
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 1 receiver#8799877198031143
-Type: ack target: 0 Message: 8947382278513379
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#15#From#1#Target_ID#1#Target_label#targetx:30y:39Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,059 - agent1 - WARNING - Windows error
-2019-12-17 13:57:49,131 - agent1 - INFO - SEND     : 
-Timestamp: 3 message#:347177445413553
-From: 1 sender#8799877198031143
+2019-12-19 10:21:44,290 - agent1 - INFO - SEND     : 
+Timestamp: 22 message#:2559042060986972
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 2 Message: #Timestamp#2#From#1#Target_ID#2#Target_label#obstructionx:29y:56Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#15#From#1#Target_ID#2#Target_label#obstructionx:26y:64Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,143 - agent1 - INFO - SEND     : 
-Timestamp: 4 message#:8856155608736065
-From: 1 sender#8799877198031143
+2019-12-19 10:21:44,299 - agent1 - INFO - SEND     : 
+Timestamp: 23 message#:548097893687764
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 2 receiver#4474902035318382
-Type: ack target: 0 Message: 8430379623045773
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 3783109268779950
 
-2019-12-17 13:57:49,169 - agent1 - INFO - SEND     : 
-Timestamp: 5 message#:8244086422940664
-From: 1 sender#8799877198031143
+2019-12-19 10:21:44,309 - agent1 - INFO - SEND     : 
+Timestamp: 23 message#:7090257005563735
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 1 Message: #Timestamp#3#From#1#Target_ID#1#Target_label#targetx:18y:23Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 9936782745710562
 
-2019-12-17 13:57:49,174 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:49,174 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:49,222 - agent1 - INFO - RECEIVED : 
-Timestamp: 2 message#:9062344467478260
-From: 2 sender#4474902035318382
+2019-12-19 10:21:44,344 - agent1 - INFO - RECEIVED : 
+Timestamp: 21 message#:2020881015861851
+From: 0 sender#7452430973156378
 Receiver list : 
-To: 1 receiver#8799877198031143
-Type: ack target: 0 Message: 8947382278513379
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#15#From#0#Target_ID#0#Target_label#fixx:155y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,223 - agent1 - WARNING - Mailbox file error RECEIVE
-2019-12-17 13:57:49,288 - agent1 - INFO - SEND     : 
-Timestamp: 5 message#:4786407386594189
-From: 1 sender#8799877198031143
+2019-12-19 10:21:44,356 - agent1 - INFO - RECEIVED : 
+Timestamp: 27 message#:4904457954388246
+From: 0 sender#7452430973156378
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#3#From#1#Target_ID#0#Target_label#fixx:152y:152Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#21#From#0#Target_ID#0#Target_label#fixx:153y:152Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,295 - agent1 - INFO - SEND     : 
-Timestamp: 5 message#:8106757719503142
-From: 1 sender#8799877198031143
+2019-12-19 10:21:44,367 - agent1 - INFO - RECEIVED : 
+Timestamp: 22 message#:6196050682786215
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 2 Message: #Timestamp#3#From#1#Target_ID#2#Target_label#obstructionx:25y:52Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 4032459524875255
 
-2019-12-17 13:57:49,309 - agent1 - INFO - SEND     : 
-Timestamp: 6 message#:9066756463861950
-From: 1 sender#8799877198031143
+2019-12-19 10:21:44,378 - agent1 - INFO - RECEIVED : 
+Timestamp: 22 message#:9692021619214460
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 2 receiver#4474902035318382
-Type: ack target: 0 Message: 8430379623045773
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 1376951927467395
 
-2019-12-17 13:57:49,320 - agent1 - INFO - SEND     : 
-Timestamp: 7 message#:7655338108765743
-From: 1 sender#8799877198031143
+2019-12-19 10:21:44,390 - agent1 - INFO - RECEIVED : 
+Timestamp: 27 message#:6177950696368646
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#5#From#1#Target_ID#0#Target_label#fixx:157y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#21#From#2#Target_ID#0#Target_label#fixx:150y:153Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,336 - agent1 - INFO - SEND     : 
-Timestamp: 7 message#:4032310158351722
-From: 1 sender#8799877198031143
+2019-12-19 10:21:44,955 - agent1 - INFO - SEND     : 
+Timestamp: 29 message#:5414102387962098
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 1 Message: #Timestamp#5#From#1#Target_ID#1#Target_label#targetx:21y:21Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#22#From#1#Target_ID#2#Target_label#obstructionx:28y:72Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,339 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:49,340 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:49,340 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:49,371 - agent1 - WARNING - Mailbox file error RECEIVE
-2019-12-17 13:57:49,442 - agent1 - INFO - SEND     : 
-Timestamp: 7 message#:4881469221574460
-From: 1 sender#8799877198031143
+2019-12-19 10:21:44,964 - agent1 - INFO - SEND     : 
+Timestamp: 30 message#:7058115146578287
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 2 Message: #Timestamp#5#From#1#Target_ID#2#Target_label#obstructionx:29y:53Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 2020881015861851
 
-2019-12-17 13:57:49,461 - agent1 - INFO - SEND     : 
-Timestamp: 9 message#:7261021772155591
-From: 1 sender#8799877198031143
+2019-12-19 10:21:44,975 - agent1 - INFO - SEND     : 
+Timestamp: 30 message#:1023065446382546
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 1 Message: #Timestamp#7#From#1#Target_ID#1#Target_label#targetx:30y:22Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 4904457954388246
 
-2019-12-17 13:57:49,471 - agent1 - INFO - SEND     : 
-Timestamp: 9 message#:7083059715672827
-From: 1 sender#8799877198031143
+2019-12-19 10:21:44,983 - agent1 - INFO - SEND     : 
+Timestamp: 30 message#:7551994344763863
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 2 Message: #Timestamp#7#From#1#Target_ID#2#Target_label#obstructionx:30y:58Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 6177950696368646
 
-2019-12-17 13:57:49,502 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:49,506 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:49,512 - agent1 - WARNING - Mailbox file error RECEIVE
-2019-12-17 13:57:49,633 - agent1 - WARNING - Mailbox file error RECEIVE
-2019-12-17 13:57:49,703 - agent1 - INFO - SEND     : 
-Timestamp: 9 message#:9462013952444710
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,020 - agent1 - INFO - RECEIVED : 
+Timestamp: 28 message#:2102899645216707
+From: 0 sender#7452430973156378
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#7#From#1#Target_ID#0#Target_label#fixx:153y:156Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 4032459524875255
 
-2019-12-17 13:57:49,713 - agent1 - INFO - SEND     : 
-Timestamp: 10 message#:9376793511650324
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,029 - agent1 - INFO - RECEIVED : 
+Timestamp: 28 message#:6792041223561660
+From: 0 sender#7452430973156378
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#9#From#1#Target_ID#0#Target_label#fixx:155y:152Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 1376951927467395
 
-2019-12-17 13:57:49,721 - agent1 - INFO - SEND     : 
-Timestamp: 10 message#:9862993032988234
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,038 - agent1 - INFO - RECEIVED : 
+Timestamp: 28 message#:8508019239549925
+From: 0 sender#7452430973156378
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 1 Message: #Timestamp#9#From#1#Target_ID#1#Target_label#targetx:26y:26Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 9591942864581964
 
-2019-12-17 13:57:49,728 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:49,728 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:49,728 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:49,730 - agent1 - WARNING - Mailbox file error SEND
-2019-12-17 13:57:49,764 - agent1 - WARNING - Mailbox file error RECEIVE
-2019-12-17 13:57:49,831 - agent1 - INFO - SEND     : 
-Timestamp: 10 message#:4056646489066802
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,051 - agent1 - INFO - RECEIVED : 
+Timestamp: 33 message#:3599310229162199
+From: 0 sender#7452430973156378
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 2 Message: #Timestamp#9#From#1#Target_ID#2#Target_label#obstructionx:30y:62Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#27#From#0#Target_ID#0#Target_label#fixx:150y:158Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,840 - agent1 - INFO - SEND     : 
-Timestamp: 11 message#:9038794545432266
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,621 - agent1 - INFO - SEND     : 
+Timestamp: 36 message#:5102943005145806
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#10#From#1#Target_ID#0#Target_label#fixx:150y:158Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#29#From#1#Target_ID#1#Target_label#targetx:44y:44Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,849 - agent1 - INFO - SEND     : 
-Timestamp: 11 message#:6969345085855063
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,630 - agent1 - INFO - SEND     : 
+Timestamp: 36 message#:5896224380614119
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 1 Message: #Timestamp#10#From#1#Target_ID#1#Target_label#targetx:30y:28Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#29#From#1#Target_ID#2#Target_label#obstructionx:25y:78Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,858 - agent1 - INFO - SEND     : 
-Timestamp: 11 message#:9974669030916614
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,635 - agent1 - INFO - SEND     : 
+Timestamp: 37 message#:2975677921598723
+From: 1 sender#7507120510615607
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 2 Message: #Timestamp#10#From#1#Target_ID#2#Target_label#obstructionx:27y:56Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 3599310229162199
 
-2019-12-17 13:57:49,868 - agent1 - INFO - SEND     : 
-Timestamp: 12 message#:7791313677042015
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,673 - agent1 - INFO - RECEIVED : 
+Timestamp: 39 message#:1990507814204036
+From: 0 sender#7452430973156378
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#11#From#1#Target_ID#0#Target_label#fixx:150y:158Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#33#From#0#Target_ID#0#Target_label#fixx:154y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,877 - agent1 - INFO - SEND     : 
-Timestamp: 12 message#:2509289951978624
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,684 - agent1 - INFO - RECEIVED : 
+Timestamp: 34 message#:5444885215709312
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 1 Message: #Timestamp#11#From#1#Target_ID#1#Target_label#targetx:35y:30Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#27#From#2#Target_ID#0#Target_label#fixx:156y:152Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 
-2019-12-17 13:57:49,887 - agent1 - INFO - SEND     : 
-Timestamp: 12 message#:472322243452388
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,695 - agent1 - INFO - RECEIVED : 
+Timestamp: 36 message#:5525278721627036
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 2 Message: #Timestamp#11#From#1#Target_ID#2#Target_label#obstructionx:27y:56Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 4225234766111498
 
-2019-12-17 13:57:49,941 - agent1 - INFO - RECEIVED : 
-Timestamp: 2 message#:9062344467478260
-From: 2 sender#4474902035318382
+2019-12-19 10:21:45,706 - agent1 - INFO - RECEIVED : 
+Timestamp: 36 message#:8478769268938183
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 1 receiver#8799877198031143
-Type: ack target: 0 Message: 8947382278513379
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 5090630552365893
 
-2019-12-17 13:57:49,942 - agent1 - WARNING - Mailbox file error RECEIVE
-2019-12-17 13:57:50,397 - agent1 - INFO - SEND     : 
-Timestamp: 12 message#:1095991580509023
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,718 - agent1 - INFO - RECEIVED : 
+Timestamp: 36 message#:7319370331570012
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 1 Message: #Timestamp#12#From#1#Target_ID#1#Target_label#targetx:34y:29Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 3334449482236645
 
-2019-12-17 13:57:50,579 - agent1 - INFO - SEND     : 
-Timestamp: 12 message#:7853319411140852
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,728 - agent1 - INFO - RECEIVED : 
+Timestamp: 36 message#:6059420698433302
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 2 Message: #Timestamp#12#From#1#Target_ID#2#Target_label#obstructionx:33y:64Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 7962193166315824
 
-2019-12-17 13:57:51,013 - agent1 - INFO - SEND     : 
-Timestamp: 12 message#:4766875650511863
-From: 1 sender#8799877198031143
+2019-12-19 10:21:45,740 - agent1 - INFO - RECEIVED : 
+Timestamp: 36 message#:8390342131851782
+From: 2 sender#6729053078168682
 Receiver list : 
-To: 0 receiver#3403574636749292
-To: 2 receiver#4474902035318382
-Type: memory target: 0 Message: #Timestamp#12#From#1#Target_ID#0#Target_label#fixx:156y:153Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 4080662868114913
+
+2019-12-19 10:21:45,751 - agent1 - INFO - RECEIVED : 
+Timestamp: 36 message#:3655560696262286
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 2559042060986972
+
+2019-12-19 10:21:45,764 - agent1 - INFO - RECEIVED : 
+Timestamp: 41 message#:1367509737545832
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#34#From#2#Target_ID#0#Target_label#fixx:155y:151Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:46,330 - agent1 - INFO - SEND     : 
+Timestamp: 29 message#:2714755917047819
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#22#From#1#Target_ID#0#Target_label#fixx:152y:151Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:46,341 - agent1 - INFO - SEND     : 
+Timestamp: 29 message#:5256519687363201
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#22#From#1#Target_ID#1#Target_label#targetx:43y:44Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:46,352 - agent1 - INFO - SEND     : 
+Timestamp: 36 message#:5718950828178612
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#29#From#1#Target_ID#0#Target_label#fixx:153y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:46,362 - agent1 - INFO - SEND     : 
+Timestamp: 42 message#:7053966384584364
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#36#From#1#Target_ID#0#Target_label#fixx:151y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:46,374 - agent1 - INFO - SEND     : 
+Timestamp: 42 message#:1666852104418779
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#36#From#1#Target_ID#1#Target_label#targetx:55y:59Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:46,384 - agent1 - INFO - SEND     : 
+Timestamp: 42 message#:6464162418394580
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#36#From#1#Target_ID#2#Target_label#obstructionx:32y:86Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:46,395 - agent1 - INFO - SEND     : 
+Timestamp: 44 message#:1067462728124523
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 5444885215709312
+
+2019-12-19 10:21:46,404 - agent1 - INFO - SEND     : 
+Timestamp: 44 message#:4096749572120509
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 1367509737545832
+
+2019-12-19 10:21:46,437 - agent1 - INFO - RECEIVED : 
+Timestamp: 42 message#:9780400938706780
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 4004639404277195
+
+2019-12-19 10:21:46,448 - agent1 - INFO - RECEIVED : 
+Timestamp: 42 message#:4504289425399287
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 4225234766111498
+
+2019-12-19 10:21:46,459 - agent1 - INFO - RECEIVED : 
+Timestamp: 42 message#:421346292302982
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 5090630552365893
+
+2019-12-19 10:21:46,470 - agent1 - INFO - RECEIVED : 
+Timestamp: 42 message#:3651948183880692
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 3334449482236645
+
+2019-12-19 10:21:46,481 - agent1 - INFO - RECEIVED : 
+Timestamp: 42 message#:5669749800674512
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 7962193166315824
+
+2019-12-19 10:21:46,492 - agent1 - INFO - RECEIVED : 
+Timestamp: 42 message#:8465675355636588
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 4080662868114913
+
+2019-12-19 10:21:46,504 - agent1 - INFO - RECEIVED : 
+Timestamp: 42 message#:6166354671678786
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 2559042060986972
+
+2019-12-19 10:21:46,515 - agent1 - INFO - RECEIVED : 
+Timestamp: 42 message#:9287332809360002
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 2714755917047819
+
+2019-12-19 10:21:46,526 - agent1 - INFO - RECEIVED : 
+Timestamp: 42 message#:6619956402218751
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 5256519687363201
+
+2019-12-19 10:21:46,537 - agent1 - INFO - RECEIVED : 
+Timestamp: 42 message#:8465737971009425
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 5414102387962098
+
+2019-12-19 10:21:46,550 - agent1 - INFO - RECEIVED : 
+Timestamp: 47 message#:9141475020079308
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#39#From#0#Target_ID#0#Target_label#fixx:151y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:47,113 - agent1 - INFO - SEND     : 
+Timestamp: 49 message#:972374819738967
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#42#From#1#Target_ID#0#Target_label#fixx:153y:153Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:47,126 - agent1 - INFO - SEND     : 
+Timestamp: 49 message#:9158561535513882
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#42#From#1#Target_ID#1#Target_label#targetx:58y:59Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:47,135 - agent1 - INFO - SEND     : 
+Timestamp: 49 message#:3626792300994689
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#42#From#1#Target_ID#2#Target_label#obstructionx:27y:87Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:47,147 - agent1 - INFO - SEND     : 
+Timestamp: 51 message#:4885826121751303
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 9141475020079308
+
+2019-12-19 10:21:47,186 - agent1 - INFO - RECEIVED : 
+Timestamp: 47 message#:4123487642796979
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#41#From#2#Target_ID#0#Target_label#fixx:154y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:47,197 - agent1 - INFO - RECEIVED : 
+Timestamp: 49 message#:5491829830072739
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 5414102387962098
+
+2019-12-19 10:21:47,207 - agent1 - INFO - RECEIVED : 
+Timestamp: 49 message#:1641886312195056
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 5102943005145806
+
+2019-12-19 10:21:47,220 - agent1 - INFO - RECEIVED : 
+Timestamp: 49 message#:8105126289847238
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 5896224380614119
+
+2019-12-19 10:21:47,230 - agent1 - INFO - RECEIVED : 
+Timestamp: 50 message#:4294037790521737
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 5718950828178612
+
+2019-12-19 10:21:47,239 - agent1 - INFO - RECEIVED : 
+Timestamp: 50 message#:9809968052641758
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 5102943005145806
+
+2019-12-19 10:21:47,249 - agent1 - INFO - RECEIVED : 
+Timestamp: 50 message#:8824670826666230
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 5896224380614119
+
+2019-12-19 10:21:47,259 - agent1 - INFO - RECEIVED : 
+Timestamp: 50 message#:2914370008680614
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 7053966384584364
+
+2019-12-19 10:21:47,269 - agent1 - INFO - RECEIVED : 
+Timestamp: 50 message#:6058457349193557
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 1666852104418779
+
+2019-12-19 10:21:47,278 - agent1 - INFO - RECEIVED : 
+Timestamp: 50 message#:2132493772201232
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 6464162418394580
+
+2019-12-19 10:21:47,289 - agent1 - INFO - RECEIVED : 
+Timestamp: 55 message#:7971715766404579
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#47#From#0#Target_ID#0#Target_label#fixx:159y:154Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:47,850 - agent1 - INFO - SEND     : 
+Timestamp: 44 message#:2502233580404956
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 1990507814204036
+
+2019-12-19 10:21:47,859 - agent1 - INFO - SEND     : 
+Timestamp: 57 message#:5008171967354297
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#49#From#1#Target_ID#0#Target_label#fixx:156y:158Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:47,867 - agent1 - INFO - SEND     : 
+Timestamp: 57 message#:4921051393616980
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#49#From#1#Target_ID#1#Target_label#targetx:71y:69Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:47,879 - agent1 - INFO - SEND     : 
+Timestamp: 57 message#:522435710492868
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#49#From#1#Target_ID#2#Target_label#obstructionx:33y:100Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:47,889 - agent1 - INFO - SEND     : 
+Timestamp: 58 message#:911523233302562
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 4123487642796979
+
+2019-12-19 10:21:47,900 - agent1 - INFO - SEND     : 
+Timestamp: 58 message#:6072677401005424
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 7971715766404579
+
+2019-12-19 10:21:47,940 - agent1 - INFO - RECEIVED : 
+Timestamp: 54 message#:3753109541923635
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#47#From#2#Target_ID#0#Target_label#fixx:157y:156Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:47,952 - agent1 - INFO - RECEIVED : 
+Timestamp: 55 message#:7499218617719458
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 2714755917047819
+
+2019-12-19 10:21:47,962 - agent1 - INFO - RECEIVED : 
+Timestamp: 55 message#:8789829447771247
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 5256519687363201
+
+2019-12-19 10:21:47,973 - agent1 - INFO - RECEIVED : 
+Timestamp: 55 message#:962551325329432
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 5718950828178612
+
+2019-12-19 10:21:47,983 - agent1 - INFO - RECEIVED : 
+Timestamp: 55 message#:4470202262209702
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 7053966384584364
+
+2019-12-19 10:21:47,994 - agent1 - INFO - RECEIVED : 
+Timestamp: 57 message#:6190094295913681
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 9158561535513882
+
+2019-12-19 10:21:48,004 - agent1 - INFO - RECEIVED : 
+Timestamp: 62 message#:9455115464538104
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#55#From#0#Target_ID#0#Target_label#fixx:150y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:48,567 - agent1 - INFO - SEND     : 
+Timestamp: 64 message#:44736819830727
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#57#From#1#Target_ID#0#Target_label#fixx:157y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:48,578 - agent1 - INFO - SEND     : 
+Timestamp: 64 message#:7732670132273399
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#57#From#1#Target_ID#1#Target_label#targetx:76y:74Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:48,589 - agent1 - INFO - SEND     : 
+Timestamp: 64 message#:8869254620560898
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#57#From#1#Target_ID#2#Target_label#obstructionx:33y:102Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:48,600 - agent1 - INFO - SEND     : 
+Timestamp: 65 message#:6528338488025766
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 3753109541923635
+
+2019-12-19 10:21:48,607 - agent1 - INFO - SEND     : 
+Timestamp: 65 message#:6409430900327766
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 9455115464538104
+
+2019-12-19 10:21:48,646 - agent1 - INFO - RECEIVED : 
+Timestamp: 61 message#:3426393936091768
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#54#From#2#Target_ID#0#Target_label#fixx:157y:151Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:48,657 - agent1 - INFO - RECEIVED : 
+Timestamp: 62 message#:4435372693427083
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 9158561535513882
+
+2019-12-19 10:21:48,667 - agent1 - INFO - RECEIVED : 
+Timestamp: 62 message#:510224241721964
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 3626792300994689
+
+2019-12-19 10:21:48,676 - agent1 - INFO - RECEIVED : 
+Timestamp: 63 message#:97165230753424
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 9158561535513882
+
+2019-12-19 10:21:48,687 - agent1 - INFO - RECEIVED : 
+Timestamp: 68 message#:2622514534982337
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#62#From#0#Target_ID#0#Target_label#fixx:152y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:49,252 - agent1 - INFO - SEND     : 
+Timestamp: 71 message#:8802338768894863
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#64#From#1#Target_ID#0#Target_label#fixx:153y:153Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:49,262 - agent1 - INFO - SEND     : 
+Timestamp: 71 message#:4210793258763353
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#64#From#1#Target_ID#1#Target_label#targetx:79y:85Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:49,275 - agent1 - INFO - SEND     : 
+Timestamp: 71 message#:6920632042265464
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#64#From#1#Target_ID#2#Target_label#obstructionx:32y:112Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:49,285 - agent1 - INFO - SEND     : 
+Timestamp: 72 message#:7566479444900842
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 3426393936091768
+
+2019-12-19 10:21:49,293 - agent1 - INFO - SEND     : 
+Timestamp: 72 message#:9821721989044458
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 2622514534982337
+
+2019-12-19 10:21:49,323 - agent1 - INFO - RECEIVED : 
+Timestamp: 67 message#:6303716611333844
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#61#From#2#Target_ID#0#Target_label#fixx:150y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:49,334 - agent1 - INFO - RECEIVED : 
+Timestamp: 70 message#:7168735276204667
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 9158561535513882
+
+2019-12-19 10:21:49,346 - agent1 - INFO - RECEIVED : 
+Timestamp: 70 message#:971105972823191
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 3626792300994689
+
+2019-12-19 10:21:49,359 - agent1 - INFO - RECEIVED : 
+Timestamp: 70 message#:4971101830530618
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 972374819738967
+
+2019-12-19 10:21:49,371 - agent1 - INFO - RECEIVED : 
+Timestamp: 70 message#:6720979245278096
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 5008171967354297
+
+2019-12-19 10:21:49,381 - agent1 - INFO - RECEIVED : 
+Timestamp: 70 message#:8418538159376364
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 4921051393616980
+
+2019-12-19 10:21:49,392 - agent1 - INFO - RECEIVED : 
+Timestamp: 70 message#:4573376211662898
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 522435710492868
+
+2019-12-19 10:21:49,403 - agent1 - INFO - RECEIVED : 
+Timestamp: 70 message#:9634380566381934
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 44736819830727
+
+2019-12-19 10:21:49,406 - agent1 - WARNING - Windows error
+2019-12-19 10:21:49,970 - agent1 - INFO - SEND     : 
+Timestamp: 77 message#:852642637242561
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#71#From#1#Target_ID#0#Target_label#fixx:157y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:49,981 - agent1 - INFO - SEND     : 
+Timestamp: 77 message#:9025288070937880
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#71#From#1#Target_ID#1#Target_label#targetx:89y:88Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:49,992 - agent1 - INFO - SEND     : 
+Timestamp: 79 message#:1908519336697784
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 6303716611333844
+
+2019-12-19 10:21:50,025 - agent1 - INFO - RECEIVED : 
+Timestamp: 70 message#:9634380566381934
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 44736819830727
+
+2019-12-19 10:21:50,035 - agent1 - INFO - RECEIVED : 
+Timestamp: 70 message#:9523451567262160
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 7732670132273399
+
+2019-12-19 10:21:50,045 - agent1 - INFO - RECEIVED : 
+Timestamp: 70 message#:1503912559147930
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 8869254620560898
+
+2019-12-19 10:21:50,055 - agent1 - INFO - RECEIVED : 
+Timestamp: 75 message#:3903520546062527
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#68#From#0#Target_ID#0#Target_label#fixx:150y:154Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:50,065 - agent1 - INFO - RECEIVED : 
+Timestamp: 77 message#:7866335790165472
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 8802338768894863
+
+2019-12-19 10:21:50,075 - agent1 - INFO - RECEIVED : 
+Timestamp: 77 message#:2432320181748464
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 4210793258763353
+
+2019-12-19 10:21:50,084 - agent1 - INFO - RECEIVED : 
+Timestamp: 77 message#:3626134209880365
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 6920632042265464
+
+2019-12-19 10:21:50,094 - agent1 - INFO - RECEIVED : 
+Timestamp: 83 message#:8511039365832026
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#75#From#0#Target_ID#0#Target_label#fixx:152y:156Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:50,660 - agent1 - INFO - SEND     : 
+Timestamp: 84 message#:1916021690524250
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#77#From#1#Target_ID#0#Target_label#fixx:155y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:50,669 - agent1 - INFO - SEND     : 
+Timestamp: 84 message#:3017522321787673
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#77#From#1#Target_ID#1#Target_label#targetx:100y:97Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:50,677 - agent1 - INFO - SEND     : 
+Timestamp: 84 message#:664367396184446
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#64#From#1#Target_ID#2#Target_label#obstructionx:32y:112Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:50,685 - agent1 - INFO - SEND     : 
+Timestamp: 86 message#:36432226736868
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 3903520546062527
+
+2019-12-19 10:21:50,696 - agent1 - INFO - SEND     : 
+Timestamp: 86 message#:1876110419272396
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 8511039365832026
+
+2019-12-19 10:21:50,721 - agent1 - INFO - RECEIVED : 
+Timestamp: 73 message#:1851692730970069
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#67#From#2#Target_ID#0#Target_label#fixx:154y:156Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:50,733 - agent1 - INFO - RECEIVED : 
+Timestamp: 79 message#:3454395349446695
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#73#From#2#Target_ID#0#Target_label#fixx:154y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:50,744 - agent1 - INFO - RECEIVED : 
+Timestamp: 81 message#:7885307889635578
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 5008171967354297
+
+2019-12-19 10:21:50,754 - agent1 - INFO - RECEIVED : 
+Timestamp: 81 message#:3123295573970729
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 4921051393616980
+
+2019-12-19 10:21:50,764 - agent1 - INFO - RECEIVED : 
+Timestamp: 81 message#:9120709367803956
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 522435710492868
+
+2019-12-19 10:21:50,774 - agent1 - INFO - RECEIVED : 
+Timestamp: 81 message#:270713288115407
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 44736819830727
+
+2019-12-19 10:21:50,786 - agent1 - INFO - RECEIVED : 
+Timestamp: 81 message#:3611281489336794
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 7732670132273399
+
+2019-12-19 10:21:50,796 - agent1 - INFO - RECEIVED : 
+Timestamp: 81 message#:4955936842051141
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 8869254620560898
+
+2019-12-19 10:21:50,805 - agent1 - INFO - RECEIVED : 
+Timestamp: 81 message#:222770238209850
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 8802338768894863
+
+2019-12-19 10:21:50,815 - agent1 - INFO - RECEIVED : 
+Timestamp: 81 message#:1851443037068021
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 4210793258763353
+
+2019-12-19 10:21:50,825 - agent1 - INFO - RECEIVED : 
+Timestamp: 81 message#:5829062181523450
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 6920632042265464
+
+2019-12-19 10:21:50,834 - agent1 - INFO - RECEIVED : 
+Timestamp: 84 message#:2949957552563239
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 852642637242561
+
+2019-12-19 10:21:50,843 - agent1 - INFO - RECEIVED : 
+Timestamp: 84 message#:1330634468448441
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 9025288070937880
+
+2019-12-19 10:21:50,853 - agent1 - INFO - RECEIVED : 
+Timestamp: 89 message#:6037750766971839
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#83#From#0#Target_ID#0#Target_label#fixx:155y:152Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:50,866 - agent1 - INFO - RECEIVED : 
+Timestamp: 89 message#:6487694860325031
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#83#From#0#Target_ID#1#Target_label#targetx:101y:103Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:51,434 - agent1 - INFO - SEND     : 
+Timestamp: 91 message#:4234052402633109
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#84#From#1#Target_ID#0#Target_label#fixx:152y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:51,443 - agent1 - INFO - SEND     : 
+Timestamp: 91 message#:7313631854512119
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#84#From#1#Target_ID#1#Target_label#targetx:103y:100Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:51,455 - agent1 - INFO - SEND     : 
+Timestamp: 93 message#:5532052050758458
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 1851692730970069
+
+2019-12-19 10:21:51,464 - agent1 - INFO - SEND     : 
+Timestamp: 93 message#:1982679065109686
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 3454395349446695
+
+2019-12-19 10:21:51,469 - agent1 - INFO - SEND     : 
+Timestamp: 93 message#:4702524753915579
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 6037750766971839
+
+2019-12-19 10:21:51,479 - agent1 - INFO - SEND     : 
+Timestamp: 93 message#:403946307998840
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 1 Message: 6487694860325031
+
+2019-12-19 10:21:51,514 - agent1 - INFO - RECEIVED : 
+Timestamp: 87 message#:3986090448007643
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#79#From#2#Target_ID#0#Target_label#fixx:150y:154Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:51,524 - agent1 - INFO - RECEIVED : 
+Timestamp: 89 message#:5334863020076491
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 852642637242561
+
+2019-12-19 10:21:51,533 - agent1 - INFO - RECEIVED : 
+Timestamp: 89 message#:4477013938721197
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 9025288070937880
+
+2019-12-19 10:21:51,543 - agent1 - INFO - RECEIVED : 
+Timestamp: 91 message#:5062816102430290
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 1916021690524250
+
+2019-12-19 10:21:51,553 - agent1 - INFO - RECEIVED : 
+Timestamp: 91 message#:5134676634147280
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 3017522321787673
+
+2019-12-19 10:21:51,563 - agent1 - INFO - RECEIVED : 
+Timestamp: 91 message#:6540520905463447
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 664367396184446
+
+2019-12-19 10:21:51,575 - agent1 - INFO - RECEIVED : 
+Timestamp: 96 message#:4739112097893200
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#89#From#0#Target_ID#0#Target_label#fixx:154y:153Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:51,587 - agent1 - INFO - RECEIVED : 
+Timestamp: 96 message#:2041065473147094
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#89#From#0#Target_ID#2#Target_label#obstructionx:27y:142Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:52,154 - agent1 - INFO - SEND     : 
+Timestamp: 99 message#:8745130711641191
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#91#From#1#Target_ID#0#Target_label#fixx:156y:154Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:52,163 - agent1 - INFO - SEND     : 
+Timestamp: 99 message#:7774835414744241
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#91#From#1#Target_ID#1#Target_label#targetx:112y:99Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:52,172 - agent1 - INFO - SEND     : 
+Timestamp: 99 message#:8655155451143968
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#64#From#1#Target_ID#2#Target_label#obstructionx:32y:112Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:52,181 - agent1 - INFO - SEND     : 
+Timestamp: 100 message#:8023269813989418
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 3986090448007643
+
+2019-12-19 10:21:52,186 - agent1 - INFO - SEND     : 
+Timestamp: 100 message#:6609144399764952
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 4739112097893200
+
+2019-12-19 10:21:52,196 - agent1 - INFO - SEND     : 
+Timestamp: 100 message#:6538711888733355
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 2 Message: 2041065473147094
+
+2019-12-19 10:21:52,224 - agent1 - INFO - RECEIVED : 
+Timestamp: 94 message#:5915464081768955
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#87#From#2#Target_ID#0#Target_label#fixx:154y:158Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:52,235 - agent1 - INFO - RECEIVED : 
+Timestamp: 95 message#:438705504806039
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 1916021690524250
+
+2019-12-19 10:21:52,244 - agent1 - INFO - RECEIVED : 
+Timestamp: 95 message#:5825086746815106
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 3017522321787673
+
+2019-12-19 10:21:52,256 - agent1 - INFO - RECEIVED : 
+Timestamp: 95 message#:1867245954713977
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 664367396184446
+
+2019-12-19 10:21:52,267 - agent1 - INFO - RECEIVED : 
+Timestamp: 97 message#:6347481774635104
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 4234052402633109
+
+2019-12-19 10:21:52,278 - agent1 - INFO - RECEIVED : 
+Timestamp: 97 message#:2813098628206303
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 7313631854512119
+
+2019-12-19 10:21:52,289 - agent1 - INFO - RECEIVED : 
+Timestamp: 103 message#:6748380301692918
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#96#From#0#Target_ID#0#Target_label#fixx:154y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:52,301 - agent1 - INFO - RECEIVED : 
+Timestamp: 103 message#:3044198325683094
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#83#From#0#Target_ID#1#Target_label#targetx:101y:103Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:52,316 - agent1 - INFO - RECEIVED : 
+Timestamp: 103 message#:6988870419993586
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#96#From#0#Target_ID#2#Target_label#obstructionx:30y:144Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:52,882 - agent1 - INFO - SEND     : 
+Timestamp: 106 message#:4854568748744669
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#99#From#1#Target_ID#0#Target_label#fixx:158y:152Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:52,891 - agent1 - INFO - SEND     : 
+Timestamp: 106 message#:7091533278555809
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#99#From#1#Target_ID#1#Target_label#targetx:123y:100Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:52,900 - agent1 - INFO - SEND     : 
+Timestamp: 107 message#:857845547252312
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 5915464081768955
+
+2019-12-19 10:21:52,906 - agent1 - INFO - SEND     : 
+Timestamp: 107 message#:8009938907212620
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 6748380301692918
+
+2019-12-19 10:21:52,916 - agent1 - INFO - SEND     : 
+Timestamp: 107 message#:3747812816702395
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 1 Message: 3044198325683094
+
+2019-12-19 10:21:52,926 - agent1 - INFO - SEND     : 
+Timestamp: 107 message#:6280924848468009
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 2 Message: 6988870419993586
+
+2019-12-19 10:21:52,959 - agent1 - WARNING - Mailbox file error RECEIVE
+2019-12-19 10:21:53,525 - agent1 - INFO - SEND     : 
+Timestamp: 113 message#:8264127144308364
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#106#From#1#Target_ID#0#Target_label#fixx:152y:151Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:53,534 - agent1 - INFO - SEND     : 
+Timestamp: 113 message#:8330668998464933
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#106#From#1#Target_ID#1#Target_label#targetx:125y:97Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:53,545 - agent1 - INFO - SEND     : 
+Timestamp: 113 message#:5356416927680897
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#64#From#1#Target_ID#2#Target_label#obstructionx:32y:112Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:53,571 - agent1 - INFO - RECEIVED : 
+Timestamp: 104 message#:4577698392588133
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 8745130711641191
+
+2019-12-19 10:21:53,582 - agent1 - INFO - RECEIVED : 
+Timestamp: 104 message#:6085097513915805
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 7774835414744241
+
+2019-12-19 10:21:53,594 - agent1 - INFO - RECEIVED : 
+Timestamp: 104 message#:4916237460307533
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 8655155451143968
+
+2019-12-19 10:21:53,606 - agent1 - INFO - RECEIVED : 
+Timestamp: 110 message#:1019378862547141
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#103#From#0#Target_ID#0#Target_label#fixx:152y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:53,617 - agent1 - INFO - RECEIVED : 
+Timestamp: 110 message#:4512864539719150
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#103#From#0#Target_ID#1#Target_label#targetx:126y:103Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:53,629 - agent1 - INFO - RECEIVED : 
+Timestamp: 110 message#:6228588032652019
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#103#From#0#Target_ID#2#Target_label#obstructionx:29y:148Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:53,641 - agent1 - INFO - RECEIVED : 
+Timestamp: 101 message#:3766292414429250
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#94#From#2#Target_ID#0#Target_label#fixx:157y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:53,651 - agent1 - INFO - RECEIVED : 
+Timestamp: 102 message#:6639791176695061
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 4234052402633109
+
+2019-12-19 10:21:53,663 - agent1 - INFO - RECEIVED : 
+Timestamp: 102 message#:8447806227667775
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 7313631854512119
+
+2019-12-19 10:21:53,674 - agent1 - INFO - RECEIVED : 
+Timestamp: 107 message#:8014469517945533
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 1 receiver#7507120510615607
+Type: memory target: 0 Message: #Timestamp#101#From#2#Target_ID#0#Target_label#fixx:151y:150Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:53,685 - agent1 - INFO - RECEIVED : 
+Timestamp: 108 message#:3807085851351559
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 8745130711641191
+
+2019-12-19 10:21:53,695 - agent1 - INFO - RECEIVED : 
+Timestamp: 108 message#:1516305186002606
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 7774835414744241
+
+2019-12-19 10:21:53,705 - agent1 - INFO - RECEIVED : 
+Timestamp: 108 message#:2015721230890313
+From: 2 sender#6729053078168682
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 8655155451143968
+
+2019-12-19 10:21:53,714 - agent1 - INFO - RECEIVED : 
+Timestamp: 111 message#:8459463450918896
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 4854568748744669
+
+2019-12-19 10:21:53,723 - agent1 - INFO - RECEIVED : 
+Timestamp: 111 message#:8324631771434101
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 7091533278555809
+
+2019-12-19 10:21:53,727 - agent1 - WARNING - Windows error
+2019-12-19 10:21:54,291 - agent1 - INFO - SEND     : 
+Timestamp: 119 message#:1463352882874170
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#113#From#1#Target_ID#0#Target_label#fixx:156y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:54,302 - agent1 - INFO - SEND     : 
+Timestamp: 119 message#:3918923232648060
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#113#From#1#Target_ID#1#Target_label#targetx:131y:102Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:54,309 - agent1 - INFO - SEND     : 
+Timestamp: 121 message#:7842145723419728
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 1019378862547141
+
+2019-12-19 10:21:54,319 - agent1 - INFO - SEND     : 
+Timestamp: 121 message#:5364902809935495
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 1 Message: 4512864539719150
+
+2019-12-19 10:21:54,327 - agent1 - INFO - SEND     : 
+Timestamp: 121 message#:8265756343006857
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 2 Message: 6228588032652019
+
+2019-12-19 10:21:54,337 - agent1 - INFO - SEND     : 
+Timestamp: 121 message#:3959012499497301
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 3766292414429250
+
+2019-12-19 10:21:54,347 - agent1 - INFO - SEND     : 
+Timestamp: 121 message#:9894078106305126
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 2 receiver#6729053078168682
+Type: ack target: 0 Message: 8014469517945533
+
+2019-12-19 10:21:54,381 - agent1 - INFO - RECEIVED : 
+Timestamp: 111 message#:8324631771434101
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 7091533278555809
+
+2019-12-19 10:21:54,385 - agent1 - WARNING - Windows error
+2019-12-19 10:21:54,949 - agent1 - INFO - SEND     : 
+Timestamp: 126 message#:9736537303449622
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#119#From#1#Target_ID#0#Target_label#fixx:154y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:54,962 - agent1 - INFO - SEND     : 
+Timestamp: 126 message#:1619646085388697
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#119#From#1#Target_ID#1#Target_label#targetx:138y:100Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:54,973 - agent1 - INFO - SEND     : 
+Timestamp: 126 message#:2489846738351470
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#64#From#1#Target_ID#2#Target_label#obstructionx:32y:112Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:54,998 - agent1 - INFO - RECEIVED : 
+Timestamp: 111 message#:8324631771434101
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 7091533278555809
+
+2019-12-19 10:21:54,999 - agent1 - WARNING - Mailbox file error RECEIVE
+2019-12-19 10:21:55,563 - agent1 - INFO - SEND     : 
+Timestamp: 133 message#:680270512590432
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#126#From#1#Target_ID#1#Target_label#targetx:145y:100Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:55,603 - agent1 - INFO - RECEIVED : 
+Timestamp: 111 message#:8324631771434101
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 7091533278555809
+
+2019-12-19 10:21:55,614 - agent1 - INFO - RECEIVED : 
+Timestamp: 117 message#:7921228366551762
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#110#From#0#Target_ID#0#Target_label#fixx:158y:150Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:55,619 - agent1 - WARNING - Windows error
+2019-12-19 10:21:56,179 - agent1 - INFO - SEND     : 
+Timestamp: 133 message#:9485081944824664
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#126#From#1#Target_ID#0#Target_label#fixx:154y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:56,189 - agent1 - INFO - SEND     : 
+Timestamp: 139 message#:2179923503801794
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#133#From#1#Target_ID#0#Target_label#fixx:151y:158Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:56,199 - agent1 - INFO - SEND     : 
+Timestamp: 139 message#:1131120251859649
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#133#From#1#Target_ID#1#Target_label#targetx:150y:102Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:56,208 - agent1 - INFO - SEND     : 
+Timestamp: 139 message#:6486257776983229
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#64#From#1#Target_ID#2#Target_label#obstructionx:32y:112Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:56,217 - agent1 - INFO - SEND     : 
+Timestamp: 139 message#:8321759937040590
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 7921228366551762
+
+2019-12-19 10:21:56,245 - agent1 - INFO - RECEIVED : 
+Timestamp: 117 message#:7921228366551762
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#110#From#0#Target_ID#0#Target_label#fixx:158y:150Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:56,257 - agent1 - INFO - RECEIVED : 
+Timestamp: 117 message#:6449217255027198
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#110#From#0#Target_ID#1#Target_label#targetx:131y:95Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:56,269 - agent1 - INFO - RECEIVED : 
+Timestamp: 117 message#:4091536000355102
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#110#From#0#Target_ID#2#Target_label#obstructionx:31y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:56,282 - agent1 - INFO - RECEIVED : 
+Timestamp: 119 message#:8304069762580147
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 0 Message: 8264127144308364
+
+2019-12-19 10:21:56,294 - agent1 - INFO - RECEIVED : 
+Timestamp: 119 message#:2649693006030240
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 1 Message: 8330668998464933
+
+2019-12-19 10:21:56,309 - agent1 - INFO - RECEIVED : 
+Timestamp: 119 message#:7165986038552210
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+Type: ack target: 2 Message: 5356416927680897
+
+2019-12-19 10:21:56,322 - agent1 - INFO - RECEIVED : 
+Timestamp: 124 message#:4366133802256693
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#117#From#0#Target_ID#0#Target_label#fixx:159y:154Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:56,328 - agent1 - WARNING - Windows error
+2019-12-19 10:21:56,888 - agent1 - INFO - SEND     : 
+Timestamp: 144 message#:8903624859446722
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#139#From#1#Target_ID#0#Target_label#fixx:152y:151Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:56,899 - agent1 - INFO - SEND     : 
+Timestamp: 144 message#:6607537220263184
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#139#From#1#Target_ID#1#Target_label#targetx:158y:102Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:56,912 - agent1 - INFO - SEND     : 
+Timestamp: 146 message#:9904217760776012
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 7921228366551762
+
+2019-12-19 10:21:56,924 - agent1 - INFO - SEND     : 
+Timestamp: 146 message#:307863985170488
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 1 Message: 6449217255027198
+
+2019-12-19 10:21:56,934 - agent1 - INFO - SEND     : 
+Timestamp: 146 message#:8070486930113150
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 2 Message: 4091536000355102
+
+2019-12-19 10:21:56,945 - agent1 - INFO - SEND     : 
+Timestamp: 146 message#:6667412750800021
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 4366133802256693
+
+2019-12-19 10:21:56,986 - agent1 - INFO - RECEIVED : 
+Timestamp: 124 message#:4366133802256693
+From: 0 sender#7452430973156378
+Receiver list : 
+To: 1 receiver#7507120510615607
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#117#From#0#Target_ID#0#Target_label#fixx:159y:154Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:56,986 - agent1 - WARNING - Mailbox file error RECEIVE
+2019-12-19 10:21:57,674 - agent1 - INFO - SEND     : 
+Timestamp: 151 message#:8068713311074696
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 0 Message: #Timestamp#144#From#1#Target_ID#0#Target_label#fixx:151y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:57,804 - agent1 - INFO - SEND     : 
+Timestamp: 151 message#:3272572797380032
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 1 Message: #Timestamp#144#From#1#Target_ID#1#Target_label#targetx:162y:100Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:57,977 - agent1 - INFO - SEND     : 
+Timestamp: 151 message#:4444543957724628
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+To: 2 receiver#6729053078168682
+Type: memory target: 2 Message: #Timestamp#144#From#1#Target_ID#2#Target_label#obstructionx:26y:190Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+2019-12-19 10:21:58,164 - agent1 - INFO - SEND     : 
+Timestamp: 152 message#:4923366468872600
+From: 1 sender#7507120510615607
+Receiver list : 
+To: 0 receiver#7452430973156378
+Type: ack target: 0 Message: 4366133802256693
 

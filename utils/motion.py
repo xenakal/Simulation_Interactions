@@ -23,6 +23,7 @@ def moveTarget(target, delta_time, myRoom):
     elif type_mvt == 'elliptic':
         pass
     elif type_mvt == 'potential_field':
+        print(target.id)
         potentialField(target,delta_time, myRoom)
     else:
         print("planning method not recognize")

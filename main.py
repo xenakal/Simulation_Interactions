@@ -114,7 +114,7 @@ class App:
             self.vx_tar = numpy.array([0, 0, 0, 0, 0, 0])
             self.vy_tar = numpy.array([0, 0, 0, 0, 0, 5])
             self.traj_tar = numpy.array(['linear', 'linear', 'linear', 'linear', 'linear', 'linear'])
-            self.trajChoice_tar = numpy.array([0, 0, 0, 0, 0, 5])
+            self.trajChoice_tar = numpy.array([0, 0, 0, 0, 0, 1])
             self.size_tar = numpy.array([5, 5, 5, 10, 20, 5])
             self.label_tar = numpy.array(['fix', 'fix', 'fix', 'fix', 'fix', 'target'])
             # Options for the cameras
@@ -224,27 +224,32 @@ class App:
             self.myGUI.GUI_room.drawTarget(self.myRoom.targets, self.myRoom.coord)
             self.myGUI.GUI_room.drawCam(self.myRoom)
 
-            if self.myGUI.GUI_option.draw_prediction:
+            if self.myGUI.button_simulation_1.find_button_state("prediction"):
                 if USE_AGENT:
-                    self.myGUI.drawPredictions(self.myRoom)
+                    pass
+                    #self.myGUI.drawPredictions(self.myRoom)
                 else:
-                    self.myGUI.drawPredictionsOld(self.myRoom)
+                    pass
+                   #self.myGUI.drawPredictionsOld(self.myRoom)
 
-            if self.myGUI.button_simulation_1.find_button_state("real T") or self.myGUI.GUI_option.draw_real_trajectory:
+            if self.myGUI.button_simulation_1.find_button_state("real T"):
                 self.myGUI.GUI_room.drawTarget_all_postion(self.myRoom)
 
-            if self.myGUI.button_simulation_1.find_button_state("M agent") or self.myGUI.GUI_option.draw_memory_agent:
+            if self.myGUI.button_simulation_1.find_button_state("M agent"):
                 self.myGUI.GUI_memories.drawMemory(self.myRoom)
 
-            if self.myGUI.button_simulation_1.find_button_state("M all agent") or self.myGUI.GUI_option.draw_memory_all_agent:
+            if self.myGUI.button_simulation_1.find_button_state("M all agent"):
                 self.myGUI.GUI_memories.drawMemoryAll(self.myRoom)
 
-        if self.myGUI.button_menu.find_button_state("Camera"):
+        elif self.myGUI.button_menu.find_button_state("Camera"):
             self.myGUI.GUI_projection.drawProjection(self.myRoom)
             self.myGUI.GUI_ATD.screenDetectedTarget(self.myRoom)
 
-        if self.myGUI.button_menu.find_button_state("Option"):
-            self.myGUI.GUI_option.draw_option()
+        elif self.myGUI.button_menu.find_button_state("Stat"):
+            self.myGUI.GUI_stat.draw_stat_message(self.myRoom)
+
+        elif self.myGUI.button_menu.find_button_state("Option"):
+            pass
 
 
         self.myGUI.updateScreen()

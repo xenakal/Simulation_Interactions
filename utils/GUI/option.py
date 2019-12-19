@@ -24,17 +24,8 @@ class GUI_option:
 
         self.position_mouse = []
 
-
-        self.modify_option = False
-        self.draw_real_trajectory = False
-        self.draw_prediction = False
-        self.draw_memory_agent = False
-        self.draw_memory_all_agent = False
-        self.modify_agent = False
-        self.modify_target = False
-
-        self.agent_to_display = ["0","1","2"]
-        self.target_to_display = ["0","1","2"]
+        self.agent_to_display = []
+        self.target_to_display = []
 
 
     def update_mouse_position(self):
@@ -84,117 +75,6 @@ class GUI_option:
         except ValueError:
             pass
 
-    def draw_option(self):
-        x_offset = 0
-        y_offset = 40
-        y_range = 15
-        y_pas = 15
-
-        pygame.draw.rect(self.screen, BLACK, (x_offset, y_offset, 350, 300))
-
-        s = "o - Option modifiable: " + str(self.modify_option)
-        label = self.font.render(s, 10, WHITE)
-        self.screen.blit(label, (x_offset,y_offset))
-
-        s = "r - real trajectory: " + str(self.draw_real_trajectory)
-        label = self.font.render(s, 10, WHITE)
-        self.screen.blit(label, (x_offset, y_offset + y_range))
-        y_range = y_range+y_pas
-
-        s = "e - memory agent information gathered: " + str(self.draw_memory_all_agent)
-        label = self.font.render(s, 10, WHITE)
-        self.screen.blit(label, (x_offset, y_offset+y_range))
-        y_range = y_range+y_pas
-
-        s = "z - memory agent after fusion: " + str(self.draw_memory_agent)
-        label = self.font.render(s, 10, WHITE)
-        self.screen.blit(label, (x_offset, y_offset+y_range))
-        y_range = y_range+y_pas
-
-        s = "c - modify agent: " + str(self.modify_agent)
-        label = self.font.render(s, 10, WHITE)
-        self.screen.blit(label, (x_offset, y_offset+y_range))
-        y_range = y_range+y_pas
-
-        s = "0-9 - list: " + str(self.agent_to_display)
-        label = self.font.render(s, 10, WHITE)
-        self.screen.blit(label, (x_offset, y_offset +y_range))
-        y_range = y_range+y_pas
-
-        s = "t - modify target: " + str(self.modify_target)
-        label = self.font.render(s, 10, WHITE)
-        self.screen.blit(label, (x_offset, y_offset+y_range))
-        y_range = y_range+y_pas
-
-        s = "0-9 - list: " + str(self.target_to_display)
-        label = self.font.render(s, 10, WHITE)
-        self.screen.blit(label, (x_offset, y_offset + y_range))
-
-
-    def option_agent(self,event_key):
-        #print(pygame.key.name(event_key))
-        add = None
-
-        if event_key == K_0:
-            add = "0"
-        elif event_key == K_1:
-            add = "1"
-        elif event_key == K_2:
-            add = "2"
-        elif event_key == K_3:
-            add = "3"
-        elif event_key == K_4:
-            add = "4"
-        elif event_key == K_5:
-            add = "5"
-        elif event_key == K_6:
-            add = "6"
-        elif event_key == K_7:
-            add = "7"
-        elif event_key == K_8:
-            add = "8"
-        elif event_key == K_9:
-            add = "9"
-
-        if add != None:
-            try:
-                self.agent_to_display.index(add)
-                self.agent_to_display.remove(add)
-            except ValueError:
-                self.agent_to_display.append(add)
-
-    def option_target(self,event_key):
-        #print(pygame.key.name(event_key))
-        add = None
-
-        if event_key == K_0:
-            add = "0"
-        elif event_key == K_1:
-            add = "1"
-        elif event_key == K_2:
-            add = "2"
-        elif event_key == K_3:
-            add = "3"
-        elif event_key == K_4:
-            add = "4"
-        elif event_key == K_5:
-            add = "5"
-        elif event_key == K_6:
-            add = "6"
-        elif event_key == K_7:
-            add = "7"
-        elif event_key == K_8:
-            add = "8"
-        elif event_key == K_9:
-            add = "9"
-
-        if add != None:
-            try:
-                self.target_to_display.index(add)
-                self.target_to_display.remove(add)
-            except ValueError:
-                self.target_to_display.append(add)
-
 
     def option(self,event_key):
         if event_key == K_q:
@@ -214,23 +94,9 @@ class GUI_option:
         for event in pygame.event.get():
             type_event = event.type
             if type_event == KEYDOWN:
-                if event.type == KEYDOWN:
-                    if event.key == K_o:
-                        self.modify_option = not self.modify_option
-                    elif event.key == K_SPACE:
-                        pass
-                        # print("Take the control of one of the target !")
-                    elif event.key == K_ESCAPE:
-                        pygame.quit()
-                        return False
-
-                    if self.modify_option:
-                        self.option(event.key)
-                        if self.modify_agent:
-                            self.option_agent(event.key)
-                        if self.modify_target:
-                            self.option_target(event.key)
-
+                if event.key == K_ESCAPE:
+                    pygame.quit()
+                    return False
 
             elif type_event == MOUSEMOTION and event.buttons[0] == 1: #déplacement + boutton enfoncer
                 pass

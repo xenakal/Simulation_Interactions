@@ -10,7 +10,7 @@ from multi_angent.message import *
 from multi_angent.memory import *
 
 TIME_PICTURE = 0.05
-TIME_SEND_READ_MESSAGE = 0.01
+TIME_SEND_READ_MESSAGE = 0.5
 
 MULTI_THREAD = 0
 NAME_MAILBOX = "mailbox/MailBox_Agent"
@@ -116,7 +116,9 @@ class AgentCam(Agent):
         for target in room.targets:
             liste = self.memory.memory_agent.get_target_list(target.id)
             if len(liste) > 0:
-                    self.send_message_memory(liste[len(liste)-1])
+                self.send_message_memory(liste[len(liste)-1])
+
+
 
         for info in  []:
             if info.target_label == "target":
@@ -124,7 +126,7 @@ class AgentCam(Agent):
                     dx = self.cam.xc - info.position[0]
                     dy = self.cam.yc - info.position[1]
                     distance = math.pow(dx*dx + dy*dy, 0.5)
-                    #self.send_message_request(distance,info.target_ID)
+                    self.send_message_request(distance,info.target_ID)
 
             elif info.target_label == "obstruction":
                 pass
@@ -220,7 +222,7 @@ class AgentCam(Agent):
         '''
 
         # Update Info
-        self.memory.addTargetEstimatorFromID(self.myRoom.time,self.id, message.targetRef, self.myRoom)
+        #self.memory.addTargetEstimatorFromID(self.myRoom.time,self.id, message.targetRef, self.myRoom)
         # Response
         self.send_message_ackNack(message,typeMessage)
 

@@ -33,7 +33,7 @@ class GUI_memories:
                 if agent_to_draw.id == int(id_agent_to_draw):
                     for agent in myRoom.agentCam:
                         for target in myRoom.targets:
-                            for estimator in agent.memory.memory_all_agent.get_estimator_time_target_agent(-1, target.id,
+                            for estimator in agent_to_draw.memory.memory_all_agent.get_estimator_time_target_agent(-1, target.id,
                                                                                                            agent.id):
                                 for id_target_to_draw in self.target_to_display:
                                     if estimator.target_ID == int(id_target_to_draw):

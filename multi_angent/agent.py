@@ -168,6 +168,16 @@ class Agent_statistic:
         self.send_message_statistic = tab0.copy()
         self.receive_message_statistic = tab1.copy()
 
+    def get_messageNumber_sent(self,agent):
+        for element in self.send_message_statistic:
+            if  element[0] == agent.id:
+                return element[1]
+
+    def get_messageNumber_received(self, agent):
+        for element in self.send_message_statistic:
+            if element[0] == agent.id:
+                return element[1]
+
     def count_message_send(self,receiverID):
         for element in self.send_message_statistic:
                 if element[0] == receiverID:
