@@ -65,6 +65,7 @@ class Memory:
                 if not self.memory_agent.is_target_estimator(self.memory_agent.get_target_list(target.id),estimateur):
                     self.memory_agent.add_target_estimator(estimateur)
 
+
     def to_string_memory_all(self):
         return self.memory_all_agent.to_string()
 

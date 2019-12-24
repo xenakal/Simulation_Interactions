@@ -2,12 +2,15 @@ import threading
 import mailbox
 import time
 import logging
+import random
 import numpy as np
 from elements.target import *
 from multi_angent.message import *
 
 NAME_LOG_PATH = "log/log_agent/Agent"
 NAME_MAILBOX = "utils/mailbox/MailBox_Agent"
+
+NUMBER_OF_MESSAGE_RECEIVE = 1 #1= all message receive, 100 = almost nothing is received
 
 class Agent:
     def __init__(self, idAgent, room):
@@ -65,9 +68,12 @@ class Agent:
         rec_mes = Message(0, 0, 0, 0, 0)
         rec_mes.modifyMessageFromString(m)
 
-        self.message_stat.count_message_received(rec_mes.senderID)
-        self.info_messageReceived.addMessage(rec_mes)
-        self.log_message.info('RECEIVED : \n' + rec_mes.formatMessageType())
+        random_value = random.randrange(0, NUMBER_OF_MESSAGE_RECEIVE,1)
+        if random_value == 0:
+            self.message_stat.count_message_received(rec_mes.senderID)
+            self.info_messageReceived.addMessage(rec_mes)
+            self.log_message.info('RECEIVED : \n' + rec_mes.formatMessageType())
+
 
     def recAllMess(self):
         succes = -1
@@ -174,7 +180,7 @@ class Agent_statistic:
                 return element[1]
 
     def get_messageNumber_received(self, agent):
-        for element in self.send_message_statistic:
+        for element in self.receive_message_statistic:
             if element[0] == agent.id:
                 return element[1]
 

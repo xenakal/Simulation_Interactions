@@ -19,7 +19,6 @@ class AgentCam(Agent):
     def __init__(self, idAgent, camera, room):
         # Attributes
         self.cam = camera
-        #self.cam.camDesactivate()
         self.memory = Memory(idAgent,20)
 
 
@@ -65,12 +64,19 @@ class AgentCam(Agent):
         while (self.threadRun == 1):
             state = nextstate
 
+            #Pour créer une panne avec l'agent, il ne fait plus rien dans ce cas
+            #if self.id == 0 and self.myRoom.time > 75 and self.myRoom.time < 100:
+            #    self.cam.camDesactivate()
+            #else:
+            #    self.cam.camActivate()
+
             if state == "takePicture":
                 picture = self.cam.takePicture(self.myRoom.targets)
                 time.sleep(TIME_PICTURE)
 
                 if (not self.cam.isActivate()):
                     nextstate = "takePicture"
+                    time.sleep(0.3)
                 else:
                     if my_previousTime != self.myRoom.time: #Si la photo est nouvelle
                         my_previousTime = self.myRoom.time
@@ -117,8 +123,6 @@ class AgentCam(Agent):
             liste = self.memory.memory_agent.get_target_list(target.id)
             if len(liste) > 0:
                 self.send_message_memory(liste[len(liste)-1])
-
-
 
         for info in  []:
             if info.target_label == "target":

@@ -1,384 +1,450 @@
-2019-12-19 10:21:41,098 - room0 - INFO - Memory 0
-Agent : 0 Target :0# memories 1
+2019-12-24 14:43:30,809 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
 Agent : 0 Target :1# memories 0
 Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
 Agent : 1 Target :0# memories 0
 Agent : 1 Target :1# memories 0
 Agent : 1 Target :2# memories 0
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
 Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 0
+Agent : 2 Target :5# memories 0
 Statistic message 
 Sender agent: 0 receiver agent: 1, # messages = 0
 Sender agent: 0 receiver agent: 2, # messages = 0
 Receiver agent: 0 sender agent: 1, # messages = 0
 Receiver agent: 0 sender agent: 2, # messages = 0
 
-2019-12-19 10:21:41,654 - room0 - INFO - Memory 3
-Agent : 0 Target :0# memories 2
+2019-12-24 14:43:31,366 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
 Agent : 0 Target :1# memories 0
 Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
 Agent : 1 Target :0# memories 0
 Agent : 1 Target :1# memories 0
 Agent : 1 Target :2# memories 0
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
 Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 0
+Agent : 2 Target :5# memories 0
 Statistic message 
 Sender agent: 0 receiver agent: 1, # messages = 0
 Sender agent: 0 receiver agent: 2, # messages = 0
 Receiver agent: 0 sender agent: 1, # messages = 0
 Receiver agent: 0 sender agent: 2, # messages = 0
 
-2019-12-19 10:21:42,236 - room0 - INFO - Memory 9
-Agent : 0 Target :0# memories 3
+2019-12-24 14:43:31,922 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
 Agent : 0 Target :1# memories 0
 Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
+Agent : 1 Target :0# memories 0
+Agent : 1 Target :1# memories 0
+Agent : 1 Target :2# memories 0
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
+Agent : 2 Target :1# memories 0
+Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 0
+Agent : 2 Target :5# memories 0
+Statistic message 
+Sender agent: 0 receiver agent: 1, # messages = 0
+Sender agent: 0 receiver agent: 2, # messages = 0
+Receiver agent: 0 sender agent: 1, # messages = 0
+Receiver agent: 0 sender agent: 2, # messages = 0
+
+2019-12-24 14:43:32,498 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
+Agent : 0 Target :1# memories 0
+Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
 Agent : 1 Target :0# memories 1
 Agent : 1 Target :1# memories 0
 Agent : 1 Target :2# memories 0
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
 Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 0
+Agent : 2 Target :5# memories 1
 Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 1
+Sender agent: 0 receiver agent: 1, # messages = 0
 Sender agent: 0 receiver agent: 2, # messages = 0
 Receiver agent: 0 sender agent: 1, # messages = 1
-Receiver agent: 0 sender agent: 2, # messages = 0
-
-2019-12-19 10:21:42,837 - room0 - INFO - Memory 15
-Agent : 0 Target :0# memories 4
-Agent : 0 Target :1# memories 0
-Agent : 0 Target :2# memories 0
-Agent : 1 Target :0# memories 1
-Agent : 1 Target :1# memories 0
-Agent : 1 Target :2# memories 1
-Agent : 2 Target :0# memories 1
-Agent : 2 Target :1# memories 0
-Agent : 2 Target :2# memories 0
-Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 3
-Sender agent: 0 receiver agent: 2, # messages = 1
-Receiver agent: 0 sender agent: 1, # messages = 2
 Receiver agent: 0 sender agent: 2, # messages = 1
 
-2019-12-19 10:21:43,419 - room0 - INFO - Memory 21
-Agent : 0 Target :0# memories 5
+2019-12-24 14:43:33,114 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
 Agent : 0 Target :1# memories 0
 Agent : 0 Target :2# memories 0
-Agent : 1 Target :0# memories 1
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
+Agent : 1 Target :0# memories 2
 Agent : 1 Target :1# memories 0
-Agent : 1 Target :2# memories 1
-Agent : 2 Target :0# memories 1
+Agent : 1 Target :2# memories 2
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 1
+Agent : 2 Target :5# memories 1
 Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 5
+Sender agent: 0 receiver agent: 1, # messages = 1
 Sender agent: 0 receiver agent: 2, # messages = 1
-Receiver agent: 0 sender agent: 1, # messages = 2
+Receiver agent: 0 sender agent: 1, # messages = 4
 Receiver agent: 0 sender agent: 2, # messages = 2
 
-2019-12-19 10:21:44,051 - room0 - INFO - Memory 27
-Agent : 0 Target :0# memories 6
+2019-12-24 14:43:33,778 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
 Agent : 0 Target :1# memories 0
 Agent : 0 Target :2# memories 0
-Agent : 1 Target :0# memories 1
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
+Agent : 1 Target :0# memories 3
 Agent : 1 Target :1# memories 0
-Agent : 1 Target :2# memories 1
-Agent : 2 Target :0# memories 2
+Agent : 1 Target :2# memories 3
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 3
+Agent : 2 Target :5# memories 2
 Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 5
-Sender agent: 0 receiver agent: 2, # messages = 6
-Receiver agent: 0 sender agent: 1, # messages = 2
-Receiver agent: 0 sender agent: 2, # messages = 4
+Sender agent: 0 receiver agent: 1, # messages = 4
+Sender agent: 0 receiver agent: 2, # messages = 2
+Receiver agent: 0 sender agent: 1, # messages = 6
+Receiver agent: 0 sender agent: 2, # messages = 5
 
-2019-12-19 10:21:44,700 - room0 - INFO - Memory 33
-Agent : 0 Target :0# memories 7
+2019-12-24 14:43:34,400 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
 Agent : 0 Target :1# memories 0
 Agent : 0 Target :2# memories 0
-Agent : 1 Target :0# memories 1
-Agent : 1 Target :1# memories 2
-Agent : 1 Target :2# memories 2
-Agent : 2 Target :0# memories 3
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
+Agent : 1 Target :0# memories 3
+Agent : 1 Target :1# memories 0
+Agent : 1 Target :2# memories 3
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 3
+Agent : 2 Target :5# memories 2
+Statistic message 
+Sender agent: 0 receiver agent: 1, # messages = 6
+Sender agent: 0 receiver agent: 2, # messages = 5
+Receiver agent: 0 sender agent: 1, # messages = 7
+Receiver agent: 0 sender agent: 2, # messages = 5
+
+2019-12-24 14:43:34,994 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
+Agent : 0 Target :1# memories 0
+Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
+Agent : 1 Target :0# memories 4
+Agent : 1 Target :1# memories 0
+Agent : 1 Target :2# memories 3
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
+Agent : 2 Target :1# memories 0
+Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 3
+Agent : 2 Target :5# memories 2
 Statistic message 
 Sender agent: 0 receiver agent: 1, # messages = 7
+Sender agent: 0 receiver agent: 2, # messages = 5
+Receiver agent: 0 sender agent: 1, # messages = 9
+Receiver agent: 0 sender agent: 2, # messages = 5
+
+2019-12-24 14:43:35,667 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
+Agent : 0 Target :1# memories 0
+Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
+Agent : 1 Target :0# memories 6
+Agent : 1 Target :1# memories 0
+Agent : 1 Target :2# memories 6
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
+Agent : 2 Target :1# memories 0
+Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 5
+Agent : 2 Target :5# memories 2
+Statistic message 
+Sender agent: 0 receiver agent: 1, # messages = 9
+Sender agent: 0 receiver agent: 2, # messages = 5
+Receiver agent: 0 sender agent: 1, # messages = 15
+Receiver agent: 0 sender agent: 2, # messages = 8
+
+2019-12-24 14:43:36,338 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
+Agent : 0 Target :1# memories 0
+Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
+Agent : 1 Target :0# memories 7
+Agent : 1 Target :1# memories 0
+Agent : 1 Target :2# memories 7
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
+Agent : 2 Target :1# memories 0
+Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 6
+Agent : 2 Target :5# memories 2
+Statistic message 
+Sender agent: 0 receiver agent: 1, # messages = 15
 Sender agent: 0 receiver agent: 2, # messages = 8
-Receiver agent: 0 sender agent: 1, # messages = 6
-Receiver agent: 0 sender agent: 2, # messages = 6
+Receiver agent: 0 sender agent: 1, # messages = 17
+Receiver agent: 0 sender agent: 2, # messages = 9
 
-2019-12-19 10:21:45,325 - room0 - INFO - Memory 39
-Agent : 0 Target :0# memories 8
+2019-12-24 14:43:36,954 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
 Agent : 0 Target :1# memories 0
 Agent : 0 Target :2# memories 0
-Agent : 1 Target :0# memories 1
-Agent : 1 Target :1# memories 2
-Agent : 1 Target :2# memories 2
-Agent : 2 Target :0# memories 3
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
+Agent : 1 Target :0# memories 8
+Agent : 1 Target :1# memories 0
+Agent : 1 Target :2# memories 8
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 7
+Agent : 2 Target :5# memories 2
 Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 11
+Sender agent: 0 receiver agent: 1, # messages = 17
+Sender agent: 0 receiver agent: 2, # messages = 9
+Receiver agent: 0 sender agent: 1, # messages = 19
+Receiver agent: 0 sender agent: 2, # messages = 11
+
+2019-12-24 14:43:37,587 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
+Agent : 0 Target :1# memories 0
+Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
+Agent : 1 Target :0# memories 9
+Agent : 1 Target :1# memories 0
+Agent : 1 Target :2# memories 9
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
+Agent : 2 Target :1# memories 0
+Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 9
+Agent : 2 Target :5# memories 2
+Statistic message 
+Sender agent: 0 receiver agent: 1, # messages = 19
 Sender agent: 0 receiver agent: 2, # messages = 11
-Receiver agent: 0 sender agent: 1, # messages = 7
-Receiver agent: 0 sender agent: 2, # messages = 6
-
-2019-12-19 10:21:46,142 - room0 - INFO - Memory 47
-Agent : 0 Target :0# memories 9
-Agent : 0 Target :1# memories 0
-Agent : 0 Target :2# memories 0
-Agent : 1 Target :0# memories 5
-Agent : 1 Target :1# memories 5
-Agent : 1 Target :2# memories 5
-Agent : 2 Target :0# memories 6
-Agent : 2 Target :1# memories 0
-Agent : 2 Target :2# memories 0
-Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 12
-Sender agent: 0 receiver agent: 2, # messages = 12
-Receiver agent: 0 sender agent: 1, # messages = 22
+Receiver agent: 0 sender agent: 1, # messages = 21
 Receiver agent: 0 sender agent: 2, # messages = 13
 
-2019-12-19 10:21:46,961 - room0 - INFO - Memory 55
-Agent : 0 Target :0# memories 10
+2019-12-24 14:43:38,226 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
 Agent : 0 Target :1# memories 0
 Agent : 0 Target :2# memories 0
-Agent : 1 Target :0# memories 7
-Agent : 1 Target :1# memories 7
-Agent : 1 Target :2# memories 7
-Agent : 2 Target :0# memories 7
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
+Agent : 1 Target :0# memories 10
+Agent : 1 Target :1# memories 0
+Agent : 1 Target :2# memories 10
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 10
+Agent : 2 Target :5# memories 2
 Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 23
+Sender agent: 0 receiver agent: 1, # messages = 21
 Sender agent: 0 receiver agent: 2, # messages = 13
-Receiver agent: 0 sender agent: 1, # messages = 30
+Receiver agent: 0 sender agent: 1, # messages = 23
 Receiver agent: 0 sender agent: 2, # messages = 15
 
-2019-12-19 10:21:47,662 - room0 - INFO - Memory 62
-Agent : 0 Target :0# memories 11
+2019-12-24 14:43:38,845 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
 Agent : 0 Target :1# memories 0
 Agent : 0 Target :2# memories 0
-Agent : 1 Target :0# memories 7
-Agent : 1 Target :1# memories 8
-Agent : 1 Target :2# memories 7
-Agent : 2 Target :0# memories 8
-Agent : 2 Target :1# memories 0
-Agent : 2 Target :2# memories 0
-Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 30
-Sender agent: 0 receiver agent: 2, # messages = 18
-Receiver agent: 0 sender agent: 1, # messages = 31
-Receiver agent: 0 sender agent: 2, # messages = 17
-
-2019-12-19 10:21:48,264 - room0 - INFO - Memory 68
-Agent : 0 Target :0# memories 12
-Agent : 0 Target :1# memories 0
-Agent : 0 Target :2# memories 0
-Agent : 1 Target :0# memories 7
-Agent : 1 Target :1# memories 8
-Agent : 1 Target :2# memories 7
-Agent : 2 Target :0# memories 8
-Agent : 2 Target :1# memories 0
-Agent : 2 Target :2# memories 0
-Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 32
-Sender agent: 0 receiver agent: 2, # messages = 21
-Receiver agent: 0 sender agent: 1, # messages = 32
-Receiver agent: 0 sender agent: 2, # messages = 17
-
-2019-12-19 10:21:49,035 - room0 - INFO - Memory 75
-Agent : 0 Target :0# memories 13
-Agent : 0 Target :1# memories 0
-Agent : 0 Target :2# memories 0
-Agent : 1 Target :0# memories 10
-Agent : 1 Target :1# memories 10
-Agent : 1 Target :2# memories 10
-Agent : 2 Target :0# memories 11
-Agent : 2 Target :1# memories 0
-Agent : 2 Target :2# memories 0
-Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 34
-Sender agent: 0 receiver agent: 2, # messages = 21
-Receiver agent: 0 sender agent: 1, # messages = 44
-Receiver agent: 0 sender agent: 2, # messages = 23
-
-2019-12-19 10:21:49,796 - room0 - INFO - Memory 83
-Agent : 0 Target :0# memories 14
-Agent : 0 Target :1# memories 1
-Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
 Agent : 1 Target :0# memories 11
-Agent : 1 Target :1# memories 11
+Agent : 1 Target :1# memories 0
 Agent : 1 Target :2# memories 11
-Agent : 2 Target :0# memories 12
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 11
+Agent : 2 Target :5# memories 2
 Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 44
-Sender agent: 0 receiver agent: 2, # messages = 26
-Receiver agent: 0 sender agent: 1, # messages = 48
-Receiver agent: 0 sender agent: 2, # messages = 25
+Sender agent: 0 receiver agent: 1, # messages = 23
+Sender agent: 0 receiver agent: 2, # messages = 15
+Receiver agent: 0 sender agent: 1, # messages = 25
+Receiver agent: 0 sender agent: 2, # messages = 16
 
-2019-12-19 10:21:50,455 - room0 - INFO - Memory 89
-Agent : 0 Target :0# memories 15
-Agent : 0 Target :1# memories 1
-Agent : 0 Target :2# memories 1
+2019-12-24 14:43:39,481 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
+Agent : 0 Target :1# memories 0
+Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
 Agent : 1 Target :0# memories 12
-Agent : 1 Target :1# memories 12
-Agent : 1 Target :2# memories 11
-Agent : 2 Target :0# memories 13
+Agent : 1 Target :1# memories 0
+Agent : 1 Target :2# memories 12
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 12
+Agent : 2 Target :5# memories 2
 Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 48
-Sender agent: 0 receiver agent: 2, # messages = 28
-Receiver agent: 0 sender agent: 1, # messages = 51
-Receiver agent: 0 sender agent: 2, # messages = 27
+Sender agent: 0 receiver agent: 1, # messages = 25
+Sender agent: 0 receiver agent: 2, # messages = 16
+Receiver agent: 0 sender agent: 1, # messages = 27
+Receiver agent: 0 sender agent: 2, # messages = 18
 
-2019-12-19 10:21:51,147 - room0 - INFO - Memory 96
-Agent : 0 Target :0# memories 16
-Agent : 0 Target :1# memories 1
-Agent : 0 Target :2# memories 2
+2019-12-24 14:43:40,105 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
+Agent : 0 Target :1# memories 0
+Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
 Agent : 1 Target :0# memories 13
-Agent : 1 Target :1# memories 13
-Agent : 1 Target :2# memories 11
-Agent : 2 Target :0# memories 14
+Agent : 1 Target :1# memories 0
+Agent : 1 Target :2# memories 13
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 13
+Agent : 2 Target :5# memories 2
 Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 52
-Sender agent: 0 receiver agent: 2, # messages = 30
-Receiver agent: 0 sender agent: 1, # messages = 54
-Receiver agent: 0 sender agent: 2, # messages = 31
+Sender agent: 0 receiver agent: 1, # messages = 27
+Sender agent: 0 receiver agent: 2, # messages = 18
+Receiver agent: 0 sender agent: 1, # messages = 29
+Receiver agent: 0 sender agent: 2, # messages = 19
 
-2019-12-19 10:21:51,841 - room0 - INFO - Memory 103
-Agent : 0 Target :0# memories 17
-Agent : 0 Target :1# memories 2
-Agent : 0 Target :2# memories 3
+2019-12-24 14:43:40,732 - room0 - INFO - Memory 0
+Agent : 0 Target :0# memories 0
+Agent : 0 Target :1# memories 0
+Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 0
 Agent : 1 Target :0# memories 14
-Agent : 1 Target :1# memories 14
-Agent : 1 Target :2# memories 11
-Agent : 2 Target :0# memories 15
+Agent : 1 Target :1# memories 0
+Agent : 1 Target :2# memories 14
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 14
+Agent : 2 Target :5# memories 2
 Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 57
-Sender agent: 0 receiver agent: 2, # messages = 33
-Receiver agent: 0 sender agent: 1, # messages = 58
-Receiver agent: 0 sender agent: 2, # messages = 33
+Sender agent: 0 receiver agent: 1, # messages = 29
+Sender agent: 0 receiver agent: 2, # messages = 19
+Receiver agent: 0 sender agent: 1, # messages = 31
+Receiver agent: 0 sender agent: 2, # messages = 21
 
-2019-12-19 10:21:52,548 - room0 - INFO - Memory 110
-Agent : 0 Target :0# memories 18
-Agent : 0 Target :1# memories 3
-Agent : 0 Target :2# memories 4
+2019-12-24 14:43:41,359 - room0 - INFO - Memory 100
+Agent : 0 Target :0# memories 0
+Agent : 0 Target :1# memories 0
+Agent : 0 Target :2# memories 0
+Agent : 0 Target :3# memories 0
+Agent : 0 Target :4# memories 0
+Agent : 0 Target :5# memories 1
 Agent : 1 Target :0# memories 15
-Agent : 1 Target :1# memories 15
-Agent : 1 Target :2# memories 11
-Agent : 2 Target :0# memories 16
+Agent : 1 Target :1# memories 0
+Agent : 1 Target :2# memories 15
+Agent : 1 Target :3# memories 0
+Agent : 1 Target :4# memories 0
+Agent : 1 Target :5# memories 0
+Agent : 2 Target :0# memories 0
 Agent : 2 Target :1# memories 0
 Agent : 2 Target :2# memories 0
+Agent : 2 Target :3# memories 0
+Agent : 2 Target :4# memories 15
+Agent : 2 Target :5# memories 2
 Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 62
-Sender agent: 0 receiver agent: 2, # messages = 36
-Receiver agent: 0 sender agent: 1, # messages = 63
-Receiver agent: 0 sender agent: 2, # messages = 35
-
-2019-12-19 10:21:53,270 - room0 - INFO - Memory 117
-Agent : 0 Target :0# memories 19
-Agent : 0 Target :1# memories 4
-Agent : 0 Target :2# memories 5
-Agent : 1 Target :0# memories 16
-Agent : 1 Target :1# memories 16
-Agent : 1 Target :2# memories 11
-Agent : 2 Target :0# memories 17
-Agent : 2 Target :1# memories 0
-Agent : 2 Target :2# memories 0
-Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 68
-Sender agent: 0 receiver agent: 2, # messages = 40
-Receiver agent: 0 sender agent: 1, # messages = 67
-Receiver agent: 0 sender agent: 2, # messages = 38
-
-2019-12-19 10:21:54,021 - room0 - INFO - Memory 124
-Agent : 0 Target :0# memories 20
-Agent : 0 Target :1# memories 5
-Agent : 0 Target :2# memories 6
-Agent : 1 Target :0# memories 17
-Agent : 1 Target :1# memories 17
-Agent : 1 Target :2# memories 11
-Agent : 2 Target :0# memories 18
-Agent : 2 Target :1# memories 1
-Agent : 2 Target :2# memories 0
-Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 73
-Sender agent: 0 receiver agent: 2, # messages = 44
-Receiver agent: 0 sender agent: 1, # messages = 73
-Receiver agent: 0 sender agent: 2, # messages = 42
-
-2019-12-19 10:21:54,748 - room0 - INFO - Memory 131
-Agent : 0 Target :0# memories 21
-Agent : 0 Target :1# memories 6
-Agent : 0 Target :2# memories 6
-Agent : 1 Target :0# memories 18
-Agent : 1 Target :1# memories 18
-Agent : 1 Target :2# memories 11
-Agent : 2 Target :0# memories 19
-Agent : 2 Target :1# memories 2
-Agent : 2 Target :2# memories 0
-Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 79
-Sender agent: 0 receiver agent: 2, # messages = 49
-Receiver agent: 0 sender agent: 1, # messages = 75
-Receiver agent: 0 sender agent: 2, # messages = 47
-
-2019-12-19 10:21:55,524 - room0 - INFO - Memory 138
-Agent : 0 Target :0# memories 22
-Agent : 0 Target :1# memories 7
-Agent : 0 Target :2# memories 6
-Agent : 1 Target :0# memories 19
-Agent : 1 Target :1# memories 19
-Agent : 1 Target :2# memories 11
-Agent : 2 Target :0# memories 20
-Agent : 2 Target :1# memories 3
-Agent : 2 Target :2# memories 0
-Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 84
-Sender agent: 0 receiver agent: 2, # messages = 54
-Receiver agent: 0 sender agent: 1, # messages = 81
-Receiver agent: 0 sender agent: 2, # messages = 52
-
-2019-12-19 10:21:56,286 - room0 - INFO - Memory 146
-Agent : 0 Target :0# memories 23
-Agent : 0 Target :1# memories 8
-Agent : 0 Target :2# memories 6
-Agent : 1 Target :0# memories 21
-Agent : 1 Target :1# memories 21
-Agent : 1 Target :2# memories 11
-Agent : 2 Target :0# memories 21
-Agent : 2 Target :1# memories 4
-Agent : 2 Target :2# memories 0
-Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 88
-Sender agent: 0 receiver agent: 2, # messages = 60
-Receiver agent: 0 sender agent: 1, # messages = 86
-Receiver agent: 0 sender agent: 2, # messages = 57
-
-2019-12-19 10:21:56,990 - room0 - INFO - Memory 152
-Agent : 0 Target :0# memories 24
-Agent : 0 Target :1# memories 9
-Agent : 0 Target :2# memories 6
-Agent : 1 Target :0# memories 22
-Agent : 1 Target :1# memories 22
-Agent : 1 Target :2# memories 11
-Agent : 2 Target :0# memories 22
-Agent : 2 Target :1# memories 5
-Agent : 2 Target :2# memories 0
-Statistic message 
-Sender agent: 0 receiver agent: 1, # messages = 91
-Sender agent: 0 receiver agent: 2, # messages = 63
-Receiver agent: 0 sender agent: 1, # messages = 89
-Receiver agent: 0 sender agent: 2, # messages = 62
+Sender agent: 0 receiver agent: 1, # messages = 31
+Sender agent: 0 receiver agent: 2, # messages = 21
+Receiver agent: 0 sender agent: 1, # messages = 33
+Receiver agent: 0 sender agent: 2, # messages = 22
 

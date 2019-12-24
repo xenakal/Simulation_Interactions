@@ -78,7 +78,6 @@ class GUI_stat:
             n = n +1
             #print(agent.message_stat.to_string())
 
-
         m = 1
         for agent in room.agentCam:
             n = 1

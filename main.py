@@ -257,5 +257,5 @@ class App:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    myApp = App(1, 6)
+    myApp = App(1, 4)
     myApp.main()
