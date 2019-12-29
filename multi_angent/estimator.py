@@ -5,7 +5,24 @@ import main
 from utils.line import *
 import math
 
-NUMBER_PREDICTIONS = 3
+
+'''
+Class use to create an estimation of a target in the room. 
+
+1)(int) Timestamp = time to which the estimation is done.
+2)(int) agentID   = ID of the agent who makes the estimation.  
+3)(int) targetID  = to which ID this prediction is done.  
+4)(int) target_label = inforamtion about the target
+5)[(int),(int)] position = estimation of the position of the target in the room
+
+NOT USE NOW 
+6) seenByCam = ?? maybe should be suppress
+7) followedByCam = cam who has the best view on the target for now 
+
+8) estimator = to know if the target make a prediction 
+
+
+'''
 class TargetEstimator:
     def __init__(self, timeStamp, agentID,target, seenByCam=False, followedByCam=-1):
         self.timeStamp = timeStamp
@@ -67,7 +84,15 @@ class TargetEstimator:
 
     def __gt__(self, other):
         return self.timeStamp > other.timeStamp
-''' List of TargetEstimator'''
+
+
+''' 
+class to keep track of multiple TargetEstimator from multiple agent
+
+1) times = number of values kept in memory 
+2) current_time = time in the room
+3) estimatorList = [[agent.id, target.id, [TargetEstimator]], ...]
+'''
 class TargetEstimatorList:
     def __init__(self, nTime=20, current_time=0):
         self.times = nTime
@@ -165,11 +190,19 @@ class TargetEstimatorList:
                 s = s + "Agent : " + str(element[0]) + " Target :" + str(element[1]) + "# memories " + str(len(element[2])) + "\n"
         return s
 
+
+''' 
+class to keep track of multiple TargetEstimator from only one agent
+
+1) times = number of values kept in memory 
+2) current_time = time in the room
+3) estimatorList = [[target.id, [TargetEstimator]], ...]
+'''
 class FusionEstimatorList:
     def __init__(self, nTime=5, currentTime=0):
         self.times = nTime
         self.currentTime = currentTime
-        self.room_representation = []  #  [[TargetInfo],[TargetInfo]...]
+        self.room_representation = []
 
     def init_estimator_list(self, room):
         tab = []
@@ -207,11 +240,6 @@ class FusionEstimatorList:
 
     def set_current_time(self,current_time):
         self.currentTime = current_time
-
-#    def getCamInCharge(self, infoTime, targetID):
-#      for info in self.get_Info_T(infoTime):
-#            if info.target_ID == targetID:
-#                return info.followedByCam
 
     def isTargetDetected(self, infoTime, targetID):
         for info in self.get_Info_T(infoTime):

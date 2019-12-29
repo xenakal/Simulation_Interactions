@@ -2,6 +2,19 @@ import numpy as np
 import random
 import re
 
+'''
+Class that define what a message between to agent is. 
+
+following attibutes are used: 
+1)(int) Timestamp = time at which the message is sent 
+2)(int) Signature = random number associated to every message
+3)(int) SenderID + (int) signature = define which agent is senduing the message 
+4) [[(int),(int)],...] ReceiverID,signature = define which agent will receive the message, multiple agent can be set
+5) [[(int),(int)],...] Remaining receiver are the receiver to which the message was not sent.
+6) (int) targetID to know to which agent it refering to, -1 if it does not refer to any particular target (ex : heartbeat) 
+7) (string)  messageType = (ex "request","ack","nack","heartbeat","information", ...)
+8) (string) message = string that can be send and contain a particular message (ex: memory) 
+'''
 
 class Message():
     def __init__(self,timeStamp,senderID,senderSignature,messageType,message,targetID=-1):
@@ -81,6 +94,16 @@ class Message():
         base = s1+s2+s3+s4
         return base + str(self.message) +"\n"
 
+
+'''
+This class extend the class message, it allows to add the received ack or nack that refers to a particular message.
+
+([Message_Check_ACK_NACK,...]) Ack = every ack associated to a message can be added  
+([Message_Check_ACK_NACK,...]) Nack = every  nack associated to a message can be added
+
+is_approved()  check is every receiver approved the message by sending a ack
+is_not_approved() check is at least one of the receiver sent a nack
+'''
 class Message_Check_ACK_NACK(Message):
     def __init__(self, timeStamp, senderID, senderSignature, messageType, message, targetID=-1):
         self.ack = []
@@ -126,7 +149,14 @@ class Message_Check_ACK_NACK(Message):
             message_in = None
         return message_in
 
-''' List of messages '''
+''' 
+List of messages 
+
+Allow to deal with multiple messages
+Message  can be automatically remove from the list after a time t using removeMessageAfterAGivenTime
+Other functions allow to compare message.
+
+'''
 class ListMessage():
     def __init__(self,name):
         self.myList = []

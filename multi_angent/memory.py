@@ -1,6 +1,9 @@
 from multi_angent.estimator import*
 
 '''
+
+    A SUPPRIMER APRES 
+    
    En gros la prédiction doit se faire sur la classe memory
 
    Dans la classe memory il y a deux tableau
@@ -24,6 +27,23 @@ from multi_angent.estimator import*
        (réprésentation par des petits points sur la carte
    '''
 
+
+'''
+Class with multiple arrays that store information about target.
+
+(int) agentID = agent to which the memory is associated
+(int) current_time = time to be updated so that the memory is on time with the room. 
+(int) nTime = number of memories over time that should be stored (not use yet)
+
+([[agent.id, target.id, [TargetEstimator]],...]) memory_all_agent = list of every information that the agent has (multiple position per target)
+- either gather on the picture with YOLO
+- or received from an other agent
+going from memory_all_agent to memory_agent with the function combine_data
+
+([[target.id,[TargetEstimator]],...]) memory_agent = estimation of the disposition in the room. (only one position per target)
+(now the agent keep just what he sees ! TO BE MODIFY with a Kalman filet for ex !)
+the prediction should be based on that information  
+'''
 
 class Memory:
     def __init__(self, agentID,nTime=20, current_time=0):
