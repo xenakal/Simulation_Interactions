@@ -34,6 +34,9 @@ class GUI_option:
     def suppress_mouse_position(self, position):
         self.position_mouse.remove(position)
 
+    def reset_mouse_list(self):
+        self.position_mouse = []
+
     def check_button(self,button):
         for position in self.position_mouse:
             (pos_x,pos_y) = position[0]

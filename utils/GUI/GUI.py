@@ -1,12 +1,6 @@
-import pygame
-import copy
-from pygame.locals import *
-from utils.line import *
 from utils.GUI.Button import *
 from utils.GUI.option import*
-from utils.GUI.GUI_room import*
-from utils.GUI.GUI_memories import*
-from utils.GUI.GUI_Agent_Target_Detected import *
+from utils.GUI.GUI_simulation.GUI_simulation import *
 from utils.GUI.Gui_projection import*
 from utils.GUI.GUI_stat import *
 
@@ -22,26 +16,20 @@ BACKGROUND = RED
 class GUI:
     def __init__(self):
         pygame.init()
-        # pygame.display.init()
-        # self.screen = pygame.display.set_mode((1220, 960), pygame.RESIZABLE)
+
+        #define the windows
         self.w = 800
         self.h = 600
         self.screen = pygame.display.set_mode((self.w, self.h), pygame.RESIZABLE)
 
         self.button_menu = ButtonList(["Simulation","Camera","Stat","Option"],10,-30,0,0,100,30)
         self.button_menu.set_button_state("Simulation",True)
-        self.button_simulation_1 = ButtonList(["real T", "M agent","M all agent","prediction"], 10, -20, 0, 40, 100, 20)
-        self.button_simulation_2 = ButtonList(["0", "1", "2","3","4","5","6"], -35, 10, 700, 40, 35, 15)
-        self.button_simulation_3 = ButtonList(["0", "1", "2","3","4","5","6"], -35, 10, 750, 40, 35, 15)
 
         self.GUI_option = GUI_option(self.screen)
 
-        self.GUI_room = GUI_room(self.screen,self.GUI_option.agent_to_display,self.GUI_option.target_to_display,200,100,400,400)
-        self.GUI_memories = GUI_memories(self.screen,self.GUI_option.agent_to_display,self.GUI_option.target_to_display,200,100,4/3,4/3)
-
         self.GUI_projection = GUI_projection(self.screen)
-        self.GUI_ATD = GUI_Agent_Target_Detected(self.screen)
         self.GUI_stat = GUI_stat(self.screen,0,50)
+        self.GUI_simu = GUI_simulation(self.screen,self.GUI_option)
 
         pygame.display.set_caption("Camera simulation")
         self.font = pygame.font.SysFont("monospace", 15)
@@ -53,78 +41,16 @@ class GUI:
         self.GUI_option.check_list(self.button_menu.list)
         self.button_menu.draw(self.screen)
 
-    def display_simulation_button(self):
-        for button in self.button_simulation_1.list:
-            self.GUI_option.check_button(button)
-
-        for button in self.button_simulation_2.list:
-            self.GUI_option.check_button(button)
-            if button.pressed:
-                self.GUI_option.option_add_agent(button.text)
-            else:
-                self.GUI_option.option_remove_agent(button.text)
-
-        for button in self.button_simulation_3.list:
-            self.GUI_option.check_button(button)
-            if button.pressed:
-                self.GUI_option.option_add_target(button.text)
-            else:
-                self.GUI_option.option_remove_target(button.text)
-
-        x_offset = 0
-        y_offset = 500
-        y_range = 15
-        y_pas = 15
-
-        s = "agent: "
-        label = self.font.render(s, 10, WHITE)
-        self.screen.blit(label, (x_offset, y_offset + y_range))
-        y_range = y_range + y_pas
-
-        s = "list: " + str(self.GUI_option.agent_to_display)
-        label = self.font.render(s, 10, WHITE)
-        self.screen.blit(label, (x_offset, y_offset + y_range))
-        y_range = y_range + y_pas
-
-        s = "target: "
-        label = self.font.render(s, 10, WHITE)
-        self.screen.blit(label, (x_offset, y_offset + y_range))
-        y_range = y_range + y_pas
-
-        s = "list: " + str(self.GUI_option.target_to_display)
-        label = self.font.render(s, 10, WHITE)
-        self.screen.blit(label, (x_offset, y_offset + y_range))
-
-        self.button_simulation_1.draw(self.screen)
-        self.button_simulation_2.draw(self.screen)
-        self.button_simulation_3.draw(self.screen)
-
-
     def updateGUI(self,myRoom):
         self.refresh()
         self.display_menu()
 
         if self.button_menu.find_button_state("Simulation"):
-            self.display_simulation_button()
-            self.GUI_room.drawRoom(myRoom.coord)
-            self.GUI_room.drawTarget(myRoom.targets,myRoom.coord)
-            self.GUI_room.drawCam(myRoom)
-
-            if self.button_simulation_1.find_button_state("prediction"):
-                pass
-
-            if self.button_simulation_1.find_button_state("real T"):
-                self.GUI_room.drawTarget_all_postion(myRoom)
-
-            if self.button_simulation_1.find_button_state("M agent"):
-                self.GUI_memories.drawMemory(myRoom)
-
-            if self.button_simulation_1.find_button_state("M all agent"):
-                self.GUI_memories.drawMemoryAll(myRoom)
+            self.GUI_simu.run(myRoom)
 
         elif self.button_menu.find_button_state("Camera"):
             self.GUI_projection.drawProjection(myRoom)
-            self.GUI_ATD.screenDetectedTarget(myRoom)
+            self.GUI_simu.GUI_ATD.screenDetectedTarget(myRoom)
 
         elif self.button_menu.find_button_state("Stat"):
             self.GUI_stat.draw_stat_message(myRoom)
@@ -132,6 +58,7 @@ class GUI:
         elif self.button_menu.find_button_state("Option"):
             pass
 
+        self.GUI_option.reset_mouse_list()
         pygame.display.update()
 
 

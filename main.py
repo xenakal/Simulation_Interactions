@@ -4,11 +4,6 @@ from init import *
 from utils.GUI.GUI import *
 from utils.motion import *
 
-
-TIMESTEP = 0.5
-T_MAX = 1000
-TIME_BTW_FRAMES = 0.1
-
 class App:
     def __init__(self, useGUI=1, scenario=0):
         #clean the file mailbox

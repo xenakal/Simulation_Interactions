@@ -1,4 +1,5 @@
 import pygame
+import math
 from utils.GUI.GUI import*
 
 WHITE = (255, 255, 255)

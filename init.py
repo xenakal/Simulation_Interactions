@@ -3,6 +3,9 @@ import os
 import numpy
 from multi_agent.room import *
 
+T_MAX = 1000
+TIME_BTW_FRAMES = 0.1
+
 def set_room(scenario):
         # Here by changing only the vectors it is possible to create as many scenario as we want !
         if scenario == -1:
