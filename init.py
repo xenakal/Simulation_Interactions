@@ -3,7 +3,6 @@ import os
 import numpy
 from multi_agent.room import *
 
-
 def set_room(scenario):
         # Here by changing only the vectors it is possible to create as many scenario as we want !
         if scenario == -1:

@@ -33,14 +33,6 @@ class Agent:
         mbox = mailbox.mbox(NAME_MAILBOX + str(self.id))
         mbox.clear()
 
-        # Threads
-        self.threadRun = 1
-        self.thread_pI = threading.Thread(target=self.thread_processImage)
-        self.thread_rL = threading.Thread(target=self.thread_recLoop)
-        # log_message
-        threading.Timer(2,self.thread_processImage)
-        threading.Timer(2,self.thread_recLoop)
-
         # create logger_message with 'spam_application'
         logger_message = logging.getLogger('agent' + str(self.id))
         logger_message.setLevel(logging.INFO)

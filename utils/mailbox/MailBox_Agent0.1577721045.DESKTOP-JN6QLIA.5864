@@ -1,0 +1,59 @@
+From MAILER-DAEMON Mon Dec 30 15:50:45 2019
+Timestamp: 262 message#:8406814031475659
+From: 2 sender#3954179511426382
+Receiver list : 
+To: 0 receiver#4557458723382818
+Type: ack target: 0 Message: 3769913971765540
+
+From MAILER-DAEMON Mon Dec 30 15:50:45 2019
+Timestamp: 262 message#:1193382007029741
+From: 2 sender#3954179511426382
+Receiver list : 
+To: 0 receiver#4557458723382818
+Type: ack target: 1 Message: 9366704290117554
+
+From MAILER-DAEMON Mon Dec 30 15:50:45 2019
+Timestamp: 262 message#:8945556017617594
+From: 1 sender#9922437905672692
+Receiver list : 
+To: 0 receiver#4557458723382818
+Type: ack target: 0 Message: 4349178463145680
+
+From MAILER-DAEMON Mon Dec 30 15:50:45 2019
+Timestamp: 262 message#:2186254880670215
+From: 1 sender#9922437905672692
+Receiver list : 
+To: 0 receiver#4557458723382818
+Type: ack target: 1 Message: 5559176847195827
+
+From MAILER-DAEMON Mon Dec 30 15:50:45 2019
+Timestamp: 262 message#:1464351029507838
+From: 1 sender#9922437905672692
+Receiver list : 
+To: 0 receiver#4557458723382818
+Type: ack target: 2 Message: 4931200379082102
+
+From MAILER-DAEMON Mon Dec 30 15:50:45 2019
+Timestamp: 268 message#:468909732513868
+From: 1 sender#9922437905672692
+Receiver list : 
+To: 0 receiver#4557458723382818
+To: 2 receiver#3954179511426382
+Type: memory target: 0 Message: #Timestamp#258#From#1#Target_ID#0#Target_label#fixx:154y:159Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Mon Dec 30 15:50:45 2019
+Timestamp: 268 message#:5176888511791866
+From: 1 sender#9922437905672692
+Receiver list : 
+To: 0 receiver#4557458723382818
+To: 2 receiver#3954179511426382
+Type: memory target: 1 Message: #Timestamp#258#From#1#Target_ID#1#Target_label#targetx:178y:188Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Mon Dec 30 15:50:45 2019
+Timestamp: 268 message#:607930538594827
+From: 1 sender#9922437905672692
+Receiver list : 
+To: 0 receiver#4557458723382818
+To: 2 receiver#3954179511426382
+Type: memory target: 2 Message: #Timestamp#258#From#1#Target_ID#2#Target_label#obstructionx:43y:273Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+

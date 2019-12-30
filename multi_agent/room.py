@@ -1,7 +1,7 @@
-from elements.target import *
-from elements.camera import *
-from multi_agent.agentCamera import *
 import numpy
+from elements.target import *
+from multi_agent.agentCamera import *
+from elements.camera import *
 
 
 "Ici il faut un peu modifier pour pouvoir avec un pièce dynamique avec des objets qui peuvent rentrer et sortir"

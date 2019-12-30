@@ -1,8 +1,9 @@
 import shutil
 import os
+from init import *
 from utils.GUI.GUI import *
 from utils.motion import *
-from init import *
+
 
 TIMESTEP = 0.5
 T_MAX = 1000
