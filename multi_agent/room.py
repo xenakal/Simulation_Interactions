@@ -1,12 +1,10 @@
 from elements.target import *
 from elements.camera import *
-from multi_angent.agentCamera import *
+from multi_agent.agentCamera import *
 import numpy
 
 
 "Ici il faut un peu modifier pour pouvoir avec un pièce dynamique avec des objets qui peuvent rentrer et sortir"
-
-
 class Room:
     def __init__(self):
         # Room attributes

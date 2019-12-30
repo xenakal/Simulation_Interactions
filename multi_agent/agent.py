@@ -5,7 +5,7 @@ import logging
 import random
 import numpy as np
 from elements.target import *
-from multi_angent.message import *
+from multi_agent.message import *
 
 NAME_LOG_PATH = "log/log_agent/Agent"
 NAME_MAILBOX = "utils/mailbox/MailBox_Agent"

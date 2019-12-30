@@ -4,10 +4,10 @@ import time
 import logging
 import numpy as np
 from elements.target import *
-from multi_angent.agent import *
-from multi_angent.estimator import *
-from multi_angent.message import *
-from multi_angent.memory import *
+from multi_agent.agent import *
+from multi_agent.estimator import *
+from multi_agent.message import *
+from multi_agent.memory import *
 
 TIME_PICTURE = 0.05
 TIME_SEND_READ_MESSAGE = 0.5
@@ -93,7 +93,6 @@ class AgentCam(Agent):
                 # self.memory.makePredictions()
                 self.process_InfoMemory(self.myRoom)
                 self.memory.combine_data(self.myRoom)
-                #print(self.memory.to_string_memory())
                 nextstate = "sendMessage"
 
             elif state == "sendMessage":
@@ -118,7 +117,6 @@ class AgentCam(Agent):
             self.process_Message_sent()
 
     def process_InfoMemory(self,room):
-
         for target in room.targets:
             liste = self.memory.memory_agent.get_target_list(target.id)
             if len(liste) > 0:
@@ -136,7 +134,6 @@ class AgentCam(Agent):
                 pass
             elif info.target_label == "fix":
                 pass
-
 
     def process_Message_sent(self):
         for message_sent in self.info_messageSent.getList():

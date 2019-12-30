@@ -100,8 +100,40 @@ class GUI:
         self.button_simulation_3.draw(self.screen)
 
 
-    def updateScreen(self):
+    def updateGUI(self,myRoom):
+        self.refresh()
+        self.display_menu()
+
+        if self.button_menu.find_button_state("Simulation"):
+            self.display_simulation_button()
+            self.GUI_room.drawRoom(myRoom.coord)
+            self.GUI_room.drawTarget(myRoom.targets,myRoom.coord)
+            self.GUI_room.drawCam(myRoom)
+
+            if self.button_simulation_1.find_button_state("prediction"):
+                pass
+
+            if self.button_simulation_1.find_button_state("real T"):
+                self.GUI_room.drawTarget_all_postion(myRoom)
+
+            if self.button_simulation_1.find_button_state("M agent"):
+                self.GUI_memories.drawMemory(myRoom)
+
+            if self.button_simulation_1.find_button_state("M all agent"):
+                self.GUI_memories.drawMemoryAll(myRoom)
+
+        elif self.button_menu.find_button_state("Camera"):
+            self.GUI_projection.drawProjection(myRoom)
+            self.GUI_ATD.screenDetectedTarget(myRoom)
+
+        elif self.button_menu.find_button_state("Stat"):
+            self.GUI_stat.draw_stat_message(myRoom)
+
+        elif self.button_menu.find_button_state("Option"):
+            pass
+
         pygame.display.update()
+
 
 
 

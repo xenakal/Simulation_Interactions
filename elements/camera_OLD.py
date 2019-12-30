@@ -5,8 +5,54 @@ from utils.line import *
 from utils.queueFIFO import *
 from elements.target import *
 
+NUMBER_PREDICTIONS = 3
+
+
+def avgSpeedFunc(positions):
+    if len(positions) <= 1:  # one position or less not enough to calculate speed
+        return 0
+    prevPos = positions[0]
+    stepTime = 1  # TODO: see what the actual time increment is
+    avgSpeed = 0.0
+    for curPos in positions:
+        stepDistance = distanceBtwTwoPoint(prevPos[0], prevPos[1], curPos[0], curPos[1])
+        avgSpeed += stepDistance / stepTime
+        prevPos = curPos
+
+    avgSpeed = avgSpeed / (len(positions) - 1)
+    return avgSpeed
+
+
+# Returns direction as the angle (in degrees) between the horizontal and the line making the direction
+def avgDirectionFunc(positions):
+    if len(positions) <= 1:  # one position or less not enough to calculate direction
+        return 0
+    prevPos = positions[0]
+    avgDir = 0
+    counter = 0
+    for curPos in positions[1:]:
+        dy = curPos[1] - prevPos[1]
+        dx = curPos[0] - prevPos[0]
+        stepDirection = math.atan2(float(dy), float(dx))
+        avgDir += stepDirection
+
+        prevPos = curPos
+        counter += 1
+
+    avgDir = avgDir / counter
+    #  print("avgDir " + str(avgDir))
+    return avgDir
+
+
+def calcNextPos(position, speed, direction):
+    travelDistance = main.TIMESTEP * 4 * speed
+    xPrediction = position[0] + math.cos(direction) * travelDistance
+    yPrediction = position[1] + math.sin(direction) * travelDistance  # -: the coordinates are opposite to the cartesian
+    return [int(xPrediction), int(yPrediction)]
+
+
 class Camera:
-    def __init__(self, cam_id, cam_x, cam_y, cam_alpha, cam_beta,fix=1):
+    def __init__(self, cam_id, cam_x, cam_y, cam_alpha, cam_beta, fix=1):
         # Label
         self.id = cam_id
         self.status = 'agent'
@@ -38,7 +84,7 @@ class Camera:
 
     def camActivate(self):
         self.isActive = 1
-        
+
     def isActivate(self):
         if self.isActive == 1:
             return True
@@ -61,9 +107,12 @@ class Camera:
             self.limitProjection = tab[0]
             self.targetDetectedList = tab[1]  # [target objects, position, hidden]
 
-            # 4) if the camera is not fix it can rotate
+            # 4)remember the previous positions of the different targets
+            self.updatePreviousPos()
+
+            # 5) if the camera is not fix it can rotate
             self.cam_rotate(math.radians(1))
-            
+
             return tab[1].copy()
 
     def coord_from_WorldFrame_to_CamFrame(self, x, y):
@@ -308,3 +357,36 @@ class Camera:
     def cam_rotate(self, step):
         if self.fix == 0:
             self.alpha = self.alpha + step
+
+    #  This method will return bullshit predictions if object disappears and reappears elsewhere
+    def updatePreviousPos(self):
+        for target in self.targetDetectedList:
+            targetObj = target[0]  # target object
+            if targetObj.label == 'target':
+                if targetObj not in self.previousPositions:  # not encountered the object yet
+                    self.previousPositions[targetObj] = QueueFIFO()  # create new entry in dict
+                self.previousPositions[targetObj].enqueue([targetObj.xc, targetObj.yc])  # update dict
+
+    #  Predict the paths of all targets previously seen as a list with the NUMBER_PREDICTIONS next estimated positions
+    def predictPaths(self):
+        for targetObj in self.previousPositions:
+            self.predictedPositions[targetObj] = self.nextPositions(targetObj)
+
+    def nextPositions(self, target):
+        predictedPos = [None] * NUMBER_PREDICTIONS
+        #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate
+        prevPos = self.previousPositions[target].getQueue()
+        currPos = [target.xc, target.yc]
+
+        for i in range(NUMBER_PREDICTIONS):
+            #  Estimate next position
+            avgSpeed = avgSpeedFunc(prevPos)  # calculate average velocity
+            avgDirection = avgDirectionFunc(prevPos)  # calculate average direction
+            nextPos = calcNextPos(currPos, avgSpeed, avgDirection)  # estimate next position
+            predictedPos[i] = nextPos
+            # Update needed values
+            prevPos = prevPos[1:]  # include new pos for next iteration
+            prevPos.append(currPos)
+            currPos = nextPos
+
+        return predictedPos
