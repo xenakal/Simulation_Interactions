@@ -78,21 +78,6 @@ class GUI_option:
         except ValueError:
             pass
 
-
-    def option(self,event_key):
-        if event_key == K_q:
-            self.draw_prediction = not self.draw_prediction
-        elif event_key == K_w:
-            self.draw_memory_agent = not self.draw_memory_agent
-        elif event_key == K_e:
-            self.draw_memory_all_agent = not self.draw_memory_all_agent
-        elif event_key == K_c:
-            self.modify_agent = not self.modify_agent
-        elif event_key == K_t:
-            self.modify_target = not self.modify_target
-        elif event_key == K_r:
-            self.draw_real_trajectory = not self.draw_real_trajectory
-
     def getGUI_Info(self):
         for event in pygame.event.get():
             type_event = event.type

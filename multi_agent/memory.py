@@ -80,6 +80,9 @@ class Memory:
 
     def combine_data(self,room):
         #SIMPLE MANIERE DE FAIRE A MODIFIER NE PREND EN COMPTE QUE CE QUE L'AGENT VOIT
+
+        #ICI on pourrait faire un récursif Least-square estimator, comme ça à chaque fois qu'on reçoit une donnée elle peut amélioré l'amélioration du temps
+        #efficacement (pour combiner la même info de plusieurs cameras différentes) MAIS peut-être pas nécéssaire avec Kalman je sais pas du tout
         for target in room.targets:
             for estimateur in self.memory_all_agent.get_agent_target_list(target.id,self.id):
                 if not self.memory_agent.is_target_estimator(self.memory_agent.get_target_list(target.id),estimateur):

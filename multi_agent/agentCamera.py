@@ -10,7 +10,7 @@ from multi_agent.message import *
 from multi_agent.memory import *
 
 TIME_PICTURE = 0.05
-TIME_SEND_READ_MESSAGE = 0.5
+TIME_SEND_READ_MESSAGE = 0.1
 
 MULTI_THREAD = 0
 NAME_MAILBOX = "mailbox/MailBox_Agent"
