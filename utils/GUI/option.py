@@ -40,15 +40,15 @@ class GUI_option:
     def check_button(self,button):
         for position in self.position_mouse:
             (pos_x,pos_y) = position[0]
-            if button.check_click(self.screen,pos_x,pos_y):
+            if button.check_click(self.screen, pos_x, pos_y):
                 self.suppress_mouse_position(position)
                 return True
         return False
 
-    def check_list(self,list):
-        for button in list:
+    def check_list(self, buttons):
+        for button in buttons:
             if self.check_button(button):
-                for button_to_turn_off in list:
+                for button_to_turn_off in buttons:
                     button_to_turn_off.set_button(False)
                 button.set_button(True)
 
@@ -84,7 +84,9 @@ class GUI_option:
             if type_event == KEYDOWN:
                 if event.key == K_ESCAPE:
                     pygame.quit()
-                    return False
+                    return (False, False)
+                if event.key == K_r:
+                    return (True, True)
 
             elif type_event == MOUSEMOTION and event.buttons[0] == 1: #déplacement + boutton enfoncer
                 pass
@@ -93,4 +95,4 @@ class GUI_option:
             elif type_event == MOUSEBUTTONDOWN: #MOUSEBUTTONUP
                 self.update_mouse_position()
 
-        return True
+        return (True, False)

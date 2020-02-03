@@ -1,4 +1,5 @@
 from utils.GUI.Button import *
+from utils.GUI.Button import ButtonList
 from utils.GUI.option import*
 from utils.GUI.GUI_simulation.GUI_simulation import *
 from utils.GUI.Gui_projection import*
@@ -22,7 +23,7 @@ class GUI:
         self.h = 600
         self.screen = pygame.display.set_mode((self.w, self.h), pygame.RESIZABLE)
 
-        self.button_menu = ButtonList(["Simulation","Camera","Stat","Option"],10,-30,0,0,100,30)
+        self.button_menu = ButtonList(["Simulation","Camera","Stat","Option", "Reset"],10,-30,0,0,100,30)
         self.button_menu.set_button_state("Simulation",True)
 
         self.GUI_option = GUI_option(self.screen)
@@ -57,6 +58,9 @@ class GUI:
 
         elif self.button_menu.find_button_state("Option"):
             pass
+
+        elif self.button_menu.find_button_state("Reset"):
+            print("okokok")
 
         self.GUI_option.reset_mouse_list()
         pygame.display.update()

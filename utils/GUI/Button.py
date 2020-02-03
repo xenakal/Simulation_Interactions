@@ -31,29 +31,26 @@ class Button:
         self.color_mouse_on = BLUE
         self.color_label = BLACK
 
+        self.color = self.color_released # actual color
+
         self.pressed = False
 
     def draw(self,window):
-            if self.pressed:
-                pygame.draw.rect(window,self.color_pressed,Rect(self.x,self.y,self.w,self.h))
-            else:
-                pygame.draw.rect(window, self.color_released, Rect(self.x, self.y, self.w, self.h))
+        pygame.draw.rect(window, self.color, Rect(self.x, self.y, self.w,self.h))
 
-            label = self.font.render(self.text, 10, BLACK)
-            window.blit(label, (self.x, self.y))
+        label = self.font.render(self.text, 10, BLACK)
+        window.blit(label, (self.x, self.y))
 
-    def set_button(self,state):
-        self.pressed = state
+    def set_button(self, pressed):
+        self.color = self.color_pressed if pressed else self.color_released
+        self.pressed = pressed
 
-    def check_mouse_pos(self,window,pos_x,pos_y):
-        if (pos_x > self.x and pos_x < self.x+self.w) and (pos_y > self.y and pos_y < self.y+self.h):
-            #pygame.draw.rect(window, self.color_mouse_on, Rect(self.x, self.y, self.w, self.h))
-            return True
-        return  False
+    def is_mouse_on_button(self, pos_x, pos_y):
+        return (self.x < pos_x < self.x + self.w) and (self.y < pos_y < self.y + self.h)
 
     def check_click(self,window,pos_x,pos_y):
-        if self.check_mouse_pos(window, pos_x, pos_y):
-            self.pressed = not self.pressed
+        if self.is_mouse_on_button(pos_x, pos_y):
+            self.set_button(not self.pressed)
             self.draw(window)
             return True
         return False
@@ -71,23 +68,17 @@ class ButtonList():
         self.delta_y = delta_y
 
 
-        self.add_button(names)
+        self.add_buttons(names)
 
     def draw(self,window):
         for button in self.list:
             button.draw(window)
 
-    def add_button(self, names):
+    def add_buttons(self, names):
         for name in names:
             self.list.append(Button(name,self.x,self.y,self.w,self.h))
             self.x = self.x + self.delta_x+self.w
             self.y = self.y + self.delta_y+self.h
-
-    def check_click(self,window,pos_x,pos_y):
-        for button in self.list:
-            if button.check_click():
-                return True
-        return False
 
     def find_button(self,name):
         for button in self.list:
@@ -102,4 +93,4 @@ class ButtonList():
     def set_button_state(self,name,state):
         for button in self.list:
             if button.text == name:
-                button.pressed = state
+                button.set_button(state)
