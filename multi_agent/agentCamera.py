@@ -19,7 +19,7 @@ class AgentCam(Agent):
     def __init__(self, idAgent, camera, room):
         # Attributes
         self.cam = camera
-        self.memory = Memory(idAgent,20)
+        self.memory = Memory(idAgent)
 
 
         # Threads
@@ -87,7 +87,7 @@ class AgentCam(Agent):
                             self.memory.add_create_target_estimator(self.myRoom,self.myRoom.time,elem[0].id,self.id,True)
 
                         self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
-                    nextstate = "processData"  # Avoir si on peut améliorer les prédictions avec les mess recu
+                    nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
             elif nextstate == "processData":
                 # self.memory.makePredictions()
@@ -181,7 +181,7 @@ class AgentCam(Agent):
 
         m = Message_Check_ACK_NACK(self.myRoom.time, self.id, self.signature, "memory",s, memory.target_ID)
         if len(receivers) == 0:
-            for agent in self.myRoom.agentCam:
+            for agent in self.myRoom.agentCams:
                 if agent.id != self.id:
                     m.addReceiver(agent.id, agent.signature)
         else:

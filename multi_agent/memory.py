@@ -47,7 +47,8 @@ the prediction should be based on that information
 
 class Memory:
     def __init__(self, agentID,nTime=20, current_time=0):
-            self.id =agentID
+            self.id =agentID # en vrai on peut direct donner une ref à l'agent, pas besoin du ID (ca va faciliter l'acces à la memory)
+            # TODO: self.agent = agent
             self.time= current_time
             self.nTime = nTime
             self.memory_all_agent = TargetEstimatorList()

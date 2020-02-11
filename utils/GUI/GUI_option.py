@@ -37,9 +37,9 @@ class GUI_option:
     def reset_mouse_list(self):
         self.position_mouse = []
 
-    def check_button(self,button):
+    def check_button(self, button):
         for position in self.position_mouse:
-            (pos_x,pos_y) = position[0]
+            (pos_x, pos_y) = position[0]
             if button.check_click(self.screen, pos_x, pos_y):
                 self.suppress_mouse_position(position)
                 return True
@@ -92,7 +92,7 @@ class GUI_option:
                 pass
                 #print("Déplacement") #pour utiliser des boutton
 
-            elif type_event == MOUSEBUTTONDOWN: #MOUSEBUTTONUP
+            elif type_event == MOUSEBUTTONUP:
                 self.update_mouse_position()
 
         return (True, False)

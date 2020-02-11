@@ -1,9 +1,9 @@
 .idea/
 
-/mailbox/
-/log/
+/mailbox/*
+/log/*
 
-elements/__pycache__/
-utils/__pycache__/
+elements/__pycache__/*
+utils/__pycache__/*
 
 

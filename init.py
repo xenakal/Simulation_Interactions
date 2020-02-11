@@ -161,7 +161,7 @@ def set_room(scenario):
                                   size_tar)
 
         myRoom.createAgentCam(x_cam, y_cam, angle_cam, angle_view_cam, fix_cam,myRoom)
-        for agent in myRoom.agentCam:
+        for agent in myRoom.agentCams:
             agent.run()
 
 

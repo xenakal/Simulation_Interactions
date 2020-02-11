@@ -32,7 +32,7 @@ class App:
         while run:  # Events loop
             if reset:
                 t = 0
-                for agent in self.myRoom.agentCam:
+                for agent in self.myRoom.agentCams:
                     agent.clear()
                 clean_mailbox()
                 self.myRoom = set_room(self.scenario)
@@ -57,7 +57,7 @@ class App:
 
             self.myRoom.time = self.myRoom.time + 1
     
-        for agent in self.myRoom.agentCam:
+        for agent in self.myRoom.agentCams:
             agent.clear()
 
         # Clean mailbox
@@ -68,5 +68,4 @@ def execute():
     myApp.main()
 
 if __name__ == "__main__":
-    # execute only if run as a script
     execute()

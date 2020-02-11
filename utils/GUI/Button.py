@@ -90,7 +90,7 @@ class ButtonList():
             if button.text == name:
                 return button.pressed
 
-    def set_button_state(self,name,state):
+    def set_buttons_state(self, name, state):
         for button in self.list:
             if button.text == name:
                 button.set_button(state)

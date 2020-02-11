@@ -46,7 +46,7 @@ class Target:
         # size
         self.size = tar_size
 
-        #to rembember is position
+        #to rembember its position
         self.all_position = []
 
     ''' hash and eq used to have target object as dictionary in camera '''

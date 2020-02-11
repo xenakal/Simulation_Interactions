@@ -89,7 +89,7 @@ class GUI_room:
 
 
     def drawCam(self, myRoom, color=0, l=100):
-        for agent in myRoom.agentCam:
+        for agent in myRoom.agentCams:
             camera = agent.cam
             # render text
             label = self.font.render(str(camera.id), 10, CAMERA)

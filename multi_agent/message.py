@@ -75,6 +75,7 @@ class Message():
                         self.addReceiver(info[0],info[1])
                         pass
                 except IndexError:
+                    # ?
                     pass
             self.messageType = attribut[6]
             self.targetRef = attribut[7]
@@ -153,7 +154,7 @@ class Message_Check_ACK_NACK(Message):
 List of messages 
 
 Allow to deal with multiple messages
-Message  can be automatically remove from the list after a time t using removeMessageAfterAGivenTime
+Message  can be automatically removed from the list after a time t using removeMessageAfterAGivenTime
 Other functions allow to compare message.
 
 '''

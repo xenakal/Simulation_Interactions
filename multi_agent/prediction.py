@@ -1,3 +1,4 @@
+import math
     '''
     En gros la prédiction doit se faire sur la classe memory
     
@@ -21,6 +22,8 @@
         la liste retourné contient toutes les informations connues sur le target pour les temps allant de 0 au temps actuel
         (réprésentation par des petits points sur la carte
     '''
+    NUMBER_PREDICTIONS = 5
+    TIMESTEP = 2
 
     def makePredictions(self):
         time = self.currentTime
@@ -79,6 +82,9 @@ def avgSpeedFunc(positions):
     avgSpeed = avgSpeed / (len(positions) - 1)
     return avgSpeed
 
+def distanceBtwTwoPoint(x1,y1,x2,y2):
+    return math.sqrt(math.pow(x1-x2,2)+math.pow(y1-y2,2))
+
 
 # Returns direction as the angle (in degrees) between the horizontal and the line making the direction
 def avgDirectionFunc(positions):
@@ -102,7 +108,7 @@ def avgDirectionFunc(positions):
 
 
 def calcNextPos(position, speed, direction):
-    travelDistance = main.TIMESTEP * 4 * speed
+    travelDistance = TIMESTEP * 4 * speed
     xPrediction = position[0] + math.cos(direction) * travelDistance
     yPrediction = position[1] + math.sin(direction) * travelDistance  # -: the coordinates are opposite to the cartesian
     return [int(xPrediction), int(yPrediction)]

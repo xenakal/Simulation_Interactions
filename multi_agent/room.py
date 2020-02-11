@@ -4,7 +4,6 @@ from multi_agent.agentCamera import *
 from elements.camera import *
 
 
-"Ici il faut un peu modifier pour pouvoir avec un pièce dynamique avec des objets qui peuvent rentrer et sortir"
 class Room:
     def __init__(self):
         # Room attributes
@@ -16,7 +15,7 @@ class Room:
         self.cameras = []
         self.camerasNumber = 0
         # agentCam
-        self.agentCam = []
+        self.agentCams = []
         self.agentCamNumber = 0
         # time
         self.time = 0
@@ -46,5 +45,5 @@ class Room:
             self.camerasNumber = self.camerasNumber + 1
         
         for camera in self.cameras:
-            self.agentCam.append(AgentCam(self.agentCamNumber, camera, myRoom))
+            self.agentCams.append(AgentCam(self.agentCamNumber, camera, myRoom))
             self.agentCamNumber += 1

@@ -2,9 +2,10 @@ from utils.GUI.Button import ButtonList
 from utils.GUI.GUI_simulation.GUI_room import*
 from utils.GUI.GUI_simulation.GUI_memories import*
 from utils.GUI.GUI_simulation.GUI_Agent_Target_Detected import *
+from utils.GUI.GUI_simulation.GUI_predictions import *
 
 class GUI_simulation:
-    def __init__(self,screen,GUI_option ):
+    def __init__(self,screen,GUI_option):
         pygame.init()
 
         self.screen = screen
@@ -14,9 +15,10 @@ class GUI_simulation:
         self.button_simulation_2 = ButtonList(["0", "1", "2","3","4","5","6"], -35, 10, 700, 40, 35, 15)
         self.button_simulation_3 = ButtonList(["0", "1", "2","3","4","5","6"], -35, 10, 750, 40, 35, 15)
 
-        self.GUI_room = GUI_room(self.screen,self.GUI_option.agent_to_display,self.GUI_option.target_to_display,200,100,400,400)
-        self.GUI_memories = GUI_memories(self.screen,self.GUI_option.agent_to_display,self.GUI_option.target_to_display,200,100,4/3,4/3)
+        self.GUI_room = GUI_room(self.screen,self.GUI_option.agent_to_display,self.GUI_option.target_to_display, 200, 100, 400, 400)
+        self.GUI_memories = GUI_memories(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, 200, 100, 4/3, 4/3)
         self.GUI_ATD = GUI_Agent_Target_Detected(self.screen)
+        self.GUI_pred = GUI_predictions(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, 200, 100, 4/3, 4/3)
 
         self.font = pygame.font.SysFont("monospace", 15)
         
@@ -27,7 +29,7 @@ class GUI_simulation:
         self.GUI_room.drawCam(myRoom)
 
         if self.button_simulation_1.find_button_state("prediction"):
-            pass
+            self.GUI_pred.drawPredictions(myRoom)
 
         if self.button_simulation_1.find_button_state("real T"):
             self.GUI_room.drawTarget_all_postion(myRoom)
@@ -37,6 +39,7 @@ class GUI_simulation:
 
         if self.button_simulation_1.find_button_state("M all agent"):
             self.GUI_memories.drawMemoryAll(myRoom)
+
 
     def display_simulation_button(self):
         for button in self.button_simulation_1.list:

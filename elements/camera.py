@@ -56,12 +56,12 @@ class Camera:
             # 2) Sort target from the closer to more far away
             orderedTarget = self.sortDetectedTarget(targetInTriangle)
 
-            # 3) Compute the projection and suppress hidden target
+            # 3) Compute the projection and suppress hidden targets
             tab = self.computeProjection(orderedTarget, l_projection, seuil)
             self.limitProjection = tab[0]
             self.targetDetectedList = tab[1]  # [target objects, position, hidden]
 
-            # 4) if the camera is not fix it can rotate
+            # 4) if the camera is not fixed it can rotate
             self.cam_rotate(math.radians(1))
             
             return tab[1].copy()

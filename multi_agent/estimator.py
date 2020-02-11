@@ -6,25 +6,21 @@ from utils.line import *
 import math
 
 
-'''
-Class use to create an estimation of a target in the room. 
-
-1)(int) Timestamp = time to which the estimation is done.
-2)(int) agentID   = ID of the agent who makes the estimation.  
-3)(int) targetID  = to which ID this prediction is done.  
-4)(int) target_label = inforamtion about the target
-5)[(int),(int)] position = estimation of the position of the target in the room
-
-NOT USE NOW 
-6) seenByCam = ?? maybe should be suppress
-7) followedByCam = cam who has the best view on the target for now 
-
-8) estimator = to know if the target make a prediction 
-
-
-'''
 class TargetEstimator:
-    def __init__(self, timeStamp, agentID,target, seenByCam=False, followedByCam=-1):
+    """
+    Class used to create an estimation of a target in the room.
+
+    Args:
+    timestamp -- time at which the estimation is done.
+    agentID   -- ID of the agent who makes the estimation.
+    target    -- target on which the estimation is done.
+
+    Args not used yet:
+    seenByCam -- maybe should be suppress
+    followedByCam -- cam who has the best view on the target for now
+    """
+
+    def __init__(self, timeStamp, agentID, target, seenByCam=False, followedByCam=-1):
         self.timeStamp = timeStamp
         self.agent_ID = agentID
 
@@ -41,8 +37,8 @@ class TargetEstimator:
         self.estimator = False
 
 
-    def copyTargetInfo_newTime(self, time,target, seenByCam):
-        return TargetEstimator(time,self.agent_ID, target, seenByCam, self.followedByCam)
+    def copyTargetEstimator_newTime(self, time, target, seenByCam):
+        return TargetEstimator(time, self.agent_ID, target, seenByCam, self.followedByCam)
 
     def setTimeStamp(self, time):
         self.timeStamp = time
@@ -86,14 +82,16 @@ class TargetEstimator:
         return self.timeStamp > other.timeStamp
 
 
-''' 
-class to keep track of multiple TargetEstimator from multiple agent
-
-1) times = number of values kept in memory 
-2) current_time = time in the room
-3) estimatorList = [[agent.id, target.id, [TargetEstimator]], ...]
-'''
 class TargetEstimatorList:
+    """
+    Class to keep track of multiple TargetEstimator from multiple agents
+
+    Args:
+    times         -- number of values kept in memory
+    current_time  -- time in the room
+    estimatorList -- [[agent.id, target.id, [TargetEstimator]], ...]
+    """
+
     def __init__(self, nTime=20, current_time=0):
         self.times = nTime
         self.currentTime = current_time
@@ -101,14 +99,16 @@ class TargetEstimatorList:
 
     def init_estimator_list(self, room):
         tab = []
-        for agent in room.agentCam:
+        for agent in room.agentCams:
             for target in room.targets:
                 tab.append([agent.id, target.id, []])
+                # bon par contre la liste va être ennorme là, faut pas spécialement tout
+                # TODO: change that
         self.estimator_list = tab
 
     def add_create_target_estimator(self, room, time_from_estimation, target_ID, agent_ID, seenByCam):
         for element in self.estimator_list:
-            if element[0] == agent_ID and element[1] == target_ID:
+            if element[0] == agent_ID and element[1] == target_ID:  # found the corresponding element
                 for target in room.targets:
                     if str(target.id) == str(target_ID):
                         estimator = TargetEstimator(time_from_estimation, agent_ID, target, seenByCam)
