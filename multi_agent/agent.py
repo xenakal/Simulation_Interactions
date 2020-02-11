@@ -151,7 +151,7 @@ class Agent:
         mbox.close()
 
 class Agent_statistic:
-    def __init__(self,id):
+    def __init__(self, id):
         self.id = id
         self.send_message_statistic = []
         self.receive_message_statistic = []

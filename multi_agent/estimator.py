@@ -191,14 +191,16 @@ class TargetEstimatorList:
         return s
 
 
-''' 
-class to keep track of multiple TargetEstimator from only one agent
-
-1) times = number of values kept in memory 
-2) current_time = time in the room
-3) estimatorList = [[target.id, [TargetEstimator]], ...]
-'''
 class FusionEstimatorList:
+    """
+    Class to keep track of multiple TargetEstimator from only one agent
+
+    Attributes:
+    times         -- number of values kept in memory
+    current_time  -- time in the room
+    estimatorList -- [[target.id, [TargetEstimator]], ...]
+    """
+
     def __init__(self, nTime=5, currentTime=0):
         self.times = nTime
         self.currentTime = currentTime

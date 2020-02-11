@@ -90,7 +90,7 @@ class AgentCam(Agent):
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
             elif nextstate == "processData":
-                # self.memory.makePredictions()
+                self.memory.makePredictions()
                 self.process_InfoMemory(self.myRoom)
                 self.memory.combine_data(self.myRoom)
                 nextstate = "sendMessage"
