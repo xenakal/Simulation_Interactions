@@ -47,3 +47,23 @@ class Room:
         for camera in self.cameras:
             self.agentCams.append(AgentCam(self.agentCamNumber, camera, myRoom))
             self.agentCamNumber += 1
+
+    def getAgentsWithIDs(self, idList):
+        """ Returns the list of agents with ids in the list provided in the argument. """
+        return [agent for agent in self.agentCams if agent.id in idList]
+
+    def getTargetsWithIDs(self, targetList):
+        """ Returns the list of targets with ids in the list provided in the argument. """
+        return [target for target in self.targets if target.id in targetList]
+
+    def getTargetbyID(self, targetID):
+        for target in self.targets:
+            if target.id == targetID:
+                return target
+        return None
+
+    def getAgentbyID(self, agentID):
+        for agent in self.agentCams:
+            if agent.id == agentID:
+                return agent
+        return None

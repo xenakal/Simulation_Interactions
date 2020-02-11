@@ -8,16 +8,16 @@ import math
 
 class TargetEstimator:
     """
-    Class used to create an estimation of a target in the room.
+    Class representing a target as viewed by an agent (ie with an estimated position).
 
     Args:
-    timestamp -- time at which the estimation is done.
-    agentID   -- ID of the agent who makes the estimation.
-    target    -- target on which the estimation is done.
+        timestamp -- time at which the estimation is done.
+        agentID   -- ID of the agent who makes the estimation.
+        target    -- target on which the estimation is done.
 
     Args not used yet:
-    seenByCam -- maybe should be suppress
-    followedByCam -- cam who has the best view on the target for now
+        seenByCam -- maybe should be suppress
+        followedByCam -- cam who has the best view on the target for now
     """
 
     def __init__(self, timeStamp, agentID, target, seenByCam=False, followedByCam=-1):
@@ -82,50 +82,47 @@ class TargetEstimator:
         return self.timeStamp > other.timeStamp
 
 
+def isCorrespondingEstimator(agentID, targetID, targetEstimator):
+    return targetEstimator[0] == agentID and targetEstimator[1] == targetID
+
 class TargetEstimatorList:
     """
     Class to keep track of multiple TargetEstimator from multiple agents
 
     Args:
-    times         -- number of values kept in memory
-    current_time  -- time in the room
-    estimatorList -- [[agent.id, target.id, [TargetEstimator]], ...]
+        times         -- number of values kept in memory
+        current_time  -- time in the room
+        estimatorList -- [[agent.id, target.id, [TargetEstimator]], ...]
     """
 
     def __init__(self, nTime=20, current_time=0):
         self.times = nTime
         self.currentTime = current_time
-        self.estimator_list = []
+        self.estimator_list = [] # tableau de taille #agents*#targets
 
-    def init_estimator_list(self, room):
+    def initEstimatorList(self, room):
         tab = []
         for agent in room.agentCams:
             for target in room.targets:
                 tab.append([agent.id, target.id, []])
-                # bon par contre la liste va être ennorme là, faut pas spécialement tout
+                # bon par contre la liste va être ennorme là, faut pas spécialement tout garder
                 # TODO: change that
         self.estimator_list = tab
 
     def add_create_target_estimator(self, room, time_from_estimation, target_ID, agent_ID, seenByCam):
-        for element in self.estimator_list:
-            if element[0] == agent_ID and element[1] == target_ID:  # found the corresponding element
-                for target in room.targets:
-                    if str(target.id) == str(target_ID):
-                        estimator = TargetEstimator(time_from_estimation, agent_ID, target, seenByCam)
-                        if not self.is_target_estimator(element[2], estimator):
-                            element[2].append(estimator)
+        """ Creates an estimator and adds it to the list if doesn't exist yet. """
+        for estimatorElem in self.estimator_list:
+            if isCorrespondingEstimator(agent_ID, target_ID, estimatorElem):
+                target = room.getTargetbyID(target_ID)
+                newTargetEstimator = TargetEstimator(time_from_estimation, agent_ID, target, seenByCam)
+                if not newTargetEstimator in estimatorElem[2]:
+                    estimatorElem[2].append(newTargetEstimator)
 
-    def add_target_estimator(self, estimator):
-        for element in self.estimator_list:
-            if element[0] == estimator.agent_ID and element[1] == estimator.target_ID:
-                if not self.is_target_estimator(element[2], estimator):
-                    element[2].append(estimator)
-
-    def is_target_estimator(self, myList, target_estimator):
-        for estimator in myList:
-            if estimator == target_estimator:
-                return True
-        return False
+    def add_target_estimator(self, targetEstimator):
+        """ Adds the TargetEstimator in argument to the corresponding place in the list. """
+        for estimatorElem in self.estimator_list:
+            if isCorrespondingEstimator(targetEstimator.agent_ID, targetEstimator.target_ID, estimatorElem):
+                    estimatorElem[2].append(targetEstimator)
 
     def sort_memories(self):
         for element in self.estimator_list:
@@ -193,12 +190,12 @@ class TargetEstimatorList:
 
 class FusionEstimatorList:
     """
-    Class to keep track of multiple TargetEstimator from only one agent
+    Class to keep track of multiple TargetEstimators from only one agent.
 
     Attributes:
-    times         -- number of values kept in memory
-    current_time  -- time in the room
-    estimatorList -- [[target.id, [TargetEstimator]], ...]
+        times               -- number of values kept in memory
+        current_time        -- time in the room
+        room_representation -- [[target.id, [TargetEstimator]], ...]
     """
 
     def __init__(self, nTime=5, currentTime=0):
@@ -207,16 +204,14 @@ class FusionEstimatorList:
         self.room_representation = []
 
     def init_estimator_list(self, room):
-        tab = []
-        for target in room.targets:
-                tab.append([target.id,[]])
-        self.room_representation = tab
+        self.room_representation = [ [target.id, []] for target in room.targets ]
 
     def sort(self):
         for element in self.room_representation:
             element[1].sort()
 
     def get_target_list(self, target_ID):
+        """ Returns the list of TargetEstimators for the target provided in the argument. """
         for element in self.room_representation:
             if element[0] == target_ID:
                 return element[1]

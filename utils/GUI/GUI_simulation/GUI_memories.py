@@ -3,40 +3,30 @@ from utils.GUI.GUI import*
 
 class GUI_memories:
 
-    def __init__(self, screen,agent,target,x_off,y_off,scaleX,scaleY):
+    def __init__(self, screen, agents, targets, x_off, y_off, scaleX, scaleY):
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 15)
 
-        self.agent_to_display = agent
-        self.target_to_display = target
+        self.agents_to_display = agents
+        self.targets_to_display = targets
 
         self.x_offset = x_off
         self.y_offset = y_off
         self.scale_x = scaleX
         self.scale_y = scaleY
 
+    def drawMemory(self, myRoom, all=False):
+        """ Draws the previous positions of the selected targets for the selected agents. """
+        if all:
+            agents = myRoom.agentCams
+        else:
+            agents = myRoom.getAgentsWithIDs(self.agents_to_display)
 
-    def drawMemory(self, myRoom):
-        for agent in myRoom.agentCams: # tout les agents
-            for id_agent_to_draw in self.agent_to_display: # les agents qui sont "actifs" dans la simu
-                if agent.id == int(id_agent_to_draw): # trouver l'agent correspondant (doit y avoir meilleure manière)
-                    for target in myRoom.targets:
-                        for estimator in agent.memory.memory_agent.get_target_list(target.id): # ca c'est une liste de positions que connait cet agent pour ce target
-                            for id_target_to_draw in self.target_to_display:
-                                if estimator.target_ID == int(id_target_to_draw):
-                                    pygame.draw.circle(self.screen, agent.color,
-                                                       (self.x_offset+int(estimator.position[0]*self.scale_x), self.y_offset+int(estimator.position[1]*self.scale_y)), 2)
+        for agent in agents:
+            for targetID in self.targets_to_display:
+                agentMemory = agent.memory
+                for targetEstimator in agentMemory.getPreviousPositions(targetID):
+                    pygame.draw.circle(self.screen, agent.color,
+                                       (self.x_offset+int(targetEstimator.position[0]*self.scale_x),
+                                       self.y_offset+int(targetEstimator.position[1]*self.scale_y)), 2)
 
-
-
-    def drawMemoryAll(self, myRoom):
-        for agent_to_draw in myRoom.agentCams:
-            for id_agent_to_draw in self.agent_to_display:
-                if agent_to_draw.id == int(id_agent_to_draw):
-                    for agent in myRoom.agentCams:
-                        for target in myRoom.targets:
-                            for estimator in agent_to_draw.memory.memory_all_agent.get_estimator_time_target_agent(-1, target.id,
-                                                                                                           agent.id):
-                                for id_target_to_draw in self.target_to_display:
-                                    if estimator.target_ID == int(id_target_to_draw):
-                                        pygame.draw.circle(self.screen, agent.color, (self.x_offset+int(estimator.position[0]*self.scale_x),self.y_offset+int(estimator.position[1]*self.scale_y)), 2)

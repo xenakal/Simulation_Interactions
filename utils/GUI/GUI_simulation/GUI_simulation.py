@@ -38,7 +38,7 @@ class GUI_simulation:
             self.GUI_memories.drawMemory(myRoom)
 
         if self.button_simulation_1.find_button_state("M all agent"):
-            self.GUI_memories.drawMemoryAll(myRoom)
+            self.GUI_memories.drawMemory(myRoom, True)
 
 
     def display_simulation_button(self):
@@ -48,16 +48,16 @@ class GUI_simulation:
         for button in self.button_simulation_2.list:
             self.GUI_option.check_button(button)
             if button.pressed:
-                self.GUI_option.option_add_agent(button.text)
+                self.GUI_option.option_add_agent(int(button.text))
             else:
-                self.GUI_option.option_remove_agent(button.text)
+                self.GUI_option.option_remove_agent(int(button.text))
 
         for button in self.button_simulation_3.list:
             self.GUI_option.check_button(button)
             if button.pressed:
-                self.GUI_option.option_add_target(button.text)
+                self.GUI_option.option_add_target(int(button.text))
             else:
-                self.GUI_option.option_remove_target(button.text)
+                self.GUI_option.option_remove_target(int(button.text))
 
         x_offset = 0
         y_offset = 500

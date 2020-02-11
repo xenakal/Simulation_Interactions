@@ -46,9 +46,11 @@ class Button:
         self.pressed = pressed
 
     def is_mouse_on_button(self, pos_x, pos_y):
+        """ Returns True if (pos_x, pos_y) is inside the button. """
         return (self.x < pos_x < self.x + self.w) and (self.y < pos_y < self.y + self.h)
 
     def check_click(self,window,pos_x,pos_y):
+        """ Activates/deactivates the button and returns True if it's clicked. Returns False otherwise. """
         if self.is_mouse_on_button(pos_x, pos_y):
             self.set_button(not self.pressed)
             self.draw(window)
@@ -66,7 +68,6 @@ class ButtonList():
 
         self.delta_x = delta_x
         self.delta_y = delta_y
-
 
         self.add_buttons(names)
 

@@ -16,11 +16,11 @@ MULTI_THREAD = 0
 NAME_MAILBOX = "mailbox/MailBox_Agent"
 
 class AgentCam(Agent):
+
     def __init__(self, idAgent, camera, room):
         # Attributes
         self.cam = camera
         self.memory = Memory(idAgent)
-
 
         # Threads
         self.threadRun = 1
@@ -54,6 +54,9 @@ class AgentCam(Agent):
             self.thread_rL.start()
 
     def thread_processImage(self):
+        """
+        One of the two main threads of an agent.
+        """
         state = "takePicture"
         nextstate = state
         my_previousTime = self.myRoom.time - 1
@@ -64,27 +67,20 @@ class AgentCam(Agent):
         while (self.threadRun == 1):
             state = nextstate
 
-            #Pour créer une panne avec l'agent, il ne fait plus rien dans ce cas
-            #if self.id == 0 and self.myRoom.time > 75 and self.myRoom.time < 100:
-            #    self.cam.camDesactivate()
-            #else:
-            #    self.cam.camActivate()
-
             if state == "takePicture":
                 picture = self.cam.takePicture(self.myRoom.targets)
                 time.sleep(TIME_PICTURE)
 
-                if (not self.cam.isActivate()):
+                if not self.cam.isActivate():
                     nextstate = "takePicture"
                     time.sleep(0.3)
                 else:
-                    if my_previousTime != self.myRoom.time: #Si la photo est nouvelle
+                    if my_previousTime != self.myRoom.time: # Si la photo est nouvelle
                         my_previousTime = self.myRoom.time
-                        for elem in picture:
 
-                            #self.log_room.info(self.memory.memoryToString())
+                        for targetElem in picture:
                             self.memory.set_current_time(self.myRoom.time)
-                            self.memory.add_create_target_estimator(self.myRoom,self.myRoom.time,elem[0].id,self.id,True)
+                            self.memory.add_create_target_estimator(self.myRoom,self.myRoom.time,targetElem[0].id,self.id,True)
 
                         self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu

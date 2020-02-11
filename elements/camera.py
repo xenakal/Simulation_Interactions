@@ -46,6 +46,7 @@ class Camera:
             return False
 
     def takePicture(self, targetList, l_projection=200, seuil=3):
+        """ Returns a list [target objects, position, hidden] corresponding to all the targets of the picture"""
         if self.isActive == 1:
             # In first approach to avoid to remove items, list is emptied at the start
             self.targetDetectedList = []  # list containing target objects

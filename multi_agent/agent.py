@@ -13,6 +13,10 @@ NAME_MAILBOX = "utils/mailbox/MailBox_Agent"
 NUMBER_OF_MESSAGE_RECEIVE = 1 #1= all message receive, 100 = almost nothing is received
 
 class Agent:
+    """
+    Class defining a basic agent without any camera.
+    """
+
     def __init__(self, idAgent, room):
         # Attributes
         self.id = idAgent
@@ -151,8 +155,13 @@ class Agent:
         mbox.close()
 
 class Agent_statistic:
-    def __init__(self, id):
-        self.id = id
+    """
+    Helper class (companion to an agent instance) that helps to gather
+    information on the corresponding agent.
+    """
+
+    def __init__(self, agentId):
+        self.id = agentId
         self.send_message_statistic = []
         self.receive_message_statistic = []
 

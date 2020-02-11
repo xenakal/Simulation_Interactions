@@ -5,7 +5,7 @@ import re
 
 class Message():
     """
-    Class that define what a message between to agent is.
+    Class defining a message between two agents.
 
     Attibutes:
     (int) timestamp                -- time at which the message is sent

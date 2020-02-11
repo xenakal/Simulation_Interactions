@@ -8,10 +8,11 @@ class GUI_predictions:
         self.targets = targets
 
     def drawPredictions(self, myRoom):
-        for agent in myRoom.agentCam: # for each agent
+        for agent in myRoom.agentCams: # for each agent
             pass
 
-"""
+
+    """
     def drawPredictions(self, myRoom):
         for agent in myRoom.agentCam:
             for target in myRoom.targets:
@@ -25,4 +26,4 @@ class GUI_predictions:
         predictedTarget = copy.deepcopy(target)
         predictionPos.insert(0, [predictedTarget.xc, predictedTarget.yc])
         pygame.draw.lines(self.screen, PREDICTION, False, predictionPos)
-        """
+    """

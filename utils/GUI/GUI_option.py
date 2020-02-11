@@ -18,6 +18,8 @@ TARGET = (0, 250, 0)
 OBSTRUCTION = (0, 50, 0)
 
 class GUI_option:
+    """ Class used to keep track of the different options the user can choose from. """
+
     def __init__(self,screen):
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 15)
@@ -38,6 +40,7 @@ class GUI_option:
         self.position_mouse = []
 
     def check_button(self, button):
+        """ Returns True if the button is """
         for position in self.position_mouse:
             (pos_x, pos_y) = position[0]
             if button.check_click(self.screen, pos_x, pos_y):
