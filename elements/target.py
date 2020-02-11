@@ -4,6 +4,7 @@ import math
 import time
 import random
 
+
 class Target:
     def __init__(self, tar_id=-1, tar_x=-1, tar_y=-1, tar_vx=0, tar_vy=0, tar_traj='fix', tar_trajChoice=0,
                  tar_label='fix', tar_size=5):
@@ -28,8 +29,8 @@ class Target:
             self.vy = tar_vy
         # PathPlanning
         if tar_trajChoice == 0:
-            self.xgoal = [30, 200,250, 20]
-            self.ygoal = [300, 250,30, 20]
+            self.xgoal = [30, 200, 250, 20]
+            self.ygoal = [300, 250, 30, 20]
         elif tar_trajChoice == 1:
             self.xgoal = [200, 200, 20]
             self.ygoal = [100, 180, 200]
@@ -46,7 +47,7 @@ class Target:
         # size
         self.size = tar_size
 
-        #to rembember its position
+        # to rembember its position
         self.all_position = []
 
     ''' hash and eq used to have target object as dictionary in camera '''
@@ -58,6 +59,4 @@ class Target:
         return self.id == other.id
 
     def save_position(self):
-        self.all_position.append([self.xc,self.yc])
-
-
+        self.all_position.append([self.xc, self.yc])

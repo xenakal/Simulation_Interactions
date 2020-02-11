@@ -5,8 +5,9 @@ from utils.line import *
 from utils.queueFIFO import *
 from elements.target import *
 
+
 class Camera:
-    def __init__(self, cam_id, cam_x, cam_y, cam_alpha, cam_beta,fix=1):
+    def __init__(self, cam_id, cam_x, cam_y, cam_alpha, cam_beta, fix=1):
         # Label
         self.id = cam_id
         self.status = 'agent'
@@ -31,14 +32,13 @@ class Camera:
     def run(self, myRoom):
         if self.isActive == 1:
             self.takePicture(myRoom.targets)
-            self.predictPaths()
 
     def camDesactivate(self):
         self.isActive = 0
 
     def camActivate(self):
         self.isActive = 1
-        
+
     def isActivate(self):
         if self.isActive == 1:
             return True
@@ -64,7 +64,7 @@ class Camera:
 
             # 4) if the camera is not fixed it can rotate
             self.cam_rotate(math.radians(1))
-            
+
             return tab[1].copy()
 
     def coord_from_WorldFrame_to_CamFrame(self, x, y):

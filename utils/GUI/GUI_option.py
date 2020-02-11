@@ -17,10 +17,11 @@ FIX = (200, 120, 0)
 TARGET = (0, 250, 0)
 OBSTRUCTION = (0, 50, 0)
 
+
 class GUI_option:
     """ Class used to keep track of the different options the user can choose from. """
 
-    def __init__(self,screen):
+    def __init__(self, screen):
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 15)
 
@@ -28,7 +29,6 @@ class GUI_option:
 
         self.agent_to_display = []
         self.target_to_display = []
-
 
     def update_mouse_position(self):
         self.position_mouse.append([pygame.mouse.get_pos()])
@@ -55,7 +55,7 @@ class GUI_option:
                     button_to_turn_off.set_button(False)
                 button.set_button(True)
 
-    def option_add_agent(self,agentID):
+    def option_add_agent(self, agentID):
         try:
             self.agent_to_display.index(agentID)
         except ValueError:
@@ -68,7 +68,7 @@ class GUI_option:
         except ValueError:
             pass
 
-    def option_add_target(self,targetID):
+    def option_add_target(self, targetID):
         try:
             self.target_to_display.index(targetID)
         except ValueError:
@@ -87,15 +87,15 @@ class GUI_option:
             if type_event == KEYDOWN:
                 if event.key == K_ESCAPE:
                     pygame.quit()
-                    return (False, False)
+                    return False, False
                 if event.key == K_r:
-                    return (True, True)
+                    return True, True
 
-            elif type_event == MOUSEMOTION and event.buttons[0] == 1: #déplacement + boutton enfoncer
+            elif type_event == MOUSEMOTION and event.buttons[0] == 1:  # déplacement + boutton enfoncer
                 pass
-                #print("Déplacement") #pour utiliser des boutton
+                # print("Déplacement") #pour utiliser des boutton
 
             elif type_event == MOUSEBUTTONUP:
                 self.update_mouse_position()
 
-        return (True, False)
+        return True, False

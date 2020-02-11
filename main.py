@@ -43,7 +43,7 @@ class App:
             # Object are moving in the room
             for target in self.myRoom.targets:
                 target.save_position()
-                moveTarget(target,1,self.myRoom)
+                moveTarget(target, 1, self.myRoom)
 
             if self.useGUI == 1:
                 self.myGUI.updateGUI(self.myRoom)
@@ -54,18 +54,19 @@ class App:
                 if self.useGUI == 1:
                     pygame.quit()
 
-
             self.myRoom.time = self.myRoom.time + 1
-    
+
         for agent in self.myRoom.agentCams:
             agent.clear()
 
         # Clean mailbox
         clean_mailbox()
 
+
 def execute():
-    myApp = App(1,6)
+    myApp = App(1, 6)
     myApp.main()
+
 
 if __name__ == "__main__":
     execute()

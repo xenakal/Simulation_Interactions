@@ -1,28 +1,33 @@
 from utils.GUI.Button import ButtonList
-from utils.GUI.GUI_simulation.GUI_room import*
-from utils.GUI.GUI_simulation.GUI_memories import*
+from utils.GUI.GUI_simulation.GUI_room import *
+from utils.GUI.GUI_simulation.GUI_memories import *
 from utils.GUI.GUI_simulation.GUI_Agent_Target_Detected import *
 from utils.GUI.GUI_simulation.GUI_predictions import *
 
+
 class GUI_simulation:
-    def __init__(self,screen,GUI_option):
+    def __init__(self, screen, GUI_option):
         pygame.init()
 
         self.screen = screen
         self.GUI_option = GUI_option
 
-        self.button_simulation_1 = ButtonList(["real T", "M agent","M all agent","prediction"], 10, -20, 0, 40, 100, 20)
-        self.button_simulation_2 = ButtonList(["0", "1", "2","3","4","5","6"], -35, 10, 700, 40, 35, 15)
-        self.button_simulation_3 = ButtonList(["0", "1", "2","3","4","5","6"], -35, 10, 750, 40, 35, 15)
+        self.button_simulation_1 = ButtonList(["real T", "M agent", "M all agent", "prediction"], 10, -20, 0, 40, 100,
+                                              20)
+        self.button_simulation_2 = ButtonList(["0", "1", "2", "3", "4", "5", "6"], -35, 10, 700, 40, 35, 15)
+        self.button_simulation_3 = ButtonList(["0", "1", "2", "3", "4", "5", "6"], -35, 10, 750, 40, 35, 15)
 
-        self.GUI_room = GUI_room(self.screen,self.GUI_option.agent_to_display,self.GUI_option.target_to_display, 200, 100, 400, 400)
-        self.GUI_memories = GUI_memories(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, 200, 100, 4/3, 4/3)
+        self.GUI_room = GUI_room(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, 200,
+                                 100, 400, 400)
+        self.GUI_memories = GUI_memories(self.screen, self.GUI_option.agent_to_display,
+                                         self.GUI_option.target_to_display, 200, 100, 4 / 3, 4 / 3)
         self.GUI_ATD = GUI_Agent_Target_Detected(self.screen)
-        self.GUI_pred = GUI_predictions(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, 200, 100, 4/3, 4/3)
+        self.GUI_pred = GUI_predictions(self.screen, self.GUI_option.agent_to_display,
+                                        self.GUI_option.target_to_display, 200, 100, 4 / 3, 4 / 3)
 
         self.font = pygame.font.SysFont("monospace", 15)
-        
-    def run(self,myRoom):
+
+    def run(self, myRoom):
         self.display_simulation_button()
         self.GUI_room.drawRoom(myRoom.coord)
         self.GUI_room.drawTarget(myRoom.targets, myRoom.coord)
@@ -39,7 +44,6 @@ class GUI_simulation:
 
         if self.button_simulation_1.find_button_state("M all agent"):
             self.GUI_memories.drawMemory(myRoom, True)
-
 
     def display_simulation_button(self):
         for button in self.button_simulation_1.list:

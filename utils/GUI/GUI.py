@@ -1,8 +1,8 @@
 from utils.GUI.Button import *
 from utils.GUI.Button import ButtonList
-from utils.GUI.GUI_option import*
+from utils.GUI.GUI_option import *
 from utils.GUI.GUI_simulation.GUI_simulation import *
-from utils.GUI.Gui_projection import*
+from utils.GUI.Gui_projection import *
 from utils.GUI.GUI_stat import *
 
 WHITE = (255, 255, 255)
@@ -14,35 +14,36 @@ YELLOW = (255, 255, 0)
 
 BACKGROUND = RED
 
+
 class GUI:
     def __init__(self):
         pygame.init()
 
-        #define the windows
+        # define the windows
         self.w = 800
         self.h = 600
         self.screen = pygame.display.set_mode((self.w, self.h), pygame.RESIZABLE)
 
-        self.button_menu = ButtonList(["Simulation","Camera","Stat","Option"],10,-30,0,0,100,30)
+        self.button_menu = ButtonList(["Simulation", "Camera", "Stat", "Option"], 10, -30, 0, 0, 100, 30)
         self.button_menu.set_buttons_state("Simulation", True)
 
         self.GUI_option = GUI_option(self.screen)
 
         self.GUI_projection = GUI_projection(self.screen)
-        self.GUI_stat = GUI_stat(self.screen,0,50)
-        self.GUI_simu = GUI_simulation(self.screen,self.GUI_option)
+        self.GUI_stat = GUI_stat(self.screen, 0, 50)
+        self.GUI_simu = GUI_simulation(self.screen, self.GUI_option)
 
         pygame.display.set_caption("Camera simulation")
         self.font = pygame.font.SysFont("monospace", 15)
 
     def refresh(self):
-        pygame.draw.rect(self.screen, BLACK, (0,0,self.w,self.h))
+        pygame.draw.rect(self.screen, BLACK, (0, 0, self.w, self.h))
 
     def display_menu(self):
         self.GUI_option.check_list(self.button_menu.list)
         self.button_menu.draw(self.screen)
 
-    def updateGUI(self,myRoom):
+    def updateGUI(self, myRoom):
         self.refresh()
         self.display_menu()
 
@@ -61,8 +62,3 @@ class GUI:
 
         self.GUI_option.reset_mouse_list()
         pygame.display.update()
-
-
-
-
-

@@ -10,7 +10,8 @@ from multi_agent.message import *
 NAME_LOG_PATH = "log/log_agent/Agent"
 NAME_MAILBOX = "utils/mailbox/MailBox_Agent"
 
-NUMBER_OF_MESSAGE_RECEIVE = 1 #1= all message receive, 100 = almost nothing is received
+NUMBER_OF_MESSAGE_RECEIVE = 1  # 1= all message receive, 100 = almost nothing is received
+
 
 class Agent:
     """
@@ -64,12 +65,11 @@ class Agent:
         rec_mes = Message(0, 0, 0, 0, 0)
         rec_mes.modifyMessageFromString(m)
 
-        random_value = random.randrange(0, NUMBER_OF_MESSAGE_RECEIVE,1)
+        random_value = random.randrange(0, NUMBER_OF_MESSAGE_RECEIVE, 1)
         if random_value == 0:
             self.message_stat.count_message_received(rec_mes.senderID)
             self.info_messageReceived.addMessage(rec_mes)
             self.log_message.info('RECEIVED : \n' + rec_mes.formatMessageType())
-
 
     def recAllMess(self):
         succes = -1
@@ -149,10 +149,11 @@ class Agent:
 
     def clear(self):
         self.threadRun = 0
-        while (self.thread_pI.is_alive() and self.thread_pI.is_alive()):
+        while self.thread_pI.is_alive() and self.thread_pI.is_alive():
             pass
         mbox = mailbox.mbox(NAME_MAILBOX + str(self.id))
         mbox.close()
+
 
 class Agent_statistic:
     """
@@ -165,19 +166,19 @@ class Agent_statistic:
         self.send_message_statistic = []
         self.receive_message_statistic = []
 
-    def init_message_static(self,room):
+    def init_message_static(self, room):
         tab0 = []
         tab1 = []
         for camera in room.cameras:
-            tab0.append([camera.id,0])
-            tab1.append([camera.id,0])
+            tab0.append([camera.id, 0])
+            tab1.append([camera.id, 0])
 
         self.send_message_statistic = tab0.copy()
         self.receive_message_statistic = tab1.copy()
 
-    def get_messageNumber_sent(self,agent):
+    def get_messageNumber_sent(self, agent):
         for element in self.send_message_statistic:
-            if  element[0] == agent.id:
+            if element[0] == agent.id:
                 return element[1]
 
     def get_messageNumber_received(self, agent):
@@ -185,25 +186,28 @@ class Agent_statistic:
             if element[0] == agent.id:
                 return element[1]
 
-    def count_message_send(self,receiverID):
+    def count_message_send(self, receiverID):
         for element in self.send_message_statistic:
-                if element[0] == receiverID:
-                    element[1] = element[1]+1
+            if element[0] == receiverID:
+                element[1] = element[1] + 1
 
-    def count_message_received(self,senderID):
+    def count_message_received(self, senderID):
         for element in self.receive_message_statistic:
-                if element[0] == senderID:
-                    element[1] = element[1]+1
+            if element[0] == senderID:
+                element[1] = element[1] + 1
 
     def to_string(self):
         s = "Statistic message \n"
         for element in self.send_message_statistic:
             if element[0] != self.id:
-                s = s + "Sender agent: " + str(self.id) + " receiver agent: "+str(element[0]) + ", # messages = " + str(element[1]) +"\n"
+                s = s + "Sender agent: " + str(self.id) + " receiver agent: " + str(
+                    element[0]) + ", # messages = " + str(element[1]) + "\n"
         for element in self.receive_message_statistic:
             if element[0] != self.id:
-                s = s + "Receiver agent: "+ str(self.id) + " sender agent: " + str(element[0])  + ", # messages = " + str(element[1]) +"\n"
+                s = s + "Receiver agent: " + str(self.id) + " sender agent: " + str(
+                    element[0]) + ", # messages = " + str(element[1]) + "\n"
         return s
+
 
 if __name__ == "__main__":
     pass

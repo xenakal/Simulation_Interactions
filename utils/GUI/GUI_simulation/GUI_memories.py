@@ -1,5 +1,6 @@
 import pygame
-from utils.GUI.GUI import*
+from utils.GUI.GUI import *
+
 
 class GUI_memories:
 
@@ -15,9 +16,9 @@ class GUI_memories:
         self.scale_x = scaleX
         self.scale_y = scaleY
 
-    def drawMemory(self, myRoom, all=False):
+    def drawMemory(self, myRoom, allAgents=False):
         """ Draws the previous positions of the selected targets for the selected agents. """
-        if all:
+        if allAgents:
             agents = myRoom.agentCams
         else:
             agents = myRoom.getAgentsWithIDs(self.agents_to_display)
@@ -27,6 +28,5 @@ class GUI_memories:
                 agentMemory = agent.memory
                 for targetEstimator in agentMemory.getPreviousPositions(targetID):
                     pygame.draw.circle(self.screen, agent.color,
-                                       (self.x_offset+int(targetEstimator.position[0]*self.scale_x),
-                                       self.y_offset+int(targetEstimator.position[1]*self.scale_y)), 2)
-
+                                       (self.x_offset + int(targetEstimator.position[0] * self.scale_x),
+                                        self.y_offset + int(targetEstimator.position[1] * self.scale_y)), 2)

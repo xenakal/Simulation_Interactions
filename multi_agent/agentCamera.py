@@ -15,6 +15,7 @@ TIME_SEND_READ_MESSAGE = 0.1
 MULTI_THREAD = 0
 NAME_MAILBOX = "mailbox/MailBox_Agent"
 
+
 class AgentCam(Agent):
 
     def __init__(self, idAgent, camera, room):
@@ -64,7 +65,7 @@ class AgentCam(Agent):
         self.message_stat.init_message_static(self.myRoom)
         self.memory.init_memory(self.myRoom)
 
-        while (self.threadRun == 1):
+        while self.threadRun == 1:
             state = nextstate
 
             if state == "takePicture":
@@ -75,12 +76,13 @@ class AgentCam(Agent):
                     nextstate = "takePicture"
                     time.sleep(0.3)
                 else:
-                    if my_previousTime != self.myRoom.time: # Si la photo est nouvelle
+                    if my_previousTime != self.myRoom.time:  # Si la photo est nouvelle
                         my_previousTime = self.myRoom.time
 
                         for targetElem in picture:
                             self.memory.set_current_time(self.myRoom.time)
-                            self.memory.add_create_target_estimator(self.myRoom,self.myRoom.time,targetElem[0].id,self.id,True)
+                            self.memory.add_create_target_estimator(self.myRoom, self.myRoom.time, targetElem[0].id,
+                                                                    self.id, True)
 
                         self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
@@ -112,19 +114,19 @@ class AgentCam(Agent):
             self.process_Message_received()
             self.process_Message_sent()
 
-    def process_InfoMemory(self,room):
+    def process_InfoMemory(self, room):
         for target in room.targets:
             liste = self.memory.memory_agent.get_target_list(target.id)
             if len(liste) > 0:
-                self.send_message_memory(liste[len(liste)-1])
+                self.send_message_memory(liste[len(liste) - 1])
 
-        for info in  []:
+        for info in []:
             if info.target_label == "target":
                 if info.seenByCam and info.followedByCam == -1:
                     dx = self.cam.xc - info.position[0]
                     dy = self.cam.yc - info.position[1]
-                    distance = math.pow(dx*dx + dy*dy, 0.5)
-                    self.send_message_request(distance,info.target_ID)
+                    distance = math.pow(dx * dx + dy * dy, 0.5)
+                    self.send_message_request(distance, info.target_ID)
 
             elif info.target_label == "obstruction":
                 pass
@@ -135,8 +137,8 @@ class AgentCam(Agent):
         for message_sent in self.info_messageSent.getList():
             if message_sent.is_approved():
                 if message_sent.messageType == "request":
-                        #self.memory.setfollowedByCam(self.myRoom.time, message_sent.targetRef, self.id)
-                        self.send_message_locked(message_sent)
+                    # self.memory.setfollowedByCam(self.myRoom.time, message_sent.targetRef, self.id)
+                    self.send_message_locked(message_sent)
 
                 self.info_messageSent.delMessage(message_sent)
             elif message_sent.is_not_approved():
@@ -155,7 +157,9 @@ class AgentCam(Agent):
 
             self.info_messageReceived.delMessage(rec_mes)
 
-    def send_message_request(self,information,target,receivers=[]):
+    def send_message_request(self, information, target, receivers=None):
+        if receivers is None:
+            receivers = []
         m = Message_Check_ACK_NACK(self.myRoom.time, self.id, self.signature, "request", information, target)
         if len(receivers) == 0:
             for agent in self.myRoom.agentCam:
@@ -163,35 +167,38 @@ class AgentCam(Agent):
                     m.addReceiver(agent.id, agent.signature)
         else:
             for receiver in receivers:
-                m.addReceiver(receiver[0],receiver[1])
+                m.addReceiver(receiver[0], receiver[1])
 
         cdt1 = self.info_messageToSend.isMessageWithSameTypeSameAgentRef(m)
         cdt2 = self.info_messageSent.isMessageWithSameTypeSameAgentRef(m)
         if not cdt1 and not cdt2:
             self.info_messageToSend.addMessage(m)
 
-    def send_message_memory(self,memory,receivers=[]):
+    def send_message_memory(self, memory, receivers=None):
+        if receivers is None:
+            receivers = []
         s = memory.to_string()
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
-        m = Message_Check_ACK_NACK(self.myRoom.time, self.id, self.signature, "memory",s, memory.target_ID)
+        m = Message_Check_ACK_NACK(self.myRoom.time, self.id, self.signature, "memory", s, memory.target_ID)
         if len(receivers) == 0:
             for agent in self.myRoom.agentCams:
                 if agent.id != self.id:
                     m.addReceiver(agent.id, agent.signature)
         else:
             for receiver in receivers:
-                m.addReceiver(receiver[0],receiver[1])
-
+                m.addReceiver(receiver[0], receiver[1])
 
         cdt1 = self.info_messageToSend.isMessageWithSameMessage(m)
         if not cdt1:
             self.info_messageToSend.addMessage(m)
 
-
-    def send_message_locked(self,message,receivers=[]):
-        m = Message_Check_ACK_NACK(self.myRoom.time, self.id, self.signature, "locked", message.signature, message.targetRef)
+    def send_message_locked(self, message, receivers=None):
+        if receivers is None:
+            receivers = []
+        m = Message_Check_ACK_NACK(self.myRoom.time, self.id, self.signature, "locked", message.signature,
+                                   message.targetRef)
         if len(receivers) == 0:
             for agent in self.myRoom.agentCam:
                 if agent.id != self.id:
@@ -202,12 +209,13 @@ class AgentCam(Agent):
 
         self.info_messageToSend.addMessage(m)
 
-    def send_message_ackNack(self,message,typeMessage):
-        m = Message_Check_ACK_NACK(self.myRoom.time, self.id, self.signature, typeMessage, message.signature, message.targetRef)
+    def send_message_ackNack(self, message, typeMessage):
+        m = Message_Check_ACK_NACK(self.myRoom.time, self.id, self.signature, typeMessage, message.signature,
+                                   message.targetRef)
         m.addReceiver(message.senderID, message.senderSignature)
         self.info_messageToSend.addMessage(m)
 
-    def received_message_request(self,message):
+    def received_message_request(self, message):
         typeMessage = "ack"
         '''
         if self.memory.isTargetDetected(self.myRoom.time, message.targetRef):
@@ -219,29 +227,29 @@ class AgentCam(Agent):
         '''
 
         # Update Info
-        #self.memory.addTargetEstimatorFromID(self.myRoom.time,self.id, message.targetRef, self.myRoom)
+        # self.memory.addTargetEstimatorFromID(self.myRoom.time,self.id, message.targetRef, self.myRoom)
         # Response
-        self.send_message_ackNack(message,typeMessage)
+        self.send_message_ackNack(message, typeMessage)
 
-    def received_message_memory(self,message):
+    def received_message_memory(self, message):
         # Update Info
         s = message.message
         if not (s == ""):
             target = Target()
-            estimator = TargetEstimator(0,0,target,0,0)
+            estimator = TargetEstimator(0, 0, target, 0, 0)
 
             estimator.parse_string(s)
             self.memory.add_target_estimator(estimator)
             # Response
-            self.send_message_ackNack(message,"ack")
+            self.send_message_ackNack(message, "ack")
 
-    def received_message_locked(self,message):
+    def received_message_locked(self, message):
         # Update Info
-        #self.memory.setfollowedByCam(self.myRoom.time, message.targetRef, message.senderID)
+        # self.memory.setfollowedByCam(self.myRoom.time, message.targetRef, message.senderID)
         # Response
-        self.send_message_ackNack(message,"ack")
+        self.send_message_ackNack(message, "ack")
 
-    def received_message_ackNack(self,message):
+    def received_message_ackNack(self, message):
         for sent_mes in self.info_messageSent.getList():
             sent_mes.add_ACK_NACK(message)
 
