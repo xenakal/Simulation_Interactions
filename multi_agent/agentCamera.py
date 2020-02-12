@@ -8,6 +8,7 @@ from multi_agent.agent import *
 from multi_agent.estimator import *
 from multi_agent.message import *
 from multi_agent.memory import *
+from multi_agent.linearPrediction import *
 
 TIME_PICTURE = 0.05
 TIME_SEND_READ_MESSAGE = 0.1
@@ -253,6 +254,9 @@ class AgentCam(Agent):
         for sent_mes in self.info_messageSent.getList():
             sent_mes.add_ACK_NACK(message)
 
+    def makePredictions(self, method, target):
+        # TODO: make factory method instead of checking method maybe
+        if method == 1:
+            predictor = LinearPrediction()
+        predictedPos = predictor.nextPositions(target)
 
-if __name__ == "__main__":
-    pass

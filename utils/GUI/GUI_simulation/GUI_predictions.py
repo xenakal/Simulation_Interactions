@@ -1,16 +1,34 @@
 import pygame
 
-class GUI_predictions:
 
-    def __init__(self, screen, agents, targets, x_off, y_off, scaleX, scaleY):
+class GUI_predictions:
+    """
+    Class used to draw the predictions made by each agent.
+
+    :arg method --  which prediction method to use. Choices are:
+                        =1 : linear prediction
+                        =2 : kalman
+    """
+
+    def __init__(self, screen, agents, targets, x_off, y_off, scaleX, scaleY, method):
         self.screen = screen
-        self.agents = agents
-        self.targets = targets
+        self.agentsToDisplay = agents
+        self.targetsToDisplay = targets
+        self.method = method
+        self.xOffset = x_off
+        self.yOffset = y_off
+        self.scaleX = scaleX
+        self.scaleY = scaleY
 
     def drawPredictions(self, myRoom):
-        for agent in myRoom.agentCams: # for each agent
-            pass
-
+        print("okokok")
+        for agent in myRoom.agentCams:  # for each agent
+            for target in self.targetsToDisplay:
+                predictions = agent.makePredictions(self.method, self.targetsToDisplay)
+                for point in predictions:
+                    pygame.draw.circle(self.screen, agent.color,
+                                       (self.xOffset + point[0] * self.scaleX,
+                                        self.yOffset + point[1] * self.scaleY), 2)
 
     """
     def drawPredictions(self, myRoom):
