@@ -1,8 +1,7 @@
 .idea/
 
 /mailbox/*
-log/*
-log/log_agent/*
+log
 
 elements/__pycache__/*
 utils/__pycache__/*
