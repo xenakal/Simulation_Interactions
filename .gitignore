@@ -1,9 +1,14 @@
 .idea/
 
-/mailbox/*
-/log/*
+/mailbox
+/log
 
-elements/__pycache__/*
-utils/__pycache__/*
+elements/__pycache__
+utils/__pycache__
+utils/GUI/GUI_simulation/__pycache__
+__pycache__
+multi_agent/__pycache__
+
+
 
 
