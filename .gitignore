@@ -2,6 +2,7 @@
 
 /mailbox/*
 log/*
+log/log_agent/*
 
 elements/__pycache__/*
 utils/__pycache__/*
