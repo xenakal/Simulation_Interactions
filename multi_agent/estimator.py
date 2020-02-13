@@ -30,6 +30,7 @@ class TargetEstimator:
         erreurX = random.randrange(-erreur, erreur, 1)
         erreurY = random.randrange(-erreur, erreur, 1)
         self.position = [target.xc + erreurX, target.yc + erreurY]
+        self.realPos = [target.xc, target.yc]
 
         self.seenByCam = seenByCam
         self.followedByCam = followedByCam

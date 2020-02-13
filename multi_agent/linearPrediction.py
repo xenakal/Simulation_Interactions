@@ -1,54 +1,30 @@
 import math
+
 from multi_agent.prediction import Prediction, NUMBER_PREDICTIONS, TIMESTEP
 
 
-class LinearPrediction(Prediction):
-    """ Simple & naive linear prediction. """
+def nextPositions(prevTargetEstimators):
+    """ Actual computation of predicted positions. Returns a list (size = NUMBER_PREDICTIONS) of the next estimated
+    positions. """
 
-    def makePredictions(self):
-        pass
+    if len(prevTargetEstimators) <= 3:
+        return []
+    prevPos = [te.position for te in prevTargetEstimators[:-1]]
+    currPos = prevTargetEstimators[-1].position
+    predictedPos = []
 
-    def makePredictionsOld(self):
-        time = self.currentTime
-        for targetInfosObj in self.info_room[-1]:
-            target = targetInfosObj.target
-            if self.isTargetDetected(time, target.id):
-                self.predictedPositions[target] = self.predictedPositions[target] = self.nextPositions(target)
+    for i in range(NUMBER_PREDICTIONS):
+        #  Estimate next position
+        avgSpeed = avgSpeedFunc(prevPos)  # calculate average velocity
+        avgDirection = avgDirectionFunc(prevPos)  # calculate average direction
+        nextPos = calcNextPos(currPos, avgSpeed, avgDirection)  # estimate next position
+        predictedPos.append(nextPos)
+        #  Update needed values
+        prevPos = prevPos[1:]  # remove oldest element
+        prevPos.append(currPos)  # include new pos for next iteration
+        currPos = nextPos
 
-    def nextPositions(self, target):
-        prevPos = self.getPrevPositions(target)
-        predictedPos = [None] * NUMBER_PREDICTIONS
-        #  We have access to the real speeds, but in the real application we won't, therefore we have to approximate
-        currPos = [target.xc, target.yc]
-
-        for i in range(NUMBER_PREDICTIONS):
-            #  Estimate next position
-            avgSpeed = avgSpeedFunc(prevPos)  # calculate average velocity
-            avgDirection = avgDirectionFunc(prevPos)  # calculate average direction
-            nextPos = calcNextPos(currPos, avgSpeed, avgDirection)  # estimate next position
-            predictedPos[i] = nextPos
-            #  Update needed values
-            prevPos = prevPos[1:]
-            prevPos.append(currPos)  # include new pos for next iteration
-            currPos = nextPos
-
-        return predictedPos
-
-    ''' returns the previous positions '''
-
-    def getPrevPositions(self, target):
-        posList = []
-        if len(self.info_room) > NUMBER_PREDICTIONS:
-            adapted_info_room = self.info_room[-NUMBER_PREDICTIONS]
-        else:  # in case info_room only contains few elements
-            adapted_info_room = self.info_room
-
-        # find position in each time recorded
-        for infosList in adapted_info_room:
-            for info in infosList:
-                if target.id == info.targetID:
-                    posList.append([target.xc, target.yc])
-        return posList
+    return predictedPos
 
 
 def avgSpeedFunc(positions):
@@ -70,8 +46,8 @@ def distanceBtwTwoPoint(x1, y1, x2, y2):
     return math.sqrt(math.pow(x1 - x2, 2) + math.pow(y1 - y2, 2))
 
 
-# Returns direction as the angle (in degrees) between the horizontal and the line making the direction
 def avgDirectionFunc(positions):
+    """ Returns the direction as the angle (in °) between the horizontal and the line making the direction. """
     if len(positions) <= 1:  # one position or less not enough to calculate direction
         return 0
     prevPos = positions[0]
@@ -96,3 +72,26 @@ def calcNextPos(position, speed, direction):
     xPrediction = position[0] + math.cos(direction) * travelDistance
     yPrediction = position[1] + math.sin(direction) * travelDistance  # -: the coordinates are opposite to the cartesian
     return [int(xPrediction), int(yPrediction)]
+
+
+class LinearPrediction(Prediction):
+    """ Simple & naive linear prediction. """
+
+    def __init__(self, memory):
+        self.memory = memory
+
+    def makePredictions(self, targetIdList):
+        """
+        :param targetIdList: list of target IDs for which to estimate the next positions
+        :return: a list [[NUMBER_OF_PREDICTIONS*[x_estimated, y_estimated]],...]. len = len(targetIdList)
+        """
+        predictionsList = []
+        for targetID in targetIdList:
+            prediction = []
+            #  get previous positions of target
+            prevTargetEstimators = self.memory.getPreviousPositions(targetID)
+            predictedPos = nextPositions(prevTargetEstimators)
+            prediction += predictedPos
+            predictionsList.append(prediction)
+
+        return predictionsList

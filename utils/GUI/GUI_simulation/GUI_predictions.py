@@ -21,14 +21,13 @@ class GUI_predictions:
         self.scaleY = scaleY
 
     def drawPredictions(self, myRoom):
-        print("okokok")
         for agent in myRoom.agentCams:  # for each agent
-            for target in self.targetsToDisplay:
-                predictions = agent.makePredictions(self.method, self.targetsToDisplay)
-                for point in predictions:
+            predictions = agent.makePredictions(self.method, self.targetsToDisplay)
+            for prediction in predictions:
+                for point in prediction:
                     pygame.draw.circle(self.screen, agent.color,
-                                       (self.xOffset + point[0] * self.scaleX,
-                                        self.yOffset + point[1] * self.scaleY), 2)
+                                       (self.xOffset + int(point[0] * self.scaleX),
+                                        self.yOffset + int(point[1] * self.scaleY)), 2)
 
     """
     def drawPredictions(self, myRoom):

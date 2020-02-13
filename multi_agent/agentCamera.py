@@ -89,7 +89,6 @@ class AgentCam(Agent):
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
             elif nextstate == "processData":
-                self.memory.makePredictions()
                 self.process_InfoMemory(self.myRoom)
                 self.memory.combine_data(self.myRoom)
                 nextstate = "sendMessage"
@@ -254,9 +253,19 @@ class AgentCam(Agent):
         for sent_mes in self.info_messageSent.getList():
             sent_mes.add_ACK_NACK(message)
 
-    def makePredictions(self, method, target):
-        # TODO: make factory method instead of checking method maybe
+    def makePredictions(self, method, targetIdList):
+        """
+        Returns a list of lists [ [NUMBER_OF_PREDICTIONS*[x_estimated, y_estimated] ],[],...]
+
+        :arg
+            targetList -- list of targets IDs: the return list will have an entry for each element of this list
+        """
+
+        # TODO: make factory method instead of just checking
         if method == 1:
-            predictor = LinearPrediction()
-        predictedPos = predictor.nextPositions(target)
+            predictor = LinearPrediction(self.memory)
+        else:
+            predictor = LinearPrediction(self.memory)
+
+        return predictor.makePredictions(targetIdList)
 

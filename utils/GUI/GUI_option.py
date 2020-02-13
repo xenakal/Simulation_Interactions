@@ -19,7 +19,13 @@ OBSTRUCTION = (0, 50, 0)
 
 
 class GUI_option:
-    """ Class used to keep track of the different options the user can choose from. """
+    """
+    Class used to keep track of the different options the user can choose from.
+
+    :param
+        agent_to_display  -- list of agent IDs that are to be displayed in the GUI
+        target_to_display -- list of target IDs that are to be displayed in the GUI
+    """
 
     def __init__(self, screen):
         self.screen = screen

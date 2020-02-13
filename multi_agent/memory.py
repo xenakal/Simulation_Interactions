@@ -65,5 +65,3 @@ class Memory:
     def statistic_to_string(self):
         return self.memory_all_agent.statistic_to_string()
 
-    def makePredictions(self):
-        pass
