@@ -1,5 +1,6 @@
 import math
 
+
 def limitToValueMax(valueMax, value):
     if value > valueMax:
         return valueMax
@@ -7,6 +8,7 @@ def limitToValueMax(valueMax, value):
         return -valueMax
     else:
         return value
+
 
 def moveTarget(target, delta_time, myRoom):
     type_mvt = target.trajectory
@@ -17,14 +19,14 @@ def moveTarget(target, delta_time, myRoom):
         target.xc = target.xc + math.ceil(target.vx * delta_time)
         target.yc = target.yc + math.ceil(target.vy * delta_time)
     elif type_mvt == 'linear':
-        rectiligneTrajectory(target,delta_time, myRoom)
+        rectiligneTrajectory(target, delta_time, myRoom)
     elif type_mvt == 'circular':
         pass
     elif type_mvt == 'elliptic':
         pass
     elif type_mvt == 'potential_field':
-        print(target.id)
-        potentialField(target,delta_time, myRoom)
+        # print(target.id)
+        potentialField(target, delta_time, myRoom)
     else:
         print("planning method not recognize")
 

@@ -1,5 +1,4 @@
 import math
-
 from multi_agent.prediction import Prediction, NUMBER_PREDICTIONS, TIMESTEP
 
 
@@ -9,7 +8,11 @@ def nextPositions(prevTargetEstimators):
 
     if len(prevTargetEstimators) <= 3:
         return []
-    prevPos = [te.position for te in prevTargetEstimators[:-1]]
+    if len(prevTargetEstimators) <= 10:
+        prevPos = [te.position for te in prevTargetEstimators[:-1]]
+    else:
+        prevPos = [te.position for te in prevTargetEstimators[-10:-1]]  # as we don't want to consider all previous
+        # positions
     currPos = prevTargetEstimators[-1].position
     predictedPos = []
 

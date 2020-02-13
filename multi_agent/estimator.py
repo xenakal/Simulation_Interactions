@@ -26,9 +26,14 @@ class TargetEstimator:
 
         self.target_ID = target.id
         self.target_label = target.label
-        erreur = 5
-        erreurX = random.randrange(-erreur, erreur, 1)
-        erreurY = random.randrange(-erreur, erreur, 1)
+        if main.INCLUDE_ERROR:
+            erreur = 5
+            erreurX = random.randrange(-erreur, erreur, 1)
+            erreurY = random.randrange(-erreur, erreur, 1)
+        else:
+            erreurX = 0
+            erreurY = 0
+
         self.position = [target.xc + erreurX, target.yc + erreurY]
         self.realPos = [target.xc, target.yc]
 
