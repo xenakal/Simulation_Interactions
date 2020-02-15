@@ -1,19 +1,15 @@
 import math
-from multi_agent.prediction import Prediction, NUMBER_PREDICTIONS, TIMESTEP
+from multi_agent.prediction import Prediction, NUMBER_PREDICTIONS, TIMESTEP, PREVIOUS_POSITIONS_USED
 
 
-def nextPositions(prevTargetEstimators):
+def nextPositions(prevPosList):
     """ Actual computation of predicted positions. Returns a list (size = NUMBER_PREDICTIONS) of the next estimated
     positions. """
 
-    if len(prevTargetEstimators) <= 3:
+    if len(prevPosList) < 1:
         return []
-    if len(prevTargetEstimators) <= 10:
-        prevPos = [te.position for te in prevTargetEstimators[:-1]]
-    else:
-        prevPos = [te.position for te in prevTargetEstimators[-10:-1]]  # as we don't want to consider all previous
-        # positions
-    currPos = prevTargetEstimators[-1].position
+    currPos = prevPosList[-1]
+    prevPos = prevPosList[:-1]
     predictedPos = []
 
     for i in range(NUMBER_PREDICTIONS):
@@ -77,6 +73,20 @@ def calcNextPos(position, speed, direction):
     return [int(xPrediction), int(yPrediction)]
 
 
+def extractPositionsFromTargetEstimators(prevTargetEstimatorsList):
+    """
+    :param prevTargetEstimatorsList: a list of target estimators
+    :return: a list (max len = PREVIOUS_POSITIONS_USED) containing the extracted positions from each
+             TargetEstimator in the list
+    """
+    if len(prevTargetEstimatorsList) <= 3:
+        return []
+    if len(prevTargetEstimatorsList) <= PREVIOUS_POSITIONS_USED:
+        return [te.position for te in prevTargetEstimatorsList]
+    else:
+        return [te.position for te in prevTargetEstimatorsList[-PREVIOUS_POSITIONS_USED:]]
+
+
 class LinearPrediction(Prediction):
     """ Simple & naive linear prediction. """
 
@@ -86,15 +96,29 @@ class LinearPrediction(Prediction):
     def makePredictions(self, targetIdList):
         """
         :param targetIdList: list of target IDs for which to estimate the next positions
-        :return: a list [[NUMBER_OF_PREDICTIONS*[x_estimated, y_estimated]],...]. len = len(targetIdList)
+        :return: a list of lists [[NUMBER_OF_PREDICTIONS*[x_estimated, y_estimated]],...]. len = len(targetIdList)
         """
         predictionsList = []
         for targetID in targetIdList:
-            prediction = []
-            #  get previous positions of target
-            prevTargetEstimators = self.memory.getPreviousPositions(targetID)
-            predictedPos = nextPositions(prevTargetEstimators)
-            prediction += predictedPos
-            predictionsList.append(prediction)
+            predictedPositions = self.predictTarget(targetID)
+            predictionsList.append(predictedPositions)
 
         return predictionsList
+
+    def predictTarget(self, targetID):
+        """
+        :param targetID: id of target for which to estimate future positions
+        :return: list containing the NUMBER_OF_PREDICTIONS next estimated positions
+        """
+        #  get previous positions of target
+        prevTargetEstimators = self.getPreviousTargetEstimators(targetID)
+        prevPositions = extractPositionsFromTargetEstimators(prevTargetEstimators)
+        #  estimate the next NUMBER_OF_PREDICTIONS positions
+        predictedPositions = nextPositions(prevPositions)
+        return predictedPositions
+
+    def getPreviousTargetEstimators(self, targetID):
+        """
+        :return: Returns a list of TargetEstimators corresponding to the previous known positions of the target.
+        """
+        return self.memory.getPreviousPositions(targetID)

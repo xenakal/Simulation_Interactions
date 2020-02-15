@@ -10,7 +10,7 @@ def clean_mailbox():
     os.mkdir("utils/mailbox")
 
 
-INCLUDE_ERROR = True
+INCLUDE_ERROR = False
 
 
 class App:

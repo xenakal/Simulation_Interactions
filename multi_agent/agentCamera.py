@@ -255,7 +255,7 @@ class AgentCam(Agent):
 
     def makePredictions(self, method, targetIdList):
         """
-        Returns a list of lists [ [NUMBER_OF_PREDICTIONS*[x_estimated, y_estimated] ],[],...]
+        Returns a list of lists: [ [NUMBER_OF_PREDICTIONS*[x_estimated, y_estimated] ],[],...] (len = len(targetIdList)
 
         :arg
             targetList -- list of targets IDs: the return list will have an entry for each element of this list
