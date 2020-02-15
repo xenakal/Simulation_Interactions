@@ -9,6 +9,7 @@ from multi_agent.estimator import *
 from multi_agent.message import *
 from multi_agent.memory import *
 from multi_agent.linearPrediction import *
+from multi_agent.kalmanPrediction import *
 
 TIME_PICTURE = 0.05
 TIME_SEND_READ_MESSAGE = 0.1
@@ -264,6 +265,8 @@ class AgentCam(Agent):
         # TODO: make factory method instead of just checking
         if method == 1:
             predictor = LinearPrediction(self.memory)
+        elif method == 2:
+            predictor = KalmanPrediction(self.memory)
         else:
             predictor = LinearPrediction(self.memory)
 

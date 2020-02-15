@@ -5,7 +5,7 @@ class GUI_predictions:
     """
     Class used to draw the predictions made by each agent.
 
-    :arg method --  which prediction method to use. Choices are:
+    :arg method --  which prediction method to use. Choices are :
                         =1 : linear prediction
                         =2 : kalman
     """
@@ -28,19 +28,3 @@ class GUI_predictions:
                     pygame.draw.circle(self.screen, agent.color,
                                        (self.xOffset + int(point[0] * self.scaleX),
                                         self.yOffset + int(point[1] * self.scaleY)), 2)
-
-    """
-    def drawPredictions(self, myRoom):
-        for agent in myRoom.agentCam:
-            for target in myRoom.targets:
-                pass
-                #if (target in agent.memory.predictedPositions):
-                    #self.drawTargetPrediction(target, agent.memory.predictedPositions[target])
-
-
-    # predictionPos is a list with the N next predicted positions
-    def drawTargetPrediction(self, target, predictionPos):
-        predictedTarget = copy.deepcopy(target)
-        predictionPos.insert(0, [predictedTarget.xc, predictedTarget.yc])
-        pygame.draw.lines(self.screen, PREDICTION, False, predictionPos)
-    """

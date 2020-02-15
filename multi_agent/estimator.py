@@ -4,6 +4,9 @@ import re
 import main
 from utils.line import *
 import math
+import numpy as np
+
+STD_MEASURMENT_ERROR = 3
 
 
 class TargetEstimator:
@@ -27,9 +30,14 @@ class TargetEstimator:
         self.target_ID = target.id
         self.target_label = target.label
         if main.INCLUDE_ERROR:
-            erreur = 5
-            erreurX = random.randrange(-erreur, erreur, 1)
-            erreurY = random.randrange(-erreur, erreur, 1)
+            errorRange = 5
+            step = 1
+            # erreurX = random.randrange(-errorRange, errorRange+step, step)
+            # erreurY = random.randrange(-errorRange, errorRange+step, step)
+            erreurX = int(np.random.normal(scale=STD_MEASURMENT_ERROR, size=1))
+            erreurY = int(np.random.normal(scale=STD_MEASURMENT_ERROR, size=1))
+            print("erreurX = ", erreurX)
+            print("erreurY = ", erreurY)
         else:
             erreurX = 0
             erreurY = 0

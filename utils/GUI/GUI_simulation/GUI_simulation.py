@@ -23,7 +23,7 @@ class GUI_simulation:
                                          self.GUI_option.target_to_display, 200, 100, 4 / 3, 4 / 3)
         self.GUI_ATD = GUI_Agent_Target_Detected(self.screen)
         self.GUI_pred = GUI_predictions(self.screen, self.GUI_option.agent_to_display,
-                                        self.GUI_option.target_to_display, 200, 100, 4 / 3, 4 / 3, 1)
+                                        self.GUI_option.target_to_display, 200, 100, 4 / 3, 4 / 3, 2)
 
         self.font = pygame.font.SysFont("monospace", 15)
 
