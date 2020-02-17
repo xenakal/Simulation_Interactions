@@ -21,6 +21,7 @@ NAME_MAILBOX = "mailbox/MailBox_Agent"
 class AgentCam(Agent):
 
     def __init__(self, idAgent, camera, room):
+        super().__init__(idAgent, room)
         # Attributes
         self.cam = camera
         self.memory = Memory(idAgent)
@@ -49,7 +50,13 @@ class AgentCam(Agent):
 
         self.log_room = logger_room
 
-        super().__init__(idAgent, room)
+        # used to quantify the quality of the prediction
+        self.predictionPrecision = {}
+        self.previousPrediction = {}
+        for target in self.myRoom.targets:
+            self.predictionPrecision[target.id] = 0.0
+            self.previousPrediction[target.id] = -1
+
 
     def run(self):
         self.thread_pI.start()
@@ -261,8 +268,6 @@ class AgentCam(Agent):
         :arg
             targetList -- list of targets IDs: the return list will have an entry for each element of this list
         """
-
-        # TODO: make factory method instead of just checking
         if method == 1:
             predictor = LinearPrediction(self.memory)
         elif method == 2:
@@ -270,5 +275,10 @@ class AgentCam(Agent):
         else:
             predictor = LinearPrediction(self.memory)
 
-        return predictor.makePredictions(targetIdList)
+        predictions = predictor.makePredictions(targetIdList)
+
+        for targetIndex, targetId in enumerate(targetIdList):
+            self.previousPrediction[targetId] = predictions[targetIndex][0]  # prediction of next position
+
+        return predictions
 

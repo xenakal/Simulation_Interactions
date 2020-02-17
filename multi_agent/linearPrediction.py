@@ -1,5 +1,6 @@
 import math
 from multi_agent.prediction import Prediction, NUMBER_PREDICTIONS, TIMESTEP, PREVIOUS_POSITIONS_USED
+import numpy as np
 
 
 def nextPositions(prevPosList):
@@ -20,7 +21,8 @@ def nextPositions(prevPosList):
         predictedPos.append(nextPos)
         #  Update needed values
         prevPos = prevPos[1:]  # remove oldest element
-        prevPos.append(currPos)  # include new pos for next iteration
+        #prevPos.append(currPos)  # include new pos for next iteration
+        np.append(prevPos, currPos)
         currPos = nextPos
 
     return predictedPos

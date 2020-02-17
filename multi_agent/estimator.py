@@ -6,7 +6,7 @@ from utils.line import *
 import math
 import numpy as np
 
-STD_MEASURMENT_ERROR = 3
+STD_MEASURMENT_ERROR = 2
 
 
 class TargetEstimator:
@@ -36,8 +36,6 @@ class TargetEstimator:
             # erreurY = random.randrange(-errorRange, errorRange+step, step)
             erreurX = int(np.random.normal(scale=STD_MEASURMENT_ERROR, size=1))
             erreurY = int(np.random.normal(scale=STD_MEASURMENT_ERROR, size=1))
-            print("erreurX = ", erreurX)
-            print("erreurY = ", erreurY)
         else:
             erreurX = 0
             erreurY = 0
