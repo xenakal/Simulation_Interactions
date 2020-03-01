@@ -9,91 +9,6 @@ import numpy as np
 STD_MEASURMENT_ERROR = 2
 
 
-class TargetEstimator:
-    """
-    Class representing a target as viewed by an agent (ie with an estimated position).
-
-    Args:
-        timestamp -- time at which the estimation is done.
-        agentID   -- ID of the agent who makes the estimation.
-        target    -- target on which the estimation is done.
-
-    Args not used yet:
-        seenByCam -- maybe should be suppress
-        followedByCam -- cam who has the best view on the target for now
-    """
-
-    def __init__(self, timeStamp, agentID, target, seenByCam=False, followedByCam=-1):
-        self.timeStamp = timeStamp
-        self.agent_ID = agentID
-
-        self.target_ID = target.id
-        self.target_label = target.label
-        if main.INCLUDE_ERROR:
-            errorRange = 5
-            step = 1
-            # erreurX = random.randrange(-errorRange, errorRange+step, step)
-            # erreurY = random.randrange(-errorRange, errorRange+step, step)
-            erreurX = int(np.random.normal(scale=STD_MEASURMENT_ERROR, size=1))
-            erreurY = int(np.random.normal(scale=STD_MEASURMENT_ERROR, size=1))
-        else:
-            erreurX = 0
-            erreurY = 0
-
-        self.position = [target.xc + erreurX, target.yc + erreurY]
-        self.realPos = [target.xc, target.yc]
-
-        self.seenByCam = seenByCam
-        self.followedByCam = followedByCam
-
-        self.estimator = False
-
-    def copyTargetEstimator_newTime(self, time, target, seenByCam):
-        return TargetEstimator(time, self.agent_ID, target, seenByCam, self.followedByCam)
-
-    def setTimeStamp(self, time):
-        self.timeStamp = time
-
-    def setSeenByCam(self, setter):
-        self.seenByCam = setter
-
-    def to_string(self):
-        s1 = "#Timestamp #" + str(self.timeStamp) + "\n"
-        s2 = "#From #" + str(self.agent_ID) + "\n"
-        s3 = "#Target_ID #" + str(self.target_ID) + " #Target_label #" + str(self.target_label) + "\n"
-        s4 = "x: " + str(self.position[0]) + " y: " + str(self.position[1]) + "\n"
-        s5 = "Seen by the agent: " + str(self.seenByCam) + " followed by agent: " + str(self.followedByCam) + "\n"
-        s6 = "Estimation: " + str(self.estimator)
-        return str("\n" + s1 + s2 + s3 + s4 + s5 + s6 + "\n")
-
-    def parse_string(self, s):
-        s = s.replace("\n", "")
-        s = s.replace(" ", "")
-
-        attribute = re.split(
-            "#Timestamp#|#From#|#Target_ID#|#Target_label#|x:|y:|Seenbytheagent:|followedbyagent:|Estimation:", s)
-        self.timeStamp = int(attribute[1])
-        self.agent_ID = int(attribute[2])
-        self.target_ID = int(attribute[3])
-        self.target_label = attribute[4]
-        self.position = [float(attribute[5]), float(attribute[6])]
-        self.seenByCam = bool(attribute[7] == "True")
-        self.followedByCam = int(attribute[8])
-        self.estimator = bool(attribute[9] == "True")
-
-    def __eq__(self, other):
-        cdt1 = self.timeStamp == other.timeStamp
-        cdt2 = self.agent_ID == other.agent_ID
-        cdt3 = self.target_ID == other.target_ID
-        return cdt1 and cdt2 and cdt3
-
-    def __lt__(self, other):
-        return self.timeStamp < other.timeStamp
-
-    def __gt__(self, other):
-        return self.timeStamp > other.timeStamp
-
-
 def isCorrespondingEstimator(agentID, targetID, targetEstimator):
     return targetEstimator[0] == agentID and targetEstimator[1] == targetID
 
@@ -258,3 +173,90 @@ class FusionEstimatorList:
             if info.target_ID == targetID:
                 return info.seenByCam
         return False
+
+
+class TargetEstimator:
+    """
+    Class representing a target as viewed by an agent (ie with an estimated position).
+
+    Args:
+        timestamp -- time at which the estimation is done.
+        agentID   -- ID of the agent who makes the estimation.
+        target    -- target on which the estimation is done.
+
+    Args not used yet:
+        seenByCam -- maybe should be suppress
+        followedByCam -- cam who has the best view on the target for now
+    """
+
+    def __init__(self, timeStamp, agentID, target, seenByCam=False, followedByCam=-1):
+        self.timeStamp = timeStamp
+        self.agent_ID = agentID
+
+        self.target_ID = target.id
+        self.target_label = target.label
+        if main.INCLUDE_ERROR:
+            errorRange = 5
+            step = 1
+            # erreurX = random.randrange(-errorRange, errorRange+step, step)
+            # erreurY = random.randrange(-errorRange, errorRange+step, step)
+            erreurX = int(np.random.normal(scale=STD_MEASURMENT_ERROR, size=1))
+            erreurY = int(np.random.normal(scale=STD_MEASURMENT_ERROR, size=1))
+        else:
+            erreurX = 0
+            erreurY = 0
+
+        self.position = [target.xc + erreurX, target.yc + erreurY]
+        self.realPos = [target.xc, target.yc]
+
+        self.seenByCam = seenByCam
+        self.followedByCam = followedByCam
+
+        self.estimator = False
+
+    def copyTargetEstimator_newTime(self, time, target, seenByCam):
+        return TargetEstimator(time, self.agent_ID, target, seenByCam, self.followedByCam)
+
+    def setTimeStamp(self, time):
+        self.timeStamp = time
+
+    def setSeenByCam(self, setter):
+        self.seenByCam = setter
+
+    def to_string(self):
+        s1 = "#Timestamp #" + str(self.timeStamp) + "\n"
+        s2 = "#From #" + str(self.agent_ID) + "\n"
+        s3 = "#Target_ID #" + str(self.target_ID) + " #Target_label #" + str(self.target_label) + "\n"
+        s4 = "x: " + str(self.position[0]) + " y: " + str(self.position[1]) + "\n"
+        s5 = "Seen by the agent: " + str(self.seenByCam) + " followed by agent: " + str(self.followedByCam) + "\n"
+        s6 = "Estimation: " + str(self.estimator)
+        return str("\n" + s1 + s2 + s3 + s4 + s5 + s6 + "\n")
+
+    def parse_string(self, s):
+        s = s.replace("\n", "")
+        s = s.replace(" ", "")
+
+        attribute = re.split(
+            "#Timestamp#|#From#|#Target_ID#|#Target_label#|x:|y:|Seenbytheagent:|followedbyagent:|Estimation:", s)
+        self.timeStamp = int(attribute[1])
+        self.agent_ID = int(attribute[2])
+        self.target_ID = int(attribute[3])
+        self.target_label = attribute[4]
+        self.position = [float(attribute[5]), float(attribute[6])]
+        self.seenByCam = bool(attribute[7] == "True")
+        self.followedByCam = int(attribute[8])
+        self.estimator = bool(attribute[9] == "True")
+
+    def __eq__(self, other):
+        cdt1 = self.timeStamp == other.timeStamp
+        cdt2 = self.agent_ID == other.agent_ID
+        cdt3 = self.target_ID == other.target_ID
+        return cdt1 and cdt2 and cdt3
+
+    def __lt__(self, other):
+        return self.timeStamp < other.timeStamp
+
+    def __gt__(self, other):
+        return self.timeStamp > other.timeStamp
+
+

@@ -106,6 +106,15 @@ class Camera:
 
         return targetInTriangle.copy()
 
+    def posInField(self, position):
+        """
+        :param position: [x, y]
+        :return: True if position seen by camera, False otherwise
+        """
+        coord_cam_frame = self.coord_from_WorldFrame_to_CamFrame(position[0], position[1])
+        return False
+
+
     def sortDetectedTarget(self, targetInTriangle):
         # computation of the distances
         distanceToCam = []

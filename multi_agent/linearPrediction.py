@@ -1,46 +1,6 @@
 import math
-from multi_agent.prediction import Prediction, NUMBER_PREDICTIONS, TIMESTEP, PREVIOUS_POSITIONS_USED
+from multi_agent.prediction import Prediction, NUMBER_PREDICTIONS, PREVIOUS_POSITIONS_USED
 import numpy as np
-
-
-def nextPositions(prevPosList):
-    """ Actual computation of predicted positions. Returns a list (size = NUMBER_PREDICTIONS) of the next estimated
-    positions. """
-
-    if len(prevPosList) < 1:
-        return []
-    currPos = prevPosList[-1]
-    prevPos = prevPosList[:-1]
-    predictedPos = []
-
-    for i in range(NUMBER_PREDICTIONS):
-        #  Estimate next position
-        avgSpeed = avgSpeedFunc(prevPos)  # calculate average velocity
-        avgDirection = avgDirectionFunc(prevPos)  # calculate average direction
-        nextPos = calcNextPos(currPos, avgSpeed, avgDirection)  # estimate next position
-        predictedPos.append(nextPos)
-        #  Update needed values
-        prevPos = prevPos[1:]  # remove oldest element
-        #prevPos.append(currPos)  # include new pos for next iteration
-        np.append(prevPos, currPos)
-        currPos = nextPos
-
-    return predictedPos
-
-
-def avgSpeedFunc(positions):
-    if len(positions) <= 1:  # one position or less not enough to calculate speed
-        return 0
-    prevPos = positions[0]
-    stepTime = 1  # TODO: see what the actual time increment is
-    avgSpeed = 0.0
-    for curPos in positions:
-        stepDistance = distanceBtwTwoPoint(prevPos[0], prevPos[1], curPos[0], curPos[1])
-        avgSpeed += stepDistance / stepTime
-        prevPos = curPos
-
-    avgSpeed = avgSpeed / (len(positions) - 1)
-    return avgSpeed
 
 
 def distanceBtwTwoPoint(x1, y1, x2, y2):
@@ -68,13 +28,6 @@ def avgDirectionFunc(positions):
     return avgDir
 
 
-def calcNextPos(position, speed, direction):
-    travelDistance = TIMESTEP * 4 * speed
-    xPrediction = position[0] + math.cos(direction) * travelDistance
-    yPrediction = position[1] + math.sin(direction) * travelDistance  # -: the coordinates are opposite to the cartesian
-    return [int(xPrediction), int(yPrediction)]
-
-
 def extractPositionsFromTargetEstimators(prevTargetEstimatorsList):
     """
     :param prevTargetEstimatorsList: a list of target estimators
@@ -92,8 +45,9 @@ def extractPositionsFromTargetEstimators(prevTargetEstimatorsList):
 class LinearPrediction(Prediction):
     """ Simple & naive linear prediction. """
 
-    def __init__(self, memory):
+    def __init__(self, memory, TIME_PICTURE):
         self.memory = memory
+        self.TIMESTEP = TIME_PICTURE
 
     def makePredictions(self, targetIdList):
         """
@@ -116,7 +70,7 @@ class LinearPrediction(Prediction):
         prevTargetEstimators = self.getPreviousTargetEstimators(targetID)
         prevPositions = extractPositionsFromTargetEstimators(prevTargetEstimators)
         #  estimate the next NUMBER_OF_PREDICTIONS positions
-        predictedPositions = nextPositions(prevPositions)
+        predictedPositions = self.nextPositions(prevPositions)
         return predictedPositions
 
     def getPreviousTargetEstimators(self, targetID):
@@ -124,3 +78,47 @@ class LinearPrediction(Prediction):
         :return: Returns a list of TargetEstimators corresponding to the previous known positions of the target.
         """
         return self.memory.getPreviousPositions(targetID)
+
+    def calcNextPos(self, position, speed, direction):
+        travelDistance = self.TIMESTEP * 4 * speed
+        xPrediction = position[0] + math.cos(direction) * travelDistance
+        yPrediction = position[1] + math.sin(direction) * travelDistance  # -: the coords are opposite to the cartesian
+        return [int(xPrediction), int(yPrediction)]
+
+    def nextPositions(self, prevPosList):
+        """ Actual computation of predicted positions. Returns a list (size = NUMBER_PREDICTIONS) of the next estimated
+        positions. """
+
+        if len(prevPosList) < 1:
+            return []
+        currPos = prevPosList[-1]
+        prevPos = prevPosList[:-1]
+        predictedPos = []
+
+        for i in range(NUMBER_PREDICTIONS):
+            #  Estimate next position
+            avgSpeed = self.avgSpeedFunc(prevPos)  # calculate average velocity
+            avgDirection = avgDirectionFunc(prevPos)  # calculate average direction
+            nextPos = self.calcNextPos(currPos, avgSpeed, avgDirection)  # estimate next position
+            predictedPos.append(nextPos)
+            #  Update needed values
+            prevPos = prevPos[1:]  # remove oldest element
+            np.append(prevPos, currPos)
+            currPos = nextPos
+
+        return predictedPos
+
+    def avgSpeedFunc(self, positions):
+        if len(positions) <= 1:  # one position or less not enough to calculate speed
+            return 0
+        prevPos = positions[0]
+
+        avgSpeed = 0.0
+        for curPos in positions:
+            stepDistance = distanceBtwTwoPoint(prevPos[0], prevPos[1], curPos[0], curPos[1])
+            avgSpeed += stepDistance / self.TIMESTEP
+            prevPos = curPos
+
+        avgSpeed = avgSpeed / (len(positions) - 1)
+        return avgSpeed
+

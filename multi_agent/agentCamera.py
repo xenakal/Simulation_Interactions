@@ -11,8 +11,8 @@ from multi_agent.memory import *
 from multi_agent.linearPrediction import *
 from multi_agent.kalmanPrediction import *
 
-TIME_PICTURE = 0.05
-TIME_SEND_READ_MESSAGE = 0.1
+TIME_PICTURE = .5
+TIME_SEND_READ_MESSAGE = .1
 
 MULTI_THREAD = 0
 NAME_MAILBOX = "mailbox/MailBox_Agent"
@@ -56,7 +56,6 @@ class AgentCam(Agent):
         for target in self.myRoom.targets:
             self.predictionPrecision[target.id] = 0.0
             self.previousPrediction[target.id] = -1
-
 
     def run(self):
         self.thread_pI.start()
@@ -263,22 +262,51 @@ class AgentCam(Agent):
 
     def makePredictions(self, method, targetIdList):
         """
-        Returns a list of lists: [ [NUMBER_OF_PREDICTIONS*[x_estimated, y_estimated] ],[],...] (len = len(targetIdList)
-
-        :arg
-            targetList -- list of targets IDs: the return list will have an entry for each element of this list
+        :param targetList -- list of targets IDs: the return list will have an entry for each element of this list
+        :return a list of lists: [ [NUMBER_OF_PREDICTIONS*[x_estimated, y_estimated] ],[],...] (len = len(targetIdList)
         """
         if method == 1:
-            predictor = LinearPrediction(self.memory)
+            predictor = LinearPrediction(self.memory, TIME_PICTURE)
         elif method == 2:
-            predictor = KalmanPrediction(self.memory)
+            predictor = KalmanPrediction(self.memory, TIME_PICTURE)
         else:
-            predictor = LinearPrediction(self.memory)
+            predictor = LinearPrediction(self.memory, TIME_PICTURE)
 
         predictions = predictor.makePredictions(targetIdList)
 
+        # used for quantification of prediction quality
+        """
         for targetIndex, targetId in enumerate(targetIdList):
             self.previousPrediction[targetId] = predictions[targetIndex][0]  # prediction of next position
+            # TODO: make a check somewhere (not here) to see if the prediction was correct
 
-        return predictions
+        occludedTargets = self.predictOcclusions(predictions, targetIdList)
+        """
+
+        return predictions#, occludedTargets
+
+    def predictOcclusions(self, predictions, targetIdList):
+        """
+
+        :param predictions: list of lists, each of which contains the predicted positions of the targets in targetIdList
+        :param targetIdList: list of targetId's
+        :return: list containing the targets that are going to be occluded based on predictions
+        """
+
+        occludedTargets = []
+        for index, futurePosList in enumerate(predictions):
+            for pos in futurePosList:
+                if self.notInView(pos):
+                    occludedTargets.append(targetIdList[index])
+                    break
+
+        return occludedTargets
+
+    def notInView(self, position):
+        """
+        :param position: [x, y]
+        :return: true if the position is seen by the agent, false otherwise
+        """
+        # TODO
+        return self.cam.posInField(position)
 
