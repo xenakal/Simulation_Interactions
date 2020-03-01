@@ -1,0 +1,54 @@
+From MAILER-DAEMON Sun Mar  1 15:51:51 2020
+Timestamp: 332 message#:9285992117115040
+From: 0 sender#1967333701860513
+Receiver list : 
+To: 2 receiver#6114509256788696
+Type: ack target: 2 Message: 8011807263606715
+
+From MAILER-DAEMON Sun Mar  1 15:51:51 2020
+Timestamp: 335 message#:6868703855000551
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 2 receiver#6114509256788696
+Type: ack target: 2 Message: 1140802833991826
+
+From MAILER-DAEMON Sun Mar  1 15:51:51 2020
+Timestamp: 337 message#:460490347325194
+From: 0 sender#1967333701860513
+Receiver list : 
+To: 1 receiver#8224633502111757
+To: 2 receiver#6114509256788696
+Type: memory target: 0 Message: #Timestamp#330#From#0#Target_ID#0#Target_label#fixx:155y:157Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:51:51 2020
+Timestamp: 337 message#:3963331687167458
+From: 0 sender#1967333701860513
+Receiver list : 
+To: 1 receiver#8224633502111757
+To: 2 receiver#6114509256788696
+Type: memory target: 1 Message: #Timestamp#330#From#0#Target_ID#1#Target_label#targetx:111y:200Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:51:51 2020
+Timestamp: 342 message#:5565533291376339
+From: 0 sender#1967333701860513
+Receiver list : 
+To: 1 receiver#8224633502111757
+To: 2 receiver#6114509256788696
+Type: memory target: 0 Message: #Timestamp#337#From#0#Target_ID#0#Target_label#fixx:155y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:51:51 2020
+Timestamp: 342 message#:8638865819165420
+From: 0 sender#1967333701860513
+Receiver list : 
+To: 1 receiver#8224633502111757
+To: 2 receiver#6114509256788696
+Type: memory target: 1 Message: #Timestamp#337#From#0#Target_ID#1#Target_label#targetx:102y:199Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:51:52 2020
+Timestamp: 334 message#:110524408408119
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 2 receiver#6114509256788696
+Type: memory target: 0 Message: #Timestamp#329#From#1#Target_ID#0#Target_label#fixx:150y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+

@@ -1,0 +1,100 @@
+From MAILER-DAEMON Sun Mar  1 15:52:03 2020
+Timestamp: 428 message#:2008725158785006
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 2 receiver#6114509256788696
+Type: memory target: 1 Message: #Timestamp#422#From#1#Target_ID#1#Target_label#targetx:20y:199Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:52:03 2020
+Timestamp: 431 message#:6989376771579805
+From: 2 sender#6114509256788696
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 1 receiver#8224633502111757
+Type: memory target: 0 Message: #Timestamp#424#From#2#Target_ID#0#Target_label#fixx:153y:156Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:52:03 2020
+Timestamp: 431 message#:8571742909873118
+From: 2 sender#6114509256788696
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 1 receiver#8224633502111757
+Type: memory target: 2 Message: #Timestamp#424#From#2#Target_ID#2#Target_label#obstructionx:213y:226Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:52:04 2020
+Timestamp: 431 message#:3620901045365927
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+Type: ack target: 0 Message: 2535040445276315
+
+From MAILER-DAEMON Sun Mar  1 15:52:04 2020
+Timestamp: 431 message#:1058654200582809
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+Type: ack target: 0 Message: 2792414781313718
+
+From MAILER-DAEMON Sun Mar  1 15:52:04 2020
+Timestamp: 431 message#:9908007435108532
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+Type: ack target: 2 Message: 3714123637069039
+
+From MAILER-DAEMON Sun Mar  1 15:52:04 2020
+Timestamp: 435 message#:7241064113216326
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 2 receiver#6114509256788696
+Type: memory target: 0 Message: #Timestamp#428#From#1#Target_ID#0#Target_label#fixx:155y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:52:04 2020
+Timestamp: 435 message#:6739422298739824
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 2 receiver#6114509256788696
+Type: memory target: 1 Message: #Timestamp#428#From#1#Target_ID#1#Target_label#targetx:22y:200Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:52:04 2020
+Timestamp: 435 message#:4909835981597460
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 2 receiver#6114509256788696
+Type: memory target: 2 Message: #Timestamp#347#From#1#Target_ID#2#Target_label#obstructionx:137y:252Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:52:04 2020
+Timestamp: 436 message#:3830967866717311
+From: 2 sender#6114509256788696
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 1 receiver#8224633502111757
+Type: memory target: 0 Message: #Timestamp#431#From#2#Target_ID#0#Target_label#fixx:156y:156Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:52:05 2020
+Timestamp: 441 message#:7040753621318070
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 2 receiver#6114509256788696
+Type: memory target: 0 Message: #Timestamp#435#From#1#Target_ID#0#Target_label#fixx:155y:156Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:52:05 2020
+Timestamp: 441 message#:4764930356538691
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 2 receiver#6114509256788696
+Type: memory target: 1 Message: #Timestamp#435#From#1#Target_ID#1#Target_label#targetx:20y:199Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:52:05 2020
+Timestamp: 426 message#:7173880274960751
+From: 2 sender#6114509256788696
+Receiver list : 
+To: 0 receiver#1967333701860513
+Type: ack target: 0 Message: 2792414781313718
+

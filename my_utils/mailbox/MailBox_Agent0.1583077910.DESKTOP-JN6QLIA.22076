@@ -1,0 +1,70 @@
+From MAILER-DAEMON Sun Mar  1 15:51:49 2020
+Timestamp: 323 message#:9347200488321498
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 2 receiver#6114509256788696
+Type: memory target: 1 Message: #Timestamp#316#From#1#Target_ID#1#Target_label#targetx:120y:198Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:51:49 2020
+Timestamp: 323 message#:3424446723483755
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 2 receiver#6114509256788696
+Type: memory target: 2 Message: #Timestamp#316#From#1#Target_ID#2#Target_label#obstructionx:108y:255Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:51:49 2020
+Timestamp: 315 message#:9420611171252698
+From: 2 sender#6114509256788696
+Receiver list : 
+To: 0 receiver#1967333701860513
+Type: ack target: 0 Message: 1298926229706524
+
+From MAILER-DAEMON Sun Mar  1 15:51:49 2020
+Timestamp: 315 message#:801523868613153
+From: 2 sender#6114509256788696
+Receiver list : 
+To: 0 receiver#1967333701860513
+Type: ack target: 1 Message: 5272251514305030
+
+From MAILER-DAEMON Sun Mar  1 15:51:49 2020
+Timestamp: 325 message#:671497291453797
+From: 2 sender#6114509256788696
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 1 receiver#8224633502111757
+Type: memory target: 1 Message: #Timestamp#319#From#2#Target_ID#1#Target_label#targetx:121y:197Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:51:49 2020
+Timestamp: 325 message#:3879175112168719
+From: 2 sender#6114509256788696
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 1 receiver#8224633502111757
+Type: memory target: 2 Message: #Timestamp#319#From#2#Target_ID#2#Target_label#obstructionx:109y:248Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:51:50 2020
+Timestamp: 329 message#:5483949224361671
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 2 receiver#6114509256788696
+Type: memory target: 0 Message: #Timestamp#323#From#1#Target_ID#0#Target_label#fixx:158y:152Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:51:50 2020
+Timestamp: 329 message#:7197030533004856
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 2 receiver#6114509256788696
+Type: memory target: 1 Message: #Timestamp#323#From#1#Target_ID#1#Target_label#targetx:117y:200Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:51:50 2020
+Timestamp: 329 message#:7360143827277097
+From: 1 sender#8224633502111757
+Receiver list : 
+To: 0 receiver#1967333701860513
+To: 2 receiver#6114509256788696
+Type: memory target: 2 Message: #Timestamp#323#From#1#Target_ID#2#Target_label#obstructionx:113y:249Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
