@@ -56,6 +56,9 @@ class Memory:
     def getPreviousPositions(self, targetID):
         return self.memory_agent.get_target_list(targetID)
 
+    def getPreviousPositions_allMessages(self, targetID,agentID):
+        return self.memory_all_agent.get_agent_target_list(targetID,agentID)
+
     def to_string_memory_all(self):
         return self.memory_all_agent.to_string()
 

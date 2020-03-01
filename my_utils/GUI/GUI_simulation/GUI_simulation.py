@@ -12,7 +12,7 @@ class GUI_simulation:
         self.screen = screen
         self.GUI_option = GUI_option
 
-        self.button_simulation_1 = ButtonList(["real T", "M agent", "M all agent", "prediction"], 10, -20, 0, 40, 100,
+        self.button_simulation_1 = ButtonList(["real T", "M agent","+ received","M all agent", "prediction"], 10, -20, 0, 40, 100,
                                               20)
         self.button_simulation_2 = ButtonList(["0", "1", "2", "3", "4", "5", "6"], -35, 10, 700, 40, 35, 15)
         self.button_simulation_3 = ButtonList(["0", "1", "2", "3", "4", "5", "6"], -35, 10, 750, 40, 35, 15)
@@ -43,7 +43,10 @@ class GUI_simulation:
             self.GUI_memories.drawMemory(myRoom)
 
         if self.button_simulation_1.find_button_state("M all agent"):
-            self.GUI_memories.drawMemory(myRoom, True)
+           self.GUI_memories.drawMemory(myRoom, True)
+
+        if self.button_simulation_1.find_button_state("+ received"):
+            self.GUI_memories.draw_mesure_and_receiveMessages(myRoom)
 
     def display_simulation_button(self):
         for button in self.button_simulation_1.list:
