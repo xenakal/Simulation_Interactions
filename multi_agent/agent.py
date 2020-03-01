@@ -8,7 +8,7 @@ from elements.target import *
 from multi_agent.message import *
 
 NAME_LOG_PATH = "log/log_agent/Agent"
-NAME_MAILBOX = "utils/mailbox/MailBox_Agent"
+NAME_MAILBOX = "my_utils/mailbox/MailBox_Agent"
 
 NUMBER_OF_MESSAGE_RECEIVE = 1  # 1= all message receive, 100 = almost nothing is received
 

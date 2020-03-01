@@ -1,13 +1,14 @@
 import shutil
 import os
+import pygame
 from init import *
-from utils.GUI.GUI import *
-from utils.motion import *
+from my_utils.GUI.GUI import *
+from my_utils.motion import *
 
 
 def clean_mailbox():
-    shutil.rmtree("utils/mailbox", ignore_errors=True)
-    os.mkdir("utils/mailbox")
+    shutil.rmtree("my_utils/mailbox", ignore_errors=True)
+    os.mkdir("my_utils/mailbox")
 
 
 INCLUDE_ERROR = True

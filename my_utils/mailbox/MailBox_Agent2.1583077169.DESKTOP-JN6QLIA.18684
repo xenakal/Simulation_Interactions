@@ -1,0 +1,22 @@
+From MAILER-DAEMON Sun Mar  1 15:39:28 2020
+Timestamp: 274 message#:4706378568883535
+From: 0 sender#676934446060126
+Receiver list : 
+To: 1 receiver#3165059341440544
+To: 2 receiver#4012334504576512
+Type: memory target: 2 Message: #Timestamp#127#From#0#Target_ID#2#Target_label#obstructionx:28y:175Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:39:28 2020
+Timestamp: 276 message#:3587830634070544
+From: 0 sender#676934446060126
+Receiver list : 
+To: 2 receiver#4012334504576512
+Type: ack target: 0 Message: 4956164167906479
+
+From MAILER-DAEMON Sun Mar  1 15:39:28 2020
+Timestamp: 276 message#:5822792043224482
+From: 0 sender#676934446060126
+Receiver list : 
+To: 2 receiver#4012334504576512
+Type: ack target: 1 Message: 6223267028070081
+

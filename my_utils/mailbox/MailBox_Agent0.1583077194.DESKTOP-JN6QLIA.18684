@@ -1,0 +1,53 @@
+From MAILER-DAEMON Sun Mar  1 15:39:53 2020
+Timestamp: 507 message#:7731450733985296
+From: 1 sender#3165059341440544
+Receiver list : 
+To: 0 receiver#676934446060126
+Type: ack target: 0 Message: 1829956210151939
+
+From MAILER-DAEMON Sun Mar  1 15:39:54 2020
+Timestamp: 522 message#:94499037432640
+From: 1 sender#3165059341440544
+Receiver list : 
+To: 0 receiver#676934446060126
+Type: ack target: 0 Message: 209960962644061
+
+From MAILER-DAEMON Sun Mar  1 15:39:54 2020
+Timestamp: 522 message#:7609935681722636
+From: 1 sender#3165059341440544
+Receiver list : 
+To: 0 receiver#676934446060126
+Type: ack target: 2 Message: 2198941070480271
+
+From MAILER-DAEMON Sun Mar  1 15:39:54 2020
+Timestamp: 528 message#:1390128640945973
+From: 1 sender#3165059341440544
+Receiver list : 
+To: 0 receiver#676934446060126
+To: 2 receiver#4012334504576512
+Type: memory target: 0 Message: #Timestamp#521#From#1#Target_ID#0#Target_label#fixx:155y:156Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:39:54 2020
+Timestamp: 528 message#:8031219624868415
+From: 1 sender#3165059341440544
+Receiver list : 
+To: 0 receiver#676934446060126
+To: 2 receiver#4012334504576512
+Type: memory target: 1 Message: #Timestamp#521#From#1#Target_ID#1#Target_label#targetx:18y:203Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:39:54 2020
+Timestamp: 528 message#:6933851287405942
+From: 1 sender#3165059341440544
+Receiver list : 
+To: 0 receiver#676934446060126
+To: 2 receiver#4012334504576512
+Type: memory target: 2 Message: #Timestamp#521#From#1#Target_ID#2#Target_label#obstructionx:253y:129Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sun Mar  1 15:39:54 2020
+Timestamp: 533 message#:5294065218977331
+From: 2 sender#4012334504576512
+Receiver list : 
+To: 0 receiver#676934446060126
+To: 1 receiver#3165059341440544
+Type: memory target: 0 Message: #Timestamp#526#From#2#Target_ID#0#Target_label#fixx:155y:156Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+

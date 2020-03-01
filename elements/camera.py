@@ -1,8 +1,8 @@
 import math
 import main
 import numpy as np
-from utils.line import *
-from utils.queueFIFO import *
+from my_utils.line import *
+from my_utils.queueFIFO import *
 from elements.target import *
 
 
