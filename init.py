@@ -3,8 +3,6 @@ import os
 import numpy
 from multi_agent.room import *
 
-T_MAX = 1000
-TIME_BTW_FRAMES = 0.1
 
 
 def set_room(scenario):
@@ -144,9 +142,11 @@ def set_room(scenario):
         trajChoice_tar = numpy.array([0, 1, 0])
         size_tar = numpy.array([20, 5, 6])
         label_tar = numpy.array(['fix', 'target', 'obstruction'])
+        t_add = [[5],[0],[10]]
+        t_del = [[100],[25],[50]]
         # Options for the cameras
         x_cam = numpy.array([0, 300, 150])
-        y_cam = numpy.array([155, 155, 10])
+        y_cam = numpy.array([155, 155, 0])
         angle_cam = numpy.array([0, 180, 90])
         angle_view_cam = numpy.array([60, 60, 30])
         fix_cam = [1, 1, 1]
@@ -157,11 +157,8 @@ def set_room(scenario):
 
     # Creating the room, the target and the camera
     myRoom = Room()
-    myRoom.createTargets(x_tar, y_tar, vx_tar, vy_tar, traj_tar, trajChoice_tar,
-                         label_tar,
-                         size_tar)
-
-    myRoom.createAgentCam(x_cam, y_cam, angle_cam, angle_view_cam, fix_cam, myRoom)
+    myRoom.init(x_tar, y_tar, vx_tar, vy_tar, traj_tar, trajChoice_tar,label_tar,size_tar,t_add,t_del)
+    myRoom.init_agentCam(x_cam, y_cam, angle_cam, angle_view_cam, fix_cam, myRoom)
     for agent in myRoom.agentCams:
         agent.run()
 

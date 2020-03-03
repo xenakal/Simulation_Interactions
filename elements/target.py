@@ -7,11 +7,21 @@ import random
 
 class Target:
     def __init__(self, tar_id=-1, tar_x=-1, tar_y=-1, tar_vx=0, tar_vy=0, tar_traj='fix', tar_trajChoice=0,
-                 tar_label='fix', tar_size=5):
+                 tar_label='fix', tar_size=5,t_add=-1,t_del=-1):
         # Label
         self.id = tar_id
         self.label = tar_label
         self.trajectory = tar_traj
+
+        # time to appear and disappear
+        if t_add == -1:
+            self.t_add = [0]
+            self.t_del = [1000]
+        else:
+            self.t_add = t_add
+            self.t_del = t_del
+
+
         # color from the object
         r = random.randrange(20, 230, 1)
         g = random.randrange(20, 230, 1)
