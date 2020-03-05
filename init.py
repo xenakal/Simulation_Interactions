@@ -3,8 +3,6 @@ import os
 import numpy
 from multi_agent.room import *
 
-
-
 def set_room(scenario):
     # Here by changing only the vectors it is possible to create as many scenario as we want !
     if scenario == -1:
@@ -142,8 +140,8 @@ def set_room(scenario):
         trajChoice_tar = numpy.array([0, 1, 0])
         size_tar = numpy.array([20, 5, 6])
         label_tar = numpy.array(['fix', 'target', 'obstruction'])
-        t_add = [[5],[0],[10]]
-        t_del = [[100],[25],[50]]
+        t_add = [[5,105],[0],[10]]
+        t_del = [[100,200],[25],[50]]
         # Options for the cameras
         x_cam = numpy.array([0, 300, 150])
         y_cam = numpy.array([155, 155, 0])

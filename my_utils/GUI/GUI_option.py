@@ -54,6 +54,15 @@ class GUI_option:
                 return True
         return False
 
+    def check_button_get_pos(self, button):
+        """ Returns True if the button is """
+        for position in self.position_mouse:
+            (pos_x, pos_y) = position[0]
+            if button.check_click(self.screen,pos_x, pos_y):
+                self.suppress_mouse_position(position)
+                return (pos_x,pos_y)
+        return (-1,-1)
+
     def check_list(self, buttons):
         for button in buttons:
             if self.check_button(button):

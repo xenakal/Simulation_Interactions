@@ -1,10 +1,10 @@
 import numpy as np
 import random
 import re
-import main
-from my_utils.line import *
 import math
 import numpy as np
+from my_utils.line import *
+from main import INCLUDE_ERROR
 
 STD_MEASURMENT_ERROR = 2
 
@@ -199,7 +199,7 @@ class TargetEstimator:
 
         self.target_ID = target.id
         self.target_label = target.label
-        if main.INCLUDE_ERROR:
+        if INCLUDE_ERROR:
             errorRange = 5
             step = 1
             # erreurX = random.randrange(-errorRange, errorRange+step, step)

@@ -56,6 +56,13 @@ class Room:
         index = self.targets.index(target)
         del self.targets[index]
 
+    def addAgentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix, myRoom):
+            camera = Camera(self.camerasNumber, cam_x,cam_y, cam_alpha, cam_beta, fix)
+            self.cameras.append(camera)
+            self.camerasNumber = self.camerasNumber + 1
+            self.agentCams.append(AgentCam(self.agentCamNumber, camera, myRoom))
+            self.agentCamNumber += 1
+
     def getAgentsWithIDs(self, idList):
         """ Returns the list of agents with ids in the list provided in the argument. """
         return [agent for agent in self.agentCams if agent.id in idList]

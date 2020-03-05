@@ -1,5 +1,4 @@
 import math
-import main
 import numpy as np
 from my_utils.line import *
 from my_utils.queueFIFO import *

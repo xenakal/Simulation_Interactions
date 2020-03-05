@@ -3,6 +3,7 @@ from my_utils.GUI.GUI_simulation.GUI_room import *
 from my_utils.GUI.GUI_simulation.GUI_memories import *
 from my_utils.GUI.GUI_simulation.GUI_Agent_Target_Detected import *
 from my_utils.GUI.GUI_simulation.GUI_predictions import *
+from my_utils.GUI.GUI_simulation.GUI_room import GUI_room
 
 
 class GUI_simulation:
