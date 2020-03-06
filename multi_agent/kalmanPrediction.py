@@ -39,7 +39,11 @@ class KalmanPrediction(LinearPrediction):
 
         f = KalmanFilter(dim_x=4, dim_z=2)  # as we have a 4d state space and measurements on only the positions (x,y)
         # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
-        f.x = np.array([prevPositions[-1][0], prevPositions[-1][1], 0, 0])
+        x_init = prevPositions[-1][0]
+        y_init = prevPositions[-1][1]
+        vx_init = 0
+        vy_init = 0
+        f.x = np.array([x_init, y_init, vx_init, vy_init])
         f.F = np.array([[1., 0., self.TIMESTEP, 0.],
                         [0., 1., 0., self.TIMESTEP],
                         [0., 0., 1., 0.],

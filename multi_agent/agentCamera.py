@@ -50,7 +50,7 @@ class AgentCam(Agent):
 
         self.log_room = logger_room
 
-        # used to quantify the quality of the prediction
+        # not used yet, to be used to quantify the quality of the prediction
         self.predictionPrecision = {}
         self.previousPrediction = {}
         for target in self.myRoom.targets:
@@ -262,16 +262,7 @@ class AgentCam(Agent):
 
         predictions = predictor.makePredictions(targetIdList)
 
-        # used for quantification of prediction quality
-        """
-        for targetIndex, targetId in enumerate(targetIdList):
-            self.previousPrediction[targetId] = predictions[targetIndex][0]  # prediction of next position
-            # TODO: make a check somewhere (not here) to see if the prediction was correct
-
-        occludedTargets = self.predictOcclusions(predictions, targetIdList)
-        """
-
-        return predictions#, occludedTargets
+        return predictions
 
     def predictOcclusions(self, predictions, targetIdList):
         """
