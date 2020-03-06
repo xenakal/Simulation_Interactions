@@ -37,7 +37,7 @@ class GUI_stat:
         label = self.font.render("Receiver", 20, GREEN)
         self.screen.blit(label, (self.x_offset + x_off, self.y_offset + y_off - 20))
 
-        for agent in room.agentCam:
+        for agent in room.agentCams:
             label1 = self.font.render(str(agent.id), 20, GREEN)
             label2 = self.font.render(str(agent.id), 20, RED)
             self.screen.blit(label1, (self.x_offset + x_off + n * pas, self.y_offset + y_off))
@@ -45,9 +45,9 @@ class GUI_stat:
             n = n + 1
 
         m = 1
-        for agent in room.agentCam:
+        for agent in room.agentCams:
             n = 1
-            for agent_receiver in room.agentCam:
+            for agent_receiver in room.agentCams:
                 label = self.font.render(str(agent.message_stat.get_messageNumber_sent(agent_receiver)), 20, WHITE)
                 self.screen.blit(label, (self.x_offset + x_off + n * pas, self.y_offset + y_off + m * pas))
                 n = n + 1
@@ -69,7 +69,7 @@ class GUI_stat:
         label = self.font.render("Receiver", 20, GREEN)
         self.screen.blit(label, (self.x_offset + x_off, self.y_offset + y_off - 20))
 
-        for agent in room.agentCam:
+        for agent in room.agentCams:
             label1 = self.font.render(str(agent.id), 20, RED)
             label2 = self.font.render(str(agent.id), 20, GREEN)
             self.screen.blit(label1, (self.x_offset + x_off + n * pas, self.y_offset + y_off))
@@ -78,9 +78,9 @@ class GUI_stat:
             # print(agent.message_stat.to_string())
 
         m = 1
-        for agent in room.agentCam:
+        for agent in room.agentCams:
             n = 1
-            for agent_receiver in room.agentCam:
+            for agent_receiver in room.agentCams:
                 label = self.font.render(str(agent.message_stat.get_messageNumber_received(agent_receiver)), 20, WHITE)
                 self.screen.blit(label, (self.x_offset + x_off + m * pas, self.y_offset + y_off + n * pas))
                 n = n + 1
