@@ -1,10 +1,10 @@
 import numpy as np
 import random
 import re
-import main
-from utils.line import *
 import math
 import numpy as np
+from my_utils.line import *
+from main import INCLUDE_ERROR
 
 STD_MEASURMENT_ERROR = 2
 
@@ -12,6 +12,11 @@ STD_MEASURMENT_ERROR = 2
 def isCorrespondingEstimator(agentID, targetID, targetEstimator):
     return targetEstimator[0] == agentID and targetEstimator[1] == targetID
 
+def is_target_estimator(myList, target_estimator):
+    for estimator in myList:
+        if estimator == target_estimator:
+            return True
+    return False
 
 class TargetEstimatorList:
     """
@@ -20,34 +25,40 @@ class TargetEstimatorList:
     Args:
         times         -- number of values kept in memory
         current_time  -- time in the room
+        agent_target  -- link between target and agent already created
         estimatorList -- [[agent.id, target.id, [TargetEstimator]], ...]
     """
 
     def __init__(self, nTime=20, current_time=0):
         self.times = nTime
         self.currentTime = current_time
+        self.agent_target = []
         self.estimator_list = []  # tableau de taille #agents*#targets
 
-    def initEstimatorList(self, room):
-        tab = []
-        for agent in room.agentCams:
-            for target in room.targets:
-                tab.append([agent.id, target.id, []])
-                # bon par contre la liste va être ennorme là, faut pas spécialement tout garder
-                # TODO: change that
-        self.estimator_list = tab
+    def update_estimator_list(self,agentID,targetID):
+        '''Register the target - agent combination in the memory'''
+        if not((agentID,targetID) in self.agent_target):
+            self.agent_target.append((agentID,targetID))
+            self.estimator_list.append([agentID, targetID, []])
 
     def add_create_target_estimator(self, room, time_from_estimation, target_ID, agent_ID, seenByCam):
         """ Creates an estimator and adds it to the list if doesn't exist yet. """
+        self.update_estimator_list(agent_ID,target_ID)
+
         for estimatorElem in self.estimator_list:
             if isCorrespondingEstimator(agent_ID, target_ID, estimatorElem):
                 target = room.getTargetbyID(target_ID)
                 newTargetEstimator = TargetEstimator(time_from_estimation, agent_ID, target, seenByCam)
                 if not newTargetEstimator in estimatorElem[2]:
                     estimatorElem[2].append(newTargetEstimator)
+            else:
+                """create a new estimator either for a new taget or for a new agent"""
+                pass
 
     def add_target_estimator(self, targetEstimator):
         """ Adds the TargetEstimator in argument to the corresponding place in the list. """
+        self.update_estimator_list(targetEstimator.agent_ID, targetEstimator.target_ID)
+
         for estimatorElem in self.estimator_list:
             if isCorrespondingEstimator(targetEstimator.agent_ID, targetEstimator.target_ID, estimatorElem):
                 estimatorElem[2].append(targetEstimator)
@@ -117,13 +128,6 @@ class TargetEstimatorList:
         return s
 
 
-def is_target_estimator(myList, target_estimator):
-    for estimator in myList:
-        if estimator == target_estimator:
-            return True
-    return False
-
-
 class FusionEstimatorList:
     """
     Class to keep track of multiple TargetEstimators from only one agent.
@@ -131,16 +135,21 @@ class FusionEstimatorList:
     Attributes:
         times               -- number of values kept in memory
         current_time        -- time in the room
+        target_seen         -- target already seen by the cameras
         room_representation -- [[target.id, [TargetEstimator]], ...]
     """
 
     def __init__(self, nTime=5, currentTime=0):
         self.times = nTime
         self.currentTime = currentTime
+        self.target_seen = []
         self.room_representation = []
 
-    def init_estimator_list(self, room):
-        self.room_representation = [[target.id, []] for target in room.targets]
+    def update_estimator_list(self, targetID):
+        '''Register the target - agent combination in the memory'''
+        if not targetID in self.target_seen:
+            self.target_seen.append(targetID)
+            self.room_representation.append([targetID, []])
 
     def sort(self):
         for element in self.room_representation:
@@ -160,6 +169,8 @@ class FusionEstimatorList:
         return -1
 
     def add_target_estimator(self, estimator):
+        self.update_estimator_list(estimator.target_ID)
+
         for element in self.room_representation:
             if element[0] == estimator.target_ID:
                 if not is_target_estimator(element[1], estimator):
@@ -167,13 +178,6 @@ class FusionEstimatorList:
 
     def set_current_time(self, current_time):
         self.currentTime = current_time
-
-    def isTargetDetected(self, infoTime, targetID):
-        for info in self.get_Info_T(infoTime):
-            if info.target_ID == targetID:
-                return info.seenByCam
-        return False
-
 
 class TargetEstimator:
     """
@@ -195,7 +199,7 @@ class TargetEstimator:
 
         self.target_ID = target.id
         self.target_label = target.label
-        if main.INCLUDE_ERROR:
+        if INCLUDE_ERROR:
             errorRange = 5
             step = 1
             # erreurX = random.randrange(-errorRange, errorRange+step, step)

@@ -1,9 +1,8 @@
 import math
-import main
 import numpy as np
-from utils.line import *
-from utils.queueFIFO import *
-from elements.target import *
+from my_utils.line import *
+from my_utils.queueFIFO import *
+from elements.target import*
 
 
 class Camera:
@@ -30,8 +29,10 @@ class Camera:
         self.predictedPositions = dict()  # key="target" and value=queueFIFO([predicted_xc, predicted_yc])
 
     def run(self, myRoom):
+        tab = []
         if self.isActive == 1:
-            self.takePicture(myRoom.targets)
+            tab = self.takePicture(myRoom.targets)
+        return tab
 
     def camDesactivate(self):
         self.isActive = 0
@@ -129,9 +130,9 @@ class Camera:
         try:
             a = np.sort(a, axis=0, order='distance')
         except TypeError:
-            print("something went wrong with cam (unable to sort): " + str(self.id))
+            print("fichier camera l134, something went wrong with cam (unable to sort): " + str(self.id))
         except SystemError:
-            pass
+            print("fichier camera l136, something went wrong with cam (unable to sort): " + str(self.id))
 
         # keeping just the target
         for element in a:

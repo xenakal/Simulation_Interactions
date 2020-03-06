@@ -1,6 +1,6 @@
 import pygame
 import math
-from utils.GUI.GUI import *
+from my_utils.GUI.GUI import *
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)

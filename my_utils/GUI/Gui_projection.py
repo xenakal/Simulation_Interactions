@@ -1,6 +1,6 @@
-from utils.line import*
+from my_utils.line import*
 from elements.camera import*
-from utils.GUI.GUI import*
+from my_utils.GUI.GUI import*
 import pygame
 
 WHITE = (255, 255, 255)

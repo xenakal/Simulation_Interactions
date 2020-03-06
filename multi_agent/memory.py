@@ -27,10 +27,6 @@ class Memory:
         self.memory_all_agent = TargetEstimatorList()
         self.memory_agent = FusionEstimatorList()
 
-    def init_memory(self, room):
-        self.memory_all_agent.initEstimatorList(room)
-        self.memory_agent.init_estimator_list(room)
-
     def add_create_target_estimator(self, room, time_from_estimation, target_ID, agent_ID, seenByCam):
         self.memory_all_agent.add_create_target_estimator(room, time_from_estimation, target_ID, agent_ID, seenByCam)
 
@@ -53,8 +49,12 @@ class Memory:
                 if not is_target_estimator(self.memory_agent.get_target_list(target.id), estimateur):
                     self.memory_agent.add_target_estimator(estimateur)
 
+
     def getPreviousPositions(self, targetID):
         return self.memory_agent.get_target_list(targetID)
+
+    def getPreviousPositions_allMessages(self, targetID,agentID):
+        return self.memory_all_agent.get_agent_target_list(targetID,agentID)
 
     def to_string_memory_all(self):
         return self.memory_all_agent.to_string()

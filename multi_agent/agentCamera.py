@@ -71,13 +71,12 @@ class AgentCam(Agent):
         my_previousTime = self.myRoom.time - 1
 
         self.message_stat.init_message_static(self.myRoom)
-        self.memory.init_memory(self.myRoom)
 
         while self.threadRun == 1:
             state = nextstate
 
             if state == "takePicture":
-                picture = self.cam.takePicture(self.myRoom.targets)
+                picture = self.cam.run(self.myRoom)
                 time.sleep(TIME_PICTURE)
 
                 if not self.cam.isActivate():
@@ -89,8 +88,11 @@ class AgentCam(Agent):
 
                         for targetElem in picture:
                             self.memory.set_current_time(self.myRoom.time)
-                            self.memory.add_create_target_estimator(self.myRoom, self.myRoom.time, targetElem[0].id,
-                                                                    self.id, True)
+                            try:
+                                self.memory.add_create_target_estimator(self.myRoom, self.myRoom.time, targetElem[0].id,self.id, True)
+                            except  AttributeError:
+                                print("fichier agent caméra ligne 94: oupsi un problème")
+
 
                         self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
@@ -104,8 +106,8 @@ class AgentCam(Agent):
                 self.info_messageSent.removeMessageAfterGivenTime(self.myRoom.time, 30)
                 self.info_messageReceived.removeMessageAfterGivenTime(self.myRoom.time, 30)
                 self.sendAllMessage()
+
                 if MULTI_THREAD != 1:
-                    pass
                     self.recAllMess()
                     self.process_Message_received()
                     self.process_Message_sent()
@@ -127,24 +129,10 @@ class AgentCam(Agent):
             if len(liste) > 0:
                 self.send_message_memory(liste[len(liste) - 1])
 
-        for info in []:
-            if info.target_label == "target":
-                if info.seenByCam and info.followedByCam == -1:
-                    dx = self.cam.xc - info.position[0]
-                    dy = self.cam.yc - info.position[1]
-                    distance = math.pow(dx * dx + dy * dy, 0.5)
-                    self.send_message_request(distance, info.target_ID)
-
-            elif info.target_label == "obstruction":
-                pass
-            elif info.target_label == "fix":
-                pass
-
     def process_Message_sent(self):
         for message_sent in self.info_messageSent.getList():
             if message_sent.is_approved():
                 if message_sent.messageType == "request":
-                    # self.memory.setfollowedByCam(self.myRoom.time, message_sent.targetRef, self.id)
                     self.send_message_locked(message_sent)
 
                 self.info_messageSent.delMessage(message_sent)

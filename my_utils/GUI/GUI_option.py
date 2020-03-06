@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
-from utils.GUI.GUI import *
-from utils.GUI.Button import *
+from my_utils.GUI.GUI import *
+from my_utils.GUI.Button import *
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -53,6 +53,15 @@ class GUI_option:
                 self.suppress_mouse_position(position)
                 return True
         return False
+
+    def check_button_get_pos(self, button):
+        """ Returns True if the button is """
+        for position in self.position_mouse:
+            (pos_x, pos_y) = position[0]
+            if button.check_click(self.screen,pos_x, pos_y):
+                self.suppress_mouse_position(position)
+                return (pos_x,pos_y)
+        return (-1,-1)
 
     def check_list(self, buttons):
         for button in buttons:

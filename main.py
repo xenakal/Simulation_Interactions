@@ -1,16 +1,20 @@
 import shutil
 import os
+import pygame
 from init import *
-from utils.GUI.GUI import *
-from utils.motion import *
+from my_utils.GUI.GUI import *
+from my_utils.motion import *
 
 
 def clean_mailbox():
-    shutil.rmtree("utils/mailbox", ignore_errors=True)
-    os.mkdir("utils/mailbox")
+    shutil.rmtree("my_utils/mailbox", ignore_errors=True)
+    os.mkdir("my_utils/mailbox")
 
 
 INCLUDE_ERROR = True
+T_MAX = 1000
+TIME_BTW_FRAMES = 0.1
+
 
 
 class App:
@@ -27,14 +31,13 @@ class App:
             self.myGUI = GUI()
 
     def main(self):
-        t = 0
         tmax = T_MAX
         run = True
         reset = False
 
         while run:  # Events loop
             if reset:
-                t = 0
+                self.myRoom.time = 0
                 for agent in self.myRoom.agentCams:
                     agent.clear()
                 clean_mailbox()
@@ -42,6 +45,9 @@ class App:
                 reset = False
 
             time.sleep(TIME_BTW_FRAMES)  # so that the GUI doesn't go to quick
+
+            #Check if object needs to appear or to disappear
+            self.myRoom.add_del_target_timed()
 
             # Object are moving in the room
             for target in self.myRoom.targets:
@@ -52,7 +58,8 @@ class App:
                 self.myGUI.updateGUI(self.myRoom)
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
 
-            if t > tmax:
+
+            if self.myRoom.time > tmax:
                 run = False
                 if self.useGUI == 1:
                     pygame.quit()

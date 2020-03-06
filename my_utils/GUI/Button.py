@@ -1,4 +1,4 @@
-from utils.GUI.GUI import *
+from my_utils.GUI.GUI import *
 import pygame
 from pygame.locals import *
 
@@ -54,7 +54,6 @@ class Button:
         """ Activates/deactivates the button and returns True if it's clicked. Returns False otherwise. """
         if self.is_mouse_on_button(pos_x, pos_y):
             self.set_button(not self.pressed)
-            self.draw(window)
             return True
         return False
 
@@ -97,3 +96,4 @@ class ButtonList:
         for button in self.list:
             if button.text == name:
                 button.set_button(state)
+

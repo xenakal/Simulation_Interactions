@@ -2,10 +2,12 @@ import numpy
 from elements.target import *
 from multi_agent.agentCamera import *
 from elements.camera import *
-
+from elements.Info_room_simu import *
 
 class Room:
     def __init__(self):
+        # Info just for the simulation, should be in practice replace by video input
+        self.info_simu = Info_simu()
         # Room attributes
         self.coord = numpy.array([0, 0, 300, 300])  # x y l h
         # target in the room
@@ -20,31 +22,44 @@ class Room:
         # time
         self.time = 0
         
-    def createTargets(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj,trajChoice_tar, tar_label, tar_size):
-        for _ in tar_x:
-            self.targets.append(Target(self.targetNumber, tar_x[self.targetNumber], tar_y[self.targetNumber],
-                                       tar_vx[self.targetNumber], tar_vy[self.targetNumber],
-                                       tar_traj[self.targetNumber],trajChoice_tar[self.targetNumber],
-                                       tar_label[self.targetNumber]
-                                       , tar_size[self.targetNumber]))
-            self.targetNumber += 1
+    def init(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size,t_add,t_del):
+        self.info_simu.init_targets(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size,t_add,t_del)
+        self.targetNumber = self.info_simu.targetNumber
 
-    def createCameras(self, cam_x, cam_y, cam_alpha, cam_beta, fix):
-        for _ in cam_x:
-            self.cameras.append(Camera(self.camerasNumber, cam_x[self.camerasNumber],
-                                       cam_y[self.camerasNumber], cam_alpha[self.camerasNumber]
-                                       , cam_beta[self.camerasNumber], fix[self.camerasNumber]))
-            self.camerasNumber += 1
-
-    def createAgentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix, myRoom):
+    def init_agentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix, myRoom):
         for _ in cam_x:
             camera = Camera(self.camerasNumber, cam_x[self.camerasNumber],
                             cam_y[self.camerasNumber], cam_alpha[self.camerasNumber]
                             , cam_beta[self.camerasNumber], fix[self.camerasNumber])
             self.cameras.append(camera)
             self.camerasNumber = self.camerasNumber + 1
-        
+
         for camera in self.cameras:
+            self.agentCams.append(AgentCam(self.agentCamNumber, camera, myRoom))
+            self.agentCamNumber += 1
+
+    def add_del_target_timed(self):
+        for target in self.info_simu.targets_SIMU:
+            if self.time in target.t_add:
+                self.addTarget_alreadyCreated(target)
+            elif self.time in target.t_del:
+                self.delTargets(target)
+
+    def addTarget_alreadyCreated(self,Target):
+        self.targets.append(Target)
+
+    def addTargets(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size,t_add,t_del):
+        self.targets.append(Target(self.targetNumber, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size,t_add,t_del))
+        self.targetNumber += 1
+
+    def delTargets(self,target):
+        index = self.targets.index(target)
+        del self.targets[index]
+
+    def addAgentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix, myRoom):
+            camera = Camera(self.camerasNumber, cam_x,cam_y, cam_alpha, cam_beta, fix)
+            self.cameras.append(camera)
+            self.camerasNumber = self.camerasNumber + 1
             self.agentCams.append(AgentCam(self.agentCamNumber, camera, myRoom))
             self.agentCamNumber += 1
 
