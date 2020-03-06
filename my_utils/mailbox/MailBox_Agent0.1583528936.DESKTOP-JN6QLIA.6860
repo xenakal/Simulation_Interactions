@@ -1,12 +1,4 @@
 From MAILER-DAEMON Fri Mar  6 21:08:54 2020
-Timestamp: 52 message#:9251623430011622
-From: 1 sender#4527171921731220
-Receiver list : 
-To: 0 receiver#6410651310894709
-To: 2 receiver#3975202682221722
-Type: memory target: 0 Message: #Timestamp#47#From#1#Target_ID#0#Target_label#fixx:155y:152Seenbytheagent:Truefollowedbyagent:-1Estimation:False
-
-From MAILER-DAEMON Fri Mar  6 21:08:54 2020
 Timestamp: 49 message#:7225055788917477
 From: 2 sender#3975202682221722
 Receiver list : 
@@ -103,12 +95,4 @@ Receiver list :
 To: 0 receiver#6410651310894709
 To: 2 receiver#3975202682221722
 Type: memory target: 0 Message: #Timestamp#62#From#1#Target_ID#0#Target_label#fixx:155y:155Seenbytheagent:Truefollowedbyagent:-1Estimation:False
-
-From MAILER-DAEMON Fri Mar  6 21:08:56 2020
-Timestamp: 69 message#:6509477051042040
-From: 2 sender#3975202682221722
-Receiver list : 
-To: 0 receiver#6410651310894709
-To: 1 receiver#4527171921731220
-Type: memory target: 0 Message: #Timestamp#64#From#2#Target_ID#0#Target_label#fixx:154y:156Seenbytheagent:Truefollowedbyagent:-1Estimation:False
 

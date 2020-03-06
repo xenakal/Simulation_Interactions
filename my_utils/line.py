@@ -20,7 +20,7 @@ class Line:
         return numpy.array([self.m,self.vertical])
 
     def linePerp(self, x, y):
-        if self.m == 0:
+        if self.m < 0.001:
             return Line(x, y, x, y + 1)
         elif self.vertical == 1:
             return Line(x, y, x + 1, y)
@@ -58,12 +58,17 @@ class Line:
             c = xc * xc + m * m * xd * xd - 2 * m * yd * xd + yd * yd + 2 * m * yc * xd - 2 * yc * yd + yc * yc - r * r
 
             delta = b * b - 4 * a * c
+
             try:
                 x1 = (-b - math.pow(delta, 0.5)) / (2 * a)
                 x2 = (-b + math.pow(delta, 0.5)) / (2 * a)
                 y1 = m * (x1 - self.x) + self.y
                 y2 = m * (x2 - self.x) + self.y
             except ValueError:
+                x1 = 0
+                x2 = 0
+                y1 = 0
+                y2 = 0
                 print("Class Line Error")
                 
 

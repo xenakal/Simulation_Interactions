@@ -3,6 +3,7 @@ import numpy as np
 from my_utils.line import *
 from my_utils.queueFIFO import *
 from elements.target import*
+import random
 
 
 class Camera:
@@ -11,6 +12,11 @@ class Camera:
         self.id = cam_id
         self.status = 'agent'
         self.isActive = 1
+        # color from the object
+        r = random.randrange(20, 230, 1)
+        g = random.randrange(20, 230, 1)
+        b = random.randrange(20, 255, 1)
+        self.color = (r, g, b)
 
         # Location on the map
         self.xc = cam_x
@@ -74,47 +80,102 @@ class Camera:
 
         xf = math.cos(self.alpha) * xi + math.sin(self.alpha) * yi
         yf = -math.sin(self.alpha) * xi + math.cos(self.alpha) * yi
-        return numpy.array([xf, yf])
+        return (xf, yf)
+
+    def is_x_y_inField(self,x,y,beta_target = 0):
+        (xcf,ycf) = self.coord_from_WorldFrame_to_CamFrame(x,y)
+        alpha_target_camFrame = math.atan2(ycf,xcf)
+        d_cam_target = distanceBtwTwoPoint(xcf,ycf,0,0)
+
+        margin_high = alpha_target_camFrame <= math.fabs(self.beta / 2) + math.fabs(beta_target)
+        margin_low = alpha_target_camFrame >= -(math.fabs(self.beta / 2) + math.fabs(beta_target))
+
+        if margin_low and margin_high:  # object is seen
+            return True
+        else:
+            return
+
+    def is_in_hidden_zone(self,x,y,xt,yt,r_target):
+        #cam_map
+        (xcf, ycf) = self.coord_from_WorldFrame_to_CamFrame(x, y)
+        (xctf, yctf) = self.coord_from_WorldFrame_to_CamFrame(xt, yt)
+
+        #line between target and cam
+        line_cam_target = Line(0,0,xctf,yctf)
+        line_perp_cam_target = line_cam_target.linePerp(xctf,yctf)
+        idca = line_perp_cam_target.lineCircleIntersection(r_target,xctf,yctf)
+
+        # line around target
+        line_cam_target_1 = Line(0, 0, idca[0], idca[1])
+        line_cam_target_2 = Line(0, 0, idca[2], idca[3])
+
+        #angle
+        alpha1 = line_cam_target_1.getSlope()
+        alpha2 = line_cam_target_2.getSlope()
+        alphapt = math.atan2(ycf,xcf)
+
+        #condition to be hidden
+        if alpha1[0] > alphapt and alpha2[0] < alphapt and xcf <= xctf:
+            return True
+        else:
+            return False
+
+    def is_in_hidden_zone_matrix(self,result,x,y,xt,yt,r_target):
+        (i_tot, j_tot) = result.shape
+
+        # cam_map
+        (xctf, yctf) = self.coord_from_WorldFrame_to_CamFrame(xt, yt)
+
+        # line between target and cam
+        line_cam_target = Line(0, 0, xctf, yctf)
+        line_perp_cam_target = line_cam_target.linePerp(xctf, yctf)
+        idca = line_perp_cam_target.lineCircleIntersection(r_target, xctf, yctf)
+
+        if not (idca[0] == idca[1] == idca[2] == idca[3] == 0): # if there is an intersection
+            # line around target
+            line_cam_target_1 = Line(0, 0, idca[0], idca[1])
+            line_cam_target_2 = Line(0, 0, idca[2], idca[3])
+
+            # angle
+            alpha1 = line_cam_target_1.getSlope()
+            alpha2 = line_cam_target_2.getSlope()
+
+            for i in range(i_tot):
+                for j in range(j_tot):
+                    (xcf, ycf) = self.coord_from_WorldFrame_to_CamFrame(x[i,j], y[i,j])
+                    alphapt = math.atan2(ycf, xcf)
+
+                    # condition to be hidden
+                    if alpha1[0] > alphapt and alpha2[0] < alphapt and xcf > xctf:
+                        result[i,j] = 0
+
+        return result
+
+    def is_in_hidden_zone_allFixTarget_matrix(self,result,x,y,room):
+        for target in room.info_simu.targets_SIMU:
+           if target.label == 'fix':
+             xt = target.xc
+             yt = target.yc
+             size = target.size
+             result = self.is_in_hidden_zone_matrix(result,x,y,xt,yt,size)
+
+        return result
 
     def objectsInField(self, targetList):
         self.targetDetectedList = []
         targetInTriangle = []
-        # Compute the field seen by the camera
-        line_cam_right = Line(self.xc, self.yc, self.xc + math.cos(self.alpha - self.beta / 2),
-                              self.yc + math.sin(self.alpha - self.beta / 2))
-        line_cam_left = Line(self.xc, self.yc, self.xc + math.cos(self.alpha + self.beta / 2),
-                             self.yc + math.sin(self.alpha + self.beta / 2))
 
         # checking for every target if it is in the vision field of the camera.
         for target in targetList:
             # Frame transformation from the world frame to the cam frame for each target
-            coord_cam_frame = self.coord_from_WorldFrame_to_CamFrame(target.xc, target.yc)
-            alpha_target_camFrame = math.atan2(coord_cam_frame[1], coord_cam_frame[0])
-            d_cam_target = distanceBtwTwoPoint(coord_cam_frame[0], coord_cam_frame[1], 0, 0)
+            (xcf, ycf) = self.coord_from_WorldFrame_to_CamFrame(target.xc, target.yc)
+            d_cam_target = distanceBtwTwoPoint(xcf, ycf, 0, 0)
             beta_target = math.atan2(target.size / 2, d_cam_target)  # between the center and the border of the target
 
-            margin_high = alpha_target_camFrame <= math.fabs(self.beta / 2) + math.fabs(beta_target)
-            margin_low = alpha_target_camFrame >= -(math.fabs(self.beta / 2) + math.fabs(beta_target))
-
-            if margin_low and margin_high:  # object is seen
-                # print('object id: '+str(target.id))
-                # print(math.degrees(alpha_target_camFrame))
-                # print(coord_cam_frame)
-                # print(math.degrees(self.beta/2))
-                # print(math.degrees(beta_target))
-                # print(math.degrees(alpha_target_camFrame))
+            if self.is_x_y_inField(target.xc,target.yc,beta_target):
                 targetInTriangle.append(target)
 
         return targetInTriangle.copy()
-
-    def posInField(self, position):
-        """
-        :param position: [x, y]
-        :return: True if position seen by camera, False otherwise
-        """
-        coord_cam_frame = self.coord_from_WorldFrame_to_CamFrame(position[0], position[1])
-        return False
-
 
     def sortDetectedTarget(self, targetInTriangle):
         # computation of the distances

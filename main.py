@@ -15,13 +15,13 @@ INCLUDE_ERROR = True
 T_MAX = 1000
 TIME_BTW_FRAMES = 0.1
 
+ROOM_Analysis = 1
 
 
 class App:
     def __init__(self, useGUI=1, scenario=0):
         # Clean the file mailbox
         clean_mailbox()
-
         # Creating the room, the target and the camera
         self.scenario = scenario
         self.myRoom = set_room(scenario)
@@ -34,6 +34,12 @@ class App:
         tmax = T_MAX
         run = True
         reset = False
+
+        region = AgentRegion(self.myRoom)
+        if ROOM_Analysis == 1:
+            #ici au lieu de calculer il faut loader d'un fichier
+            region.define_region_covered_by_cams()
+            region.define_region_covered_by_numberOfCams()
 
         while run:  # Events loop
             if reset:
@@ -55,7 +61,7 @@ class App:
                 moveTarget(target, 1, self.myRoom)
 
             if self.useGUI == 1:
-                self.myGUI.updateGUI(self.myRoom)
+                self.myGUI.updateGUI(self.myRoom,region)
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
 
 

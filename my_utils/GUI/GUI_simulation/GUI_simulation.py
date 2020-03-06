@@ -4,6 +4,7 @@ from my_utils.GUI.GUI_simulation.GUI_memories import *
 from my_utils.GUI.GUI_simulation.GUI_Agent_Target_Detected import *
 from my_utils.GUI.GUI_simulation.GUI_predictions import *
 from my_utils.GUI.GUI_simulation.GUI_room import GUI_room
+from my_utils.GUI.GUI_simulation.GUI_agent_region import *
 
 
 class GUI_simulation:
@@ -17,6 +18,7 @@ class GUI_simulation:
                                               20)
         self.button_simulation_2 = ButtonList(["0", "1", "2", "3", "4", "5", "6"], -35, 10, 700, 40, 35, 15)
         self.button_simulation_3 = ButtonList(["0", "1", "2", "3", "4", "5", "6"], -35, 10, 750, 40, 35, 15)
+        self.button_simulation_4 = ButtonList(["Cam ROI","Cam COV"], -100, 20, 0, 100, 100, 20)
 
         self.GUI_room = GUI_room(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, 200,
                                  100, 400, 400)
@@ -26,9 +28,11 @@ class GUI_simulation:
         self.GUI_pred = GUI_predictions(self.screen, self.GUI_option.agent_to_display,
                                         self.GUI_option.target_to_display, 200, 100, 4 / 3, 4 / 3, 2)
 
+        self.Gui_region = GUI_Region(self.screen,200, 100, 4 / 3, 4 / 3)
+
         self.font = pygame.font.SysFont("monospace", 15)
 
-    def run(self, myRoom):
+    def run(self, myRoom,region):
         self.display_simulation_button()
         self.GUI_room.drawRoom(myRoom.coord)
         self.GUI_room.drawTarget(myRoom.targets, myRoom.coord)
@@ -49,6 +53,14 @@ class GUI_simulation:
         if self.button_simulation_1.find_button_state("+ received"):
             self.GUI_memories.draw_mesure_and_receiveMessages(myRoom)
 
+        if self.button_simulation_4.find_button_state("Cam ROI"):
+            self.Gui_region.draw_cam_region(myRoom,region)
+
+        if self.button_simulation_4.find_button_state("Cam COV"):
+            self.Gui_region.draw_cam_coverage(region)
+
+
+
     def display_simulation_button(self):
         for button in self.button_simulation_1.list:
             self.GUI_option.check_button(button)
@@ -66,6 +78,9 @@ class GUI_simulation:
                 self.GUI_option.option_add_target(int(button.text))
             else:
                 self.GUI_option.option_remove_target(int(button.text))
+
+        for button in self.button_simulation_4.list:
+            self.GUI_option.check_button(button)
 
         x_offset = 0
         y_offset = 500
@@ -94,3 +109,4 @@ class GUI_simulation:
         self.button_simulation_1.draw(self.screen)
         self.button_simulation_2.draw(self.screen)
         self.button_simulation_3.draw(self.screen)
+        self.button_simulation_4.draw(self.screen)

@@ -2,6 +2,7 @@ import shutil
 import os
 import numpy
 from multi_agent.room import *
+from multi_agent.agent_region import *
 
 def set_room(scenario):
     # Here by changing only the vectors it is possible to create as many scenario as we want !
@@ -31,26 +32,30 @@ def set_room(scenario):
         trajChoice_tar = numpy.array([0, 0, 0, 0])
         size_tar = numpy.array([5, 5, 5, 5])
         label_tar = numpy.array(['fix', 'fix', 'obstruction', 'fix'])
+        t_add = [[0],[0],[0],[0]]
+        t_del = [[1000],[1000],[1000],[1000]]
         # Options for the cameras
-        x_cam = numpy.array([10, 310, 10, 310, ])
-        y_cam = numpy.array([10, 10, 310, 310])
+        x_cam = numpy.array([0, 300, 0, 300, ])
+        y_cam = numpy.array([0, 0, 300, 300])
         angle_cam = numpy.array([45, 135, 315, 225])
         angle_view_cam = numpy.array([60, 60, 60, 60])
         fix_cam = [1, 1, 1, 1]
 
     elif scenario == 1:
-        # Options for the target
-        x_tar = numpy.array([155, 155, 200, 50])
-        y_tar = numpy.array([155, 260, 170, 250])
-        vx_tar = numpy.array([0, 0, 5, 0])
-        vy_tar = numpy.array([0, 0, 0, 0])
-        traj_tar = numpy.array(['linear', 'linear', 'potential_field', 'linear'])
-        trajChoice_tar = numpy.array([0, 0, 0, 0])
-        size_tar = numpy.array([35, 35, 5, 20])
-        label_tar = numpy.array(['fix', "fix", "target", "fix"])
         # Options for the cameras
-        x_cam = numpy.array([10, 310, 10, 310, ])
-        y_cam = numpy.array([10, 10, 310, 310])
+        x_tar = numpy.array([150])
+        y_tar = numpy.array([150])
+        vx_tar = numpy.array([0])
+        vy_tar = numpy.array([0])
+        traj_tar = numpy.array(['linear'])
+        trajChoice_tar = numpy.array([0])
+        size_tar = numpy.array([20])
+        label_tar = numpy.array(['fix'])
+        t_add = [[0]]
+        t_del = [[1000]]
+        # Options for the cameras
+        x_cam = numpy.array([0, 300, 0, 300, ])
+        y_cam = numpy.array([0, 0, 300, 300])
         angle_cam = numpy.array([45, 135, 315, 225])
         angle_view_cam = numpy.array([60, 60, 60, 60])
         fix_cam = [1, 1, 1, 1]
@@ -77,24 +82,23 @@ def set_room(scenario):
         fix_cam = [0]
 
     elif scenario == 3:
-        # Options for the target
-        x_tar = numpy.array([250, 200, 150, 100, 50, 50, 50, 50, 50, 100, 150, 200, 250, 250, 250, 250])
-        y_tar = numpy.array([50, 50, 50, 50, 50, 100, 150, 200, 250, 250, 250, 250, 250, 200, 150, 100])
-        vx_tar = numpy.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-        vy_tar = numpy.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-        traj_tar = numpy.array(
-            ['linear', 'linear', 'linear', 'linear', 'linear', 'linear', 'linear', 'linear', 'linear', 'linear',
-             'linear', 'linear', 'linear', 'linear', 'linear', 'linear'])
-        trajChoice_tar = numpy.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-        size_tar = numpy.array([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10])
-        label_tar = numpy.array(['fix', 'fix', 'fix', 'fix', 'fix', 'fix', 'fix', 'fix',
-                                 'fix', 'fix', 'fix', 'fix', 'fix', 'fix', 'fix', 'fix'])
         # Options for the cameras
-        x_cam = numpy.array([150])
-        y_cam = numpy.array([150])
-        angle_cam = numpy.array([90])
-        angle_view_cam = numpy.array([10])
-        fix_cam = [0]
+        x_tar = numpy.array([])
+        y_tar = numpy.array([])
+        vx_tar = numpy.array([])
+        vy_tar = numpy.array([])
+        traj_tar = numpy.array([])
+        trajChoice_tar = numpy.array([0])
+        size_tar = numpy.array([20])
+        label_tar = numpy.array(['fix'])
+        t_add = [[0]]
+        t_del = [[1000]]
+        # Options for the cameras
+        x_cam = numpy.array([0, 300, 0, 300, ])
+        y_cam = numpy.array([0, 0, 300, 300])
+        angle_cam = numpy.array([45, 135, 315, 225])
+        angle_view_cam = numpy.array([60, 60, 60, 60])
+        fix_cam = [1, 1, 1, 1]
 
     elif scenario == 4:
         # Options for the target
@@ -115,14 +119,16 @@ def set_room(scenario):
 
     elif scenario == 5:
         # Options for the target
-        x_tar = numpy.array([155, 20])
-        y_tar = numpy.array([155, 20])
-        vx_tar = numpy.array([0, 0])
-        vy_tar = numpy.array([0, 0])
-        traj_tar = numpy.array(['linear', 'linear'])
-        trajChoice_tar = numpy.array([0, 1])
-        size_tar = numpy.array([20, 5, 6])
-        label_tar = numpy.array(['fix', 'target'])
+        x_tar = numpy.array([155])
+        y_tar = numpy.array([155])
+        vx_tar = numpy.array([0])
+        vy_tar = numpy.array([0])
+        traj_tar = numpy.array(['linear'])
+        trajChoice_tar = numpy.array([0])
+        size_tar = numpy.array([20])
+        label_tar = numpy.array(['fix'])
+        t_add = [[0]]
+        t_del = [[1000]]
         # Options for the cameras
         x_cam = numpy.array([10, 310])
         y_cam = numpy.array([155, 155])
@@ -149,6 +155,27 @@ def set_room(scenario):
         angle_view_cam = numpy.array([60, 60, 30])
         fix_cam = [1, 1, 1]
 
+    elif scenario == 7:
+        # Options for the target
+        x_tar = numpy.array([150])
+        y_tar = numpy.array([150])
+        vx_tar = numpy.array([0])
+        vy_tar = numpy.array([0])
+        traj_tar = numpy.array(['linear'])
+        trajChoice_tar = numpy.array([0])
+        size_tar = numpy.array([20])
+        label_tar = numpy.array(['fix'])
+        t_add = [[0]]
+        t_del = [[1000]]
+        # Options for the cameras
+        x_cam = numpy.array([0])
+        y_cam = numpy.array([0])
+        angle_cam = numpy.array([45])
+        angle_view_cam = numpy.array([60])
+        fix_cam = [1]
+
+
+
     else:
         print("this scenario number doesn't exist, sorry...")
         return
@@ -157,6 +184,8 @@ def set_room(scenario):
     myRoom = Room()
     myRoom.init(x_tar, y_tar, vx_tar, vy_tar, traj_tar, trajChoice_tar,label_tar,size_tar,t_add,t_del)
     myRoom.init_agentCam(x_cam, y_cam, angle_cam, angle_view_cam, fix_cam, myRoom)
+
+
     for agent in myRoom.agentCams:
         agent.run()
 

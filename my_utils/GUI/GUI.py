@@ -46,12 +46,12 @@ class GUI:
         self.GUI_option.check_list(self.button_menu.list)
         self.button_menu.draw(self.screen)
 
-    def updateGUI(self, myRoom):
+    def updateGUI(self, myRoom,region):
         self.refresh()
         self.display_menu()
 
         if self.button_menu.find_button_state("Simulation"):
-            self.GUI_simu.run(myRoom)
+            self.GUI_simu.run(myRoom,region)
 
         elif self.button_menu.find_button_state("Camera"):
             self.GUI_projection.drawProjection(myRoom)
