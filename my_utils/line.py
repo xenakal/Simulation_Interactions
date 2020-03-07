@@ -6,17 +6,22 @@ def distanceBtwTwoPoint(x1, y1, x2, y2):
 
 """
 Class line, represent a line in a 2D plane
-:param
+:init
     - x,y  : coordinate from point 1 
-    - x1,y1 :coordinate from point 2   
+    - x1,y1 :coordinate from point 2
+    
+:param 
+    x,y: point threw which the line goes
+    tol: slope smaller than tol is consider to be 0 
 """
 class Line:
     def __init__(self, x, y, x1, y1):
         self.x = x
         self.y = y
+        self.tol = 0.0000001
 
         '''Taking verticality into account'''
-        if x - x1 == 0 :
+        if math.fabs(x - x1) < self.tol :
             self.m = 1
             self.vertical = 1
         else:
@@ -39,7 +44,7 @@ class Line:
         - return a Line, perpendicular to self
     """
     def linePerp(self, x, y):
-        if self.m < 0.00001:
+        if math.fabs(self.m) < self.tol:
             return Line(x, y, x, y + 1)
         elif self.vertical == 1:
             return Line(x, y, x + 1, y)

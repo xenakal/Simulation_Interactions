@@ -6,11 +6,9 @@ import random
 import numpy as np
 from elements.target import *
 from multi_agent.message import *
-
-NAME_LOG_PATH = "log/log_agent/Agent"
-NAME_MAILBOX = "my_utils/mailbox/MailBox_Agent"
-
-NUMBER_OF_MESSAGE_RECEIVE = 1  # 1= all message receive, 100 = almost nothing is received
+from main import NAME_LOG_PATH
+from main import NAME_MAILBOX
+from main import NUMBER_OF_MESSAGE_RECEIVE
 
 
 class Agent:

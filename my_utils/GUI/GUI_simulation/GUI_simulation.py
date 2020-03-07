@@ -1,4 +1,4 @@
-from my_utils.GUI.Button import ButtonList
+from my_utils.GUI.button import ButtonList
 from my_utils.GUI.GUI_simulation.GUI_room import *
 from my_utils.GUI.GUI_simulation.GUI_memories import *
 from my_utils.GUI.GUI_simulation.GUI_agent_target_detected import *
@@ -14,11 +14,10 @@ class GUI_simulation:
         self.screen = screen
         self.GUI_option = GUI_option
 
-        self.button_simulation_1 = ButtonList(["real T", "M agent","+ received","M all agent", "prediction"], 10, -20, 0, 40, 100,
-                                              20)
+        self.button_simulation_1 = ButtonList(["real T", "M agent","+ received","M all agent", "prediction"], 10, -20, 0, 40, 100,20)
         self.button_simulation_2 = ButtonList(["0", "1", "2", "3", "4", "5", "6"], -35, 10, 700, 40, 35, 15)
         self.button_simulation_3 = ButtonList(["0", "1", "2", "3", "4", "5", "6"], -35, 10, 750, 40, 35, 15)
-        self.button_simulation_4 = ButtonList(["Cam ROI","Cam COV"], -100, 20, 0, 100, 100, 20)
+        self.button_simulation_4 = ButtonList(["Cam ROI","Cam COV"], -100, 10, 0, 100, 100, 20)
 
         self.GUI_room = GUI_room(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, 200,
                                  100, 400, 400)

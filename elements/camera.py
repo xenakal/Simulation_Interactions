@@ -217,7 +217,8 @@ class Camera:
         else:
             xa = idca[2]
             ya = idca[3]
-            # finally finding the line
+
+        # finally finding the line
         line_cam_median_p = line_cam_median.linePerp(xa, ya)
 
         # 2) projection of the limit

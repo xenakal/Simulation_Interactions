@@ -1,4 +1,4 @@
-from my_utils.GUI.Button import *
+from my_utils.GUI.button import *
 ##from my_utils.GUI.Button import ButtonList
 from my_utils.GUI.GUI_option import *
 from my_utils.GUI.GUI_simulation.GUI_simulation import *

@@ -1,6 +1,5 @@
-NUMBER_PREDICTIONS = 5
-PREVIOUS_POSITIONS_USED = 7  # number of previous positions used to make the prediction of the next positions
-
+from main import NUMBER_PREDICTIONS
+from main import PREVIOUS_POSITIONS_USED
 
 class Prediction:
 

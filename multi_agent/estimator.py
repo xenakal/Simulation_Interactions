@@ -5,8 +5,8 @@ import math
 import numpy as np
 from my_utils.line import *
 from main import INCLUDE_ERROR
+from main import STD_MEASURMENT_ERROR
 
-STD_MEASURMENT_ERROR = 2
 
 
 def isCorrespondingEstimator(agentID, targetID, targetEstimator):
