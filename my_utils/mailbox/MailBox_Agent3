@@ -1,0 +1,102 @@
+From MAILER-DAEMON Sat Mar  7 09:39:53 2020
+Timestamp: 72 message#:4858735527370122
+From: 2 sender#6145656741978204
+Receiver list : 
+To: 0 receiver#627615956590987
+To: 1 receiver#6167714143188222
+To: 3 receiver#6407915556885956
+Type: memory target: 3 Message: #Timestamp#66#From#2#Target_ID#3#Target_label#fixx:148y:151Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sat Mar  7 09:39:53 2020
+Timestamp: 80 message#:473587525629761
+From: 2 sender#6145656741978204
+Receiver list : 
+To: 0 receiver#627615956590987
+To: 1 receiver#6167714143188222
+To: 3 receiver#6407915556885956
+Type: memory target: 1 Message: #Timestamp#72#From#2#Target_ID#1#Target_label#fixx:202y:139Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sat Mar  7 09:39:53 2020
+Timestamp: 80 message#:1197547475377014
+From: 2 sender#6145656741978204
+Receiver list : 
+To: 0 receiver#627615956590987
+To: 1 receiver#6167714143188222
+To: 3 receiver#6407915556885956
+Type: memory target: 2 Message: #Timestamp#72#From#2#Target_ID#2#Target_label#obstructionx:91y:250Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sat Mar  7 09:39:53 2020
+Timestamp: 76 message#:9552147137115638
+From: 1 sender#6167714143188222
+Receiver list : 
+To: 0 receiver#627615956590987
+To: 2 receiver#6145656741978204
+To: 3 receiver#6407915556885956
+Type: memory target: 1 Message: #Timestamp#70#From#1#Target_ID#1#Target_label#fixx:199y:140Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sat Mar  7 09:39:53 2020
+Timestamp: 80 message#:677879697626443
+From: 1 sender#6167714143188222
+Receiver list : 
+To: 3 receiver#6407915556885956
+Type: ack target: 3 Message: 6641407688825659
+
+From MAILER-DAEMON Sat Mar  7 09:39:53 2020
+Timestamp: 96 message#:9379441144331592
+From: 2 sender#6145656741978204
+Receiver list : 
+To: 0 receiver#627615956590987
+To: 1 receiver#6167714143188222
+To: 3 receiver#6407915556885956
+Type: memory target: 1 Message: #Timestamp#87#From#2#Target_ID#1#Target_label#fixx:200y:140Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sat Mar  7 09:39:53 2020
+Timestamp: 96 message#:3463848953421129
+From: 2 sender#6145656741978204
+Receiver list : 
+To: 0 receiver#627615956590987
+To: 1 receiver#6167714143188222
+To: 3 receiver#6407915556885956
+Type: memory target: 2 Message: #Timestamp#87#From#2#Target_ID#2#Target_label#obstructionx:106y:250Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sat Mar  7 09:39:54 2020
+Timestamp: 91 message#:6761923001999685
+From: 1 sender#6167714143188222
+Receiver list : 
+To: 3 receiver#6407915556885956
+Type: ack target: 1 Message: 8723395041050364
+
+From MAILER-DAEMON Sat Mar  7 09:39:54 2020
+Timestamp: 91 message#:5648688979242156
+From: 1 sender#6167714143188222
+Receiver list : 
+To: 3 receiver#6407915556885956
+Type: ack target: 3 Message: 962471880853711
+
+From MAILER-DAEMON Sat Mar  7 09:39:54 2020
+Timestamp: 97 message#:8484835184265963
+From: 1 sender#6167714143188222
+Receiver list : 
+To: 0 receiver#627615956590987
+To: 2 receiver#6145656741978204
+To: 3 receiver#6407915556885956
+Type: memory target: 1 Message: #Timestamp#86#From#1#Target_ID#1#Target_label#fixx:198y:142Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sat Mar  7 09:39:54 2020
+Timestamp: 97 message#:1630036142940045
+From: 1 sender#6167714143188222
+Receiver list : 
+To: 0 receiver#627615956590987
+To: 2 receiver#6145656741978204
+To: 3 receiver#6407915556885956
+Type: memory target: 2 Message: #Timestamp#86#From#1#Target_ID#2#Target_label#obstructionx:107y:250Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sat Mar  7 09:39:54 2020
+Timestamp: 97 message#:9949830499204690
+From: 1 sender#6167714143188222
+Receiver list : 
+To: 0 receiver#627615956590987
+To: 2 receiver#6145656741978204
+To: 3 receiver#6407915556885956
+Type: memory target: 3 Message: #Timestamp#86#From#1#Target_ID#3#Target_label#fixx:153y:152Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+

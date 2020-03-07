@@ -36,6 +36,34 @@ class AgentRegion():
         self.coverage = np.ones(self.xv.shape)*1000000000
 
 
+
+    """
+            :param
+            - factor, room discretation from 1 to infinite. The bigger the number, the faster the computation will be (less precision).
+
+            :return
+            - Fill all the table that contains information from the map 
+    """
+    def compute(self,factor = 3):
+        '''Mesh from the map'''
+        self.nx, self.ny = (self.room.coord[2], self.room.coord[3])
+        x = np.linspace(0, self.nx, int((self.nx + 1) / factor))
+        y = np.linspace(0, self.ny, int((self.ny + 1) / factor))
+        self.xv, self.yv = np.meshgrid(x, y)
+
+        '''Initialisation '''
+        self.minimum_id_in_view = np.ones(self.xv.shape)*1000000000
+        self.minimum_dist_in_view = np.ones(self.xv.shape)*1000000000
+        self.id_in_view = np.ones(self.xv.shape)*1000000000
+        self.coverage = np.ones(self.xv.shape)*1000000000
+
+        '''Required for the computation below'''
+        self.find_angle_view_and_obstruction()
+
+        '''Computation'''
+        (self.minimum_id_in_view,self.minimum_dist_in_view,self.id_in_view) = self.define_region_covered_by_cams()
+        self.coverage = self.define_region_covered_by_numberOfCams()
+
     """
         :param
         - None
@@ -46,7 +74,6 @@ class AgentRegion():
         - id_in_view = all the cam that can see the point x,y (! NOT WORKING YET)
     """
     def define_region_covered_by_cams(self):
-
         '''Initialisation'''
         minimum_dist_in_view = np.ones(self.xv.shape)*1000000000
         minimum_id_in_view = np.ones(self.xv.shape)*-1
@@ -69,11 +96,11 @@ class AgentRegion():
                             if res_int[i, j]:
                                 'add the point in the list of the camID'
                                 #id_in_view[i,j] = str(camID)
-                                #print(id_in_view[i,j])
                                 if distance[i,j] < minimum_dist_in_view[i,j]:
                                     'check if the distance from this cam is the smallest to the point'
                                     minimum_dist_in_view[i,j]=distance[i,j]
                                     minimum_id_in_view[i,j]=camID
+
         return (minimum_id_in_view, minimum_dist_in_view,id_in_view)
 
     """

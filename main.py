@@ -37,9 +37,7 @@ class App:
 
         region = AgentRegion(self.myRoom)
         if ROOM_Analysis == 1:
-            #ici au lieu de calculer il faut loader d'un fichier
-            region.define_region_covered_by_cams()
-            region.define_region_covered_by_numberOfCams()
+           region.compute(3)
 
         while run:  # Events loop
             if reset:

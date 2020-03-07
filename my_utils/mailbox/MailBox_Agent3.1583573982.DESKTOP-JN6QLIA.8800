@@ -1,0 +1,18 @@
+From MAILER-DAEMON Sat Mar  7 09:39:42 2020
+Timestamp: 15 message#:4268305425756502
+From: 0 sender#627615956590987
+Receiver list : 
+To: 1 receiver#6167714143188222
+To: 2 receiver#6145656741978204
+To: 3 receiver#6407915556885956
+Type: memory target: 1 Message: #Timestamp#10#From#0#Target_ID#1#Target_label#fixx:200y:140Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+
+From MAILER-DAEMON Sat Mar  7 09:39:42 2020
+Timestamp: 15 message#:8945218547939415
+From: 2 sender#6145656741978204
+Receiver list : 
+To: 0 receiver#627615956590987
+To: 1 receiver#6167714143188222
+To: 3 receiver#6407915556885956
+Type: memory target: 2 Message: #Timestamp#11#From#2#Target_ID#2#Target_label#obstructionx:30y:288Seenbytheagent:Truefollowedbyagent:-1Estimation:False
+

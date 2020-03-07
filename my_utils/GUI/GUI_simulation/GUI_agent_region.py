@@ -51,7 +51,6 @@ class GUI_Region:
                                        (self.x_offset + int(x[i, j] * self.scale_x),
                                         self.y_offset + int(y[i, j] * self.scale_y)), 1)
                 if region.coverage[i, j] >= 5:
-                    print(region.coverage[i,j])
                     pygame.draw.circle(self.screen, [250, 250, 250],
                                        (self.x_offset + int(x[i, j] * self.scale_x),
                                         self.y_offset + int(y[i, j] * self.scale_y)), 1)
