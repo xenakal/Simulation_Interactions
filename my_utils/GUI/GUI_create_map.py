@@ -1,16 +1,8 @@
-#from main import PATH_TO_LOAD_MAP
-#from main import PATH_TO_SAVE_MAP
-#from main import SAVE_MAP_NAME
-#from main import LOAD_MAP_NAME
-PATH_TO_SAVE_MAP = "map/"
-SAVE_MAP_NAME = "My_new_map"
-PATH_TO_LOAD_MAP = "map/"
-LOAD_MAP_NAME = "My_new_map"
-
 from multi_agent import room
 from my_utils.GUI.button import Button
 from my_utils.GUI.button import ButtonList
 from my_utils.GUI.GUI_simulation import GUI_room
+from my_utils.map import *
 from elements.target import *
 from elements.camera import *
 import pygame
@@ -28,9 +20,10 @@ YELLOW = (255, 255, 0)
 BACKGROUND = RED
 
 class GUI_create_map:
-    def __init__(self, screen, GUI_option):
+    def __init__(self, screen,GUI_option,room_to_txt):
 
         self.screen = screen
+        self.room_to_txt = room_to_txt
         self.GUI_option = GUI_option
         self.my_new_room = room.Room()
         coord = self.my_new_room.coord
@@ -83,31 +76,9 @@ class GUI_create_map:
         self.beta_default = 60
         self.camera_scale = 10
 
-        """
-            Data to save
-        """
-        self.x_target = []
-        self.y_target = []
-        self.vx_target = []
-        self.vy_target = []
-        self.trajectoire_target = []
-        self.trajectoire_choice = []
-        self.label_target = []
-        self.size_target = []
-        self.t_add = []
-        self.t_del = []
-
-        self.x_cam = []
-        self.y_cam = []
-        self.alpha_cam = []
-        self.beta_cam =  []
-        self.fix = []
-
-        self.data_to_save = [self.x_target,self.y_target,self.vx_target,self.vy_target,self.trajectoire_target,self.trajectoire_choice,self.label_target,
-                             self.size_target,self.t_add,self.t_del,self.x_cam,self.y_cam,self.alpha_cam,self.beta_cam,self.fix]
-
     def run(self):
         self.GUI_room.drawRoom(self.my_new_room.coord)
+        self.GUI_room.drawTarget(self.my_new_room.info_simu.targets_SIMU, self.my_new_room.coord)
         self.GUI_room.drawTarget(self.my_new_room.targets, self.my_new_room.coord)
         self.GUI_room.drawCam(self.my_new_room)
         self.display_create_map_button()
@@ -214,17 +185,7 @@ class GUI_create_map:
 
             if pressed:
                 self.my_new_room.addTargets(x_new, y_new, self.vx_default, self.vy_default, 'linear', self.traj_default, label, self.size_default, [0], [1000])
-
-                self.x_target.append(x_new)
-                self.y_target.append(y_new)
-                self.vx_target.append(self.vx_default)
-                self.vy_target.append(self.vy_default)
-                self.trajectoire_target.append('linear')
-                self.trajectoire_choice.append(self.traj_default)
-                self.label_target.append(label)
-                self.size_target.append(self.size_default)
-                self.t_add.append([0])
-                self.t_del.append([1000])
+                self.room_to_txt.add_target(x_new, y_new, self.vx_default, self.vy_default, 'linear', self.traj_default, label, self.size_default, [0], [1000])
 
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[1]):
             self.GUI_option.check_list(self.button_camera_scale_plus_moins.list)
@@ -277,122 +238,20 @@ class GUI_create_map:
 
             if pressed:
                 self.my_new_room.addAgentCam(x_new, y_new, self.alpha_default, self.beta_default, 0, self.my_new_room)
+                self.room_to_txt.add_cam(x_new, y_new, self.alpha_default, self.beta_default, 0)
 
-                self.x_cam.append(x_new)
-                self.y_cam.append(y_new)
-                self.alpha_cam.append(self.alpha_default)
-                self.beta_cam.append(self.beta_default)
-                self.fix.append(0)
 
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[2]):
             pass
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[3]):
-            self.clean()
+            self.room_to_txt.clean()
+            self.my_new_room = self.room_to_txt.init_room()
             self.button_create_map_1.find_button("Clean").set_button(False)
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[4]):
-            self.save_map()
+            self.room_to_txt.save_room_to_txt()
             self.button_create_map_1.find_button("Save_map").set_button(False)
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[5]):
-            self.load_map()
+            self.room_to_txt.load_room_from_txt()
+            self.my_new_room=self.room_to_txt.init_room()
             self.button_create_map_1.find_button("Load_map").set_button(False)
-
-
-    def clean(self):
-        self.my_new_room = room.Room()
-
-        self.x_target = []
-        self.y_target = []
-        self.vx_target = []
-        self.vy_target = []
-        self.trajectoire_target = []
-        self.trajectoire_choice = []
-        self.label_target = []
-        self.size_target = []
-        self.t_add = []
-        self.t_del = []
-
-        self.x_cam = []
-        self.y_cam = []
-        self.alpha_cam = []
-        self.beta_cam = []
-        self.fix = []
-
-        self.data_to_save = [self.x_target, self.y_target, self.vx_target, self.vy_target, self.trajectoire_target,
-                             self.trajectoire_choice, self.label_target,
-                             self.size_target, self.t_add, self.t_del, self.x_cam, self.y_cam, self.alpha_cam,
-                             self.beta_cam, self.fix]
-
-    def save_map(self):
-        fichier = open(PATH_TO_SAVE_MAP+SAVE_MAP_NAME, "w")
-        fichier.write("# New Map, but you can change the name \n")
-        fichier.write("# Please let the blank where they are, \n")
-        fichier.write("# Otherwise the map will not be loaded correctly. \n")
-        fichier.write("# This save is not dummysproof \n")
-        fichier.write("#---------------------------- \n")
-        fichier.write("# 10 lines to save target data \n")
-        fichier.write("# 5 lines to save target data \n")
-        fichier.write("# Description start below this line \n")
-        fichier.write("#==================================\n")
-        fichier.write("#\n")
-        for element in self.data_to_save:
-
-            if element == self.x_target:
-                fichier.write("#Targets description \n")
-                fichier.write("#---------------------------- \n")
-            if element == self.x_cam:
-                fichier.write("#Cameras description \n")
-                fichier.write("#---------------------------- \n")
-
-            for each in element:
-                fichier.write(str(each) + str(","))
-
-            fichier.write("\n")
-
-        fichier.write("#---------------------------- \n")
-        fichier.write("#end of file \n")
-        fichier.close()
-
-    def load_map(self):
-        fichier = open(PATH_TO_LOAD_MAP+LOAD_MAP_NAME,"r")
-        lines = fichier.readlines()
-        fichier.close()
-
-        self.clean()
-        count = 0
-        for line in lines:
-            if not (line[0] == "#"):
-                linesplit = re.split(",",line)
-                for  elem in linesplit:
-                    if not(elem == "\n"):
-                        try:
-                            self.data_to_save[count].append(math.ceil(float(elem)))
-                        except ValueError:
-                            self.data_to_save[count].append(elem)
-                count = count + 1
-
-
-        self.from_all_data_to_separate()
-        self.my_new_room.init(self.x_target,self.y_target,self.vx_target,self.vy_target,self.trajectoire_target,self.trajectoire_choice,self.label_target,self.size_target,self.t_add,self.t_del)
-        self.my_new_room.init_agentCam(self.x_cam,self.y_cam,self.alpha_cam,self.beta_cam,self.fix,self.my_new_room)
-        self.my_new_room.targets = self.my_new_room.info_simu.targets_SIMU
-
-    def from_all_data_to_separate(self):
-        self.x_target = self.data_to_save[0]
-        self.y_target = self.data_to_save[1]
-        self.vx_target = self.data_to_save[2]
-        self.vy_target = self.data_to_save[3]
-        self.trajectoire_target = self.data_to_save[4]
-        self.trajectoire_choice = self.data_to_save[5]
-        self.label_target = self.data_to_save[6]
-        self.size_target = self.data_to_save[7]
-        self.t_add = self.data_to_save[8]
-        self.t_del = self.data_to_save[9]
-
-        self.x_cam = self.data_to_save[10]
-        self.y_cam = self.data_to_save[11]
-        self.alpha_cam = self.data_to_save[12]
-        self.beta_cam = self.data_to_save[13]
-        self.fix = self.data_to_save[14]
-
-
 

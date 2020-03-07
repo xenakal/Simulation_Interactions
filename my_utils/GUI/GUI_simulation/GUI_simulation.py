@@ -8,16 +8,17 @@ from my_utils.GUI.GUI_simulation.GUI_agent_region import *
 
 
 class GUI_simulation:
-    def __init__(self, screen, GUI_option):
+    def __init__(self, screen, GUI_option,txt_room):
         pygame.init()
 
+        self.txt_room = txt_room
         self.screen = screen
         self.GUI_option = GUI_option
 
         self.button_simulation_1 = ButtonList(["real T", "M agent","+ received","M all agent", "prediction"], 10, -20, 0, 40, 100,20)
         self.button_simulation_2 = ButtonList(["0", "1", "2", "3", "4", "5", "6"], -35, 10, 700, 40, 35, 15)
         self.button_simulation_3 = ButtonList(["0", "1", "2", "3", "4", "5", "6"], -35, 10, 750, 40, 35, 15)
-        self.button_simulation_4 = ButtonList(["Cam ROI","Cam COV"], -100, 10, 0, 100, 100, 20)
+        self.button_simulation_4 = ButtonList(["save to txt","Cam ROI","Cam COV"], -100, 10, 0, 100, 100, 20)
 
         self.GUI_room = GUI_room(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, 200,
                                  100, 400, 400)
@@ -51,6 +52,11 @@ class GUI_simulation:
 
         if self.button_simulation_1.find_button_state("+ received"):
             self.GUI_memories.draw_mesure_and_receiveMessages(myRoom)
+
+        if self.button_simulation_4.find_button_state("save to txt"):
+            self.txt_room.from_room_to_seprarate(myRoom)
+            self.txt_room.save_room_to_txt()
+            self.button_simulation_4.find_button("save to txt").set_button(False)
 
         if self.button_simulation_4.find_button_state("Cam ROI"):
             self.Gui_region.draw_cam_region(myRoom,region)

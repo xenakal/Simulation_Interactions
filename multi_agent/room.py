@@ -39,11 +39,14 @@ class Room:
             self.agentCamNumber += 1
 
     def add_del_target_timed(self):
-        for target in self.info_simu.targets_SIMU:
-            if self.time in target.t_add:
-                self.addTarget_alreadyCreated(target)
-            elif self.time in target.t_del:
-                self.delTargets(target)
+        self.targets = self.info_simu.targets_SIMU
+
+        '''PROVISION A REMETTRE'''
+        #for target in self.info_simu.targets_SIMU:
+         #   if self.time in target.t_add:
+          #      self.addTarget_alreadyCreated(target)
+           # elif self.time in target.t_del:
+            #    self.delTargets(target)
 
     def addTarget_alreadyCreated(self,Target):
         self.targets.append(Target)

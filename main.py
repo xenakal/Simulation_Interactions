@@ -4,7 +4,8 @@ import pygame
 from init import *
 from my_utils.GUI.GUI import *
 from my_utils.motion import *
-
+from my_utils.map import *
+from multi_agent.agent_region import *
 
 def clean_mailbox():
     shutil.rmtree("mailbox", ignore_errors=True)
@@ -34,24 +35,26 @@ STD_MEASURMENT_ERROR = 2
 NUMBER_PREDICTIONS = 5
 PREVIOUS_POSITIONS_USED = 7  # number of previous positions used to make the prediction of the next positions
 
-'''Option for class GUI_create_map'''
+'''Option for class map'''
 '''STILL HAVE TROUBLE WITH IMPORT IN CLASS !!!!!!!!!!!!!!!!'''
 PATH_TO_SAVE_MAP = "map/"
-SAVE_MAP_NAME = "My_new_map"
+SAVE_MAP_NAME = "My_new_map.txt"
 PATH_TO_LOAD_MAP = "map/"
-LOAD_MAP_NAME = "My_new_map"
+LOAD_MAP_NAME = "My_new_map.txt"
 
 class App:
-    def __init__(self, useGUI=1, scenario=0):
+    def __init__(self, useGUI=1,fileName = "My_new_map.txt"):
         # Clean the file mailbox
         clean_mailbox()
         # Creating the room, the target and the camera
-        self.scenario = scenario
-        self.myRoom = set_room(scenario)
+
+        self.room_txt = Room_txt()
+        self.room_txt.load_room_from_txt(fileName)
+        self.myRoom = self.room_txt.init_room()
 
         self.useGUI = useGUI
         if useGUI == 1:
-            self.myGUI = GUI()
+            self.myGUI = GUI(self.room_txt)
 
     def main(self):
         tmax = T_MAX
@@ -101,7 +104,7 @@ class App:
 
 
 def execute():
-    myApp = App(1, 0)
+    myApp = App(1,"Fichier_init_config_7.txt")
     myApp.main()
 
 

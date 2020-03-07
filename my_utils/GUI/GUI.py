@@ -9,6 +9,7 @@ from my_utils.GUI.GUI_simulation.GUI_room import *
 
 
 
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -19,7 +20,7 @@ YELLOW = (255, 255, 0)
 BACKGROUND = RED
 
 class GUI:
-    def __init__(self):
+    def __init__(self,room_to_txt):
         pygame.init()
 
         # define the windows
@@ -33,8 +34,8 @@ class GUI:
         self.GUI_option = GUI_option(self.screen)
         self.GUI_projection = GUI_projection(self.screen)
         self.GUI_stat = GUI_stat(self.screen, 0, 50)
-        self.GUI_create_map = GUI_create_map(self.screen,self.GUI_option)
-        self.GUI_simu = GUI_simulation(self.screen, self.GUI_option)
+        self.GUI_create_map = GUI_create_map(self.screen,self.GUI_option,room_to_txt)
+        self.GUI_simu = GUI_simulation(self.screen, self.GUI_option,room_to_txt)
 
         pygame.display.set_caption("Camera simulation")
         self.font = pygame.font.SysFont("monospace", 15)

@@ -38,6 +38,7 @@ class Target:
             self.vx = tar_vx
             self.vy = tar_vy
         # PathPlanning
+        self.trajectory_choice = tar_trajChoice
         if tar_trajChoice == 0:
             self.xgoal = [30, 200, 250, 20]
             self.ygoal = [300, 250, 30, 20]

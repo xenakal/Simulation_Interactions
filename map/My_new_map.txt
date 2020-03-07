@@ -1,4 +1,4 @@
-# Camera in corner, room (300,300)
+# New Map, but you can change the name 
 # Please let the blank where they are, 
 # Otherwise the map will not be loaded correctly. 
 # This save is not dummysproof 
@@ -10,22 +10,24 @@
 #
 #Targets description 
 #---------------------------- 
-
-
-
-
-
-
-
-
-
-
-#Camemras description 
+150,90,160,
+150,150,90,
+0,0,0,
+0,0,0,
+linear,linear,linear,
+0,0,0,
+fix,target,target,
+20,5,5,
+[0],[0],[0],
+[1000],[1000],[1000],
+#Cameras description 
 #---------------------------- 
-150,150,0,300,
-0,300,150,150,
-90,-90,0,180,
-60,60,60,60,
-1,1,1,1,
+0,
+#Cameras description 
+#---------------------------- 
+0,
+45,
+60,
+1,
 #---------------------------- 
 #end of file 

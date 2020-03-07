@@ -1,0 +1,31 @@
+# New Map, but you can change the name 
+# Please let the blank where they are, 
+# Otherwise the map will not be loaded correctly. 
+# This save is not dummysproof 
+#---------------------------- 
+# 10 lines to save target data 
+# 5 lines to save target data 
+# Description start below this line 
+#==================================
+#
+#Targets description 
+#---------------------------- 
+155,43,30,
+155,43,73,
+0,0,0,
+0,0,0,
+linear,linear,linear,
+0,1,0,
+fix,target,obstruction,
+20,5,6,
+[0],[0],[0],
+[1000],[1000],[1000],
+#Cameras description 
+#---------------------------- 
+0,300,150,
+155,155,0,
+0.0,180.0,90.0,
+59.99999999999999,59.99999999999999,29.999999999999996,
+1,1,1,
+#---------------------------- 
+#end of file 
