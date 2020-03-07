@@ -5,7 +5,6 @@ Class representing a FIFO queue as a list (so it is iterable).
 Elements are enqueued in the end of the list and dequeued from the beginning (only when queue already full).  
  """
 
-
 class QueueFIFO:
 
     def __init__(self):

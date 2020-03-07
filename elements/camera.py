@@ -203,35 +203,6 @@ class Camera:
 
     def computeProjection(self, orderedTarget, l_projection, seuil):
         targetList = []
-        proj_cam_view_limit = []
-
-        #        #IN CAM FRAME
-        #        #finding the two limits
-        #
-        #        line_cam_left = Line(0,0,math.cos(self.beta/2),math.sin(self.beta / 2))
-        #        line_cam_right = Line(0,0,math.cos(self.beta/2),-math.sin(self.beta/2))
-        #        line_projection = Line(l_projection,0,l_projection,2)
-        #
-        #        ref_proj_left_cam_frame = line_projection.lineIntersection(line_cam_left)
-        #        ref_proj_right_cam_frame = line_projection.lineIntersection(line_cam_right)
-        #
-        #        for target in orderedTarget:
-        #
-        #            coord_cam_frame = self.coord_from_WorldFrame_to_CamFrame(target.xc,target.yc)
-        #            #line between target and camera
-        #            line_cam_target = Line(0,0,coord_cam_frame[0],coord_cam_frame[1])
-        #            line_cam_target_p = line_cam_target.linePerp(coord_cam_frame[0],coord_cam_frame[1])
-        #            #intersetion with the target
-        #            idc = line_cam_target_p.lineCircleIntersection(target.size,coord_cam_frame[0],coord_cam_frame[1])
-        #            #line that contains the target
-        #            line_cam_target_left = Line(0,0,idc[0],idc[1])
-        #            line_cam_target_right = Line(0,0,idc[2],idc[3])
-        #            #projection of the object on this line
-        #            proj_left_cam_frame = line_projection.lineIntersection(line_cam_target_left)
-        #            proj_pright_cam_frame = line_projection.lineIntersection(line_cam_target_right)
-        #
-        #            if(proj_left_cam_frame[1] <= proj_pright_cam_frame[1]):
-        #                print("ok")
 
         # 1) finding the line perpendicular to the median of the camera field to a given distance
         ########################################################################################
@@ -282,6 +253,7 @@ class Camera:
             # projection of the object on this line
             proj_p1 = line_cam_median_p.lineIntersection(line_cam_target_1)
             proj_p2 = line_cam_median_p.lineIntersection(line_cam_target_2)
+
             # projection in cam frame
             proj_p1_cam_frame = self.coord_from_WorldFrame_to_CamFrame(proj_p1[0], proj_p1[1])
             proj_p2_cam_frame = self.coord_from_WorldFrame_to_CamFrame(proj_p2[0], proj_p2[1])
@@ -346,13 +318,6 @@ class Camera:
                 else:
                     # the object is not hidden
                     pass
-
-            # checking if the target is outside from the camera bound
-            # print(target.id)
-            # print(proj_p1_cam_frame[1])
-            # print(proj_p2_cam_frame[1])
-            # print(ref_proj_left_cam_frame)
-            # print(ref_proj_right_cam_frame)
 
             if proj_p1_cam_frame[1] < ref_proj_right_cam_frame[1] and proj_p1_cam_frame[1] < 0:
                 proj_p1[0] = ref_proj_right[0]

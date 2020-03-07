@@ -2,9 +2,9 @@ from my_utils.GUI.Button import *
 ##from my_utils.GUI.Button import ButtonList
 from my_utils.GUI.GUI_option import *
 from my_utils.GUI.GUI_simulation.GUI_simulation import *
-from my_utils.GUI.Gui_projection import *
+from my_utils.GUI.GUI_projection import *
 from my_utils.GUI.GUI_stat import *
-from my_utils.GUI.GUI_draw_map import *
+from my_utils.GUI.GUI_create_map import *
 from my_utils.GUI.GUI_simulation.GUI_room import *
 
 

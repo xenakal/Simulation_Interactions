@@ -24,18 +24,24 @@ class AgentRegion():
         for agent in room.agentCams:
             self.list_camera.append(agent.cam)
 
-        '''Data save from each camera - written (camID,res)'''
+        '''Data save from each camera - written always as tuple (camID,res), res is an array from mesh size'''
         self.distances = []
         self.angle_view = []
         self.angle_view_and_obstruction = []
 
-        '''Data representing the map after computation '''
+        '''Data representing the map after computation, array size from the matrix
+            the position in the array i,j refers always to the point i,j in the mesh 
+            
+            self.minimum_id_in_view, contains the cam ID, that is the clostest from x,y and sees it
+            self.minimum_dist_in_view, contains the distances used in the matrix above
+            self.id_in_view, contains all the camera int that can see the point x,y
+            self.coverage, shows how many cameras see the point x,y
+        '''
+
         self.minimum_id_in_view = np.ones(self.xv.shape)*1000000000
         self.minimum_dist_in_view = np.ones(self.xv.shape)*1000000000
         self.id_in_view = np.ones(self.xv.shape)*1000000000
         self.coverage = np.ones(self.xv.shape)*1000000000
-
-
 
     """
             :param

@@ -1,6 +1,7 @@
 import math
-
-
+"""
+        Class use to moove target
+"""
 def limitToValueMax(valueMax, value):
     if value > valueMax:
         return valueMax
@@ -9,7 +10,17 @@ def limitToValueMax(valueMax, value):
     else:
         return value
 
-
+"""
+        :param 
+        -target:  object (Target), use to choose the target trajectory with target.trajectory and to modify its position
+        -delta_time : (Int), to compute an artifical displacement with a given velocity
+        -myRoom: obejt(Room)
+        
+        :return
+        -None
+        
+        modify the position of the target (xc,yc)
+"""
 def moveTarget(target, delta_time, myRoom):
     type_mvt = target.trajectory
     # easy solution need to be investeagted
@@ -19,42 +30,62 @@ def moveTarget(target, delta_time, myRoom):
         target.xc = target.xc + math.ceil(target.vx * delta_time)
         target.yc = target.yc + math.ceil(target.vy * delta_time)
     elif type_mvt == 'linear':
-        rectiligneTrajectory(target, delta_time, myRoom)
-    elif type_mvt == 'circular':
-        pass
-    elif type_mvt == 'elliptic':
-        pass
+        rectiligneTrajectory(target, delta_time)
     elif type_mvt == 'potential_field':
-        # print(target.id)
         potentialField(target, delta_time, myRoom)
     else:
         print("planning method not recognize")
 
 
-def rectiligneTrajectory(target, delta_time, myRoom):
+"""
+        :param 
+        -target:  object (Target), use to choose the target trajectory with target.trajectory and to modify its position
+        -delta_time : (Int), to compute an artifical displacement with a given velocity
+
+        :return
+        -None
+
+        moove the target according to a predifined path, the motion beetwen two position are linear.
+        it does not avoid obstacle.
+"""
+def rectiligneTrajectory(target, delta_time):
     if target.label != 'fix':
+
+        '''Updating the postion we want to reach when close enough '''
         if math.fabs(target.xc - target.xgoal[0]) <= 10 and math.fabs(target.yc - target.ygoal[0]) <= 10 and len(
                 target.xgoal) > 1:
             del target.xgoal[0]
             del target.ygoal[0]
 
-        xgoal = target.xgoal[0]
-        ygoal = target.ygoal[0]
-
-        if (target.xc - xgoal != 0):
-            v_x = -target.vx_max * (target.xc - xgoal) / math.fabs((target.xc - xgoal))
+        '''computing the spped to reach the goal'''
+        if (target.xc - target.xgoal[0]!= 0):
+            v_x = -target.vx_max * (target.xc - target.xgoal[0]) / math.fabs((target.xc - target.xgoal[0]))
         else:
             v_x = 0
 
-        if (target.yc - ygoal != 0):
-            v_y = -target.vy_max * (target.yc - ygoal) / math.fabs((target.yc - ygoal))
+        if (target.yc - target.ygoal[0] != 0):
+            v_y = -target.vy_max * (target.yc - target.ygoal[0]) / math.fabs((target.yc - target.ygoal[0]))
         else:
             v_y = 0
 
+        '''Modifying the position in the target object, always in (int)'''
         target.xc = target.xc + math.ceil(v_x * delta_time)
         target.yc = target.yc + math.ceil(v_y * delta_time)
 
+"""
+        !!! NOT WORKING NEED THE CONSTANT NEED TO BE ADJUSTED!!!
 
+
+        :param 
+        -target:  object (Target), use to choose the target trajectory with target.trajectory and to modify its position
+        -delta_time : (Int), to compute an artifical displacement with a given velocity
+
+        :return
+        -None
+
+        moove the target according to a predifined path, the motion beetwen two position are not-linear.
+        it does avoid obstacle
+"""
 def potentialField(target, delta_time, myRoom):
     if target.label != 'fix':
         if math.fabs(target.xc - target.xgoal[0]) <= 20 and math.fabs(target.yc - target.ygoal[0]) <= 20 and len(

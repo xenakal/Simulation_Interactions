@@ -35,11 +35,11 @@ class GUI_Region:
             for j in range(j_tot):
                 # il faut faire -1
                 if region.coverage[i,j] == 1 :
-                    pygame.draw.circle(self.screen,[50,0,0],
+                    pygame.draw.circle(self.screen,[150,0,0],
                                        (self.x_offset + int(x[i,j]*self.scale_x),
                                         self.y_offset + int(y[i,j]*self.scale_y)), 1)
                 if region.coverage[i, j] == 2:
-                    pygame.draw.circle(self.screen, [100, 0, 0],
+                    pygame.draw.circle(self.screen, [200, 75, 0],
                                        (self.x_offset + int(x[i, j] * self.scale_x),
                                         self.y_offset + int(y[i, j] * self.scale_y)), 1)
                 if region.coverage[i, j] == 3:

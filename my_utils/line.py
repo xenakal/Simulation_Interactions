@@ -4,23 +4,42 @@ import numpy
 def distanceBtwTwoPoint(x1, y1, x2, y2):
     return math.pow(math.pow((x1 - x2), 2) + math.pow((y1 - y2), 2), 0.5)
 
-
+"""
+Class line, represent a line in a 2D plane
+:param
+    - x,y  : coordinate from point 1 
+    - x1,y1 :coordinate from point 2   
+"""
 class Line:
     def __init__(self, x, y, x1, y1):
         self.x = x
         self.y = y
-        if x - x1 == 0:
+
+        '''Taking verticality into account'''
+        if x - x1 == 0 :
             self.m = 1
             self.vertical = 1
         else:
             self.m = (y - y1) / (x - x1)
             self.vertical = 0
-            
+
+    """
+    :param
+        -None
+    :return 
+        - Slope on  radian 
+    """
     def getSlope(self):
         return numpy.array([self.m,self.vertical])
 
+    """
+    :param
+        - x,y coordinate from the point threw which the line should pass
+    :return 
+        - return a Line, perpendicular to self
+    """
     def linePerp(self, x, y):
-        if self.m < 0.001:
+        if self.m < 0.00001:
             return Line(x, y, x, y + 1)
         elif self.vertical == 1:
             return Line(x, y, x + 1, y)
@@ -28,6 +47,12 @@ class Line:
             y1 = (-1 / self.m) + y
             return Line(x, y, x + 1, y1)
 
+    """
+      :param
+          - Line object
+      :return 
+          - return x,y intersection of the two line.
+      """
     def lineIntersection(self, line):
         if line.m == self.m:
             return 0
@@ -42,6 +67,15 @@ class Line:
             y = self.m * (x - self.x) + self.y
             return numpy.array([x, y])
 
+    """
+        :param
+            - xc,yc is the center of the circle
+            - r is the radius of the circle
+        :return 
+            - return x1,y1 and x2,y2 intersection a circle and self.
+            if x1=y1=x2=y2 then there is no intersection
+            
+    """
     def lineCircleIntersection(self, r, xc, yc):
         if self.vertical == 1:
             x1 = self.x
