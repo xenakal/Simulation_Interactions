@@ -80,7 +80,7 @@ class App:
 
 
 def execute():
-    myApp = App(1, 6)
+    myApp = App(1, 0)
     myApp.main()
 
 

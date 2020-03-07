@@ -146,8 +146,8 @@ def set_room(scenario):
         trajChoice_tar = numpy.array([0, 1, 0])
         size_tar = numpy.array([20, 5, 6])
         label_tar = numpy.array(['fix', 'target', 'obstruction'])
-        t_add = [[5,105],[0],[10]]
-        t_del = [[100,200],[25],[50]]
+        t_add = [[0],[0],[0]]
+        t_del = [[1000],[1000],[1000]]
         # Options for the cameras
         x_cam = numpy.array([0, 300, 150])
         y_cam = numpy.array([155, 155, 0])

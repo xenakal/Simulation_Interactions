@@ -29,27 +29,29 @@ class GUI_Region:
     def draw_cam_coverage(self,region):
         x = region.xv
         y = region.yv
+
         (i_tot, j_tot) = region.coverage.shape
         for i in range(i_tot):
             for j in range(j_tot):
                 # il faut faire -1
                 if region.coverage[i,j] == 1 :
-                    pygame.draw.circle(self.screen,[250,0,0],
+                    pygame.draw.circle(self.screen,[50,0,0],
                                        (self.x_offset + int(x[i,j]*self.scale_x),
                                         self.y_offset + int(y[i,j]*self.scale_y)), 1)
                 if region.coverage[i, j] == 2:
-                    pygame.draw.circle(self.screen, [250, 0, 250],
+                    pygame.draw.circle(self.screen, [100, 0, 0],
                                        (self.x_offset + int(x[i, j] * self.scale_x),
                                         self.y_offset + int(y[i, j] * self.scale_y)), 1)
                 if region.coverage[i, j] == 3:
-                    pygame.draw.circle(self.screen, [150, 50, 0],
+                    pygame.draw.circle(self.screen, [200, 150, 0],
                                            (self.x_offset + int(x[i, j] * self.scale_x),
                                             self.y_offset + int(y[i, j] * self.scale_y)), 1)
                 if region.coverage[i, j] == 4:
-                    pygame.draw.circle(self.screen, [200, 100, 0],
+                    pygame.draw.circle(self.screen, [250, 200, 0],
                                        (self.x_offset + int(x[i, j] * self.scale_x),
                                         self.y_offset + int(y[i, j] * self.scale_y)), 1)
                 if region.coverage[i, j] >= 5:
-                    pygame.draw.circle(self.screen, [250, 200, 0],
+                    print(region.coverage[i,j])
+                    pygame.draw.circle(self.screen, [250, 250, 250],
                                        (self.x_offset + int(x[i, j] * self.scale_x),
                                         self.y_offset + int(y[i, j] * self.scale_y)), 1)
