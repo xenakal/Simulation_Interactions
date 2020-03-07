@@ -18,7 +18,7 @@ class Line:
     def __init__(self, x, y, x1, y1):
         self.x = x
         self.y = y
-        self.tol = 0.0000001
+        self.tol = 0.0000000001
 
         '''Taking verticality into account'''
         if math.fabs(x - x1) < self.tol :

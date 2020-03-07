@@ -63,7 +63,7 @@ class App:
 
         region = AgentRegion(self.myRoom)
         if ROOM_Analysis == 1:
-           region.compute(3)
+           region.compute(1)
 
         while run:  # Events loop
             if reset:
@@ -71,7 +71,7 @@ class App:
                 for agent in self.myRoom.agentCams:
                     agent.clear()
                 clean_mailbox()
-                self.myRoom = set_room(self.scenario)
+                self.myRoom = self.room_txt.init_room()
                 reset = False
 
             time.sleep(TIME_BTW_FRAMES)  # so that the GUI doesn't go to quick
@@ -104,7 +104,8 @@ class App:
 
 
 def execute():
-    myApp = App(1,"Fichier_init_config_7.txt")
+    #myApp = App(1)
+    myApp = App(1, "bug1.txt")
     myApp.main()
 
 

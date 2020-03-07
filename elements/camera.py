@@ -82,6 +82,14 @@ class Camera:
         yf = -math.sin(self.alpha) * xi + math.cos(self.alpha) * yi
         return (xf, yf)
 
+    def coord_from_CamFrame_to_TargetFrame(self,xt,yt):
+        d = distanceBtwTwoPoint(0,0,xt,yt)
+        sin_alpha = xt/d
+        cos_alpha = yt/d
+        xf = cos_alpha*xt + sin_alpha * yt
+        yf = -sin_alpha*xt + cos_alpha*yt
+        return (xf, yf)
+
     def is_x_y_inField(self,x,y,beta_target = 0):
         (xcf,ycf) = self.coord_from_WorldFrame_to_CamFrame(x,y)
         alpha_target_camFrame = math.atan2(ycf,xcf)
@@ -100,6 +108,7 @@ class Camera:
         (xcf, ycf) = self.coord_from_WorldFrame_to_CamFrame(x, y)
         (xctf, yctf) = self.coord_from_WorldFrame_to_CamFrame(xt, yt)
 
+
         #line between target and cam
         line_cam_target = Line(0,0,xctf,yctf)
         line_perp_cam_target = line_cam_target.linePerp(xctf,yctf)
@@ -109,13 +118,15 @@ class Camera:
         line_cam_target_1 = Line(0, 0, idca[0], idca[1])
         line_cam_target_2 = Line(0, 0, idca[2], idca[3])
 
-        #angle
-        alpha1 = line_cam_target_1.getSlope()
-        alpha2 = line_cam_target_2.getSlope()
+        # angle
+        alpha1 = math.atan2(idca[1], idca[0])
+        alpha2 = math.atan2(idca[3], idca[2])
         alphapt = math.atan2(ycf,xcf)
 
         #condition to be hidden
-        if alpha1[0] > alphapt and alpha2[0] < alphapt and xcf <= xctf:
+        if alpha1 > alphapt and alpha2 < alphapt and xcf <= xctf:
+            return True
+        elif alpha1 < alphapt and alpha2 > alphapt and xcf > xctf:
             return True
         else:
             return False
@@ -137,8 +148,9 @@ class Camera:
             line_cam_target_2 = Line(0, 0, idca[2], idca[3])
 
             # angle
-            alpha1 = line_cam_target_1.getSlope()
-            alpha2 = line_cam_target_2.getSlope()
+            alpha1 = math.atan2(idca[1], idca[0])
+            alpha2 = math.atan2(idca[3], idca[2])
+
 
             for i in range(i_tot):
                 for j in range(j_tot):
@@ -146,9 +158,11 @@ class Camera:
                     alphapt = math.atan2(ycf, xcf)
 
                     # condition to be hidden
-                    if alpha1[0] > alphapt and alpha2[0] < alphapt and xcf > xctf:
+                    if alpha1 > alphapt and alpha2 < alphapt and xcf > xctf:
                         result[i,j] = 0
 
+                    elif alpha1 < alphapt and alpha2 > alphapt and xcf > xctf:
+                        result[i, j] = 0
         return result
 
     def is_in_hidden_zone_allFixTarget_matrix(self,result,x,y,room):
