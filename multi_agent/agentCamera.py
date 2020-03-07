@@ -57,6 +57,7 @@ class AgentCam(Agent):
             self.predictionPrecision[target.id] = 0.0
             self.previousPrediction[target.id] = -1
 
+
     def run(self):
         self.thread_pI.start()
         if MULTI_THREAD == 1:
