@@ -50,36 +50,39 @@ class GUI_room:
             self.x_offset + tab[0], self.y_offset + tab[1], self.scale_x * tab[2],
             self.scale_y * tab[3]))
 
+    def draw_one_target(self,target,tab):
+        color = RED
+        if target.label == "fix":
+            color = FIX
+        elif target.label == "target":
+            color = TARGET
+        elif target.label == "obstruction":
+            color = OBSTRUCTION
+
+        # so that it is only target.yc drawn in the square
+        if (tab[0] <= target.xc + target.size <= tab[0] + tab[
+            2] and tab[1] <= target.yc + target.size <= tab[1] + tab[3]):  # target inside room
+            # render the target.xct
+            label = self.font.render(str(target.id), 10, color)
+            self.screen.blit(label, (self.x_offset + int(target.xc * self.scale_x) + target.size / 2 + 5,
+                                     self.y_offset + int(target.yc * self.scale_y) + target.size / 2 + 5))
+            # render form
+            pygame.draw.ellipse(self.screen, color, (
+                self.x_offset + int(target.xc * self.scale_x) - self.scale_x * target.size,
+                self.y_offset + int(target.yc * self.scale_y) - self.scale_y * target.size,
+                self.scale_x * target.size * 2,
+                self.scale_y * target.size * 2))
+
+            if target.size >= 5:
+                pygame.draw.ellipse(self.screen, target.color,
+                                    (self.x_offset + int(target.xc * self.scale_x) - self.scale_x * target.size / 2,
+                                     self.y_offset + int(target.yc * self.scale_y) - self.scale_y * target.size / 2,
+                                     self.scale_x * target.size,
+                                     self.scale_y * target.size))
+
     def drawTarget(self, targets, tab):
         for target in targets:
-            color = RED
-            if target.label == "fix":
-                color = FIX
-            elif target.label == "target":
-                color = TARGET
-            elif target.label == "obstruction":
-                color = OBSTRUCTION
-
-            # so that it is only target.yc drawn in the square
-            if (tab[0] <= target.xc + target.size <= tab[0] + tab[
-                2] and tab[1] <= target.yc + target.size <= tab[1] + tab[3]):  # target inside room
-                # render the target.xct
-                label = self.font.render(str(target.id), 10, color)
-                self.screen.blit(label, (self.x_offset + int(target.xc * self.scale_x) + target.size / 2 + 5,
-                                         self.y_offset + int(target.yc * self.scale_y) + target.size / 2 + 5))
-                # render form
-                pygame.draw.ellipse(self.screen, color, (
-                    self.x_offset + int(target.xc * self.scale_x) - self.scale_x * target.size,
-                    self.y_offset + int(target.yc * self.scale_y) - self.scale_y * target.size,
-                    self.scale_x * target.size * 2,
-                    self.scale_y * target.size * 2))
-
-                if target.size >= 5:
-                    pygame.draw.ellipse(self.screen, target.color,
-                                        (self.x_offset + int(target.xc * self.scale_x) - self.scale_x * target.size / 2,
-                                         self.y_offset + int(target.yc * self.scale_y) - self.scale_y * target.size / 2,
-                                         self.scale_x * target.size,
-                                         self.scale_y * target.size))
+            self.draw_one_target(target,tab)
 
     def drawTarget_all_postion(self, room):
         for target in room.targets:
@@ -90,15 +93,13 @@ class GUI_room:
                                                                        self.y_offset + int(position[1] * self.scale_y)),
                                            1)
 
-    def drawCam(self, myRoom, l=100):
-        for agent in myRoom.agentCams:
-            camera = agent.cam
+    def draw_one_Cam(self, camera, l=100):
             # render text
             label = self.font.render(str(camera.id), 10, CAMERA)
             self.screen.blit(label, (
                 self.x_offset + int(camera.xc * self.scale_x) + 5, self.y_offset + int(camera.yc * self.scale_y) + 5))
             # render form
-            pygame.draw.circle(self.screen, agent.color, (
+            pygame.draw.circle(self.screen, camera.color, (
                 self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 5)
             if camera.isActive == 1:
                 pygame.draw.line(self.screen, WHITE, (
@@ -117,3 +118,8 @@ class GUI_room:
                                      camera.alpha + (camera.beta / 2)),
                                   self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
                                       camera.alpha + (camera.beta / 2))), 2)
+
+    def drawCam(self, myRoom, l=100):
+        for agent in myRoom.agentCams:
+            self.draw_one_Cam(agent.cam,l)
+

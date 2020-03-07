@@ -7,21 +7,44 @@ from my_utils.motion import *
 
 
 def clean_mailbox():
-    shutil.rmtree("my_utils/mailbox", ignore_errors=True)
-    os.mkdir("my_utils/mailbox")
+    shutil.rmtree("mailbox", ignore_errors=True)
+    os.mkdir("mailbox")
 
-
-INCLUDE_ERROR = True
-T_MAX = 1000
 TIME_BTW_FRAMES = 0.1
 
+'''Option for class main'''
+ROOM_Analysis = 1
+T_MAX = 1000
 
+'''Option for class agent'''
+NAME_LOG_PATH = "log/log_agent/Agent"
+NAME_MAILBOX = "mailbox/MailBox_Agent"
+NUMBER_OF_MESSAGE_RECEIVE = 1  # 1= all message receive, 100 = almost nothing is received
+
+'''Option for class agentCamera'''
+TIME_PICTURE = .5
+TIME_SEND_READ_MESSAGE = .1
+MULTI_THREAD = 0
+
+'''Option for class estimator'''
+INCLUDE_ERROR = True
+STD_MEASURMENT_ERROR = 2
+
+'''Option for class predication'''
+NUMBER_PREDICTIONS = 5
+PREVIOUS_POSITIONS_USED = 7  # number of previous positions used to make the prediction of the next positions
+
+'''Option for class GUI_create_map'''
+'''STILL HAVE TROUBLE WITH IMPORT IN CLASS !!!!!!!!!!!!!!!!'''
+PATH_TO_SAVE_MAP = "map/"
+SAVE_MAP_NAME = "My_new_map"
+PATH_TO_LOAD_MAP = "map/"
+LOAD_MAP_NAME = "My_new_map"
 
 class App:
     def __init__(self, useGUI=1, scenario=0):
         # Clean the file mailbox
         clean_mailbox()
-
         # Creating the room, the target and the camera
         self.scenario = scenario
         self.myRoom = set_room(scenario)
@@ -34,6 +57,10 @@ class App:
         tmax = T_MAX
         run = True
         reset = False
+
+        region = AgentRegion(self.myRoom)
+        if ROOM_Analysis == 1:
+           region.compute(3)
 
         while run:  # Events loop
             if reset:
@@ -55,7 +82,7 @@ class App:
                 moveTarget(target, 1, self.myRoom)
 
             if self.useGUI == 1:
-                self.myGUI.updateGUI(self.myRoom)
+                self.myGUI.updateGUI(self.myRoom,region)
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
 
 
@@ -74,7 +101,7 @@ class App:
 
 
 def execute():
-    myApp = App(1, 6)
+    myApp = App(1, 0)
     myApp.main()
 
 

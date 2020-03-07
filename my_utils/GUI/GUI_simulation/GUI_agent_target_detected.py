@@ -1,5 +1,5 @@
 from my_utils.GUI.GUI import*
-from my_utils.GUI.Button import*
+from my_utils.GUI.button import*
 import pygame
 
 WHITE = (255, 255, 255)

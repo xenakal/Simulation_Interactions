@@ -32,31 +32,74 @@ class Message:
         self.message = message
         self.messageType = messageType
 
+    """
+    :param
+        - None
+    :return 
+        - return (int), number of receiver
+    """
     def getReceiverNumber(self):
         return len(self.receiverID_Signature)
 
+    """
+    :param
+        - ReceiverID 
+        - ReceiverSignature
+        see class aboved description for detailed information 
+    :effect
+        - append information to reiceiverID_Signature and remaingReiceiver list
+        list details are given in the class description
+    """
     def addReceiver(self, receiverID, receiverSignature):
         if int(receiverSignature) >= 100:
             self.receiverID_Signature.append([int(receiverID), int(receiverSignature)])
             self.remainingReceiver.append([receiverID, receiverSignature])
 
+    """
+    :param
+        - None
+    :effect
+        - set list related to receiverd to empty list
+        list details are given in the class description
+    """
     def clearReceiver(self):
         self.receiverID_Signature = []
         self.remainingReceiver = []
 
+    """
+    :param
+       - ReceiverID 
+        - ReceiverSignature
+        see class aboved description for detailed information 
+    :effect
+          - suppress information to remaingReiceiver list
+        list details are given in the class description
+    """
     def notifySendTo(self, receiverID, receiverSignature):
         for message in self.remainingReceiver:
             if message[0] == receiverID and message[1] == receiverSignature:
                 self.remainingReceiver.remove(message)
 
+    """
+    :param
+       - None
+    :return 
+        - return True if the remaningReceiver list is empty, else false.
+    """
     def isMessageSentToEveryReceiver(self):
         if len(self.remainingReceiver) == 0:
             return True
         else:
             return False
 
+    """
+    :param
+        - s, message in a string form
+    :effect 
+        - modify every attribute of the self, to make it match with it string description.
+          see class aboved description for detailed information  on each attribute
+    """
     def modifyMessageFromString(self, s):
-
         try:
             self.clearReceiver()
             s = s.replace("\n", "")
@@ -85,6 +128,13 @@ class Message:
         except IndexError:
             print("erreur")
 
+    """
+    :param
+        
+    :return 
+        - (string), describe every attribut in a string format.
+          see class aboved description for detailed information  on each attribute
+    """
     def formatMessageType(self):
         s1 = "Timestamp: " + str(self.timeStamp) + ' message#:' + str(self.signature) + "\n"
         s2 = "From: " + str(self.senderID) + " sender#" + str(self.senderSignature) + "\nReceiver list : \n"
@@ -100,6 +150,10 @@ class Message:
 class Message_Check_ACK_NACK(Message):
     """
     This class extend the class message, it allows to add the received ack or nack that refers to a particular message.
+    For more details on message attributes, see the class above.
+
+    -ack = approbation with the message sent
+    -nack = disagreament with the message sent
 
     ([Message_Check_ACK_NACK,...]) Ack = every ack associated to a message can be added
     ([Message_Check_ACK_NACK,...]) Nack = every  nack associated to a message can be added
@@ -113,12 +167,31 @@ class Message_Check_ACK_NACK(Message):
         self.nack = []
         super().__init__(timeStamp, senderID, senderSignature, messageType, message, targetID)
 
+    """
+      :param
+
+      :return 
+          - (int), give the number of ack received in respond to the message sent
+      """
     def get_AckNumber(self):
         return len(self.ack)
 
+    """
+      :param
+
+      :return 
+           - (int), give the number of nack received in respond to the message sent
+      """
     def get_NackNumber(self):
         return len(self.nack)
 
+    """
+      :param
+
+      :return 
+          - True is a nack was receive, then one of the agent does not agree with the message
+          - False if no nack, but it does not mean every agent has agreed. (see is approved for this purpose)
+      """
     def is_not_approved(self):
         if self.messageType == 'request':
             if self.get_NackNumber() > 0:
@@ -126,6 +199,13 @@ class Message_Check_ACK_NACK(Message):
             else:
                 return False
 
+    """
+      :param
+
+      :return 
+          - True is a acks received = the number of receiver, so that every receiver has agreed.
+          - False otherwise
+      """
     def is_approved(self):
         if self.messageType == 'request':
             if int(self.get_AckNumber()) >= int(self.getReceiverNumber()):
@@ -133,6 +213,12 @@ class Message_Check_ACK_NACK(Message):
             else:
                 return False
 
+    """
+      :param
+            - rec_messag, message ack or nack type that should be link to self.
+      :return 
+            - return True if add succesfully, false otherwise
+      """
     def add_ACK_NACK(self, rec_message):
         if rec_message.messageType == 'ack' or rec_message.messageType == 'nack':
             if self.signature == int(rec_message.message):
@@ -144,6 +230,13 @@ class Message_Check_ACK_NACK(Message):
         else:
             return False
 
+    """
+      :param
+
+      :return 
+          - (string), describe every attribut in a string format.
+            see class aboved description for detailed information  on each attribute
+      """
     def getMessageInACK_NACK(self):
         if self.messageType == "ack" or self.messageType == "nack":
             message_in = Message(0, 0, 0, 0, 0)

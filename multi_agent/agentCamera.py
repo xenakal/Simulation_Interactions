@@ -11,12 +11,9 @@ from multi_agent.memory import *
 from multi_agent.linearPrediction import *
 from multi_agent.kalmanPrediction import *
 
-TIME_PICTURE = .5
-TIME_SEND_READ_MESSAGE = .1
-
-MULTI_THREAD = 0
-NAME_MAILBOX = "mailbox/MailBox_Agent"
-
+from main import TIME_PICTURE
+from main import TIME_SEND_READ_MESSAGE
+from main import MULTI_THREAD
 
 class AgentCam(Agent):
 

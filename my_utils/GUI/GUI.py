@@ -1,10 +1,10 @@
-from my_utils.GUI.Button import *
+from my_utils.GUI.button import *
 ##from my_utils.GUI.Button import ButtonList
 from my_utils.GUI.GUI_option import *
 from my_utils.GUI.GUI_simulation.GUI_simulation import *
-from my_utils.GUI.Gui_projection import *
+from my_utils.GUI.GUI_projection import *
 from my_utils.GUI.GUI_stat import *
-from my_utils.GUI.GUI_draw_map import *
+from my_utils.GUI.GUI_create_map import *
 from my_utils.GUI.GUI_simulation.GUI_room import *
 
 
@@ -46,12 +46,12 @@ class GUI:
         self.GUI_option.check_list(self.button_menu.list)
         self.button_menu.draw(self.screen)
 
-    def updateGUI(self, myRoom):
+    def updateGUI(self, myRoom,region):
         self.refresh()
         self.display_menu()
 
         if self.button_menu.find_button_state("Simulation"):
-            self.GUI_simu.run(myRoom)
+            self.GUI_simu.run(myRoom,region)
 
         elif self.button_menu.find_button_state("Camera"):
             self.GUI_projection.drawProjection(myRoom)
