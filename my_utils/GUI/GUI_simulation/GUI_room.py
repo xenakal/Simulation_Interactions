@@ -18,7 +18,7 @@ OBSTRUCTION = (0, 50, 0)
 
 
 class GUI_room:
-    def __init__(self, screen, agent, target, x_off, y_off, x_max, y_max):
+    def __init__(self, screen, agent, target, x_off, y_off, scale_x, scale_y):
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 15)
 
@@ -27,16 +27,10 @@ class GUI_room:
 
         self.x_offset = x_off
         self.y_offset = y_off
-        self.x_max = x_max
-        self.y_max = y_max
-
-        self.scale_x = 0
-        self.scale_y = 0
+        self.scale_x = scale_x
+        self.scale_y = scale_y
 
     def drawRoom(self, tab):
-
-        self.scale_x = self.x_max / tab[2]
-        self.scale_y = self.y_max / tab[3]
 
         pygame.draw.rect(self.screen, BLACK, (
             self.x_offset + tab[0] - 10, self.y_offset + tab[1] - 10, self.scale_x * tab[2] + 20,

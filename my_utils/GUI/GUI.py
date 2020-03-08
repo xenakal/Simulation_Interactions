@@ -6,9 +6,11 @@ from my_utils.GUI.GUI_projection import *
 from my_utils.GUI.GUI_stat import *
 from my_utils.GUI.GUI_create_map import *
 from my_utils.GUI.GUI_simulation.GUI_room import *
-
-
-
+from my_utils.GUI.button import ButtonList
+from main import X_OFFSET
+from main import Y_OFFSET
+from main import X_SCALE
+from main import Y_SCALE
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -26,6 +28,15 @@ class GUI:
         # define the windows
         self.w = 800
         self.h = 600
+
+        x_offset = X_OFFSET
+        y_offset = Y_OFFSET
+        scale_x = X_SCALE
+        scale_y = Y_SCALE
+
+        scale_x = 1.5
+        scale_y = 1.5
+
         self.screen = pygame.display.set_mode((self.w, self.h), pygame.RESIZABLE)
 
         self.button_menu = ButtonList(["Simulation", "Camera", "Stat","Create Map","Option"], 10, -30, 0, 0, 100, 30)
@@ -34,8 +45,8 @@ class GUI:
         self.GUI_option = GUI_option(self.screen)
         self.GUI_projection = GUI_projection(self.screen)
         self.GUI_stat = GUI_stat(self.screen, 0, 50)
-        self.GUI_create_map = GUI_create_map(self.screen,self.GUI_option,room_to_txt)
-        self.GUI_simu = GUI_simulation(self.screen, self.GUI_option,room_to_txt)
+        self.GUI_create_map = GUI_create_map(self.screen,self.GUI_option,room_to_txt,x_offset,y_offset,scale_x,scale_y)
+        self.GUI_simu = GUI_simulation(self.screen, self.GUI_option,room_to_txt,x_offset,y_offset,scale_x,scale_y)
 
         pygame.display.set_caption("Camera simulation")
         self.font = pygame.font.SysFont("monospace", 15)

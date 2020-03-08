@@ -20,7 +20,7 @@ YELLOW = (255, 255, 0)
 BACKGROUND = RED
 
 class GUI_create_map:
-    def __init__(self, screen,GUI_option,room_to_txt):
+    def __init__(self, screen,GUI_option,room_to_txt,x_offset,y_offset,scale_x,scale_y):
 
         self.screen = screen
         self.room_to_txt = room_to_txt
@@ -29,16 +29,16 @@ class GUI_create_map:
         coord = self.my_new_room.coord
         self.font = pygame.font.SysFont("monospace", 15)
 
-        self.x_offset = 200
-        self.y_offset = 100
-        self.scale_x = 4 / 3
-        self.scale_y = 4 / 3
+        self.x_offset = x_offset
+        self.y_offset = y_offset
+        self.scale_x = scale_x
+        self.scale_y = scale_y
+
         self.my_room_button = Button("room", coord[0] + self.x_offset, coord[1] + self.y_offset,
                                      coord[2] * self.scale_x,
                                      coord[3] * self.scale_y)
 
-        self.GUI_room = GUI_room.GUI_room(self.screen, self.my_new_room.agentCams, self.my_new_room.targets, 200,
-                                          100, 400, 400)
+        self.GUI_room = GUI_room.GUI_room(self.screen, self.my_new_room.agentCams, self.my_new_room.targets, x_offset,y_offset,scale_x,scale_y)
 
         self.button_create_map_1_name = ["Agent", "Camera","Trajectory","Clean","Save_map","Load_map"]
         self.button_create_map_2_name = ["Target", "Obstruction", "Fix"]

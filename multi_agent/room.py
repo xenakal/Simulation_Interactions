@@ -3,13 +3,15 @@ from elements.target import *
 from multi_agent.agentCamera import *
 from elements.camera import *
 from elements.Info_room_simu import *
+from main import WIDTH_ROOM
+from main import  LENGHT_ROOM
 
 class Room:
     def __init__(self):
         # Info just for the simulation, should be in practice replace by video input
         self.info_simu = Info_simu()
         # Room attributes
-        self.coord = numpy.array([0, 0, 300, 300])  # x y l h
+        self.coord = numpy.array([0, 0, WIDTH_ROOM, LENGHT_ROOM])  # x y l h
         # target in the room
         self.targets = []
         self.targetNumber = 0

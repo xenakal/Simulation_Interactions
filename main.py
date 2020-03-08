@@ -14,8 +14,10 @@ def clean_mailbox():
 TIME_BTW_FRAMES = 0.1
 
 '''Option for class main'''
-ROOM_Analysis = 1
-T_MAX = 1000
+USE_GUI = 1
+USE_agent = 0
+USE_static_analysis = 1
+T_MAX = 10000
 
 '''Option for class agent'''
 NAME_LOG_PATH = "log/log_agent/Agent"
@@ -36,14 +38,25 @@ NUMBER_PREDICTIONS = 5
 PREVIOUS_POSITIONS_USED = 7  # number of previous positions used to make the prediction of the next positions
 
 '''Option for class map'''
-'''STILL HAVE TROUBLE WITH IMPORT IN CLASS !!!!!!!!!!!!!!!!'''
 PATH_TO_SAVE_MAP = "map/"
 SAVE_MAP_NAME = "My_new_map.txt"
 PATH_TO_LOAD_MAP = "map/"
 LOAD_MAP_NAME = "My_new_map.txt"
 
+'''Option for GUI'''
+''' 180,100,1.5,1.5 for a Room (300,300)'''
+X_OFFSET = 180
+Y_OFFSET = 100
+X_SCALE  = 1.5
+Y_SCALE  = 1.5
+
+'''Option for ROOM'''
+WIDTH_ROOM = 300
+LENGHT_ROOM = 300
+
+
 class App:
-    def __init__(self, useGUI=1,fileName = "My_new_map.txt"):
+    def __init__(self,fileName = "My_new_map.txt"):
         # Clean the file mailbox
         clean_mailbox()
 
@@ -52,38 +65,47 @@ class App:
         self.room_txt = Room_txt()
         self.room_txt.load_room_from_txt(fileName)
         self.myRoom = self.room_txt.init_room()
+        self.static_region = AgentRegion(self.myRoom)
 
-        for agent in self.myRoom.agentCams:
-            agent.run()
+        if USE_agent:
+            for agent in self.myRoom.agentCams:
+                agent.run()
 
-        self.useGUI = useGUI
-        if useGUI == 1:
+        if USE_GUI == 1:
             self.myGUI = GUI(self.room_txt)
+
+    def init(self):
+        self.room_txt = Room_txt()
+        self.room_txt.load_room_from_txt(self.filename)
+        self.myRoom = self.room_txt.init_room()
+
+        if USE_static_analysis == 1:
+            self.static_region = AgentRegion(self.myRoom)
+            self.static_region.compute(4)
+
+        if USE_agent:
+            for agent in self.myRoom.agentCams:
+                agent.run()
+
 
     def main(self):
         tmax = T_MAX
         run = True
         reset = False
 
-        region = AgentRegion(self.myRoom)
-        if ROOM_Analysis == 1:
-           region.compute(4)
+
 
         while run:  # Events loop
             if reset:
                 self.myRoom.time = 0
-                for agent in self.myRoom.agentCams:
-                    agent.clear()
+
+                if USE_agent:
+                    for agent in self.myRoom.agentCams:
+                        agent.clear()
+
                 clean_mailbox()
 
-                self.room_txt.load_room_from_txt(self.filename)
-                self.myRoom = self.room_txt.init_room()
-                region = AgentRegion(self.myRoom)
-                if ROOM_Analysis == 1:
-                    region.compute(4)
-                for agent in self.myRoom.agentCams:
-                    agent.run()
-
+                self.init()
 
                 reset = False
 
@@ -97,14 +119,14 @@ class App:
                 target.save_position()
                 moveTarget(target, 1, self.myRoom)
 
-            if self.useGUI == 1:
-                self.myGUI.updateGUI(self.myRoom,region)
+            if USE_GUI == 1:
+                self.myGUI.updateGUI(self.myRoom,self.static_region)
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
 
 
             if self.myRoom.time > tmax:
                 run = False
-                if self.useGUI == 1:
+                if USE_GUI == 1:
                     pygame.quit()
 
             self.myRoom.time = self.myRoom.time + 1
@@ -117,7 +139,7 @@ class App:
 
 
 def execute():
-    myApp = App(1)
+    myApp = App()
     #myApp = App(1, "bug1.txt")
     myApp.main()
 

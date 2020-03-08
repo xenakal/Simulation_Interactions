@@ -8,7 +8,7 @@ from my_utils.GUI.GUI_simulation.GUI_agent_region import *
 
 
 class GUI_simulation:
-    def __init__(self, screen, GUI_option,txt_room):
+    def __init__(self, screen, GUI_option,txt_room,x_offset,y_offset,scale_x,scale_y):
         pygame.init()
 
         self.txt_room = txt_room
@@ -20,15 +20,11 @@ class GUI_simulation:
         self.button_simulation_3 = ButtonList(["0", "1", "2", "3", "4", "5", "6"], -35, 10, 750, 40, 35, 15)
         self.button_simulation_4 = ButtonList(["save to txt","Cam ROI","Cam COV"], -100, 10, 0, 100, 100, 20)
 
-        self.GUI_room = GUI_room(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, 200,
-                                 100, 400, 400)
-        self.GUI_memories = GUI_memories(self.screen, self.GUI_option.agent_to_display,
-                                         self.GUI_option.target_to_display, 200, 100, 4 / 3, 4 / 3)
+        self.GUI_room = GUI_room(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, x_offset,y_offset, scale_x,scale_y)
+        self.GUI_memories = GUI_memories(self.screen, self.GUI_option.agent_to_display,self.GUI_option.target_to_display,x_offset,y_offset, scale_x, scale_y)
         self.GUI_ATD = GUI_Agent_Target_Detected(self.screen)
-        self.GUI_pred = GUI_predictions(self.screen, self.GUI_option.agent_to_display,
-                                        self.GUI_option.target_to_display, 200, 100, 4 / 3, 4 / 3, 2)
-
-        self.Gui_region = GUI_Region(self.screen,200, 100, 4 / 3, 4 / 3)
+        self.GUI_pred = GUI_predictions(self.screen, self.GUI_option.agent_to_display,self.GUI_option.target_to_display, x_offset,y_offset,scale_x, scale_y, 2)
+        self.Gui_region = GUI_Region(self.screen,x_offset,y_offset ,scale_x,scale_y)
 
         self.font = pygame.font.SysFont("monospace", 15)
 
