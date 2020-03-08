@@ -1,14 +1,10 @@
-from multi_agent import room
 from my_utils.GUI.button import Button
 from my_utils.GUI.button import ButtonList
 from my_utils.GUI.GUI_simulation import GUI_room
 from my_utils.map import *
-from elements.target import *
 from elements.camera import *
 import pygame
-import re
 import math
-import numpy as np
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -252,6 +248,6 @@ class GUI_create_map:
             self.button_create_map_1.find_button("Save_map").set_button(False)
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[5]):
             self.room_to_txt.load_room_from_txt()
-            self.my_new_room=self.room_to_txt.init_room()
+            self.my_new_room = self.room_to_txt.init_room()
             self.button_create_map_1.find_button("Load_map").set_button(False)
 

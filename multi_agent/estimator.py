@@ -4,8 +4,7 @@ import re
 import math
 import numpy as np
 from my_utils.line import *
-from main import INCLUDE_ERROR
-from main import STD_MEASURMENT_ERROR
+import main
 
 
 
@@ -41,14 +40,13 @@ class TargetEstimatorList:
             self.agent_target.append((agentID,targetID))
             self.estimator_list.append([agentID, targetID, []])
 
-    def add_create_target_estimator(self, room, time_from_estimation, target_ID, agent_ID, seenByCam):
+    def add_create_target_estimator(self,time_from_estimation, target_ID, agent_ID,target_xc,target_yc,target_size,seenByCam):
         """ Creates an estimator and adds it to the list if doesn't exist yet. """
         self.update_estimator_list(agent_ID,target_ID)
 
         for estimatorElem in self.estimator_list:
             if isCorrespondingEstimator(agent_ID, target_ID, estimatorElem):
-                target = room.getTargetbyID(target_ID)
-                newTargetEstimator = TargetEstimator(time_from_estimation, agent_ID, target, seenByCam)
+                newTargetEstimator = TargetEstimator(time_from_estimation,agent_ID,target_ID,target_xc,target_yc,target_size,seenByCam)
                 if not newTargetEstimator in estimatorElem[2]:
                     estimatorElem[2].append(newTargetEstimator)
             else:
@@ -143,27 +141,27 @@ class FusionEstimatorList:
         self.times = nTime
         self.currentTime = currentTime
         self.target_seen = []
-        self.room_representation = []
+        self.memories_fusion = []
 
     def update_estimator_list(self, targetID):
         '''Register the target - agent combination in the memory'''
         if not targetID in self.target_seen:
             self.target_seen.append(targetID)
-            self.room_representation.append([targetID, []])
+            self.memories_fusion.append([targetID, []])
 
     def sort(self):
-        for element in self.room_representation:
+        for element in self.memories_fusion:
             element[1].sort()
 
     def get_target_list(self, target_ID):
         """ Returns the list of TargetEstimators for the target provided in the argument. """
-        for element in self.room_representation:
+        for element in self.memories_fusion:
             if element[0] == target_ID:
                 return element[1]
         return []
 
     def get_agent_target_stat(self, target_ID, agent_ID):
-        for element in self.room_representation:
+        for element in self.memories_fusion:
             if element[0] == target_ID:
                 return len(element[1])
         return -1
@@ -171,7 +169,7 @@ class FusionEstimatorList:
     def add_target_estimator(self, estimator):
         self.update_estimator_list(estimator.target_ID)
 
-        for element in self.room_representation:
+        for element in self.memories_fusion:
             if element[0] == estimator.target_ID:
                 if not is_target_estimator(element[1], estimator):
                     element[1].append(estimator)
@@ -193,25 +191,26 @@ class TargetEstimator:
         followedByCam -- cam who has the best view on the target for now
     """
 
-    def __init__(self, timeStamp, agentID, target, seenByCam=False, followedByCam=-1):
+    def __init__(self, timeStamp, agentID, targetID,target_xc,target_yc,target_size,seenByCam=-1,followedByCam=-1):
         self.timeStamp = timeStamp
         self.agent_ID = agentID
+        self.target_ID = targetID
+        self.target_label = "target"
 
-        self.target_ID = target.id
-        self.target_label = target.label
-        if INCLUDE_ERROR:
+        if main.INCLUDE_ERROR:
             errorRange = 5
             step = 1
             # erreurX = random.randrange(-errorRange, errorRange+step, step)
             # erreurY = random.randrange(-errorRange, errorRange+step, step)
-            erreurX = int(np.random.normal(scale=STD_MEASURMENT_ERROR, size=1))
-            erreurY = int(np.random.normal(scale=STD_MEASURMENT_ERROR, size=1))
+            erreurX = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
+            erreurY = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
         else:
             erreurX = 0
             erreurY = 0
 
-        self.position = [target.xc + erreurX, target.yc + erreurY]
-        self.realPos = [target.xc, target.yc]
+        self.position = [target_xc + erreurX, target_yc + erreurY]
+        self.realPos = [target_xc, target_yc]
+        self.target_size = target_size
 
         self.seenByCam = seenByCam
         self.followedByCam = followedByCam

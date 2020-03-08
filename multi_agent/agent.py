@@ -6,9 +6,7 @@ import random
 import numpy as np
 from elements.target import *
 from multi_agent.message import *
-from main import NAME_LOG_PATH
-from main import NAME_MAILBOX
-from main import NUMBER_OF_MESSAGE_RECEIVE
+import main
 
 
 class Agent:
@@ -16,10 +14,9 @@ class Agent:
     Class defining a basic agent without any camera.
     """
 
-    def __init__(self, idAgent, room):
+    def __init__(self, idAgent):
         # Attributes
         self.id = idAgent
-        self.myRoom = room
         self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
 
         r = random.randrange(20, 230, 1)
@@ -33,14 +30,14 @@ class Agent:
         self.info_messageToSend = ListMessage("ToSend")
         self.message_stat = Agent_statistic(idAgent)
 
-        mbox = mailbox.mbox(NAME_MAILBOX + str(self.id))
+        mbox = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
         mbox.clear()
 
         # create logger_message with 'spam_application'
         logger_message = logging.getLogger('agent' + str(self.id))
         logger_message.setLevel(logging.INFO)
         # create file handler which log_messages even debug messages
-        fh = logging.FileHandler(NAME_LOG_PATH + str(self.id) + "-messages", "w+")
+        fh = logging.FileHandler(main.NAME_LOG_PATH + str(self.id) + "-messages", "w+")
         fh.setLevel(logging.DEBUG)
         # create console handler with a higher log_message level
         ch = logging.StreamHandler()
@@ -63,7 +60,7 @@ class Agent:
         rec_mes = Message(0, 0, 0, 0, 0)
         rec_mes.modifyMessageFromString(m)
 
-        random_value = random.randrange(0, NUMBER_OF_MESSAGE_RECEIVE, 1)
+        random_value = random.randrange(0, main.NUMBER_OF_MESSAGE_RECEIVE, 1)
         if random_value == 0:
             self.message_stat.count_message_received(rec_mes.senderID)
             self.info_messageReceived.addMessage(rec_mes)
@@ -72,7 +69,7 @@ class Agent:
     def recAllMess(self):
         succes = -1
         # Reading the message
-        mbox_rec = mailbox.mbox(NAME_MAILBOX + str(self.id))
+        mbox_rec = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
         try:
             mbox_rec.lock()
             keys = mbox_rec.keys()
@@ -114,7 +111,7 @@ class Agent:
         succes = -1
         for receiver in m.remainingReceiver:
             try:
-                mbox = mailbox.mbox(NAME_MAILBOX + str(receiver[0]))
+                mbox = mailbox.mbox(main.NAME_MAILBOX + str(receiver[0]))
                 mbox.lock()
                 try:
                     mbox.add(m.formatMessageType())  # apparament on ne peut pas transférer d'objet
@@ -149,7 +146,7 @@ class Agent:
         self.threadRun = 0
         while self.thread_pI.is_alive() and self.thread_pI.is_alive():
             pass
-        mbox = mailbox.mbox(NAME_MAILBOX + str(self.id))
+        mbox = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
         mbox.close()
 
 
@@ -167,7 +164,8 @@ class Agent_statistic:
     def init_message_static(self, room):
         tab0 = []
         tab1 = []
-        for camera in room.cameras:
+        for agent in room.agentCams:
+            camera = agent.cam
             tab0.append([camera.id, 0])
             tab1.append([camera.id, 0])
 

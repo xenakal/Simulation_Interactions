@@ -18,6 +18,7 @@ class GUI_memories:
 
     def drawMemory(self, myRoom, allAgents=False):
         """ Draws the previous positions of the selected targets for the selected agents. """
+
         if allAgents:
             agents = myRoom.agentCams
         else:
@@ -27,9 +28,10 @@ class GUI_memories:
             for targetID in self.targets_to_display:
                 agentMemory = agent.memory
                 for targetEstimator in agentMemory.getPreviousPositions(targetID):
-                    pygame.draw.circle(self.screen, agent.color,
+                    pygame.draw.circle(self.screen, agent.cam.color,
                                        (self.x_offset + int(targetEstimator.position[0] * self.scale_x),
                                         self.y_offset + int(targetEstimator.position[1] * self.scale_y)), 2)
+
 
     def draw_mesure_and_receiveMessages(self, myRoom):
         """ Draws the previous positions of the selected targets for the selected agents. """
@@ -40,6 +42,6 @@ class GUI_memories:
                 agentMemory = agent.memory
                 for allAgent in myRoom.agentCams:
                     for targetEstimator in agentMemory.getPreviousPositions_allMessages(targetID,allAgent.id):
-                        pygame.draw.circle(self.screen, agent.color,
+                        pygame.draw.circle(self.screen, agent.cam.color,
                                        (self.x_offset + int(targetEstimator.position[0] * self.scale_x),
                                         self.y_offset + int(targetEstimator.position[1] * self.scale_y)), 2)

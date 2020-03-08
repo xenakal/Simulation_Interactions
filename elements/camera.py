@@ -7,8 +7,9 @@ import random
 
 
 class Camera:
-    def __init__(self, cam_id, cam_x, cam_y, cam_alpha, cam_beta, fix=1):
+    def __init__(self,room, cam_id, cam_x, cam_y, cam_alpha, cam_beta, fix=1):
         # Label
+        self.room = room
         self.id = cam_id
         self.status = 'agent'
         self.isActive = 1
@@ -34,10 +35,10 @@ class Camera:
         # not a list as indexes may change if relative positions change
         self.predictedPositions = dict()  # key="target" and value=queueFIFO([predicted_xc, predicted_yc])
 
-    def run(self, myRoom):
+    def run(self):
         tab = []
         if self.isActive == 1:
-            tab = self.takePicture(myRoom.targets)
+            tab = self.takePicture(self.room.targets)
         return tab
 
     def camDesactivate(self):
@@ -52,8 +53,9 @@ class Camera:
         else:
             return False
 
-    def takePicture(self, targetList, l_projection=200, seuil=3):
+    def takePicture(self, targetList,l_projection=200, seuil=3):
         """ Returns a list [target objects, position, hidden] corresponding to all the targets of the picture"""
+
         if self.isActive == 1:
             # In first approach to avoid to remove items, list is emptied at the start
             self.targetDetectedList = []  # list containing target objects

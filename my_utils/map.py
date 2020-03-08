@@ -1,9 +1,7 @@
-import numpy as np
-
 import re
 import math
 import main
-from multi_agent import room
+from elements import room
 
 """
         Class use to save and load room
@@ -96,7 +94,7 @@ class Room_txt():
 
     def init_room(self):
         my_room = room.Room()
-        my_room.init(self.x_target, self.y_target, self.vx_target, self.vy_target, self.trajectoire_target,
+        my_room.init_room(self.x_target, self.y_target, self.vx_target, self.vy_target, self.trajectoire_target,
                               self.trajectoire_choice, self.label_target, self.size_target, self.t_add, self.t_del)
         my_room.init_agentCam(self.x_cam, self.y_cam, self.alpha_cam, self.beta_cam, self.fix,my_room)
         return my_room
