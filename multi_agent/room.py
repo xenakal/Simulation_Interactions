@@ -40,8 +40,7 @@ class Room:
 
     def add_del_target_timed(self):
         self.targets = self.info_simu.targets_SIMU
-
-        '''PROVISION A REMETTRE'''
+        '''PROVISIOiRE A REMETTRE'''
         #for target in self.info_simu.targets_SIMU:
          #   if self.time in target.t_add:
           #      self.addTarget_alreadyCreated(target)
@@ -65,6 +64,7 @@ class Room:
             self.camerasNumber = self.camerasNumber + 1
             self.agentCams.append(AgentCam(self.agentCamNumber, camera, myRoom))
             self.agentCamNumber += 1
+
 
     def getAgentsWithIDs(self, idList):
         """ Returns the list of agents with ids in the list provided in the argument. """

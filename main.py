@@ -46,11 +46,15 @@ class App:
     def __init__(self, useGUI=1,fileName = "My_new_map.txt"):
         # Clean the file mailbox
         clean_mailbox()
-        # Creating the room, the target and the camera
 
+        '''Loading the room from the txt.file'''
+        self.filename = fileName
         self.room_txt = Room_txt()
         self.room_txt.load_room_from_txt(fileName)
         self.myRoom = self.room_txt.init_room()
+
+        for agent in self.myRoom.agentCams:
+            agent.run()
 
         self.useGUI = useGUI
         if useGUI == 1:
@@ -63,7 +67,7 @@ class App:
 
         region = AgentRegion(self.myRoom)
         if ROOM_Analysis == 1:
-           region.compute(1)
+           region.compute(4)
 
         while run:  # Events loop
             if reset:
@@ -71,7 +75,16 @@ class App:
                 for agent in self.myRoom.agentCams:
                     agent.clear()
                 clean_mailbox()
+
+                self.room_txt.load_room_from_txt(self.filename)
                 self.myRoom = self.room_txt.init_room()
+                region = AgentRegion(self.myRoom)
+                if ROOM_Analysis == 1:
+                    region.compute(4)
+                for agent in self.myRoom.agentCams:
+                    agent.run()
+
+
                 reset = False
 
             time.sleep(TIME_BTW_FRAMES)  # so that the GUI doesn't go to quick
@@ -104,8 +117,8 @@ class App:
 
 
 def execute():
-    #myApp = App(1)
-    myApp = App(1, "bug1.txt")
+    myApp = App(1)
+    #myApp = App(1, "bug1.txt")
     myApp.main()
 
 

@@ -82,14 +82,6 @@ class Camera:
         yf = -math.sin(self.alpha) * xi + math.cos(self.alpha) * yi
         return (xf, yf)
 
-    def coord_from_CamFrame_to_TargetFrame(self,xt,yt):
-        d = distanceBtwTwoPoint(0,0,xt,yt)
-        sin_alpha = xt/d
-        cos_alpha = yt/d
-        xf = cos_alpha*xt + sin_alpha * yt
-        yf = -sin_alpha*xt + cos_alpha*yt
-        return (xf, yf)
-
     def is_x_y_inField(self,x,y,beta_target = 0):
         (xcf,ycf) = self.coord_from_WorldFrame_to_CamFrame(x,y)
         alpha_target_camFrame = math.atan2(ycf,xcf)
@@ -217,7 +209,6 @@ class Camera:
 
     def computeProjection(self, orderedTarget, l_projection, seuil):
         targetList = []
-
         # 1) finding the line perpendicular to the median of the camera field to a given distance
         ########################################################################################
         # finding the median

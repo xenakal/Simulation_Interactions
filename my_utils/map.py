@@ -49,12 +49,13 @@ class Room_txt():
         fichier.write("# Description start below this line \n")
         fichier.write("#==================================\n")
         fichier.write("#\n")
+        count = 0
         for element in self.data_to_save:
 
-            if element == self.x_target:
+            if count == 0:
                 fichier.write("#Targets description \n")
                 fichier.write("#---------------------------- \n")
-            if element == self.x_cam:
+            if count == 10:
                 fichier.write("#Cameras description \n")
                 fichier.write("#---------------------------- \n")
 
@@ -62,7 +63,7 @@ class Room_txt():
                 fichier.write(str(each) + str(","))
 
             fichier.write("\n")
-
+            count = count + 1
         fichier.write("#---------------------------- \n")
         fichier.write("#end of file \n")
         fichier.close()
@@ -97,8 +98,7 @@ class Room_txt():
         my_room = room.Room()
         my_room.init(self.x_target, self.y_target, self.vx_target, self.vy_target, self.trajectoire_target,
                               self.trajectoire_choice, self.label_target, self.size_target, self.t_add, self.t_del)
-        my_room.init_agentCam(self.x_cam, self.y_cam, self.alpha_cam, self.beta_cam, self.fix,
-                                       self.my_new_room)
+        my_room.init_agentCam(self.x_cam, self.y_cam, self.alpha_cam, self.beta_cam, self.fix,my_room)
         return my_room
 
     def from_room_to_seprarate(self,room):
