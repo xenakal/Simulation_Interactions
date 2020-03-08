@@ -18,6 +18,7 @@ USE_GUI = 1
 USE_agent = 0
 USE_static_analysis = 1
 T_MAX = 10000
+STATIC_ANALYSIS_PRECISION=1
 
 '''Option for class agent'''
 NAME_LOG_PATH = "log/log_agent/Agent"
@@ -66,10 +67,7 @@ class App:
         self.room_txt.load_room_from_txt(fileName)
         self.myRoom = self.room_txt.init_room()
         self.static_region = AgentRegion(self.myRoom)
-
-        if USE_agent:
-            for agent in self.myRoom.agentCams:
-                agent.run()
+        self.init()
 
         if USE_GUI == 1:
             self.myGUI = GUI(self.room_txt)
@@ -81,7 +79,7 @@ class App:
 
         if USE_static_analysis == 1:
             self.static_region = AgentRegion(self.myRoom)
-            self.static_region.compute(4)
+            self.static_region.compute(STATIC_ANALYSIS_PRECISION)
 
         if USE_agent:
             for agent in self.myRoom.agentCams:
