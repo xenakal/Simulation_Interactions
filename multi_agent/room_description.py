@@ -1,8 +1,8 @@
 import numpy
 from elements.target import *
-from multi_agent.agentCamera import *
+from multi_agent.agent_camera import *
 from elements.camera import *
-from elements.Info_room_simu import *
+from elements.info_room_simu import *
 import main
 
 class Room_Description:
@@ -21,8 +21,8 @@ class Room_Description:
     def init(self,room):
         for target in room.info_simu.targets_SIMU:
             'commenter le if pour avoir tous les targets dans les représentations de chaque agent'
-            if target.label == "fix":
-                self.targets.append(target)
+            #if target.label == "fix":
+            self.targets.append(target)
 
         for agent in room.agentCams:
                 self.agentCams.append(agent)

@@ -1,7 +1,7 @@
 from my_utils.GUI.button import Button
 from my_utils.GUI.button import ButtonList
 from my_utils.GUI.GUI_simulation import GUI_room
-from my_utils.map import *
+from my_utils.map_txt import *
 from elements.camera import *
 import pygame
 import math
@@ -30,12 +30,14 @@ class GUI_create_map:
         self.scale_x = scale_x
         self.scale_y = scale_y
 
-        self.my_room_button = Button("room", coord[0] + self.x_offset, coord[1] + self.y_offset,
-                                     coord[2] * self.scale_x,
-                                     coord[3] * self.scale_y)
+        self.my_room_button = Button("room", coord[0] + self.x_offset-5, coord[1] + self.y_offset-5,
+                                     (coord[2]+5) * self.scale_x,
+                                     (coord[3]+5) * self.scale_y)
 
         self.GUI_room = GUI_room.GUI_room(self.screen, self.my_new_room.agentCams, self.my_new_room.targets, x_offset,y_offset,scale_x,scale_y)
 
+        self.button_create_map_trajectoire_name = ["Add_point", "Remove_point",  "Clean","Save_traj","Show_traj"]
+        self.button_trajectoire_plus_moins_name = [" +", " -","del"]
         self.button_create_map_1_name = ["Agent", "Camera","Trajectory","Clean","Save_map","Load_map"]
         self.button_create_map_2_name = ["Target", "Obstruction", "Fix"]
         self.button_target_scale_plus_moins_name = ["step +", "step -"]
@@ -47,6 +49,10 @@ class GUI_create_map:
         self.button_camera_scale_plus_moins_name = ["step +", "step -"]
         self.button_camera_alpha_plus_moins_name = ["alpha +", "alpha -"]
         self.button_camera_beta_plus_moins_name = ["beta +", "beta -"]
+
+        self.button_create_map_trajectoire = ButtonList(self.button_create_map_trajectoire_name, -125, 10, 0, 125, 125, 20)
+        self.button_create_map_trajectoire.find_button("Add_point").set_button(True)
+        self.button_trajectoire_plus_moins = ButtonList( self.button_trajectoire_plus_moins_name, 10, -20, 0, 280, 50,20)
 
         self.button_create_map_1 = ButtonList(self.button_create_map_1_name, 10, -20, 0,40, 100,20)
         self.button_create_map_2 = ButtonList(self.button_create_map_2_name, 10, -20, 0, 65, 100, 20)
@@ -72,6 +78,8 @@ class GUI_create_map:
         self.beta_default = 60
         self.camera_scale = 10
 
+        self.traj_to_show_default =  0
+
     def run(self):
         self.GUI_room.drawRoom(self.my_new_room.coord)
         self.GUI_room.drawTarget(self.my_new_room.info_simu.targets_SIMU, self.my_new_room.coord)
@@ -87,8 +95,8 @@ class GUI_create_map:
         x_new = (x-self.x_offset)/self.scale_x
         y_new = (y-self.y_offset)/self.scale_y
 
-        x_new = math.ceil(x_new/10)*10
-        y_new = math.ceil(y_new/10)*10
+        x_new = math.ceil(x_new/10)*10-5
+        y_new = math.ceil(y_new/10)*10-5
 
         if on:
             pygame.draw.circle(self.screen, [0, 0, 255], (x, y), 5)
@@ -229,16 +237,55 @@ class GUI_create_map:
 
 
             if on:
-                cam = Camera(0,x_new, y_new, self.alpha_default, self.beta_default, 1)
+                cam = Camera(self.my_new_room,0,x_new, y_new, self.alpha_default, self.beta_default, 1)
                 self.GUI_room.draw_one_Cam(cam)
 
             if pressed:
-                self.my_new_room.addAgentCam(x_new, y_new, self.alpha_default, self.beta_default, 0, self.my_new_room)
-                self.room_to_txt.add_cam(x_new, y_new, self.alpha_default, self.beta_default, 0)
+                self.my_new_room.addAgentCam(x_new, y_new, self.alpha_default, self.beta_default, 1, self.my_new_room)
+                self.room_to_txt.add_cam(x_new, y_new, self.alpha_default, self.beta_default,1)
 
 
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[2]):
-            pass
+
+            self.GUI_option.check_list(self.button_create_map_trajectoire.list)
+            self.button_create_map_trajectoire.draw(self.screen)
+
+            self.GUI_room.drawTraj(self.room_to_txt.traj)
+
+            if self.button_create_map_trajectoire.find_button_state(self.button_create_map_trajectoire_name[0]):
+                if pressed:
+                    self.room_to_txt.add_point_traj(x_new,y_new)
+            elif self.button_create_map_trajectoire.find_button_state(self.button_create_map_trajectoire_name[1]):
+                if pressed:
+                    self.room_to_txt.del_point_traj(x_new, y_new)
+            elif self.button_create_map_trajectoire.find_button_state(self.button_create_map_trajectoire_name[2]):
+                self.room_to_txt.clean_traj()
+            elif self.button_create_map_trajectoire.find_button_state(self.button_create_map_trajectoire_name[3]):
+                self.room_to_txt.add_traj_to_all_traj()
+                self.button_create_map_trajectoire.find_button(self.button_create_map_trajectoire_name[3]).set_button(False)
+            elif self.button_create_map_trajectoire.find_button_state(self.button_create_map_trajectoire_name[4]):
+
+                self.GUI_option.check_list(self.button_trajectoire_plus_moins.list)
+                self.button_trajectoire_plus_moins.draw(self.screen)
+                label = self.font.render(str(self.traj_to_show_default), 10, WHITE)
+                self.screen.blit(label, (145, 240))
+
+                self.room_to_txt.traj = self.room_to_txt.set_traj_to_all_traj(self.traj_to_show_default)
+                if self.button_trajectoire_plus_moins.find_button_state(self.button_trajectoire_plus_moins_name[0]):
+                    self.traj_to_show_default = self.traj_to_show_default + 1
+                    self.button_trajectoire_plus_moins.find_button(self.button_trajectoire_plus_moins_name[0]).set_button(False)
+                elif self.button_trajectoire_plus_moins.find_button_state(self.button_trajectoire_plus_moins_name[1]):
+                    self.traj_to_show_default = self.traj_to_show_default - 1
+                    if self.traj_to_show_default < 0:
+                        self.traj_to_show_default = 0
+                    self.button_trajectoire_plus_moins.find_button(
+                        self.button_trajectoire_plus_moins_name[1]).set_button(False)
+                elif self.button_trajectoire_plus_moins.find_button_state(self.button_trajectoire_plus_moins_name[2]):
+                    self.room_to_txt.rem_traj_to_all_traj(self.traj_to_show_default)
+                    self.button_trajectoire_plus_moins.find_button(
+                        self.button_trajectoire_plus_moins_name[2]).set_button(False)
+
+
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[3]):
             self.room_to_txt.clean()
             self.my_new_room = self.room_to_txt.init_room()

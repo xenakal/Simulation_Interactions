@@ -2,7 +2,7 @@ import shutil
 import os
 from my_utils.GUI.GUI import *
 from my_utils.motion import *
-from my_utils.map import *
+from my_utils.map_txt import *
 from multi_agent.agent_region import *
 from elements.room import *
 
@@ -15,7 +15,7 @@ TIME_BTW_FRAMES = 0.1
 '''Option for class main'''
 USE_GUI = 1
 USE_agent = 1
-USE_static_analysis = 0
+USE_static_analysis = 1
 T_MAX = 10000
 STATIC_ANALYSIS_PRECISION=5
 
@@ -25,7 +25,7 @@ NAME_MAILBOX = "mailbox/MailBox_Agent"
 NUMBER_OF_MESSAGE_RECEIVE = 1  # 1= all message receive, 100 = almost nothing is received
 
 '''Option for class agentCamera'''
-TIME_PICTURE = .5
+TIME_PICTURE = .1
 TIME_SEND_READ_MESSAGE = .1
 MULTI_THREAD = 0
 

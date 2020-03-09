@@ -1,8 +1,8 @@
 import numpy
 from elements.target import *
-from multi_agent.agentCamera import *
+from multi_agent.agent_camera import *
 from elements.camera import *
-from elements.Info_room_simu import *
+from elements.info_room_simu import *
 from multi_agent.room_description import *
 import main
 
@@ -63,10 +63,10 @@ class Room:
         del self.targets[index]
 
     def addAgentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix, myRoom):
-        camera = Camera(self.camerasNumber, cam_x, cam_y, cam_alpha, cam_beta, fix)
+        camera = Camera(myRoom,self.camerasNumber, cam_x, cam_y, cam_alpha, cam_beta, fix)
         self.cameras.append(camera)
         self.camerasNumber = self.camerasNumber + 1
-        self.agentCams.append(AgentCam(self.agentCamNumber, camera, myRoom))
+        self.agentCams.append(AgentCam(self.agentCamNumber, camera))
         self.agentCamNumber += 1
 
     def getAgentsWithIDs(self, idList):

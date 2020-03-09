@@ -60,7 +60,8 @@ class Agent:
         rec_mes = Message(0, 0, 0, 0, 0)
         rec_mes.modifyMessageFromString(m)
 
-        random_value = random.randrange(0, main.NUMBER_OF_MESSAGE_RECEIVE, 1)
+        #random_value = random.randrange(0, main.NUMBER_OF_MESSAGE_RECEIVE, 1)
+        random_value = 0
         if random_value == 0:
             self.message_stat.count_message_received(rec_mes.senderID)
             self.info_messageReceived.addMessage(rec_mes)
@@ -143,9 +144,6 @@ class Agent:
     ############################
 
     def clear(self):
-        self.threadRun = 0
-        while self.thread_pI.is_alive() and self.thread_pI.is_alive():
-            pass
         mbox = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
         mbox.close()
 

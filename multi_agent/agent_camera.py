@@ -58,6 +58,13 @@ class AgentCam(Agent):
         if main.MULTI_THREAD == 1:
             self.thread_rL.start()
 
+    def clear(self):
+        self.threadRun = 0
+        while self.thread_pI.is_alive() and self.thread_pI.is_alive():
+            pass
+        mbox = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
+        mbox.close()
+
     def set_room_description(self,room):
         self.room_description.init(room)
 
@@ -108,6 +115,7 @@ class AgentCam(Agent):
                 self.sendAllMessage()
 
                 if main.MULTI_THREAD != 1:
+                    pass
                     self.recAllMess()
                     self.process_Message_received()
                     self.process_Message_sent()

@@ -117,3 +117,14 @@ class GUI_room:
         for agent in myRoom.agentCams:
             self.draw_one_Cam(agent.cam,l)
 
+    def drawTraj(self,traj):
+        count = 0
+        for point in traj:
+            count = count + 1
+            (x,y) = point
+            pygame.draw.circle(self.screen, [255,0,0], (
+                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 5)
+
+            label = self.font.render(str(count), 10, CAMERA)
+            self.screen.blit(label, (
+                self.x_offset + int(x * self.scale_x) + 5, self.y_offset + int(y * self.scale_y) + 5))

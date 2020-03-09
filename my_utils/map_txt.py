@@ -29,10 +29,11 @@ class Room_txt():
         self.beta_cam = []
         self.fix = []
 
-        self.data_to_save = [self.x_target, self.y_target, self.vx_target, self.vy_target, self.trajectoire_target,
-                             self.trajectoire_choice, self.label_target,
-                             self.size_target, self.t_add, self.t_del, self.x_cam, self.y_cam, self.alpha_cam,
-                             self.beta_cam, self.fix]
+        self.traj_all = []
+        self.traj = []
+
+        self.data_to_save = []
+        self.actualise_data_to_save()
 
 
     def save_room_to_txt(self):
@@ -49,14 +50,17 @@ class Room_txt():
         fichier.write("#\n")
         count = 0
         for element in self.data_to_save:
-
             if count == 0:
                 fichier.write("#Targets description \n")
                 fichier.write("#---------------------------- \n")
             if count == 10:
                 fichier.write("#Cameras description \n")
                 fichier.write("#---------------------------- \n")
+            if count == 15:
+                fichier.write("#Trajectories description \n")
+                fichier.write("#---------------------------- \n")
 
+            fichier.write("*")
             for each in element:
                 fichier.write(str(each) + str(","))
 
@@ -67,8 +71,6 @@ class Room_txt():
         fichier.close()
 
     def load_room_from_txt(self,fileName = 0):
-
-
         if fileName == 0:
             fileName =  main.LOAD_MAP_NAME
 
@@ -80,6 +82,7 @@ class Room_txt():
         count = 0
         for line in lines:
             if not (line[0] == "#"):
+                line = line[1:]
                 linesplit = re.split(",",line)
                 for  elem in linesplit:
                     if not(elem == "\n"):
@@ -113,6 +116,34 @@ class Room_txt():
             self.add_cam(camera.xc,camera.yc,camera.alpha*180/math.pi,camera.beta*180/math.pi,camera.fix)
         self.actualise_data_to_save()
 
+    def add_point_traj(self,x,y):
+        self.traj.append((x,y))
+
+    def del_point_traj(self,x,y):
+        self.traj.remove((x,y))
+
+    def clean_traj(self):
+        self.traj = []
+
+    def add_traj_to_all_traj(self):
+        count = 0
+        for item in self.traj_all:
+            count = count + 1
+        self.traj_all.append((count,self.traj))
+
+    def set_traj_to_all_traj(self,n):
+        for item in self.traj_all:
+            (num,my_traj) = item
+            if n == num:
+               return my_traj
+        return []
+
+    def rem_traj_to_all_traj(self,n):
+        for item in self.traj_all:
+            (num,my_traj) = item
+            if n == num:
+                self.traj_all.remove((num,my_traj))
+                break
 
     def add_target(self,x,y,vx,vy,traj_label,traj_choice, label,size,t_add,t_del):
         self.x_target.append(x)
@@ -153,13 +184,15 @@ class Room_txt():
         self.beta_cam = []
         self.fix = []
 
+        self.traj = []
+        self.traj_all = []
         self.actualise_data_to_save()
 
     def actualise_data_to_save(self):
         self.data_to_save = [self.x_target, self.y_target, self.vx_target, self.vy_target, self.trajectoire_target,
                              self.trajectoire_choice, self.label_target,
                              self.size_target, self.t_add, self.t_del, self.x_cam, self.y_cam, self.alpha_cam,
-                             self.beta_cam, self.fix]
+                             self.beta_cam, self.fix,self.traj_all]
 
     def from_all_data_to_separate(self):
         self.x_target = self.data_to_save[0]
@@ -178,3 +211,5 @@ class Room_txt():
         self.alpha_cam = self.data_to_save[12]
         self.beta_cam = self.data_to_save[13]
         self.fix = self.data_to_save[14]
+
+        self.traj_all = self.data_to_save[15]

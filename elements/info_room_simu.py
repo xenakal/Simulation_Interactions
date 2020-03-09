@@ -1,6 +1,6 @@
 import numpy
 from elements.target import *
-from multi_agent.agentCamera import *
+from multi_agent.agent_camera import *
 
 class Info_simu:
     def __init__(self):
