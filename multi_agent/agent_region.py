@@ -109,15 +109,16 @@ class AgentRegion():
 
         return (minimum_id_in_view, minimum_dist_in_view,id_in_view)
 
-    """
-            :param
-            - None
 
-            :return covergae
-            - coverage = array from the grid size. Contains (int) from 0 to the number of cam.  
-                        it gives the information from the number of cam covering the point x,y
-    """
     def define_region_covered_by_numberOfCams(self):
+        """
+                :param
+                - None
+
+                :return covergae
+                - coverage = array from the grid size. Contains (int) from 0 to the number of cam.
+                            it gives the information from the number of cam covering the point x,y
+        """
         coverage = np.ones(self.xv.shape)*0
         for (camID,res) in self.angle_view_and_obstruction:
             '''addition for each cam from the region cover taking fix obstruction in to account'''

@@ -68,10 +68,10 @@ class GUI_create_map:
 
         self.button_create_map_2.find_button(self.button_create_map_2_name[0]).set_button(True)
 
-        self.vx_default = 0
-        self.vy_default = 0
+        self.vx_default = 5
+        self.vy_default = 5
         self.size_default = 5
-        self.traj_default =0
+        self.traj_default = 0
         self.target_scale = 1
 
         self.alpha_default = 0
@@ -151,8 +151,8 @@ class GUI_create_map:
                 self.button_target_size_plus_moins.find_button(self.button_target_size_plus_moins_name[0]).set_button(False)
             elif self.button_target_size_plus_moins.find_button_state(self.button_target_size_plus_moins_name[1]):
                 self.size_default = self.size_default - self.target_scale
-                if self.size_default < 1 :
-                    self.size_default = 1
+                if self.size_default < 0 :
+                    self.size_default = 0
                 self.button_target_size_plus_moins.find_button(self.button_target_size_plus_moins_name[1]).set_button(False)
 
             if self.button_target_traj_plus_moins.find_button_state(self.button_target_traj_plus_moins_name[0]):
@@ -184,7 +184,7 @@ class GUI_create_map:
                 label = 'fix'
 
             if on:
-                target = Target(-1,x_new, y_new, self.vx_default, self.vy_default, 'linear', self.traj_default, label, self.size_default, [0], [1000])
+                target = Target(-1,x_new, y_new, self.vx_default, self.vy_default, 'linear', (0,[(0,0)]), label, self.size_default, [0], [1000])
                 self.GUI_room.draw_one_target(target, self.my_new_room.coord)
 
             if pressed:

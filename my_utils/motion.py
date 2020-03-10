@@ -30,7 +30,7 @@ def moveTarget(target, delta_time, myRoom):
         target.xc = target.xc + math.ceil(target.vx * delta_time)
         target.yc = target.yc + math.ceil(target.vy * delta_time)
     elif type_mvt == 'linear':
-        rectiligneTrajectory(target, delta_time)
+        rectiligneTrajectory(target,10, delta_time)
     elif type_mvt == 'potential_field':
         potentialField(target, delta_time, myRoom)
     else:
@@ -48,29 +48,29 @@ def moveTarget(target, delta_time, myRoom):
         moove the target according to a predifined path, the motion beetwen two position are linear.
         it does not avoid obstacle.
 """
-def rectiligneTrajectory(target, delta_time):
+def rectiligneTrajectory(target,dist_min, delta_time):
     if target.label != 'fix':
 
+        (x_goal,y_goal) = target.trajectory_position[target.number_of_position_reached]
         '''Updating the postion we want to reach when close enough '''
-        if math.fabs(target.xc - target.xgoal[0]) <= 10 and math.fabs(target.yc - target.ygoal[0]) <= 10 and len(
-                target.xgoal) > 1:
-            del target.xgoal[0]
-            del target.ygoal[0]
+        if math.fabs(target.xc - x_goal) <= dist_min and math.fabs(target.yc - y_goal) <= dist_min and target.number_of_position_reached < len(target.trajectory_position)-1:
+            target.number_of_position_reached +=  1
 
         '''computing the spped to reach the goal'''
-        if (target.xc - target.xgoal[0]!= 0):
-            v_x = -target.vx_max * (target.xc - target.xgoal[0]) / math.fabs((target.xc - target.xgoal[0]))
+        if (target.xc - x_goal!= 0):
+            v_x = -target.vx_max * (target.xc - x_goal) / math.fabs((target.xc - x_goal))
         else:
             v_x = 0
 
-        if (target.yc - target.ygoal[0] != 0):
-            v_y = -target.vy_max * (target.yc - target.ygoal[0]) / math.fabs((target.yc - target.ygoal[0]))
+        if (target.yc - y_goal != 0):
+            v_y = -target.vy_max * (target.yc - y_goal) / math.fabs((target.yc - y_goal))
         else:
             v_y = 0
 
         '''Modifying the position in the target object, always in (int)'''
         target.xc = target.xc + math.ceil(v_x * delta_time)
         target.yc = target.yc + math.ceil(v_y * delta_time)
+
 
 """
         !!! NOT WORKING NEED THE CONSTANT NEED TO BE ADJUSTED!!!
@@ -88,13 +88,14 @@ def rectiligneTrajectory(target, delta_time):
 """
 def potentialField(target, delta_time, myRoom):
     if target.label != 'fix':
-        if math.fabs(target.xc - target.xgoal[0]) <= 20 and math.fabs(target.yc - target.ygoal[0]) <= 20 and len(
-                target.xgoal) > 1:
-            del target.xgoal[0]
-            del target.ygoal[0]
 
-        xgoal = target.xgoal[0]
-        ygoal = target.ygoal[0]
+        (x_goal, y_goal) = target.trajectory_position[target.number_of_position_reached]
+        '''Updating the postion we want to reach when close enough '''
+        if math.fabs(target.xc - x_goal) <= dist_min and math.fabs(target.yc - y_goal) <= dist_min and len(
+                target.trajectory_position) > 1:
+            target.number_of_position_reached += 1
+        xgoal = x_goal[0]
+        ygoal = y_goal[0]
 
         F_att_x = -target.k_att * (target.xc - xgoal)
         F_att_y = -target.k_att * (target.yc - ygoal)

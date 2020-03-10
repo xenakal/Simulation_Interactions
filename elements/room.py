@@ -24,6 +24,8 @@ class Room:
         # time
         self.time = 0
 
+
+
     def init_room(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size,t_add,t_del):
         self.info_simu.init_targets(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size,t_add,t_del)
         self.targetNumber = self.info_simu.targetNumber
@@ -40,23 +42,21 @@ class Room:
             self.agentCams.append(AgentCam(self.agentCamNumber, camera))
             self.agentCamNumber += 1
 
+    def init_trajectories(self,all_traj):
+        self.info_simu.init_trajectories(all_traj)
+
     def add_del_target_timed(self):
-        self.targets = self.info_simu.targets_SIMU
-        '''PROVISIOiRE A REMETTRE'''
-        # for target in self.info_simu.targets_SIMU:
-        #   if self.time in target.t_add:
-        #      self.addTarget_alreadyCreated(target)
-        # elif self.time in target.t_del:
-        #    self.delTargets(target)
+        for target in self.info_simu.targets_SIMU:
+           if self.time in target.t_add:
+                self.addTarget_alreadyCreated(target)
+           elif self.time in target.t_del:
+                self.delTargets(target)
 
     def addTarget_alreadyCreated(self, Target):
         self.targets.append(Target)
 
     def addTargets(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add, t_del):
-        self.targets.append(
-            Target(self.targetNumber, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size,
-                   t_add, t_del))
-        self.targetNumber += 1
+       self.info_simu.addTargets(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add, t_del)
 
     def delTargets(self, target):
         index = self.targets.index(target)

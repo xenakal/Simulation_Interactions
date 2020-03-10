@@ -81,25 +81,80 @@ class Room_txt():
         self.clean()
         count = 0
         for line in lines:
-            if not (line[0] == "#"):
-                line = line[1:]
-                linesplit = re.split(",",line)
-                for  elem in linesplit:
-                    if not(elem == "\n"):
-                        try:
-                            self.data_to_save[count].append(math.ceil(float(elem)))
-                        except ValueError:
-                            self.data_to_save[count].append(elem)
-                count = count + 1
 
+           if not (line[0] == "#"):
+                line = line[1:]
+
+                if(count == 8):
+                    self.t_add = self.from_listString_to_list(line)
+                    self.data_to_save[8] = self.t_add
+                elif (count == 9):
+                    self.t_del = self.from_listString_to_list(line)
+                    self.data_to_save[9] = self.t_del
+                elif (count == 15):
+                    self.traj_all = self.from_trajString_to_traj(line)
+                    self.data_to_save[15] = self.traj_all
+
+                else:
+                    linesplit = re.split(",",line)
+                    for  elem in linesplit:
+                        if not(elem == "\n"):
+                            try:
+                                self.data_to_save[count].append(math.ceil(float(elem)))
+                            except ValueError:
+                                self.data_to_save[count].append(elem)
+                count = count + 1
 
         self.from_all_data_to_separate()
 
+    def from_trajString_to_traj(self,s):
+        list = []
+        traj = re.split("]\),",s)
+        for item in traj:
+            try:
+                num_traj_split = re.split(", \[\(",item)
+                sublist = []
+                num  =  num_traj_split[0][1:]
+                traj_num = num_traj_split[1][0:len(num_traj_split[1])-1]
+                numbers = re.split("\), \(",traj_num)
+                for number in numbers:
+                    xy = re.split(", ",number)
+                    sublist.append((int(xy[0]),int(xy[1])))
+                list.append((int(num), sublist))
+            except IndexError:
+                pass
+        return list
+
+    def from_listString_to_list(self,s):
+        list = []
+        if not(s == ""):
+            s = re.split("],",s)
+            for item in s:
+                sublist = []
+
+                item = item[1:len(item)]
+                numbers = re.split(",", item)
+                for number in numbers:
+                    if not (number == ""):
+                        try:
+                            sublist.append(int(number))
+                        except IndexError:
+                            pass
+                if not (item == ""):
+                    list.append(sublist)
+        return list
+
+
     def init_room(self):
         my_room = room.Room()
+        '''Frist to give the trajectories cause needed to create the target'''
+        my_room.init_trajectories(self.traj_all)
+        '''Create the taget'''
         my_room.init_room(self.x_target, self.y_target, self.vx_target, self.vy_target, self.trajectoire_target,
                               self.trajectoire_choice, self.label_target, self.size_target, self.t_add, self.t_del)
+        '''Create the agent'''
         my_room.init_agentCam(self.x_cam, self.y_cam, self.alpha_cam, self.beta_cam, self.fix,my_room)
+
         return my_room
 
     def from_room_to_seprarate(self,room):
@@ -120,7 +175,10 @@ class Room_txt():
         self.traj.append((x,y))
 
     def del_point_traj(self,x,y):
-        self.traj.remove((x,y))
+        try :
+            self.traj.remove((x,y))
+        except ValueError:
+            pass
 
     def clean_traj(self):
         self.traj = []
@@ -142,8 +200,11 @@ class Room_txt():
         for item in self.traj_all:
             (num,my_traj) = item
             if n == num:
-                self.traj_all.remove((num,my_traj))
-                break
+                try:
+                    self.traj_all.remove((num,my_traj))
+                    break
+                except ValueError:
+                    pass
 
     def add_target(self,x,y,vx,vy,traj_label,traj_choice, label,size,t_add,t_del):
         self.x_target.append(x)

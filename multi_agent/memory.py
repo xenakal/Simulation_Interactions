@@ -1,6 +1,4 @@
 from multi_agent.estimator import *
-
-
 class Memory:
     """
     Class with multiple arrays that store information about target.

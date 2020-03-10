@@ -15,9 +15,9 @@ TIME_BTW_FRAMES = 0.1
 '''Option for class main'''
 USE_GUI = 1
 USE_agent = 1
-USE_static_analysis = 1
+USE_static_analysis = 0
 T_MAX = 10000
-STATIC_ANALYSIS_PRECISION=5
+STATIC_ANALYSIS_PRECISION=1
 
 '''Option for class agent'''
 NAME_LOG_PATH = "log/log_agent/Agent"
@@ -25,7 +25,7 @@ NAME_MAILBOX = "mailbox/MailBox_Agent"
 NUMBER_OF_MESSAGE_RECEIVE = 1  # 1= all message receive, 100 = almost nothing is received
 
 '''Option for class agentCamera'''
-TIME_PICTURE = .1
+TIME_PICTURE = .5
 TIME_SEND_READ_MESSAGE = .1
 MULTI_THREAD = 0
 
