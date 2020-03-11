@@ -40,9 +40,6 @@ class Memory:
         ##################################
         #Ne doit plus dépendre de room
         ################################
-
-
-
         # SIMPLE MANIERE DE FAIRE A MODIFIER NE PREND EN COMPTE QUE CE QUE L'AGENT VOIT
 
         # ICI on pourrait faire un récursif Least-square estimator, comme ça à chaque fois qu'on reçoit une donnée

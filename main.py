@@ -1,9 +1,9 @@
 import shutil
 import os
+from multi_agent.agent_region_dyn import *
 from my_utils.GUI.GUI import *
 from my_utils.motion import *
-from my_utils.map_txt import *
-from multi_agent.agent_region import *
+from my_utils.map_from_to_txt import *
 from elements.room import *
 
 def clean_mailbox():
@@ -16,8 +16,11 @@ TIME_BTW_FRAMES = 0.1
 USE_GUI = 1
 USE_agent = 1
 USE_static_analysis = 0
+USE_dynamic_analysis_simulated_room = 1
 T_MAX = 10000
-STATIC_ANALYSIS_PRECISION=1
+STATIC_ANALYSIS_PRECISION=5 #best with 1 until map size
+STATIC_ANALYSIS_PRECISION_simulated_room = 5
+
 
 '''Option for class agent'''
 NAME_LOG_PATH = "log/log_agent/Agent"
@@ -63,8 +66,12 @@ class App:
         '''Loading the room from the txt.file'''
         self.filename = fileName
         self.room_txt = Room_txt()
+
+        '''ATTENTION all what depends on my room needs to be initialized again in init
+        because my room is first initialized after room_txt.load_room_from_file'''
         self.myRoom = Room()
-        self.static_region = AgentRegion(self.myRoom)
+        self.static_region = AgentRegionStatic(self.myRoom)
+        self.dynamic_region = AgentRegionDynamic(self.myRoom)
         self.myRoom_description = Room_Description()
         self.init()
 
@@ -80,9 +87,10 @@ class App:
         for agent in self.myRoom.agentCams:
             agent.set_room_description(self.myRoom)
         '''Computing the vision in the room taking in to account only fix object'''
-        self.static_region = AgentRegion(self.myRoom)
+        self.static_region = AgentRegionStatic(self.myRoom)
+        self.dynamic_region = AgentRegionDynamic(self.myRoom)
         if USE_static_analysis:
-            self.static_region.compute(STATIC_ANALYSIS_PRECISION)
+            self.static_region.compute_all_map(STATIC_ANALYSIS_PRECISION)
         '''Starting the multi_agent simulation'''
         if USE_agent:
             for agent in self.myRoom.agentCams:
@@ -119,7 +127,12 @@ class App:
                 moveTarget(target, 1, self.myRoom)
 
             if USE_GUI == 1:
-                self.myGUI.updateGUI(self.myRoom,self.static_region)
+
+                if not USE_dynamic_analysis_simulated_room and USE_static_analysis:
+                    self.myGUI.updateGUI(self.myRoom,self.static_region)
+                elif USE_dynamic_analysis_simulated_room:
+                    self.dynamic_region.compute_all_map(STATIC_ANALYSIS_PRECISION_simulated_room)
+                    self.myGUI.updateGUI(self.myRoom, self.dynamic_region)
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
 
 
@@ -141,7 +154,6 @@ class App:
 
 def execute():
     myApp = App()
-    #myApp = App(1, "bug1.txt")
     myApp.main()
 
 

@@ -54,6 +54,7 @@ class Room:
 
     def addTarget_alreadyCreated(self, Target):
         self.targets.append(Target)
+        self.targetNumber = self.info_simu.targetNumber
 
     def addTargets(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add, t_del):
        self.info_simu.addTargets(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add, t_del)

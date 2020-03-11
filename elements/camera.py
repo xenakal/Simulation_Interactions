@@ -53,6 +53,10 @@ class Camera:
         else:
             return False
 
+    def cam_rotate(self, step):
+        if self.fix == 0:
+            self.alpha = self.alpha + step
+
     def takePicture(self, targetList,l_projection=200, seuil=3):
         """ Returns a list [target objects, position, hidden] corresponding to all the targets of the picture"""
 
@@ -76,7 +80,7 @@ class Camera:
 
             return tab[1].copy()
 
-    def coord_from_WorldFrame_to_CamFrame(self, x, y):
+    def coordinate_change_from_worldFrame_to_cameraFrame(self, x, y):
         xi = x - self.xc
         yi = y - self.yc
 
@@ -84,8 +88,8 @@ class Camera:
         yf = -math.sin(self.alpha) * xi + math.cos(self.alpha) * yi
         return (xf, yf)
 
-    def is_x_y_inField(self,x,y,beta_target = 0):
-        (xcf,ycf) = self.coord_from_WorldFrame_to_CamFrame(x,y)
+    def is_x_y_in_field_not_obstructed(self,x,y,beta_target = 0):
+        (xcf,ycf) = self.coordinate_change_from_worldFrame_to_cameraFrame(x,y)
         alpha_target_camFrame = math.atan2(ycf,xcf)
         d_cam_target = distanceBtwTwoPoint(xcf,ycf,0,0)
 
@@ -95,41 +99,39 @@ class Camera:
         if margin_low and margin_high:  # object is seen
             return True
         else:
-            return
+            return False
 
-    def is_in_hidden_zone(self,x,y,xt,yt,r_target):
+    def is_in_hidden_zone_one_target(self,x,y,xt,yt,r_target):
         #cam_map
-        (xcf, ycf) = self.coord_from_WorldFrame_to_CamFrame(x, y)
-        (xctf, yctf) = self.coord_from_WorldFrame_to_CamFrame(xt, yt)
-
+        (xcf, ycf) = self.coordinate_change_from_worldFrame_to_cameraFrame(x, y)
+        (xctf, yctf) = self.coordinate_change_from_worldFrame_to_cameraFrame(xt, yt)
 
         #line between target and cam
         line_cam_target = Line(0,0,xctf,yctf)
         line_perp_cam_target = line_cam_target.linePerp(xctf,yctf)
         idca = line_perp_cam_target.lineCircleIntersection(r_target,xctf,yctf)
 
-        # line around target
-        line_cam_target_1 = Line(0, 0, idca[0], idca[1])
-        line_cam_target_2 = Line(0, 0, idca[2], idca[3])
+        if not (idca[0] == idca[1] == idca[2] == idca[3] == 0):  # if there is an intersection
+            # angle
+            alpha1 = math.atan2(idca[1], idca[0])
+            alpha2 = math.atan2(idca[3], idca[2])
+            alphapt = math.atan2(ycf,xcf)
 
-        # angle
-        alpha1 = math.atan2(idca[1], idca[0])
-        alpha2 = math.atan2(idca[3], idca[2])
-        alphapt = math.atan2(ycf,xcf)
-
-        #condition to be hidden
-        if alpha1 > alphapt and alpha2 < alphapt and xcf <= xctf:
-            return True
-        elif alpha1 < alphapt and alpha2 > alphapt and xcf > xctf:
-            return True
+            #condition to be hidden
+            if alpha1 > alphapt and alpha2 < alphapt and xcf <= xctf:
+                return True
+            elif alpha1 < alphapt and alpha2 > alphapt and xcf > xctf:
+                return True
+            else:
+                return False
         else:
             return False
 
-    def is_in_hidden_zone_matrix(self,result,x,y,xt,yt,r_target):
+    def is_in_hidden_zone_one_target_matrix_x_y(self,result,x,y,xt,yt,r_target):
         (i_tot, j_tot) = result.shape
 
         # cam_map
-        (xctf, yctf) = self.coord_from_WorldFrame_to_CamFrame(xt, yt)
+        (xctf, yctf) = self.coordinate_change_from_worldFrame_to_cameraFrame(xt, yt)
 
         # line between target and cam
         line_cam_target = Line(0, 0, xctf, yctf)
@@ -137,10 +139,6 @@ class Camera:
         idca = line_perp_cam_target.lineCircleIntersection(r_target, xctf, yctf)
 
         if not (idca[0] == idca[1] == idca[2] == idca[3] == 0): # if there is an intersection
-            # line around target
-            line_cam_target_1 = Line(0, 0, idca[0], idca[1])
-            line_cam_target_2 = Line(0, 0, idca[2], idca[3])
-
             # angle
             alpha1 = math.atan2(idca[1], idca[0])
             alpha2 = math.atan2(idca[3], idca[2])
@@ -148,7 +146,7 @@ class Camera:
 
             for i in range(i_tot):
                 for j in range(j_tot):
-                    (xcf, ycf) = self.coord_from_WorldFrame_to_CamFrame(x[i,j], y[i,j])
+                    (xcf, ycf) = self.coordinate_change_from_worldFrame_to_cameraFrame(x[i,j], y[i,j])
                     alphapt = math.atan2(ycf, xcf)
 
                     # condition to be hidden
@@ -159,14 +157,57 @@ class Camera:
                         result[i, j] = 0
         return result
 
-    def is_in_hidden_zone_allFixTarget_matrix(self,result,x,y,room):
+    def is_in_hidden_zone_all_targets(self, result, x, y, room):
         for target in room.info_simu.targets_SIMU:
-           if target.label == 'fix':
+            xt = target.xc
+            yt = target.yc
+            size = target.size
+            result = self.is_in_hidden_zone_one_target(x, y, xt, yt, size)
+        return result
+
+    def is_in_hidden_zone_fix_targets(self, result, x, y, room):
+        for target in room.info_simu.targets_SIMU:
+            if target.label == "fix":
+                xt = target.xc
+                yt = target.yc
+                size = target.size
+                result = self.is_in_hidden_zone_one_target(x, y, xt, yt,size)
+        return result
+
+    def is_in_hidden_zone_mooving_targets(self, result, x, y, room):
+        for target in room.info_simu.targets_SIMU:
+            if target.label == "target" or target.label == "obstruction":
+                xt = target.xc
+                yt = target.yc
+                size = target.size
+                result = self.is_in_hidden_zone_one_target(x, y, xt, yt,size)
+        return result
+
+    def is_in_hidden_zone_all_targets_matrix_x_y(self,result,x,y,room):
+        for target in room.info_simu.targets_SIMU:
              xt = target.xc
              yt = target.yc
              size = target.size
-             result = self.is_in_hidden_zone_matrix(result,x,y,xt,yt,size)
 
+             result = self.is_in_hidden_zone_one_target_matrix_x_y(result,x,y,xt,yt,size)
+        return result
+
+    def is_in_hidden_zone_fix_targets_matrix_x_y(self, result, x, y, room):
+        for target in room.info_simu.targets_SIMU:
+            if target.label == "fix":
+                xt = target.xc
+                yt = target.yc
+                size = target.size
+                result = self.is_in_hidden_zone_one_target_matrix_x_y(result, x, y, xt, yt, size)
+        return result
+
+    def is_in_hidden_zone_mooving_targets_matrix_x_y(self, result, x, y, room):
+        for target in room.info_simu.targets_SIMU:
+            if target.label == "target" or target.label == "obstruction":
+                xt = target.xc
+                yt = target.yc
+                size = target.size
+                result = self.is_in_hidden_zone_one_target_matrix_x_y(result, x, y, xt, yt, size)
         return result
 
     def objectsInField(self, targetList):
@@ -176,11 +217,11 @@ class Camera:
         # checking for every target if it is in the vision field of the camera.
         for target in targetList:
             # Frame transformation from the world frame to the cam frame for each target
-            (xcf, ycf) = self.coord_from_WorldFrame_to_CamFrame(target.xc, target.yc)
+            (xcf, ycf) = self.coordinate_change_from_worldFrame_to_cameraFrame(target.xc, target.yc)
             d_cam_target = distanceBtwTwoPoint(xcf, ycf, 0, 0)
             beta_target = math.atan2(target.size / 2, d_cam_target)  # between the center and the border of the target
 
-            if self.is_x_y_inField(target.xc,target.yc,beta_target):
+            if self.is_x_y_in_field_not_obstructed(target.xc,target.yc,beta_target):
                 targetInTriangle.append(target)
 
         return targetInTriangle.copy()
@@ -239,8 +280,8 @@ class Camera:
         ref_proj_left = line_cam_median_p.lineIntersection(line_cam_left)
         ref_proj_right = line_cam_median_p.lineIntersection(line_cam_right)
         # projection in cam frame
-        ref_proj_left_cam_frame = self.coord_from_WorldFrame_to_CamFrame(ref_proj_left[0], ref_proj_left[1])
-        ref_proj_right_cam_frame = self.coord_from_WorldFrame_to_CamFrame(ref_proj_right[0], ref_proj_right[1])
+        ref_proj_left_cam_frame = self.coordinate_change_from_worldFrame_to_cameraFrame(ref_proj_left[0], ref_proj_left[1])
+        ref_proj_right_cam_frame = self.coordinate_change_from_worldFrame_to_cameraFrame(ref_proj_right[0], ref_proj_right[1])
 
         proj_cam_view_limit = numpy.array([ref_proj_left[0], ref_proj_left[1], ref_proj_right[0], ref_proj_right[1]])
 
@@ -263,8 +304,8 @@ class Camera:
             proj_p2 = line_cam_median_p.lineIntersection(line_cam_target_2)
 
             # projection in cam frame
-            proj_p1_cam_frame = self.coord_from_WorldFrame_to_CamFrame(proj_p1[0], proj_p1[1])
-            proj_p2_cam_frame = self.coord_from_WorldFrame_to_CamFrame(proj_p2[0], proj_p2[1])
+            proj_p1_cam_frame = self.coordinate_change_from_worldFrame_to_cameraFrame(proj_p1[0], proj_p1[1])
+            proj_p2_cam_frame = self.coordinate_change_from_worldFrame_to_cameraFrame(proj_p2[0], proj_p2[1])
 
             # projection if the object is not hidden
             actual_projection_worldFrame = numpy.array([proj_p1[0], proj_p1[1], proj_p2[0], proj_p2[1]])
@@ -350,6 +391,4 @@ class Camera:
 
         return numpy.array([proj_cam_view_limit, targetList])
 
-    def cam_rotate(self, step):
-        if self.fix == 0:
-            self.alpha = self.alpha + step
+

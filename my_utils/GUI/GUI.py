@@ -7,10 +7,7 @@ from my_utils.GUI.GUI_stat import *
 from my_utils.GUI.GUI_create_map import *
 from my_utils.GUI.GUI_simulation.GUI_room import *
 from my_utils.GUI.button import ButtonList
-from main import X_OFFSET
-from main import Y_OFFSET
-from main import X_SCALE
-from main import Y_SCALE
+import main
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -29,13 +26,10 @@ class GUI:
         self.w = 800
         self.h = 600
 
-        x_offset = X_OFFSET
-        y_offset = Y_OFFSET
-        scale_x = X_SCALE
-        scale_y = Y_SCALE
-
-        scale_x = 1.5
-        scale_y = 1.5
+        x_offset = main.X_OFFSET
+        y_offset = main.Y_OFFSET
+        scale_x = main.X_SCALE
+        scale_y = main.Y_SCALE
 
         self.screen = pygame.display.set_mode((self.w, self.h), pygame.RESIZABLE)
 

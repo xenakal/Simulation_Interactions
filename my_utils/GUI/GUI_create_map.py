@@ -1,7 +1,7 @@
 from my_utils.GUI.button import Button
 from my_utils.GUI.button import ButtonList
 from my_utils.GUI.GUI_simulation import GUI_room
-from my_utils.map_txt import *
+from my_utils.map_from_to_txt import *
 from elements.camera import *
 import pygame
 import math

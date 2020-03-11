@@ -1,14 +1,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
-"""
-        Class use to detect the derministic region of action from different cameras
 
-        :param
-        - room, an object Room that describe the room itself
-        - factor, room discretation from 1 to infinite. The bigger the number, the faster the computation will be (less precision).
-"""
-class AgentRegion():
+def create_region(nx,ny,factor,x0=0,y0=0):
+    x = np.linspace(x0,nx, int((nx + 1) / factor))
+    y = np.linspace(y0, ny, int((ny + 1) / factor))
+    xv, yv = np.meshgrid(x, y)
+    return(xv,yv)
 
+class AgentRegionStatic():
+    """
+                Class use to detect the derministic region of action from different cameras
+
+                :param
+                - room, an object Room that describe the room itself
+                - factor, room discretation from 1 to infinite. The bigger the number, the faster the computation will be (less precision).
+    """
 
     def __init__(self,room,factor = 3):
         self.room = room
@@ -43,19 +49,18 @@ class AgentRegion():
         self.id_in_view = np.ones(self.xv.shape)*1000000000
         self.coverage = np.ones(self.xv.shape)*1000000000
 
-    """
-            :param
-            - factor, room discretation from 1 to infinite. The bigger the number, the faster the computation will be (less precision).
 
-            :return
-            - Fill all the table that contains information from the map 
-    """
-    def compute(self,factor = 3):
+    def compute_all_map(self,factor = 3):
+        """
+                :param
+                - factor, room discretation from 1 to infinite. The bigger the number, the faster the computation will be (less precision).
+
+                :return
+                - Fill all the table that contains information from the map
+        """
+
         '''Mesh from the map'''
-        self.nx, self.ny = (self.room.coord[2], self.room.coord[3])
-        x = np.linspace(0, self.nx, int((self.nx + 1) / factor))
-        y = np.linspace(0, self.ny, int((self.ny + 1) / factor))
-        self.xv, self.yv = np.meshgrid(x, y)
+        (self.xv, self.yv) = create_region(self.nx, self.ny, factor)
 
         '''Initialisation '''
         self.minimum_id_in_view = np.ones(self.xv.shape)*1000000000
@@ -64,22 +69,23 @@ class AgentRegion():
         self.coverage = np.ones(self.xv.shape)*1000000000
 
         '''Required for the computation below'''
-        self.find_angle_view_and_obstruction()
+        self.find_angle_view_all_cam_and_fix_obstruction()
 
         '''Computation'''
         (self.minimum_id_in_view,self.minimum_dist_in_view,self.id_in_view) = self.define_region_covered_by_cams()
         self.coverage = self.define_region_covered_by_numberOfCams()
 
-    """
-        :param
-        - None
-        
-        :return (minimum_id_in_view, minimum_dist_in_view,id_in_view)
-        - minimum_id_in_view = give the id of the cam in charge for the point x,y from the grid
-        - minimum_dist_in_view = give the closest distance to a cam for the point x,y from the grid
-        - id_in_view = all the cam that can see the point x,y (! NOT WORKING YET)
-    """
+
     def define_region_covered_by_cams(self):
+        """
+            :param
+            - None
+
+            :return (minimum_id_in_view, minimum_dist_in_view,id_in_view)
+            - minimum_id_in_view = give the id of the cam in charge for the point x,y from the grid
+            - minimum_dist_in_view = give the closest distance to a cam for the point x,y from the grid
+            - id_in_view = all the cam that can see the point x,y (! NOT WORKING YET)
+        """
         '''Initialisation'''
         minimum_dist_in_view = np.ones(self.xv.shape)*1000000000
         minimum_id_in_view = np.ones(self.xv.shape)*-1
@@ -112,12 +118,12 @@ class AgentRegion():
 
     def define_region_covered_by_numberOfCams(self):
         """
-                :param
-                - None
+        :param
+            - None
 
-                :return covergae
-                - coverage = array from the grid size. Contains (int) from 0 to the number of cam.
-                            it gives the information from the number of cam covering the point x,y
+        :return covergae
+            - coverage = array from the grid size. Contains (int) from 0 to the number of cam.
+                        it gives the information from the number of cam covering the point x,y
         """
         coverage = np.ones(self.xv.shape)*0
         for (camID,res) in self.angle_view_and_obstruction:
@@ -125,16 +131,17 @@ class AgentRegion():
             coverage = coverage + res
         return coverage
 
-    """"
-            :param
-            - None
 
-            :return
-            - None
-            
-            This fills up the list self.distances, that cointaint the distance from every points from the mesh with respect to the cam
-    """
     def find_distance_to_each_cam(self):
+        """"
+        :param
+           - None
+
+        :return
+           - None
+
+           This fills up the list self.distances, that cointaint the distance from every points from the mesh with respect to the cam
+         """
         self.distances = []
         for camera in self.list_camera:
             '''taking the position of the camera'''
@@ -146,78 +153,82 @@ class AgentRegion():
             d = np.power(np.power((self.xv - x0), 2) + np.power((self.yv - y0), 2), 0.5)
             self.distances.append((camera.id, d))
 
-    """"
-            :param
-            - None
 
-            :return
-            - None
+    def find_angle_view_all_cam_and_fix_obstruction(self):
+        """"
+                :param
+                - None
 
-            This fills up the list self.angle_view_and_obstruction (see description above)
-    """
-    def find_angle_view_and_obstruction(self):
+                :return
+                - None
+
+                This fills up the list self.angle_view_and_obstruction (see description above)
+        """
+
         self.angle_view_and_obstruction = []
         for agent in self.room.agentCams:
             '''compute the region of vision from the cam, wihtout obstruction'''
-            res = self.find_angle_view(agent.cam)
+            res = self.find_angle_view_one_cam(agent.cam)
             '''for every target in the room, suppress obstructed region from the res computed above'''
-            res = self.find_obstruction(agent.cam,res)
+            res = self.find_fix_obstruction(agent.cam,res)
             '''append the result for each cam'''
             self.angle_view_and_obstruction.append((agent.cam.id,res))
 
-    """"
-                :param
-                - cam : camera object we want to find the field of vision
 
-                :return
-                - fill the list self.angle_view (see description above)
+    def find_angle_view_one_cam(self,cam):
+        """"
+        :param
+            - cam : camera object we want to find the field of vision
 
-    """
-    def find_angle_view(self,cam):
-        """
-        result = np.ones(self.xv.shape)*0 => camera see nothing
-        -> 1 means point x, y is viewed
-        -> 0 means point x, y is hidden
+        :return
+            - fill the list self.angle_view (see description above)
+
+        :com
+            result = np.ones(self.xv.shape)*0 => camera see nothing
+            -> 1 means point x, y is viewed
+            -> 0 means point x, y is hidden
         """
 
         result = np.ones(self.xv.shape)*0
         (i_tot, j_tot) = result.shape
         for i in range(i_tot):
             for j in range(j_tot):
-                if cam.is_x_y_inField(self.xv[i,j], self.yv[i,j]):
+                if cam.is_x_y_in_field_not_obstructed(self.xv[i,j], self.yv[i,j]):
                     """"Turn the matrix to one when the camera sees the point (x,y)"""
                     result[i,j] = 1
         return result
 
-    """"
-                :param
-                -None
 
-                :return
-                - fill the list self.angle_view (see description above)
+    def find_angle_view_all_cam(self):
+        """"
+                        :param
+                        -None
 
-    """
-    def find_angle_view_allCam(self):
+                        :return
+                        - fill the list self.angle_view (see description above)
+
+            """
         self.angle_view = []
         for cam in self.list_camera:
-            res = self.find_angle_view(cam)
+            res = self.find_angle_view_one_cam(cam)
             self.angle_view.append((cam.id, res))
 
-    """"
-                :param
-                - cam : camera object we want to find the obstructed field of vision
-                - result : mesh from the field of the camera. (Computed with find_angle of view)
-                           a standart choice could be result = np.ones(self.xv.shape) 
-                           -> 1 means point x,y is viewed 
-                           -> 0 means point x,y is hidden
-                    the function use the map and turn 1 in 0 if the point is not in view.
 
-                :return
-                - a array from result's dimension. It gives the camera's field of vision with fix object in the room 
-                
-    """
-    def find_obstruction(self,cam,result):
-        return cam. is_in_hidden_zone_allFixTarget_matrix(result,self.xv,self.yv,self.room)
+    def find_fix_obstruction(self,cam,result):
+        """"
+        :param
+            - cam : camera object we want to find the obstructed field of vision
+            - result : mesh from the field of the camera. (Computed with find_angle of view)
+                     a standart choice could be result = np.ones(self.xv.shape)
+                      -> 1 means point x,y is viewed
+                      -> 0 means point x,y is hidden
+                       the function use the map and turn 1 in 0 if the point is not in view.
+
+        :return
+            - a array from result's dimension. It gives the camera's field of vision with fix object in the room
+
+           """
+        return cam.is_in_hidden_zone_fix_targets_matrix_x_y(result,self.xv,self.yv,self.room)
 
 
 

@@ -32,6 +32,7 @@ class Info_simu:
             index = self.traj_num.index(trajChoice_tar)
             self.targets_SIMU.append(Target(self.targetNumber, tar_x,tar_y,tar_vx,tar_vy,tar_traj,
                                             self.trajectories[index], tar_label, tar_size, t_add,t_del))
+            self.targetNumber += 1
         else:
             print("fichier info_room_simu l27 : error while creating target, trajectory number not found")
 

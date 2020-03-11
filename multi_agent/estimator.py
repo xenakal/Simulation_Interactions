@@ -21,7 +21,7 @@ class TargetEstimatorList:
     """
     Class to keep track of multiple TargetEstimator from multiple agents
 
-    Args:
+    Param:
         times         -- number of values kept in memory
         current_time  -- time in the room
         agent_target  -- link between target and agent already created
