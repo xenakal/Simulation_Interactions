@@ -118,12 +118,9 @@ class Camera:
             alphapt = math.atan2(ycf,xcf)
 
             #condition to be hidden
-            if alpha1 > alphapt and alpha2 < alphapt and xcf <= xctf:
+            if alpha1 > alphapt and alpha2 < alphapt and xcf > xctf or alpha1 < alphapt and alpha2 > alphapt and xcf > xctf :
                 return True
-            elif alpha1 < alphapt and alpha2 > alphapt and xcf > xctf:
-                return True
-            else:
-                return False
+
         else:
             return False
 
@@ -150,38 +147,39 @@ class Camera:
                     alphapt = math.atan2(ycf, xcf)
 
                     # condition to be hidden
-                    if alpha1 > alphapt and alpha2 < alphapt and xcf > xctf:
+                    if alpha1 > alphapt and alpha2 < alphapt and xcf > xctf or alpha1 < alphapt and alpha2 > alphapt and xcf > xctf:
                         result[i,j] = 0
-
-                    elif alpha1 < alphapt and alpha2 > alphapt and xcf > xctf:
-                        result[i, j] = 0
         return result
 
-    def is_in_hidden_zone_all_targets(self, result, x, y, room):
+    def is_in_hidden_zone_all_targets(self, x, y, room):
         for target in room.info_simu.targets_SIMU:
             xt = target.xc
             yt = target.yc
             size = target.size
-            result = self.is_in_hidden_zone_one_target(x, y, xt, yt, size)
-        return result
+            if self.is_in_hidden_zone_one_target(x, y, xt, yt, size):
+                return True
+        return False
 
-    def is_in_hidden_zone_fix_targets(self, result, x, y, room):
+    def is_in_hidden_zone_fix_targets(self, x, y, room):
         for target in room.info_simu.targets_SIMU:
             if target.label == "fix":
                 xt = target.xc
                 yt = target.yc
                 size = target.size
-                result = self.is_in_hidden_zone_one_target(x, y, xt, yt,size)
-        return result
+                if not(x == xt) and not(y == yt):
+                    if self.is_in_hidden_zone_one_target(x, y, xt, yt,size):
+                        return True
+        return False
 
-    def is_in_hidden_zone_mooving_targets(self, result, x, y, room):
+    def is_in_hidden_zone_mooving_targets(self, x, y, room):
         for target in room.info_simu.targets_SIMU:
             if target.label == "target" or target.label == "obstruction":
                 xt = target.xc
                 yt = target.yc
                 size = target.size
-                result = self.is_in_hidden_zone_one_target(x, y, xt, yt,size)
-        return result
+                if self.is_in_hidden_zone_one_target(x, y, xt, yt,size):
+                    return True
+        return False
 
     def is_in_hidden_zone_all_targets_matrix_x_y(self,result,x,y,room):
         for target in room.info_simu.targets_SIMU:

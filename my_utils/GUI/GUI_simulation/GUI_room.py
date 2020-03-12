@@ -128,3 +128,14 @@ class GUI_room:
             label = self.font.render(str(count), 10, CAMERA)
             self.screen.blit(label, (
                 self.x_offset + int(x * self.scale_x) + 5, self.y_offset + int(y * self.scale_y) + 5))
+
+    def draw_link_cam_region(self,room,link_cam_to_target):
+        for link in link_cam_to_target:
+            (targetID,camID,dist) = link
+            for agent in room.agentCams:
+                camera = agent.cam
+                if(camera.id == camID):
+                    for target in room.targets:
+                        if(target.id == targetID):
+                            pygame.draw.line(self.screen, camera.color, (self.x_offset + int(camera.xc * self.scale_x),self.y_offset + int(camera.yc * self.scale_y)),
+                                             (self.x_offset + int(target.xc * self.scale_x),self.y_offset + int(target.yc * self.scale_y)),4)

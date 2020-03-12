@@ -28,11 +28,12 @@ class GUI_simulation:
 
         self.font = pygame.font.SysFont("monospace", 15)
 
-    def run(self, myRoom,region):
+    def run(self, myRoom,region,link_cam_to_target):
         self.display_simulation_button()
         self.GUI_room.drawRoom(myRoom.coord)
         self.GUI_room.drawTarget(myRoom.targets, myRoom.coord)
         self.GUI_room.drawCam(myRoom)
+        self.GUI_room.draw_link_cam_region(myRoom,link_cam_to_target)
 
         if self.button_simulation_1.find_button_state("prediction"):
             self.GUI_pred.drawPredictions(myRoom)

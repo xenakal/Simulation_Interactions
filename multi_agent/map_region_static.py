@@ -7,7 +7,7 @@ def create_region(nx,ny,factor,x0=0,y0=0):
     xv, yv = np.meshgrid(x, y)
     return(xv,yv)
 
-class AgentRegionStatic():
+class MapRegionStatic():
     """
                 Class use to detect the derministic region of action from different cameras
 
@@ -16,15 +16,12 @@ class AgentRegionStatic():
                 - factor, room discretation from 1 to infinite. The bigger the number, the faster the computation will be (less precision).
     """
 
-    def __init__(self,room,factor = 3):
+    def __init__(self,room):
         self.room = room
 
         '''Mesh from the map'''
         self.nx, self.ny = (room.coord[2], room.coord[3])
-        x = np.linspace(0, self.nx, int((self.nx + 1)/factor))
-        y = np.linspace(0, self.ny, int((self.ny + 1)/factor))
-        self.xv, self.yv = np.meshgrid(x, y)
-
+        self.xv, self.yv = create_region(self.nx, self.ny, 3)
         '''List from the camera'''
         self.list_camera = []
         for agent in room.agentCams:
@@ -48,6 +45,21 @@ class AgentRegionStatic():
         self.minimum_dist_in_view = np.ones(self.xv.shape)*1000000000
         self.id_in_view = np.ones(self.xv.shape)*1000000000
         self.coverage = np.ones(self.xv.shape)*1000000000
+
+    def init(self,factor=3):
+        '''Contains every vectors that needs only one computation
+
+         :param
+            - None
+
+        '''
+
+        '''Setting the grid to the right size'''
+        (self.xv, self.yv) = create_region(self.nx, self.ny, factor)
+        '''Compute array needed after'''
+        self.find_distance_to_each_cam()
+        '''Compute the field of vision not obstructed from each cam'''
+        self.find_angle_view_all_cam()
 
 
     def compute_all_map(self,factor = 3):
@@ -156,23 +168,26 @@ class AgentRegionStatic():
 
     def find_angle_view_all_cam_and_fix_obstruction(self):
         """"
-                :param
-                - None
+                       :param
+                       - None
 
-                :return
-                - None
+                       :return
+                       - None
 
-                This fills up the list self.angle_view_and_obstruction (see description above)
-        """
-
+                       This fills up the list self.angle_view_and_obstruction (see description above)
+               """
         self.angle_view_and_obstruction = []
-        for agent in self.room.agentCams:
-            '''compute the region of vision from the cam, wihtout obstruction'''
-            res = self.find_angle_view_one_cam(agent.cam)
-            '''for every target in the room, suppress obstructed region from the res computed above'''
-            res = self.find_fix_obstruction(agent.cam,res)
-            '''append the result for each cam'''
-            self.angle_view_and_obstruction.append((agent.cam.id,res))
+        for camera in self.list_camera:
+            for item in self.angle_view:
+                '''compute the region of vision from the cam, wihtout obstruction'''
+                (camID, res) = item
+                res = res.copy()
+                if (camera.id == camID):
+                    '''for every target in the room, suppress obstructed region from the res computed above'''
+                    res = self.find_fix_obstruction(camera, res)
+                    '''append the result for each cam'''
+                    self.angle_view_and_obstruction.append((camera.id, res))
+                    break
 
 
     def find_angle_view_one_cam(self,cam):

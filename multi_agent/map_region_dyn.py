@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from multi_agent.agent_region_static import*
+from multi_agent.map_region_static import*
 
 
-class AgentRegionDynamic(AgentRegionStatic):
+class MapRegionDynamic(MapRegionStatic):
     """
                 Class use to detect the derministic region of action from different cameras
 
@@ -12,35 +12,33 @@ class AgentRegionDynamic(AgentRegionStatic):
                 - factor, room discretation from 1 to infinite. The bigger the number, the faster the computation will be (less precision).
     """
 
-    def __init__(self, room, factor=3):
-        super().__init__(room, factor)
+    def __init__(self, room):
+        super().__init__(room)
 
 
-    def init(self):
-        pass
-        '''compute the region of vision from the cam, wihtout obstruction'''
-        #res = self.find_angle_view_one_cam(agent.cam)
-
-    def compute_all_map(self,factor = 3):
-        (self.xv,self.yv) = create_region(self.nx,self.ny,factor)
-
+    def compute(self,label):
         self.minimum_id_in_view = np.ones(self.xv.shape) * 1000000000
         self.minimum_dist_in_view = np.ones(self.xv.shape) * 1000000000
         self.id_in_view = np.ones(self.xv.shape) * 1000000000
         self.coverage = np.ones(self.xv.shape) * 1000000000
 
         '''Required for the computation below'''
-        self.find_angle_view_and_obstruction()
+        if label == "all":
+            self.find_angle_view_and_obstruction()
+        elif label =="small":
+            self.find_angle_view_and_obstruction_small_region()
 
         '''Computation'''
-        (self.minimum_id_in_view,self.minimum_dist_in_view,self.id_in_view) = self.define_region_covered_by_cams()
+        (self.minimum_id_in_view, self.minimum_dist_in_view, self.id_in_view) = self.define_region_covered_by_cams()
         self.coverage = self.define_region_covered_by_numberOfCams()
 
+    def compute_all_map(self,factor = 3):
+        (self.xv,self.yv) = create_region(self.nx,self.ny,factor)
+        self.compute("all")
 
-    def compute_small_region(self,x_offset,y_offset,factor=1):
-        pass
-
-
+    def compute_small_region(self,x,y,x_offset,y_offset,factor=1):
+        (self.xv, self.yv) = create_region(x,y,factor,x_offset,y_offset)
+        self.compute("small")
 
     def define_region_covered_by_cams(self):
         """
@@ -58,9 +56,6 @@ class AgentRegionDynamic(AgentRegionStatic):
         id_in_view = np.chararray(self.xv.shape, itemsize=self.room.agentCamNumber + 5)
         result = np.ones(self.xv.shape) * -1
         (i_tot, j_tot) = result.shape
-
-        '''Compute array needed after'''
-        self.find_distance_to_each_cam()
 
         '''Computation for every cam, we need to check every distance'''
         for (camID, res) in self.angle_view_and_obstruction:
@@ -91,12 +86,51 @@ class AgentRegionDynamic(AgentRegionStatic):
                         it gives the information from the number of cam covering the point x,y
         """
         coverage = np.ones(self.xv.shape)*0
+
         for (camID,res) in self.angle_view_and_obstruction:
             '''addition for each cam from the region cover taking fix obstruction in to account'''
             coverage = coverage + res
         return coverage
 
+
+    def find_angle_view_all_cam(self):
+        """"
+                        :param
+                        -None
+
+                        :return
+                        - fill the list self.angle_view (see description above)
+
+            """
+        self.angle_view = []
+        for cam in self.list_camera:
+            res = self.find_angle_view_one_cam(cam)
+            self.angle_view.append((cam.id, res))
+
     def find_angle_view_and_obstruction(self):
+        """"
+                :param
+                - None
+
+                :return
+                - None
+
+                This fills up the list self.angle_view_and_obstruction (see description above)
+        """
+        self.angle_view_and_obstruction = []
+        for camera in self.list_camera:
+            for item in self.angle_view:
+                '''compute the region of vision from the cam, wihtout obstruction'''
+                (camID,res) = item
+                res = res.copy()
+                if(camera.id==camID):
+                    '''for every target in the room, suppress obstructed region from the res computed above'''
+                    res = self.find_obstruction(camera,res)
+                    '''append the result for each cam'''
+                    self.angle_view_and_obstruction.append((camera.id,res))
+                    break
+
+    def find_angle_view_and_obstruction_small_region(self):
         """"
                 :param
                 - None
@@ -111,9 +145,9 @@ class AgentRegionDynamic(AgentRegionStatic):
             '''compute the region of vision from the cam, wihtout obstruction'''
             res = self.find_angle_view_one_cam(agent.cam)
             '''for every target in the room, suppress obstructed region from the res computed above'''
-            res = self.find_obstruction(agent.cam,res)
+            res = self.find_fix_obstruction(agent.cam, res)
             '''append the result for each cam'''
-            self.angle_view_and_obstruction.append((agent.cam.id,res))
+            self.angle_view_and_obstruction.append((agent.cam.id, res))
 
     def find_obstruction(self,cam,result):
         """"
