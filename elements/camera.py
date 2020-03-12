@@ -152,7 +152,7 @@ class Camera:
         return result
 
     def is_in_hidden_zone_all_targets(self, x, y, room):
-        for target in room.info_simu.targets_SIMU:
+        for target in room.targets:
             xt = target.xc
             yt = target.yc
             size = target.size
@@ -172,7 +172,7 @@ class Camera:
         return False
 
     def is_in_hidden_zone_mooving_targets(self, x, y, room):
-        for target in room.info_simu.targets_SIMU:
+        for target in room.targets:
             if target.label == "target" or target.label == "obstruction":
                 xt = target.xc
                 yt = target.yc
@@ -182,7 +182,7 @@ class Camera:
         return False
 
     def is_in_hidden_zone_all_targets_matrix_x_y(self,result,x,y,room):
-        for target in room.info_simu.targets_SIMU:
+        for target in room.targets:
              xt = target.xc
              yt = target.yc
              size = target.size
@@ -200,7 +200,7 @@ class Camera:
         return result
 
     def is_in_hidden_zone_mooving_targets_matrix_x_y(self, result, x, y, room):
-        for target in room.info_simu.targets_SIMU:
+        for target in room.targets:
             if target.label == "target" or target.label == "obstruction":
                 xt = target.xc
                 yt = target.yc

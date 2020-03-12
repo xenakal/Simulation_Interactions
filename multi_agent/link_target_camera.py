@@ -1,6 +1,6 @@
-from multi_agent.map_region_dyn import *
+import numpy as np
 
-class AgentRegion(MapRegionDynamic):
+class LinkTargetCamera():
     """
 
                 :param
@@ -8,8 +8,12 @@ class AgentRegion(MapRegionDynamic):
     """
 
     def __init__(self, room):
+        self.room = room
         self.link_camera_target = []
-        super().__init__(room)
+        '''List from the camera'''
+        self.list_camera = []
+        for agent in room.agentCams:
+            self.list_camera.append(agent.cam)
 
     def update_link_camera_target(self):
         for target in self.room.targets:
@@ -33,6 +37,7 @@ class AgentRegion(MapRegionDynamic):
 
     def compute_link_camera_target(self):
         self.reset_distance()
+
         for camera in self.list_camera:
             for target in self.room.targets:
 
@@ -45,6 +50,7 @@ class AgentRegion(MapRegionDynamic):
                         if  targetID == target.id and distance_to_target < distance:
                                 self.link_camera_target.remove(item)
                                 self.link_camera_target.append((targetID,camera.id,distance_to_target))
+
 
 
 

@@ -78,6 +78,16 @@ class GUI_room:
         for target in targets:
             self.draw_one_target(target,tab)
 
+    def drawTarget_room_description(self,myRoom,agents_to_display,allAgents=False):
+            if allAgents:
+                agents = myRoom.agentCams
+            else:
+                agents = myRoom.getAgentsWithIDs(agents_to_display)
+
+            for agent in agents:
+                    self.drawTarget(agent.room_description.targets,myRoom.coord)
+
+
     def drawTarget_all_postion(self, room):
         for target in room.targets:
             for id in self.target_to_display:
@@ -117,6 +127,17 @@ class GUI_room:
         for agent in myRoom.agentCams:
             self.draw_one_Cam(agent.cam,l)
 
+    def drawCam_room_description(self, myRoom, agents_to_display, allAgents=False):
+        """ Draws the previous positions of the selected targets for the selected agents. """
+
+        if allAgents:
+            agents = myRoom.agentCams
+        else:
+            agents = myRoom.getAgentsWithIDs(agents_to_display)
+
+        for agent in agents:
+            self.drawCam(myRoom)
+
     def drawTraj(self,traj):
         count = 0
         for point in traj:
@@ -139,3 +160,23 @@ class GUI_room:
                         if(target.id == targetID):
                             pygame.draw.line(self.screen, camera.color, (self.x_offset + int(camera.xc * self.scale_x),self.y_offset + int(camera.yc * self.scale_y)),
                                              (self.x_offset + int(target.xc * self.scale_x),self.y_offset + int(target.yc * self.scale_y)),4)
+
+    def draw_link_cam_region_room_description(self, room,agents_to_display, allAgents=False):
+
+        if allAgents:
+            agents = room.agentCams
+        else:
+            agents = room.getAgentsWithIDs(agents_to_display)
+
+        for agent_to_display in agents:
+            for link in agent_to_display.link_target_agent.link_camera_target :
+                (targetID, camID, dist) = link
+                for agent in room.agentCams:
+                    camera = agent.cam
+                    if camera.id == camID:
+                        for target in room.targets:
+                            if target.id == targetID:
+                                pygame.draw.line(self.screen, camera.color, (self.x_offset + int(camera.xc * self.scale_x),
+                                                                             self.y_offset + int(camera.yc * self.scale_y)),
+                                                 (self.x_offset + int(target.xc * self.scale_x),
+                                                  self.y_offset + int(target.yc * self.scale_y)), 4)

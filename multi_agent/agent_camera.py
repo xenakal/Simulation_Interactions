@@ -11,6 +11,7 @@ from multi_agent.memory import *
 from multi_agent.linearPrediction import *
 from multi_agent.kalmanPrediction import *
 from multi_agent.room_description import*
+from multi_agent.link_target_camera import *
 import main
 
 class AgentCam(Agent):
@@ -21,11 +22,12 @@ class AgentCam(Agent):
         self.cam = camera
         self.memory = Memory(idAgent)
         self.room_description = Room_Description()
+        self.link_target_agent = LinkTargetCamera(self.room_description)
 
         # Threads
         self.threadRun = 1
-        self.thread_pI = threading.Thread(target=self.thread_processImage)
-        self.thread_rL = threading.Thread(target=self.thread_recLoop)
+        self.my_thread_run = threading.Thread(target=self.thread_run)
+
 
         # log_room
         logger_room = logging.getLogger('room' + str(idAgent))
@@ -54,29 +56,30 @@ class AgentCam(Agent):
             #self.previousPrediction[target.id] = -1
 
     def run(self):
-        self.thread_pI.start()
-        if main.MULTI_THREAD == 1:
-            self.thread_rL.start()
+        if main.RUN_ON_A_THREAD == 1:
+            self.my_thread_run.start()
+        else:
+            self.run_wihout_thread()
 
     def clear(self):
         self.threadRun = 0
-        while self.thread_pI.is_alive() and self.thread_pI.is_alive():
+        while self.my_thread_run.is_alive():
             pass
         mbox = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
         mbox.close()
 
-    def set_room_description(self,room):
+    def init_and_set_room_description(self,room):
         self.room_description.init(room)
+        self.link_target_agent = LinkTargetCamera(self.room_description)
+        self.message_stat.init_message_static(self.room_description)
 
-    def thread_processImage(self):
+    def thread_run(self):
         """
-        One of the two main threads of an agent.
-        """
+               One of the two main threads of an agent.
+               """
         state = "takePicture"
         nextstate = state
         my_previousTime = self.room_description.time - 1
-
-        self.message_stat.init_message_static(self.room_description)
 
         while self.threadRun == 1:
             state = nextstate
@@ -96,45 +99,75 @@ class AgentCam(Agent):
                             self.memory.set_current_time(self.room_description.time)
                             try:
                                 target = targetElem[0]
-                                self.memory.add_create_target_estimator(self.room_description.time,self.id,target.id,target.xc,target.yc,target.size, True)
+                                self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,
+                                                                        target.xc, target.yc, target.size, True)
                             except  AttributeError:
                                 print("fichier agent caméra ligne 94: oupsi un problème")
-
 
                         self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
             elif nextstate == "processData":
+                print("process_data")
                 self.process_InfoMemory(self.room_description)
                 self.memory.combine_data(self.room_description)
-                nextstate = "sendMessage"
 
-            elif state == "sendMessage":
+                self.link_target_agent.update_link_camera_target()
+                self.link_target_agent.compute_link_camera_target()
+                # print(self.link_target_agent.link_camera_target)
+                nextstate = "communication"
+
+            elif state == "communication":
                 self.info_messageSent.removeMessageAfterGivenTime(self.room_description.time, 30)
                 self.info_messageReceived.removeMessageAfterGivenTime(self.room_description.time, 30)
                 self.sendAllMessage()
 
-                if main.MULTI_THREAD != 1:
-                    pass
-                    self.recAllMess()
-                    self.process_Message_received()
-                    self.process_Message_sent()
+                self.recAllMess()
+                self.process_Message_received()
+                self.process_Message_sent()
 
                 time.sleep(main.TIME_SEND_READ_MESSAGE)
                 nextstate = "takePicture"
             else:
                 print("FSM not working proerly")
 
-    def thread_recLoop(self):
-        while self.threadRun == 1:
+    def run_wihout_thread(self):
+        '''STATE TAKE PICTURE '''
+        if self.cam.isActivate():
+            picture = self.cam.run()
+
+            for targetElem in picture:
+                self.memory.set_current_time(self.room_description.time)
+                try:
+                    target = targetElem[0]
+                    self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,
+                                                            target.xc, target.yc, target.size, True)
+                except  AttributeError:
+                    print("fichier agent caméra ligne 94: oupsi un problème")
+
+            self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
+
+
+            '''STATE PROCESS DATA '''
+            self.process_InfoMemory(self.room_description)
+            self.memory.combine_data(self.room_description)
+            self.link_target_agent.update_link_camera_target()
+            self.link_target_agent.compute_link_camera_target()
+
+            '''STATE COMMUNICATION'''
+            self.info_messageSent.removeMessageAfterGivenTime(self.room_description.time, 30)
+            self.info_messageReceived.removeMessageAfterGivenTime(self.room_description.time, 30)
+            self.sendAllMessage()
             self.recAllMess()
             self.process_Message_received()
             self.process_Message_sent()
+
 
     def process_InfoMemory(self, room):
         for target in room.targets:
             liste = self.memory.memory_agent.get_target_list(target.id)
             if len(liste) > 0:
+                pass
                 self.send_message_memory(liste[len(liste) - 1])
 
     def process_Message_sent(self):
@@ -165,7 +198,7 @@ class AgentCam(Agent):
             receivers = []
         m = Message_Check_ACK_NACK(self.room_description.time, self.id, self.signature, "request", information, target)
         if len(receivers) == 0:
-            for agent in self.room_description.agentCam:
+            for agent in self.room_description.agentCams:
                 if agent.id != self.id:
                     m.addReceiver(agent.id, agent.signature)
         else:

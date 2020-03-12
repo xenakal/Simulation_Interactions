@@ -1,6 +1,6 @@
 import shutil
 import os
-from multi_agent.agent_region import *
+from multi_agent.link_target_camera import *
 from multi_agent.map_region_dyn import *
 from my_utils.GUI.GUI import *
 from my_utils.motion import *
@@ -17,10 +17,10 @@ TIME_BTW_FRAMES = 0.1
 USE_GUI = 1
 USE_agent = 1
 USE_static_analysis = 1
-USE_dynamic_analysis_simulated_room = 0
+USE_dynamic_analysis_simulated_room = 1
 T_MAX = 10000
 STATIC_ANALYSIS_PRECISION=5 #best with 1 until map size
-STATIC_ANALYSIS_PRECISION_simulated_room = 5
+STATIC_ANALYSIS_PRECISION_simulated_room = 10
 
 
 '''Option for class agent'''
@@ -31,7 +31,7 @@ NUMBER_OF_MESSAGE_RECEIVE = 1  # 1= all message receive, 100 = almost nothing is
 '''Option for class agentCamera'''
 TIME_PICTURE = .5
 TIME_SEND_READ_MESSAGE = .1
-MULTI_THREAD = 0
+RUN_ON_A_THREAD = 1
 
 '''Option for class estimator'''
 INCLUDE_ERROR = True
@@ -74,9 +74,7 @@ class App:
         self.static_region = MapRegionStatic(self.myRoom)
         self.dynamic_region = MapRegionDynamic(self.myRoom)
         self.myRoom_description = Room_Description()
-
-        '''Provisoire'''
-        self.link_agent_target = AgentRegion(self.myRoom)
+        self.link_agent_target = LinkTargetCamera(self.myRoom)
 
         self.init()
         if USE_GUI == 1:
@@ -89,7 +87,7 @@ class App:
         '''Creation from the room with the given description'''
         self.myRoom = self.room_txt.init_room()
         for agent in self.myRoom.agentCams:
-            agent.set_room_description(self.myRoom)
+            agent.init_and_set_room_description(self.myRoom)
         '''Computing the vision in the room taking in to account only fix object'''
         self.static_region = MapRegionStatic(self.myRoom)
         self.dynamic_region = MapRegionDynamic(self.myRoom)
@@ -100,11 +98,11 @@ class App:
             self.dynamic_region.init(STATIC_ANALYSIS_PRECISION_simulated_room)
         '''Starting the multi_agent simulation'''
         if USE_agent:
-            for agent in self.myRoom.agentCams:
-                agent.run()
+            if RUN_ON_A_THREAD == 1:
+                for agent in self.myRoom.agentCams:
+                    agent.run()
 
-        '''Provisoire'''
-        self.link_agent_target = AgentRegion(self.myRoom)
+        self.link_agent_target = LinkTargetCamera(self.myRoom)
         self.link_agent_target.update_link_camera_target()
 
 
@@ -136,6 +134,11 @@ class App:
             for target in self.myRoom.targets:
                 target.save_position()
                 moveTarget(target, 1, self.myRoom)
+
+            if RUN_ON_A_THREAD == 0:
+
+                for agent in self.myRoom.agentCams:
+                    agent.run()
 
             self.link_agent_target.update_link_camera_target()
             self.link_agent_target.compute_link_camera_target()
