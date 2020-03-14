@@ -6,8 +6,8 @@ from elements.info_room_simu import *
 import main
 
 class Room_Description:
-    def __init__(self):
-        # Room attributes
+    def __init__(self,color):
+
         self.coord = numpy.array([0, 0, main.WIDTH_ROOM, main.LENGHT_ROOM])  # x y l h
         # target in the room
         self.targets = []
@@ -15,6 +15,8 @@ class Room_Description:
         self.agentCams = []
         # time
         self.time = 0
+        #color
+        self.color = color
 
     def init(self,room):
         for target in room.info_simu.targets_SIMU:
@@ -47,7 +49,7 @@ class Room_Description:
         self.add_targetRepresentation(target.id,target.xc,target.yc,target.size,target.label)
 
     def add_targetRepresentation(self,id,x,y,size,label):
-        self.targets.append(Target_representation(id,x,y,size,label))
+        self.targets.append(Target_representation(id,x,y,size,label,self.color))
 
     def getAgentsWithIDs(self, idList):
         """ Returns the list of agents with ids in the list provided in the argument. """
@@ -71,13 +73,13 @@ class Room_Description:
 
 
 class Target_representation():
-    def __init__(self, id=-1, x=-1, y=-1,size = 5,label='fix'):
+    def __init__(self, id=-1, x=-1, y=-1,size = 5,label='fix',color = 0):
         self.id = id
         self.xc = x
         self.yc = y
         self.size = size
         self.label = label
-        self.color = [0,0,0]
+        self.color = color
 
     def to_string(self):
         s0 = "target "+str(self.id)+"\n"

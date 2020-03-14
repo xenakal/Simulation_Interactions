@@ -24,8 +24,6 @@ class Room:
         # time
         self.time = 0
 
-
-
     def init_room(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size,t_add,t_del):
         self.info_simu.init_targets(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size,t_add,t_del)
         self.targetNumber = self.info_simu.targetNumber

@@ -14,10 +14,10 @@ class Camera:
         self.status = 'agent'
         self.isActive = 1
         # color from the object
-        r = random.randrange(20, 230, 1)
-        g = random.randrange(20, 230, 1)
-        b = random.randrange(20, 255, 1)
-        self.color = (r, g, b)
+        r = 25 + 20*random.randrange(0, 10, 1)
+        g = 25 + 20*random.randrange(0, 10, 1)
+        b = 25 + 20*random.randrange(0, 10, 1)
+        self.color = (r,g,b)
 
         # Location on the map
         self.xc = cam_x

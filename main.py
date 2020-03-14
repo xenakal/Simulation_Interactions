@@ -34,7 +34,7 @@ TIME_SEND_READ_MESSAGE = .1
 RUN_ON_A_THREAD = 1
 
 '''Option for class estimator'''
-INCLUDE_ERROR = True
+INCLUDE_ERROR = False
 STD_MEASURMENT_ERROR = 2
 
 '''Option for class predication'''
@@ -73,7 +73,6 @@ class App:
         self.myRoom = Room()
         self.static_region = MapRegionStatic(self.myRoom)
         self.dynamic_region = MapRegionDynamic(self.myRoom)
-        self.myRoom_description = Room_Description()
         self.link_agent_target = LinkTargetCamera(self.myRoom)
 
         self.init()
@@ -144,8 +143,8 @@ class App:
                 '''to slow donw the main thread in comparaison to agent thread'''
                 time.sleep(TIME_BTW_FRAMES)
 
-            #self.link_agent_target.update_link_camera_target()
-            #self.link_agent_target.compute_link_camera_target()
+            self.link_agent_target.update_link_camera_target()
+            self.link_agent_target.compute_link_camera_target()
 
             '''Updating GUI interface'''
             if USE_GUI == 1:

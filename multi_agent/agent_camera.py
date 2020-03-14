@@ -21,7 +21,7 @@ class AgentCam(Agent):
         # Attributes
         self.cam = camera
         self.memory = Memory(idAgent)
-        self.room_description = Room_Description()
+        self.room_description = Room_Description(self.color)
         self.link_target_agent = LinkTargetCamera(self.room_description)
 
         # Threads
@@ -115,23 +115,28 @@ class AgentCam(Agent):
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
             elif nextstate == "processData":
-                self.process_InfoMemory(self.room_description)
+                '''Combination of data received and data observed'''
                 self.memory.combine_data()
-
+                '''Modification from the room description'''
                 self.room_description.update_target_based_on_memory(self.memory.memory_agent)
-
+                '''Computation of the camera that should give the best view, according to map algorithm'''
                 self.link_target_agent.update_link_camera_target()
                 self.link_target_agent.compute_link_camera_target()
-
+                '''Descision of the messages to send'''
+                self.process_InfoMemory(self.room_description)
                 nextstate = "communication"
 
             elif state == "communication":
+                '''Suppression of unusefull messages in the list'''
                 self.info_messageSent.removeMessageAfterGivenTime(self.room_description.time, 30)
                 self.info_messageReceived.removeMessageAfterGivenTime(self.room_description.time, 30)
+                '''Message are send (Mailbox)'''
                 self.sendAllMessage()
-
+                '''Read messages received'''
                 self.recAllMess()
+                '''Prepare short answers'''
                 self.process_Message_received()
+                '''Find if other agents reply to a previous message'''
                 self.process_Message_sent()
 
                 time.sleep(main.TIME_SEND_READ_MESSAGE)

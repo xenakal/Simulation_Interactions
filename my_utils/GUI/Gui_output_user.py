@@ -27,7 +27,7 @@ class GUI_user_output:
         self.GUI_room.drawRoom(myRoom.coord)
         self.GUI_room.drawTarget_room_description(myRoom, self.GUI_option.agent_to_display)
         self.GUI_room.drawCam_room_description(myRoom, self.GUI_option.agent_to_display)
-        self.GUI_room.draw_link_cam_region_room_description(myRoom,link_cam_target, self.GUI_option.agent_to_display)
+        self.GUI_room.draw_link_cam_region_room_description(myRoom, self.GUI_option.agent_to_display)
 
         if self.button_simulation_1.find_button_state("prediction"):
             self.GUI_pred.drawPredictions(myRoom)
