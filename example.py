@@ -24,6 +24,9 @@ class Example:
 
     def get_layout(self,param1,param2):
         """
+            :description
+                fells free to gives a brief explanation on the function
+
             :params
                 1. (type) name -- description
                 2. (type) name -- description
