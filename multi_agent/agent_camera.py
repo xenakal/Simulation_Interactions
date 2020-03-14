@@ -99,8 +99,15 @@ class AgentCam(Agent):
                             self.memory.set_current_time(self.room_description.time)
                             try:
                                 target = targetElem[0]
-                                self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,
-                                                                        target.xc, target.yc, target.size, True)
+
+                                if main.INCLUDE_ERROR and not (target.label =="fix"):
+                                    erreurX = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
+                                    erreurY = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
+                                else:
+                                    erreurX = 0
+                                    erreurY = 0
+
+                                self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,target.xc+erreurX, target.yc+erreurY, target.size, True)
                             except  AttributeError:
                                 print("fichier agent caméra ligne 94: oupsi un problème")
 
@@ -108,13 +115,14 @@ class AgentCam(Agent):
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
             elif nextstate == "processData":
-                print("process_data")
                 self.process_InfoMemory(self.room_description)
-                self.memory.combine_data(self.room_description)
+                self.memory.combine_data()
+
+                self.room_description.update_target_based_on_memory(self.memory.memory_agent)
 
                 self.link_target_agent.update_link_camera_target()
                 self.link_target_agent.compute_link_camera_target()
-                # print(self.link_target_agent.link_camera_target)
+
                 nextstate = "communication"
 
             elif state == "communication":
@@ -132,35 +140,7 @@ class AgentCam(Agent):
                 print("FSM not working proerly")
 
     def run_wihout_thread(self):
-        '''STATE TAKE PICTURE '''
-        if self.cam.isActivate():
-            picture = self.cam.run()
-
-            for targetElem in picture:
-                self.memory.set_current_time(self.room_description.time)
-                try:
-                    target = targetElem[0]
-                    self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,
-                                                            target.xc, target.yc, target.size, True)
-                except  AttributeError:
-                    print("fichier agent caméra ligne 94: oupsi un problème")
-
-            self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
-
-
-            '''STATE PROCESS DATA '''
-            self.process_InfoMemory(self.room_description)
-            self.memory.combine_data(self.room_description)
-            self.link_target_agent.update_link_camera_target()
-            self.link_target_agent.compute_link_camera_target()
-
-            '''STATE COMMUNICATION'''
-            self.info_messageSent.removeMessageAfterGivenTime(self.room_description.time, 30)
-            self.info_messageReceived.removeMessageAfterGivenTime(self.room_description.time, 30)
-            self.sendAllMessage()
-            self.recAllMess()
-            self.process_Message_received()
-            self.process_Message_sent()
+       print("not working yet")
 
 
     def process_InfoMemory(self, room):

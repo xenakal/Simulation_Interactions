@@ -161,8 +161,7 @@ class GUI_room:
                             pygame.draw.line(self.screen, camera.color, (self.x_offset + int(camera.xc * self.scale_x),self.y_offset + int(camera.yc * self.scale_y)),
                                              (self.x_offset + int(target.xc * self.scale_x),self.y_offset + int(target.yc * self.scale_y)),4)
 
-    def draw_link_cam_region_room_description(self, room,agents_to_display, allAgents=False):
-
+    def draw_link_cam_region_room_description(self,room,agents_to_display, allAgents=False):
         if allAgents:
             agents = room.agentCams
         else:

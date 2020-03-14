@@ -112,39 +112,43 @@ class App:
         reset = False
 
         while run:  # Events loop
+
+            '''To restart the simulation, push r'''
             if reset:
                 self.myRoom.time = 0
-
                 if USE_agent:
                     for agent in self.myRoom.agentCams:
                         agent.clear()
-
                 clean_mailbox()
-
                 self.init()
-
                 reset = False
 
-            time.sleep(TIME_BTW_FRAMES)  # so that the GUI doesn't go to quick
 
-            #Check if object needs to appear or to disappear
+            '''adding/removing target to the room'''
             self.myRoom.add_del_target_timed()
-
             # Object are moving in the room
             for target in self.myRoom.targets:
                 target.save_position()
                 moveTarget(target, 1, self.myRoom)
 
+            '''
+            RUN_ON_THREAD = 0, sequential approach, every agent are call one after the other
+            RUN_ON_THREAD = 1, process executed in the same time, every agent is a thread
+            '''
             if RUN_ON_A_THREAD == 0:
-
-                for agent in self.myRoom.agentCams:
+                random_order = self.myRoom.agentCams
+                #random.shuffle(random_order,random)
+                for agent in random_order:
                     agent.run()
+            else:
+                '''to slow donw the main thread in comparaison to agent thread'''
+                time.sleep(TIME_BTW_FRAMES)
 
-            self.link_agent_target.update_link_camera_target()
-            self.link_agent_target.compute_link_camera_target()
+            #self.link_agent_target.update_link_camera_target()
+            #self.link_agent_target.compute_link_camera_target()
 
+            '''Updating GUI interface'''
             if USE_GUI == 1:
-
                 if USE_dynamic_analysis_simulated_room:
                     region = self.dynamic_region
                     self.dynamic_region.compute_all_map(STATIC_ANALYSIS_PRECISION_simulated_room)
@@ -154,12 +158,12 @@ class App:
                 self.myGUI.updateGUI(self.myRoom, region, self.link_agent_target.link_camera_target)
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
 
-
-            if self.myRoom.time > tmax:
+            '''Closing the simulation after a given time if not using GUI'''
+            if self.myRoom.time > tmax and USE_GUI == 1:
                 run = False
-                if USE_GUI == 1:
-                    pygame.quit()
+                pygame.quit()
 
+            '''Updating the time'''
             self.myRoom.time = self.myRoom.time + 1
             for agent in self.myRoom.agentCams:
                 agent.room_description.time = agent.room_description.time+1

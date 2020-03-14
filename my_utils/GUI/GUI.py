@@ -72,7 +72,8 @@ class GUI:
             self.GUI_create_map.run()
 
         elif self.button_menu.find_button_state("User's output"):
-            self.GUI_output.run(myRoom,link_camera_target)
+            for agent in myRoom.agentCams :
+                self.GUI_output.run(agent.room_description,link_camera_target)
 
         self.GUI_option.reset_mouse_list()
         pygame.display.update()

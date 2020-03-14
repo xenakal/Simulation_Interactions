@@ -5,6 +5,7 @@ import time
 import random
 
 
+
 class Target:
     def __init__(self, tar_id=-1, tar_x=-1, tar_y=-1, tar_vx=0, tar_vy=0, tar_traj='fix', trajectory = (0,[(0,0)]),
                  tar_label='fix', tar_size=5,t_add=-1,t_del=-1):
@@ -30,7 +31,8 @@ class Target:
         # Location on the map
         self.xc = tar_x
         self.yc = tar_y
-        # Speeds
+
+        # Speed
         if tar_label == 'fix':
             self.vx = 0
             self.vy = 0
@@ -43,13 +45,11 @@ class Target:
         self.number_of_position_reached = 0
         # size
         self.size = tar_size
-
         # to rembember its position
         self.all_position = []
 
 
         '''use to thune the potential field method'''
-
         self.k_att = 5
         self.k_rep = 500000000
         self.d_rep = tar_size + math.ceil(0.5 * tar_size)
@@ -68,3 +68,4 @@ class Target:
 
     def save_position(self):
         self.all_position.append([self.xc, self.yc])
+

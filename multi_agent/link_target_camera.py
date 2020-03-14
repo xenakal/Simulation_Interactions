@@ -20,7 +20,7 @@ class LinkTargetCamera():
             is_in_list = False
             for item in self.link_camera_target:
                 (targetID,camID,distance) = item
-                if(targetID == target.id):
+                if targetID == target.id:
                     is_in_list = True
                     break
 
@@ -40,7 +40,6 @@ class LinkTargetCamera():
 
         for camera in self.list_camera:
             for target in self.room.targets:
-
                 """Ici dans le calcul au lieu d'utiliser les positions actuelles on peut aussi utiliser les prédictions"""
                 if not camera.is_in_hidden_zone_all_targets(target.xc,target.yc,self.room):
                     distance_to_target = np.power(np.power((camera.xc - target.xc), 2) + np.power((camera.yc - target.yc), 2), 0.5)

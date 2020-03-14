@@ -143,12 +143,6 @@ class FusionEstimatorList:
         self.target_seen = []
         self.memories_fusion = []
 
-    def update_estimator_list(self, targetID):
-        '''Register the target - agent combination in the memory'''
-        if not targetID in self.target_seen:
-            self.target_seen.append(targetID)
-            self.memories_fusion.append([targetID, []])
-
     def sort(self):
         for element in self.memories_fusion:
             element[1].sort()
@@ -160,7 +154,7 @@ class FusionEstimatorList:
                 return element[1]
         return []
 
-    def get_agent_target_stat(self, target_ID, agent_ID):
+    def get_agent_target_stat(self, target_ID):
         for element in self.memories_fusion:
             if element[0] == target_ID:
                 return len(element[1])
@@ -173,6 +167,12 @@ class FusionEstimatorList:
             if element[0] == estimator.target_ID:
                 if not is_target_estimator(element[1], estimator):
                     element[1].append(estimator)
+
+    def update_estimator_list(self, targetID):
+        '''Register the target - agent combination in the memory'''
+        if not targetID in self.target_seen:
+            self.target_seen.append(targetID)
+            self.memories_fusion.append([targetID, []])
 
     def set_current_time(self, current_time):
         self.currentTime = current_time
@@ -196,20 +196,7 @@ class TargetEstimator:
         self.agent_ID = agentID
         self.target_ID = targetID
         self.target_label = "target"
-
-        if main.INCLUDE_ERROR:
-            errorRange = 5
-            step = 1
-            # erreurX = random.randrange(-errorRange, errorRange+step, step)
-            # erreurY = random.randrange(-errorRange, errorRange+step, step)
-            erreurX = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
-            erreurY = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
-        else:
-            erreurX = 0
-            erreurY = 0
-
-        self.position = [target_xc + erreurX, target_yc + erreurY]
-        self.realPos = [target_xc, target_yc]
+        self.position = [target_xc, target_yc]
         self.target_size = target_size
 
         self.seenByCam = seenByCam

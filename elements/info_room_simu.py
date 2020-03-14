@@ -10,7 +10,6 @@ class Info_simu:
         self.targets_SIMU = []
         self.targetNumber = 0
         # trajectories
-        # trajectories
         self.trajectories = []
         self.traj_num = []
 
