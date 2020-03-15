@@ -3,7 +3,7 @@ from filterpy.kalman import KalmanFilter
 from filterpy.common import Q_discrete_white_noise
 from scipy.linalg import block_diag
 import numpy as np
-from multi_agent.estimator import STD_MEASURMENT_ERROR
+import main
 
 
 # TODO: maybe refactor to have only one Kalman Filter object per agent instead of creating a new one every time
@@ -52,7 +52,7 @@ class KalmanPrediction(LinearPrediction):
         f.H = np.array([[1., 0., 0., 0.],
                         [0., 1., 0., 0.]])
         f.P *= 4.
-        f.R = np.eye(2) * STD_MEASURMENT_ERROR ** 2
+        f.R = np.eye(2) * main.STD_MEASURMENT_ERROR ** 2
         f.B = 0
         q = Q_discrete_white_noise(dim=2, dt=self.TIMESTEP, var=0.01)  # var => how precise the model is
         f.Q = block_diag(q, q)
@@ -99,7 +99,7 @@ class KalmanPrediction(LinearPrediction):
         prediction, P = tracker.get_prediction()
         state = [prediction[0], prediction[1]]
         predictions.append(state)
-        for _ in range(NUMBER_PREDICTIONS):
+        for _ in range(main.NUMBER_PREDICTIONS):
             tracker.update(np.array(state))
             tracker.predict()
             prediction, _ = tracker.get_prediction()

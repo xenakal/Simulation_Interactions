@@ -1,7 +1,6 @@
 import pygame
 from my_utils.GUI.GUI import *
 
-
 class GUI_Region:
 
     def __init__(self, screen, x_off, y_off, scaleX, scaleY):

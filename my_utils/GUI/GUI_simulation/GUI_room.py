@@ -18,7 +18,7 @@ OBSTRUCTION = (0, 50, 0)
 
 
 class GUI_room:
-    def __init__(self, screen, agent, target, x_off, y_off, x_max, y_max):
+    def __init__(self, screen, agent, target, x_off, y_off, scale_x, scale_y):
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 15)
 
@@ -27,16 +27,10 @@ class GUI_room:
 
         self.x_offset = x_off
         self.y_offset = y_off
-        self.x_max = x_max
-        self.y_max = y_max
-
-        self.scale_x = 0
-        self.scale_y = 0
+        self.scale_x = scale_x
+        self.scale_y = scale_y
 
     def drawRoom(self, tab):
-
-        self.scale_x = self.x_max / tab[2]
-        self.scale_y = self.y_max / tab[3]
 
         pygame.draw.rect(self.screen, BLACK, (
             self.x_offset + tab[0] - 10, self.y_offset + tab[1] - 10, self.scale_x * tab[2] + 20,
@@ -84,6 +78,20 @@ class GUI_room:
         for target in targets:
             self.draw_one_target(target,tab)
 
+    def drawTarget_room_description(self,room,agents_to_display,agentType,allAgents=False):
+        agents = []
+        if allAgents:
+            if agentType == "agentCam":
+                agents = room.agentCams
+            elif agentType == "agentUser":
+                agents = room.agentUser
+        else:
+            agents = room.getAgentsWithIDs(agents_to_display, agentType)
+
+        for agent in agents:
+             self.drawTarget(agent.room_description.targets,room.coord)
+
+
     def drawTarget_all_postion(self, room):
         for target in room.targets:
             for id in self.target_to_display:
@@ -122,4 +130,55 @@ class GUI_room:
     def drawCam(self, myRoom, l=100):
         for agent in myRoom.agentCams:
             self.draw_one_Cam(agent.cam,l)
+
+    def drawCam_room_description(self, room, agents_to_display,agentType, allAgents=False):
+        """ Draws the previous positions of the selected targets for the selected agents. """
+        agents = []
+        if allAgents:
+            if agentType == "agentCam":
+                agents = room.agentCams
+            elif agentType == "agentUser":
+                agents = room.agentUser
+        else:
+            agents = room.getAgentsWithIDs(agents_to_display, agentType)
+
+        for agent in agents:
+            self.drawCam(room)
+
+    def drawTraj(self,traj):
+        count = 0
+        for point in traj:
+            count = count + 1
+            (x,y) = point
+            pygame.draw.circle(self.screen, [255,0,0], (
+                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 5)
+
+            label = self.font.render(str(count), 10, CAMERA)
+            self.screen.blit(label, (
+                self.x_offset + int(x * self.scale_x) + 5, self.y_offset + int(y * self.scale_y) + 5))
+
+    def draw_link_cam_region(self,room,link_cam_to_target):
+        for link in link_cam_to_target:
+            (targetID,camID,dist) = link
+
+            for agent in room.agentCams:
+                camera = agent.cam
+                if(camera.id == camID):
+                    for target in room.targets:
+                        if(target.id == targetID):
+                            pygame.draw.line(self.screen, agent.color, (self.x_offset + int(camera.xc * self.scale_x),self.y_offset + int(camera.yc * self.scale_y)),
+                                             (self.x_offset + int(target.xc * self.scale_x),self.y_offset + int(target.yc * self.scale_y)),4)
+
+    def draw_link_cam_region_room_description(self,room,agents_to_display,agentType,allAgents=False):
+        agents = []
+        if allAgents:
+            if agentType == "agentCam":
+                agents = room.agentCams
+            elif agentType == "agentUser":
+                agents = room.agentUser
+        else:
+            agents = room.getAgentsWithIDs(agents_to_display,agentType)
+
+        for agent_to_display in agents:
+            self.draw_link_cam_region(agent_to_display.room_description,agent_to_display.link_target_agent.link_camera_target)
 

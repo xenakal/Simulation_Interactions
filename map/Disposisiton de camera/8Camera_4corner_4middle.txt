@@ -1,0 +1,31 @@
+# Camera in corner, room (300,300)
+# Please let the blank where they are,
+# Otherwise the map will not be loaded correctly.
+# This save is not dummysproof
+#----------------------------
+# 10 lines to save target data
+# 5 lines to save target data
+# Description start below this line
+#==================================
+#
+#Targets description
+#----------------------------
+
+
+
+
+
+
+
+
+
+
+#Cameras description
+#----------------------------
+0,300,0,300,0,300,150,150,
+0,0,300,300,150,150,0,300,
+45,135,315,225,0,180,90,-90,
+60,60,60,60,60,60,60,60,
+1,1,1,1,1,1,1,1,
+#----------------------------
+#end of file
