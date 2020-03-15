@@ -13,7 +13,7 @@ def clean_mailbox():
 TIME_BTW_FRAMES = 0.1
 
 '''Option for class main'''
-ROOM_Analysis = 1
+ROOM_Analysis = 0
 T_MAX = 1000
 
 '''Option for class agent'''

@@ -15,6 +15,7 @@ from main import TIME_PICTURE
 from main import TIME_SEND_READ_MESSAGE
 from main import MULTI_THREAD
 
+
 class AgentCam(Agent):
 
     def __init__(self, idAgent, camera, room):
@@ -47,14 +48,6 @@ class AgentCam(Agent):
 
         self.log_room = logger_room
 
-        # not used yet, to be used to quantify the quality of the prediction
-        self.predictionPrecision = {}
-        self.previousPrediction = {}
-        for target in self.myRoom.targets:
-            self.predictionPrecision[target.id] = 0.0
-            self.previousPrediction[target.id] = -1
-
-
     def run(self):
         self.thread_pI.start()
         if MULTI_THREAD == 1:
@@ -74,7 +67,7 @@ class AgentCam(Agent):
             state = nextstate
 
             if state == "takePicture":
-                picture = self.cam.run(self.myRoom)
+                picture = self.cam.run(self.myRoom)  # type : [target objects, position, hidden]
                 time.sleep(TIME_PICTURE)
 
                 if not self.cam.isActivate():
@@ -87,10 +80,10 @@ class AgentCam(Agent):
                         for targetElem in picture:
                             self.memory.set_current_time(self.myRoom.time)
                             try:
-                                self.memory.add_create_target_estimator(self.myRoom, self.myRoom.time, targetElem[0].id,self.id, True)
-                            except  AttributeError:
+                                self.memory.add_create_target_estimator(self.myRoom, self.myRoom.time, targetElem[0].id,
+                                                                        self.id, True)
+                            except AttributeError:
                                 print("fichier agent caméra ligne 94: oupsi un problème")
-
 
                         self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
@@ -261,29 +254,4 @@ class AgentCam(Agent):
         predictions = predictor.makePredictions(targetIdList)
 
         return predictions
-
-    def predictOcclusions(self, predictions, targetIdList):
-        """
-
-        :param predictions: list of lists, each of which contains the predicted positions of the targets in targetIdList
-        :param targetIdList: list of targetId's
-        :return: list containing the targets that are going to be occluded based on predictions
-        """
-
-        occludedTargets = []
-        for index, futurePosList in enumerate(predictions):
-            for pos in futurePosList:
-                if self.notInView(pos):
-                    occludedTargets.append(targetIdList[index])
-                    break
-
-        return occludedTargets
-
-    def notInView(self, position):
-        """
-        :param position: [x, y]
-        :return: true if the position is seen by the agent, false otherwise
-        """
-        # TODO
-        return self.cam.posInField(position)
 
