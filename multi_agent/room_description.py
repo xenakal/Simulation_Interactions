@@ -13,6 +13,8 @@ class Room_Description:
         self.targets = []
         # agentCam
         self.agentCams = []
+        # agentUser
+        self.agentUser = []
         # time
         self.time = 0
         #color
@@ -26,6 +28,9 @@ class Room_Description:
 
         for agent in room.agentCams:
                 self.agentCams.append(agent)
+
+        for agent in room.agentUser:
+                self.agentUser.append(agent)
 
     def update_target_based_on_memory(self,fusionList):
         for target_detected_ID in fusionList.target_seen:
@@ -51,9 +56,12 @@ class Room_Description:
     def add_targetRepresentation(self,id,x,y,size,label):
         self.targets.append(Target_representation(id,x,y,size,label,self.color))
 
-    def getAgentsWithIDs(self, idList):
+    def getAgentsWithIDs(self,idList,agentType):
         """ Returns the list of agents with ids in the list provided in the argument. """
-        return [agent for agent in self.agentCams if agent.id in idList]
+        if agentType == "agentCam":
+            return [agent for agent in self.agentCams if agent.id in idList]
+        elif agentType == "agentUser":
+            return [agent for agent in self.agentUser if agent.id in idList]
 
     def getTargetsWithIDs(self, targetList):
         """ Returns the list of targets with ids in the list provided in the argument. """

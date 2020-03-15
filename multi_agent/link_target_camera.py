@@ -31,8 +31,7 @@ class LinkTargetCamera():
         for item in self.link_camera_target:
             (targetID, camID, distance) = item
             self.link_camera_target.remove(item)
-            self.link_camera_target.append((targetID, camID, 1000000000))
-
+            self.link_camera_target.append((targetID, -1, 1000000000))
 
 
     def compute_link_camera_target(self):
@@ -41,7 +40,8 @@ class LinkTargetCamera():
         for camera in self.list_camera:
             for target in self.room.targets:
                 """Ici dans le calcul au lieu d'utiliser les positions actuelles on peut aussi utiliser les prédictions"""
-                if not camera.is_in_hidden_zone_all_targets(target.xc,target.yc,self.room):
+
+                if not camera.is_in_hidden_zone_all_targets(target.xc,target.yc,self.room) and camera.is_x_y_in_field_not_obstructed(target.xc,target.yc):
                     distance_to_target = np.power(np.power((camera.xc - target.xc), 2) + np.power((camera.yc - target.yc), 2), 0.5)
                     for item in self.link_camera_target:
                         (targetID,camID,distance) = item
@@ -49,6 +49,15 @@ class LinkTargetCamera():
                         if  targetID == target.id and distance_to_target < distance:
                                 self.link_camera_target.remove(item)
                                 self.link_camera_target.append((targetID,camera.id,distance_to_target))
+
+
+    def is_in_charge(self,target_id,agent_id):
+        for item in self.link_camera_target:
+            (targetID, camID, distance) = item
+            if targetID == target_id and camID == agent_id:
+                return True
+        return False
+
 
 
 

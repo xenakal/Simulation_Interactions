@@ -208,6 +208,7 @@ class Camera:
                 result = self.is_in_hidden_zone_one_target_matrix_x_y(result, x, y, xt, yt, size)
         return result
 
+
     def objectsInField(self, targetList):
         self.targetDetectedList = []
         targetInTriangle = []

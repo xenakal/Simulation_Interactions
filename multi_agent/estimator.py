@@ -40,13 +40,13 @@ class TargetEstimatorList:
             self.agent_target.append((agentID,targetID))
             self.estimator_list.append([agentID, targetID, []])
 
-    def add_create_target_estimator(self,time_from_estimation, target_ID, agent_ID,target_xc,target_yc,target_size,seenByCam):
+    def add_create_target_estimator(self,time_from_estimation, target_ID, agent_ID,target_xc,target_yc,target_size):
         """ Creates an estimator and adds it to the list if doesn't exist yet. """
         self.update_estimator_list(agent_ID,target_ID)
 
         for estimatorElem in self.estimator_list:
             if isCorrespondingEstimator(agent_ID, target_ID, estimatorElem):
-                newTargetEstimator = TargetEstimator(time_from_estimation,agent_ID,target_ID,target_xc,target_yc,target_size,seenByCam)
+                newTargetEstimator = TargetEstimator(time_from_estimation,agent_ID,target_ID,target_xc,target_yc,target_size)
                 if not newTargetEstimator in estimatorElem[2]:
                     estimatorElem[2].append(newTargetEstimator)
             else:
@@ -191,7 +191,7 @@ class TargetEstimator:
         followedByCam -- cam who has the best view on the target for now
     """
 
-    def __init__(self, timeStamp, agentID, targetID,target_xc,target_yc,target_size,seenByCam=-1,followedByCam=-1):
+    def __init__(self, timeStamp, agentID, targetID,target_xc,target_yc,target_size):
         self.timeStamp = timeStamp
         self.agent_ID = agentID
         self.target_ID = targetID
@@ -199,13 +199,8 @@ class TargetEstimator:
         self.position = [target_xc, target_yc]
         self.target_size = target_size
 
-        self.seenByCam = seenByCam
-        self.followedByCam = followedByCam
-
-        self.estimator = False
-
-    def copyTargetEstimator_newTime(self, time, target, seenByCam):
-        return TargetEstimator(time, self.agent_ID, target, seenByCam, self.followedByCam)
+    def copyTargetEstimator_newTime(self, time, target):
+        return TargetEstimator(time, self.agent_ID, target)
 
     def setTimeStamp(self, time):
         self.timeStamp = time
@@ -218,24 +213,21 @@ class TargetEstimator:
         s2 = "#From #" + str(self.agent_ID) + "\n"
         s3 = "#Target_ID #" + str(self.target_ID) + " #Target_label #" + str(self.target_label) + "\n"
         s4 = "x: " + str(self.position[0]) + " y: " + str(self.position[1]) + "\n"
-        s5 = "Seen by the agent: " + str(self.seenByCam) + " followed by agent: " + str(self.followedByCam) + "\n"
-        s6 = "Estimation: " + str(self.estimator)
-        return str("\n" + s1 + s2 + s3 + s4 + s5 + s6 + "\n")
+        s5 = "#Size: " + str(self.target_size) + "\n"
+        return str("\n" + s1 + s2 + s3 + s4 + s5 +"\n")
 
     def parse_string(self, s):
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
         attribute = re.split(
-            "#Timestamp#|#From#|#Target_ID#|#Target_label#|x:|y:|Seenbytheagent:|followedbyagent:|Estimation:", s)
+            "#Timestamp#|#From#|#Target_ID#|#Target_label#|x:|y:|#Size:", s)
         self.timeStamp = int(attribute[1])
         self.agent_ID = int(attribute[2])
         self.target_ID = int(attribute[3])
         self.target_label = attribute[4]
         self.position = [float(attribute[5]), float(attribute[6])]
-        self.seenByCam = bool(attribute[7] == "True")
-        self.followedByCam = int(attribute[8])
-        self.estimator = bool(attribute[9] == "True")
+        self.target_size = int(attribute[7])
 
     def __eq__(self, other):
         cdt1 = self.timeStamp == other.timeStamp

@@ -17,9 +17,9 @@ TIME_BTW_FRAMES = 0.1
 USE_GUI = 1
 USE_agent = 1
 USE_static_analysis = 1
-USE_dynamic_analysis_simulated_room = 1
+USE_dynamic_analysis_simulated_room = 0
 T_MAX = 10000
-STATIC_ANALYSIS_PRECISION=5 #best with 1 until map size
+STATIC_ANALYSIS_PRECISION=3 #best with 1 until map size
 STATIC_ANALYSIS_PRECISION_simulated_room = 10
 
 
@@ -32,9 +32,10 @@ NUMBER_OF_MESSAGE_RECEIVE = 1  # 1= all message receive, 100 = almost nothing is
 TIME_PICTURE = .5
 TIME_SEND_READ_MESSAGE = .1
 RUN_ON_A_THREAD = 1
+DATA_TO_SEND ="behaviour"
 
 '''Option for class estimator'''
-INCLUDE_ERROR = False
+INCLUDE_ERROR = True
 STD_MEASURMENT_ERROR = 2
 
 '''Option for class predication'''
@@ -85,7 +86,11 @@ class App:
         self.room_txt.load_room_from_txt(self.filename)
         '''Creation from the room with the given description'''
         self.myRoom = self.room_txt.init_room()
+        '''Adding one agent user'''
+        self.myRoom.init_agentUser(1)
         for agent in self.myRoom.agentCams:
+            agent.init_and_set_room_description(self.myRoom)
+        for agent in self.myRoom.agentUser:
             agent.init_and_set_room_description(self.myRoom)
         '''Computing the vision in the room taking in to account only fix object'''
         self.static_region = MapRegionStatic(self.myRoom)
@@ -99,6 +104,8 @@ class App:
         if USE_agent:
             if RUN_ON_A_THREAD == 1:
                 for agent in self.myRoom.agentCams:
+                    agent.run()
+                for agent in self.myRoom.agentUser:
                     agent.run()
 
         self.link_agent_target = LinkTargetCamera(self.myRoom)
@@ -117,6 +124,8 @@ class App:
                 self.myRoom.time = 0
                 if USE_agent:
                     for agent in self.myRoom.agentCams:
+                        agent.clear()
+                    for agent in self.myRoom.agentUser:
                         agent.clear()
                 clean_mailbox()
                 self.init()
@@ -138,6 +147,9 @@ class App:
                 random_order = self.myRoom.agentCams
                 #random.shuffle(random_order,random)
                 for agent in random_order:
+                    agent.run()
+
+                for agent in self.myRoom.agentUser:
                     agent.run()
             else:
                 '''to slow donw the main thread in comparaison to agent thread'''
@@ -168,6 +180,9 @@ class App:
                 agent.room_description.time = agent.room_description.time+1
 
         for agent in self.myRoom.agentCams:
+            agent.clear()
+
+        for agent in self.myRoom.agentUser:
             agent.clear()
 
         # Clean mailbox

@@ -6,7 +6,7 @@ from my_utils.GUI.GUI_projection import *
 from my_utils.GUI.GUI_stat import *
 from my_utils.GUI.GUI_create_map import *
 from my_utils.GUI.GUI_simulation.GUI_room import *
-from my_utils.GUI.Gui_output_user import *
+from my_utils.GUI.Gui_output_agent import *
 from my_utils.GUI.button import ButtonList
 import main
 
@@ -34,7 +34,7 @@ class GUI:
 
         self.screen = pygame.display.set_mode((self.w, self.h), pygame.RESIZABLE)
 
-        self.button_menu = ButtonList(["Simulation","User's output","Create Map", "Camera", "Stat",], 10, -30, 0, 0, 100, 30)
+        self.button_menu = ButtonList(["Simulation","Agent's O","Create Map", "Camera", "Stat",], 10, -30, 0, 0, 100, 30)
         self.button_menu.set_buttons_state("Simulation", True)
 
         self.GUI_option = GUI_option(self.screen)
@@ -71,7 +71,7 @@ class GUI:
         elif self.button_menu.find_button_state("Create Map"):
             self.GUI_create_map.run()
 
-        elif self.button_menu.find_button_state("User's output"):
+        elif self.button_menu.find_button_state("Agent's O"):
             self.GUI_output.run(myRoom,link_camera_target)
 
         self.GUI_option.reset_mouse_list()

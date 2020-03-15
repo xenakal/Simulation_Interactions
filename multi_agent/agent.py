@@ -14,9 +14,10 @@ class Agent:
     Class defining a basic agent without any camera.
     """
 
-    def __init__(self, idAgent):
+    def __init__(self, id_agent,type_agent):
         # Attributes
-        self.id = idAgent
+        self.id = id_agent
+        self.type = type_agent
         self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
 
         r = random.randrange(20, 230, 1)
@@ -28,16 +29,16 @@ class Agent:
         self.info_messageSent = ListMessage("Sent")
         self.info_messageReceived = ListMessage("Received")
         self.info_messageToSend = ListMessage("ToSend")
-        self.message_stat = Agent_statistic(idAgent)
+        self.message_stat = Agent_statistic(id_agent)
 
         mbox = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
         mbox.clear()
 
         # create logger_message with 'spam_application'
-        logger_message = logging.getLogger('agent' + str(self.id))
+        logger_message = logging.getLogger('agent'+ str(self.type) + " "+ str(self.id))
         logger_message.setLevel(logging.INFO)
         # create file handler which log_messages even debug messages
-        fh = logging.FileHandler(main.NAME_LOG_PATH + str(self.id) + "-messages", "w+")
+        fh = logging.FileHandler(main.NAME_LOG_PATH + "-" + str(self.type) + " " +  str(self.id) + "-messages.txt", "w+")
         fh.setLevel(logging.DEBUG)
         # create console handler with a higher log_message level
         ch = logging.StreamHandler()
@@ -146,6 +147,15 @@ class Agent:
     def clear(self):
         mbox = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
         mbox.close()
+
+    def process_InfoMemory(self, room):
+        pass
+
+    def process_Message_sent(self):
+        pass
+
+    def process_Message_received(self):
+        pass
 
 
 class Agent_statistic:

@@ -3,6 +3,7 @@ from elements.target import *
 from multi_agent.agent_camera import *
 from elements.camera import *
 from elements.info_room_simu import *
+from multi_agent.agent_user import AgentUser
 from multi_agent.room_description import *
 import main
 
@@ -18,6 +19,9 @@ class Room:
         # camera in the room
         self.cameras = []
         self.camerasNumber = 0
+        # Agent User
+        self.agentUser = []
+        self.agentUserNumber = 100
         # agentCam
         self.agentCams = []
         self.agentCamNumber = 0
@@ -39,6 +43,11 @@ class Room:
         for camera in self.cameras:
             self.agentCams.append(AgentCam(self.agentCamNumber, camera))
             self.agentCamNumber += 1
+
+    def init_agentUser(self,number):
+        for n in range(number):
+            self.agentUser.append(AgentUser(self.agentUserNumber))
+            self.agentUserNumber = self.agentUserNumber + 1
 
     def init_trajectories(self,all_traj):
         self.info_simu.init_trajectories(all_traj)
@@ -68,9 +77,12 @@ class Room:
         self.agentCams.append(AgentCam(self.agentCamNumber, camera))
         self.agentCamNumber += 1
 
-    def getAgentsWithIDs(self, idList):
+    def getAgentsWithIDs(self,idList,agentType):
         """ Returns the list of agents with ids in the list provided in the argument. """
-        return [agent for agent in self.agentCams if agent.id in idList]
+        if agentType == "agentCam":
+            return [agent for agent in self.agentCams if agent.id in idList]
+        elif agentType == "agentUser":
+            return [agent for agent in self.agentUser if agent.id in idList]
 
     def getTargetsWithIDs(self, targetList):
         """ Returns the list of targets with ids in the list provided in the argument. """

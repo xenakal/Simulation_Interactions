@@ -10,6 +10,7 @@ from multi_agent.message import *
 from multi_agent.memory import *
 from multi_agent.linearPrediction import *
 from multi_agent.kalmanPrediction import *
+from multi_agent.behaviour_detection import *
 from multi_agent.room_description import*
 from multi_agent.link_target_camera import *
 import main
@@ -17,10 +18,11 @@ import main
 class AgentCam(Agent):
 
     def __init__(self, idAgent, camera):
-        super().__init__(idAgent)
+        super().__init__(idAgent,"camera")
         # Attributes
         self.cam = camera
         self.memory = Memory(idAgent)
+        self.behaviour_analysier = TargetBehaviourAnalyser(self.memory)
         self.room_description = Room_Description(self.color)
         self.link_target_agent = LinkTargetCamera(self.room_description)
 
@@ -28,12 +30,28 @@ class AgentCam(Agent):
         self.threadRun = 1
         self.my_thread_run = threading.Thread(target=self.thread_run)
 
+        # create logger_message with 'spam_application'
+        logger_message = logging.getLogger('agent' + " " + str(self.type) + " " + str(self.id))
+        logger_message.setLevel(logging.INFO)
+        # create file handler which log_messages even debug messages
+        fh = logging.FileHandler(main.NAME_LOG_PATH + str(self.type) + " " + str(self.id) + "-messages", "w+")
+        fh.setLevel(logging.DEBUG)
+        # create console handler with a higher log_message level
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.ERROR)
+        # create formatter and add it to the handlers
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        fh.setFormatter(formatter)
+        ch.setFormatter(formatter)
+        # add the handlers to the logger_message
+        logger_message.addHandler(fh)
+        logger_message.addHandler(ch)
 
         # log_room
-        logger_room = logging.getLogger('room' + str(idAgent))
+        logger_room = logging.getLogger('room' + " agent " + str(self.type) + " "  + str(idAgent))
         logger_room.setLevel(logging.INFO)
         # create file handler which log_messages even debug messages
-        fh = logging.FileHandler(main.NAME_LOG_PATH + str(idAgent) + "-room", "w+")
+        fh = logging.FileHandler(main.NAME_LOG_PATH + "-" + str(self.type)+ " " + str(idAgent)+" "  + "-room.txt", "w+")
         fh.setLevel(logging.DEBUG)
         # create console handler with a higher log_message level
         ch = logging.StreamHandler()
@@ -85,21 +103,25 @@ class AgentCam(Agent):
             state = nextstate
 
             if state == "takePicture":
+
+                '''Input from the agent, here the fake room'''
                 picture = self.cam.run()
                 time.sleep(main.TIME_PICTURE)
 
+                '''Allows to simulate crash of the camera'''
                 if not self.cam.isActivate():
                     nextstate = "takePicture"
                     time.sleep(0.3)
                 else:
+                    '''If the camera is working and we have a new picture, then the informations are stored in memory.'''
                     if my_previousTime != self.room_description.time:  # Si la photo est nouvelle
                         my_previousTime = self.room_description.time
-
                         for targetElem in picture:
                             self.memory.set_current_time(self.room_description.time)
                             try:
                                 target = targetElem[0]
 
+                                '''Simulation from noise on the target's position '''
                                 if main.INCLUDE_ERROR and not (target.label =="fix"):
                                     erreurX = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
                                     erreurY = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
@@ -107,16 +129,15 @@ class AgentCam(Agent):
                                     erreurX = 0
                                     erreurY = 0
 
-                                self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,target.xc+erreurX, target.yc+erreurY, target.size, True)
+                                self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,target.xc+erreurX, target.yc+erreurY, target.size)
                             except  AttributeError:
                                 print("fichier agent caméra ligne 94: oupsi un problème")
 
-                        self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
             elif nextstate == "processData":
                 '''Combination of data received and data observed'''
-                self.memory.combine_data()
+                self.memory.combine_data_agentCam()
                 '''Modification from the room description'''
                 self.room_description.update_target_based_on_memory(self.memory.memory_agent)
                 '''Computation of the camera that should give the best view, according to map algorithm'''
@@ -139,21 +160,64 @@ class AgentCam(Agent):
                 '''Find if other agents reply to a previous message'''
                 self.process_Message_sent()
 
+                self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
                 time.sleep(main.TIME_SEND_READ_MESSAGE)
                 nextstate = "takePicture"
             else:
                 print("FSM not working proerly")
 
     def run_wihout_thread(self):
-       print("not working yet")
-
+        pass
 
     def process_InfoMemory(self, room):
         for target in room.targets:
-            liste = self.memory.memory_agent.get_target_list(target.id)
-            if len(liste) > 0:
+            """
+                ----------------------------------------------------------------------------------------------
+                Memory analysis: 
+                    -> Behaviour
+                        - detection from moving, stop , changing state targest
+                        - detection from target leaving the field of the camera
+                -----------------------------------------------------------------------------------------------
+            """
+            '''Check if the target is moving,stopped or changing from one to the other state'''
+            (is_moving, is_stopped) = self.behaviour_analysier.detect_target_motion(target.id,4,3,3)
+            '''Check if the target is leaving the cam angle_of_view'''
+            (is_in,is_out) = self.behaviour_analysier.is_target_leaving_cam_field(self.cam,target.id,0,3)
+
+            """
+                ----------------------------------------------------------------------------------------------
+                Data to send other cam agent:
+                -----------------------------------------------------------------------------------------------
+            """
+            '''Send message to other agent'''
+            if main.DATA_TO_SEND == "all":
+                memories = self.memory.memory_agent.get_target_list(target.id)
+                if len(memories) > 0:
+                    last_memory = memories[len(memories) - 1]
+                    self.send_message_memory(last_memory)
+
+            elif main.DATA_TO_SEND == "behaviour":
+                '''If the target stop is it because we loose it, or is the target outside from the range ? '''
                 pass
-                self.send_message_memory(liste[len(liste) - 1])
+                '''Demande de confirmation à un autre agent par exemple'''
+
+            """
+               ----------------------------------------------------------------------------------------------
+               Data to send user's agent:
+               -----------------------------------------------------------------------------------------------
+            """
+
+            '''If the target is link to this agent then we send the message to the user'''
+            if self.link_target_agent.is_in_charge(target.id,self.id):
+                memories = self.memory.memory_agent.get_target_list(target.id)
+                if len(memories) > 0:
+                    receivers = []
+                    for agent in room.agentUser:
+                        receivers.append([agent.id,agent.signature])
+                    last_memory = memories[len(memories) - 1]
+                    self.send_message_memory(last_memory,receivers)
+
+
 
     def process_Message_sent(self):
         for message_sent in self.info_messageSent.getList():
@@ -256,7 +320,7 @@ class AgentCam(Agent):
         # Update Info
         s = message.message
         if not (s == ""):
-            estimator = TargetEstimator(0,0,0,0,0,0,0,0)
+            estimator = TargetEstimator(0,0,0,0,0,0)
 
             estimator.parse_string(s)
             self.memory.add_target_estimator(estimator)
@@ -265,7 +329,7 @@ class AgentCam(Agent):
 
     def received_message_locked(self, message):
         # Update Info
-        # self.memory.setfollowedByCam(self.myRoom.time, message.targetRef, message.senderID)
+        #
         # Response
         self.send_message_ackNack(message, "ack")
 
