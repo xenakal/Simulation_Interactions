@@ -46,11 +46,11 @@ class GUI_room:
 
     def draw_one_target(self,target,tab):
         color = RED
-        if target.label == "fix":
+        if target.type == "fix":
             color = FIX
-        elif target.label == "target":
+        elif target.type == "target":
             color = TARGET
-        elif target.label == "obstruction":
+        elif target.type == "obstruction":
             color = OBSTRUCTION
 
         # so that it is only target.yc drawn in the square

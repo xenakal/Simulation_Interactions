@@ -22,7 +22,7 @@ def limitToValueMax(valueMax, value):
         modify the position of the target (xc,yc)
 """
 def moveTarget(target, delta_time, myRoom):
-    type_mvt = target.trajectory
+    type_mvt = target.trajectory_type
     # easy solution need to be investeagted
     if type_mvt == 'fix':
         pass
@@ -49,7 +49,7 @@ def moveTarget(target, delta_time, myRoom):
         it does not avoid obstacle.
 """
 def rectiligneTrajectory(target,dist_min, delta_time):
-    if target.label != 'fix':
+    if target.type != 'fix':
 
         (x_goal,y_goal) = target.trajectory_position[target.number_of_position_reached]
         '''Updating the postion we want to reach when close enough '''

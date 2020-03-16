@@ -202,14 +202,8 @@ class TargetEstimator:
         self.position = [target_xc, target_yc]
         self.target_size = target_size
 
-    def copyTargetEstimator_newTime(self, time, target):
+    def copy_targetEstimator_new_time(self, time, target):
         return TargetEstimator(time, self.agent_ID, target)
-
-    def setTimeStamp(self, time):
-        self.timeStamp = time
-
-    def setSeenByCam(self, setter):
-        self.seenByCam = setter
 
     def to_string(self):
         s1 = "#Timestamp #" + str(self.timeStamp) + "\n"

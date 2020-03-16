@@ -192,7 +192,7 @@ class Camera:
 
     def is_in_hidden_zone_fix_targets_matrix_x_y(self, result, x, y, room):
         for target in room.info_simu.targets_SIMU:
-            if target.label == "fix":
+            if target.type == "fix":
                 xt = target.xc
                 yt = target.yc
                 size = target.size
@@ -201,7 +201,7 @@ class Camera:
 
     def is_in_hidden_zone_mooving_targets_matrix_x_y(self, result, x, y, room):
         for target in room.targets:
-            if target.label == "target" or target.label == "obstruction":
+            if target.type == "target" or target.type == "obstruction":
                 xt = target.xc
                 yt = target.yc
                 size = target.size
