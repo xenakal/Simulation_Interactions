@@ -11,18 +11,19 @@ from multi_agent.memory import *
 from multi_agent.linearPrediction import *
 from multi_agent.kalmanPrediction import *
 from multi_agent.behaviour_detection import *
-from multi_agent.room_description import*
+from multi_agent.room_description import *
 from multi_agent.link_target_camera import *
 import main
+
 
 class AgentUser(Agent):
 
     def __init__(self, idAgent):
-        super().__init__(idAgent,"user")
+        super().__init__(idAgent, "user")
         # Attributes
         self.memory = Memory(idAgent)
         self.behaviour_analysier = TargetBehaviourAnalyser(self.memory)
-        self.room_description = Room_Description([255,255,255])
+        self.room_description = Room_Description([255, 255, 255])
 
         # Threads
         self.threadRun = 1
@@ -32,7 +33,8 @@ class AgentUser(Agent):
         logger_room = logging.getLogger('room' + " agent " + str(self.type) + " " + str(idAgent))
         logger_room.setLevel(logging.INFO)
         # create file handler which log_messages even debug messages
-        fh = logging.FileHandler(main.NAME_LOG_PATH + "-" + str(self.type) + " " + str(idAgent) + " " + "-room.txt","w+")
+        fh = logging.FileHandler(main.NAME_LOG_PATH + "-" + str(self.type) + " " + str(idAgent) + " " + "-room.txt",
+                                 "w+")
         fh.setLevel(logging.DEBUG)
         # create console handler with a higher log_message level
         ch = logging.StreamHandler()
@@ -60,7 +62,7 @@ class AgentUser(Agent):
         mbox = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
         mbox.close()
 
-    def init_and_set_room_description(self,room):
+    def init_and_set_room_description(self, room):
         self.room_description.init(room)
         self.message_stat.init_message_static(self.room_description)
 
@@ -101,13 +103,11 @@ class AgentUser(Agent):
             else:
                 print("FSM not working proerly")
 
-
     def run_wihout_thread(self):
         pass
 
-
     def process_InfoMemory(self, room):
-       pass
+        pass
 
     def process_Message_sent(self):
         for message_sent in self.info_messageSent.getList():
@@ -136,7 +136,7 @@ class AgentUser(Agent):
         # Update Info
         s = message.message
         if not (s == ""):
-            estimator = TargetEstimator(0,0,0,0,0,0)
+            estimator = TargetEstimator(0, 0, 0, 0, 0, 0)
 
             estimator.parse_string(s)
             self.memory.add_target_estimator(estimator)

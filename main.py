@@ -7,21 +7,22 @@ from my_utils.motion import *
 from my_utils.map_from_to_txt import *
 from elements.room import *
 
+
 def clean_mailbox():
     shutil.rmtree("mailbox", ignore_errors=True)
     os.mkdir("mailbox")
+
 
 TIME_BTW_FRAMES = 0.1
 
 '''Option for class main'''
 USE_GUI = 1
 USE_agent = 1
-USE_static_analysis = 1
+USE_static_analysis = 0
 USE_dynamic_analysis_simulated_room = 0
 T_MAX = 10000
-STATIC_ANALYSIS_PRECISION=3 #best with 1 until map size
+STATIC_ANALYSIS_PRECISION = 3  # best with 1 until map size
 STATIC_ANALYSIS_PRECISION_simulated_room = 10
-
 
 '''Option for class agent'''
 NAME_LOG_PATH = "log/log_agent/Agent"
@@ -32,7 +33,7 @@ NUMBER_OF_MESSAGE_RECEIVE = 1  # 1= all message receive, 100 = almost nothing is
 TIME_PICTURE = .5
 TIME_SEND_READ_MESSAGE = .1
 RUN_ON_A_THREAD = 1
-DATA_TO_SEND ="behaviour"
+DATA_TO_SEND = "behaviour"
 
 '''Option for class estimator'''
 INCLUDE_ERROR = True
@@ -52,8 +53,8 @@ LOAD_MAP_NAME = "My_new_map.txt"
 ''' 180,100,1.5,1.5 for a Room (300,300)'''
 X_OFFSET = 180
 Y_OFFSET = 100
-X_SCALE  = 1.5
-Y_SCALE  = 1.5
+X_SCALE = 1.5
+Y_SCALE = 1.5
 
 '''Option for ROOM'''
 WIDTH_ROOM = 300
@@ -61,7 +62,7 @@ LENGHT_ROOM = 300
 
 
 class App:
-    def __init__(self,fileName = "My_new_map.txt"):
+    def __init__(self, fileName="map_lele.txt"):
         # Clean the file mailbox
         clean_mailbox()
 
@@ -69,7 +70,7 @@ class App:
         self.filename = fileName
         self.room_txt = Room_txt()
 
-        '''ATTENTION all what depends on my room needs to be initialized again in init
+        '''ATTENTION all that depends on my room needs to be initialized again in init
         because my room is first initialized after room_txt.load_room_from_file'''
         self.myRoom = Room()
         self.static_region = MapRegionStatic(self.myRoom)
@@ -81,7 +82,7 @@ class App:
             self.myGUI = GUI(self.room_txt)
 
     def init(self):
-        '''Loading the map from a txt file, in map folder'''
+        """Loading the map from a txt file, in map folder"""
         self.room_txt = Room_txt()
         self.room_txt.load_room_from_txt(self.filename)
         '''Creation from the room with the given description'''
@@ -111,7 +112,6 @@ class App:
         self.link_agent_target = LinkTargetCamera(self.myRoom)
         self.link_agent_target.update_link_camera_target()
 
-
     def main(self):
         tmax = T_MAX
         run = True
@@ -131,7 +131,6 @@ class App:
                 self.init()
                 reset = False
 
-
             '''adding/removing target to the room'''
             self.myRoom.add_del_target_timed()
             # Object are moving in the room
@@ -145,7 +144,7 @@ class App:
             '''
             if RUN_ON_A_THREAD == 0:
                 random_order = self.myRoom.agentCams
-                #random.shuffle(random_order,random)
+                # random.shuffle(random_order,random)
                 for agent in random_order:
                     agent.run()
 
@@ -177,7 +176,7 @@ class App:
             '''Updating the time'''
             self.myRoom.time = self.myRoom.time + 1
             for agent in self.myRoom.agentCams:
-                agent.room_description.time = agent.room_description.time+1
+                agent.room_description.time = agent.room_description.time + 1
 
         for agent in self.myRoom.agentCams:
             agent.clear()

@@ -6,7 +6,9 @@ from elements import room
 """
         Class use to save and load room
 """
-class Room_txt():
+
+
+class Room_txt:
 
     def __init__(self):
         """
@@ -35,9 +37,8 @@ class Room_txt():
         self.data_to_save = []
         self.actualise_data_to_save()
 
-
     def save_room_to_txt(self):
-        fichier = open(main.PATH_TO_SAVE_MAP+main.SAVE_MAP_NAME, "w")
+        fichier = open(main.PATH_TO_SAVE_MAP + main.SAVE_MAP_NAME, "w")
         fichier.write("# New Map, but you can change the name \n")
         fichier.write("# Please let the blank where they are, \n")
         fichier.write("# Otherwise the map will not be loaded correctly. \n")
@@ -70,11 +71,11 @@ class Room_txt():
         fichier.write("#end of file \n")
         fichier.close()
 
-    def load_room_from_txt(self,fileName = 0):
+    def load_room_from_txt(self, fileName=0):
         if fileName == 0:
-            fileName =  main.LOAD_MAP_NAME
+            fileName = main.LOAD_MAP_NAME
 
-        fichier = open(main.PATH_TO_LOAD_MAP+fileName,"r")
+        fichier = open(main.PATH_TO_LOAD_MAP + fileName, "r")
         lines = fichier.readlines()
         fichier.close()
 
@@ -82,10 +83,10 @@ class Room_txt():
         count = 0
         for line in lines:
 
-           if not (line[0] == "#"):
+            if not (line[0] == "#"):
                 line = line[1:]
 
-                if(count == 8):
+                if (count == 8):
                     self.t_add = self.from_listString_to_list(line)
                     self.data_to_save[8] = self.t_add
                 elif (count == 9):
@@ -96,9 +97,9 @@ class Room_txt():
                     self.data_to_save[15] = self.traj_all
 
                 else:
-                    linesplit = re.split(",",line)
-                    for  elem in linesplit:
-                        if not(elem == "\n"):
+                    linesplit = re.split(",", line)
+                    for elem in linesplit:
+                        if not (elem == "\n"):
                             try:
                                 self.data_to_save[count].append(math.ceil(float(elem)))
                             except ValueError:
@@ -107,28 +108,28 @@ class Room_txt():
 
         self.from_all_data_to_separate()
 
-    def from_trajString_to_traj(self,s):
+    def from_trajString_to_traj(self, s):
         list = []
-        traj = re.split("]\),",s)
+        traj = re.split("]\),", s)
         for item in traj:
             try:
-                num_traj_split = re.split(", \[\(",item)
+                num_traj_split = re.split(", \[\(", item)
                 sublist = []
-                num  =  num_traj_split[0][1:]
-                traj_num = num_traj_split[1][0:len(num_traj_split[1])-1]
-                numbers = re.split("\), \(",traj_num)
+                num = num_traj_split[0][1:]
+                traj_num = num_traj_split[1][0:len(num_traj_split[1]) - 1]
+                numbers = re.split("\), \(", traj_num)
                 for number in numbers:
-                    xy = re.split(", ",number)
-                    sublist.append((int(xy[0]),int(xy[1])))
+                    xy = re.split(", ", number)
+                    sublist.append((int(xy[0]), int(xy[1])))
                 list.append((int(num), sublist))
             except IndexError:
                 pass
         return list
 
-    def from_listString_to_list(self,s):
+    def from_listString_to_list(self, s):
         list = []
-        if not(s == ""):
-            s = re.split("],",s)
+        if not (s == ""):
+            s = re.split("],", s)
             for item in s:
                 sublist = []
 
@@ -144,39 +145,38 @@ class Room_txt():
                     list.append(sublist)
         return list
 
-
     def init_room(self):
         my_room = room.Room()
         '''Frist to give the trajectories cause needed to create the target'''
         my_room.init_trajectories(self.traj_all)
         '''Create the taget'''
         my_room.init_room(self.x_target, self.y_target, self.vx_target, self.vy_target, self.trajectoire_target,
-                              self.trajectoire_choice, self.label_target, self.size_target, self.t_add, self.t_del)
+                          self.trajectoire_choice, self.label_target, self.size_target, self.t_add, self.t_del)
         '''Create the agent'''
-        my_room.init_agentCam(self.x_cam, self.y_cam, self.alpha_cam, self.beta_cam, self.fix,my_room)
+        my_room.init_agentCam(self.x_cam, self.y_cam, self.alpha_cam, self.beta_cam, self.fix, my_room)
 
         return my_room
 
-    def from_room_to_seprarate(self,room):
+    def from_room_to_seprarate(self, room):
         self.clean()
         self.my_new_room = room
 
         for target in self.my_new_room.info_simu.targets_SIMU:
-            self.add_target(target.xc,target.yc,target.vx,target.vy,target.trajectory,target.trajectory_choice,
-                            target.label,target.size,target.t_add,target.t_del)
+            self.add_target(target.xc, target.yc, target.vx, target.vy, target.trajectory, target.trajectory_choice,
+                            target.label, target.size, target.t_add, target.t_del)
 
         for agent in self.my_new_room.agentCams:
             camera = agent.cam
             '''need to go from radian to degree'''
-            self.add_cam(camera.xc,camera.yc,camera.alpha*180/math.pi,camera.beta*180/math.pi,camera.fix)
+            self.add_cam(camera.xc, camera.yc, camera.alpha * 180 / math.pi, camera.beta * 180 / math.pi, camera.fix)
         self.actualise_data_to_save()
 
-    def add_point_traj(self,x,y):
-        self.traj.append((x,y))
+    def add_point_traj(self, x, y):
+        self.traj.append((x, y))
 
-    def del_point_traj(self,x,y):
-        try :
-            self.traj.remove((x,y))
+    def del_point_traj(self, x, y):
+        try:
+            self.traj.remove((x, y))
         except ValueError:
             pass
 
@@ -187,26 +187,26 @@ class Room_txt():
         count = 0
         for item in self.traj_all:
             count = count + 1
-        self.traj_all.append((count,self.traj))
+        self.traj_all.append((count, self.traj))
 
-    def set_traj_to_all_traj(self,n):
+    def set_traj_to_all_traj(self, n):
         for item in self.traj_all:
-            (num,my_traj) = item
+            (num, my_traj) = item
             if n == num:
-               return my_traj
+                return my_traj
         return []
 
-    def rem_traj_to_all_traj(self,n):
+    def rem_traj_to_all_traj(self, n):
         for item in self.traj_all:
-            (num,my_traj) = item
+            (num, my_traj) = item
             if n == num:
                 try:
-                    self.traj_all.remove((num,my_traj))
+                    self.traj_all.remove((num, my_traj))
                     break
                 except ValueError:
                     pass
 
-    def add_target(self,x,y,vx,vy,traj_label,traj_choice, label,size,t_add,t_del):
+    def add_target(self, x, y, vx, vy, traj_label, traj_choice, label, size, t_add, t_del):
         self.x_target.append(x)
         self.y_target.append(y)
         self.vx_target.append(vx)
@@ -218,7 +218,7 @@ class Room_txt():
         self.t_add.append(t_add)
         self.t_del.append(t_del)
 
-    def add_cam(self,x,y,alpha,beta,fix):
+    def add_cam(self, x, y, alpha, beta, fix):
         self.x_cam.append(x)
         self.y_cam.append(y)
         self.alpha_cam.append(alpha)
@@ -253,7 +253,7 @@ class Room_txt():
         self.data_to_save = [self.x_target, self.y_target, self.vx_target, self.vy_target, self.trajectoire_target,
                              self.trajectoire_choice, self.label_target,
                              self.size_target, self.t_add, self.t_del, self.x_cam, self.y_cam, self.alpha_cam,
-                             self.beta_cam, self.fix,self.traj_all]
+                             self.beta_cam, self.fix, self.traj_all]
 
     def from_all_data_to_separate(self):
         self.x_target = self.data_to_save[0]

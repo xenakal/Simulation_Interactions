@@ -1,4 +1,6 @@
 from multi_agent.estimator import *
+
+
 class Memory:
     """
     Class with multiple arrays that store information about target.
@@ -25,8 +27,9 @@ class Memory:
         self.memory_all_agent = TargetEstimatorList()
         self.memory_agent = FusionEstimatorList()
 
-    def add_create_target_estimator(self,time_from_estimation,agent_ID, target_ID, target_xc,target_yc,target_size):
-        self.memory_all_agent.add_create_target_estimator(time_from_estimation, target_ID, agent_ID,target_xc,target_yc,target_size)
+    def add_create_target_estimator(self, time_from_estimation, agent_ID, target_ID, target_xc, target_yc, target_size):
+        self.memory_all_agent.add_create_target_estimator(time_from_estimation, target_ID, agent_ID, target_xc,
+                                                          target_yc, target_size)
 
     def add_target_estimator(self, estimator):
         self.memory_all_agent.add_target_estimator(estimator)
@@ -36,29 +39,28 @@ class Memory:
         self.memory_all_agent.set_current_time(current_time)
         self.memory_agent.set_current_time(current_time)
 
-    def combine_data_agentCam(self,choice = 1):
+    def combine_data_agentCam(self, choice=1):
         if choice == 1:
             for item in self.memory_all_agent.agent_target:
-                (agentID,targetID) = item
+                (agentID, targetID) = item
                 if agentID == self.id:
                     for estimateur in self.memory_all_agent.get_agent_target_list(targetID, self.id):
                         if not is_target_estimator(self.memory_agent.get_target_list(targetID), estimateur):
                             self.memory_agent.add_target_estimator(estimateur)
 
-    def combine_data_userCam(self,choice = 1):
+    def combine_data_userCam(self, choice=1):
         if choice == 1:
             for item in self.memory_all_agent.agent_target:
-                (agentID,targetID) = item
+                (agentID, targetID) = item
                 for estimateur in self.memory_all_agent.get_agent_target_list(targetID, agentID):
                     if not is_target_estimator(self.memory_agent.get_target_list(targetID), estimateur):
                         self.memory_agent.add_target_estimator(estimateur)
 
-
     def getPreviousPositions(self, targetID):
         return self.memory_agent.get_target_list(targetID)
 
-    def getPreviousPositions_allMessages(self, targetID,agentID):
-        return self.memory_all_agent.get_agent_target_list(targetID,agentID)
+    def getPreviousPositions_allMessages(self, targetID, agentID):
+        return self.memory_all_agent.get_agent_target_list(targetID, agentID)
 
     def to_string_memory_all(self):
         return self.memory_all_agent.to_string()
@@ -68,4 +70,3 @@ class Memory:
 
     def statistic_to_string(self):
         return self.memory_all_agent.statistic_to_string()
-

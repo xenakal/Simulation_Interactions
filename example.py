@@ -18,11 +18,11 @@ class Example:
             :notes
                 fells free to write some comments.
     """
+
     def __init__(self):
         pass
 
-
-    def get_layout(self,param1,param2):
+    def get_layout(self, param1, param2):
         """
             :description
                 fells free to gives a brief explanation on the function

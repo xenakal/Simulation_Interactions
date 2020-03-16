@@ -7,15 +7,16 @@ from my_utils.line import *
 import main
 
 
-
 def isCorrespondingEstimator(agentID, targetID, targetEstimator):
     return targetEstimator[0] == agentID and targetEstimator[1] == targetID
+
 
 def is_target_estimator(myList, target_estimator):
     for estimator in myList:
         if estimator == target_estimator:
             return True
     return False
+
 
 class TargetEstimatorList:
     """
@@ -31,23 +32,24 @@ class TargetEstimatorList:
     def __init__(self, nTime=20, current_time=0):
         self.times = nTime
         self.currentTime = current_time
-        self.agent_target = []
+        self.agent_target = []  # TODO: elle sert vraiment à qqch celle là ?
         self.estimator_list = []  # tableau de taille #agents*#targets
 
-    def update_estimator_list(self,agentID,targetID):
-        '''Register the target - agent combination in the memory'''
-        if not((agentID,targetID) in self.agent_target):
-            self.agent_target.append((agentID,targetID))
+    def update_estimator_list(self, agentID, targetID):
+        """Register the target - agent combination in the memory"""
+        if not ((agentID, targetID) in self.agent_target):
+            self.agent_target.append((agentID, targetID))
             self.estimator_list.append([agentID, targetID, []])
 
-    def add_create_target_estimator(self,time_from_estimation, target_ID, agent_ID,target_xc,target_yc,target_size):
+    def add_create_target_estimator(self, time_from_estimation, target_ID, agent_ID, target_xc, target_yc, target_size):
         """ Creates an estimator and adds it to the list if doesn't exist yet. """
-        self.update_estimator_list(agent_ID,target_ID)
+        self.update_estimator_list(agent_ID, target_ID)
 
         for estimatorElem in self.estimator_list:
             if isCorrespondingEstimator(agent_ID, target_ID, estimatorElem):
-                newTargetEstimator = TargetEstimator(time_from_estimation,agent_ID,target_ID,target_xc,target_yc,target_size)
-                if not newTargetEstimator in estimatorElem[2]:
+                newTargetEstimator = TargetEstimator(time_from_estimation, agent_ID, target_ID, target_xc, target_yc,
+                                                     target_size)
+                if newTargetEstimator not in estimatorElem[2]:
                     estimatorElem[2].append(newTargetEstimator)
             else:
                 """create a new estimator either for a new taget or for a new agent"""
@@ -177,6 +179,7 @@ class FusionEstimatorList:
     def set_current_time(self, current_time):
         self.currentTime = current_time
 
+
 class TargetEstimator:
     """
     Class representing a target as viewed by an agent (ie with an estimated position).
@@ -191,7 +194,7 @@ class TargetEstimator:
         followedByCam -- cam who has the best view on the target for now
     """
 
-    def __init__(self, timeStamp, agentID, targetID,target_xc,target_yc,target_size):
+    def __init__(self, timeStamp, agentID, targetID, target_xc, target_yc, target_size):
         self.timeStamp = timeStamp
         self.agent_ID = agentID
         self.target_ID = targetID
@@ -214,7 +217,7 @@ class TargetEstimator:
         s3 = "#Target_ID #" + str(self.target_ID) + " #Target_label #" + str(self.target_label) + "\n"
         s4 = "x: " + str(self.position[0]) + " y: " + str(self.position[1]) + "\n"
         s5 = "#Size: " + str(self.target_size) + "\n"
-        return str("\n" + s1 + s2 + s3 + s4 + s5 +"\n")
+        return str("\n" + s1 + s2 + s3 + s4 + s5 + "\n")
 
     def parse_string(self, s):
         s = s.replace("\n", "")
@@ -240,5 +243,3 @@ class TargetEstimator:
 
     def __gt__(self, other):
         return self.timeStamp > other.timeStamp
-
-
