@@ -46,7 +46,7 @@ def extractPositionsFromTargetEstimators(prevTargetEstimatorsList):
 class LinearPrediction(Prediction):
     """ Simple & naive linear prediction. """
 
-    def __init__(self, memory, TIME_PICTURE):
+    def __init__(self, memory, TIME_PICTURE=main.TIME_PICTURE):
         self.memory = memory
         self.TIMESTEP = TIME_PICTURE
 

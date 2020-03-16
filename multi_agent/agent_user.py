@@ -9,7 +9,7 @@ from multi_agent.estimator import *
 from multi_agent.message import *
 from multi_agent.memory import *
 from multi_agent.linearPrediction import *
-from multi_agent.kalmanPrediction import *
+from multi_agent.kalmanPredictionOld import *
 from multi_agent.behaviour_detection import *
 from multi_agent.room_description import*
 from multi_agent.link_target_camera import *

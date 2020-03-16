@@ -5,8 +5,9 @@ from elements.camera import *
 from elements.info_room_simu import *
 import main
 
+
 class Room_Description:
-    def __init__(self,color):
+    def __init__(self, color):
 
         self.coord = numpy.array([0, 0, main.WIDTH_ROOM, main.LENGHT_ROOM])  # x y l h
         # target in the room
@@ -17,22 +18,22 @@ class Room_Description:
         self.agentUser = []
         # time
         self.time = 0
-        #color
+        # color
         self.color = color
 
-    def init(self,room):
+    def init(self, room):
         for target in room.info_simu.targets_SIMU:
             'commenter le if pour avoir tous les targets dans les représentations de chaque agent'
-            if target.label == "fix":
+            if target.type == "fix":
                 self.add_targetRepresentation_from_target(target)
 
         for agent in room.agentCams:
-                self.agentCams.append(agent)
+            self.agentCams.append(agent)
 
         for agent in room.agentUser:
-                self.agentUser.append(agent)
+            self.agentUser.append(agent)
 
-    def update_target_based_on_memory(self,fusionList):
+    def update_target_based_on_memory(self, fusionList):
         for target_detected_ID in fusionList.target_seen:
             is_in_room_representation = False
             targets_estimator = fusionList.get_target_list(target_detected_ID)
@@ -46,8 +47,9 @@ class Room_Description:
                     break
 
             if not is_in_room_representation:
-               self.add_targetRepresentation(target_estimator.target_ID,target_estimator.position[0],target_estimator.position[1],
-                                             target_estimator.target_size,target_estimator.target_label)
+                self.add_targetRepresentation(target_estimator.target_ID, target_estimator.position[0],
+                                              target_estimator.position[1],
+                                              target_estimator.target_size, target_estimator.target_label)
 
     def add_targetRepresentation_from_target(self, target):
         self.add_targetRepresentation(target.id, target.xc, target.yc, target.size, target.label)
@@ -92,6 +94,3 @@ class Target_representation():
         s0 = "target " + str(self.id) + "\n"
         s1 = "position x: " + str(self.xc) + " y: " + str(self.yc) + "\n"
         return s0 + s1
-
-
-

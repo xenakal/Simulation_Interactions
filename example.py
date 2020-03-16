@@ -1,4 +1,4 @@
-import blabla
+import main
 
 
 def static_layout(param1, param2):
@@ -6,7 +6,7 @@ def static_layout(param1, param2):
         :description
             fells free to gives a brief explanation on the function
 
-        :params
+        :param
             1. (type) name -- description
             2. (type) name -- description
 
@@ -22,7 +22,7 @@ class Example:
 
         Description : This class gives a standart version for the layout of a file
 
-            :params
+            :param
                 1. (type) name -- description
                 2. (type) name -- description
                 3. (type) name -- description
@@ -45,7 +45,7 @@ class Example:
             :description
                 fells free to gives a brief explanation on the function
 
-            :params
+            :param
                 1. (type) name -- description
                 2. (type) name -- description
 
@@ -53,3 +53,6 @@ class Example:
                 1. (type) name -- description
                 2. (type) name -- description
         """
+
+# TODO: en fait faudrait peut-être utiliser le format des docString.. Et pour le type, vaut mieux utiliser typehints
+#  quand on fait le refactor

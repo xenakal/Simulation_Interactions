@@ -13,7 +13,7 @@ def clean_mailbox():
     os.mkdir("mailbox")
 
 
-TIME_BTW_FRAMES = 0.1
+TIME_BTW_FRAMES = 0.5
 
 '''Option for class main'''
 USE_GUI = 1

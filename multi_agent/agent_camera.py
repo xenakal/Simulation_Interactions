@@ -9,7 +9,7 @@ from multi_agent.estimator import *
 from multi_agent.message import *
 from multi_agent.memory import *
 from multi_agent.linearPrediction import *
-from multi_agent.kalmanPrediction import *
+from multi_agent.kalmanPredictionOld import *
 from multi_agent.behaviour_detection import *
 from multi_agent.room_description import Room_Description
 from multi_agent.link_target_camera import *
@@ -32,10 +32,11 @@ class AgentCam(Agent):
         self.my_thread_run = threading.Thread(target=self.thread_run)
 
         # log_room
-        logger_room = logging.getLogger('room' + " agent " + str(self.type) + " "  + str(idAgent))
+        logger_room = logging.getLogger('room' + " agent " + str(self.type) + " " + str(idAgent))
         logger_room.setLevel(logging.INFO)
         # create file handler which log_messages even debug messages
-        fh = logging.FileHandler(main.NAME_LOG_PATH + "-" + str(self.type)+ " " + str(idAgent)+" "  + "-room.txt", "w+")
+        fh = logging.FileHandler(main.NAME_LOG_PATH + "-" + str(self.type) + " " + str(idAgent) + " " + "-room.txt",
+                                 "w+")
         fh.setLevel(logging.DEBUG)
         # create console handler with a higher log_message level
         ch = logging.StreamHandler()
@@ -49,13 +50,6 @@ class AgentCam(Agent):
         logger_room.addHandler(ch)
 
         self.log_room = logger_room
-
-        # not used yet, to be used to quantify the quality of the prediction
-        #self.predictionPrecision = {}
-        #self.previousPrediction = {}
-        #for target in self.myRoom.targets:
-            #self.predictionPrecision[target.id] = 0.0
-            #self.previousPrediction[target.id] = -1
 
     def run(self):
         if main.RUN_ON_A_THREAD == 1:
@@ -78,7 +72,7 @@ class AgentCam(Agent):
     def thread_run(self):
         """
                One of the two main threads of an agent.
-               """
+        """
         state = "takePicture"
         nextstate = state
         my_previousTime = self.room_description.time - 1
@@ -107,14 +101,16 @@ class AgentCam(Agent):
                                 target = targetElem[0]
 
                                 '''Simulation from noise on the target's position '''
-                                if main.INCLUDE_ERROR and not (target.type =="fix"):
+                                if main.INCLUDE_ERROR and not (target.type == "fix"):
                                     erreurX = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
                                     erreurY = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
                                 else:
                                     erreurX = 0
                                     erreurY = 0
 
-                                self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,target.xc+erreurX, target.yc+erreurY, target.size)
+                                self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,
+                                                                        target.xc + erreurX, target.yc + erreurY,
+                                                                        target.size)
                             except  AttributeError:
                                 print("fichier agent caméra ligne 134: oupsi un problème")
                                 target = targetElem[0]
@@ -136,6 +132,7 @@ class AgentCam(Agent):
                 self.process_InfoMemory(self.room_description)
                 nextstate = "communication"
 
+            # TODO: pas mieux de mettre ca avant "processData" ?
             elif state == "communication":
                 '''Suppression of unusefull messages in the list'''
                 self.info_messageSent.removeMessageAfterGivenTime(self.room_description.time, 30)
@@ -169,9 +166,9 @@ class AgentCam(Agent):
                 -----------------------------------------------------------------------------------------------
             """
             '''Check if the target is moving,stopped or changing from one to the other state'''
-            (is_moving, is_stopped) = self.behaviour_analysier.detect_target_motion(target.id,4,3,3)
+            (is_moving, is_stopped) = self.behaviour_analysier.detect_target_motion(target.id, 4, 3, 3)
             '''Check if the target is leaving the cam angle_of_view'''
-            (is_in,is_out) = self.behaviour_analysier.is_target_leaving_cam_field(self.cam,target.id,0,3)
+            (is_in, is_out) = self.behaviour_analysier.is_target_leaving_cam_field(self.cam, target.id, 0, 3)
 
             """
                 ----------------------------------------------------------------------------------------------
@@ -197,20 +194,18 @@ class AgentCam(Agent):
             """
 
             '''If the target is link to this agent then we send the message to the user'''
-            if self.link_target_agent.is_in_charge(target.id,self.id):
+            if self.link_target_agent.is_in_charge(target.id, self.id):
                 memories = self.memory.memory_agent.get_target_list(target.id)
                 if len(memories) > 0:
                     receivers = []
                     for agent in room.agentUser:
-                        receivers.append([agent.id,agent.signature])
+                        receivers.append([agent.id, agent.signature])
                     last_memory = memories[len(memories) - 1]
 
                     '''If the message is to old we don't send it -> target lost'''
                     thresh_time_to_send = 10
-                    if self.room_description.time - last_memory.timeStamp <=  thresh_time_to_send:
-                        self.send_message_memory(last_memory,receivers)
-
-
+                    if self.room_description.time - last_memory.timeStamp <= thresh_time_to_send:
+                        self.send_message_memory(last_memory, receivers)
 
     def process_Message_sent(self):
         for message_sent in self.info_messageSent.getList():
@@ -252,7 +247,7 @@ class AgentCam(Agent):
         if not cdt1 and not cdt2:
             self.info_messageToSend.addMessage(m)
 
-    def send_message_memory(self,memory, receivers=None):
+    def send_message_memory(self, memory, receivers=None):
         if receivers is None:
             receivers = []
         s = memory.to_string()
@@ -313,7 +308,7 @@ class AgentCam(Agent):
         # Update Info
         s = message.message
         if not (s == ""):
-            estimator = TargetEstimator(0,0,0,0,0,0)
+            estimator = TargetEstimator(0, 0, 0, 0, 0, 0)
 
             estimator.parse_string(s)
             self.memory.add_target_estimator(estimator)
@@ -330,44 +325,21 @@ class AgentCam(Agent):
         for sent_mes in self.info_messageSent.getList():
             sent_mes.add_ACK_NACK(message)
 
-    def makePredictions(self, method, targetIdList):
+    def getPredictionsOld(self, method, targetIdList):
         """
-        :param targetList -- list of targets IDs: the return list will have an entry for each element of this list
+        :param targetIdList:  list of targets IDs: the return list will have an entry for each element of this list
         :return a list of lists: [ [NUMBER_OF_PREDICTIONS*[x_estimated, y_estimated] ],[],...] (len = len(targetIdList)
         """
         if method == 1:
-            predictor = LinearPrediction(self.memory, main.TIME_PICTURE)
+            predictor = LinearPrediction(self.memory)
         elif method == 2:
-            predictor = KalmanPrediction(self.memory, main.TIME_PICTURE)
+            predictor = KalmanPredictionOld(self.memory)
         else:
-            predictor = LinearPrediction(self.memory, main.TIME_PICTURE)
+            predictor = LinearPrediction(self.memory)
 
         predictions = predictor.makePredictions(targetIdList)
 
         return predictions
 
-    def predictOcclusions(self, predictions, targetIdList):
-        """
-
-        :param predictions: list of lists, each of which contains the predicted positions of the targets in targetIdList
-        :param targetIdList: list of targetId's
-        :return: list containing the targets that are going to be occluded based on predictions
-        """
-
-        occludedTargets = []
-        for index, futurePosList in enumerate(predictions):
-            for pos in futurePosList:
-                if self.notInView(pos):
-                    occludedTargets.append(targetIdList[index])
-                    break
-
-        return occludedTargets
-
-    def notInView(self, position):
-        """
-        :param position: [x, y]
-        :return: true if the position is seen by the agent, false otherwise
-        """
-        # TODO
-        return self.cam.posInField(position)
-
+    def get_predictions(self, targetIdList):
+        return self.memory.get_predictions(targetIdList)
