@@ -106,7 +106,7 @@ class TargetBehaviourAnalyser:
             :note
                 1.(boolean list) state -- True if the target is stopped for the time t - deltaT(i)
          """
-        list_to_check = self.room_memory.get_target_list(targetID)
+        list_to_check = self.room_memory.get_Target_list(targetID)
         list_len = len(list_to_check)
 
         state =  []
@@ -145,7 +145,7 @@ class TargetBehaviourAnalyser:
                 1. (boolean) fix -- true if the target seems to be stationary otherwise false
         """
 
-        list_to_check = self.room_memory.get_target_list(targetID)
+        list_to_check = self.room_memory.get_Target_list(targetID)
         list_len = len(list_to_check)
         if n <= list_len:
             list_to_check = list_to_check[list_len - n - t :list_len-t]
@@ -153,8 +153,8 @@ class TargetBehaviourAnalyser:
             x = []
             y = []
             for item in list_to_check:
-                x.append(item.position[0])
-                y.append(item.position[1])
+                x.append(item.target_position[0])
+                y.append(item.target_position[1])
 
 
             x_sdt = statistics.stdev(x)
@@ -192,7 +192,7 @@ class TargetBehaviourAnalyser:
             In fact the camera is not able to give data outside from its range
         """
 
-        list_to_check = self.room_memory.get_target_list(targetID)
+        list_to_check = self.room_memory.get_Target_list(targetID)
         field = []
         in_field = []
         out_field = []
@@ -205,7 +205,7 @@ class TargetBehaviourAnalyser:
             list_to_check = list_to_check[list_len - n - t :list_len-t]
 
             for item in list_to_check:
-               field.append(cam.is_x_y_in_field_not_obstructed(item.position[0],item.position[1]))
+               field.append(cam.is_x_y_in_field_not_obstructed(item.target_position[0],item.target_position[1]))
                in_field.append(True)
                out_field.append(False)
 

@@ -141,7 +141,7 @@ class AgentUser(Agent):
         # Update Info
         s = message.message
         if not (s == ""):
-            estimator = TargetEstimator(0,0,0,0,0,0)
+            estimator = TargetEstimator(0,0,0,0,0,0,0,0)
 
             estimator.parse_string(s)
             self.memory.add_target_estimator(estimator)

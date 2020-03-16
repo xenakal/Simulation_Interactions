@@ -34,20 +34,20 @@ class Room_Description:
                 self.agentUser.append(agent)
 
     def update_target_based_on_memory(self,fusionList):
-        for target_detected_ID in fusionList.target_seen:
+        for target_detected_ID in fusionList.Target_already_discovered_list:
             is_in_room_representation = False
-            targets_estimator = fusionList.get_target_list(target_detected_ID)
+            targets_estimator = fusionList.get_Target_list(target_detected_ID)
             target_estimator = targets_estimator[len(targets_estimator) - 1]
 
             for target in self.targets:
                 if target.id == target_detected_ID:
                     is_in_room_representation = True
-                    target.xc = target_estimator.position[0]
-                    target.yc = target_estimator.position[1]
+                    target.xc = target_estimator.target_position[0]
+                    target.yc = target_estimator.target_position[1]
                     break
 
             if not is_in_room_representation:
-               self.add_targetRepresentation(target_estimator.target_ID,target_estimator.position[0],target_estimator.position[1],
+               self.add_targetRepresentation(target_estimator.target_id,target_estimator.target_position[0],target_estimator.target_position[1],
                                              target_estimator.target_size,target_estimator.target_label)
 
 

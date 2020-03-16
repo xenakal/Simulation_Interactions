@@ -112,13 +112,10 @@ class AgentCam(Agent):
                                     erreurX = 0
                                     erreurY = 0
 
-                                self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,target.xc+erreurX, target.yc+erreurY, target.size)
+                                self.memory.add_create_target_estimator(self.room_description.time, self.id,self.signature,target.id,target.signature,target.xc+erreurX, target.yc+erreurY, target.size)
                             except  AttributeError:
                                 print("fichier agent caméra ligne 134: oupsi un problème")
-                                target = targetElem[0]
-                                self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,
-                                                                        target.xc + erreurX, target.yc + erreurY,
-                                                                        target.size)
+
 
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
@@ -178,7 +175,7 @@ class AgentCam(Agent):
             """
             '''Send message to other agent'''
             if main.DATA_TO_SEND == "all":
-                memories = self.memory.memory_agent.get_target_list(target.id)
+                memories = self.memory.memory_agent.get_Target_list(target.id)
                 if len(memories) > 0:
                     last_memory = memories[len(memories) - 1]
                     self.send_message_memory(last_memory)
@@ -196,7 +193,7 @@ class AgentCam(Agent):
 
             '''If the target is link to this agent then we send the message to the user'''
             if self.link_target_agent.is_in_charge(target.id,self.id):
-                memories = self.memory.memory_agent.get_target_list(target.id)
+                memories = self.memory.memory_agent.get_Target_list(target.id)
                 if len(memories) > 0:
                     receivers = []
                     for agent in room.agentUser:
@@ -205,7 +202,7 @@ class AgentCam(Agent):
 
                     '''If the message is to old we don't send it -> target lost'''
                     thresh_time_to_send = 10
-                    if self.room_description.time - last_memory.timeStamp <=  thresh_time_to_send:
+                    if self.room_description.time - last_memory.time_stamp <=  thresh_time_to_send:
                         self.send_message_memory(last_memory,receivers)
 
     def process_Message_sent(self):
@@ -255,7 +252,7 @@ class AgentCam(Agent):
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
-        m = Message_Check_ACK_NACK(self.room_description.time, self.id, self.signature, "memory", s, memory.target_ID)
+        m = Message_Check_ACK_NACK(self.room_description.time, self.id, self.signature, "memory", s, memory.target_id)
         if len(receivers) == 0:
             for agent in self.room_description.agentCams:
                 if agent.id != self.id:
