@@ -30,23 +30,6 @@ class AgentCam(Agent):
         self.threadRun = 1
         self.my_thread_run = threading.Thread(target=self.thread_run)
 
-        # create logger_message with 'spam_application'
-        logger_message = logging.getLogger('agent' + " " + str(self.type) + " " + str(self.id))
-        logger_message.setLevel(logging.INFO)
-        # create file handler which log_messages even debug messages
-        fh = logging.FileHandler(main.NAME_LOG_PATH + str(self.type) + " " + str(self.id) + "-messages", "w+")
-        fh.setLevel(logging.DEBUG)
-        # create console handler with a higher log_message level
-        ch = logging.StreamHandler()
-        ch.setLevel(logging.ERROR)
-        # create formatter and add it to the handlers
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        fh.setFormatter(formatter)
-        ch.setFormatter(formatter)
-        # add the handlers to the logger_message
-        logger_message.addHandler(fh)
-        logger_message.addHandler(ch)
-
         # log_room
         logger_room = logging.getLogger('room' + " agent " + str(self.type) + " "  + str(idAgent))
         logger_room.setLevel(logging.INFO)
@@ -122,7 +105,7 @@ class AgentCam(Agent):
                                 target = targetElem[0]
 
                                 '''Simulation from noise on the target's position '''
-                                if main.INCLUDE_ERROR and not (target.label =="fix"):
+                                if main.INCLUDE_ERROR and not (target.type =="fix"):
                                     erreurX = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
                                     erreurY = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
                                 else:
@@ -131,7 +114,11 @@ class AgentCam(Agent):
 
                                 self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,target.xc+erreurX, target.yc+erreurY, target.size)
                             except  AttributeError:
-                                print("fichier agent caméra ligne 94: oupsi un problème")
+                                print("fichier agent caméra ligne 134: oupsi un problème")
+                                target = targetElem[0]
+                                self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,
+                                                                        target.xc + erreurX, target.yc + erreurY,
+                                                                        target.size)
 
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
@@ -172,12 +159,12 @@ class AgentCam(Agent):
     def process_InfoMemory(self, room):
         for target in room.targets:
             """
-                ----------------------------------------------------------------------------------------------
+                ---------------------------------------------------------------------------------------------
                 Memory analysis: 
                     -> Behaviour
                         - detection from moving, stop , changing state targest
                         - detection from target leaving the field of the camera
-                -----------------------------------------------------------------------------------------------
+                ---------------------------------------------------------------------------------------------
             """
             '''Check if the target is moving,stopped or changing from one to the other state'''
             (is_moving, is_stopped) = self.behaviour_analysier.detect_target_motion(target.id,4,3,3)
@@ -186,7 +173,7 @@ class AgentCam(Agent):
 
             """
                 ----------------------------------------------------------------------------------------------
-                Data to send other cam agent:
+                Data to send other cam's agent:
                 -----------------------------------------------------------------------------------------------
             """
             '''Send message to other agent'''
@@ -215,9 +202,11 @@ class AgentCam(Agent):
                     for agent in room.agentUser:
                         receivers.append([agent.id,agent.signature])
                     last_memory = memories[len(memories) - 1]
-                    self.send_message_memory(last_memory,receivers)
 
-
+                    '''If the message is to old we don't send it -> target lost'''
+                    thresh_time_to_send = 10
+                    if self.room_description.time - last_memory.timeStamp <=  thresh_time_to_send:
+                        self.send_message_memory(last_memory,receivers)
 
     def process_Message_sent(self):
         for message_sent in self.info_messageSent.getList():

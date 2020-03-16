@@ -1,8 +1,9 @@
 import numpy
-from elements.target import *
+
 from multi_agent.agent_camera import *
 from elements.camera import *
 from elements.info_room_simu import *
+from elements.target import TargetRepresentation
 import main
 
 class Room_Description:
@@ -23,7 +24,7 @@ class Room_Description:
     def init(self,room):
         for target in room.info_simu.targets_SIMU:
             'commenter le if pour avoir tous les targets dans les représentations de chaque agent'
-            if target.label == "fix":
+            if target.type == "fix":
                 self.add_targetRepresentation_from_target(target)
 
         for agent in room.agentCams:
@@ -51,10 +52,10 @@ class Room_Description:
 
 
     def add_targetRepresentation_from_target(self,target):
-        self.add_targetRepresentation(target.id,target.xc,target.yc,target.size,target.label)
+        self.add_targetRepresentation(target.id,target.xc,target.yc,target.size,target.type)
 
     def add_targetRepresentation(self,id,x,y,size,label):
-        self.targets.append(Target_representation(id,x,y,size,label,self.color))
+        self.targets.append(TargetRepresentation(id,x,y,size,label,self.color))
 
     def getAgentsWithIDs(self,idList,agentType):
         """ Returns the list of agents with ids in the list provided in the argument. """
@@ -80,19 +81,6 @@ class Room_Description:
         return None
 
 
-class Target_representation():
-    def __init__(self, id=-1, x=-1, y=-1,size = 5,label='fix',color = 0):
-        self.id = id
-        self.xc = x
-        self.yc = y
-        self.size = size
-        self.label = label
-        self.color = color
-
-    def to_string(self):
-        s0 = "target "+str(self.id)+"\n"
-        s1 = "position x: "+str(self.xc)+" y: "+str(self.yc)+"\n"
-        return s0 + s1
 
 
 
