@@ -7,6 +7,7 @@ from multi_agent.agent_user import AgentUser
 from multi_agent.room_description import *
 import main
 
+
 class Room:
     def __init__(self):
         # Info just for the simulation, should be in practice replace by video input
@@ -28,13 +29,14 @@ class Room:
         # time
         self.time = 0
 
-    def init_room(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size,t_add,t_del):
-        self.info_simu.init_targets(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size,t_add,t_del)
+    def init_room(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add, t_del):
+        self.info_simu.init_targets(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add,
+                                    t_del)
         self.targetNumber = self.info_simu.targetNumber
 
     def init_agentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix, myRoom):
         for _ in cam_x:
-            camera = Camera(myRoom,self.camerasNumber, cam_x[self.camerasNumber],
+            camera = Camera(myRoom, self.camerasNumber, cam_x[self.camerasNumber],
                             cam_y[self.camerasNumber], cam_alpha[self.camerasNumber]
                             , cam_beta[self.camerasNumber], fix[self.camerasNumber])
             self.cameras.append(camera)
@@ -44,19 +46,19 @@ class Room:
             self.agentCams.append(AgentCam(self.agentCamNumber, camera))
             self.agentCamNumber += 1
 
-    def init_agentUser(self,number):
+    def init_agentUser(self, number):
         for n in range(number):
             self.agentUser.append(AgentUser(self.agentUserNumber))
             self.agentUserNumber = self.agentUserNumber + 1
 
-    def init_trajectories(self,all_traj):
+    def init_trajectories(self, all_traj):
         self.info_simu.init_trajectories(all_traj)
 
     def add_del_target_timed(self):
         for target in self.info_simu.targets_SIMU:
-           if self.time in target.t_add:
+            if self.time in target.t_add:
                 self.addTarget_alreadyCreated(target)
-           elif self.time in target.t_del:
+            elif self.time in target.t_del:
                 self.delTargets(target)
 
     def addTarget_alreadyCreated(self, Target):
@@ -64,20 +66,21 @@ class Room:
         self.targetNumber = self.info_simu.targetNumber
 
     def addTargets(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add, t_del):
-       self.info_simu.addTargets(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add, t_del)
+        self.info_simu.addTargets(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add,
+                                  t_del)
 
     def delTargets(self, target):
         index = self.targets.index(target)
         del self.targets[index]
 
     def addAgentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix, myRoom):
-        camera = Camera(myRoom,self.camerasNumber, cam_x, cam_y, cam_alpha, cam_beta, fix)
+        camera = Camera(myRoom, self.camerasNumber, cam_x, cam_y, cam_alpha, cam_beta, fix)
         self.cameras.append(camera)
         self.camerasNumber = self.camerasNumber + 1
         self.agentCams.append(AgentCam(self.agentCamNumber, camera))
         self.agentCamNumber += 1
 
-    def getAgentsWithIDs(self,idList,agentType):
+    def getAgentsWithIDs(self, idList, agentType):
         """ Returns the list of agents with ids in the list provided in the argument. """
         if agentType == "agentCam":
             return [agent for agent in self.agentCams if agent.id in idList]

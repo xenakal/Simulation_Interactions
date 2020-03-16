@@ -22,7 +22,7 @@ class GUI_memories:
         if allAgents:
             agents = myRoom.agentCams
         else:
-            agents = myRoom.getAgentsWithIDs(self.agents_to_display)
+            agents = myRoom.getAgentsWithIDs(self.agents_to_display, "agentCam")
 
         for agent in agents:
             for targetID in self.targets_to_display:
