@@ -65,6 +65,7 @@ class GUI_simulation:
 
         if self.button_simulation_4.find_button_state("User's O"):
             self.GUI_room.drawTarget_room_description(myRoom, self.GUI_option.agent_to_display,"agentUser",True)
+            self.GUI_room.draw_link_cam_region_room_description(myRoom,self.GUI_option.agent_to_display,"agentUser",True)
 
     def display_simulation_button(self):
         for button in self.button_simulation_1.list:
