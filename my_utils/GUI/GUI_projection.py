@@ -1,5 +1,3 @@
-from my_utils.line import*
-from elements.camera import*
 from my_utils.GUI.GUI import*
 import pygame
 

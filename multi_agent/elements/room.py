@@ -1,10 +1,8 @@
-import numpy
-from elements.target import *
-from elements.camera import *
+from multi_agent.elements.camera import *
 #from multi_agent.agent_camera import *
 #from multi_agent.agent_user import *
-import multi_agent.agent_camera
-import multi_agent.agent_user
+import multi_agent.agent.agent_camera
+import multi_agent.agent.agent_user
 import constants
 
 
@@ -336,7 +334,7 @@ class Room(RoomRepresentation):
         number_AgentCam = len(self.active_AgentCams_list)
         camera = Camera(myRoom, number_Camera, cam_x, cam_y, cam_alpha, cam_beta, fix)
         self.active_Camera_list.append(camera)
-        self.active_AgentCams_list.append(multi_agent.agent_camera.AgentCam(number_AgentCam, camera))
+        self.active_AgentCams_list.append(multi_agent.agent.agent_camera.AgentCam(number_AgentCam, camera))
 
     def init_AgentUser(self, number = 1):
         """
@@ -348,7 +346,7 @@ class Room(RoomRepresentation):
         """
         for n in range(number):
             number_AgentUser = len(self.active_AgentUser_list)
-            self.active_AgentUser_list.append(multi_agent.agent_user.AgentUser(number_AgentUser))
+            self.active_AgentUser_list.append(multi_agent.agent.agent_user.AgentUser(number_AgentUser))
 
     def init_trajectories(self, all_trajectories_loaded):
         """

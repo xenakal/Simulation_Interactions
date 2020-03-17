@@ -1,11 +1,6 @@
-import threading
 import mailbox
-import time
 import logging
-import random
-import numpy as np
-from elements.target import *
-from multi_agent.message import *
+from multi_agent.communication.message import *
 import constants
 
 class Agent:

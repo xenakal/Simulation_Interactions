@@ -1,8 +1,8 @@
 from my_utils.GUI.button import Button
 from my_utils.GUI.button import ButtonList
 from my_utils.GUI.GUI_simulation import GUI_room
-from my_utils.map_from_to_txt import *
-from elements.camera import *
+from multi_agent.elements.camera import *
+from multi_agent.elements.room import *
 import pygame
 import math
 
@@ -21,7 +21,7 @@ class GUI_create_map:
         self.screen = screen
         self.room_to_txt = room_to_txt
         self.GUI_option = GUI_option
-        self.new_room = room.Room()
+        self.new_room = Room()
         coord = self.new_room.coordinate_room
         self.font = pygame.font.SysFont("monospace", 15)
 

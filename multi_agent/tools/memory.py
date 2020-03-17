@@ -1,5 +1,5 @@
-from multi_agent.estimator import *
-from multi_agent.kalmanPrediction import KalmanPrediction
+from multi_agent.tools.estimator import *
+from multi_agent.prediction.kalmanPrediction import KalmanPrediction
 
 
 class Memory:

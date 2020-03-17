@@ -1,6 +1,6 @@
 import math
 import constants
-from multi_agent.prediction import Prediction
+from multi_agent.prediction.prediction import Prediction
 import numpy as np
 
 

@@ -1,7 +1,6 @@
-import math
 import numpy as np
 from my_utils.line import *
-from elements.target import*
+from multi_agent.elements.target import*
 import random
 
 

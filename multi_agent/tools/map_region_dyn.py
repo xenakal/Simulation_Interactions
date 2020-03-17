@@ -1,6 +1,4 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from multi_agent.map_region_static import*
+from multi_agent.tools.map_region_static import*
 
 
 class MapRegionDynamic(MapRegionStatic):

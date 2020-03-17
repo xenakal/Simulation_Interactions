@@ -1,18 +1,13 @@
 import threading
 import mailbox
-import time
 import logging
-import numpy as np
-from elements.target import *
-import elements.room
-from multi_agent.agent import *
-from multi_agent.estimator import *
-from multi_agent.message import *
-from multi_agent.memory import *
-from multi_agent.linearPrediction import *
-from multi_agent.kalmanPredictionOld import *
-from multi_agent.behaviour_detection import *
-from multi_agent.link_target_camera import *
+from multi_agent.elements.target import *
+import multi_agent.elements.room
+from multi_agent.agent.agent import *
+from multi_agent.communication.message import *
+from multi_agent.tools.behaviour_detection import *
+from multi_agent.tools.link_target_camera import *
+from multi_agent.tools.memory import *
 import constants
 
 class AgentUser(Agent):
@@ -22,7 +17,7 @@ class AgentUser(Agent):
         # Attributes
         self.memory = Memory(idAgent)
         self.behaviour_analysier = TargetBehaviourAnalyser(self.memory)
-        self.room_representation = elements.room.RoomRepresentation([255, 255, 255])
+        self.room_representation = multi_agent.elements.room.RoomRepresentation([255, 255, 255])
         self.link_target_agent = LinkTargetCamera(self.room_representation)
 
         # Threads
