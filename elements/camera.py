@@ -1,7 +1,6 @@
 import math
 import numpy as np
 from my_utils.line import *
-from my_utils.queueFIFO import *
 from elements.target import*
 import random
 

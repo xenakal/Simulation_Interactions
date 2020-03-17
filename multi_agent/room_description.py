@@ -1,13 +1,13 @@
 import numpy
-
+from elements.target import *
 from multi_agent.agent_camera import *
 from elements.camera import *
 from elements.info_room_simu import *
-from elements.target import TargetRepresentation
-import main
+import constants
+
 
 class Room_Description:
-    def __init__(self,color):
+    def __init__(self, color):
 
         self.coord = numpy.array([0, 0, main.WIDTH_ROOM, main.LENGHT_ROOM])  # x y l h
         # target in the room
@@ -33,7 +33,7 @@ class Room_Description:
         for agent in room.agentUser:
                 self.agentUser.append(agent)
 
-    def update_target_based_on_memory(self,fusionList):
+    def update_target_based_on_memory(self, fusionList):
         for target_detected_ID in fusionList.Target_already_discovered_list:
             is_in_room_representation = False
             targets_estimator = fusionList.get_Target_list(target_detected_ID)
@@ -50,14 +50,13 @@ class Room_Description:
                self.add_targetRepresentation(target_estimator.target_id,target_estimator.target_position[0],target_estimator.target_position[1],
                                              target_estimator.target_size,target_estimator.target_label)
 
+    def add_targetRepresentation_from_target(self, target):
+        self.add_targetRepresentation(target.id, target.xc, target.yc, target.size, target.label)
 
-    def add_targetRepresentation_from_target(self,target):
-        self.add_targetRepresentation(target.id,target.xc,target.yc,target.size,target.type)
+    def add_targetRepresentation(self, id, x, y, size, label):
+        self.targets.append(TargetRepresentation(id, x, y, size, label, self.color))
 
-    def add_targetRepresentation(self,id,x,y,size,label):
-        self.targets.append(TargetRepresentation(id,x,y,size,label,self.color))
-
-    def getAgentsWithIDs(self,idList,agentType):
+    def getAgentsWithIDs(self, idList, agentType):
         """ Returns the list of agents with ids in the list provided in the argument. """
         if agentType == "agentCam":
             return [agent for agent in self.agentCams if agent.id in idList]

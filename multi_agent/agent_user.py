@@ -9,7 +9,7 @@ from multi_agent.estimator import *
 from multi_agent.message import *
 from multi_agent.memory import *
 from multi_agent.linearPrediction import *
-from multi_agent.kalmanPrediction import *
+from multi_agent.kalmanPredictionOld import *
 from multi_agent.behaviour_detection import *
 from multi_agent.room_description import*
 from multi_agent.link_target_camera import *
@@ -63,7 +63,6 @@ class AgentUser(Agent):
 
     def init_and_set_room_description(self,room):
         self.room_description.init(room)
-        self.link_target_agent = LinkTargetCamera(self.room_description)
         self.message_stat.init_message_static(self.room_description)
 
     def thread_run(self):
@@ -79,9 +78,6 @@ class AgentUser(Agent):
                 self.memory.combine_data_userCam()
                 '''Modification from the room description'''
                 self.room_description.update_target_based_on_memory(self.memory.memory_agent)
-                '''Computation of the camera that should give the best view, according to map algorithm'''
-                self.link_target_agent.update_link_camera_target()
-                self.link_target_agent.compute_link_camera_target()
                 '''Descision of the messages to send'''
                 self.process_InfoMemory(self.room_description)
                 nextstate = "communication"
