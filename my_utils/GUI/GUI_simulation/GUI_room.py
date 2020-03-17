@@ -82,18 +82,18 @@ class GUI_room:
         agents = []
         if allAgents:
             if agentType == "agentCam":
-                agents = room.agentCams
+                agents = room.active_AgentCams_list
             elif agentType == "agentUser":
-                agents = room.agentUser
+                agents = room.active_AgentUser_list
         else:
             agents = room.get_multiple_Agent_with_id(agents_to_display, agentType)
 
         for agent in agents:
-             self.drawTarget(agent.room_description.targets,room.coord)
+             self.drawTarget(agent.room_representation.active_Target_list,room.coordinate_room)
 
 
     def drawTarget_all_postion(self, room):
-        for target in room.targets:
+        for target in room.active_Target_list:
             for id in self.target_to_display:
                 if target.id == int(id):
                     for position in target.all_position:
@@ -127,8 +127,8 @@ class GUI_room:
                                   self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
                                       camera.alpha + (camera.beta / 2))), 2)
 
-    def drawCam(self, myRoom, l=100):
-        for agent in myRoom.agentCams:
+    def drawCam(self, room, l=100):
+        for agent in room.active_AgentCams_list:
             self.draw_one_Cam(agent.cam,l)
 
     def drawCam_room_description(self, room, agents_to_display,agentType, allAgents=False):
@@ -136,9 +136,9 @@ class GUI_room:
         agents = []
         if allAgents:
             if agentType == "agentCam":
-                agents = room.agentCams
+                agents = room.active_AgentCams_list
             elif agentType == "agentUser":
-                agents = room.agentUser
+                agents = room.active_AgentUser_list
         else:
             agents = room.get_multiple_Agent_with_id(agents_to_display, agentType)
 
@@ -161,10 +161,10 @@ class GUI_room:
         for link in link_cam_to_target:
             (targetID,camID,dist) = link
 
-            for agent in room.agentCams:
+            for agent in room.active_AgentCams_list:
                 camera = agent.cam
                 if(camera.id == camID):
-                    for target in room.targets:
+                    for target in room.active_Target_list:
                         if(target.id == targetID):
                             pygame.draw.line(self.screen, agent.color, (self.x_offset + int(camera.xc * self.scale_x),self.y_offset + int(camera.yc * self.scale_y)),
                                              (self.x_offset + int(target.xc * self.scale_x),self.y_offset + int(target.yc * self.scale_y)),4)
@@ -173,12 +173,12 @@ class GUI_room:
         agents = []
         if allAgents:
             if agentType == "agentCam":
-                agents = room.agentCams
+                agents = room.active_AgentCams_list
             elif agentType == "agentUser":
-                agents = room.agentUser
+                agents = room.active_AgentUser_list
         else:
             agents = room.get_multiple_Agent_with_id(agents_to_display, agentType)
 
         for agent_to_display in agents:
-            self.draw_link_cam_region(agent_to_display.room_description,agent_to_display.link_target_agent.link_camera_target)
+            self.draw_link_cam_region(agent_to_display.room_representation,agent_to_display.link_target_agent.link_camera_target)
 

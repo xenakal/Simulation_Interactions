@@ -21,8 +21,8 @@ class GUI_create_map:
         self.screen = screen
         self.room_to_txt = room_to_txt
         self.GUI_option = GUI_option
-        self.my_new_room = room.Room()
-        coord = self.my_new_room.coord
+        self.new_room = room.Room()
+        coord = self.new_room.coordinate_room
         self.font = pygame.font.SysFont("monospace", 15)
 
         self.x_offset = x_offset
@@ -34,7 +34,7 @@ class GUI_create_map:
                                      (coord[2]+5) * self.scale_x,
                                      (coord[3]+5) * self.scale_y)
 
-        self.GUI_room = GUI_room.GUI_room(self.screen, self.my_new_room.agentCams, self.my_new_room.targets, x_offset,y_offset,scale_x,scale_y)
+        self.GUI_room = GUI_room.GUI_room(self.screen, self.new_room.active_AgentCams_list, self.new_room.active_Target_list, x_offset, y_offset, scale_x, scale_y)
 
         self.button_create_map_trajectoire_name = ["Add_point", "Remove_point",  "Clean","Save_traj","Show_traj"]
         self.button_trajectoire_plus_moins_name = [" +", " -","del"]
@@ -81,10 +81,10 @@ class GUI_create_map:
         self.traj_to_show_default =  0
 
     def run(self):
-        self.GUI_room.drawRoom(self.my_new_room.coord)
-        self.GUI_room.drawTarget(self.my_new_room.info_simu.targets_SIMU, self.my_new_room.coord)
-        self.GUI_room.drawTarget(self.my_new_room.targets, self.my_new_room.coord)
-        self.GUI_room.drawCam(self.my_new_room)
+        self.GUI_room.drawRoom(self.new_room.coordinate_room)
+        self.GUI_room.drawTarget(self.new_room.information_simulation.Target_list, self.new_room.coordinate_room)
+        self.GUI_room.drawTarget(self.new_room.active_Target_list, self.new_room.coordinate_room)
+        self.GUI_room.drawCam(self.new_room)
         self.display_create_map_button()
 
     def display_create_map_button(self):
@@ -185,10 +185,10 @@ class GUI_create_map:
 
             if on:
                 target = Target(-1,x_new, y_new, self.vx_default, self.vy_default, 'linear', (0,[(0,0)]), label, self.size_default, [0], [1000])
-                self.GUI_room.draw_one_target(target, self.my_new_room.coord)
+                self.GUI_room.draw_one_target(target, self.new_room.coord)
 
             if pressed:
-                self.my_new_room.add_Target(x_new, y_new, self.vx_default, self.vy_default, 'linear', self.traj_default, label, self.size_default, [0], [1000])
+                self.new_room.add_Target(x_new, y_new, self.vx_default, self.vy_default, 'linear', self.traj_default, label, self.size_default, [0], [1000])
                 self.room_to_txt.add_Target(x_new, y_new, self.vx_default, self.vy_default, 'linear', self.traj_default, label, self.size_default, [0], [1000])
 
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[1]):
@@ -237,11 +237,11 @@ class GUI_create_map:
 
 
             if on:
-                cam = Camera(self.my_new_room,0,x_new, y_new, self.alpha_default, self.beta_default, 1)
+                cam = Camera(self.new_room, 0, x_new, y_new, self.alpha_default, self.beta_default, 1)
                 self.GUI_room.draw_one_Cam(cam)
 
             if pressed:
-                self.my_new_room.add_AgentCam(x_new, y_new, self.alpha_default, self.beta_default, 1, self.my_new_room)
+                self.new_room.add_AgentCam(x_new, y_new, self.alpha_default, self.beta_default, 1, self.new_room)
                 self.room_to_txt.add_cam(x_new, y_new, self.alpha_default, self.beta_default,1)
 
 
@@ -288,13 +288,13 @@ class GUI_create_map:
 
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[3]):
             self.room_to_txt.clean()
-            self.my_new_room = self.room_to_txt.init_room()
+            self.new_room = self.room_to_txt.init_room()
             self.button_create_map_1.find_button("Clean").set_button(False)
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[4]):
             self.room_to_txt.save_room_to_txt()
             self.button_create_map_1.find_button("Save_map").set_button(False)
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[5]):
             self.room_to_txt.load_room_from_txt()
-            self.my_new_room = self.room_to_txt.init_room()
+            self.new_room = self.room_to_txt.init_room()
             self.button_create_map_1.find_button("Load_map").set_button(False)
 

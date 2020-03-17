@@ -54,25 +54,25 @@ class GUI:
         self.GUI_option.check_list(self.button_menu.list)
         self.button_menu.draw(self.screen)
 
-    def updateGUI(self, myRoom,region,link_camera_target):
+    def updateGUI(self, room, region, link_camera_target):
         self.refresh()
         self.display_menu()
 
         if self.button_menu.find_button_state("Simulation"):
-            self.GUI_simu.run(myRoom,region,link_camera_target)
+            self.GUI_simu.run(room, region, link_camera_target)
 
         elif self.button_menu.find_button_state("Camera"):
-            self.GUI_projection.drawProjection(myRoom)
-            self.GUI_simu.GUI_ATD.screenDetectedTarget(myRoom)
+            self.GUI_projection.drawProjection(room)
+            self.GUI_simu.GUI_ATD.screenDetectedTarget(room)
 
         elif self.button_menu.find_button_state("Stat"):
-            self.GUI_stat.draw_stat_message(myRoom)
+            self.GUI_stat.draw_stat_message(room)
 
         elif self.button_menu.find_button_state("Create Map"):
             self.GUI_create_map.run()
 
         elif self.button_menu.find_button_state("Agent's O"):
-            self.GUI_output.run(myRoom,link_camera_target)
+            self.GUI_output.run(room, link_camera_target)
 
         self.GUI_option.reset_mouse_list()
         pygame.display.update()

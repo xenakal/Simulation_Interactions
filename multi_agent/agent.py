@@ -110,7 +110,7 @@ class Agent:
     # la fonction renvoie -1 quand le message n'a pas été envoyé mais ne s'occupe pas de le réenvoyer !
     def sendMess(self, m):
         succes = -1
-        for receiver in m.reconstantsingReceiver:
+        for receiver in m.remainingReceiver:
             try:
                 mbox = mailbox.mbox(constants.NAME_MAILBOX + str(receiver[0]))
                 mbox.lock()
@@ -171,7 +171,7 @@ class Agent_statistic:
     def init_message_static(self, room):
         tab0 = []
         tab1 = []
-        for agent in room.agentCams:
+        for agent in room.active_AgentCams_list:
             camera = agent.cam
             tab0.append([camera.id, 0])
             tab1.append([camera.id, 0])

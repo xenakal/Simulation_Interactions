@@ -28,44 +28,44 @@ class GUI_simulation:
 
         self.font = pygame.font.SysFont("monospace", 15)
 
-    def run(self, myRoom,region,link_cam_to_target):
+    def run(self, room, region, link_cam_to_target):
         self.display_simulation_button()
-        self.GUI_room.drawRoom(myRoom.coord)
+        self.GUI_room.drawRoom(room.coordinate_room)
 
         if self.button_simulation_1.find_button_state("prediction"):
-            self.GUI_pred.drawPredictions(myRoom)
+            self.GUI_pred.drawPredictions(room)
 
         if self.button_simulation_1.find_button_state("real T"):
-            self.GUI_room.drawTarget_all_postion(myRoom)
+            self.GUI_room.drawTarget_all_postion(room)
 
         if self.button_simulation_1.find_button_state("M agent"):
-            self.GUI_memories.drawMemory(myRoom)
+            self.GUI_memories.drawMemory(room)
 
         if self.button_simulation_1.find_button_state("M all agent"):
-           self.GUI_memories.drawMemory(myRoom, True)
+           self.GUI_memories.drawMemory(room, True)
 
         if self.button_simulation_1.find_button_state("+ received"):
-            self.GUI_memories.draw_mesure_and_receiveMessages(myRoom)
+            self.GUI_memories.draw_mesure_and_receiveMessages(room)
 
         if self.button_simulation_4.find_button_state("save to txt"):
-            self.txt_room.from_room_to_seprarate(myRoom)
+            self.txt_room.from_room_to_seprarate(room)
             self.txt_room.save_room_to_txt()
             self.button_simulation_4.find_button("save to txt").set_button(False)
 
         if self.button_simulation_4.find_button_state("Cam ROI"):
-            self.Gui_region.draw_cam_region(myRoom,region)
+            self.Gui_region.draw_cam_region(room, region)
 
         if self.button_simulation_4.find_button_state("Cam COV"):
             self.Gui_region.draw_cam_coverage(region)
 
 
-        self.GUI_room.drawTarget(myRoom.targets, myRoom.coord)
-        self.GUI_room.drawCam(myRoom)
-        self.GUI_room.draw_link_cam_region(myRoom, link_cam_to_target)
+        self.GUI_room.drawTarget(room.active_Target_list, room.coordinate_room)
+        self.GUI_room.drawCam(room)
+        self.GUI_room.draw_link_cam_region(room, link_cam_to_target)
 
         if self.button_simulation_4.find_button_state("User's O"):
-            self.GUI_room.drawTarget_room_description(myRoom, self.GUI_option.agent_to_display,"agentUser",True)
-            self.GUI_room.draw_link_cam_region_room_description(myRoom,self.GUI_option.agent_to_display,"agentUser",True)
+            self.GUI_room.drawTarget_room_description(room, self.GUI_option.agent_to_display, "agentUser", True)
+            self.GUI_room.draw_link_cam_region_room_description(room, self.GUI_option.agent_to_display, "agentUser", True)
 
     def display_simulation_button(self):
         for button in self.button_simulation_1.list:

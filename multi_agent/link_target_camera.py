@@ -16,7 +16,7 @@ class LinkTargetCamera():
             self.list_camera.append(agent.cam)
 
     def update_link_camera_target(self):
-        for target in self.room.targets:
+        for target in self.room.active_Target_list:
             is_in_list = False
             for item in self.link_camera_target:
                 (targetID,camID,distance) = item
@@ -38,7 +38,7 @@ class LinkTargetCamera():
         self.reset_distance()
 
         for camera in self.list_camera:
-            for target in self.room.targets:
+            for target in self.room.active_Target_list:
                 """Ici dans le calcul au lieu d'utiliser les positions actuelles on peut aussi utiliser les prédictions"""
 
                 if not camera.is_in_hidden_zone_all_targets(target.xc,target.yc,self.room) and camera.is_x_y_in_field_not_obstructed(target.xc,target.yc):

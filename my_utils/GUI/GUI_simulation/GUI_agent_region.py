@@ -18,7 +18,7 @@ class GUI_Region:
         (i_tot, j_tot) = region.minimum_id_in_view.shape
         for i in range(i_tot):
             for j in range(j_tot):
-                for agent in room.agentCams:
+                for agent in room.active_AgentCams_list:
                     if agent.cam.id == region.minimum_id_in_view[i,j]:
                         pygame.draw.circle(self.screen,agent.cam.color,
                                        (self.x_offset + int(x[i,j]*self.scale_x),

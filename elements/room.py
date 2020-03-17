@@ -68,14 +68,14 @@ class RoomRepresentation:
             self.color = (r, g, b)
 
     def init_RoomRepresentation(self, room):
-        for Target in room.info_simu.targets_SIMU:
+        for Target in room.information_simulation.Target_list:
             if Target.type == "fix":
                 self.add_targetRepresentation_from_target(Target)
 
-        for agent in room.agentCams:
+        for agent in room.active_AgentCams_list:
             self.active_AgentCams_list.append(agent)
 
-        for agent in room.agentUser:
+        for agent in room.active_AgentUser_list:
             self.active_AgentUser_list.append(agent)
 
     def update_target_based_on_memory(self, Target_TargetEstimator):
@@ -129,11 +129,11 @@ class RoomRepresentation:
 class Room(RoomRepresentation):
     def __init__(self):
         super().__init__(0)
-        self.info_simu = InformationRoomSimulation()
+        self.information_simulation = InformationRoomSimulation()
         self.cameras = []
 
     def init_room(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del):
-        self.info_simu.init_Target(x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del)
+        self.information_simulation.init_Target(x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del)
 
     "!!!!!!!!!!!!!!!!!  ici supprimer le myRoom et le remplacer par self ?? "
     def init_AgentCam(self, x, y, orrientation_alpha, field_opening_beta, fix, myRoom):
@@ -146,17 +146,17 @@ class Room(RoomRepresentation):
             self.active_AgentUser_list.append(multi_agent.agent_user.AgentUser(number_AgentUser))
 
     def init_trajectories(self, all_traj):
-        self.info_simu.init_trajectories(all_traj)
+        self.information_simulation.init_trajectories(all_traj)
 
     def add_del_target_timed(self):
-        for Target in self.info_simu.Target_list:
+        for Target in self.information_simulation.Target_list:
             if self.time in Target.t_add:
                 self.active_Target_list.append(Target)
             elif self.time in Target.t_del:
                 self.del_Target(Target)
 
     def add_Target(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add, t_del):
-        self.info_simu.add_Target(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add,
+        self.information_simulation.add_Target(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add,
                                   t_del)
 
     def del_Target(self, target):

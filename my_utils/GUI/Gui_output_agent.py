@@ -22,15 +22,15 @@ class GUI_user_output:
         self.GUI_pred = GUI_predictions(self.screen, self.GUI_option.agent_to_display,self.GUI_option.target_to_display, x_offset,y_offset,scale_x, scale_y, 2)
         self.font = pygame.font.SysFont("monospace", 15)
 
-    def run(self, myRoom,link_cam_target):
+    def run(self, room, link_cam_target):
         self.display_simulation_button()
-        self.GUI_room.drawRoom(myRoom.coord)
-        self.GUI_room.drawTarget_room_description(myRoom, self.GUI_option.agent_to_display,"agentCam")
-        self.GUI_room.drawCam_room_description(myRoom, self.GUI_option.agent_to_display,"agentCam")
-        self.GUI_room.draw_link_cam_region_room_description(myRoom, self.GUI_option.agent_to_display,"agentCam")
+        self.GUI_room.drawRoom(room.coordinate_room)
+        self.GUI_room.drawTarget_room_description(room, self.GUI_option.agent_to_display, "agentCam")
+        self.GUI_room.drawCam_room_description(room, self.GUI_option.agent_to_display, "agentCam")
+        self.GUI_room.draw_link_cam_region_room_description(room, self.GUI_option.agent_to_display, "agentCam")
 
         if self.button_simulation_1.find_button_state("prediction"):
-            self.GUI_pred.drawPredictions(myRoom)
+            self.GUI_pred.drawPredictions(room)
 
     def display_simulation_button(self):
         for button in self.button_simulation_1.list:

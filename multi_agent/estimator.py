@@ -1,12 +1,11 @@
 import numpy as np
 import random
-import re
 import math
-import numpy as np
+import re
 from my_utils.line import *
 
 
-def is_corresponding_TargetEstimator(agent_id, target_id, TargetEstimator):
+def is_corresponding_TargetEstimator(agent_id, target_id, targetEstimator):
     """
         :param
             1. (int) agent_id                    -- attributes from the desire TargetEstimator
@@ -18,10 +17,10 @@ def is_corresponding_TargetEstimator(agent_id, target_id, TargetEstimator):
 
     """
 
-    return TargetEstimator[0] == agent_id and TargetEstimator[1] == target_id
+    return targetEstimator[0] == agent_id and targetEstimator[1] == target_id
 
 
-def is_in_list_TargetEstimator(list_TargetEstimator, TargetEstimator):
+def is_in_list_TargetEstimator(list_TargetEstimator, targetEstimator):
     """
         :param
             1. (list) list_TargetEstimator           -- list of targetEstimator
@@ -32,7 +31,7 @@ def is_in_list_TargetEstimator(list_TargetEstimator, TargetEstimator):
 
     """
     for estimator in list_TargetEstimator:
-        if estimator == TargetEstimator:
+        if estimator == targetEstimator:
             return True
     return False
 
@@ -202,11 +201,11 @@ class Agent_Target_TargetEstimator:
 
         """
 
-        new_TargetEstimator = TargetEstimator(time_from_estimation, agent_id, agent_signature, target_id,
+        new_targetEstimator = TargetEstimator(time_from_estimation, agent_id, agent_signature, target_id,
                                               target_signature, target_xc, target_yc, target_size)
-        self.add_target_estimator(new_TargetEstimator)
+        self.add_target_estimator(new_targetEstimator)
 
-    def add_target_estimator(self, TargetEstimator_toAdd):
+    def add_target_estimator(self, targetEstimator_to_add):
         """
             :description
                 Adds it to the list if doesn't exist yet.
@@ -218,13 +217,13 @@ class Agent_Target_TargetEstimator:
                 fills the list  Agent_Target_TargetEstimator_list with a new TargetEstimator for the Target and Agent given
         """
 
-        self.update_estimator_list(TargetEstimator_toAdd.agent_id, TargetEstimator_toAdd.target_id)
+        self.update_estimator_list(targetEstimator_to_add.agent_id, targetEstimator_to_add.target_id)
 
-        for estimatorElem in self.Agent_Target_TargetEstimator_list:
-            if is_corresponding_TargetEstimator(TargetEstimator_toAdd.agent_id, TargetEstimator_toAdd.target_id,
-                                                estimatorElem):
-                if TargetEstimator not in estimatorElem[2]:
-                    estimatorElem[2].append(TargetEstimator)
+        for element in self.Agent_Target_TargetEstimator_list:
+            if is_corresponding_TargetEstimator(targetEstimator_to_add.agent_id, targetEstimator_to_add.target_id,
+                                                element):
+                if targetEstimator_to_add not in element[2]:
+                    element[2].append(targetEstimator_to_add)
 
     def sort_TargetEstimator(self):
         """
@@ -394,7 +393,7 @@ class Target_TargetEstimator:
             self.Target_already_discovered_list.append(target_id)
             self.Target_TargetEstimator_list.append([target_id, []])
 
-    def add_TargetEstimator(self, TargetEstimator):
+    def add_TargetEstimator(self, targetEstimator):
         """
             :description
                Adds it to the list if doesn't exist yet.
@@ -406,12 +405,12 @@ class Target_TargetEstimator:
                   if    already in the list no action
                  else  add TargetEstimator in Target_TargetEstimator_list
         """
-        self.update_TargetEstimator_list(TargetEstimator.target_id)
+        self.update_TargetEstimator_list(targetEstimator.target_id)
 
         for element in self.Target_TargetEstimator_list:
-            if element[0] == TargetEstimator.target_id:
-                if not is_in_list_TargetEstimator(element[1], TargetEstimator):
-                    element[1].append(TargetEstimator)
+            if element[0] == targetEstimator.target_id:
+                if not is_in_list_TargetEstimator(element[1], targetEstimator):
+                    element[1].append(targetEstimator)
 
     def sort(self):
         """

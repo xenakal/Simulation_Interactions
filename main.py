@@ -26,10 +26,10 @@ class App:
 
         '''ATTENTION all that depends on my room needs to be initialized again in init
         because my room is first initialized after room_txt.load_room_from_file'''
-        self.myRoom = Room()
-        self.static_region = MapRegionStatic(self.myRoom)
-        self.dynamic_region = MapRegionDynamic(self.myRoom)
-        self.link_agent_target = LinkTargetCamera(self.myRoom)
+        self.room = Room()
+        self.static_region = MapRegionStatic(self.room)
+        self.dynamic_region = MapRegionDynamic(self.room)
+        self.link_agent_target = LinkTargetCamera(self.room)
 
         self.init()
         if USE_GUI == 1:
@@ -40,16 +40,16 @@ class App:
         self.room_txt = Room_txt()
         self.room_txt.load_room_from_txt(self.filename)
         '''Creation from the room with the given description'''
-        self.myRoom = self.room_txt.init_room()
+        self.room = self.room_txt.init_room()
         '''Adding one agent user'''
-        self.myRoom.init_AgentUser(1)
-        for agent in self.myRoom.agentCams:
-            agent.init_and_set_room_description(self.myRoom)
-        for agent in self.myRoom.agentUser:
-            agent.init_and_set_room_description(self.myRoom)
+        self.room.init_AgentUser(1)
+        for agent in self.room.active_AgentCams_list:
+            agent.init_and_set_room_description(self.room)
+        for agent in self.room.active_AgentUser_list:
+            agent.init_and_set_room_description(self.room)
         '''Computing the vision in the room taking in to account only fix object'''
-        self.static_region = MapRegionStatic(self.myRoom)
-        self.dynamic_region = MapRegionDynamic(self.myRoom)
+        self.static_region = MapRegionStatic(self.room)
+        self.dynamic_region = MapRegionDynamic(self.room)
         if USE_static_analysis:
             self.static_region.init(STATIC_ANALYSIS_PRECISION)
             self.static_region.compute_all_map(STATIC_ANALYSIS_PRECISION)
@@ -58,12 +58,12 @@ class App:
         '''Starting the multi_agent simulation'''
         if USE_agent:
             if RUN_ON_A_THREAD == 1:
-                for agent in self.myRoom.agentCams:
+                for agent in self.room.active_AgentCams_list:
                     agent.run()
-                for agent in self.myRoom.agentUser:
+                for agent in self.room.active_AgentUser_list:
                     agent.run()
 
-        self.link_agent_target = LinkTargetCamera(self.myRoom)
+        self.link_agent_target = LinkTargetCamera(self.room)
         self.link_agent_target.update_link_camera_target()
 
     def main(self):
@@ -75,34 +75,34 @@ class App:
 
             '''To restart the simulation, push r'''
             if reset:
-                self.myRoom.time = 0
+                self.room.time = 0
                 if USE_agent:
-                    for agent in self.myRoom.agentCams:
+                    for agent in self.room.active_Target_list:
                         agent.clear()
-                    for agent in self.myRoom.agentUser:
+                    for agent in self.room.active_AgentUser_list:
                         agent.clear()
                 clean_mailbox()
                 self.init()
                 reset = False
 
             '''adding/removing target to the room'''
-            self.myRoom.add_del_target_timed()
+            self.room.add_del_target_timed()
             # Object are moving in the room
-            for target in self.myRoom.targets:
+            for target in self.room.active_Target_list:
                 target.save_position()
-                move_Target(target, 1, self.myRoom)
+                move_Target(target, 1, self.room)
 
             '''
             RUN_ON_THREAD = 0, sequential approach, every agent are call one after the other
             RUN_ON_THREAD = 1, process executed in the same time, every agent is a thread
             '''
             if RUN_ON_A_THREAD == 0:
-                random_order = self.myRoom.agentCams
+                random_order = self.room.active_AgentCams_list
                 # random.shuffle(random_order,random)
                 for agent in random_order:
                     agent.run()
 
-                for agent in self.myRoom.agentUser:
+                for agent in self.room.active_AgentUser_list:
                     agent.run()
             else:
                 '''to slow donw the main thread in comparaison to agent thread'''
@@ -119,23 +119,23 @@ class App:
                 else:
                     region = self.static_region
 
-                self.myGUI.updateGUI(self.myRoom, region, self.link_agent_target.link_camera_target)
+                self.myGUI.updateGUI(self.room, region, self.link_agent_target.link_camera_target)
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
 
             '''Closing the simulation after a given time if not using GUI'''
-            if self.myRoom.time > tmax and USE_GUI == 1:
+            if self.room.time > tmax and USE_GUI == 1:
                 run = False
                 pygame.quit()
 
             '''Updating the time'''
-            self.myRoom.time = self.myRoom.time + 1
-            for agent in self.myRoom.agentCams:
-                agent.room_description.time = agent.room_description.time + 1
+            self.room.time = self.room.time + 1
+            for agent in self.room.active_AgentCams_list:
+                agent.room_representation.time = agent.room_representation.time + 1
 
-        for agent in self.myRoom.agentCams:
+        for agent in self.room.active_AgentCams_list:
             agent.clear()
 
-        for agent in self.myRoom.agentUser:
+        for agent in self.room.active_AgentUser_list:
             agent.clear()
 
         # Clean mailbox

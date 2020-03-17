@@ -16,13 +16,13 @@ class GUI_memories:
         self.scale_x = scaleX
         self.scale_y = scaleY
 
-    def drawMemory(self, myRoom, allAgents=False):
+    def drawMemory(self, room, allAgents=False):
         """ Draws the previous positions of the selected targets for the selected agents. """
 
         if allAgents:
-            agents = myRoom.agentCams
+            agents = room.active_AgentCams_list
         else:
-            agents = myRoom.get_multiple_Agent_with_id(self.agents_to_display, "agentCam")
+            agents = room.get_multiple_Agent_with_id(self.agents_to_display, "agentCam")
 
         for agent in agents:
             for targetID in self.targets_to_display:
@@ -34,7 +34,7 @@ class GUI_memories:
 
     def draw_mesure_and_receiveMessages(self, myRoom):
         """ Draws the previous positions of the selected targets for the selected agents. """
-        agents = myRoom.get_multiple_Agent_with_id(self.agents_to_display)
+        agents = myRoom.get_multiple_Agent_with_id(self.agents_to_display,"agentCam")
 
         for agent in agents:
             for targetID in self.targets_to_display:

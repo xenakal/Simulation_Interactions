@@ -22,8 +22,8 @@ class AgentUser(Agent):
         # Attributes
         self.memory = Memory(idAgent)
         self.behaviour_analysier = TargetBehaviourAnalyser(self.memory)
-        self.room_description = elements.room.RoomRepresentation([255,255,255])
-        self.link_target_agent = LinkTargetCamera(self.room_description)
+        self.room_representation = elements.room.RoomRepresentation([255, 255, 255])
+        self.link_target_agent = LinkTargetCamera(self.room_representation)
 
         # Threads
         self.threadRun = 1
@@ -62,13 +62,13 @@ class AgentUser(Agent):
         mbox.close()
 
     def init_and_set_room_description(self,room):
-        self.room_description.init(room)
-        self.message_stat.init_message_static(self.room_description)
+        self.room_representation.init_RoomRepresentation(room)
+        self.message_stat.init_message_static(self.room_representation)
 
     def thread_run(self):
         state = "processData"
         nextstate = state
-        my_previousTime = self.room_description.time - 1
+        my_previousTime = self.room_representation.time - 1
 
         while self.threadRun == 1:
             state = nextstate
@@ -77,15 +77,15 @@ class AgentUser(Agent):
                 '''Combination of data received and data observed'''
                 self.memory.combine_data_userCam()
                 '''Modification from the room description'''
-                self.room_description.update_target_based_on_memory(self.memory.memory_agent)
+                self.room_representation.update_target_based_on_memory(self.memory.memory_agent)
                 '''Descision of the messages to send'''
-                self.process_InfoMemory(self.room_description)
+                self.process_InfoMemory(self.room_representation)
                 nextstate = "communication"
 
             elif state == "communication":
                 '''Suppression of unusefull messages in the list'''
-                self.info_messageSent.removeMessageAfterGivenTime(self.room_description.time, 30)
-                self.info_messageReceived.removeMessageAfterGivenTime(self.room_description.time, 30)
+                self.info_messageSent.removeMessageAfterGivenTime(self.room_representation.time, 30)
+                self.info_messageReceived.removeMessageAfterGivenTime(self.room_representation.time, 30)
 
                 '''Message are send (Mailbox)'''
                 self.sendAllMessage()
@@ -128,7 +128,7 @@ class AgentUser(Agent):
             self.info_messageReceived.delMessage(rec_mes)
 
     def send_message_ackNack(self, message, typeMessage):
-        m = Message_Check_ACK_NACK(self.room_description.time, self.id, self.signature, typeMessage, message.signature,
+        m = Message_Check_ACK_NACK(self.room_representation.time, self.id, self.signature, typeMessage, message.signature,
                                    message.targetRef)
         m.addReceiver(message.senderID, message.senderSignature)
         self.info_messageToSend.addMessage(m)

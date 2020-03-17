@@ -50,7 +50,7 @@ class Memory:
         # Incorporate new data in corresponding predictor
         if target_id == self.id:
             target_predictor = self.get_predictor_of_target(target_id)
-            target_predictor.add_measurement([target_xc, target_yc])
+            #target_predictor.add_measurement([target_xc, target_yc])
 
     def add_target_estimator(self, estimator):
         self.memory_all_agent.add_target_estimator(estimator)

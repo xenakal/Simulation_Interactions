@@ -4,7 +4,7 @@ import time
 import logging
 import numpy as np
 from elements.target import *
-#from elements.room import*
+# from elements.room import*
 import elements.room
 from multi_agent.agent import *
 from multi_agent.estimator import *
@@ -25,8 +25,8 @@ class AgentCam(Agent):
         self.cam = camera
         self.memory = Memory(idAgent)
         self.behaviour_analysier = TargetBehaviourAnalyser(self.memory)
-        self.room_description = elements.room.RoomRepresentation(self.color)
-        self.link_target_agent = LinkTargetCamera(self.room_description)
+        self.room_representation = elements.room.RoomRepresentation(self.color)
+        self.link_target_agent = LinkTargetCamera(self.room_representation)
 
         # Threads
         self.threadRun = 1
@@ -36,8 +36,9 @@ class AgentCam(Agent):
         logger_room = logging.getLogger('room' + " agent " + str(self.type) + " " + str(idAgent))
         logger_room.setLevel(logging.INFO)
         # create file handler which log_messages even debug messages
-        fh = logging.FileHandler(constants.NAME_LOG_PATH + "-" + str(self.type) + " " + str(idAgent) + " " + "-room.txt",
-                                 "w+")
+        fh = logging.FileHandler(
+            constants.NAME_LOG_PATH + "-" + str(self.type) + " " + str(idAgent) + " " + "-room.txt",
+            "w+")
         fh.setLevel(logging.DEBUG)
         # create console handler with a higher log_message level
         ch = logging.StreamHandler()
@@ -66,9 +67,9 @@ class AgentCam(Agent):
         mbox.close()
 
     def init_and_set_room_description(self, room):
-        self.room_description.init(room)
-        self.link_target_agent = LinkTargetCamera(self.room_description)
-        self.message_stat.init_message_static(self.room_description)
+        self.room_representation.init_RoomRepresentation(room)
+        self.link_target_agent = LinkTargetCamera(self.room_representation)
+        self.message_stat.init_message_static(self.room_representation)
 
     def thread_run(self):
         """
@@ -76,7 +77,7 @@ class AgentCam(Agent):
         """
         state = "takePicture"
         nextstate = state
-        my_previousTime = self.room_description.time - 1
+        my_previousTime = self.room_representation.time - 1
 
         while self.threadRun == 1:
             state = nextstate
@@ -94,10 +95,10 @@ class AgentCam(Agent):
                 else:
                     '''If the camera is working and we have a new picture, then the informations are stored in 
                     memory. '''
-                    if my_previousTime != self.room_description.time:  # Si la photo est nouvelle
-                        my_previousTime = self.room_description.time
+                    if my_previousTime != self.room_representation.time:  # Si la photo est nouvelle
+                        my_previousTime = self.room_representation.time
                         for targetElem in picture:
-                            self.memory.set_current_time(self.room_description.time)
+                            self.memory.set_current_time(self.room_representation.time)
                             try:
                                 target = targetElem[0]
 
@@ -109,7 +110,7 @@ class AgentCam(Agent):
                                     erreurX = 0
                                     erreurY = 0
 
-                                self.memory.add_create_target_estimator(self.room_description.time, self.id,
+                                self.memory.add_create_target_estimator(self.room_representation.time, self.id,
                                                                         self.signature, target.id, target.signature,
                                                                         target.xc + erreurX, target.yc + erreurY,
                                                                         target.size)
@@ -123,19 +124,19 @@ class AgentCam(Agent):
                 '''Combination of data received and data observed'''
                 self.memory.combine_data_agentCam()
                 '''Modification from the room description'''
-                self.room_description.update_target_based_on_memory(self.memory.memory_agent)
+                self.room_representation.update_target_based_on_memory(self.memory.memory_agent)
                 '''Computation of the camera that should give the best view, according to map algorithm'''
                 self.link_target_agent.update_link_camera_target()
                 self.link_target_agent.compute_link_camera_target()
                 '''Descision of the messages to send'''
-                self.process_InfoMemory(self.room_description)
+                self.process_InfoMemory(self.room_representation)
                 nextstate = "communication"
 
             # TODO: pas mieux de mettre ca avant "processData" ?
             elif state == "communication":
                 '''Suppression of unusefull messages in the list'''
-                self.info_messageSent.removeMessageAfterGivenTime(self.room_description.time, 30)
-                self.info_messageReceived.removeMessageAfterGivenTime(self.room_description.time, 30)
+                self.info_messageSent.removeMessageAfterGivenTime(self.room_representation.time, 30)
+                self.info_messageReceived.removeMessageAfterGivenTime(self.room_representation.time, 30)
                 '''Message are send (Mailbox)'''
                 self.sendAllMessage()
                 '''Read messages received'''
@@ -155,7 +156,7 @@ class AgentCam(Agent):
         pass
 
     def process_InfoMemory(self, room):
-        for target in room.targets:
+        for target in room.active_Target_list:
             """
                 ---------------------------------------------------------------------------------------------
                 Memory analysis: 
@@ -197,13 +198,13 @@ class AgentCam(Agent):
                 memories = self.memory.memory_agent.get_Target_list(target.id)
                 if len(memories) > 0:
                     receivers = []
-                    for agent in room.agentUser:
+                    for agent in room.active_AgentUser_list:
                         receivers.append([agent.id, agent.signature])
                     last_memory = memories[len(memories) - 1]
 
                     '''If the message is to old we don't send it -> target lost'''
                     thresh_time_to_send = 10
-                    if self.room_description.time - last_memory.time_stamp <= thresh_time_to_send:
+                    if self.room_representation.time - last_memory.time_stamp <= thresh_time_to_send:
                         self.send_message_memory(last_memory, receivers)
 
     def process_Message_sent(self):
@@ -232,9 +233,10 @@ class AgentCam(Agent):
     def send_message_request(self, information, target, receivers=None):
         if receivers is None:
             receivers = []
-        m = Message_Check_ACK_NACK(self.room_description.time, self.id, self.signature, "request", information, target)
+        m = Message_Check_ACK_NACK(self.room_representation.time, self.id, self.signature, "request", information,
+                                   target)
         if len(receivers) == 0:
-            for agent in self.room_description.agentCams:
+            for agent in self.room_representation.agentCams:
                 if agent.id != self.id:
                     m.addReceiver(agent.id, agent.signature)
         else:
@@ -253,9 +255,10 @@ class AgentCam(Agent):
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
-        m = Message_Check_ACK_NACK(self.room_description.time, self.id, self.signature, "memory", s, memory.target_id)
+        m = Message_Check_ACK_NACK(self.room_representation.time, self.id, self.signature, "memory", s,
+                                   memory.target_id)
         if len(receivers) == 0:
-            for agent in self.room_description.agentCams:
+            for agent in self.room_representation.agentCams:
                 if agent.id != self.id:
                     m.addReceiver(agent.id, agent.signature)
         else:
@@ -269,10 +272,10 @@ class AgentCam(Agent):
     def send_message_locked(self, message, receivers=None):
         if receivers is None:
             receivers = []
-        m = Message_Check_ACK_NACK(self.room_description.time, self.id, self.signature, "locked", message.signature,
+        m = Message_Check_ACK_NACK(self.room_representation.time, self.id, self.signature, "locked", message.signature,
                                    message.targetRef)
         if len(receivers) == 0:
-            for agent in self.room_description.agentCams:
+            for agent in self.room_representation.agentCams:
                 if agent.id != self.id:
                     m.addReceiver(agent.id, agent.signature)
         else:
@@ -282,7 +285,8 @@ class AgentCam(Agent):
         self.info_messageToSend.addMessage(m)
 
     def send_message_ackNack(self, message, typeMessage):
-        m = Message_Check_ACK_NACK(self.room_description.time, self.id, self.signature, typeMessage, message.signature,
+        m = Message_Check_ACK_NACK(self.room_representation.time, self.id, self.signature, typeMessage,
+                                   message.signature,
                                    message.targetRef)
         m.addReceiver(message.senderID, message.senderSignature)
         self.info_messageToSend.addMessage(m)
@@ -307,7 +311,7 @@ class AgentCam(Agent):
         # Update Info
         s = message.message
         if not (s == ""):
-            estimator = TargetEstimator(0, 0, 0, 0, 0, 0)
+            estimator = TargetEstimator(0, 0, 0, 0, 0, 0, 0, 0, )
 
             estimator.parse_string(s)
             self.memory.add_target_estimator(estimator)
@@ -342,4 +346,3 @@ class AgentCam(Agent):
         predictions = predictor.makePredictions(targetIdList)
 
         return predictions
-
