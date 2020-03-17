@@ -90,7 +90,7 @@ class App:
             # Object are moving in the room
             for target in self.myRoom.targets:
                 target.save_position()
-                moveTarget(target, 1, self.myRoom)
+                move_Target(target, 1, self.myRoom)
 
             '''
             RUN_ON_THREAD = 0, sequential approach, every agent are call one after the other

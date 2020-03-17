@@ -1,13 +1,22 @@
 import math
-def limitToValueMax(valueMax, value):
-    if value > valueMax:
-        return valueMax
-    elif value < -valueMax:
-        return -valueMax
+def limit_to_value_max(value_max, value):
+    """
+            :param
+                1.(int) value_max    -- value that should not be exceed
+                2.(int) value       -- actual value
+
+            :return
+                1. return a value in the given range bound with value_max
+    """
+
+    if value > value_max:
+        return value_max
+    elif value < -value_max:
+        return -value_max
     else:
         return value
 
-def moveTarget(Target, delta_time, room):
+def move_Target(Target, delta_time, room):
     """
             :param
                 1.(Target) target   -- object (Target)
@@ -26,21 +35,21 @@ def moveTarget(Target, delta_time, room):
         Target.xc = Target.xc + math.ceil(Target.vx * delta_time)
         Target.yc = Target.yc + math.ceil(Target.vy * delta_time)
     elif type_mvt == 'linear':
-        rectiligneTrajectory(Target, 10, delta_time)
+        rectiligne_trajectory(Target, 10, delta_time)
     elif type_mvt == 'potential_field':
         potentialField(Target, delta_time, room)
     else:
         print("planning method not recognize")
 
 
-def rectiligneTrajectory(Target, dist_min, delta_time):
+def rectiligne_trajectory(Target, dist_min, delta_time):
     """
             :param
                 1.(Target) target   --  object, get target trajectory with target.trajectory and to modify its position
-                2.(int) delta_time  -- compute an artifical displacement with a given velocity
+                2.(int) delta_time  -- compute an artificial displacement with a given velocity
 
             :return
-                moove the target according to a predifined path, the motion beetwen two position are linear.
+                moove the target according to a predifined path, the motion between two position are linear.
                 it does not avoid obstacle.
     """
 
@@ -66,21 +75,20 @@ def rectiligneTrajectory(Target, dist_min, delta_time):
         Target.yc = Target.yc + math.ceil(v_y * delta_time)
 
 
-"""
-        !!! NOT WORKING NEED THE CONSTANT NEED TO BE ADJUSTED!!!
 
-
-        :param 
-        -target:  object (Target), use to choose the target trajectory with target.trajectory and to modify its position
-        -delta_time : (Int), to compute an artifical displacement with a given velocity
-
-        :return
-        -None
-
-        moove the target according to a predifined path, the motion beetwen two position are not-linear.
-        it does avoid obstacle
-"""
 def potentialField(target, delta_time, myRoom):
+    """
+            not - working
+
+            :param
+                1.(Target) target   --  object, get target trajectory with target.trajectory and to modify its position
+                2.(int) delta_time  -- compute an artificial displacement with a given velocity
+
+            :return
+                move the target according to a predifined path, the motion between two position are linear.
+                it does not avoid obstacle.
+    """
+
     if target.label != 'fix':
 
         (x_goal, y_goal) = target.trajectory_position[target.number_of_position_reached]
@@ -94,8 +102,8 @@ def potentialField(target, delta_time, myRoom):
         F_att_x = -target.k_att * (target.xc - xgoal)
         F_att_y = -target.k_att * (target.yc - ygoal)
 
-        limitToValueMax(target.F_att_max, F_att_x)
-        limitToValueMax(target.F_att_max, F_att_y)
+        limit_to_value_max(target.F_att_max, F_att_x)
+        limit_to_value_max(target.F_att_max, F_att_y)
 
         F_rep_x = 0
         F_rep_y = 0
@@ -127,8 +135,8 @@ def potentialField(target, delta_time, myRoom):
 
         target.vx = 0.01 * Fx
         target.vy = 0.01 * Fy
-        limitToValueMax(target.vx_max, target.vx)
-        limitToValueMax(target.vy_max, target.vy)
+        limit_to_value_max(target.vx_max, target.vx)
+        limit_to_value_max(target.vy_max, target.vy)
         # print("===============")
         target.xc = target.xc + math.ceil(target.vx * delta_time)
         target.yc = target.yc + math.ceil(target.vy * delta_time)

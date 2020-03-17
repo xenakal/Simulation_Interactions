@@ -4,7 +4,7 @@ import time
 import logging
 import numpy as np
 from elements.target import *
-from elements.room import*
+from elements.room import *
 from multi_agent.agent import *
 from multi_agent.estimator import *
 from multi_agent.message import *
