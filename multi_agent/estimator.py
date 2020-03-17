@@ -137,7 +137,7 @@ class TargetEstimator:
         return self.time_stamp > other.time_stamp
 
 
-class Agent_Target_TargetEstimatorList:
+class Agent_Target_TargetEstimator:
     """
           Class TargetEstimatorList.
 
@@ -348,7 +348,7 @@ class Agent_Target_TargetEstimatorList:
         return s
 
 
-class Target_TargetEstimatorList:
+class Target_TargetEstimator:
     """
            Class FusionEstimatorList.
 

@@ -22,8 +22,8 @@ class Memory:
         self.id = agentID
         self.time = current_time
         self.nTime = nTime
-        self.memory_all_agent = Agent_Target_TargetEstimatorList()
-        self.memory_agent = Target_TargetEstimatorList()
+        self.memory_all_agent = Agent_Target_TargetEstimator()
+        self.memory_agent = Target_TargetEstimator()
 
     def add_create_target_estimator(self,time_from_estimation,agent_id,agent_signature,target_id,target_signature,target_xc,target_yc,target_size):
         self.memory_all_agent.add_create_target_estimator(time_from_estimation,agent_id,agent_signature,target_id,target_signature,target_xc,target_yc,target_size)

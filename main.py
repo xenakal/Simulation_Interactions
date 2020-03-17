@@ -87,7 +87,7 @@ class App:
         '''Creation from the room with the given description'''
         self.myRoom = self.room_txt.init_room()
         '''Adding one agent user'''
-        self.myRoom.init_agentUser(1)
+        self.myRoom.init_AgentUser(1)
         for agent in self.myRoom.agentCams:
             agent.init_and_set_room_description(self.myRoom)
         for agent in self.myRoom.agentUser:

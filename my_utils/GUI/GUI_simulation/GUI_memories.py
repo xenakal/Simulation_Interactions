@@ -22,7 +22,7 @@ class GUI_memories:
         if allAgents:
             agents = myRoom.agentCams
         else:
-            agents = myRoom.getAgentsWithIDs(self.agents_to_display, "agentCam")
+            agents = myRoom.get_multiple_Agent_with_id(self.agents_to_display, "agentCam")
 
         for agent in agents:
             for targetID in self.targets_to_display:
@@ -35,7 +35,7 @@ class GUI_memories:
 
     def draw_mesure_and_receiveMessages(self, myRoom):
         """ Draws the previous positions of the selected targets for the selected agents. """
-        agents = myRoom.getAgentsWithIDs(self.agents_to_display)
+        agents = myRoom.get_multiple_Agent_with_id(self.agents_to_display)
 
         for agent in agents:
             for targetID in self.targets_to_display:

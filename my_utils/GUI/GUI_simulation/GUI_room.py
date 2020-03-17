@@ -86,7 +86,7 @@ class GUI_room:
             elif agentType == "agentUser":
                 agents = room.agentUser
         else:
-            agents = room.getAgentsWithIDs(agents_to_display, agentType)
+            agents = room.get_multiple_Agent_with_id(agents_to_display, agentType)
 
         for agent in agents:
              self.drawTarget(agent.room_description.targets,room.coord)
@@ -140,7 +140,7 @@ class GUI_room:
             elif agentType == "agentUser":
                 agents = room.agentUser
         else:
-            agents = room.getAgentsWithIDs(agents_to_display, agentType)
+            agents = room.get_multiple_Agent_with_id(agents_to_display, agentType)
 
         for agent in agents:
             self.drawCam(room)
@@ -177,7 +177,7 @@ class GUI_room:
             elif agentType == "agentUser":
                 agents = room.agentUser
         else:
-            agents = room.getAgentsWithIDs(agents_to_display,agentType)
+            agents = room.get_multiple_Agent_with_id(agents_to_display, agentType)
 
         for agent_to_display in agents:
             self.draw_link_cam_region(agent_to_display.room_description,agent_to_display.link_target_agent.link_camera_target)

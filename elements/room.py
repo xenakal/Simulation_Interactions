@@ -7,98 +7,165 @@ from multi_agent.agent_user import AgentUser
 from multi_agent.room_description import *
 import main
 
+import numpy
+from elements.target import *
+from multi_agent.agent_camera import *
 
-class Room:
+
+class InformationRoomSimulation:
     def __init__(self):
-        # Info just for the simulation, should be in practice replace by video input
-        self.info_simu = Info_simu()
-        # Room attributes
-        self.coord = numpy.array([0, 0, main.WIDTH_ROOM, main.LENGHT_ROOM])  # x y l h
-        # target in the room
-        self.targets = []
-        self.targetNumber = 0
-        # camera in the room
-        self.cameras = []
-        self.camerasNumber = 0
-        # Agent User
-        self.agentUser = []
-        self.agentUserNumber = 100
-        # agentCam
-        self.agentCams = []
-        self.agentCamNumber = 0
-        # time
+        """Room size"""
+        self.coordinate_room = numpy.array([0, 0, 300, 300])  # x y l h
+
+        """Target that should appear in the room"""
+        self.Target_list = []
+
+        """Trajectories proposed to the targets"""
+        self.trajectories = []
+        self.trajectories_number = []
+
+    def init_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del):
+        if len(x) > 0:
+            for n in range(len(x)):
+                self.add_Target(x[n], y[n], vx[n], vy[n], trajectory_type[n], trajectory_choice[n], type[n], size[n],
+                                t_add[n], t_del[n])
+
+    def add_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del):
+        if trajectory_choice in self.trajectories_number:
+            index = self.trajectories_number.index(trajectory_choice)
+            number_Target = len(self.Target_list)
+            self.Target_list.append(Target(number_Target, x, y, vx, vy, trajectory_type,
+                                           self.trajectories[index], type, size, t_add, t_del))
+        else:
+            print("fichier info_room_simu l27 : error while creating target, trajectory number not found")
+
+    def init_trajectories(self, all_traj):
+        for num_traj in all_traj:
+            (num, traj) = num_traj
+            self.trajectories.append(num_traj)
+            self.trajectories_number.append(num)
+
+
+class RoomRepresentation:
+    def __init__(self, color=0):
+        """Target informations"""
+        self.active_Target_list = []
+        self.active_Camera_list = []
+
+        """Agent informations"""
+        self.active_AgentCams_list = []
+        self.active_AgentUser_list = []
+
+        """Others attributes"""
         self.time = 0
+        self.color = color
 
-    def init_room(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add, t_del):
-        self.info_simu.init_targets(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add,
-                                    t_del)
-        self.targetNumber = self.info_simu.targetNumber
+        '''Default values'''
+        if color == 0:
+            r = random.randrange(20, 230, 1)
+            g = random.randrange(20, 230, 1)
+            b = random.randrange(20, 255, 1)
+            self.color = (r, g, b)
 
-    def init_agentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix, myRoom):
-        for _ in cam_x:
-            camera = Camera(myRoom, self.camerasNumber, cam_x[self.camerasNumber],
-                            cam_y[self.camerasNumber], cam_alpha[self.camerasNumber]
-                            , cam_beta[self.camerasNumber], fix[self.camerasNumber])
-            self.cameras.append(camera)
-            self.camerasNumber = self.camerasNumber + 1
+    def init_RoomRepresentation(self, room):
+        for Target in room.info_simu.targets_SIMU:
+            if Target.type == "fix":
+                self.add_targetRepresentation_from_target(Target)
 
-        for camera in self.cameras:
-            self.agentCams.append(AgentCam(self.agentCamNumber, camera))
-            self.agentCamNumber += 1
+        for agent in room.agentCams:
+            self.active_AgentCams_list.append(agent)
 
-    def init_agentUser(self, number):
+        for agent in room.agentUser:
+            self.active_AgentUser_list.append(agent)
+
+    def update_target_based_on_memory(self, Target_TargetEstimator):
+        for Target_detected_id in Target_TargetEstimator.Target_already_discovered_list:
+            is_in_RoomRepresentation = False
+            all_TargetEstimator_for_target_id = Target_TargetEstimator.get_Target_list(Target_detected_id)
+            last_TargetEstimator = all_TargetEstimator_for_target_id[len(all_TargetEstimator_for_target_id) - 1]
+
+            for Target in self.active_Target_list:
+                if Target.id == Target_detected_id:
+                    is_in_RoomRepresentation = True
+                    Target.xc = last_TargetEstimator.target_position[0]
+                    Target.yc = last_TargetEstimator.target_position[1]
+                    break
+
+            if not is_in_RoomRepresentation:
+                self.add_targetRepresentation(last_TargetEstimator.target_id, last_TargetEstimator.target_position[0],
+                                              last_TargetEstimator.target_position[1],
+                                              last_TargetEstimator.target_size, last_TargetEstimator.target_label)
+
+    def add_targetRepresentation_from_target(self, target):
+        self.add_targetRepresentation(target.id, target.xc, target.yc, target.size, target.type)
+
+    def add_targetRepresentation(self, id, x, y, size, label):
+        self.active_Target_list.append(TargetRepresentation(id, x, y, size, label, self.color))
+
+    def get_multiple_Agent_with_id(self, idList, agentType):
+        """ Returns the list of agents with ids in the list provided in the argument. """
+        if agentType == "agentCam":
+            return [agent for agent in self.active_AgentCams_list if agent.id in idList]
+        elif agentType == "agentUser":
+            return [agent for agent in self.active_AgentUser_list if agent.id in idList]
+
+    def get_multiple_target_with_id(self, targetList):
+        """ Returns the list of targets with ids in the list provided in the argument. """
+        return [target for target in self.active_Target_list if target.id in targetList]
+
+    def get_Target_with_id(self, targetID):
+        for target in self.active_Target_list:
+            if target.id == targetID:
+                return target
+        return None
+
+    def get_Agent_with_id(self, agentID):
+        for agent in self.active_AgentCams_list:
+            if agent.id == agentID:
+                return agent
+        return None
+
+
+class Room(RoomRepresentation):
+    def __init__(self):
+        super().__init__(0)
+        self.info_simu = InformationRoomSimulation()
+        self.cameras = []
+
+    def init_room(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del):
+        self.info_simu.init_Target(x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del)
+
+    "!!!!!!!!!!!!!!!!!  ici supprimer le myRoom et le remplacer par self ?? "
+    def init_AgentCam(self, x, y, orrientation_alpha, field_opening_beta, fix, myRoom):
+        for n in range(len(x)):
+            self.add_AgentCam(x[n], y[n], orrientation_alpha[n], field_opening_beta[n], fix[n], myRoom)
+
+    def init_AgentUser(self, number):
         for n in range(number):
-            self.agentUser.append(AgentUser(self.agentUserNumber))
-            self.agentUserNumber = self.agentUserNumber + 1
+            number_AgentUser = len(self.active_AgentUser_list)
+            self.active_AgentUser_list.append(AgentUser(number_AgentUser))
 
     def init_trajectories(self, all_traj):
         self.info_simu.init_trajectories(all_traj)
 
     def add_del_target_timed(self):
-        for target in self.info_simu.targets_SIMU:
-            if self.time in target.t_add:
-                self.addTarget_alreadyCreated(target)
-            elif self.time in target.t_del:
-                self.delTargets(target)
+        for Target in self.info_simu.Target_list:
+            if self.time in Target.t_add:
+                self.active_Target_list.append(Target)
+            elif self.time in Target.t_del:
+                self.del_Target(Target)
 
-    def addTarget_alreadyCreated(self, Target):
-        self.targets.append(Target)
-        self.targetNumber = self.info_simu.targetNumber
-
-    def addTargets(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add, t_del):
-        self.info_simu.addTargets(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add,
+    def add_Target(self, tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add, t_del):
+        self.info_simu.add_Target(tar_x, tar_y, tar_vx, tar_vy, tar_traj, trajChoice_tar, tar_label, tar_size, t_add,
                                   t_del)
 
-    def delTargets(self, target):
-        index = self.targets.index(target)
-        del self.targets[index]
+    def del_Target(self, target):
+        index = self.active_Target_list.index(target)
+        del self.active_Target_list[index]
 
-    def addAgentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix, myRoom):
-        camera = Camera(myRoom, self.camerasNumber, cam_x, cam_y, cam_alpha, cam_beta, fix)
+    def add_AgentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix, myRoom):
+        number_Camera = len(self.cameras)
+        number_AgentCam = len(self.active_AgentCams_list)
+        camera = Camera(myRoom, number_Camera, cam_x, cam_y, cam_alpha, cam_beta, fix)
         self.cameras.append(camera)
-        self.camerasNumber = self.camerasNumber + 1
-        self.agentCams.append(AgentCam(self.agentCamNumber, camera))
-        self.agentCamNumber += 1
-
-    def getAgentsWithIDs(self, idList, agentType):
-        """ Returns the list of agents with ids in the list provided in the argument. """
-        if agentType == "agentCam":
-            return [agent for agent in self.agentCams if agent.id in idList]
-        elif agentType == "agentUser":
-            return [agent for agent in self.agentUser if agent.id in idList]
-
-    def getTargetsWithIDs(self, targetList):
-        """ Returns the list of targets with ids in the list provided in the argument. """
-        return [target for target in self.targets if target.id in targetList]
-
-    def getTargetbyID(self, targetID):
-        for target in self.targets:
-            if target.id == targetID:
-                return target
-        return None
-
-    def getAgentbyID(self, agentID):
-        for agent in self.agentCams:
-            if agent.id == agentID:
-                return agent
-        return None
+        self.active_AgentCams_list.append(AgentCam(number_AgentCam, camera))

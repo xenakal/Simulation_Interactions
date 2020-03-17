@@ -153,7 +153,7 @@ class Room_txt():
         my_room.init_room(self.x_target, self.y_target, self.vx_target, self.vy_target, self.trajectoire_target,
                               self.trajectoire_choice, self.label_target, self.size_target, self.t_add, self.t_del)
         '''Create the agent'''
-        my_room.init_agentCam(self.x_cam, self.y_cam, self.alpha_cam, self.beta_cam, self.fix,my_room)
+        my_room.init_AgentCam(self.x_cam, self.y_cam, self.alpha_cam, self.beta_cam, self.fix, my_room)
 
         return my_room
 
