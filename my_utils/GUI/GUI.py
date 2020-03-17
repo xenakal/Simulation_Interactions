@@ -62,7 +62,7 @@ class GUI:
             self.GUI_simu.run(room, region, link_camera_target)
 
         elif self.button_menu.find_button_state("Camera"):
-            self.GUI_projection.drawProjection(room)
+            self.GUI_projection.draw_projection(room)
             self.GUI_simu.GUI_ATD.screenDetectedTarget(room)
 
         elif self.button_menu.find_button_state("Stat"):

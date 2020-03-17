@@ -1,7 +1,7 @@
 import math
 import numpy
 
-def distanceBtwTwoPoint(x1, y1, x2, y2):
+def distance_btw_two_point(x1, y1, x2, y2):
     return math.pow(math.pow((x1 - x2), 2) + math.pow((y1 - y2), 2), 0.5)
 
 """
@@ -59,7 +59,9 @@ class Line:
           - return x,y intersection of the two line.
       """
     def lineIntersection(self, line):
-        if line.m == self.m:
+        if line.m == self.m and self.vertical == 0 and line.vertical == 0:
+            return 0
+        elif self.vertical == 1 and line.vertical == 1:
             return 0
         elif self.vertical == 1:
             y = line.m * (self.x - line.x) + line.y
@@ -82,7 +84,14 @@ class Line:
             
     """
     def lineCircleIntersection(self, r, xc, yc):
-        if self.vertical == 1:
+
+        if r == 0:
+            x1 = xc
+            y1 = yc
+            x2 = xc
+            y2 = yc
+
+        elif self.vertical == 1:
             x1 = self.x
             y1 = math.pow((r * r - (self.x - xc) * (self.x - xc)), 0.5) + yc
             x2 = self.x
@@ -97,7 +106,6 @@ class Line:
             c = xc * xc + m * m * xd * xd - 2 * m * yd * xd + yd * yd + 2 * m * yc * xd - 2 * yc * yd + yc * yc - r * r
 
             delta = b * b - 4 * a * c
-
             try:
                 x1 = (-b - math.pow(delta, 0.5)) / (2 * a)
                 x2 = (-b + math.pow(delta, 0.5)) / (2 * a)

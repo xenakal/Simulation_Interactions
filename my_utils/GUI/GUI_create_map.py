@@ -185,11 +185,11 @@ class GUI_create_map:
 
             if on:
                 target = Target(-1,x_new, y_new, self.vx_default, self.vy_default, 'linear', (0,[(0,0)]), label, self.size_default, [0], [1000])
-                self.GUI_room.draw_one_target(target, self.new_room.coord)
+                self.GUI_room.draw_one_target(target, self.new_room.coordinate_room)
 
             if pressed:
                 self.new_room.add_Target(x_new, y_new, self.vx_default, self.vy_default, 'linear', self.traj_default, label, self.size_default, [0], [1000])
-                self.room_to_txt.add_Target(x_new, y_new, self.vx_default, self.vy_default, 'linear', self.traj_default, label, self.size_default, [0], [1000])
+                self.room_to_txt.add_target(x_new, y_new, self.vx_default, self.vy_default, 'linear', self.traj_default, label, self.size_default, [0], [1000])
 
         elif self.button_create_map_1.find_button_state(self.button_create_map_1_name[1]):
             self.GUI_option.check_list(self.button_camera_scale_plus_moins.list)

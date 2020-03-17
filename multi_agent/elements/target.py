@@ -110,7 +110,7 @@ class Target(TargetRepresentation):
     def __init__(self, id=-1, x=-1, y=-1, vx=0, vy=0, trajectory_type='fix', trajectory=(0, [(0, 0)]), type='fix',
                  size=5, t_add=-1, t_del=-1):
 
-        super().__init__(id, x, y, size, type, -1)
+        super().__init__(id, x, y, size, type, 0)
 
         '''Target description on the map'''
         self.vx = vx

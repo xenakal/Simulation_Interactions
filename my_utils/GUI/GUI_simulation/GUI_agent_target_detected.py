@@ -21,13 +21,13 @@ class GUI_Agent_Target_Detected:
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 15)
 
-    def screenDetectedTarget(self, myRoom):
+    def screenDetectedTarget(self, room):
         x_off = 400
         y_off = 60
         color = RED
 
         n = 0
-        for camera in myRoom.cameras:
+        for camera in room.active_Camera_list:
             label = self.font.render("camera " + str(camera.id), 10, WHITE)
             self.screen.blit(label, (x_off, y_off + n * 20))
             n = n + 1
@@ -35,18 +35,18 @@ class GUI_Agent_Target_Detected:
         n = 0
         label = self.font.render("target ", 10, WHITE)
         self.screen.blit(label, (x_off, y_off - 20))
-        for target in myRoom.targets:
+        for target in room.active_Target_list:
             label = self.font.render(str(target.id), 10, WHITE)
             self.screen.blit(label, (x_off + 80 + n * 20, y_off - 20))
             n = n + 1
 
         m = 0
-        for camera in myRoom.cameras:
+        for camera in room.active_Camera_list:
             n = 0
-            for target in myRoom.targets:
+            for target in room.active_Target_list:
                 color = RED
-                for targetDetected in camera.targetDetectedList.copy():
-                    if target == targetDetected[0]:
+                for element in camera.target_in_field_list.copy():
+                    if target == element:
                         color = GREEN
                         break
                     else:

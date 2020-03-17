@@ -16,7 +16,7 @@ def clean_mailbox():
 
 
 class App:
-    def __init__(self, fileName="map_lele.txt"):
+    def __init__(self, fileName="my_new_map.txt"):
         # Clean the file mailbox
         clean_mailbox()
 
@@ -77,7 +77,7 @@ class App:
             if reset:
                 self.room.time = 0
                 if USE_agent:
-                    for agent in self.room.active_Target_list:
+                    for agent in self.room.active_AgentCams_list:
                         agent.clear()
                     for agent in self.room.active_AgentUser_list:
                         agent.clear()
