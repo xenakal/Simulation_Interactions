@@ -27,13 +27,14 @@ class Memory:
         self.id = agentID
         self.time = current_time
         self.nTime = nTime
-        self.memory_all_agent = TargetEstimatorList()
-        self.memory_agent = FusionEstimatorList()
+        self.memory_all_agent = Agent_Target_TargetEstimatorList()
+        self.memory_agent = Target_TargetEstimatorList()
         self.predictors = []
 
-    def add_create_target_estimator(self, time_from_estimation, agent_ID, target_ID, target_xc, target_yc, target_size):
-        self.memory_all_agent.add_create_target_estimator(time_from_estimation, target_ID, agent_ID, target_xc,
-                                                          target_yc, target_size)
+    def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
+                                    target_xc, target_yc, target_size):
+        self.memory_all_agent.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
+                                                          target_signature, target_xc, target_yc, target_size)
 
     def add_target_estimator(self, estimator):
         self.memory_all_agent.add_target_estimator(estimator)
@@ -46,25 +47,24 @@ class Memory:
     def combine_data_agentCam(self, choice=1):
         if choice == 1:
             for item in self.memory_all_agent.Agent_Target_already_discovered_list:
-                (agentID,targetID) = item
+                (agentID, targetID) = item
                 if agentID == self.id:
                     for estimateur in self.memory_all_agent.get_Agent_Target_list(targetID, self.id):
                         if not is_in_list_TargetEstimator(self.memory_agent.get_Target_list(targetID), estimateur):
                             self.memory_agent.add_TargetEstimator(estimateur)
 
-    def combine_data_userCam(self,choice = 1):
+    def combine_data_userCam(self, choice=1):
         if choice == 1:
             for item in self.memory_all_agent.Agent_Target_already_discovered_list:
-                (agentID,targetID) = item
+                (agentID, targetID) = item
                 for estimateur in self.memory_all_agent.get_Agent_Target_list(targetID, agentID):
                     if not is_in_list_TargetEstimator(self.memory_agent.get_Target_list(targetID), estimateur):
                         self.memory_agent.add_TargetEstimator(estimateur)
 
-
     def getPreviousPositions(self, targetID):
         return self.memory_agent.get_Target_list(targetID)
 
-    def getPreviousPositions_allMessages(self, targetID,agentID):
+    def getPreviousPositions_allMessages(self, targetID, agentID):
         return self.memory_all_agent.get_Agent_Target_list(targetID, agentID)
 
     def to_string_memory_all(self):

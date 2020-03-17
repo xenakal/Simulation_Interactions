@@ -38,9 +38,9 @@ def extractPositionsFromTargetEstimators(prevTargetEstimatorsList):
     if len(prevTargetEstimatorsList) <= 3:
         return []
     if len(prevTargetEstimatorsList) <= constants.PREVIOUS_POSITIONS_USED:
-        return [te.position for te in prevTargetEstimatorsList]
+        return [te.target_position for te in prevTargetEstimatorsList]
     else:
-        return [te.position for te in prevTargetEstimatorsList[-constants.PREVIOUS_POSITIONS_USED:]]
+        return [te.target_position for te in prevTargetEstimatorsList[-constants.PREVIOUS_POSITIONS_USED:]]
 
 
 class LinearPrediction(Prediction):
