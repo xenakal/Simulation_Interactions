@@ -19,7 +19,7 @@ import constants
 class AgentCam(Agent):
 
     def __init__(self, idAgent, camera):
-        super().__init__(idAgent, "camera")
+        super().__init__(idAgent,"camera")
         # Attributes
         self.cam = camera
         self.memory = Memory(idAgent)
@@ -32,11 +32,10 @@ class AgentCam(Agent):
         self.my_thread_run = threading.Thread(target=self.thread_run)
 
         # log_room
-        logger_room = logging.getLogger('room' + " agent " + str(self.type) + " " + str(idAgent))
+        logger_room = logging.getLogger('room' + " agent " + str(self.type) + " "  + str(idAgent))
         logger_room.setLevel(logging.INFO)
         # create file handler which log_messages even debug messages
-        fh = logging.FileHandler(main.NAME_LOG_PATH + "-" + str(self.type) + " " + str(idAgent) + " " + "-room.txt",
-                                 "w+")
+        fh = logging.FileHandler(main.NAME_LOG_PATH + "-" + str(self.type)+ " " + str(idAgent)+" "  + "-room.txt", "w+")
         fh.setLevel(logging.DEBUG)
         # create console handler with a higher log_message level
         ch = logging.StreamHandler()
@@ -113,10 +112,7 @@ class AgentCam(Agent):
                                                                         target.size)
                             except  AttributeError:
                                 print("fichier agent caméra ligne 134: oupsi un problème")
-                                target = targetElem[0]
-                                self.memory.add_create_target_estimator(self.room_description.time, self.id, target.id,
-                                                                        target.xc + erreurX, target.yc + erreurY,
-                                                                        target.size)
+
 
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
@@ -158,21 +154,21 @@ class AgentCam(Agent):
     def process_InfoMemory(self, room):
         for target in room.targets:
             """
-                ----------------------------------------------------------------------------------------------
+                ---------------------------------------------------------------------------------------------
                 Memory analysis: 
                     -> Behaviour
                         - detection from moving, stop , changing state targest
                         - detection from target leaving the field of the camera
-                -----------------------------------------------------------------------------------------------
+                ---------------------------------------------------------------------------------------------
             """
             '''Check if the target is moving,stopped or changing from one to the other state'''
-            (is_moving, is_stopped) = self.behaviour_analysier.detect_target_motion(target.id, 4, 3, 3)
+            (is_moving, is_stopped) = self.behaviour_analysier.detect_target_motion(target.id,4,3,3)
             '''Check if the target is leaving the cam angle_of_view'''
-            (is_in, is_out) = self.behaviour_analysier.is_target_leaving_cam_field(self.cam, target.id, 0, 3)
+            (is_in,is_out) = self.behaviour_analysier.is_target_leaving_cam_field(self.cam,target.id,0,3)
 
             """
                 ----------------------------------------------------------------------------------------------
-                Data to send other cam agent:
+                Data to send other cam's agent:
                 -----------------------------------------------------------------------------------------------
             """
             '''Send message to other agent'''
@@ -182,7 +178,7 @@ class AgentCam(Agent):
                     last_memory = memories[len(memories) - 1]
                     self.send_message_memory(last_memory)
 
-            elif constants.DATA_TO_SEND == "behaviour":
+            elif main.DATA_TO_SEND == "behaviour":
                 '''If the target stop is it because we loose it, or is the target outside from the range ? '''
                 pass
                 '''Demande de confirmation à un autre agent par exemple'''
@@ -199,7 +195,7 @@ class AgentCam(Agent):
                 if len(memories) > 0:
                     receivers = []
                     for agent in room.agentUser:
-                        receivers.append([agent.id, agent.signature])
+                        receivers.append([agent.id,agent.signature])
                     last_memory = memories[len(memories) - 1]
 
                     '''If the message is to old we don't send it -> target lost'''
@@ -247,7 +243,7 @@ class AgentCam(Agent):
         if not cdt1 and not cdt2:
             self.info_messageToSend.addMessage(m)
 
-    def send_message_memory(self, memory, receivers=None):
+    def send_message_memory(self,memory, receivers=None):
         if receivers is None:
             receivers = []
         s = memory.to_string()
@@ -308,7 +304,7 @@ class AgentCam(Agent):
         # Update Info
         s = message.message
         if not (s == ""):
-            estimator = TargetEstimator(0, 0, 0, 0, 0, 0)
+            estimator = TargetEstimator(0,0,0,0,0,0)
 
             estimator.parse_string(s)
             self.memory.add_target_estimator(estimator)
@@ -325,21 +321,44 @@ class AgentCam(Agent):
         for sent_mes in self.info_messageSent.getList():
             sent_mes.add_ACK_NACK(message)
 
-    def getPredictionsOld(self, method, targetIdList):
+    def makePredictions(self, method, targetIdList):
         """
-        :param targetIdList:  list of targets IDs: the return list will have an entry for each element of this list
+        :param targetList -- list of targets IDs: the return list will have an entry for each element of this list
         :return a list of lists: [ [NUMBER_OF_PREDICTIONS*[x_estimated, y_estimated] ],[],...] (len = len(targetIdList)
         """
         if method == 1:
-            predictor = LinearPrediction(self.memory)
+            predictor = LinearPrediction(self.memory, main.TIME_PICTURE)
         elif method == 2:
-            predictor = KalmanPredictionOld(self.memory)
+            predictor = KalmanPrediction(self.memory, main.TIME_PICTURE)
         else:
-            predictor = LinearPrediction(self.memory)
+            predictor = LinearPrediction(self.memory, main.TIME_PICTURE)
 
         predictions = predictor.makePredictions(targetIdList)
 
         return predictions
 
-    def get_predictions(self, targetIdList):
-        return self.memory.get_predictions(targetIdList)
+    def predictOcclusions(self, predictions, targetIdList):
+        """
+
+        :param predictions: list of lists, each of which contains the predicted positions of the targets in targetIdList
+        :param targetIdList: list of targetId's
+        :return: list containing the targets that are going to be occluded based on predictions
+        """
+
+        occludedTargets = []
+        for index, futurePosList in enumerate(predictions):
+            for pos in futurePosList:
+                if self.notInView(pos):
+                    occludedTargets.append(targetIdList[index])
+                    break
+
+        return occludedTargets
+
+    def notInView(self, position):
+        """
+        :param position: [x, y]
+        :return: true if the position is seen by the agent, false otherwise
+        """
+        # TODO
+        return self.cam.posInField(position)
+

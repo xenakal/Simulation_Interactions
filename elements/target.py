@@ -11,7 +11,7 @@ class TargetRepresentation:
 
                 Description : This class gives a representation of target
 
-                    :params
+                    :param
                         1. (int) id                   -- numeric value to recognize the target easily
                         2. (int) signature            -- numeric value to identify the target
                         3. (int) xc                   -- x value of the center of the targetRepresentation
@@ -56,9 +56,7 @@ class TargetRepresentation:
 
     def to_string(self):
         """
-                  :params
-
-                  :return / modify vector
+               :return / modify vector
                       1. (string) s0+s1 -- description of the targetRepresentation
 
         """
