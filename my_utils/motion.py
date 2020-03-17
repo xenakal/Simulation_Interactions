@@ -1,7 +1,4 @@
 import math
-"""
-        Class use to moove target
-"""
 def limitToValueMax(valueMax, value):
     if value > valueMax:
         return valueMax
@@ -10,66 +7,63 @@ def limitToValueMax(valueMax, value):
     else:
         return value
 
-"""
-        :param 
-        -target:  object (Target), use to choose the target trajectory with target.trajectory and to modify its position
-        -delta_time : (Int), to compute an artifical displacement with a given velocity
-        -myRoom: obejt(Room)
-        
-        :return
-        -None
-        
-        modify the position of the target (xc,yc)
-"""
-def moveTarget(target, delta_time, myRoom):
-    type_mvt = target.trajectory_type
+def moveTarget(Target, delta_time, room):
+    """
+            :param
+                1.(Target) target   -- object (Target)
+                2.(int) delta_time  -- to compute an artifical displacement with a given velocity
+                3. (Room) room:     -- object(Room)
+
+            :return
+                1. modify the position of the target (xc,yc)
+    """
+
+    type_mvt = Target.trajectory_type
     # easy solution need to be investeagted
     if type_mvt == 'fix':
         pass
     elif type_mvt == 'line':
-        target.xc = target.xc + math.ceil(target.vx * delta_time)
-        target.yc = target.yc + math.ceil(target.vy * delta_time)
+        Target.xc = Target.xc + math.ceil(Target.vx * delta_time)
+        Target.yc = Target.yc + math.ceil(Target.vy * delta_time)
     elif type_mvt == 'linear':
-        rectiligneTrajectory(target,10, delta_time)
+        rectiligneTrajectory(Target, 10, delta_time)
     elif type_mvt == 'potential_field':
-        potentialField(target, delta_time, myRoom)
+        potentialField(Target, delta_time, room)
     else:
         print("planning method not recognize")
 
 
-"""
-        :param 
-        -target:  object (Target), use to choose the target trajectory with target.trajectory and to modify its position
-        -delta_time : (Int), to compute an artifical displacement with a given velocity
+def rectiligneTrajectory(Target, dist_min, delta_time):
+    """
+            :param
+                1.(Target) target   --  object, get target trajectory with target.trajectory and to modify its position
+                2.(int) delta_time  -- compute an artifical displacement with a given velocity
 
-        :return
-        -None
+            :return
+                moove the target according to a predifined path, the motion beetwen two position are linear.
+                it does not avoid obstacle.
+    """
 
-        moove the target according to a predifined path, the motion beetwen two position are linear.
-        it does not avoid obstacle.
-"""
-def rectiligneTrajectory(target,dist_min, delta_time):
-    if target.type != 'fix':
-
-        (x_goal,y_goal) = target.trajectory_position[target.number_of_position_reached]
+    if Target.type != 'fix':
+        (x_goal,y_goal) = Target.trajectory_position[Target.number_of_position_reached]
         '''Updating the postion we want to reach when close enough '''
-        if math.fabs(target.xc - x_goal) <= dist_min and math.fabs(target.yc - y_goal) <= dist_min and target.number_of_position_reached < len(target.trajectory_position)-1:
-            target.number_of_position_reached +=  1
+        if math.fabs(Target.xc - x_goal) <= dist_min and math.fabs(Target.yc - y_goal) <= dist_min and Target.number_of_position_reached < len(Target.trajectory_position)-1:
+            Target.number_of_position_reached +=  1
 
         '''computing the spped to reach the goal'''
-        if (target.xc - x_goal!= 0):
-            v_x = -target.vx_max * (target.xc - x_goal) / math.fabs((target.xc - x_goal))
+        if (Target.xc - x_goal!= 0):
+            v_x = -Target.vx_max * (Target.xc - x_goal) / math.fabs((Target.xc - x_goal))
         else:
             v_x = 0
 
-        if (target.yc - y_goal != 0):
-            v_y = -target.vy_max * (target.yc - y_goal) / math.fabs((target.yc - y_goal))
+        if (Target.yc - y_goal != 0):
+            v_y = -Target.vy_max * (Target.yc - y_goal) / math.fabs((Target.yc - y_goal))
         else:
             v_y = 0
 
         '''Modifying the position in the target object, always in (int)'''
-        target.xc = target.xc + math.ceil(v_x * delta_time)
-        target.yc = target.yc + math.ceil(v_y * delta_time)
+        Target.xc = Target.xc + math.ceil(v_x * delta_time)
+        Target.yc = Target.yc + math.ceil(v_y * delta_time)
 
 
 """

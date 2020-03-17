@@ -4,7 +4,6 @@ import re
 import math
 import numpy as np
 from my_utils.line import *
-import main
 
 
 def is_corresponding_TargetEstimator(agent_id, target_id, TargetEstimator):

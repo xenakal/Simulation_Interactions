@@ -1,8 +1,7 @@
 import re
 import math
-import main
 from elements import room
-
+import constants
 """
         Class use to save and load room
 """
@@ -38,7 +37,7 @@ class Room_txt:
         self.actualise_data_to_save()
 
     def save_room_to_txt(self):
-        fichier = open(main.PATH_TO_SAVE_MAP + main.SAVE_MAP_NAME, "w")
+        fichier = open(constants.PATH_TO_SAVE_MAP + constants.SAVE_MAP_NAME, "w")
         fichier.write("# New Map, but you can change the name \n")
         fichier.write("# Please let the blank where they are, \n")
         fichier.write("# Otherwise the map will not be loaded correctly. \n")
@@ -73,9 +72,9 @@ class Room_txt:
 
     def load_room_from_txt(self, fileName=0):
         if fileName == 0:
-            fileName = main.LOAD_MAP_NAME
+            fileName = constants.LOAD_MAP_NAME
 
-        fichier = open(main.PATH_TO_LOAD_MAP + fileName, "r")
+        fichier = open(constants.PATH_TO_LOAD_MAP + fileName, "r")
         lines = fichier.readlines()
         fichier.close()
 

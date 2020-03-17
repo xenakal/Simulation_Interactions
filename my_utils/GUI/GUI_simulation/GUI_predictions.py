@@ -22,14 +22,9 @@ class GUI_predictions:
         self.scaleY = scaleY
 
     def drawPredictions(self, myRoom):
-<<<<<<< HEAD
         for agent in myRoom.get_multiple_Agent_with_id(self.agentsToDisplay, "agentCam"):  # for each agent
-            predictions = agent.makePredictions(self.method, self.targetsToDisplay)
-=======
-        for agent in myRoom.getAgentsWithIDs(self.agentsToDisplay, "agentCam"):  # for each agent
             predictions = agent.makePredictionsOld(self.method, self.targetsToDisplay)
-            #  predictions = agent.get_predictions(self.targetsToDisplay)
->>>>>>> b38a108f1d717ad0d1a786d8661c7f035b5f43df
+
             for prediction in predictions:
                 for point in prediction:
                     pygame.draw.circle(self.screen, agent.color,

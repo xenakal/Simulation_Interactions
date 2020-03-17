@@ -20,11 +20,11 @@ class MapRegionStatic():
         self.room = room
 
         '''Mesh from the map'''
-        self.nx, self.ny = (room.coord[2], room.coord[3])
+        self.nx, self.ny = (room.coordinate_room[2], room.coordinate_room[3])
         self.xv, self.yv = create_region(self.nx, self.ny, 3)
         '''List from the camera'''
         self.list_camera = []
-        for agent in room.agentCams:
+        for agent in room.active_AgentCams_list:
             self.list_camera.append(agent.cam)
 
         '''Data save from each camera - written always as tuple (camID,res), res is an array from mesh size'''

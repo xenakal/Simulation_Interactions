@@ -12,7 +12,7 @@ class LinkTargetCamera():
         self.link_camera_target = []
         '''List from the camera'''
         self.list_camera = []
-        for agent in room.agentCams:
+        for agent in room.active_AgentCams_list:
             self.list_camera.append(agent.cam)
 
     def update_link_camera_target(self):

@@ -1,21 +1,15 @@
 import numpy
 from elements.target import *
-from multi_agent.agent_camera import *
 from elements.camera import *
-from elements.info_room_simu import *
-from multi_agent.agent_user import AgentUser
-from multi_agent.room_description import *
-import main
-
-import numpy
-from elements.target import *
 from multi_agent.agent_camera import *
+from multi_agent.agent_user import *
+import constants
 
 
 class InformationRoomSimulation:
     def __init__(self):
         """Room size"""
-        self.coordinate_room = numpy.array([0, 0, 300, 300])  # x y l h
+        self.coordinate_room = numpy.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])  # x y l h
 
         """Target that should appear in the room"""
         self.Target_list = []
@@ -48,6 +42,9 @@ class InformationRoomSimulation:
 
 class RoomRepresentation:
     def __init__(self, color=0):
+        """Room size"""
+        self.coordinate_room = numpy.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])  # x y l h
+
         """Target informations"""
         self.active_Target_list = []
         self.active_Camera_list = []

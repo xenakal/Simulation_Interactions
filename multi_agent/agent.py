@@ -6,8 +6,7 @@ import random
 import numpy as np
 from elements.target import *
 from multi_agent.message import *
-import main
-
+import constants
 
 class Agent:
     """
@@ -31,14 +30,14 @@ class Agent:
         self.info_messageToSend = ListMessage("ToSend")
         self.message_stat = Agent_statistic(id_agent)
 
-        mbox = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
+        mbox = mailbox.mbox(constants.NAME_MAILBOX + str(self.id))
         mbox.clear()
 
         # create logger_message with 'spam_application'
         logger_message = logging.getLogger('agent'+ str(self.type) + " "+ str(self.id))
         logger_message.setLevel(logging.INFO)
         # create file handler which log_messages even debug messages
-        fh = logging.FileHandler(main.NAME_LOG_PATH + "-" + str(self.type) + " " +  str(self.id) + "-messages.txt", "w+")
+        fh = logging.FileHandler(constants.NAME_LOG_PATH + "-" + str(self.type) + " " +  str(self.id) + "-messages.txt", "w+")
         fh.setLevel(logging.DEBUG)
         # create console handler with a higher log_message level
         ch = logging.StreamHandler()
@@ -61,7 +60,7 @@ class Agent:
         rec_mes = Message(0, 0, 0, 0, 0)
         rec_mes.modifyMessageFromString(m)
 
-        #random_value = random.randrange(0, main.NUMBER_OF_MESSAGE_RECEIVE, 1)
+        #random_value = random.randrange(0, constants.NUMBER_OF_MESSAGE_RECEIVE, 1)
         random_value = 0
         if random_value == 0:
             self.message_stat.count_message_received(rec_mes.senderID)
@@ -71,7 +70,7 @@ class Agent:
     def recAllMess(self):
         succes = -1
         # Reading the message
-        mbox_rec = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
+        mbox_rec = mailbox.mbox(constants.NAME_MAILBOX + str(self.id))
         try:
             mbox_rec.lock()
             keys = mbox_rec.keys()
@@ -111,9 +110,9 @@ class Agent:
     # la fonction renvoie -1 quand le message n'a pas été envoyé mais ne s'occupe pas de le réenvoyer !
     def sendMess(self, m):
         succes = -1
-        for receiver in m.remainingReceiver:
+        for receiver in m.reconstantsingReceiver:
             try:
-                mbox = mailbox.mbox(main.NAME_MAILBOX + str(receiver[0]))
+                mbox = mailbox.mbox(constants.NAME_MAILBOX + str(receiver[0]))
                 mbox.lock()
                 try:
                     mbox.add(m.formatMessageType())  # apparament on ne peut pas transférer d'objet
@@ -145,7 +144,7 @@ class Agent:
     ############################
 
     def clear(self):
-        mbox = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
+        mbox = mailbox.mbox(constants.NAME_MAILBOX + str(self.id))
         mbox.close()
 
     def process_InfoMemory(self, room):
@@ -213,5 +212,5 @@ class Agent_statistic:
         return s
 
 
-if __name__ == "__main__":
+if __name__ == "__constants__":
     pass

@@ -4,6 +4,7 @@ import time
 import logging
 import numpy as np
 from elements.target import *
+from elements.room import*
 from multi_agent.agent import *
 from multi_agent.estimator import *
 from multi_agent.message import *
@@ -11,7 +12,6 @@ from multi_agent.memory import *
 from multi_agent.linearPrediction import *
 from multi_agent.kalmanPredictionOld import *
 from multi_agent.behaviour_detection import *
-from multi_agent.room_description import Room_Description
 from multi_agent.link_target_camera import *
 import constants
 
@@ -24,7 +24,7 @@ class AgentCam(Agent):
         self.cam = camera
         self.memory = Memory(idAgent)
         self.behaviour_analysier = TargetBehaviourAnalyser(self.memory)
-        self.room_description = Room_Description(self.color)
+        self.room_description = RoomRepresentation(self.color)
         self.link_target_agent = LinkTargetCamera(self.room_description)
 
         # Threads
@@ -35,7 +35,7 @@ class AgentCam(Agent):
         logger_room = logging.getLogger('room' + " agent " + str(self.type) + " " + str(idAgent))
         logger_room.setLevel(logging.INFO)
         # create file handler which log_messages even debug messages
-        fh = logging.FileHandler(main.NAME_LOG_PATH + "-" + str(self.type) + " " + str(idAgent) + " " + "-room.txt",
+        fh = logging.FileHandler(constants.NAME_LOG_PATH + "-" + str(self.type) + " " + str(idAgent) + " " + "-room.txt",
                                  "w+")
         fh.setLevel(logging.DEBUG)
         # create console handler with a higher log_message level
@@ -52,7 +52,7 @@ class AgentCam(Agent):
         self.log_room = logger_room
 
     def run(self):
-        if main.RUN_ON_A_THREAD == 1:
+        if constants.RUN_ON_A_THREAD == 1:
             self.my_thread_run.start()
         else:
             self.run_wihout_thread()
@@ -61,7 +61,7 @@ class AgentCam(Agent):
         self.threadRun = 0
         while self.my_thread_run.is_alive():
             pass
-        mbox = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
+        mbox = mailbox.mbox(constants.NAME_MAILBOX + str(self.id))
         mbox.close()
 
     def init_and_set_room_description(self, room):
@@ -71,7 +71,7 @@ class AgentCam(Agent):
 
     def thread_run(self):
         """
-               One of the two main threads of an agent.
+               One of the two constants threads of an agent.
         """
         state = "takePicture"
         nextstate = state
@@ -84,7 +84,7 @@ class AgentCam(Agent):
 
                 '''Input from the agent, here the fake room'''
                 picture = self.cam.run()
-                time.sleep(main.TIME_PICTURE)
+                time.sleep(constants.TIME_PICTURE)
 
                 '''Allows to simulate crash of the camera'''
                 if not self.cam.isActivate():
@@ -101,9 +101,9 @@ class AgentCam(Agent):
                                 target = targetElem[0]
 
                                 '''Simulation from noise on the target's position '''
-                                if main.INCLUDE_ERROR and not (target.type == "fix"):
-                                    erreurX = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
-                                    erreurY = int(np.random.normal(scale=main.STD_MEASURMENT_ERROR, size=1))
+                                if constants.INCLUDE_ERROR and not (target.type == "fix"):
+                                    erreurX = int(np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1))
+                                    erreurY = int(np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1))
                                 else:
                                     erreurX = 0
                                     erreurY = 0
@@ -180,7 +180,7 @@ class AgentCam(Agent):
                     last_memory = memories[len(memories) - 1]
                     self.send_message_memory(last_memory)
 
-            elif main.DATA_TO_SEND == "behaviour":
+            elif constants.DATA_TO_SEND == "behaviour":
                 '''If the target stop is it because we loose it, or is the target outside from the range ? '''
                 pass
                 '''Demande de confirmation à un autre agent par exemple'''
@@ -332,11 +332,11 @@ class AgentCam(Agent):
         :return a list of lists: [ [NUMBER_OF_PREDICTIONS*[x_estimated, y_estimated] ],[],...] (len = len(targetIdList)
         """
         if method == 1:
-            predictor = LinearPrediction(self.memory, main.TIME_PICTURE)
+            predictor = LinearPrediction(self.memory, constants.TIME_PICTURE)
         elif method == 2:
-            predictor = KalmanPredictionOld(self.memory, main.TIME_PICTURE)
+            predictor = KalmanPredictionOld(self.memory, constants.TIME_PICTURE)
         else:
-            predictor = LinearPrediction(self.memory, main.TIME_PICTURE)
+            predictor = LinearPrediction(self.memory, constants.TIME_PICTURE)
 
         predictions = predictor.makePredictions(targetIdList)
 

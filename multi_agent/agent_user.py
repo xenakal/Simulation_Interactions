@@ -4,6 +4,7 @@ import time
 import logging
 import numpy as np
 from elements.target import *
+from elements.room import *
 from multi_agent.agent import *
 from multi_agent.estimator import *
 from multi_agent.message import *
@@ -11,9 +12,8 @@ from multi_agent.memory import *
 from multi_agent.linearPrediction import *
 from multi_agent.kalmanPredictionOld import *
 from multi_agent.behaviour_detection import *
-from multi_agent.room_description import*
 from multi_agent.link_target_camera import *
-import main
+import constants
 
 class AgentUser(Agent):
 
@@ -22,7 +22,7 @@ class AgentUser(Agent):
         # Attributes
         self.memory = Memory(idAgent)
         self.behaviour_analysier = TargetBehaviourAnalyser(self.memory)
-        self.room_description = Room_Description([255,255,255])
+        self.room_description = RoomRepresentation([255,255,255])
         self.link_target_agent = LinkTargetCamera(self.room_description)
 
         # Threads
@@ -33,7 +33,7 @@ class AgentUser(Agent):
         logger_room = logging.getLogger('room' + " agent " + str(self.type) + " " + str(idAgent))
         logger_room.setLevel(logging.INFO)
         # create file handler which log_messages even debug messages
-        fh = logging.FileHandler(main.NAME_LOG_PATH + "-" + str(self.type) + " " + str(idAgent) + " " + "-room.txt","w+")
+        fh = logging.FileHandler(constants.NAME_LOG_PATH + "-" + str(self.type) + " " + str(idAgent) + " " + "-room.txt","w+")
         fh.setLevel(logging.DEBUG)
         # create console handler with a higher log_message level
         ch = logging.StreamHandler()
@@ -49,7 +49,7 @@ class AgentUser(Agent):
         self.log_room = logger_room
 
     def run(self):
-        if main.RUN_ON_A_THREAD == 1:
+        if constants.RUN_ON_A_THREAD == 1:
             self.my_thread_run.start()
         else:
             self.run_wihout_thread()
@@ -58,7 +58,7 @@ class AgentUser(Agent):
         self.threadRun = 0
         while self.my_thread_run.is_alive():
             pass
-        mbox = mailbox.mbox(main.NAME_MAILBOX + str(self.id))
+        mbox = mailbox.mbox(constants.NAME_MAILBOX + str(self.id))
         mbox.close()
 
     def init_and_set_room_description(self,room):
@@ -97,7 +97,7 @@ class AgentUser(Agent):
                 self.process_Message_sent()
 
                 self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
-                time.sleep(main.TIME_SEND_READ_MESSAGE)
+                time.sleep(constants.TIME_SEND_READ_MESSAGE)
                 nextstate = "processData"
             else:
                 print("FSM not working proerly")

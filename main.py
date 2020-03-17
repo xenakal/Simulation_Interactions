@@ -1,11 +1,11 @@
 import shutil
 import os
+from elements.room import *
 from multi_agent.link_target_camera import *
 from multi_agent.map_region_dyn import *
 from my_utils.GUI.GUI import *
 from my_utils.motion import *
 from my_utils.map_from_to_txt import *
-from elements.room import *
 from constants import *
 
 def clean_mailbox():
