@@ -4,7 +4,7 @@ import time
 import logging
 import numpy as np
 from elements.target import *
-from elements.room import *
+import elements.room
 from multi_agent.agent import *
 from multi_agent.estimator import *
 from multi_agent.message import *
@@ -22,7 +22,7 @@ class AgentUser(Agent):
         # Attributes
         self.memory = Memory(idAgent)
         self.behaviour_analysier = TargetBehaviourAnalyser(self.memory)
-        self.room_description = RoomRepresentation([255,255,255])
+        self.room_description = elements.room.RoomRepresentation([255,255,255])
         self.link_target_agent = LinkTargetCamera(self.room_description)
 
         # Threads

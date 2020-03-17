@@ -22,7 +22,8 @@ class KalmanPrediction:
         self.filter.predict()
 
     def get_predictions(self):
-        pass
+        for _ in NUMBER_PREDICTIONS:
+            pass
 
 
 def kfObject():
