@@ -23,8 +23,8 @@ class GUI_predictions:
 
     def drawPredictions(self, myRoom):
         for agent in myRoom.getAgentsWithIDs(self.agentsToDisplay, "agentCam"):  # for each agent
-            # predictions = agent.getPredictionsOld(self.method, self.targetsToDisplay)
-            predictions = agent.get_predictions(self.targetsToDisplay)
+            predictions = agent.getPredictionsOld(self.method, self.targetsToDisplay)
+            #  predictions = agent.get_predictions(self.targetsToDisplay)
             for prediction in predictions:
                 for point in prediction:
                     pygame.draw.circle(self.screen, agent.color,

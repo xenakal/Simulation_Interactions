@@ -1,5 +1,5 @@
 import math
-import main
+import constants
 from multi_agent.prediction import Prediction
 import numpy as np
 
@@ -37,16 +37,16 @@ def extractPositionsFromTargetEstimators(prevTargetEstimatorsList):
     """
     if len(prevTargetEstimatorsList) <= 3:
         return []
-    if len(prevTargetEstimatorsList) <= main.PREVIOUS_POSITIONS_USED:
+    if len(prevTargetEstimatorsList) <= constants.PREVIOUS_POSITIONS_USED:
         return [te.position for te in prevTargetEstimatorsList]
     else:
-        return [te.position for te in prevTargetEstimatorsList[-main.PREVIOUS_POSITIONS_USED:]]
+        return [te.position for te in prevTargetEstimatorsList[-constants.PREVIOUS_POSITIONS_USED:]]
 
 
 class LinearPrediction(Prediction):
     """ Simple & naive linear prediction. """
 
-    def __init__(self, memory, TIME_PICTURE=main.TIME_PICTURE):
+    def __init__(self, memory, TIME_PICTURE=constants.TIME_PICTURE):
         self.memory = memory
         self.TIMESTEP = TIME_PICTURE
 
@@ -96,7 +96,7 @@ class LinearPrediction(Prediction):
         prevPos = prevPosList[:-1]
         predictedPos = []
 
-        for i in range(main.NUMBER_PREDICTIONS):
+        for i in range(constants.NUMBER_PREDICTIONS):
             #  Estimate next position
             avgSpeed = self.avgSpeedFunc(prevPos)  # calculate average velocity
             avgDirection = avgDirectionFunc(prevPos)  # calculate average direction

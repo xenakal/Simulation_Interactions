@@ -1,4 +1,4 @@
-from main import NUMBER_PREDICTIONS, TIME_PICTURE, STD_MEASURMENT_ERROR
+from constants import NUMBER_PREDICTIONS, TIME_PICTURE, STD_MEASURMENT_ERROR
 from filterpy.kalman import KalmanFilter
 from filterpy.common import Q_discrete_white_noise
 from scipy.linalg import block_diag

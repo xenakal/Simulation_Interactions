@@ -3,13 +3,13 @@ from elements.target import *
 from multi_agent.agent_camera import *
 from elements.camera import *
 from elements.info_room_simu import *
-import main
+import constants
 
 
 class Room_Description:
     def __init__(self, color):
 
-        self.coord = numpy.array([0, 0, main.WIDTH_ROOM, main.LENGHT_ROOM])  # x y l h
+        self.coord = numpy.array([0, 0, constants.WIDTH_ROOM, constants.LENGHT_ROOM])  # x y l h
         # target in the room
         self.targets = []
         # agentCam

@@ -13,7 +13,7 @@ from multi_agent.kalmanPredictionOld import *
 from multi_agent.behaviour_detection import *
 from multi_agent.room_description import Room_Description
 from multi_agent.link_target_camera import *
-import main
+import constants
 
 
 class AgentCam(Agent):
@@ -147,7 +147,7 @@ class AgentCam(Agent):
                 self.process_Message_sent()
 
                 self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
-                time.sleep(main.TIME_SEND_READ_MESSAGE)
+                time.sleep(constants.TIME_SEND_READ_MESSAGE)
                 nextstate = "takePicture"
             else:
                 print("FSM not working proerly")
@@ -176,13 +176,13 @@ class AgentCam(Agent):
                 -----------------------------------------------------------------------------------------------
             """
             '''Send message to other agent'''
-            if main.DATA_TO_SEND == "all":
+            if constants.DATA_TO_SEND == "all":
                 memories = self.memory.memory_agent.get_target_list(target.id)
                 if len(memories) > 0:
                     last_memory = memories[len(memories) - 1]
                     self.send_message_memory(last_memory)
 
-            elif main.DATA_TO_SEND == "behaviour":
+            elif constants.DATA_TO_SEND == "behaviour":
                 '''If the target stop is it because we loose it, or is the target outside from the range ? '''
                 pass
                 '''Demande de confirmation à un autre agent par exemple'''
