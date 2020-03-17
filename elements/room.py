@@ -1,8 +1,11 @@
 import numpy
 from elements.target import *
 from elements.camera import *
-from multi_agent.agent_camera import *
-from multi_agent.agent_user import *
+#from multi_agent.agent_camera import *
+#from multi_agent.agent_user import *
+import multi_agent.agent_camera
+import multi_agent.agent_user
+
 import constants
 
 
@@ -140,7 +143,7 @@ class Room(RoomRepresentation):
     def init_AgentUser(self, number):
         for n in range(number):
             number_AgentUser = len(self.active_AgentUser_list)
-            self.active_AgentUser_list.append(AgentUser(number_AgentUser))
+            self.active_AgentUser_list.append(multi_agent.agent_user.AgentUser(number_AgentUser))
 
     def init_trajectories(self, all_traj):
         self.info_simu.init_trajectories(all_traj)
@@ -165,4 +168,4 @@ class Room(RoomRepresentation):
         number_AgentCam = len(self.active_AgentCams_list)
         camera = Camera(myRoom, number_Camera, cam_x, cam_y, cam_alpha, cam_beta, fix)
         self.cameras.append(camera)
-        self.active_AgentCams_list.append(AgentCam(number_AgentCam, camera))
+        self.active_AgentCams_list.append(multi_agent.agent_camera.AgentCam(number_AgentCam, camera))

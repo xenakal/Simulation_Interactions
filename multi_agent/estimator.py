@@ -156,6 +156,7 @@ class Agent_Target_TargetEstimator:
               :notes
                   fells free to write some comments.
       """
+
     def __init__(self, n_times=20, current_time=0):
         self.times = n_times
         self.current_time = current_time
@@ -180,7 +181,8 @@ class Agent_Target_TargetEstimator:
             self.Agent_Target_already_discovered_list.append((agent_id, target_id))
             self.Agent_Target_TargetEstimator_list.append([agent_id, target_id, []])
 
-    def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature, target_xc, target_yc, target_size):
+    def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
+                                    target_xc, target_yc, target_size):
         """
             :description
                 Creates an estimator and adds it to the list if doesn't exist yet.
@@ -200,10 +202,11 @@ class Agent_Target_TargetEstimator:
 
         """
 
-        new_TargetEstimator = TargetEstimator(time_from_estimation, agent_id, agent_signature, target_id,target_signature, target_xc, target_yc, target_size)
+        new_TargetEstimator = TargetEstimator(time_from_estimation, agent_id, agent_signature, target_id,
+                                              target_signature, target_xc, target_yc, target_size)
         self.add_target_estimator(new_TargetEstimator)
 
-    def add_target_estimator(self, TargetEstimator):
+    def add_target_estimator(self, TargetEstimator_toAdd):
         """
             :description
                 Adds it to the list if doesn't exist yet.
@@ -215,11 +218,12 @@ class Agent_Target_TargetEstimator:
                 fills the list  Agent_Target_TargetEstimator_list with a new TargetEstimator for the Target and Agent given
         """
 
-        self.update_estimator_list(TargetEstimator.agent_id, TargetEstimator.target_id)
+        self.update_estimator_list(TargetEstimator_toAdd.agent_id, TargetEstimator_toAdd.target_id)
 
         for estimatorElem in self.Agent_Target_TargetEstimator_list:
-            if is_corresponding_TargetEstimator(TargetEstimator.agent_id, TargetEstimator.target_id, estimatorElem):
-                if not TargetEstimator in estimatorElem[2]:
+            if is_corresponding_TargetEstimator(TargetEstimator_toAdd.agent_id, TargetEstimator_toAdd.target_id,
+                                                estimatorElem):
+                if TargetEstimator not in estimatorElem[2]:
                     estimatorElem[2].append(TargetEstimator)
 
     def sort_TargetEstimator(self):
@@ -250,7 +254,6 @@ class Agent_Target_TargetEstimator:
                 return element[2]
         return []
 
-
     def get_TargetEstimator_time_t(self, time):
         """
              :description
@@ -268,7 +271,7 @@ class Agent_Target_TargetEstimator:
         for element in self.Agent_Target_TargetEstimator_list:
             for estimator in element[2]:
                 if estimator.timeStamp == time:
-                    TargetEstimator_list_time_t .append(estimator)
+                    TargetEstimator_list_time_t.append(estimator)
         return TargetEstimator_list_time_t
 
     def get_TargetEstimator_time_Target_Agent(self, time, target_id, agent_id):
@@ -367,6 +370,7 @@ class Target_TargetEstimator:
                :notes
                    fells free to write some comments.
     """
+
     def __init__(self, n_times=5, current_time=0):
         self.times = n_times
         self.current_time = current_time
@@ -389,7 +393,6 @@ class Target_TargetEstimator:
         if not target_id in self.Target_already_discovered_list:
             self.Target_already_discovered_list.append(target_id)
             self.Target_TargetEstimator_list.append([target_id, []])
-
 
     def add_TargetEstimator(self, TargetEstimator):
         """
@@ -454,8 +457,3 @@ class Target_TargetEstimator:
             if element[0] == target_id:
                 return len(element[1])
         return -1
-
-
-
-
-

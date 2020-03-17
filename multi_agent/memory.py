@@ -33,8 +33,24 @@ class Memory:
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
                                     target_xc, target_yc, target_size):
+        """
+        Creates an estimator if it doesn't exist and adds it to the memory_all_agent list
+        """
+
         self.memory_all_agent.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
                                                           target_signature, target_xc, target_yc, target_size)
+
+        # TODO: voir un peu ce qu'on fait avec les messages: là on a un memory_all_agent qui est censé tout stocker,
+        #  mais en réalité on a pas de messages echangés. Y réfléchir :)
+
+        #  Create predictor if doesn't exist yet
+        if target_id == self.id and not self.exists_predictor_for_target(target_id):
+            self.create_predictor_for_target(target_id)
+
+        # Incorporate new data in corresponding predictor
+        if target_id == self.id:
+            target_predictor = self.get_predictor_of_target(target_id)
+            target_predictor.add_measurement([target_xc, target_yc])
 
     def add_target_estimator(self, estimator):
         self.memory_all_agent.add_target_estimator(estimator)
@@ -76,18 +92,36 @@ class Memory:
     def statistic_to_string(self):
         return self.memory_all_agent.statistic_to_string()
 
-    def get_predictions(self, targetIdList):
+    def get_predictions(self, target_id_List):
         """ Returns a list [[targetId, [predicted_position1, ...]], ...]"""
         predictions = []
-        for targetId in targetIdList:
-            prediction_for_target = self.get_target_prediction(targetId)
-            predictions.append([targetId, prediction_for_target])
+        for target_id in target_id_List:
+            prediction_for_target = self.get_target_prediction(target_id)
+            predictions.append([target_id, prediction_for_target])
         return predictions
 
     def get_target_prediction(self, seeked_target_id):
-        """ Returns the predicted positions for targetId """
+        """ Returns the predicted positions for seeked_target_id """
         for (target_id, predictor) in self.predictors:
             if target_id == seeked_target_id:
                 return predictor.get_predictions()
 
+        return None
+
+    def exists_predictor_for_target(self, seeked_target_id):
+        """ Checks if a predictor for the target already exists """
+        for (target_id, _) in self.predictors:
+            if target_id == seeked_target_id:
+                return True
+        return False
+
+    def create_predictor_for_target(self, target_id):
+        """ Adds a predictor to the predictors list corresponding to the target in argument """
+        self.predictors.append([target_id, KalmanPrediction()])
+
+    def get_predictor_of_target(self, seeked_target_id):
+        """ Returns the predictor associated with the target_id """
+        for (target_id, predictor) in self.predictors:
+            if target_id == seeked_target_id:
+                return predictor
         return None
