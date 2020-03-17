@@ -146,9 +146,9 @@ class RoomRepresentation:
             :param
                 1. (Room) room -- object
         """
-        for Target in room.information_simulation.Target_list:
-            if Target.type == "fix":
-                self.add_targetRepresentation_from_target(Target)
+        for target in room.information_simulation.Target_list:
+            if target.type == "fix":
+                self.add_targetRepresentation_from_target(target)
 
         for agent in room.active_AgentCams_list:
             self.active_AgentCams_list.append(agent)
@@ -169,11 +169,11 @@ class RoomRepresentation:
             all_TargetEstimator_for_target_id = Target_TargetEstimator.get_Target_list(Target_detected_id)
             last_TargetEstimator = all_TargetEstimator_for_target_id[len(all_TargetEstimator_for_target_id) - 1]
 
-            for Target in self.active_Target_list:
-                if Target.id == Target_detected_id:
+            for target in self.active_Target_list:
+                if target.id == Target_detected_id:
                     is_in_RoomRepresentation = True
-                    Target.xc = last_TargetEstimator.target_position[0]
-                    Target.yc = last_TargetEstimator.target_position[1]
+                    target.xc = last_TargetEstimator.target_position[0]
+                    target.yc = last_TargetEstimator.target_position[1]
                     break
 
             if not is_in_RoomRepresentation:

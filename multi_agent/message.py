@@ -5,89 +5,113 @@ import re
 
 class Message:
     """
-    Class defining a message between two agents.
+        Class Message.
 
-    Attibutes:
-    (int) timestamp                -- time at which the message is sent
-    (int) signature                -- random number associated to every message
-    (int)senderID & (int)signature -- define which agent is sending the message
-    [[(int),(int)],...]receiverID & signature -- define which agent will receive the message, multiple agent can be set
-    [[(int),(int)],...] remaining receiver are the receiver to which the message was not sent.
-    (int) targetID to know to which agent it refering to, -1 if it does not refer to any particular target (ex : heartbeat)
-    (string)  messageType = (ex "request","ack","nack","heartbeat","information", ...)
-    (string) message = string that can be send and contain a particular message (ex: memory)
+        Description : This class describe a standart message use to communicate between targets
+
+            :param
+                1. (int) timestamp                   -- time at which the message is created
+                2. (int) signature                   -- random number associated to every message
+                3. (int) sender_id                   -- define which agent is sending the message
+                4. (int) sender_signature            -- define which agent is sending the message
+                5. (int) target_reference            -- target_id to know to which agent it refering to, -1 if it does
+                                                        not refer to any particular target (ex : heartbeat)
+                6. (string) message_type             -- string  to cleary and quickly identify the message
+                                                        (ex "request","ack","nack","heartbeat","information", ...)
+                7. (string) message                  -- string that can be send and contain a particular message
+                                                        (ex: memory)
+
+            :attibutes
+                1. (int) timestamp                   -- time at which the message is created
+                2. (int) signature                   -- random number associated to every message
+                3. (int) sender_id                   -- define which agent is sending the message
+                4. (int) sender_signature            -- define which agent is sending the message
+                3. (list) receiver_id_and_signature  -- [[(int),(int)],...], define which agent will receive the message
+                                                        , multiple agent can be set
+                5. (list) remaining_receiver         --  [[(int),(int)],...] remaining receiver are the receiver
+                                                        to which the message was not delivered.
+                6. (int) target_reference            -- target_id to know to which agent it refering to, -1
+                                                        if it does not refer to any particular target (ex : heartbeat)
+                7. (string) message                  -- string that can be send and contain a particular message
+                                                        (ex: memory)
+                8. (string) message_type             -- string  to cleary and quickly identify the message
+                                                        (ex "request","ack","nack","heartbeat","information", ...)
+
+
+            :notes
+                fells free to write some comments.
     """
 
-    def __init__(self, timeStamp, senderID, senderSignature, messageType, message, targetID=-1):
-        self.timeStamp = timeStamp
+    def __init__(self, timestamp, sender_id, sender_signature, message_type, message, target_id=-1):
+        """Message informations"""
+        self.timestamp = timestamp
         self.signature = int(random.random() * 10000000000000000)
 
-        self.senderID = int(senderID)
-        self.senderSignature = int(senderSignature)
-        self.receiverID_Signature = []
-        self.remainingReceiver = []
+        """Delivery informations"""
+        self.sender_id = int(sender_id)
+        self.sender_signature = int(sender_signature)
+        self.receiver_id_and_signature = []
+        self.remaining_receiver = []
 
-        self.targetRef = targetID
-
+        """Content"""
+        self.targetRef = target_id
         self.message = message
-        self.messageType = messageType
+        self.messageType = message_type
 
-    """
-    :param
-        - None
-    :return 
-        - return (int), number of receiver
-    """
-    def getReceiverNumber(self):
-        return len(self.receiverID_Signature)
+    def get_receiver_number(self):
+        """
+        :return
+            1. (int) -- number of receiver
+        """
+        return len(self.receiver_id_and_signature)
 
-    """
-    :param
-        - ReceiverID 
-        - ReceiverSignature
-        see class aboved description for detailed information 
-    :effect
-        - append information to reiceiverID_Signature and remaingReiceiver list
-        list details are given in the class description
-    """
-    def addReceiver(self, receiverID, receiverSignature):
-        if int(receiverSignature) >= 100:
-            self.receiverID_Signature.append([int(receiverID), int(receiverSignature)])
-            self.remainingReceiver.append([receiverID, receiverSignature])
+    def add_receiver(self, receiver_id, receiver_signature):
+        """
+        :param
+            1.(int) receiver_id           -- agent's id
+            2.(int) receiver_signature    -- agent's signature
 
-    """
-    :param
-        - None
-    :effect
-        - set list related to receiverd to empty list
-        list details are given in the class description
-    """
-    def clearReceiver(self):
-        self.receiverID_Signature = []
-        self.remainingReceiver = []
+        :return / modify vector
+            - append information to receiver_id_and_signature and remaing_reiceiver list
+        """
 
-    """
-    :param
-       - ReceiverID 
-        - ReceiverSignature
-        see class aboved description for detailed information 
-    :effect
-          - suppress information to remaingReiceiver list
-        list details are given in the class description
-    """
-    def notifySendTo(self, receiverID, receiverSignature):
-        for message in self.remainingReceiver:
-            if message[0] == receiverID and message[1] == receiverSignature:
-                self.remainingReceiver.remove(message)
+        if int(receiver_signature) >= 100:
+            self.receiver_id_and_signature.append([int(receiver_id), int(receiver_signature)])
+            self.remaining_receiver.append([receiver_id, receiver_signature])
 
-    """
-    :param
-       - None
-    :return 
-        - return True if the remaningReceiver list is empty, else false.
-    """
-    def isMessageSentToEveryReceiver(self):
-        if len(self.remainingReceiver) == 0:
+    def clear_receiver(self):
+        """
+        :return / modify vector
+            1. set list related to receiverd to empty list
+
+        """
+        self.receiver_id_and_signature = []
+        self.remaining_receiver = []
+
+    def notify_send_to(self, receiver_id, receiver_signature):
+        """
+        :param
+            1.(int) receiver_id           -- agent's id
+            2.(int) receiver_signature    -- agent's signature
+
+        :return / modify vector
+            1. suppress information from remaing_reiceiver list
+        """
+
+        for message in self.remaining_receiver:
+            if message[0] == receiver_id and message[1] == receiver_signature:
+                self.remaining_receiver.remove(message)
+
+    def is_message_sent_to_every_receiver(self):
+        """
+        :param
+            1.(int) receiver_id           -- agent's id
+            2.(int) receiver_signature    -- agent's signature
+
+        :return / modify vector
+            1. True if the remaningReceiver list is empty, else false.
+        """
+        if len(self.remaining_receiver) == 0:
             return True
         else:
             return False
@@ -99,24 +123,34 @@ class Message:
         - modify every attribute of the self, to make it match with it string description.
           see class aboved description for detailed information  on each attribute
     """
-    def modifyMessageFromString(self, s):
+
+    def parse_string(self, s):
+        """
+            :params
+                1.(string) s -- string representing a Message, use the method to_string().
+
+             :return / modify vector
+                1. Set all the attributes from self to the values described in the sting representation.
+
+        """
+
         try:
-            self.clearReceiver()
+            self.clear_receiver()
             s = s.replace("\n", "")
             s = s.replace(" ", "")
             attribut = re.split("Timestamp:|message#:|From:|sender#|Receiverlist:|Type:|target:|Message:", s)
-            self.timeStamp = int(attribut[1])
+            self.timestamp = int(attribut[1])
             self.signature = int(attribut[2])
-            self.senderID = int(attribut[3])
-            self.senderSignature = int(attribut[4])
+            self.sender_id = int(attribut[3])
+            self.sender_signature = int(attribut[4])
             receivers = re.split("To:", attribut[5])
             for receiver in receivers:
                 info = receiver.split("receiver#")
                 try:
-                    if (info == ""):
+                    if info == "":
                         pass  # end of the chain
                     else:
-                        self.addReceiver(info[0], info[1])
+                        self.add_receiver(info[0], info[1])
                         pass
                 except IndexError:
                     # ?
@@ -128,18 +162,15 @@ class Message:
         except IndexError:
             print("erreur")
 
-    """
-    :param
-        
-    :return 
-        - (string), describe every attribut in a string format.
-          see class aboved description for detailed information  on each attribute
-    """
-    def formatMessageType(self):
-        s1 = "Timestamp: " + str(self.timeStamp) + ' message#:' + str(self.signature) + "\n"
-        s2 = "From: " + str(self.senderID) + " sender#" + str(self.senderSignature) + "\nReceiver list : \n"
+    def to_string(self):
+        """
+               :return / modify vector
+                      1. (string)   -- description of the targetRepresentation
+        """
+        s1 = "Timestamp: " + str(self.timestamp) + ' message#:' + str(self.signature) + "\n"
+        s2 = "From: " + str(self.sender_id) + " sender#" + str(self.sender_signature) + "\nReceiver list : \n"
         s3 = ""
-        for receiver in self.receiverID_Signature:
+        for receiver in self.receiver_id_and_signature:
             s3 = s3 + "To: " + str(receiver[0]) + " receiver#" + str(receiver[1]) + "\n"
 
         s4 = 'Type: ' + str(self.messageType) + " target: " + str(self.targetRef) + " Message: "
@@ -147,79 +178,102 @@ class Message:
         return base + str(self.message) + "\n"
 
 
-class Message_Check_ACK_NACK(Message):
+class MessageCheckACKNACK(Message):
     """
-    This class extend the class message, it allows to add the received ack or nack that refers to a particular message.
-    For more details on message attributes, see the class above.
+        Class MessagecheckACKNACK enxtend Message.
 
-    -ack = approbation with the message sent
-    -nack = disagreament with the message sent
+        Description : it add an confirmation step (ack or nack) that refers to a message sent.
 
-    ([Message_Check_ACK_NACK,...]) Ack = every ack associated to a message can be added
-    ([Message_Check_ACK_NACK,...]) Nack = every  nack associated to a message can be added
+            :param
+                1. (int) timestamp                   -- time at which the message is created
+                2. (int) signature                   -- random number associated to every message
+                3. (int) sender_id                   -- define which agent is sending the message
+                4. (int) sender_signature            -- define which agent is sending the message
+                5. (int) target_reference            -- target_id to know to which agent it refering to, -1
+                                                        if it does not refer to any particular target (ex : heartbeat)
+                6. (string) message_type             -- string  to cleary and quickly identify the message
+                                                        (ex "request","ack","nack","heartbeat","information", ...)
+                7. (string) message                  -- string that can be send and contain a particular message
+                                                        (ex: memory)
+                8. (list) ack                        -- ([Message_Check_ACK_NACK,...]), every ack associated
+                                                        to a message can be added
+                9. (list) nack                       -- ([Message_Check_ACK_NACK,...]), every  nack associated
+                                                        to a message can be added
 
-    is_approved()  check is every receiver approved the message by sending a ack
-    is_not_approved() check is at least one of the receiver sent a nack
+            :attibutes
+                1. (int) timestamp                   -- time at which the message is created
+                2. (int) signature                   -- random number associated to every message
+                3. (int) sender_id                   -- define which agent is sending the message
+                4. (int) sender_signature            -- define which agent is sending the message
+                3. (list) receiver_id_and_signature  -- [[(int),(int)],...], define which agent will receive the message
+                                                        , multiple agent can be set
+                5. (list) remaining_receiver         --  [[(int),(int)],...] remaining receiver are the receiver
+                                                        to which the message was not delivered.
+                6. (int) target_reference            -- target_id to know to which agent it refering to, -1
+                                                        if it does not refer to any particular target (ex : heartbeat)
+                7. (string) message                  -- string that can be send and contain a particular message
+                                                        (ex: memory)
+                8. (string) message_type             -- string  to cleary and quickly identify the message
+                                                        (ex "request","ack","nack","heartbeat","information", ...)
+
+
+            :notes
+                all what you need are:
+                is_approved()  check is every receiver approved the message by sending a ack
+                is_not_approved() check is at least one of the receiver sent a nack
     """
 
-    def __init__(self, timeStamp, senderID, senderSignature, messageType, message, targetID=-1):
+    def __init__(self, time_stamp, sender_id, sender_signature, message_type, message, target_id=-1):
         self.ack = []
         self.nack = []
-        super().__init__(timeStamp, senderID, senderSignature, messageType, message, targetID)
+        super().__init__(time_stamp, sender_id, sender_signature, message_type, message, target_id)
 
-    """
-      :param
-
-      :return 
-          - (int), give the number of ack received in respond to the message sent
-      """
-    def get_AckNumber(self):
+    def get_ack_number(self):
+        """
+          :return
+              1. (int) -- give the number of ack received in respond to the message sent
+        """
         return len(self.ack)
 
-    """
-      :param
-
-      :return 
-           - (int), give the number of nack received in respond to the message sent
-      """
-    def get_NackNumber(self):
+    def get_nack_number(self):
+        """
+          :return
+            1.(int) --  give the number of nack received in respond to the message sent
+        """
         return len(self.nack)
 
-    """
-      :param
-
-      :return 
-          - True is a nack was receive, then one of the agent does not agree with the message
-          - False if no nack, but it does not mean every agent has agreed. (see is approved for this purpose)
-      """
     def is_not_approved(self):
+        """
+          :return
+              1.(bool) True is a nack was receive, then one of the agent does not agree with the message
+              2.       False if no nack, but it does not mean every agent has agreed. (see is approved for this purpose)
+        """
+
         if self.messageType == 'request':
-            if self.get_NackNumber() > 0:
+            if self.get_nack_number() > 0:
                 return True
             else:
                 return False
 
-    """
-      :param
-
-      :return 
-          - True is a acks received = the number of receiver, so that every receiver has agreed.
-          - False otherwise
-      """
     def is_approved(self):
+        """
+          :return
+              1.(bool) True is a acks received = the number of receiver, so that every receiver has agreed.
+              2.       False otherwise
+        """
         if self.messageType == 'request':
-            if int(self.get_AckNumber()) >= int(self.getReceiverNumber()):
+            if int(self.get_ack_number()) >= int(self.get_receiver_number()):
                 return True
             else:
                 return False
 
-    """
-      :param
-            - rec_messag, message ack or nack type that should be link to self.
-      :return 
-            - return True if add succesfully, false otherwise
-      """
-    def add_ACK_NACK(self, rec_message):
+    def add_ack_nack(self, rec_message):
+        """
+          :param
+                1.(Messsage) rec_message -- message ack or nack type that should be link to self.
+          :return
+                1. return True if add succesfully, false otherwise
+        """
         if rec_message.messageType == 'ack' or rec_message.messageType == 'nack':
             if self.signature == int(rec_message.message):
                 if rec_message.messageType == "ack":
@@ -230,17 +284,14 @@ class Message_Check_ACK_NACK(Message):
         else:
             return False
 
-    """
-      :param
-
-      :return 
-          - (string), describe every attribut in a string format.
-            see class aboved description for detailed information  on each attribute
-      """
-    def getMessageInACK_NACK(self):
+    def get_message_in_ack_nack(self):
+        """
+             :return
+                 1. (string) -- describe every attribut in a string format.
+        """
         if self.messageType == "ack" or self.messageType == "nack":
             message_in = Message(0, 0, 0, 0, 0)
-            message_in.modifyMessageFromString(self.formatMessageType())
+            message_in.parse_string(self.to_string())
         else:
             message_in = None
         return message_in
@@ -248,91 +299,110 @@ class Message_Check_ACK_NACK(Message):
 
 class ListMessage:
     """
-    List of messages
+        Class ListMessage.
 
-    Allows to deal with multiple messages
-    Message  can be automatically removed from the list after a time t using removeMessageAfterAGivenTime
-    Other functions allow to compare message.
+        Description : To deal with multiple messages
+
+            :attributes
+                1. (string) name       -- name for the file
+                2. (list) list_message -- list containing all the message
+
+            :notes
+                Message  can be automatically removed from the list after a time t
+                using remove_message_after_a_given_time
     """
 
     def __init__(self, name):
-        self.myList = []
         self.name = name
+        self.list_message = []
 
-    def getSize(self):
-        return len(self.myList)
+    def get_size(self):
+        """
+              :return
+                  1. (int) -- number of messages in the list.
+        """
+        return len(self.list_message)
 
-    def getList(self):
-        return self.myList.copy()
+    def get_list(self):
+        """
+              :return
+                  1. (list) -- a copy from the list.
+        """
+        return self.list_message.copy()
 
-    def addMessage(self, message):
-        self.myList.append(message)
+    def add_message(self, message):
+        """
+          :param
+                1.(Messsage) message
+          :return
+                1. add a message in the list
+        """
+        self.list_message.append(message)
 
-    def delMessage(self, message):
-        self.myList.remove(message)
+    def del_message(self, message):
+        """
+          :param
+                1.(Messsage) message
+          :return
+                1. remove a message in the list
+        """
+        self.list_message.remove(message)
 
-    def removeMessageAfterGivenTime(self, time, deltaTime):
-        for message in self.myList:
-            if message.timeStamp + deltaTime <= time:
-                self.myList.remove(message)
+    def remove_message_after_given_time(self, time, delta_time):
+        """
+           :param
+                 1.(int) time        -- actual time
+                 2.(int) delta_time  -- difference time to sort the message to suppress
+           :return
+                 1. add a message in the list
+         """
+        for message in self.list_message:
+            if message.timestamp + delta_time <= time:
+                self.list_message.remove(message)
 
-    def receiverInCommun_WithSimilarMessage_InList(self, messageToFind):
-        receiverInCommun = []
-        for message in self.myList:
-            if message.messageType == messageToFind.messageType and message.message == messageToFind.message:
-                for receiver in message.receiverID_Signature:
-                    ID = receiver[0]
-                    Signature = receiver[1]
-                    for receiverCompare in messageToFind.receiverID_Signature:
-                        IDCompare = receiverCompare[0]
-                        SignatureCompare = receiverCompare[1]
-                        if ID == IDCompare and Signature == SignatureCompare:
-                            receiverInCommun.append(receiver)
-                            break
-
-        return receiverInCommun.copy()
-
-    def receiverMissing_WithSimilarMessage_InList(self, messageToFind):
-        receiverInCommun = self.receiverInCommun_WithSimilarMessage_InList(messageToFind)
-        receiverMissing = []
-
-        if len(receiverInCommun) >= len(messageToFind.receiverID_Signature):
-            return receiverMissing
-
-        else:
-            receiverMissing = messageToFind.receiverID_Signature.copy()
-            for receiver in messageToFind.receiverID_Signature:
-                ID = receiver[0]
-                Signature = receiver[1]
-                for receiverCompare in receiverInCommun:
-                    IDCompare = receiverCompare[0]
-                    SignatureCompare = receiverCompare[1]
-                    if ID == IDCompare and Signature == SignatureCompare:
-                        receiverMissing.remove(receiver)
-                        break
-            return receiverMissing
-
-    def isMessageInTheList(self, messageToFind):
-        for message in self.myList:
-            if message.signature == messageToFind.signature:
-                return True
-
-        return False
-
-    def isMessageWithSameMessage(self, messageToFind):
-        for message in self.myList:
-            if message.message == messageToFind.message:
+    def is_message_in_the_list(self, message_to_find):
+        """
+              :param
+                    1.(int) time        -- actual time
+                    2.(int) delta_time  -- difference time to sort the message to suppress
+              :return
+                    1. add a message in the list
+        """
+        for message in self.list_message:
+            if message.signature == message_to_find.signature:
                 return True
         return False
 
-    def isMessageWithSameTypeSameAgentRef(self, messageToFind):
-        for message in self.myList:
-            if message.targetRef == messageToFind.targetRef and message.messageType == messageToFind.messageType:
+    def is_message_with_same_message(self, message_to_find):
+        """
+              :param
+                    1.(Message) message_to_find
+              :return
+                    1. True if the Message fills the criteria
+        """
+        for message in self.list_message:
+            if message.message == message_to_find.message:
                 return True
         return False
 
-    def printMyList(self):
+    def is_message_with_same_type_same_agent_ref(self, message_to_find):
+        """
+              :param
+                    1.(Message) message_to_find
+              :return
+                    1. True if the Message fills the criteria
+        """
+        for message in self.list_message:
+            if message.targetRef == message_to_find.targetRef and message.messageType == message_to_find.messageType:
+                return True
+        return False
+
+    def to_string(self):
+        """
+               :return / modify vector
+                      1. (string)   -- description of the targetRepresentation
+        """
         s = self.name + "\n"
-        for message in self.myList:
-            s = s + message.formatMessageType() + "\n"
+        for message in self.list_message:
+            s = s + message.to_string() + "\n"
         return s

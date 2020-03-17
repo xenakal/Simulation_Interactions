@@ -58,14 +58,14 @@ class Agent:
     def parseRecMess(self, m):
         # reconstruction de l'objet message
         rec_mes = Message(0, 0, 0, 0, 0)
-        rec_mes.modifyMessageFromString(m)
+        rec_mes.parse_string(m)
 
         #random_value = random.randrange(0, constants.NUMBER_OF_MESSAGE_RECEIVE, 1)
         random_value = 0
         if random_value == 0:
-            self.message_stat.count_message_received(rec_mes.senderID)
-            self.info_messageReceived.addMessage(rec_mes)
-            self.log_message.info('RECEIVED : \n' + rec_mes.formatMessageType())
+            self.message_stat.count_message_received(rec_mes.sender_id)
+            self.info_messageReceived.add_message(rec_mes)
+            self.log_message.info('RECEIVED : \n' + rec_mes.to_string())
 
     def recAllMess(self):
         succes = -1
@@ -101,27 +101,27 @@ class Agent:
     #   Send Information
     ############################  
     def sendAllMessage(self):
-        for message in self.info_messageToSend.getList():
+        for message in self.info_messageToSend.get_list():
             isSend = self.sendMess(message)
             if isSend == 0:
-                self.info_messageToSend.delMessage(message)
-                self.info_messageSent.addMessage(message)
+                self.info_messageToSend.del_message(message)
+                self.info_messageSent.add_message(message)
 
     # la fonction renvoie -1 quand le message n'a pas été envoyé mais ne s'occupe pas de le réenvoyer !
     def sendMess(self, m):
         succes = -1
-        for receiver in m.remainingReceiver:
+        for receiver in m.remaining_receiver:
             try:
                 mbox = mailbox.mbox(constants.NAME_MAILBOX + str(receiver[0]))
                 mbox.lock()
                 try:
-                    mbox.add(m.formatMessageType())  # apparament on ne peut pas transférer d'objet
+                    mbox.add(m.to_string())  # apparament on ne peut pas transférer d'objet
                     self.message_stat.count_message_send(receiver[0])
 
                     mbox.flush()
-                    m.notifySendTo(receiver[0], receiver[1])
-                    if m.isMessageSentToEveryReceiver():
-                        self.log_message.info('SEND     : \n' + m.formatMessageType())
+                    m.notify_send_to(receiver[0], receiver[1])
+                    if m.is_message_sent_to_every_receiver():
+                        self.log_message.info('SEND     : \n' + m.to_string())
                         succes = 0
                     else:
                         succes = 1  # message partially sent
