@@ -44,20 +44,20 @@ class TargetEstimator:
 
                :param
                   1. (int) time_stamp           -- time to which the estimator is created
-                  2. (int) agent_id             -- numeric value to identify the agent
-                  3. (int) agent_signature      -- numeric value to identify the agent
-                  4. (int) target_id            -- numeric value to identify the target
-                  5. (int) target_id            -- numeric value to identify the target
+                  2. (int) agent_id             -- numerical value to identify the agent
+                  3. (int) agent_signature      -- numerical value to identify the agent
+                  4. (int) target_id            -- numerical value to identify the target
+                  5. (int) target_id            -- numerical value to identify the target
                   6. (int) target_xc            -- x value of the center of the targetRepresentation
                   7. (int) target_yc            -- y value of the center of the targetRepresentation
                   8. (int) target_size          -- radius from the center
 
                :attibutes
                   1. (int) time_stamp           -- time to which the estimator is created
-                  2. (int) agent_id             -- numeric value to identify the agent
-                  3. (int) agent_signature      -- numeric value to identify the agent
-                  4. (int) target_id            -- numeric value to identify the target
-                  5. (int) target_id            -- numeric value to identify the target
+                  2. (int) agent_id             -- numerical value to identify the agent
+                  3. (int) agent_signature      -- numerical value to identify the agent
+                  4. (int) target_id            -- numerical value to identify the target
+                  5. (int) target_id            -- numerical value to identify the target
                   6. (int) target_position      -- [x,y] values of the center of the targetRepresentation
                   7. (int) target_label         -- identification from the Target.type
                   8. (int) target_size          -- radius from the center
@@ -68,6 +68,7 @@ class TargetEstimator:
 
     def __init__(self, time_stamp, agent_id, agent_signature, target_id, target_signature, target_xc, target_yc,
                  target_size):
+
         "Time information"
         self.time_stamp = time_stamp
 

@@ -1,11 +1,14 @@
-TIME_BTW_FRAMES = 0.5
 
 '''Option for class main'''
 USE_GUI = 1
 USE_agent = 1
 USE_static_analysis = 0
 USE_dynamic_analysis_simulated_room = 0
+
+
 T_MAX = 10000
+TIME_BTW_FRAMES = 0.1
+
 STATIC_ANALYSIS_PRECISION = 3  # best with 1 until map size
 STATIC_ANALYSIS_PRECISION_simulated_room = 10
 
