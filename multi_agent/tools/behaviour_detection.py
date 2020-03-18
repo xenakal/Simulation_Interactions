@@ -1,5 +1,6 @@
 import statistics
 
+
 class TargetBehaviourAnalyser:
     """
         Class TargetBehaviourAnalyser.
@@ -15,10 +16,11 @@ class TargetBehaviourAnalyser:
             :notes
                 fells free to write some comments.
     """
+
     def __init__(self, memory):
         self.room_memory = memory.memory_agent
 
-    def is_target_stopped(self, targetID, deltaT, n, thresh):
+    def is_target_stopped(self, target_id, delta_t, n, thresh):
         """
                     :description
                         based on multiple position, we want to detect if the target was moving and stops
@@ -27,7 +29,8 @@ class TargetBehaviourAnalyser:
                         1.(int) targetID     -- target identification number
                         2.(int) deltaT > 0   -- how many times we wants to check back
                         3.(int) n > 3        -- number of previous position to take into account
-                        4.(int) thresh       -- thresh, must be a little bit higher than the noise level (for the actual settings 3 is a good value)
+                        4.(int) thresh       -- thresh, must be a little bit higher than the noise level
+                                                (for the actual settings 3 is a good value)
 
                     :return / modify vector
                         1. (boolean) is_stopped -- true if the target does not move on the deltaT periode
@@ -35,10 +38,10 @@ class TargetBehaviourAnalyser:
                     :note
                         see self.detect_target_motion(targetID, deltaT, n, thresh)
                 """
-        (is_moving, is_stopped) = self.detect_target_motion(targetID, deltaT, n, thresh)
+        (is_moving, is_stopped) = self.detect_target_motion(target_id, delta_t, n, thresh)
         return is_stopped
 
-    def is_target_moving(self, targetID, deltaT, n, thresh):
+    def is_target_moving(self, target_id, delta_t, n, thresh):
         """
                     :description
                         based on multiple position, we want to detect if the target was moving and stops
@@ -47,7 +50,8 @@ class TargetBehaviourAnalyser:
                         1.(int) targetID     -- target identification number
                         2.(int) deltaT > 0   -- how many times we wants to check back
                         3.(int) n > 3        -- number of previous position to take into account
-                        4.(int) thresh       -- thresh, must be a little bit higher than the noise level (for the actual settings 3 is a good value)
+                        4.(int) thresh       -- thresh, must be a little bit higher than the noise level
+                                                (for the actual settings 3 is a good value)
 
                     :return / modify vector
                         1. (boolean) is_moving -- true if the target is moving on the deltaT periode
@@ -55,10 +59,10 @@ class TargetBehaviourAnalyser:
                     :note
                         see self.detect_target_motion(targetID, deltaT, n, thresh)
                 """
-        (is_moving, is_stopped) = self.detect_target_motion(targetID, deltaT, n, thresh)
+        (is_moving, is_stopped) = self.detect_target_motion(target_id, delta_t, n, thresh)
         return is_moving
 
-    def is_target_changing_state(self,targetID,deltaT,n,thresh):
+    def is_target_changing_state(self, target_id, delta_t, n, thresh):
         """
                     :description
                         based on multiple position, we want to detect if the target was moving and stops
@@ -67,7 +71,8 @@ class TargetBehaviourAnalyser:
                         1.(int) targetID     -- target identification number
                         2.(int) deltaT > 0   -- how many times we wants to check back
                         3.(int) n > 3        -- number of previous position to take into account
-                        4.(int) thresh       -- thresh, must be a little bit higher than the noise level (for the actual settings 3 is a good value)
+                        4.(int) thresh       -- thresh, must be a little bit higher than the noise level7
+                                                (for the actual settings 3 is a good value)
 
                     :return / modify vector
                         1. (boolean) is_changing_state -- true if the target is moving and is stopped on the given period
@@ -75,10 +80,10 @@ class TargetBehaviourAnalyser:
                     :note
                         see self.detect_target_motion(targetID, deltaT, n, thresh)
                 """
-        (is_moving, is_stopped) = self.detect_target_motion(targetID,deltaT,n,thresh)
-        return (is_moving and is_stopped)
+        (is_moving, is_stopped) = self.detect_target_motion(target_id, delta_t, n, thresh)
+        return is_moving and is_stopped
 
-    def detect_target_motion(self,targetID,deltaT,n,thresh):
+    def detect_target_motion(self, target_id, delta_t, n, thresh):
         """
              :description
                  based on multiple position, we want to detect if the target was moving and stops
@@ -87,7 +92,8 @@ class TargetBehaviourAnalyser:
                  1.(int) targetID     -- target identification number
                  2.(int) deltaT > 0   -- how many times we wants to check back
                  3.(int) n > 3        -- number of previous position to take into account
-                 4.(int) thresh       -- thresh, must be a little bit higher than the noise level (for the actual settings 3 is a good value)
+                 4.(int) thresh       -- thresh, must be a little bit higher than the noise level
+                                        (for the actual settings 3 is a good value)
 
              :return / modify vector
                  1. (boolean) (is_moving,is_stopped) --
@@ -104,18 +110,18 @@ class TargetBehaviourAnalyser:
             :note
                 1.(boolean list) state -- True if the target is stopped for the time t - deltaT(i)
          """
-        list_to_check = self.room_memory.get_Target_list(targetID)
+        list_to_check = self.room_memory.get_Target_list(target_id)
         list_len = len(list_to_check)
 
-        state =  []
+        state = []
         test_stopped = []
         test_mooving = []
         is_moving = False
         is_stopped = False
 
-        if n+deltaT < list_len:
-            for time in  range(deltaT):
-                state.append(self.is_target_fix(targetID,time,n,thresh))
+        if n + delta_t < list_len:
+            for time in range(delta_t):
+                state.append(self.is_target_fix(target_id, time, n, thresh))
                 test_stopped.append(True)
                 test_mooving.append(False)
 
@@ -127,9 +133,9 @@ class TargetBehaviourAnalyser:
                 is_moving = True
                 is_stopped = True
 
-        return (is_moving,is_stopped)
+        return is_moving, is_stopped
 
-    def is_target_fix(self,targetID,t,n,thresh):
+    def is_target_fix(self, target_id, t, n, thresh):
         """
             :description
                 based on multiple position, we want to detect if the target is fix
@@ -137,23 +143,23 @@ class TargetBehaviourAnalyser:
                 1.(int) targetID  -- target identification number
                 2.(int) t >= 0    -- to check t times before the actuall time in the simulation
                 3.(int) n > 3     -- number of previous position to take into account
-                4.(int) thresh    -- thresh, must be a little bit higher than the noise level (for the actual settings 3 is a good value)
+                4.(int) thresh    -- thresh, must be a little bit higher than the noise level
+                                     (for the actual settings 3 is a good value)
 
             :return / modify vector
                 1. (boolean) fix -- true if the target seems to be stationary otherwise false
         """
 
-        list_to_check = self.room_memory.get_Target_list(targetID)
+        list_to_check = self.room_memory.get_Target_list(target_id)
         list_len = len(list_to_check)
         if n <= list_len:
-            list_to_check = list_to_check[list_len - n - t :list_len-t]
+            list_to_check = list_to_check[list_len - n - t:list_len - t]
 
             x = []
             y = []
             for item in list_to_check:
                 x.append(item.target_position[0])
                 y.append(item.target_position[1])
-
 
             x_sdt = statistics.stdev(x)
             y_sdt = statistics.stdev(y)
@@ -162,8 +168,7 @@ class TargetBehaviourAnalyser:
                 return True
         return False
 
-
-    def is_target_leaving_cam_field(self,cam,targetID,t,n):
+    def is_target_leaving_cam_field(self, cam, targetID, t, n):
         """
             :description
                 based on multiple position, we want to detect if the target is leaving the camera field
@@ -200,12 +205,13 @@ class TargetBehaviourAnalyser:
 
         list_len = len(list_to_check)
         if n <= list_len:
-            list_to_check = list_to_check[list_len - n - t :list_len-t]
+            list_to_check = list_to_check[list_len - n - t:list_len - t]
 
             for item in list_to_check:
-               field.append(cam.is_x_y_radius_in_field_not_obstructed(item.target_position[0], item.target_position[1]))
-               in_field.append(True)
-               out_field.append(False)
+                field.append(
+                    cam.is_x_y_radius_in_field_not_obstructed(item.target_position[0], item.target_position[1]))
+                in_field.append(True)
+                out_field.append(False)
 
             if field == in_field:
                 is_in_field = True
@@ -215,9 +221,4 @@ class TargetBehaviourAnalyser:
                 is_in_field = True
                 is_out_field = True
 
-        return(is_in_field,is_out_field)
-
-
-
-
-
+        return (is_in_field, is_out_field)
