@@ -14,49 +14,99 @@ import constants
 
 
 class AgentCam(AgentInteractingWithRoom):
-    def __init__(self, idAgent, camera):
-        super().__init__(idAgent, "camera")
-        # Attributes
-        self.cam = camera
-        self.behaviour_analysier = TargetBehaviourAnalyser(self.memory)
+    """
+        Class AgentCam extend AgentInteractingWithRoom.
+
+        Description :
+
+            :param
+                1. (int) id                              -- numerical value to recognize the Agent
+                2. (string) type                         -- "AgentCam","AgentUsesr" to distinguish the different agent
+                3. ((int),(int),(int)) color             -- color representation for the GUI
+
+            :attibutes
+                -- IN AgentInteractingWithRoom
+                1. (int) id                                     -- numerical value to recognize the Agent
+                2. (int) signature                              -- numerical value to identify the Agent, random value
+                3. (string) type                                -- "AgentCam","AgentUsesr" to distinguish
+                                                                    the different agent
+                4. ((int),(int),(int)) color                    -- color representation for the GUI
+                5. (ListMessage) info_message_sent              -- list containing all the messages sent
+                6. (ListMessage) info_message_received          -- list containing all the messages received
+                7. (ListMessage) info_message_to_send           -- list containing all the messages to send
+                8. (AgentStatistic) message_statistic           -- object to compute how many messages are
+                                                                    sent and received
+                9. (Memory) memory                              -- object to deal with TargetEstimator
+               10. (RoomRepresentation) room_representation     -- object to reconstruct the room
+               11. (int) thread_is_running                      -- running if 1, else stop
+               12. (thread) main_thread                         -- thread
+
+               --New
+               13. (Camera) camera                              -- Camera object, allows target to detect
+                                                                   object in the room
+               14. (TargetBehaviourAnalyser) behaviour_analyser -- TargetBehaviourAnalyser object,
+                                                                    to detect some feature from the target
+                15 (LinkTargetCamera) link_target_agent         -- LinkTargetCamera object, to tell the agent
+                                                                   wich target to track taking into account the
+                                                                   geometry from the room and the position of targets
+            :notes
+                fells free to write some comments.
+    """
+
+    def __init__(self, id, camera):
+        self.camera = camera
+        super().__init__(id, "camera", camera.color)
+        self.behaviour_analyser = TargetBehaviourAnalyser(self.memory)
         self.link_target_agent = LinkTargetCamera(self.room_representation)
 
 
     def init_and_set_room_description(self, room):
+        """
+            :description
+                1. set the RoomDescription
+                2. set the AgentStatistic
+                3. set the LinkTargetCamera
+
+            :param
+                1. (Room) room  --  To set up the RoomDescription
+
+        """
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation)
 
     def thread_run(self):
         """
-               One of the two constants threads of an agent.
+            :description
+                FSM defining the agent's behaviour
         """
+
         state = "takePicture"
         nextstate = state
         my_previousTime = self.room_representation.time - 1
 
-        while self.threadRun == 1:
+        while self.thread_is_running == 1:
             state = nextstate
 
             if state == "takePicture":
 
-                '''Input from the agent, here the fake room'''
-                picture = self.cam.run()
+                "Input from the agent, here the fake room"
+                picture = self.camera.run()
                 time.sleep(constants.TIME_PICTURE)
 
-                '''Allows to simulate crash of the camera'''
-                if not self.cam.is_camera_active():
+                "Allows to simulate crash of the camera"
+                if not self.camera.is_camera_active():
                     nextstate = "takePicture"
                     time.sleep(0.3)
                 else:
-                    '''If the camera is working and we have a new picture, then the informations are stored in 
-                    memory. '''
+                    """If the camera is working and we have a new picture, then the informations are stored in
+                    memory. """
                     if my_previousTime != self.room_representation.time:  # Si la photo est nouvelle
                         my_previousTime = self.room_representation.time
                         for targetCameraDistance in picture:
                             self.memory.set_current_time(self.room_representation.time)
                             try:
                                 target = targetCameraDistance.target
-                                '''Simulation from noise on the target's position '''
+                                "Simulation from noise on the target's position "
                                 if constants.INCLUDE_ERROR and not (target.type == "fix"):
                                     erreurX = int(np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1))
                                     erreurY = int(np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1))
@@ -75,39 +125,44 @@ class AgentCam(AgentInteractingWithRoom):
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
             elif nextstate == "processData":
-                '''Combination of data received and data observed'''
+                "Combination of data received and data observed"
                 self.memory.combine_data_agentCam()
-                '''Modification from the room description'''
+                "Modification from the room description"
                 self.room_representation.update_target_based_on_memory(self.memory.memory_agent)
-                '''Computation of the camera that should give the best view, according to map algorithm'''
+                "Computation of the camera that should give the best view, according to map algorithm"
                 self.link_target_agent.update_link_camera_target()
                 self.link_target_agent.compute_link_camera_target()
-                '''Descision of the messages to send'''
-                self.process_InfoMemory(self.room_representation)
+                "Descision of the messages to send"
+                self.process_information_in_memory()
                 nextstate = "communication"
 
             # TODO: pas mieux de mettre ca avant "processData" ?
             elif state == "communication":
-                '''Suppression of unusefull messages in the list'''
-                self.info_messageSent.remove_message_after_given_time(self.room_representation.time, 30)
-                self.info_messageReceived.remove_message_after_given_time(self.room_representation.time, 30)
-                '''Message are send (Mailbox)'''
-                self.sendAllMessage()
-                '''Read messages received'''
-                self.recAllMess()
-                '''Prepare short answers'''
-                self.process_Message_received()
-                '''Find if other agents reply to a previous message'''
-                self.process_Message_sent()
+                "Suppression of unusefull messages in the list"
+                self.info_message_sent.remove_message_after_given_time(self.room_representation.time, 30)
+                self.info_message_received.remove_message_after_given_time(self.room_representation.time, 30)
+                "Message are send (Mailbox)"
+                self.send_messages()
+                "Read messages received"
+                self.receive_messages()
+                "Prepare short answers"
+                self.process_message_received()
+                "Find if other agents reply to a previous message"
+                self.process_message_sent()
 
-                self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
+                self.log_room.info(self.memory.statistic_to_string() + self.message_statistic.to_string())
                 time.sleep(constants.TIME_SEND_READ_MESSAGE)
                 nextstate = "takePicture"
             else:
                 print("FSM not working proerly")
 
-    def process_InfoMemory(self, room):
-        for target in room.active_Target_list:
+    def process_information_in_memory(self):
+        """
+            :description
+                Condition to detect when a message should be send
+        """
+
+        for target in self.room_representation.active_Target_list:
             """
                 ---------------------------------------------------------------------------------------------
                 Memory analysis: 
@@ -116,27 +171,27 @@ class AgentCam(AgentInteractingWithRoom):
                         - detection from target leaving the field of the camera
                 ---------------------------------------------------------------------------------------------
             """
-            '''Check if the target is moving,stopped or changing from one to the other state'''
-            (is_moving, is_stopped) = self.behaviour_analysier.detect_target_motion(target.id, 4, 3, 3)
-            '''Check if the target is leaving the cam angle_of_view'''
-            (is_in, is_out) = self.behaviour_analysier.is_target_leaving_cam_field(self.cam, target.id, 0, 3)
+            "Check if the target is moving,stopped or changing from one to the other state"
+            (is_moving, is_stopped) = self.behaviour_analyser.detect_target_motion(target.id, 4, 3, 3)
+            "Check if the target is leaving the cam angle_of_view"
+            (is_in, is_out) = self.behaviour_analyser.is_target_leaving_cam_field(self.camera, target.id, 0, 3)
 
             """
                 ----------------------------------------------------------------------------------------------
                 Data to send other cam's agent:
                 -----------------------------------------------------------------------------------------------
             """
-            '''Send message to other agent'''
+            "Send message to other agent"
             if constants.DATA_TO_SEND == "all":
-                memories = self.memory.memory_agent.get_target_list(target.id)
+                memories = self.memory.memory_agent.get_Target_list(target.id)
                 if len(memories) > 0:
                     last_memory = memories[len(memories) - 1]
-                    self.send_message_memory(last_memory)
+                    self.send_message_targetEstimator(last_memory)
 
             elif constants.DATA_TO_SEND == "behaviour":
-                '''If the target stop is it because we loose it, or is the target outside from the range ? '''
+                "If the target stop is it because we loose it, or is the target outside from the range ? "
                 pass
-                '''Demande de confirmation à un autre agent par exemple'''
+                "Demande de confirmation à un autre agent par exemple"
 
             """
                ----------------------------------------------------------------------------------------------
@@ -144,98 +199,22 @@ class AgentCam(AgentInteractingWithRoom):
                -----------------------------------------------------------------------------------------------
             """
 
-            '''If the target is link to this agent then we send the message to the user'''
+            "If the target is link to this agent then we send the message to the user"
             if self.link_target_agent.is_in_charge(target.id, self.id):
                 memories = self.memory.memory_agent.get_Target_list(target.id)
                 if len(memories) > 0:
                     receivers = []
-                    for agent in room.active_AgentUser_list:
+                    for agent in self.room_representation.active_AgentUser_list:
                         receivers.append([agent.id, agent.signature])
                     last_memory = memories[len(memories) - 1]
 
-                    '''If the message is to old we don't send it -> target lost'''
+                    "If the message is to old we don't send it -> target lost"
                     thresh_time_to_send = 10
                     if self.room_representation.time - last_memory.time_stamp <= thresh_time_to_send:
-                        self.send_message_memory(last_memory, receivers)
-
-    def process_Message_sent(self):
-        for message_sent in self.info_messageSent.get_list():
-            if message_sent.is_approved():
-                if message_sent.messageType == "request":
-                    self.send_message_locked(message_sent)
-
-                self.info_messageSent.del_message(message_sent)
-            elif message_sent.is_not_approved():
-                self.info_messageSent.del_message(message_sent)
-
-    def process_Message_received(self):
-        super().process_Message_received()
-        for rec_mes in self.info_messageReceived.get_list():
-            if rec_mes.messageType == "request":
-                self.received_message_request(rec_mes)
-            elif rec_mes.messageType == "locked":
-                self.received_message_locked(rec_mes)
-
-            self.info_messageReceived.del_message(rec_mes)
-
-    def send_message_request(self, information, target, receivers=None):
-        if receivers is None:
-            receivers = []
-        m = MessageCheckACKNACK(self.room_representation.time, self.id, self.signature, "request", information,
-                                target)
-        if len(receivers) == 0:
-            for agent in self.room_representation.agentCams:
-                if agent.id != self.id:
-                    m.add_receiver(agent.id, agent.signature)
-        else:
-            for receiver in receivers:
-                m.add_receiver(receiver[0], receiver[1])
-
-        cdt1 = self.info_messageToSend.is_message_with_same_type_same_agent_ref(m)
-        cdt2 = self.info_messageSent.is_message_with_same_type_same_agent_ref(m)
-        if not cdt1 and not cdt2:
-            self.info_messageToSend.add_message(m)
-
-    def send_message_locked(self, message, receivers=None):
-        if receivers is None:
-            receivers = []
-        m = MessageCheckACKNACK(self.room_representation.time, self.id, self.signature, "locked", message.signature,
-                                message.targetRef)
-        if len(receivers) == 0:
-            for agent in self.room_representation.agentCams:
-                if agent.id != self.id:
-                    m.add_receiver(agent.id, agent.signature)
-        else:
-            for receiver in receivers:
-                m.add_receiver(receiver[0], receiver[1])
-
-        self.info_messageToSend.add_message(m)
-
-    def received_message_request(self, message):
-        typeMessage = "ack"
-        '''
-        if self.memory.isTargetDetected(self.myRoom.time, message.targetRef):
-            # If the target is seen => distances # AJouté la condition
-            # if(distance < distance 2)
-            # typeMessage="ack"
-            # else:
-            typeMessage = "nack"
-        '''
-
-        # Update Info
-        # self.memory.addTargetEstimatorFromID(self.myRoom.time,self.id, message.targetRef, self.myRoom)
-        # Response
-        self.send_message_ackNack(message, typeMessage)
-
-    def received_message_locked(self, message):
-        # Update Info
-        #
-        # Response
-        self.send_message_ackNack(message, "ack")
+                        self.send_message_targetEstimator(last_memory, receivers)
 
 
-    def get_predictions(self, targetIdList):
-        return self.memory.get_predictions(targetIdList)
+
 
     def makePredictionsOld(self, method, targetIdList):
         """

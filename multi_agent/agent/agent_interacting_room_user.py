@@ -10,17 +10,52 @@ from multi_agent.tools.link_target_camera import *
 from multi_agent.tools.memory import *
 import constants
 
+
 class AgentUser(AgentInteractingWithRoom):
+    """
+        Class AgentUser extend AgentInteractingWithRoom.
 
-    def __init__(self, idAgent):
-        super().__init__(100+idAgent,"user")
+        Description :
 
+            :param
+                1. (int) id                              -- numerical value to recognize the Agent
+                2. (string) type                         -- "AgentCam","AgentUsesr" to distinguish the different agent
+                3. ((int),(int),(int)) color             -- color representation for the GUI
+
+            :attibutes
+                -- IN AgentInteractingWithRoom
+                1. (int) id                                     -- numerical value to recognize the Agent
+                2. (int) signature                              -- numerical value to identify the Agent, random value
+                3. (string) type                                -- "AgentCam","AgentUsesr" to distinguish
+                                                                    the different agent
+                4. ((int),(int),(int)) color                    -- color representation for the GUI
+                5. (ListMessage) info_message_sent              -- list containing all the messages sent
+                6. (ListMessage) info_message_received          -- list containing all the messages received
+                7. (ListMessage) info_message_to_send           -- list containing all the messages to send
+                8. (AgentStatistic) message_statistic           -- object to compute how many messages are sent and
+                                                                   received
+                9. (Memory) memory                              -- object to deal with TargetEstimator
+               10. (RoomRepresentation) room_representation     -- object to reconstruct the room
+               11. (int) thread_is_running                      -- runnig if 1, else stop
+               12. (thread) main_thread                         -- thread
+
+            :notes
+                fells free to write some comments.
+    """
+
+    def __init__(self, id):
+        super().__init__(100 + id, "user")
 
     def thread_run(self):
+        """
+            :description
+                FSM defining the agent's behaviour
+        """
+
         state = "processData"
         nextstate = state
 
-        while self.threadRun == 1:
+        while self.thread_is_running == 1:
             state = nextstate
             if nextstate == "processData":
                 '''Combination of data received and data observed'''
@@ -28,24 +63,24 @@ class AgentUser(AgentInteractingWithRoom):
                 '''Modification from the room description'''
                 self.room_representation.update_target_based_on_memory(self.memory.memory_agent)
                 '''Descision of the messages to send'''
-                self.process_InfoMemory(self.room_representation)
+                self.process_information_in_memory()
                 nextstate = "communication"
 
             elif state == "communication":
                 '''Suppression of unusefull messages in the list'''
-                self.info_messageSent.remove_message_after_given_time(self.room_representation.time, 30)
-                self.info_messageReceived.remove_message_after_given_time(self.room_representation.time, 30)
+                self.info_message_sent.remove_message_after_given_time(self.room_representation.time, 30)
+                self.info_message_received.remove_message_after_given_time(self.room_representation.time, 30)
 
                 '''Message are send (Mailbox)'''
-                self.sendAllMessage()
+                self.send_messages()
                 '''Read messages received'''
-                self.recAllMess()
+                self.receive_messages()
                 '''Prepare short answers'''
-                self.process_Message_received()
+                self.process_message_received()
                 '''Find if other agents reply to a previous message'''
-                self.process_Message_sent()
+                self.process_message_sent()
 
-                self.log_room.info(self.memory.statistic_to_string() + self.message_stat.to_string())
+                self.log_room.info(self.memory.statistic_to_string() + self.message_statistic.to_string())
                 time.sleep(constants.TIME_SEND_READ_MESSAGE)
                 nextstate = "processData"
             else:

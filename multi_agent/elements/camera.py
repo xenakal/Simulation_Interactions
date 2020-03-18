@@ -50,31 +50,33 @@ class Camera:
     """
 
     def __init__(self, room, id, xc, yc, alpha, beta, is_fix=1, color=0):
-        """ Identification name (id) + number """
+        """Initialisation"""
+
+        " Identification name (id) + number "
         self.id = id
         self.signature = self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
 
-        """Camera description on the map"""
+        "Camera description on the map"
         self.xc = xc
         self.yc = yc
         self.alpha = math.radians(alpha)  # deg rotation
         self.beta = math.radians(beta)  # deg view angle
 
-        """Attibutes"""
+        "Attibutes"
         self.is_fix = is_fix
         self.isActive = 1
         self.color = color
         self.room = room
 
-        """Default values"""
+        "Default values"
         if color == 0:
             r = 25 + 20 * random.randrange(0, 10, 1)
             g = 25 + 20 * random.randrange(0, 10, 1)
             b = 25 + 20 * random.randrange(0, 10, 1)
             self.color = (r, g, b)
 
-        """List to get target in the camera vision field"""
-        """ !! use the metjod take picture to fill those list !! """
+        "List to get target in the camera vision field"
+        " !! use the metjod take picture to fill those list !! "
         self.target_in_field_list = []
         self.targetCameraDistance_list = []
         self.target_projection = []

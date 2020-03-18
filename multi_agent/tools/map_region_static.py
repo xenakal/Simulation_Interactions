@@ -25,7 +25,7 @@ class MapRegionStatic():
         '''List from the camera'''
         self.list_camera = []
         for agent in room.active_AgentCams_list:
-            self.list_camera.append(agent.cam)
+            self.list_camera.append(agent.camera)
 
         '''Data save from each camera - written always as tuple (camID,res), res is an array from mesh size'''
         self.distances = []

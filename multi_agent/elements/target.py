@@ -37,21 +37,23 @@ class TargetRepresentation:
     """
 
     def __init__(self, id=-1, x=-1, y=-1, radius=5, type='fix', color=0):
-        """ Identification name (id) + number """
+        """Initialisation"""
+
+        " Identification name (id) + number "
         self.id = id
         self.signature = self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
 
-        """TargetRepresentation description on the map"""
-        """Position and Speeds"""
+        "TargetRepresentation description on the map"
+        "Position and Speeds"""
         self.xc = x
         self.yc = y
 
-        """TargetRepresentation attributes"""
+        "TargetRepresentation attributes"
         self.radius = radius
         self.type = type
         self.color = color
 
-        """Default values"""
+        "Default values"
         if color == 0:
             r = random.randrange(20, 230, 1)
             g = random.randrange(20, 230, 1)
@@ -83,28 +85,40 @@ class Target(TargetRepresentation):
                 Description : This class creates fake targets (data) to run the simulation, see class TargetRepresentation.
 
                     :params
-                        1. (int) id                                   -- numeric value to recognize the target easily
-                        2. (int) xc                                   -- x value of the center of the targetRepresentation
-                        3. (int) yc                                   -- y value of the center of the targetRepresentation
+                        1. (int) id                                   -- numerical value to recognize the target easily
+                        2. (int) xc                                   -- x value of the center of the
+                                                                        targetRepresentation
+                        3. (int) yc                                   -- y value of the center of the
+                                                                        targetRepresentation
                         4. (int) vx                                   -- x speeds
                         5. (int) vy                                   -- y speeds
                         6. (int) size                                 -- radius from the center
-                        7. (string) type                              -- "fix","target", to make the difference between known and unkown target
-                        8. ([(int,int),...]) trajectory_position      -- list [(x,y),...] from all the via point that the target should reach
-                        9. (string) trajectory_type                   -- "fix","linear" choice for the target's way to moove
-                       10. ([[int],...]) t_add                        -- list [[t1],[t2],...] from all the time where the target should appear in the room
-                       11. ([[int],...]) t_del                        -- list [[t1],[t2],...] from all the time where the target should disappear in the room
+                        7. (string) type                              -- "fix","target", to make the difference between
+                                                                        known and unkown target
+                        8. ([(int,int),...]) trajectory_position      -- list [(x,y),...] from all the via point
+                                                                         that the target should reach
+                        9. (string) trajectory_type                   -- "fix","linear" choice for the target's way
+                                                                         to moove
+                       10. ([[int],...]) t_add                        -- list [[t1],[t2],...] from all the time where
+                                                                         the target should appear in the room
+                       11. ([[int],...]) t_del                        -- list [[t1],[t2],...] from all the time where
+                                                                         the target should disappear in the room
 
                     :attibutes
                         1. (int) vx                                   -- x speeds
                         2. (int) vy                                   -- y speeds
                         3. (int) vx_max                               -- x speeds max
                         4. (int) vy_max                               -- y speeds max
-                        5. ([(int,int),...]) trajectory_position      -- list [(x,y),...] from all the via point that the target should reach
-                        6. ([[int,int],...]) all_position             -- list [[x,y],...] from all the position where the target was
-                        7. ([[int],...]) t_add                        -- list [[t1],[t2],...] from all the time where the target should appear in the room
-                        8. ([[int],...]) t_del                        -- list [[t1],[t2],...] from all the time where the target should disappear in the room
-                        9. (string) trajectory_type                   -- "fix","linear" choice for the target's way to moove
+                        5. ([(int,int),...]) trajectory_position      -- list [(x,y),...] from all the via point that
+                                                                         the target should reach
+                        6. ([[int,int],...]) all_position             -- list [[x,y],...] from all the position where
+                                                                         the target was
+                        7. ([[int],...]) t_add                        -- list [[t1],[t2],...] from all the time where
+                                                                         the target should appear in the room
+                        8. ([[int],...]) t_del                        -- list [[t1],[t2],...] from all the time where
+                                                                         the target should disappear in the room
+                        9. (string) trajectory_type                   -- "fix","linear" choice for the target's way
+                                                                         to move
                        10. (int) self.number_of_position_reached      -- keep track from how many via points are reached
 
                     :notes
@@ -113,10 +127,10 @@ class Target(TargetRepresentation):
 
     def __init__(self, id=-1, x=-1, y=-1, vx=0, vy=0, trajectory_type='fix', trajectory=(0, [(0, 0)]), type='fix',
                  radius=5, t_add=-1, t_del=-1):
-
+        """Initialisation"""
         super().__init__(id, x, y, radius, type, 0)
 
-        """Target description on the map"""
+        "Target description on the map"
         self.vx = vx
         self.vy = vy
         self.vx_max = vx
@@ -125,15 +139,15 @@ class Target(TargetRepresentation):
         (n, self.trajectory_position) = trajectory
         self.all_position = []
 
-        """Apparition and disparition times"""
+        "Apparition and disparition times"
         self.t_add = t_add
         self.t_del = t_del
 
-        """Target attributes"""
+        "Target attributes"
         self.trajectory_type = trajectory_type
         self.number_of_position_reached = 0
 
-        """Default values"""
+        "Default values"
         if type == 'fix':
             self.vx = 0
             self.vy = 0
@@ -156,7 +170,6 @@ class Target(TargetRepresentation):
         self.vy_max = 1
         """
 
-    """ hash and eq used to have target object as dictionary in camera """
     def save_position(self):
         """
             :params

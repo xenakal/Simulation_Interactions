@@ -7,7 +7,7 @@ USE_dynamic_analysis_simulated_room = 0
 
 
 T_MAX = 10000
-TIME_BTW_FRAMES = 0.1
+TIME_BTW_FRAMES = .1
 
 STATIC_ANALYSIS_PRECISION = 3  # best with 1 until map size
 STATIC_ANALYSIS_PRECISION_simulated_room = 10
@@ -15,10 +15,11 @@ STATIC_ANALYSIS_PRECISION_simulated_room = 10
 """Option for class agent"""
 NAME_LOG_PATH = "log/log_agent/Agent"
 NAME_MAILBOX = "mailbox/MailBox_Agent"
-NUMBER_OF_MESSAGE_RECEIVE = 1  # 1= all message receive, 100 = almost nothing is received
+STD_RECEIVED = 0
+SEUIL_RECEIVED = 10
 
 """Option for class agentCamera"""
-TIME_PICTURE = .5
+TIME_PICTURE = .2
 TIME_SEND_READ_MESSAGE = .1
 RUN_ON_A_THREAD = 1
 DATA_TO_SEND = "behaviour"

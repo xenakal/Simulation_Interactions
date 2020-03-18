@@ -129,7 +129,7 @@ class GUI_room:
 
     def drawCam(self, room, l=100):
         for agent in room.active_AgentCams_list:
-            self.draw_one_Cam(agent.cam,l)
+            self.draw_one_Cam(agent.camera,l)
 
     def drawCam_room_description(self, room, agents_to_display,agentType, allAgents=False):
         """ Draws the previous positions of the selected targets for the selected agents. """
@@ -162,7 +162,7 @@ class GUI_room:
             (targetID,camID,dist) = link
 
             for agent in room.active_AgentCams_list:
-                camera = agent.cam
+                camera = agent.camera
                 if(camera.id == camID):
                     for target in room.active_Target_list:
                         if(target.id == targetID):
