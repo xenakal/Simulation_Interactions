@@ -203,7 +203,7 @@ class TargetBehaviourAnalyser:
             list_to_check = list_to_check[list_len - n - t :list_len-t]
 
             for item in list_to_check:
-               field.append(cam.is_x_y_in_field_not_obstructed(item.target_position[0],item.target_position[1]))
+               field.append(cam.is_x_y_radius_in_field_not_obstructed(item.target_position[0], item.target_position[1]))
                in_field.append(True)
                out_field.append(False)
 

@@ -85,7 +85,7 @@ class AgentCam(Agent):
                 time.sleep(constants.TIME_PICTURE)
 
                 '''Allows to simulate crash of the camera'''
-                if not self.cam.isActivate():
+                if not self.cam.is_camera_active():
                     nextstate = "takePicture"
                     time.sleep(0.3)
                 else:
@@ -93,11 +93,10 @@ class AgentCam(Agent):
                     memory. '''
                     if my_previousTime != self.room_representation.time:  # Si la photo est nouvelle
                         my_previousTime = self.room_representation.time
-                        for targetElem in picture:
+                        for targetCameraDistance in picture:
                             self.memory.set_current_time(self.room_representation.time)
                             try:
-                                target = targetElem[0]
-
+                                target = targetCameraDistance.target
                                 '''Simulation from noise on the target's position '''
                                 if constants.INCLUDE_ERROR and not (target.type == "fix"):
                                     erreurX = int(np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1))
@@ -109,7 +108,7 @@ class AgentCam(Agent):
                                 self.memory.add_create_target_estimator(self.room_representation.time, self.id,
                                                                         self.signature, target.id, target.signature,
                                                                         target.xc + erreurX, target.yc + erreurY,
-                                                                        target.size)
+                                                                        target.radius)
 
                             except AttributeError:
                                 print("fichier agent caméra ligne 134: oupsi un problème")

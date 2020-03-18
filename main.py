@@ -16,7 +16,7 @@ def clean_mailbox():
 
 
 class App:
-    def __init__(self, fileName="my_new_map.txt"):
+    def __init__(self, fileName="My_new_map.txt"):
         # Clean the file mailbox
         clean_mailbox()
 

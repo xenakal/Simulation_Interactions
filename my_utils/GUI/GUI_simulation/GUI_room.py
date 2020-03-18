@@ -54,25 +54,25 @@ class GUI_room:
             color = OBSTRUCTION
 
         # so that it is only target.yc drawn in the square
-        if (tab[0] <= target.xc + target.size <= tab[0] + tab[
-            2] and tab[1] <= target.yc + target.size <= tab[1] + tab[3]):  # target inside room
+        if (tab[0] <= target.xc + target.radius <= tab[0] + tab[
+            2] and tab[1] <= target.yc + target.radius <= tab[1] + tab[3]):  # target inside room
             # render the target.xct
             label = self.font.render(str(target.id), 10, color)
-            self.screen.blit(label, (self.x_offset + int(target.xc * self.scale_x) + target.size / 2 + 5,
-                                     self.y_offset + int(target.yc * self.scale_y) + target.size / 2 + 5))
+            self.screen.blit(label, (self.x_offset + int(target.xc * self.scale_x) + target.radius / 2 + 5,
+                                     self.y_offset + int(target.yc * self.scale_y) + target.radius / 2 + 5))
             # render form
             pygame.draw.ellipse(self.screen, color, (
-                self.x_offset + int(target.xc * self.scale_x) - self.scale_x * target.size,
-                self.y_offset + int(target.yc * self.scale_y) - self.scale_y * target.size,
-                self.scale_x * target.size * 2,
-                self.scale_y * target.size * 2))
+                self.x_offset + int(target.xc * self.scale_x) - self.scale_x * target.radius,
+                self.y_offset + int(target.yc * self.scale_y) - self.scale_y * target.radius,
+                self.scale_x * target.radius * 2,
+                self.scale_y * target.radius * 2))
 
-            if target.size >= 5:
+            if target.radius >= 5:
                 pygame.draw.ellipse(self.screen, target.color,
-                                    (self.x_offset + int(target.xc * self.scale_x) - self.scale_x * target.size / 2,
-                                     self.y_offset + int(target.yc * self.scale_y) - self.scale_y * target.size / 2,
-                                     self.scale_x * target.size,
-                                     self.scale_y * target.size))
+                                    (self.x_offset + int(target.xc * self.scale_x) - self.scale_x * target.radius / 2,
+                                     self.y_offset + int(target.yc * self.scale_y) - self.scale_y * target.radius / 2,
+                                     self.scale_x * target.radius,
+                                     self.scale_y * target.radius))
 
     def drawTarget(self, targets, tab):
         for target in targets:
@@ -167,7 +167,7 @@ class GUI_room:
                     for target in room.active_Target_list:
                         if(target.id == targetID):
                             pygame.draw.line(self.screen, agent.color, (self.x_offset + int(camera.xc * self.scale_x),self.y_offset + int(camera.yc * self.scale_y)),
-                                             (self.x_offset + int(target.xc * self.scale_x),self.y_offset + int(target.yc * self.scale_y)),4)
+                                             (self.x_offset + int(target.xc * self.scale_x),self.y_offset + int(target.yc * self.scale_y)),1)
 
     def draw_link_cam_region_room_description(self,room,agents_to_display,agentType,allAgents=False):
         agents = []

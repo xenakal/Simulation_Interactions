@@ -47,11 +47,11 @@ class GUI_projection:
             for element in detected:
                 target = element.target
                 (d0,d1) = element.projection
-                pygame.draw.circle(self.screen, target.color, (x_off + 85 + int(limit_up) + int(d0), y_off + 8 + n * 30), 5)
-                pygame.draw.circle(self.screen, target.color, (x_off + 85 + int(limit_up) + int(d1), y_off + 8 + n * 30), 5)
+                pygame.draw.circle(self.screen, target.color, (x_off + 85 + int(limit_up) + int(d0), y_off + 8 + n * 30), 1)
+                pygame.draw.circle(self.screen, target.color, (x_off + 85 + int(limit_up) + int(d1), y_off + 8 + n * 30), 1)
 
-                pygame.draw.line(self.screen, target.color, (x_off + 85 + int(limit_up)+ int(d0), y_off + 8 + n * 30),
-                                 (x_off + 85 + int(limit_up)+ int(d1), y_off + 8 + n * 30), 2)
+                pygame.draw.line(self.screen, target.color, (x_off + 85 + int(limit_up)+ int(d0), y_off + 9 + n * 30),
+                                 (x_off + 85 + int(limit_up)+ int(d1), y_off + 9 + n * 30), 1)
                 label = self.font.render(str(math.floor(target.id)), 10, target.color)
                 self.screen.blit(label, (x_off + 85 + int(limit_up) +math.ceil((d0 + d1) / 2), y_off + 10 + n * 30))
 

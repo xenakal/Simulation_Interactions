@@ -101,7 +101,8 @@ class MapRegionStatic():
         '''Initialisation'''
         minimum_dist_in_view = np.ones(self.xv.shape)*1000000000
         minimum_id_in_view = np.ones(self.xv.shape)*-1
-        id_in_view = np.chararray(self.xv.shape,itemsize=self.room.agentCamNumber+5)
+        #id_in_view = np.chararray(self.xv.shape,itemsize=self.room.active_AgentCams_list+5)
+        id_in_view = []
         result = np.ones(self.xv.shape)*-1
         (i_tot, j_tot) = result.shape
 
@@ -208,7 +209,7 @@ class MapRegionStatic():
         (i_tot, j_tot) = result.shape
         for i in range(i_tot):
             for j in range(j_tot):
-                if cam.is_x_y_in_field_not_obstructed(self.xv[i,j], self.yv[i,j]):
+                if cam.is_x_y_radius_in_field_not_obstructed(self.xv[i, j], self.yv[i, j]):
                     """"Turn the matrix to one when the camera sees the point (x,y)"""
                     result[i,j] = 1
         return result
@@ -243,7 +244,7 @@ class MapRegionStatic():
             - a array from result's dimension. It gives the camera's field of vision with fix object in the room
 
            """
-        return cam.is_in_hidden_zone_fix_targets_matrix_x_y(result,self.xv,self.yv,self.room)
+        return cam.is_in_hidden_zone_fix_targets_matrix_x_y(result,self.xv,self.yv)
 
 
 

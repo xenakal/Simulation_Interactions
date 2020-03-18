@@ -22,7 +22,7 @@ class InformationRoomSimulation:
                 fells free to write some comments.
     """
     def __init__(self):
-        """Room size"""
+        """Room radius"""
         self.coordinate_room = numpy.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])  # x y l h
 
         """Target that should appear in the room"""
@@ -33,7 +33,7 @@ class InformationRoomSimulation:
         self.trajectories_number = []
 
 
-    def init_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del):
+    def init_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del):
         """"
             :param
                 1. (int_list) x                               -- x values of the center
@@ -42,7 +42,7 @@ class InformationRoomSimulation:
                 4. (int_list) vy                              -- vy speeds
                 5. (string_list) trajectory_type              -- "fix","linear" choice for the target's way to moove
                 6. (int_list) trajectory_choice               -- will bound the target to the given trajectory in InformationRoomSimulation
-                7. (int_list) size                            -- radius from the center
+                7. (int_list) radius                            -- radius from the center
                 8. (string_list) type                         -- "fix","target", to make the difference between known and unkown target
                 9. ([[[int],...],...]) t_add                  -- list of all the times where the target should appear in the room
                10. ([[[int],...],...]) t_del                  -- list of all the times where the target should disappear in the room
@@ -52,10 +52,10 @@ class InformationRoomSimulation:
            """
         if len(x) > 0:
             for n in range(len(x)):
-                self.add_Target(x[n], y[n], vx[n], vy[n], trajectory_type[n], trajectory_choice[n], type[n], size[n],
+                self.add_Target(x[n], y[n], vx[n], vy[n], trajectory_type[n], trajectory_choice[n], type[n], radius[n],
                                 t_add[n], t_del[n])
 
-    def add_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del):
+    def add_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del):
         """"
                :param
                    1. (int) x                               -- x value of the center
@@ -64,7 +64,7 @@ class InformationRoomSimulation:
                    4. (int) vy                              -- vy speed
                    5. (string) trajectory_type              -- "fix","linear" choice for the target's way to moove
                    6. (int) trajectory_choice               -- will bound the target to the given trajectory in InformationRoomSimulation
-                   7. (int) size                            -- radius from the center
+                   7. (int) radius                            -- radius from the center
                    8. (string) type                         -- "fix","target", to make the difference between known and unkown target
                    9. ([[int],...]) t_add                   -- list of all the times where the target should appear in the room
                   10. ([[int],...]) t_del                   -- list of all the times where the target should disappear in the room
@@ -76,7 +76,7 @@ class InformationRoomSimulation:
             index = self.trajectories_number.index(trajectory_choice)
             number_Target = len(self.Target_list)
             self.Target_list.append(Target(number_Target, x, y, vx, vy, trajectory_type,
-                                           self.trajectories[index], type, size, t_add, t_del))
+                                           self.trajectories[index], type, radius, t_add, t_del))
         else:
             print("fichier info_room_simu l27 : error while creating target, trajectory number not found")
 
@@ -115,7 +115,7 @@ class RoomRepresentation:
                 fells free to write some comments.
     """
     def __init__(self, color=0):
-        """Room size"""
+        """Room radius"""
         self.coordinate_room = numpy.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])  # x y l h
 
         """Target informations"""
@@ -129,7 +129,7 @@ class RoomRepresentation:
         self.time = 0
         self.color = color
 
-        '''Default values'''
+        """Default values"""
         if color == 0:
             r = random.randrange(20, 230, 1)
             g = random.randrange(20, 230, 1)
@@ -177,7 +177,7 @@ class RoomRepresentation:
             if not is_in_RoomRepresentation:
                 self.add_targetRepresentation(last_TargetEstimator.target_id, last_TargetEstimator.target_position[0],
                                               last_TargetEstimator.target_position[1],
-                                              last_TargetEstimator.target_size, last_TargetEstimator.target_label)
+                                              last_TargetEstimator.target_radius, last_TargetEstimator.target_label)
 
 
     def add_targetRepresentation_from_target(self, target):
@@ -188,9 +188,9 @@ class RoomRepresentation:
                 :param
                     1. (Target) target -- object, see class Target
         """
-        self.add_targetRepresentation(target.id, target.xc, target.yc, target.size, target.type)
+        self.add_targetRepresentation(target.id, target.xc, target.yc, target.radius, target.type)
 
-    def add_targetRepresentation(self, id, x, y, size, label):
+    def add_targetRepresentation(self, id, x, y, radius, label):
         """
             :description
                  create and add a TargetRepresentation to the RoomRepresentation
@@ -199,10 +199,10 @@ class RoomRepresentation:
                   1. (int) id                  -- numerical value to recognize the target easily
                   2. (int) x                   -- x value of the center of the targetRepresentation
                   3. (int) y                   -- y value of the center of the targetRepresentation
-                  4. (int) size                -- radius from the center
+                  4. (int) radius                -- radius from the center
                   5. (string) type             -- "fix","target", to make the difference between known and unkown target
         """
-        self.active_Target_list.append(TargetRepresentation(id, x, y, size, label, self.color))
+        self.active_Target_list.append(TargetRepresentation(id, x, y, radius, label, self.color))
 
     def get_multiple_Agent_with_id(self, id_list, agent_type):
         """
@@ -283,7 +283,7 @@ class Room(RoomRepresentation):
         self.information_simulation = InformationRoomSimulation()
         self.active_Camera_list = []
 
-    def init_room(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del):
+    def init_room(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del):
         """
             :param
                 1. (int_list) x                               -- x values of the center
@@ -292,7 +292,7 @@ class Room(RoomRepresentation):
                 4. (int_list) vy                              -- vy speeds
                 5. (string_list) trajectory_type              -- "fix","linear" choice for the target's way to moove
                 6. (int_list) trajectory_choice               -- will bound the target to the given trajectory in InformationRoomSimulation
-                7. (int_list) size                            -- radius from the center
+                7. (int_list) radius                            -- radius from the center
                 8. (string_list) type                         -- "fix","target", to make the difference between known and unkown target
                 9. ([[[int],...],...]) t_add                  -- list of all the times where the target should appear in the room
                10. ([[[int],...],...]) t_del                  -- list of all the times where the target should disappear in the room
@@ -301,7 +301,7 @@ class Room(RoomRepresentation):
                  it will fill the information_simulation
            """
 
-        self.information_simulation.init_Target(x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del)
+        self.information_simulation.init_Target(x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del)
 
     def init_AgentCam(self, x, y, orientation_alpha, field_opening_beta, is_fix):
         """
@@ -371,7 +371,7 @@ class Room(RoomRepresentation):
                 index = self.active_Target_list.index(target)
                 del self.active_Target_list[index]
 
-    def add_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del):
+    def add_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del):
         """"
                :param
                    1. (int) x                               -- x value of the center
@@ -380,7 +380,7 @@ class Room(RoomRepresentation):
                    4. (int) vy                              -- vy speed
                    5. (string) trajectory_type              -- "fix","linear" choice for the target's way to moove
                    6. (int) trajectory_choice               -- will bound the target to the given trajectory in InformationRoomSimulation
-                   7. (int) size                            -- radius from the center
+                   7. (int) radius                            -- radius from the center
                    8. (string) type                         -- "fix","target", to make the difference between known and unkown target
                    9. ([[int],...]) t_add                   -- list of all the times where the target should appear in the room
                   10. ([[int],...]) t_del                   -- list of all the times where the target should disappear in the room
@@ -388,7 +388,7 @@ class Room(RoomRepresentation):
                 :notes
                     !!! No effect on active_Target_list
         """
-        self.information_simulation.add_Target(x, y, vx, vy, trajectory_type, trajectory_choice, type, size, t_add, t_del)
+        self.information_simulation.add_Target(x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del)
 
 
 

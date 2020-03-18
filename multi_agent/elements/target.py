@@ -17,37 +17,41 @@ class TargetRepresentation:
                         3. (int) xc                   -- x value of the center of the targetRepresentation
                         4. (int) yc                   -- y value of the center of the targetRepresentation
                         5. (int) size                 -- radius from the center
-                        6. (string) type              -- "fix","target", to make the difference between known and unkown target
-                        7. ((int),(int),(int)) color  -- color to represent the target on the map, if = 0 than random color selected
+                        6. (string) type              -- "fix","target", to make the difference between
+                                                          known and unkown target
+                        7. ((int),(int),(int)) color  -- color to represent the target on the map,
+                                                         if = 0 than random color selected
 
                     :attibutes
                         1. (int) id                   -- numeric value to recognize the target easily
                         2. (int) xc                   -- center of the targetRepresentation
                         3. (int) yc                   -- center of the targetRepresentation
                         4. (int) size                 -- radius from the center
-                        5. (string) type              -- "fix","target", to make the difference between known and unkown target
-                        6. ((int),(int),(int)) color  -- color to represent the target on the map, if = 0 than random color selected
+                        5. (string) type              -- "set_fix","fix","moving","unknown",
+                                                         to make the difference between known and unkown target
+                        6. ((int),(int),(int)) color  -- color to represent the target on the map, if = 0 than random
+                                                         color selected
 
                     :notes
                         fells free to write some comments.
     """
 
-    def __init__(self, id=-1, x=-1, y=-1, size=5, type='fix', color=0):
-        ''' Identification name (id) + number '''
+    def __init__(self, id=-1, x=-1, y=-1, radius=5, type='fix', color=0):
+        """ Identification name (id) + number """
         self.id = id
         self.signature = self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
 
-        '''TargetRepresentation description on the map'''
-        '''Position and Speeds'''
+        """TargetRepresentation description on the map"""
+        """Position and Speeds"""
         self.xc = x
         self.yc = y
 
-        '''TargetRepresentation attributes'''
-        self.size = size
+        """TargetRepresentation attributes"""
+        self.radius = radius
         self.type = type
         self.color = color
 
-        '''Default values'''
+        """Default values"""
         if color == 0:
             r = random.randrange(20, 230, 1)
             g = random.randrange(20, 230, 1)
@@ -108,11 +112,11 @@ class Target(TargetRepresentation):
     """
 
     def __init__(self, id=-1, x=-1, y=-1, vx=0, vy=0, trajectory_type='fix', trajectory=(0, [(0, 0)]), type='fix',
-                 size=5, t_add=-1, t_del=-1):
+                 radius=5, t_add=-1, t_del=-1):
 
-        super().__init__(id, x, y, size, type, 0)
+        super().__init__(id, x, y, radius, type, 0)
 
-        '''Target description on the map'''
+        """Target description on the map"""
         self.vx = vx
         self.vy = vy
         self.vx_max = vx
@@ -121,15 +125,15 @@ class Target(TargetRepresentation):
         (n, self.trajectory_position) = trajectory
         self.all_position = []
 
-        '''Apparition and disparition times'''
+        """Apparition and disparition times"""
         self.t_add = t_add
         self.t_del = t_del
 
-        '''Target attributes'''
+        """Target attributes"""
         self.trajectory_type = trajectory_type
         self.number_of_position_reached = 0
 
-        '''Default values'''
+        """Default values"""
         if type == 'fix':
             self.vx = 0
             self.vy = 0
@@ -141,8 +145,8 @@ class Target(TargetRepresentation):
             self.t_del = [1000]
 
 
-        """"
-        '''use to thune the potential field method'''
+        """
+        use to thune the potential field method
         self.k_att = 5
         self.k_rep = 500000000
         self.d_rep = tar_size + math.ceil(0.5 * tar_size)
@@ -152,8 +156,7 @@ class Target(TargetRepresentation):
         self.vy_max = 1
         """
 
-    ''' hash and eq used to have target object as dictionary in camera '''
-
+    """ hash and eq used to have target object as dictionary in camera """
     def save_position(self):
         """
             :params
