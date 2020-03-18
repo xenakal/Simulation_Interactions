@@ -159,7 +159,7 @@ class RoomRepresentation:
                 1. (Room) room -- object
         """
         for target in room.information_simulation.Target_list:
-            if target.type == "fix":
+            if target.type == "set_fix":
                 self.add_targetRepresentation_from_target(target)
 
         for agent in room.active_AgentCams_list:
@@ -186,12 +186,13 @@ class RoomRepresentation:
                     is_in_RoomRepresentation = True
                     target.xc = last_TargetEstimator.target_position[0]
                     target.yc = last_TargetEstimator.target_position[1]
+                    target.type = last_TargetEstimator.target_type
                     break
 
             if not is_in_RoomRepresentation:
                 self.add_targetRepresentation(last_TargetEstimator.target_id, last_TargetEstimator.target_position[0],
                                               last_TargetEstimator.target_position[1],
-                                              last_TargetEstimator.target_radius, last_TargetEstimator.target_label)
+                                              last_TargetEstimator.target_radius, last_TargetEstimator.target_type)
 
     def add_targetRepresentation_from_target(self, target):
         """

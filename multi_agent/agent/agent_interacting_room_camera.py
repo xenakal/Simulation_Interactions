@@ -107,17 +107,22 @@ class AgentCam(AgentInteractingWithRoom):
                             try:
                                 target = targetCameraDistance.target
                                 "Simulation from noise on the target's position "
-                                if constants.INCLUDE_ERROR and not (target.type == "fix"):
+                                if constants.INCLUDE_ERROR and not (target.type == "set_fix"):
                                     erreurX = int(np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1))
                                     erreurY = int(np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1))
                                 else:
                                     erreurX = 0
                                     erreurY = 0
 
+                                target_type = "unknown"
+                                for target_representation in self.room_representation.active_Target_list:
+                                    if target_representation.id == target.id:
+                                        target_type = target_representation.type
+
                                 self.memory.add_create_target_estimator(self.room_representation.time, self.id,
                                                                         self.signature, target.id, target.signature,
                                                                         target.xc + erreurX, target.yc + erreurY,
-                                                                        target.radius)
+                                                                        target.radius,target_type)
 
                             except AttributeError:
                                 print("fichier agent caméra ligne 134: oupsi un problème")
@@ -171,10 +176,18 @@ class AgentCam(AgentInteractingWithRoom):
                         - detection from target leaving the field of the camera
                 ---------------------------------------------------------------------------------------------
             """
-            "Check if the target is moving,stopped or changing from one to the other state"
-            (is_moving, is_stopped) = self.behaviour_analyser.detect_target_motion(target.id, 4, 3, 3)
-            "Check if the target is leaving the cam angle_of_view"
-            (is_in, is_out) = self.behaviour_analyser.is_target_leaving_cam_field(self.camera, target.id, 0, 3)
+            if not target.type == "set_fix":
+                "Check if the target is moving,stopped or changing from one to the other state"
+                (is_moving, is_stopped) = self.behaviour_analyser.detect_target_motion(target.id, 4, 3, 3)
+                "Check if the target is leaving the cam angle_of_view"
+                (is_in, is_out) = self.behaviour_analyser.is_target_leaving_cam_field(self.camera, target.id, 0, 3)
+
+                if is_moving:
+                    target.type = "moving"
+                elif is_stopped:
+                    target.type = "fix"
+                else:
+                    target.type = "unknown"
 
             """
                 ----------------------------------------------------------------------------------------------
@@ -212,8 +225,6 @@ class AgentCam(AgentInteractingWithRoom):
                     thresh_time_to_send = 10
                     if self.room_representation.time - last_memory.time_stamp <= thresh_time_to_send:
                         self.send_message_targetEstimator(last_memory, receivers)
-
-
 
 
     def makePredictionsOld(self, method, targetIdList):

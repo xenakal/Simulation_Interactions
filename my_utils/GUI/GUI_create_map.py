@@ -38,8 +38,8 @@ class GUI_create_map:
 
         self.button_create_map_trajectoire_name = ["Add_point", "Remove_point",  "Clean","Save_traj","Show_traj"]
         self.button_trajectoire_plus_moins_name = [" +", " -","del"]
-        self.button_create_map_1_name = ["Agent", "Camera","Trajectory","Clean","Save_map","Load_map"]
-        self.button_create_map_2_name = ["Target", "Obstruction", "Fix"]
+        self.button_create_map_1_name = ["Object", "Camera","Trajectory","Clean","Save_map","Load_map"]
+        self.button_create_map_2_name = ["Unkown","Fix"]
         self.button_target_scale_plus_moins_name = ["step +", "step -"]
         self.button_target_vx_plus_moins_name = ["vx +", "vx -"]
         self.button_target_vy_plus_moins_name = ["vy +", "vy -"]
@@ -68,15 +68,15 @@ class GUI_create_map:
 
         self.button_create_map_2.find_button(self.button_create_map_2_name[0]).set_button(True)
 
-        self.vx_default = 5
-        self.vy_default = 5
+        self.vx_default = 1
+        self.vy_default = 1
         self.size_default = 5
         self.traj_default = 0
         self.target_scale = 1
 
         self.alpha_default = 0
         self.beta_default = 60
-        self.camera_scale = 10
+        self.camera_scale = 15
 
         self.traj_to_show_default =  0
 
@@ -160,8 +160,8 @@ class GUI_create_map:
                 self.button_target_traj_plus_moins.find_button(self.button_target_traj_plus_moins_name[0]).set_button(False)
             elif self.button_target_traj_plus_moins.find_button_state(self.button_target_traj_plus_moins_name[1]):
                 self.traj_default = self.traj_default - self.target_scale
-                if self.traj_default < 1 :
-                    self.traj_default = 1
+                if self.traj_default < 0 :
+                    self.traj_default = 0
                 self.button_target_traj_plus_moins.find_button(self.button_target_traj_plus_moins_name[1]).set_button(False)
 
             label = self.font.render(str(self.target_scale), 10, WHITE)
@@ -177,11 +177,9 @@ class GUI_create_map:
 
             label = None
             if self.button_create_map_2.find_button_state(self.button_create_map_2_name[0]):
-                label = 'target'
+                label = 'unknown'
             elif self.button_create_map_2.find_button_state(self.button_create_map_2_name[1]):
-                label = 'obstruction'
-            elif self.button_create_map_2.find_button_state(self.button_create_map_2_name[2]):
-                label = 'fix'
+                label = 'set_fix'
 
             if on:
                 target = Target(-1,x_new, y_new, self.vx_default, self.vy_default, 'linear', (0,[(0,0)]), label, self.size_default, [0], [1000])
@@ -276,7 +274,7 @@ class GUI_create_map:
                     self.button_trajectoire_plus_moins.find_button(self.button_trajectoire_plus_moins_name[0]).set_button(False)
                 elif self.button_trajectoire_plus_moins.find_button_state(self.button_trajectoire_plus_moins_name[1]):
                     self.traj_to_show_default = self.traj_to_show_default - 1
-                    if self.traj_to_show_default < 0:
+                    if self.traj_to_show_default <= 0:
                         self.traj_to_show_default = 0
                     self.button_trajectoire_plus_moins.find_button(
                         self.button_trajectoire_plus_moins_name[1]).set_button(False)

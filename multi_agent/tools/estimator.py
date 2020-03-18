@@ -51,6 +51,7 @@ class TargetEstimator:
                   6. (int) target_xc            -- x value of the center of the targetRepresentation
                   7. (int) target_yc            -- y value of the center of the targetRepresentation
                   8. (int) target_size          -- radius from the center
+                  9. (int) target_position      -- [x,y] values of the center of the targetRepresentation
 
                :attibutes
                   1. (int) time_stamp           -- time to which the estimator is created
@@ -59,7 +60,7 @@ class TargetEstimator:
                   4. (int) target_id            -- numerical value to identify the target
                   5. (int) target_id            -- numerical value to identify the target
                   6. (int) target_position      -- [x,y] values of the center of the targetRepresentation
-                  7. (int) target_label         -- identification from the Target.type
+                  7. (int) target_type          -- identification from the Target.type
                   8. (int) target_size          -- radius from the center
 
                :notes
@@ -67,8 +68,7 @@ class TargetEstimator:
     """
 
     def __init__(self, time_stamp, agent_id, agent_signature, target_id, target_signature, target_xc, target_yc,
-                 target_radius):
-
+                 target_radius, target_type="unknown"):
         "Time information"
         self.time_stamp = time_stamp
 
@@ -80,7 +80,7 @@ class TargetEstimator:
 
         "Target information"
         self.target_position = [target_xc, target_yc]
-        self.target_label = "target"
+        self.target_type = target_type
         self.target_radius = target_radius
 
     def to_string(self):
@@ -92,7 +92,7 @@ class TargetEstimator:
         s1 = "#Timestamp #" + str(self.time_stamp) + "\n"
         s2 = "#From #" + str(self.agent_id) + "#Sig_agent#" + str(self.agent_signature) + "\n"
         s3 = "#Target_ID #" + str(self.target_id) + "#Sig_target#" + str(self.target_signature) + "\n"
-        s4 = "#Target_label #" + str(self.target_label) + "x: " + str(self.target_position[0]) + " y: " + str(
+        s4 = "#Target_type #" + str(self.target_type) + "x: " + str(self.target_position[0]) + " y: " + str(
             self.target_position[1]) + "\n"
         s5 = "#Radius: " + str(self.target_radius) + "\n"
         return str("\n" + s1 + s2 + s3 + s4 + s5 + "\n")
@@ -110,14 +110,14 @@ class TargetEstimator:
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
-        attribute = re.split("#Timestamp#|#From#|#Sig_agent#|#Target_ID#|#Sig_target#|#Target_label#|x:|y:|#Radius:", s)
+        attribute = re.split("#Timestamp#|#From#|#Sig_agent#|#Target_ID#|#Sig_target#|#Target_type#|x:|y:|#Radius:", s)
 
         self.time_stamp = int(attribute[1])
         self.agent_id = int(attribute[2])
         self.agent_signature = int(attribute[3])
         self.target_id = int(attribute[4])
         self.target_signature = int(attribute[5])
-        self.target_label = attribute[6]
+        self.target_type = attribute[6]
         self.target_position = [float(attribute[7]), float(attribute[8])]
         self.target_radius = int(attribute[9])
 
@@ -182,7 +182,7 @@ class Agent_Target_TargetEstimator:
             self.Agent_Target_TargetEstimator_list.append([agent_id, target_id, []])
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
-                                    target_xc, target_yc, target_size):
+                                    target_xc, target_yc, target_size, target_type):
         """
             :description
                 Creates an estimator and adds it to the list if doesn't exist yet.
@@ -203,7 +203,7 @@ class Agent_Target_TargetEstimator:
         """
 
         new_targetEstimator = TargetEstimator(time_from_estimation, agent_id, agent_signature, target_id,
-                                              target_signature, target_xc, target_yc, target_size)
+                                              target_signature, target_xc, target_yc, target_size, target_type)
         self.add_target_estimator(new_targetEstimator)
 
     def add_target_estimator(self, targetEstimator_to_add):

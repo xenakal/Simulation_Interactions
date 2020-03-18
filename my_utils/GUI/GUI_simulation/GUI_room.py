@@ -1,5 +1,6 @@
 import pygame
 import math
+import random
 from my_utils.GUI.GUI import *
 
 WHITE = (255, 255, 255)
@@ -12,9 +13,10 @@ YELLOW = (255, 255, 0)
 CAMERA = (200, 0, 0)
 PREDICTION = (100, 100, 100)
 
-FIX = (200, 120, 0)
-TARGET = (0, 250, 0)
-OBSTRUCTION = (0, 50, 0)
+SET_FIX = (0, 100, 200)
+MOVING = (0, 250, 0)
+FIX = (250, 0, 0)
+UNKNOWN = (250,150,0)
 
 
 class GUI_room:
@@ -46,12 +48,18 @@ class GUI_room:
 
     def draw_one_target(self,target,tab):
         color = RED
-        if target.type == "fix":
+        if target.type == "set_fix":
+            color = SET_FIX
+        elif target.type == "fix":
             color = FIX
-        elif target.type == "target":
-            color = TARGET
-        elif target.type == "obstruction":
-            color = OBSTRUCTION
+        elif target.type == "moving":
+            color = MOVING
+        elif target.type == "unknown":
+            color = UNKNOWN
+            #r = random.randrange(20, 230, 1)
+            #g = random.randrange(20, 230, 1)
+            #b = random.randrange(20, 255, 1)
+            #color = (r, g, b)
 
         # so that it is only target.yc drawn in the square
         if (tab[0] <= target.xc + target.radius <= tab[0] + tab[

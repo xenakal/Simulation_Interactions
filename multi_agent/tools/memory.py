@@ -32,13 +32,13 @@ class Memory:
         self.predictors = []
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
-                                    target_xc, target_yc, target_size):
+                                    target_xc, target_yc, target_size,target_type):
         """
         Creates an estimator if it doesn't exist and adds it to the memory_all_agent list
         """
 
         self.memory_all_agent.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
-                                                          target_signature, target_xc, target_yc, target_size)
+                                                          target_signature, target_xc, target_yc, target_size,target_type)
 
         # TODO: voir un peu ce qu'on fait avec les messages: là on a un memory_all_agent qui est censé tout stocker,
         #  mais en réalité on a pas de messages echangés. Y réfléchir :)

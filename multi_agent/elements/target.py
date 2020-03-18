@@ -17,8 +17,8 @@ class TargetRepresentation:
                         3. (int) xc                   -- x value of the center of the targetRepresentation
                         4. (int) yc                   -- y value of the center of the targetRepresentation
                         5. (int) size                 -- radius from the center
-                        6. (string) type              -- "fix","target", to make the difference between
-                                                          known and unkown target
+                        6. (string) type              -- "set_fix","fix","target","unkown", to make the difference
+                                                          between known and unkown target
                         7. ((int),(int),(int)) color  -- color to represent the target on the map,
                                                          if = 0 than random color selected
 
@@ -28,7 +28,7 @@ class TargetRepresentation:
                         3. (int) yc                   -- center of the targetRepresentation
                         4. (int) size                 -- radius from the center
                         5. (string) type              -- "set_fix","fix","moving","unknown",
-                                                         to make the difference between known and unkown target
+                                                         to make the difference between known and unknown target
                         6. ((int),(int),(int)) color  -- color to represent the target on the map, if = 0 than random
                                                          color selected
 
@@ -93,8 +93,8 @@ class Target(TargetRepresentation):
                         4. (int) vx                                   -- x speeds
                         5. (int) vy                                   -- y speeds
                         6. (int) size                                 -- radius from the center
-                        7. (string) type                              -- "fix","target", to make the difference between
-                                                                        known and unkown target
+                        7. (string) type                              -- "set_fix","fix","target","unknown", to make
+                                                                          the difference between known and unkown target
                         8. ([(int,int),...]) trajectory_position      -- list [(x,y),...] from all the via point
                                                                          that the target should reach
                         9. (string) trajectory_type                   -- "fix","linear" choice for the target's way
@@ -148,11 +148,11 @@ class Target(TargetRepresentation):
         self.number_of_position_reached = 0
 
         "Default values"
-        if type == 'fix':
+        if type == "set_fix":
             self.vx = 0
             self.vy = 0
-            self.vx_max = vx
-            self.vy_max = vy
+            self.vx_max = self.vx
+            self.vy_max = self.vy
 
         if t_add == -1:
             self.t_add = [0]
