@@ -42,9 +42,11 @@ class Camera:
                                                                   in 1D
 
                     :notes
-                        !! use the run() or method take_picture() to fill 11,12,13
+                        1. ! use the run() or method take_picture() to fill 11,12,13
+                        2. For every function using a radius, radius >= 0
+                        3. Camera is considered as active when the function run fills the vector 12.
 
-                        Camera is considered as active when the function run fills the vector 12.
+
     """
 
     def __init__(self, room, id, xc, yc, alpha, beta, is_fix=1, color=0):
@@ -223,6 +225,7 @@ class Camera:
         """Projection of the limit on the projection plane"""
         camera_limit_up_on_projection_line = limit_up_camera.lineIntersection(projection_line)[1]
         camera_limit_down_on_projection_line = limit_down_camera.lineIntersection(projection_line)[1]
+
         """Same but for every target now"""
         for element in targetCameraDistance_list:
             target = element.target
