@@ -399,7 +399,7 @@ class Camera:
         """
 
         for target in self.room.information_simulation.Target_list:
-            if target.label == "fix":
+            if target.label == "set_fix":
                 xt = target.xc
                 yt = target.yc
                 radius = target.radius
@@ -423,7 +423,7 @@ class Camera:
         """
 
         for target in self.room.active_Target_list:
-            if target.type == "target" or target.type == "obstruction":
+            if target.type == "moving" or target.type == "fix" or target.type == "unknown":
                 xt = target.xc
                 yt = target.yc
                 radius = target.radius
@@ -547,7 +547,7 @@ class Camera:
                 1. (np.array)         -- 0 if (x,y) is between hidden, else 1
         """
         for target in self.room.information_simulation.Target_list:
-            if target.type == "fix":
+            if target.type == "set_fix":
                 xt = target.xc
                 yt = target.yc
                 radius = target.radius
@@ -569,7 +569,7 @@ class Camera:
                 1. (np.array)         -- 0 if (x,y) is between hidden, else 1
         """
         for target in self.room.active_Target_list:
-            if target.type == "target" or target.type == "obstruction":
+            if target.type == "moving" or target.type == "fix" or target.type == "unknown":
                 xt = target.xc
                 yt = target.yc
                 radius = target.radius
