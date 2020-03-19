@@ -105,7 +105,7 @@ class TargetBehaviourAnalyser:
                     False     | True        -> Target is stopped
                     True      | True        -> Target is both, so changed state in the deltaT time
 
-                 if the two args are false, then there is not enough mesures to test.py the data
+                 if the two args are false, then there is not enough mesures to to_csv.py the data
 
             :note
                 1.(boolean list) state -- True if the target is stopped for the time t - deltaT(i)

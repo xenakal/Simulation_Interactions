@@ -1,5 +1,6 @@
 
 '''Option for class main'''
+SAVE_DATA = True
 USE_GUI = 1
 USE_agent = 1
 USE_static_analysis = 1

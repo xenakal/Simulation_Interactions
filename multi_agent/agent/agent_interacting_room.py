@@ -1,15 +1,10 @@
 import threading
-import mailbox
-import logging
-from multi_agent.elements.target import *
+from my_utils.to_csv import*
 # from elements.room import*
 import multi_agent.elements.room
 from multi_agent.agent.agent import *
 from multi_agent.tools.memory import *
 from multi_agent.communication.message import *
-from multi_agent.prediction.kalmanPredictionOld import *
-from multi_agent.tools.behaviour_detection import *
-from multi_agent.tools.link_target_camera import *
 import constants
 
 
@@ -106,6 +101,11 @@ class AgentInteractingWithRoom(Agent):
             :description
                 1. Function to call to stop the agent
         """
+        "Save data"
+        if constants.SAVE_DATA:
+            save_in_csv_file("data_saved/memory_all_agent/agent"+str(self.id),self.memory.memory_all_agent.to_csv())
+            save_in_csv_file("data_saved/memory_agent/agent" + str(self.id), self.memory.memory_agent.to_csv())
+        "Clear"
         self.thread_is_running = 0
         while self.main_thread.is_alive():
             pass

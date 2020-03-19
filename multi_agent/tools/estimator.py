@@ -47,7 +47,7 @@ class TargetEstimator:
                   2. (int) agent_id             -- numerical value to identify the agent
                   3. (int) agent_signature      -- numerical value to identify the agent
                   4. (int) target_id            -- numerical value to identify the target
-                  5. (int) target_id            -- numerical value to identify the target
+                  5. (int) target_signature     -- numerical value to identify the target
                   6. (int) target_xc            -- x value of the center of the targetRepresentation
                   7. (int) target_yc            -- y value of the center of the targetRepresentation
                   8. (int) target_size          -- radius from the center
@@ -58,7 +58,7 @@ class TargetEstimator:
                   2. (int) agent_id             -- numerical value to identify the agent
                   3. (int) agent_signature      -- numerical value to identify the agent
                   4. (int) target_id            -- numerical value to identify the target
-                  5. (int) target_id            -- numerical value to identify the target
+                  5. (int) target_signature     -- numerical value to identify the target
                   6. (int) target_position      -- [x,y] values of the center of the targetRepresentation
                   7. (int) target_type          -- identification from the Target.type
                   8. (int) target_size          -- radius from the center
@@ -96,6 +96,17 @@ class TargetEstimator:
             self.target_position[1]) + "\n"
         s5 = "#Radius: " + str(self.target_radius) + "\n"
         return str("\n" + s1 + s2 + s3 + s4 + s5 + "\n")
+
+    def to_csv(self):
+        """
+            :return / modify vector
+                1. easy representation to save data in cvs file
+        """
+        csv_format = {'time_stamp': str(self.time_stamp), 'agent_id': self.agent_id,'agent_signature': self.agent_signature,
+               'target_id': self.target_id,'target_signature': self.target_signature,'target_type': self.target_type,
+               'target_x':self.target_position[0],'target_y':self.target_position[1],'target_radius':self.target_radius}
+        return csv_format
+
 
     def parse_string(self, s):
         """
@@ -336,6 +347,18 @@ class Agent_Target_TargetEstimator:
                 s = s + estimator.to_string()
         return s
 
+    def to_csv(self):
+
+        csv_fieldnames = ['time_stamp', 'agent_id','agent_signature','target_id','target_signature','target_type',
+               'target_x','target_y','target_radius']
+
+        data_to_save = []
+        for combination_agent_target in self.Agent_Target_TargetEstimator_list:
+            for targetEstimator in combination_agent_target[2]:
+                data_to_save.append(targetEstimator.to_csv())
+
+        return [csv_fieldnames,data_to_save]
+
     def statistic_to_string(self):
         """
             :return / modify vector
@@ -457,3 +480,15 @@ class Target_TargetEstimator:
             if element[0] == target_id:
                 return len(element[1])
         return -1
+
+    def to_csv(self):
+
+        csv_fieldnames = ['time_stamp', 'agent_id','agent_signature','target_id','target_signature','target_type',
+               'target_x','target_y','target_radius']
+
+        data_to_save = []
+        for combination_agent_target in self.Target_TargetEstimator_list:
+            for targetEstimator in combination_agent_target[1]:
+                data_to_save.append(targetEstimator.to_csv())
+
+        return [csv_fieldnames,data_to_save]
