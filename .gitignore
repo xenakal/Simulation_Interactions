@@ -2,7 +2,7 @@
 
 /mailbox/*
 log
-
+data_saved
 multi_agent/elements/__pycache__/*
 utils/__pycache__/*
 utils/GUI/GUI_simulation/__pycache__/*
