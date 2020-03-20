@@ -46,7 +46,7 @@ class AgentCam(AgentInteractingWithRoom):
                                                                    object in the room
                14. (TargetBehaviourAnalyser) behaviour_analyser -- TargetBehaviourAnalyser object,
                                                                     to detect some feature from the target
-                15 (LinkTargetCamera) link_target_agent         -- LinkTargetCamera object, to tell the agent
+               15 (LinkTargetCamera) link_target_agent         -- LinkTargetCamera object, to tell the agent
                                                                    wich target to track taking into account the
                                                                    geometry from the room and the position of targets
             :notes

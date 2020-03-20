@@ -2,6 +2,7 @@ import numpy as np
 import random
 import math
 import re
+import constants
 from my_utils.line import *
 
 
@@ -348,9 +349,12 @@ class Agent_Target_TargetEstimator:
         return s
 
     def to_csv(self):
+        """
+             :description
+                fill a table with all the memory.to_csv
 
-        csv_fieldnames = ['time_stamp', 'agent_id','agent_signature','target_id','target_signature','target_type',
-               'target_x','target_y','target_radius']
+         """
+        csv_fieldnames = constants.TARGET_ESTIMATOR_CSV_FIELDNAMES
 
         data_to_save = []
         for combination_agent_target in self.Agent_Target_TargetEstimator_list:
@@ -483,9 +487,7 @@ class Target_TargetEstimator:
 
     def to_csv(self):
 
-        csv_fieldnames = ['time_stamp', 'agent_id','agent_signature','target_id','target_signature','target_type',
-               'target_x','target_y','target_radius']
-
+        csv_fieldnames = constants.TARGET_ESTIMATOR_CSV_FIELDNAMES
         data_to_save = []
         for combination_agent_target in self.Target_TargetEstimator_list:
             for targetEstimator in combination_agent_target[1]:

@@ -103,8 +103,8 @@ class AgentInteractingWithRoom(Agent):
         """
         "Save data"
         if constants.SAVE_DATA:
-            save_in_csv_file("data_saved/memory_all_agent/agent"+str(self.id),self.memory.memory_all_agent.to_csv())
-            save_in_csv_file("data_saved/memory_agent/agent" + str(self.id), self.memory.memory_agent.to_csv())
+            save_in_csv_file_dictionnary("data_saved/memory_all_agent/agent"+str(self.id),self.memory.memory_all_agent.to_csv())
+            save_in_csv_file_dictionnary("data_saved/memory_agent/agent" + str(self.id), self.memory.memory_agent.to_csv())
         "Clear"
         self.thread_is_running = 0
         while self.main_thread.is_alive():
