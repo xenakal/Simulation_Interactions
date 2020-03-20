@@ -8,6 +8,7 @@ utils/__pycache__/*
 utils/GUI/GUI_simulation/__pycache__/*
 __pycache__/*
 multi_agent/__pycache__/*
-
+__init__
+*/__init__
 
 
