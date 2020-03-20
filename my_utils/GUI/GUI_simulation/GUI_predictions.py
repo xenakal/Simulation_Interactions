@@ -1,5 +1,5 @@
 import pygame
-import main
+from multi_agent.agent.agent import AgentType
 
 
 class GUI_predictions:
@@ -22,7 +22,7 @@ class GUI_predictions:
         self.scaleY = scaleY
 
     def drawPredictions(self, myRoom):
-        for agent in myRoom.get_multiple_Agent_with_id(self.agentsToDisplay, "agentCam"):  # for each agent
+        for agent in myRoom.get_multiple_Agent_with_id(self.agentsToDisplay, AgentType.AGENT_CAM):  # for each agent
             predictions = agent.makePredictionsOld(self.method, self.targetsToDisplay)
 
             for prediction in predictions:

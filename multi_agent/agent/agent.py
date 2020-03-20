@@ -4,6 +4,11 @@ from multi_agent.communication.message import *
 import constants
 import io
 
+
+class AgentType:
+    AGENT_CAM = 0
+    AGENT_USER = 100
+
 class Agent:
     """
         Class Agent.
@@ -12,13 +17,13 @@ class Agent:
 
             :param
                 1. (int) id                              -- numerical value to recognize the Agent
-                2. (string) type                         -- "AgentCam","AgentUsesr" to distinguish the different agent
+                2. (AgentType) type                      -- to distinguish the different agent
                 3. ((int),(int),(int)) color             -- color representation for the GUI
 
             :attibutes
                 1. (int) id                              -- numerical value to recognize the Agent
                 2. (int) signature                       -- numerical value to identify the Agent, random value
-                3. (string) type                         -- "AgentCam","AgentUsesr" to distinguish the different agent
+                3. (AgentType) type                      -- to distinguish the different agent
                 4. ((int),(int),(int)) color             -- color representation for the GUI
                 5. (ListMessage) info_message_sent       -- list containing all the messages sent
                 6. (ListMessage) info_message_received   -- list containing all the messages received
@@ -33,7 +38,7 @@ class Agent:
         """Initialisation"""
 
         "Attributes"
-        self.id = id
+        self.id = id + type
         self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
         self.type = type
         self.color = color

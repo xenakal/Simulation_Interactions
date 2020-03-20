@@ -2,6 +2,8 @@ import pygame
 import math
 import random
 from my_utils.GUI.GUI import *
+from multi_agent.elements.target import TargetType
+from multi_agent.agent.agent import AgentType
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -13,10 +15,10 @@ YELLOW = (255, 255, 0)
 CAMERA = (200, 0, 0)
 PREDICTION = (100, 100, 100)
 
-SET_FIX = (0, 100, 200)
-MOVING = (0, 250, 0)
-FIX = (250, 0, 0)
-UNKNOWN = (250,150,0)
+SET_FIX_COLOR = (0, 100, 200)
+MOVING_COLOR = (0, 250, 0)
+FIX_COLOR = (250, 0, 0)
+UNKNOWN_COLOR = (250,150,0)
 
 
 class GUI_room:
@@ -47,15 +49,15 @@ class GUI_room:
             self.scale_y * tab[3]))
 
     def draw_one_target(self,target,tab):
-        color = RED
-        if target.type == "set_fix":
-            color = SET_FIX
-        elif target.type == "fix":
-            color = FIX
-        elif target.type == "moving":
-            color = MOVING
-        elif target.type == "unknown":
-            color = UNKNOWN
+        color = WHITE
+        if target.type == TargetType.SET_FIX:
+            color = SET_FIX_COLOR
+        elif target.type == TargetType.FIX:
+            color = FIX_COLOR
+        elif target.type == TargetType.MOVING:
+            color = MOVING_COLOR
+        elif target.type == TargetType.UNKNOWN:
+            color = UNKNOWN_COLOR
             #r = random.randrange(20, 230, 1)
             #g = random.randrange(20, 230, 1)
             #b = random.randrange(20, 255, 1)
@@ -89,9 +91,9 @@ class GUI_room:
     def drawTarget_room_description(self,room,agents_to_display,agentType,allAgents=False):
         agents = []
         if allAgents:
-            if agentType == "agentCam":
+            if agentType == AgentType.AGENT_CAM:
                 agents = room.active_AgentCams_list
-            elif agentType == "agentUser":
+            elif agentType == AgentType.AGENT_USER:
                 agents = room.active_AgentUser_list
         else:
             agents = room.get_multiple_Agent_with_id(agents_to_display, agentType)
@@ -143,9 +145,9 @@ class GUI_room:
         """ Draws the previous positions of the selected targets for the selected agents. """
         agents = []
         if allAgents:
-            if agentType == "agentCam":
+            if agentType == AgentType.AGENT_CAM:
                 agents = room.active_AgentCams_list
-            elif agentType == "agentUser":
+            elif agentType == AgentType.AGENT_USER:
                 agents = room.active_AgentUser_list
         else:
             agents = room.get_multiple_Agent_with_id(agents_to_display, agentType)
@@ -177,9 +179,9 @@ class GUI_room:
     def draw_link_cam_region_room_description(self,room,agents_to_display,agentType,allAgents=False):
         agents = []
         if allAgents:
-            if agentType == "agentCam":
+            if agentType == AgentType.AGENT_CAM:
                 agents = room.active_AgentCams_list
-            elif agentType == "agentUser":
+            elif agentType == AgentType.AGENT_USER:
                 agents = room.active_AgentUser_list
         else:
             agents = room.get_multiple_Agent_with_id(agents_to_display, agentType)

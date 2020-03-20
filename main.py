@@ -3,9 +3,11 @@ import os
 from multi_agent.elements.room import *
 from multi_agent.tools.link_target_camera import *
 from multi_agent.tools.map_region_dyn import *
+from multi_agent.tools.estimator import *
 from my_utils.GUI.GUI import *
 from my_utils.motion import *
 from my_utils.map_from_to_txt import *
+from my_utils.to_csv import *
 from constants import *
 
 def clean_mailbox():
@@ -39,6 +41,7 @@ class App:
         """Loading the map from a txt file, in map folder"""
         self.room_txt = Room_txt()
         self.room_txt.load_room_from_txt(self.filename)
+        self.exact_data_target = Target_TargetEstimator()
         '''Creation from the room with the given description'''
         self.room = self.room_txt.init_room()
         '''Adding one agent user'''
@@ -90,7 +93,10 @@ class App:
             # Object are moving in the room
             for target in self.room.active_Target_list:
                 target.save_position()
+                self.exact_data_target.add_create_target_estimator(self.room.time,-1, -1, target.id, target.signature,
+                                    target.xc, target.yc, target.radius, target.type)
                 move_Target(target, 1, self.room)
+
 
             '''
             RUN_ON_THREAD = 0, sequential approach, every agent are call one after the other
@@ -140,6 +146,9 @@ class App:
 
         # Clean mailbox
         clean_mailbox()
+
+        #save data
+        save_in_csv_file_dictionnary("data_saved/simulated_data",self.exact_data_target.to_csv())
 
 
 def execute():

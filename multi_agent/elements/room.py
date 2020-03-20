@@ -1,4 +1,5 @@
 from multi_agent.elements.camera import *
+from multi_agent.agent.agent import AgentType
 # from multi_agent.agent_camera import *
 # from multi_agent.agent_user import *
 import multi_agent.agent.agent_interacting_room_camera
@@ -159,7 +160,7 @@ class RoomRepresentation:
                 1. (Room) room -- object
         """
         for target in room.information_simulation.Target_list:
-            if target.type == "set_fix":
+            if target.type == TargetType.SET_FIX:
                 self.add_targetRepresentation_from_target(target)
 
         for agent in room.active_AgentCams_list:
@@ -223,16 +224,16 @@ class RoomRepresentation:
         """
             :param
                  1. (list) id_list                  -- list from id we want to get
-                 2. (string) agent_type               -- "agentCam" or "agentUser"
+                 2. (AgentType) agent_type          -- see class
 
             :return
                 1. list of agents with ids in the list provided in the argument
 
         """
 
-        if agent_type == "agentCam":
+        if agent_type == AgentType.AGENT_CAM:
             return [agent for agent in self.active_AgentCams_list if agent.id in id_list]
-        elif agent_type == "agentUser":
+        elif agent_type == AgentType.AGENT_USER:
             return [agent for agent in self.active_AgentUser_list if agent.id in id_list]
 
     def get_multiple_target_with_id(self, id_list):

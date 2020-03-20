@@ -21,15 +21,14 @@ class AgentCam(AgentInteractingWithRoom):
 
             :param
                 1. (int) id                              -- numerical value to recognize the Agent
-                2. (string) type                         -- "AgentCam","AgentUsesr" to distinguish the different agent
+                2. (string) type                         -- to distinguish the different agent
                 3. ((int),(int),(int)) color             -- color representation for the GUI
 
             :attibutes
                 -- IN AgentInteractingWithRoom
                 1. (int) id                                     -- numerical value to recognize the Agent
                 2. (int) signature                              -- numerical value to identify the Agent, random value
-                3. (string) type                                -- "AgentCam","AgentUsesr" to distinguish
-                                                                    the different agent
+                3. (string) type                                -- to distinguish the different agent
                 4. ((int),(int),(int)) color                    -- color representation for the GUI
                 5. (ListMessage) info_message_sent              -- list containing all the messages sent
                 6. (ListMessage) info_message_received          -- list containing all the messages received
@@ -55,7 +54,7 @@ class AgentCam(AgentInteractingWithRoom):
 
     def __init__(self, id, camera):
         self.camera = camera
-        super().__init__(id, "camera", camera.color)
+        super().__init__(id, AgentType.AGENT_CAM, camera.color)
         self.behaviour_analyser = TargetBehaviourAnalyser(self.memory)
         self.link_target_agent = LinkTargetCamera(self.room_representation)
 
@@ -107,14 +106,14 @@ class AgentCam(AgentInteractingWithRoom):
                             try:
                                 target = targetCameraDistance.target
                                 "Simulation from noise on the target's position "
-                                if constants.INCLUDE_ERROR and not (target.type == "set_fix"):
+                                if constants.INCLUDE_ERROR and not (target.type == TargetType.SET_FIX):
                                     erreurX = int(np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1))
                                     erreurY = int(np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1))
                                 else:
                                     erreurX = 0
                                     erreurY = 0
 
-                                target_type = "unknown"
+                                target_type = TargetType.UNKNOWN
                                 for target_representation in self.room_representation.active_Target_list:
                                     if target_representation.id == target.id:
                                         target_type = target_representation.type
@@ -176,18 +175,18 @@ class AgentCam(AgentInteractingWithRoom):
                         - detection from target leaving the field of the camera
                 ---------------------------------------------------------------------------------------------
             """
-            if not target.type == "set_fix":
+            if not target.type == TargetType.SET_FIX:
                 "Check if the target is moving,stopped or changing from one to the other state"
                 (is_moving, is_stopped) = self.behaviour_analyser.detect_target_motion(target.id, 1, 5, constants.STD_MEASURMENT_ERROR+1)
                 "Check if the target is leaving the cam angle_of_view"
                 (is_in, is_out) = self.behaviour_analyser.is_target_leaving_cam_field(self.camera, target.id, 0, 3)
 
                 if is_moving:
-                    target.type = "moving"
+                    target.type = TargetType.MOVING
                 elif is_stopped:
-                    target.type = "fix"
+                    target.type = TargetType.FIX
                 else :
-                    target.type = "unknown"
+                    target.type = TargetType.UNKNOWN
 
             """
                 ----------------------------------------------------------------------------------------------

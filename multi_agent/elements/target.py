@@ -5,6 +5,13 @@ import time
 import random
 
 
+class TargetType:
+    SET_FIX = 0
+    UNKNOWN = 2
+    FIX = 1
+    MOVING = 3
+
+
 class TargetRepresentation:
     """
                 Class TargetRepresentation.
@@ -17,7 +24,7 @@ class TargetRepresentation:
                         3. (int) xc                   -- x value of the center of the targetRepresentation
                         4. (int) yc                   -- y value of the center of the targetRepresentation
                         5. (int) size                 -- radius from the center
-                        6. (string) type              -- "set_fix","fix","target","unkown", to make the difference
+                        6. (TargetType) type          -- see class above, to make the difference
                                                           between known and unkown target
                         7. ((int),(int),(int)) color  -- color to represent the target on the map,
                                                          if = 0 than random color selected
@@ -27,7 +34,7 @@ class TargetRepresentation:
                         2. (int) xc                   -- center of the targetRepresentation
                         3. (int) yc                   -- center of the targetRepresentation
                         4. (int) size                 -- radius from the center
-                        5. (string) type              -- "set_fix","fix","moving","unknown",
+                        5. (TargetType) type              -- TargetType see class,
                                                          to make the difference between known and unknown target
                         6. ((int),(int),(int)) color  -- color to represent the target on the map, if = 0 than random
                                                          color selected
@@ -36,7 +43,7 @@ class TargetRepresentation:
                         fells free to write some comments.
     """
 
-    def __init__(self, id=-1, x=-1, y=-1, radius=5, type='fix', color=0):
+    def __init__(self, id=-1, x=-1, y=-1, radius=5, type=TargetType.UNKNOWN, color=0):
         """Initialisation"""
 
         " Identification name (id) + number "
@@ -93,7 +100,7 @@ class Target(TargetRepresentation):
                         4. (int) vx                                   -- x speeds
                         5. (int) vy                                   -- y speeds
                         6. (int) size                                 -- radius from the center
-                        7. (string) type                              -- "set_fix","fix","target","unknown", to make
+                        7. (TargetType) type                          --  see class above, to make
                                                                           the difference between known and unkown target
                         8. ([(int,int),...]) trajectory_position      -- list [(x,y),...] from all the via point
                                                                          that the target should reach
@@ -148,7 +155,7 @@ class Target(TargetRepresentation):
         self.number_of_position_reached = 0
 
         "Default values"
-        if type == "set_fix":
+        if type == TargetType.SET_FIX:
             self.vx = 0
             self.vy = 0
             self.vx_max = self.vx
@@ -157,7 +164,6 @@ class Target(TargetRepresentation):
         if t_add == -1:
             self.t_add = [0]
             self.t_del = [1000]
-
 
         """
         use to thune the potential field method

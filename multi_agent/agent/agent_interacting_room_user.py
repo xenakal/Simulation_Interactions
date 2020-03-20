@@ -19,15 +19,14 @@ class AgentUser(AgentInteractingWithRoom):
 
             :param
                 1. (int) id                              -- numerical value to recognize the Agent
-                2. (string) type                         -- "AgentCam","AgentUsesr" to distinguish the different agent
+                2. (AgentType) type                      -- to distinguish the different agent
                 3. ((int),(int),(int)) color             -- color representation for the GUI
 
             :attibutes
                 -- IN AgentInteractingWithRoom
                 1. (int) id                                     -- numerical value to recognize the Agent
                 2. (int) signature                              -- numerical value to identify the Agent, random value
-                3. (string) type                                -- "AgentCam","AgentUsesr" to distinguish
-                                                                    the different agent
+                3. (AgentType) type                             -- distinguish the different agent
                 4. ((int),(int),(int)) color                    -- color representation for the GUI
                 5. (ListMessage) info_message_sent              -- list containing all the messages sent
                 6. (ListMessage) info_message_received          -- list containing all the messages received
@@ -44,7 +43,7 @@ class AgentUser(AgentInteractingWithRoom):
     """
 
     def __init__(self, id):
-        super().__init__(100 + id, "user")
+        super().__init__(id, AgentType.AGENT_USER)
 
     def thread_run(self):
         """

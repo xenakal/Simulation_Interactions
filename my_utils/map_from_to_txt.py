@@ -100,7 +100,7 @@ class Room_txt:
                     for elem in linesplit:
                         if not (elem == "\n"):
                             try:
-                                self.data_to_save[count].append(math.ceil(float(elem)))
+                                self.data_to_save[count].append(int(float(elem)))
                             except ValueError:
                                 self.data_to_save[count].append(elem)
                 count = count + 1

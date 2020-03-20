@@ -5,6 +5,7 @@ from my_utils.GUI.GUI_simulation.GUI_agent_target_detected import *
 from my_utils.GUI.GUI_simulation.GUI_predictions import *
 from my_utils.GUI.GUI_simulation.GUI_room import GUI_room
 from my_utils.GUI.GUI_simulation.GUI_agent_region import *
+from multi_agent.agent.agent import AgentType
 
 
 class GUI_user_output:
@@ -25,9 +26,9 @@ class GUI_user_output:
     def run(self, room, link_cam_target):
         self.display_simulation_button()
         self.GUI_room.drawRoom(room.coordinate_room)
-        self.GUI_room.drawTarget_room_description(room, self.GUI_option.agent_to_display, "agentCam")
-        self.GUI_room.drawCam_room_description(room, self.GUI_option.agent_to_display, "agentCam")
-        self.GUI_room.draw_link_cam_region_room_description(room, self.GUI_option.agent_to_display, "agentCam")
+        self.GUI_room.drawTarget_room_description(room, self.GUI_option.agent_to_display, AgentType.AGENT_CAM)
+        self.GUI_room.drawCam_room_description(room, self.GUI_option.agent_to_display, AgentType.AGENT_CAM)
+        self.GUI_room.draw_link_cam_region_room_description(room, self.GUI_option.agent_to_display, AgentType.AGENT_CAM)
 
         if self.button_simulation_1.find_button_state("prediction"):
             self.GUI_pred.drawPredictions(room)

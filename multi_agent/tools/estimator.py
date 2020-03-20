@@ -4,6 +4,7 @@ import math
 import re
 import constants
 from my_utils.line import *
+from multi_agent.elements.target import TargetType
 
 
 def is_corresponding_TargetEstimator(agent_id, target_id, targetEstimator):
@@ -69,7 +70,7 @@ class TargetEstimator:
     """
 
     def __init__(self, time_stamp, agent_id, agent_signature, target_id, target_signature, target_xc, target_yc,
-                 target_radius, target_type="unknown"):
+                 target_radius, target_type=TargetType.UNKNOWN):
         "Time information"
         self.time_stamp = time_stamp
 
@@ -103,7 +104,7 @@ class TargetEstimator:
             :return / modify vector
                 1. easy representation to save data in cvs file
         """
-        csv_format = {'time_stamp': str(self.time_stamp), 'agent_id': self.agent_id,'agent_signature': self.agent_signature,
+        csv_format = {'time_stamp': self.time_stamp, 'agent_id': self.agent_id,'agent_signature': self.agent_signature,
                'target_id': self.target_id,'target_signature': self.target_signature,'target_type': self.target_type,
                'target_x':self.target_position[0],'target_y':self.target_position[1],'target_radius':self.target_radius}
         return csv_format
@@ -129,7 +130,7 @@ class TargetEstimator:
         self.agent_signature = int(attribute[3])
         self.target_id = int(attribute[4])
         self.target_signature = int(attribute[5])
-        self.target_type = attribute[6]
+        self.target_type = int(attribute[6])
         self.target_position = [float(attribute[7]), float(attribute[8])]
         self.target_radius = int(attribute[9])
 
@@ -420,6 +421,31 @@ class Target_TargetEstimator:
         if not target_id in self.Target_already_discovered_list:
             self.Target_already_discovered_list.append(target_id)
             self.Target_TargetEstimator_list.append([target_id, []])
+
+    def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
+                                    target_xc, target_yc, target_size, target_type):
+        """
+            :description
+                Creates an estimator and adds it to the list if doesn't exist yet.
+
+            :param
+                 1. (int) time_stamp           -- time to which the estimator is created
+                 2. (int) agent_id             -- numeric value to identify the agent
+                 3. (int) agent_signature      -- numeric value to identify the agent
+                 4. (int) target_id            -- numeric value to identify the target
+                 5. (int) target_id            -- numeric value to identify the target
+                 6. (int) target_xc            -- x value of the center of the targetRepresentation
+                 7. (int) target_yc            -- y value of the center of the targetRepresentation
+                 8. (int) target_size          -- radius from the center
+
+            :return / modify vector
+                fills the list  Agent_Target_TargetEstimator_list with a new TargetEstimator for the Target and Agent given
+
+        """
+
+        new_targetEstimator = TargetEstimator(time_from_estimation, agent_id, agent_signature, target_id,
+                                              target_signature, target_xc, target_yc, target_size, target_type)
+        self.add_TargetEstimator(new_targetEstimator)
 
     def add_TargetEstimator(self, targetEstimator):
         """

@@ -16,7 +16,7 @@
 *1,5,5,1,1,
 *linear,linear,linear,linear,linear,
 *0,0,0,1,2,
-*unknown,set_fix,set_fix,unknown,unknown,
+*2,0,0,2,2,
 *7,13,17,10,8,
 *[0],[0],[0],[0],[0],
 *[1000],[1000],[1000],[1000],[1000],

@@ -1,6 +1,6 @@
 import pygame
 from my_utils.GUI.GUI import *
-
+from multi_agent.agent.agent import AgentType
 
 class GUI_memories:
 
@@ -22,7 +22,7 @@ class GUI_memories:
         if allAgents:
             agents = room.active_AgentCams_list
         else:
-            agents = room.get_multiple_Agent_with_id(self.agents_to_display, "agentCam")
+            agents = room.get_multiple_Agent_with_id(self.agents_to_display, AgentType.AGENT_CAM)
 
         for agent in agents:
             for targetID in self.targets_to_display:
@@ -34,7 +34,7 @@ class GUI_memories:
 
     def draw_mesure_and_receiveMessages(self, room):
         """ Draws the previous positions of the selected targets for the selected agents. """
-        agents = room.get_multiple_Agent_with_id(self.agents_to_display, "agentCam")
+        agents = room.get_multiple_Agent_with_id(self.agents_to_display, AgentType.AGENT_CAM)
 
         for agent in agents:
             for targetID in self.targets_to_display:
