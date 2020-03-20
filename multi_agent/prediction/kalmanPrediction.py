@@ -9,15 +9,15 @@ MAX_STD_SPEED = 15
 
 class KalmanPrediction:
     """
-    Description: Wrapper class using FilterPy to compute the Kalman predictions from the noisy positions
-                 recorded by the agents.
-                 The class can be used to Smoothen the results or to make Predictions on future positions.
+        :description
+            Wrapper class using FilterPy to compute the Kalman predictions from the noisy positions
+            recorded by the agents.
+            The class can be used to Smoothen the results or to make Predictions on future positions.
 
-        :params
+        :param
             1. (int)   target_id  -- identification number of the target
             2. (float) x_init     -- initial x-axis position of object being tracked
             3. (float) y_init     -- initial y-axis position of object being tracked
-
     """
 
     def __init__(self, target_id, x_init, y_init):
@@ -53,14 +53,16 @@ class KalmanPrediction:
 
     def get_predictions(self):
         """
-        Starting from
-        :return
-        ([x1, y1], [x2, y2], ...)  predictions     -- a list of size NUMBER_PREDICTIONS containing the predicted positions of the target beeing tracked
+        Starting from the current position, make predictions and propagate using the Kalman transition matrix (defined
+        by our model) to make predictions on futur positions.
+        :return: ([x1, y1], [x2, y2], ...)  predictions     -- a list of size NUMBER_PREDICTIONS containing the
+                                                               predicted positions of the target beeing tracked
         """
 
         predictions = []
 
         current_state = self.filter.x
+        print(current_state)
         current_P = self.filter.P
         for _ in range(NUMBER_PREDICTIONS):
             new_state, new_P = predict(current_state, current_P, self.filter.F, self.filter.Q)
@@ -105,7 +107,7 @@ def kfObject(x_init, y_init):
     f.P *= 4.
     f.R = np.eye(2) * STD_MEASURMENT_ERROR**2
     f.B = 0
-    q = Q_discrete_white_noise(dim=2, dt=TIME_PICTURE, var=0.1)  # var => how precise the model is
+    q = Q_discrete_white_noise(dim=2, dt=dt, var=0.001)  # var => how precise the model is
     f.Q = block_diag(q, q)
     return f
 

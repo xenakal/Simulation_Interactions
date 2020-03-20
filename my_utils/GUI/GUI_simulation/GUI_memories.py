@@ -28,17 +28,19 @@ class GUI_memories:
             for targetID in self.targets_to_display:
                 agentMemory = agent.memory
                 for targetEstimator in agentMemory.getPreviousPositions(targetID):
-                    pygame.draw.circle(self.screen, agent.cam.color,
+                    pygame.draw.circle(self.screen, agent.camera.color,
                                        (self.x_offset + int(targetEstimator.target_position[0] * self.scale_x),
                                         self.y_offset + int(targetEstimator.target_position[1] * self.scale_y)), 2)
-                    """
                 predictor = agentMemory.get_target_predictor(targetID)
                 if predictor is not None:
-                    for pos in predictor.batch_filter_debug():
-                        pygame.draw.circle(self.screen, (204, 0, 0),  # red
+                    #for pos in predictor.batch_filter_debug():
+                        #pygame.draw.circle(self.screen, (204, 0, 0),
+                        #                   (self.x_offset + int(pos[0] * self.scale_x),
+                        #                    self.y_offset + int(pos[1] * self.scale_y)), 2)
+                    for pos in predictor.kalman_memory:
+                        pygame.draw.circle(self.screen, (0, 204, 0),
                                            (self.x_offset + int(pos[0] * self.scale_x),
-                                            self.y_offset + int(pos[1] * self.scale_y)), 2)
-                                            """
+                                           self.y_offset + int(pos[1] * self.scale_y)), 2)
 
     def draw_mesure_and_receiveMessages(self, room):
         """ Draws the previous positions of the selected targets for the selected agents. """

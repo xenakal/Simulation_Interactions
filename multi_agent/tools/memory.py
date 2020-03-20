@@ -20,7 +20,7 @@ class Memory:
         (now the agent keep just what he sees ! TO BE MODIFY with a Kalman filet for ex !)
         the prediction should be based on that information
 
-        ([[target.id, KalmanPrediction], ...]) predictors -- KalmanPrediction objects tracking the detected targets
+        ([KalmanPrediction, ...]) predictors -- KalmanPrediction objects tracking the detected targets
     """
 
     def __init__(self, agentID, nTime=20, current_time=0):
@@ -61,7 +61,7 @@ class Memory:
         self.memory_agent.current_time = current_time
 
     def combine_data_agentCam(self, choice=1):
-        if choice == 0:
+        if choice == 1:
             for item in self.memory_all_agent.Agent_Target_already_discovered_list:
                 (agentID, targetID) = item
                 if agentID == self.id:
@@ -70,7 +70,7 @@ class Memory:
                             self.memory_agent.add_TargetEstimator(estimateur)
 
     def combine_data_userCam(self, choice=1):
-        if choice == 0:
+        if choice == 1:
             for item in self.memory_all_agent.Agent_Target_already_discovered_list:
                 (agentID, targetID) = item
                 for estimateur in self.memory_all_agent.get_Agent_Target_list(targetID, agentID):
@@ -93,13 +93,17 @@ class Memory:
         return self.memory_all_agent.statistic_to_string()
 
     def get_predictions(self, seeked_target_id):
-        """ :return the predicted positions for targetId """
-        for predictor in self.predictors:
-            if predictor.target_id == seeked_target_id:
-                return predictor.get_predictions()
-        return None
+        """
+        :return: a list [[targetId, [predicted_position1, ...]], ...]
+        """
+        predictions = []
+        for target_id in seeked_target_id:
+            target_prediction = self.get_target_predictions(target_id)
+            if target_prediction is not None:
+                predictions.append([target_id, target_prediction])
+        return predictions
 
-    def get_target_prediction(self, seeked_target_id):
+    def get_target_predictions(self, seeked_target_id):
         """ :return the predicted positions for targetId """
         for predictor in self.predictors:
             if predictor.target_id == seeked_target_id:

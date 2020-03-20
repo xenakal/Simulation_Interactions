@@ -1,5 +1,5 @@
 
-'''Option for class main'''
+"""Option for class main"""
 SAVE_DATA = True
 USE_GUI = 1
 USE_agent = 1
@@ -20,7 +20,7 @@ STD_RECEIVED = 0
 SEUIL_RECEIVED = 10
 
 """Option for class agentCamera"""
-TIME_PICTURE = .2
+TIME_PICTURE = .5
 TIME_SEND_READ_MESSAGE = .1
 RUN_ON_A_THREAD = 1
 DATA_TO_SEND = "behaviour"
@@ -30,8 +30,8 @@ INCLUDE_ERROR = True
 STD_MEASURMENT_ERROR = 2
 
 """Option for class predication"""
-NUMBER_PREDICTIONS = 5
-PREVIOUS_POSITIONS_USED = 7  # number of previous positions used to make the prediction of the next positions
+NUMBER_PREDICTIONS = 6
+PREVIOUS_POSITIONS_USED = 10  # number of previous positions used to make the prediction of the next positions
 
 """Option for class map"""
 PATH_TO_SAVE_MAP = "map/"

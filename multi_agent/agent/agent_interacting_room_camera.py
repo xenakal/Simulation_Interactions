@@ -59,7 +59,6 @@ class AgentCam(AgentInteractingWithRoom):
         self.behaviour_analyser = TargetBehaviourAnalyser(self.memory)
         self.link_target_agent = LinkTargetCamera(self.room_representation)
 
-
     def init_and_set_room_description(self, room):
         """
             :description
@@ -226,6 +225,11 @@ class AgentCam(AgentInteractingWithRoom):
                     if self.room_representation.time - last_memory.time_stamp <= thresh_time_to_send:
                         self.send_message_targetEstimator(last_memory, receivers)
 
+    def get_predictions(self, target_id_list):
+        """
+        :return: a list [[targetId, [predicted_position1, ...]], ...]
+        """
+        return self.memory.get_predictions(target_id_list)
 
     def makePredictionsOld(self, method, targetIdList):
         """
