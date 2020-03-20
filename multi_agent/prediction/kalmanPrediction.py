@@ -1,53 +1,112 @@
-from constants import NUMBER_PREDICTIONS, TIME_PICTURE, STD_MEASURMENT_ERROR
-from filterpy.kalman import KalmanFilter
+from constants import NUMBER_PREDICTIONS, TIME_PICTURE, STD_MEASURMENT_ERROR, TIME_SEND_READ_MESSAGE
+from filterpy.kalman import KalmanFilter, update, predict
 from filterpy.common import Q_discrete_white_noise
 from scipy.linalg import block_diag
 import numpy as np
 
+MAX_STD_SPEED = 15
+
 
 class KalmanPrediction:
     """
-    Wrapper class using FilterPy to compute the Kalman predictions from the noisy positions
-    recorded by the agents.
-    The class can be used to Smoothen the results or to make Predictions on future positions.
+    Description: Wrapper class using FilterPy to compute the Kalman predictions from the noisy positions
+                 recorded by the agents.
+                 The class can be used to Smoothen the results or to make Predictions on future positions.
+
+        :params
+            1. (int)   target_id  -- identification number of the target
+            2. (float) x_init     -- initial x-axis position of object being tracked
+            3. (float) y_init     -- initial y-axis position of object being tracked
+
     """
 
-    def __init__(self):
+    def __init__(self, target_id, x_init, y_init):
         # Kalman Filter object
-        self.filter = kfObject()
-        self.filter.predict()
+        self.filter = kfObject(x_init, y_init)
+        self.target_id = target_id
+        self.kalman_memory = []
+
+    def batch_filter_debug(self):
+        debug_tracker = kfObject(self.kalman_memory[0][0], self.kalman_memory[0][1])
+        means, stds, _, _ = debug_tracker.batch_filter(self.kalman_memory)
+        return debug_tracker.rts_smoother(means, stds)[0]
 
     def add_measurement(self, z):
-        self.filter.update(z)
+        self.kalman_memory.append(z)
         self.filter.predict()
+        self.filter.update(np.array(z))
+
+        if self.pivot_point_detected():
+            self.filter = kfObject(z[0], z[1])
+            self.kalman_memory = [z]
+
+    def pivot_point_detected(self):
+        if len(self.kalman_memory) < 10:
+            return False
+
+        x = [_[0] for _ in self.kalman_memory]
+        y = [_[1] for _ in self.kalman_memory]
+        x_std = np.std(x)
+        y_std = np.std(y)
+
+        return x_std > MAX_STD_SPEED or y_std > MAX_STD_SPEED
 
     def get_predictions(self):
-        for _ in NUMBER_PREDICTIONS:
-            pass
+        """
+        Starting from
+        :return
+        ([x1, y1], [x2, y2], ...)  predictions     -- a list of size NUMBER_PREDICTIONS containing the predicted positions of the target beeing tracked
+        """
+
+        predictions = []
+
+        current_state = self.filter.x
+        current_P = self.filter.P
+        for _ in range(NUMBER_PREDICTIONS):
+            new_state, new_P = predict(current_state, current_P, self.filter.F, self.filter.Q)
+            predictions.append(new_state[0:2])
+            current_state, current_P = update(current_state, current_P, new_state[0:2], self.filter.R, self.filter.H)
+
+        return predictions
+
+    def get_current_position(self):
+        return self.filter.x
+
+    def reset_filter(self, x_init, y_init):
+        self.filter = kfObject(x_init, y_init)
 
 
-def kfObject():
-    """ Returns a KalmanFilter object with the model corresponding to our problem. """
+def kfObject(x_init, y_init):
+    """
+    :description
+        Returns a KalmanFilter object with the model corresponding to our problem.
+    :param
+        1. (int) x_init     -- initial x coordinate of tracked object
+        2. (int) y_init     -- initial y coordinate of tracked object
+
+    :return
+        The Kalman Filter object (from pyKalman library) with the model corresponding to our scenario.
+    """
 
     f = KalmanFilter(dim_x=4,
                      dim_z=2)  # as we have a 4d state space and measurements on only the positions (x,y)
     # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
-    x_init = 0
-    y_init = 0
     vx_init = 0
     vy_init = 0
+    dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
     f.x = np.array([x_init, y_init, vx_init, vy_init])
-    f.F = np.array([[1., 0., TIME_PICTURE, 0.],
-                    [0., 1., 0., TIME_PICTURE],
+    f.F = np.array([[1., 0., dt, 0.],
+                    [0., 1., 0., dt],
                     [0., 0., 1., 0.],
                     [0., 0., 0., 1.]])
     f.u = 0
     f.H = np.array([[1., 0., 0., 0.],
                     [0., 1., 0., 0.]])
     f.P *= 4.
-    f.R = np.eye(10) * STD_MEASURMENT_ERROR ** 2
+    f.R = np.eye(2) * STD_MEASURMENT_ERROR**2
     f.B = 0
-    q = Q_discrete_white_noise(dim=2, dt=TIME_PICTURE, var=0.01)  # var => how precise the model is
+    q = Q_discrete_white_noise(dim=2, dt=TIME_PICTURE, var=0.1)  # var => how precise the model is
     f.Q = block_diag(q, q)
     return f
+
 

@@ -36,21 +36,20 @@ class Memory:
         """
         Creates an estimator if it doesn't exist and adds it to the memory_all_agent list
         """
-
         self.memory_all_agent.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
-                                                          target_signature, target_xc, target_yc, target_size,target_type)
-
-        # TODO: voir un peu ce qu'on fait avec les messages: là on a un memory_all_agent qui est censé tout stocker,
-        #  mais en réalité on a pas de messages echangés. Y réfléchir :)
-
-        #  Create predictor if doesn't exist yet
-        if target_id == self.id and not self.exists_predictor_for_target(target_id):
-            self.create_predictor_for_target(target_id)
-
-        # Incorporate new data in corresponding predictor
-        if target_id == self.id:
-            target_predictor = self.get_predictor_of_target(target_id)
-            #target_predictor.add_measurement([target_xc, target_yc])
+                                                          target_signature, target_xc, target_yc, target_size)
+        if not self.exists_predictor_for_target(target_id):
+            # add predictor if doesn't exist yet
+            self.create_predictor_for_target(target_id, target_xc, target_yc)
+        else:
+            # inform predictor of new measurement
+            target_predictor = self.get_target_predictor(target_id)
+            state = [target_xc, target_yc]
+            target_predictor.add_measurement(state)
+            # update current position list
+            new_position_estimation = target_predictor.get_current_position()
+            self.update_memory_agent(time_from_estimation, agent_id, agent_signature, target_id, target_signature,
+                                     new_position_estimation[0], new_position_estimation[1], target_size)
 
     def add_target_estimator(self, estimator):
         self.memory_all_agent.add_target_estimator(estimator)
@@ -61,7 +60,7 @@ class Memory:
         self.memory_agent.current_time = current_time
 
     def combine_data_agentCam(self, choice=1):
-        if choice == 1:
+        if choice == 0:
             for item in self.memory_all_agent.Agent_Target_already_discovered_list:
                 (agentID, targetID) = item
                 if agentID == self.id:
@@ -70,7 +69,7 @@ class Memory:
                             self.memory_agent.add_TargetEstimator(estimateur)
 
     def combine_data_userCam(self, choice=1):
-        if choice == 1:
+        if choice == 0:
             for item in self.memory_all_agent.Agent_Target_already_discovered_list:
                 (agentID, targetID) = item
                 for estimateur in self.memory_all_agent.get_Agent_Target_list(targetID, agentID):
@@ -92,36 +91,54 @@ class Memory:
     def statistic_to_string(self):
         return self.memory_all_agent.statistic_to_string()
 
-    def get_predictions(self, target_id_List):
-        """ Returns a list [[targetId, [predicted_position1, ...]], ...]"""
-        predictions = []
-        for target_id in target_id_List:
-            prediction_for_target = self.get_target_prediction(target_id)
-            predictions.append([target_id, prediction_for_target])
-        return predictions
+    def get_predictions(self, seeked_target_id):
+        """ :return the predicted positions for targetId """
+        for predictor in self.predictors:
+            if predictor.target_id == seeked_target_id:
+                return predictor.get_predictions()
+        return None
 
     def get_target_prediction(self, seeked_target_id):
-        """ Returns the predicted positions for seeked_target_id """
-        for (target_id, predictor) in self.predictors:
-            if target_id == seeked_target_id:
+        """ :return the predicted positions for targetId """
+        for predictor in self.predictors:
+            if predictor.target_id == seeked_target_id:
                 return predictor.get_predictions()
+        return None
 
+    def get_target_predictor(self, seeked_target_id):
+        """ :return the Kalman Predictor associated with this target """
+        for predictor in self.predictors:
+            if predictor.target_id == seeked_target_id:
+                return predictor
         return None
 
     def exists_predictor_for_target(self, seeked_target_id):
-        """ Checks if a predictor for the target already exists """
-        for (target_id, _) in self.predictors:
-            if target_id == seeked_target_id:
+        """ Checks if a predictor for the given target exists """
+        for predictor in self.predictors:
+            if predictor.target_id == seeked_target_id:
                 return True
         return False
 
-    def create_predictor_for_target(self, target_id):
-        """ Adds a predictor to the predictors list corresponding to the target in argument """
-        self.predictors.append([target_id, KalmanPrediction()])
+    def create_predictor_for_target(self, target_id, x_init, y_init):
+        """ Creates an entry in self.predictors for this target """
+        predictor = KalmanPrediction(target_id, x_init, y_init)
+        self.predictors.append(predictor)
 
-    def get_predictor_of_target(self, seeked_target_id):
-        """ Returns the predictor associated with the target_id """
-        for (target_id, predictor) in self.predictors:
-            if target_id == seeked_target_id:
-                return predictor
-        return None
+    # TODO: retirer (pas utilisé car on utilise get_current_position du prédicteur direct)
+    def get_current_position(self, target_id):
+        """ :return the estimated current position as computed by the Kalman predictor """
+        target_predictor = self.get_target_predictor(target_id)
+        if target_predictor is None:
+            return None
+        return target_predictor.get_current_position()
+
+    def update_memory_agent(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
+                            target_xc, target_yc, target_size):
+        """
+        Assumes the predictor corresponding to target_id has new information (doesn't check).
+        Updates the memory_agent list for the target.
+        """
+        new_TargetEstimator = TargetEstimator(time_from_estimation, agent_id, agent_signature, target_id,
+                                              target_signature,
+                                              target_xc, target_yc, target_size)
+        self.memory_agent.add_TargetEstimator(new_TargetEstimator)
