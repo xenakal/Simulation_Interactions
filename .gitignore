@@ -1,8 +1,9 @@
 .idea/
 
-/mailbox/*
-log
-data_saved
+mailbox/*
+log/*
+data_saved/memory_agent/*
+data_saved/memory_all_agent/*
 multi_agent/elements/__pycache__/*
 utils/__pycache__/*
 utils/GUI/GUI_simulation/__pycache__/*
@@ -10,5 +11,5 @@ __pycache__/*
 multi_agent/__pycache__/*
 __init__
 */__init__
-
+*.csv
 

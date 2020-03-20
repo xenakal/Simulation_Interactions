@@ -49,3 +49,7 @@ Y_SCALE = 1.5
 """Option for ROOM"""
 WIDTH_ROOM = 300
 LENGHT_ROOM = 300
+
+"CSV_fieldNames"
+TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_stamp', 'agent_id','agent_signature','target_id','target_signature',
+                                   'target_type','target_x','target_y','target_radius']
