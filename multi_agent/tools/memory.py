@@ -32,12 +32,13 @@ class Memory:
         self.predictors = []
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
-                                    target_xc, target_yc, target_size,target_type):
+                                    target_xc, target_yc, target_size, target_type):
         """
         Creates an estimator if it doesn't exist and adds it to the memory_all_agent list
         """
         self.memory_all_agent.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
-                                                          target_signature, target_xc, target_yc, target_size)
+                                                          target_signature, target_xc, target_yc, target_size,
+                                                          target_type)
         if not self.exists_predictor_for_target(target_id):
             # add predictor if doesn't exist yet
             self.create_predictor_for_target(target_id, target_xc, target_yc)

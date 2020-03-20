@@ -22,7 +22,7 @@ class GUI_predictions:
         self.scaleY = scaleY
 
     def drawPredictions(self, myRoom):
-        for agent in myRoom.getAgentsWithIDs(self.agentsToDisplay, "agentCam"):  # for each agent
+        for agent in myRoom.get_multiple_Agent_with_id(self.agentsToDisplay, "agentCam"):  # for each agent
             # predictions = agent.makePredictionsOld(self.method, self.targetsToDisplay)
             predictions = agent.get_predictions(self.targetsToDisplay)
             for prediction in predictions:
