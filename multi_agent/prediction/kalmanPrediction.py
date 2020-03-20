@@ -62,7 +62,6 @@ class KalmanPrediction:
         predictions = []
 
         current_state = self.filter.x
-        print(current_state)
         current_P = self.filter.P
         for _ in range(NUMBER_PREDICTIONS):
             new_state, new_P = predict(current_state, current_P, self.filter.F, self.filter.Q)

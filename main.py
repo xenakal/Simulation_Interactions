@@ -9,6 +9,8 @@ from my_utils.motion import *
 from my_utils.map_from_to_txt import *
 from my_utils.to_csv import *
 from constants import *
+from plot_functions.plot_target_targetEstimator import AnalyseMemoryAgent
+
 
 def clean_mailbox():
     shutil.rmtree("mailbox", ignore_errors=True)
@@ -148,8 +150,24 @@ class App:
         clean_mailbox()
 
         #save data
-        save_in_csv_file_dictionnary("data_saved/simulated_data",self.exact_data_target.to_csv())
+        if constants.SAVE_DATA:
+            print("Saving data :")
+            save_in_csv_file_dictionnary("data_saved/data/simulated_data",self.exact_data_target.to_csv())
 
+        #plot graph
+        if constants.GENERATE_PLOT:
+            print("Generating plots :")
+            for agent in self.room.active_AgentCams_list:
+                plot_agent = AnalyseMemoryAgent(agent.id)
+                plot_agent.plot_all_target_simulated_data_collected_data()
+
+            for agent in self.room.active_AgentUser_list:
+                plot_agent = AnalyseMemoryAgent(agent.id)
+                plot_agent.plot_all_target_simulated_data_collected_data()
+                for target in self.room.information_simulation.Target_list:
+                    plot_agent.plot_a_target_simulated_data_collected_data(target.id)
+
+            print("Done !")
 
 def execute():
     myApp = App()

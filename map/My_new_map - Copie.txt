@@ -16,7 +16,7 @@
 *5,5,5,5,5,
 *linear,linear,linear,linear,linear,
 *1,0,0,0,0,
-*target,target,fix,fix,fix,
+*,target,fix,fix,fix,
 *10,5,10,10,10,
 *[0],[0],[0],[0],[0],
 *[1000],[1000],[1000],[1000],[1000],

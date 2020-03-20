@@ -47,10 +47,6 @@ class Memory:
             target_predictor = self.get_target_predictor(target_id)
             state = [target_xc, target_yc]
             target_predictor.add_measurement(state)
-            # update current position list
-            new_position_estimation = target_predictor.get_current_position()
-            self.update_memory_agent(time_from_estimation, agent_id, agent_signature, target_id, target_signature,
-                                     new_position_estimation[0], new_position_estimation[1], target_size)
 
     def add_target_estimator(self, estimator):
         self.memory_all_agent.add_target_estimator(estimator)
@@ -136,14 +132,3 @@ class Memory:
         if target_predictor is None:
             return None
         return target_predictor.get_current_position()
-
-    def update_memory_agent(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
-                            target_xc, target_yc, target_size):
-        """
-        Assumes the predictor corresponding to target_id has new information (doesn't check).
-        Updates the memory_agent list for the target.
-        """
-        new_TargetEstimator = TargetEstimator(time_from_estimation, agent_id, agent_signature, target_id,
-                                              target_signature,
-                                              target_xc, target_yc, target_size)
-        self.memory_agent.add_TargetEstimator(new_TargetEstimator)

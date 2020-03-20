@@ -1,6 +1,7 @@
 
 """Option for class main"""
 SAVE_DATA = True
+GENERATE_PLOT = True
 USE_GUI = 1
 USE_agent = 1
 USE_static_analysis = 1

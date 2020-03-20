@@ -170,9 +170,9 @@ class GUI_room:
     def draw_link_cam_region(self,room,link_cam_to_target):
         for targetAgentLink in link_cam_to_target:
             for agent in room.active_AgentCams_list:
-                if(agent.id == targetAgentLink.agent_id):
+                if agent.id == targetAgentLink.agent_id:
                     for target in room.active_Target_list:
-                        if(target.id == targetAgentLink.target_id):
+                        if target.id == targetAgentLink.target_id:
                             pygame.draw.line(self.screen, agent.color, (self.x_offset + int(agent.camera.xc * self.scale_x),self.y_offset + int(agent.camera.yc * self.scale_y)),
                                              (self.x_offset + int(target.xc * self.scale_x),self.y_offset + int(target.yc * self.scale_y)),1)
 
