@@ -1,4 +1,4 @@
-import statistics
+import numpy as np
 
 
 class TargetBehaviourAnalyser:
@@ -161,8 +161,8 @@ class TargetBehaviourAnalyser:
                 x.append(item.target_position[0])
                 y.append(item.target_position[1])
 
-            x_sdt = statistics.stdev(x)
-            y_sdt = statistics.stdev(y)
+            x_sdt = np.std(x)
+            y_sdt = np.std(y)
 
             if x_sdt < thresh and y_sdt < thresh:
                 return True
