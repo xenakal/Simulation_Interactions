@@ -134,6 +134,8 @@ class App:
             if self.room.time > tmax and USE_GUI == 1:
                 run = False
                 pygame.quit()
+            elif  self.room.time > tmax:
+                run = False
 
             '''Updating the time'''
             self.room.time = self.room.time + 1

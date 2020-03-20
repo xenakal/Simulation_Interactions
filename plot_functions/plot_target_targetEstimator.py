@@ -179,23 +179,27 @@ class AnalyseMemoryAgent:
         ax3 = fig_time_type_x_y.add_subplot(2, 2, 3)
         ax4 = fig_time_type_x_y.add_subplot(2, 2, 4)
 
-        for element in self.simulated_data_sort_by_target:
-            if target_id == int(element.target_id):
-                sc1 = plot_target_memory_time_x_y_2D(ax1, element.data_list,
-                                                     curve_label="target" + str(element.target_id))
+        try:
+            for element in self.simulated_data_sort_by_target:
+                if target_id == int(element.target_id):
+                    sc1 = plot_target_memory_time_x_y_2D(ax1, element.data_list,
+                                                         curve_label="target" + str(element.target_id))
 
-        for element in self.data_sort_by_target:
-            if target_id == int(element.target_id):
-                plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id))
-                sc2 = plot_target_memory_type_x_y_2D(ax2, element.data_list,
-                                                     curve_label="target" + str(element.target_id))
-                sc3 = plot_target_memory_agent_x_y_2D(ax3, element.data_list,
-                                                      curve_label="target" + str(element.target_id))
-                plot_target_memory_time_agent(ax4, element.data_list,
-                                              curve_label="target" + str(element.target_id))
+            for element in self.data_sort_by_target:
+                if target_id == int(element.target_id):
+                    plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id))
+                    sc2 = plot_target_memory_type_x_y_2D(ax2, element.data_list,
+                                                         curve_label="target" + str(element.target_id))
+                    sc3 = plot_target_memory_agent_x_y_2D(ax3, element.data_list,
+                                                          curve_label="target" + str(element.target_id))
+                    plot_target_memory_time_agent(ax4, element.data_list,
+                                                  curve_label="target" + str(element.target_id))
 
-        fig_time_type_x_y.colorbar(sc1, ax=ax1)
-        fig_time_type_x_y.colorbar(sc2, ax=ax2)
-        fig_time_type_x_y.colorbar(sc3, ax=ax3)
-        fig_time_type_x_y.savefig(PATH_SAVE_PLOT + VERSION_SAVE_PLOT + "agent_" + str(self.id) + "-target_" + str(target_id),
-                                  transparent=False)
+            fig_time_type_x_y.colorbar(sc1, ax=ax1)
+            fig_time_type_x_y.colorbar(sc2, ax=ax2)
+            fig_time_type_x_y.colorbar(sc3, ax=ax3)
+            fig_time_type_x_y.savefig(PATH_SAVE_PLOT + VERSION_SAVE_PLOT + "agent_" + str(self.id) + "-target_" + str(target_id),
+                                      transparent=False)
+
+        except:
+            print("error in plot_a_target_simulated_data_collected_data agent" + str(self.id) + " target " + str(target_id))
