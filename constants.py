@@ -7,7 +7,6 @@ USE_agent = 1
 USE_static_analysis = 1
 USE_dynamic_analysis_simulated_room = 0
 
-
 T_MAX = 500
 TIME_BTW_FRAMES = .1
 

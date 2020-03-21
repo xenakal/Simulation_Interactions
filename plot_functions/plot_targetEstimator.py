@@ -11,7 +11,7 @@ PATH_SAVE_PLOT_MEMORY_ALL_AGENT = "data_saved/plot/plot_memory_all_agent/"
 #PATH_LOAD_MEMORY_ALL_AGENT = "../data_saved/data/memory_all_agent/agent"
 #PATH_SAVE_PLOT_MEMORY_AGENT = "../data_saved/plot/plot_memory_agent/"
 #PATH_SAVE_PLOT_MEMORY_ALL_AGENT = "../data_saved/plot/plot_memory_all_agent/"
-VERSION_SAVE_PLOT = "test-"
+
 
 
 def plot_target_memory_type_x_y_2D(ax, data, curve_label):
@@ -194,8 +194,9 @@ class AgentSortedTargetEstimator:
 
 
 class AnalyseMemoryAgent:
-    def __init__(self, agent_id):
+    def __init__(self, agent_id,version = "version"):
         self.id = agent_id
+        self.version = version
         self.data = load_csv_file_dictionnary(PATH_LOAD_MEMORY_AGENT + str(agent_id))
         self.simulated_data = load_csv_file_dictionnary(PATH_LOAD_DATA_REF)
         self.data_sort_by_target = []
@@ -205,10 +206,10 @@ class AnalyseMemoryAgent:
         init_analyse_memory_agent(self.simulated_data, self.simulated_data_sort_by_target)
 
     def plot_position_target_simulated_data_collected_data(self):
-        fig_time_type_x_y = plt.figure(figsize=(12, 8))
-        fig_time_type_x_y.suptitle('Agent ' + str(self.id), fontsize=17, fontweight='bold', y=0.98)
-        fig_time_type_x_y.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
-        ax1 = fig_time_type_x_y.add_subplot(1, 1, 1)
+        fig_position = plt.figure(figsize=(12, 8))
+        fig_position.suptitle('Agent ' + str(self.id), fontsize=17, fontweight='bold', y=0.98)
+        fig_position.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
+        ax1 = fig_position.add_subplot(1, 1, 1)
 
         for element in self.simulated_data_sort_by_target:
             sc1 = plot_target_memory_time_x_y_2D(ax1, element.data_list,
@@ -217,9 +218,10 @@ class AnalyseMemoryAgent:
         for element in self.data_sort_by_target:
             plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id))
 
-        fig_time_type_x_y.colorbar(sc1, ax=ax1)
-        fig_time_type_x_y.savefig(PATH_SAVE_PLOT_MEMORY_AGENT + VERSION_SAVE_PLOT + "position_agent_" + str(self.id),
+        fig_position.colorbar(sc1, ax=ax1)
+        fig_position.savefig(PATH_SAVE_PLOT_MEMORY_AGENT + self.version + "--position_agent_" + str(self.id),
                                   transparent=False)
+        plt.close(fig_position)
 
     def plot_all_target_simulated_data_collected_data(self):
         fig_time_type_x_y = plt.figure(figsize=(12, 8), tight_layout=True)
@@ -245,8 +247,9 @@ class AnalyseMemoryAgent:
         fig_time_type_x_y.colorbar(sc2, ax=ax2)
         fig_time_type_x_y.colorbar(sc3, ax=ax3)
 
-        fig_time_type_x_y.savefig(PATH_SAVE_PLOT_MEMORY_AGENT + VERSION_SAVE_PLOT + "all_agent_" + str(self.id),
+        fig_time_type_x_y.savefig(PATH_SAVE_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(self.id),
                                   transparent=False)
+        plt.close(fig_time_type_x_y)
 
     def plot_a_target_simulated_data_collected_data(self, target_id):
         fig_time_type_x_y = plt.figure(figsize=(12, 8), tight_layout=True)
@@ -276,18 +279,21 @@ class AnalyseMemoryAgent:
             fig_time_type_x_y.colorbar(sc2, ax=ax2)
             fig_time_type_x_y.colorbar(sc3, ax=ax3)
             fig_time_type_x_y.savefig(
-                PATH_SAVE_PLOT_MEMORY_AGENT + VERSION_SAVE_PLOT + "all_agent_" + str(self.id) + "-target_" + str(
+                PATH_SAVE_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(self.id) + "-target_" + str(
                     target_id),
                 transparent=False)
+
 
         except:
             print("error in plot_a_target_simulated_data_collected_data agent" + str(self.id) + " target " + str(
                 target_id))
 
+        plt.close(fig_time_type_x_y)
 
 class AnalyseAllMemoryAgent:
-    def __init__(self, agent_id):
+    def __init__(self, agent_id,version="version"):
         self.id = agent_id
+        self.version = version
         self.data = load_csv_file_dictionnary(PATH_LOAD_MEMORY_ALL_AGENT + str(agent_id))
         self.simulated_data = load_csv_file_dictionnary(PATH_LOAD_DATA_REF)
         self.data_sort_by_agent_target = []
@@ -297,10 +303,10 @@ class AnalyseAllMemoryAgent:
         init_analyse_memory_agent(self.simulated_data, self.simulated_data_sort_by_target)
 
     def plot_position_target_simulated_data_collected_data(self):
-        fig_time_type_x_y = plt.figure(figsize=(12, 8))
-        fig_time_type_x_y.suptitle('Agent ' + str(self.id), fontsize=17, fontweight='bold', y=0.98)
-        fig_time_type_x_y.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
-        ax1 = fig_time_type_x_y.add_subplot(1, 1, 1)
+        fig_position = plt.figure(figsize=(12, 8))
+        fig_position.suptitle('Agent ' + str(self.id), fontsize=17, fontweight='bold', y=0.98)
+        fig_position.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
+        ax1 = fig_position.add_subplot(1, 1, 1)
 
 
         for element in self.simulated_data_sort_by_target:
@@ -313,10 +319,11 @@ class AnalyseAllMemoryAgent:
                                                                                   + ",target-" + str(
                     element_target.target_id))
 
-        fig_time_type_x_y.colorbar(sc1, ax=ax1)
+        fig_position.colorbar(sc1, ax=ax1)
 
-        fig_time_type_x_y.savefig(PATH_SAVE_PLOT_MEMORY_ALL_AGENT + VERSION_SAVE_PLOT + "position_agent_" + str(self.id),
+        fig_position.savefig(PATH_SAVE_PLOT_MEMORY_ALL_AGENT + self.version + "--position_agent_" + str(self.id),
                                   transparent=False)
+        plt.close(fig_position)
 
     def plot_all_target_simulated_data_collected_data(self):
         fig_time_type_x_y = plt.figure(figsize=(12, 8), tight_layout=True)
@@ -349,6 +356,7 @@ class AnalyseAllMemoryAgent:
         fig_time_type_x_y.colorbar(sc2, ax=ax2)
         fig_time_type_x_y.colorbar(sc3, ax=ax3)
 
-        fig_time_type_x_y.savefig(PATH_SAVE_PLOT_MEMORY_ALL_AGENT + VERSION_SAVE_PLOT + "all_agent_" + str(self.id),
+        fig_time_type_x_y.savefig(PATH_SAVE_PLOT_MEMORY_ALL_AGENT + self.version + "--all_agent_" + str(self.id),
                                   transparent=False)
+        plt.close(fig_time_type_x_y)
 

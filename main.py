@@ -16,9 +16,6 @@ def clean_mailbox():
     shutil.rmtree("mailbox", ignore_errors=True)
     os.mkdir("mailbox")
 
-
-
-
 class App:
     def __init__(self, fileName="My_new_map.txt"):
         # Clean the file mailbox
@@ -42,7 +39,7 @@ class App:
     def init(self):
         """Loading the map from a txt file, in map folder"""
         self.room_txt = Room_txt()
-        self.room_txt.load_room_from_txt(self.filename)
+        self.room_txt.load_room_from_txt(self.filename+".txt")
         self.exact_data_target = Target_TargetEstimator()
         '''Creation from the room with the given description'''
         self.room = self.room_txt.init_room()
@@ -72,7 +69,6 @@ class App:
         self.link_agent_target.update_link_camera_target()
 
     def main(self):
-        tmax = T_MAX
         run = True
         reset = False
 
@@ -131,10 +127,10 @@ class App:
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
 
             '''Closing the simulation after a given time if not using GUI'''
-            if self.room.time > tmax and USE_GUI == 1:
+            if self.room.time > constants.T_MAX and USE_GUI == 1:
                 run = False
                 pygame.quit()
-            elif  self.room.time > tmax:
+            elif  self.room.time > constants.T_MAX:
                 run = False
 
             '''Updating the time'''
@@ -153,19 +149,19 @@ class App:
 
         #save data
         if constants.SAVE_DATA:
-            print("Saving data :")
+            print("Saving data : generated")
             save_in_csv_file_dictionnary("data_saved/data/simulated_data",self.exact_data_target.to_csv())
 
         #plot graph
         if constants.GENERATE_PLOT:
-            print("Generating plots :")
+            print("Generating plots ...")
             for agent in self.room.active_AgentCams_list:
-                plot_agent_memory = AnalyseMemoryAgent(agent.id)
+                plot_agent_memory = AnalyseMemoryAgent(agent.id,self.filename)
                 plot_agent_memory.plot_all_target_simulated_data_collected_data()
 
             for agent in self.room.active_AgentUser_list:
-                plot_agent_memory = AnalyseMemoryAgent(agent.id)
-                plot_agent_all_memory = AnalyseAllMemoryAgent(agent.id)
+                plot_agent_memory = AnalyseMemoryAgent(agent.id,self.filename)
+                plot_agent_all_memory = AnalyseAllMemoryAgent(agent.id,self.filename)
                 plot_agent_memory.plot_all_target_simulated_data_collected_data()
                 plot_agent_memory.plot_position_target_simulated_data_collected_data()
                 plot_agent_all_memory.plot_position_target_simulated_data_collected_data()
