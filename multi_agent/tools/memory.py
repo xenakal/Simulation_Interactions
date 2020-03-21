@@ -47,11 +47,6 @@ class Memory:
             target_predictor = self.get_target_predictor(target_id)
             state = [target_xc, target_yc]
             target_predictor.add_measurement(state)
-<<<<<<< HEAD
-            # update current position list
-            new_position_estimation = target_predictor.get_current_position()
-=======
->>>>>>> a405be7140691d7e749b2d0ba0358962ec44aa1e
 
     def add_target_estimator(self, estimator):
         self.memory_all_agent.add_target_estimator(estimator)
