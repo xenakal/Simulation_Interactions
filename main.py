@@ -3,17 +3,18 @@ import os
 from multi_agent.elements.room import *
 from multi_agent.tools.link_target_camera import *
 from multi_agent.tools.map_region_dyn import *
+from multi_agent.tools.estimator import *
 from my_utils.GUI.GUI import *
 from my_utils.motion import *
 from my_utils.map_from_to_txt import *
+from my_utils.to_csv import *
 from constants import *
+from plot_functions.plot_targetEstimator import*
+
 
 def clean_mailbox():
     shutil.rmtree("mailbox", ignore_errors=True)
     os.mkdir("mailbox")
-
-
-
 
 class App:
     def __init__(self, fileName="My_new_map.txt"):
@@ -38,7 +39,8 @@ class App:
     def init(self):
         """Loading the map from a txt file, in map folder"""
         self.room_txt = Room_txt()
-        self.room_txt.load_room_from_txt(self.filename)
+        self.room_txt.load_room_from_txt(self.filename+".txt")
+        self.exact_data_target = Target_TargetEstimator()
         '''Creation from the room with the given description'''
         self.room = self.room_txt.init_room()
         '''Adding one agent user'''
@@ -67,7 +69,6 @@ class App:
         self.link_agent_target.update_link_camera_target()
 
     def main(self):
-        tmax = T_MAX
         run = True
         reset = False
 
@@ -90,7 +91,10 @@ class App:
             # Object are moving in the room
             for target in self.room.active_Target_list:
                 target.save_position()
+                self.exact_data_target.add_create_target_estimator(self.room.time,-1, -1, target.id, target.signature,
+                                    target.xc, target.yc, target.radius, target.type)
                 move_Target(target, 1, self.room)
+
 
             '''
             RUN_ON_THREAD = 0, sequential approach, every agent are call one after the other
@@ -123,9 +127,11 @@ class App:
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
 
             '''Closing the simulation after a given time if not using GUI'''
-            if self.room.time > tmax and USE_GUI == 1:
+            if self.room.time > constants.T_MAX and USE_GUI == 1:
                 run = False
                 pygame.quit()
+            elif  self.room.time > constants.T_MAX:
+                run = False
 
             '''Updating the time'''
             self.room.time = self.room.time + 1
@@ -141,6 +147,28 @@ class App:
         # Clean mailbox
         clean_mailbox()
 
+        #save data
+        if constants.SAVE_DATA:
+            print("Saving data : generated")
+            save_in_csv_file_dictionnary("data_saved/data/simulated_data",self.exact_data_target.to_csv())
+
+        #plot graph
+        if constants.GENERATE_PLOT:
+            print("Generating plots ...")
+            for agent in self.room.active_AgentCams_list:
+                plot_agent_memory = AnalyseMemoryAgent(agent.id,self.filename)
+                plot_agent_memory.plot_all_target_simulated_data_collected_data()
+
+            for agent in self.room.active_AgentUser_list:
+                plot_agent_memory = AnalyseMemoryAgent(agent.id,self.filename)
+                plot_agent_all_memory = AnalyseAllMemoryAgent(agent.id,self.filename)
+                plot_agent_memory.plot_all_target_simulated_data_collected_data()
+                plot_agent_memory.plot_position_target_simulated_data_collected_data()
+                plot_agent_all_memory.plot_position_target_simulated_data_collected_data()
+                for target in self.room.information_simulation.Target_list:
+                    plot_agent_memory.plot_a_target_simulated_data_collected_data(target.id)
+
+            print("Done !")
 
 def execute():
     myApp = App()

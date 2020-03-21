@@ -1,13 +1,13 @@
 
 """Option for class main"""
 SAVE_DATA = True
+GENERATE_PLOT = True
 USE_GUI = 1
 USE_agent = 1
 USE_static_analysis = 1
 USE_dynamic_analysis_simulated_room = 0
 
-
-T_MAX = 10000
+T_MAX = 500
 TIME_BTW_FRAMES = .1
 
 STATIC_ANALYSIS_PRECISION = 3  # best with 1 until map size

@@ -64,7 +64,7 @@ class GUI_simulation:
         self.GUI_room.draw_link_cam_region(room, link_cam_to_target)
 
         if self.button_simulation_4.find_button_state("User's O"):
-            self.GUI_room.drawTarget_room_description(room, self.GUI_option.agent_to_display, "agentUser", True)
+            self.GUI_room.drawTarget_room_description(room, self.GUI_option.agent_to_display, AgentType.AGENT_USER, True)
 
         if self.button_simulation_1.find_button_state("prediction"):
             self.GUI_pred.drawPredictions(room)

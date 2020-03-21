@@ -177,9 +177,9 @@ class GUI_create_map:
 
             label = None
             if self.button_create_map_2.find_button_state(self.button_create_map_2_name[0]):
-                label = 'unknown'
+                label = TargetType.UNKNOWN
             elif self.button_create_map_2.find_button_state(self.button_create_map_2_name[1]):
-                label = 'set_fix'
+                label = TargetType.SET_FIX
 
             if on:
                 target = Target(-1,x_new, y_new, self.vx_default, self.vy_default, 'linear', (0,[(0,0)]), label, self.size_default, [0], [1000])

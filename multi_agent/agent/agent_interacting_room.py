@@ -16,14 +16,14 @@ class AgentInteractingWithRoom(Agent):
 
             :param
                 1. (int) id                              -- numerical value to recognize the Agent
-                2. (string) type                         -- "AgentCam","AgentUsesr" to distinguish the different agent
+                2. (AgentType) type                      -- to distinguish the different agent
                 3. ((int),(int),(int)) color             -- color representation for the GUI
 
             :attibutes
                 -- IN Agent
                 1. (int) id                                     -- numerical value to recognize the Agent
                 2. (int) signature                              -- numerical value to identify the Agent, random value
-                3. (string) type                                -- "AgentCam","AgentUsesr" to distinguish
+                3. (AgentType) type                             -- to distinguish
                                                                     the different agent
                 4. ((int),(int),(int)) color                    -- color representation for the GUI
                 5. (ListMessage) info_message_sent              -- list containing all the messages sent
@@ -103,8 +103,9 @@ class AgentInteractingWithRoom(Agent):
         """
         "Save data"
         if constants.SAVE_DATA:
-            save_in_csv_file_dictionnary("data_saved/memory_all_agent/agent"+str(self.id),self.memory.memory_all_agent.to_csv())
-            save_in_csv_file_dictionnary("data_saved/memory_agent/agent" + str(self.id), self.memory.memory_agent.to_csv())
+            print("Saving data: agent " + str(self.id))
+            save_in_csv_file_dictionnary("data_saved/data/memory_all_agent/agent"+str(self.id),self.memory.memory_all_agent.to_csv())
+            save_in_csv_file_dictionnary("data_saved/data/memory_agent/agent" + str(self.id), self.memory.memory_agent.to_csv())
         "Clear"
         self.thread_is_running = 0
         while self.main_thread.is_alive():

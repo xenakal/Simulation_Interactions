@@ -1,4 +1,6 @@
+from multi_agent.elements.target import *
 import math
+
 def limit_to_value_max(value_max, value):
     """
             :param
@@ -29,7 +31,7 @@ def move_Target(Target, delta_time, room):
 
     type_mvt = Target.trajectory_type
     # easy solution need to be investeagted
-    if type_mvt == 'fix':
+    if type_mvt == TargetType.SET_FIX or type_mvt == TargetType.FIX:
         pass
     elif type_mvt == 'line':
         Target.xc = Target.xc + math.ceil(Target.vx * delta_time)
@@ -53,7 +55,7 @@ def rectiligne_trajectory(Target, dist_min, delta_time):
                 it does not avoid obstacle.
     """
 
-    if Target.type != 'set_fix':
+    if Target.type != TargetType.SET_FIX:
         (x_goal,y_goal) = Target.trajectory_position[Target.number_of_position_reached]
         '''Updating the postion we want to reach when close enough '''
         if math.fabs(Target.xc - x_goal) <= dist_min and math.fabs(Target.yc - y_goal) <= dist_min and Target.number_of_position_reached < len(Target.trajectory_position)-1:
