@@ -2,9 +2,7 @@
 
 mailbox/*
 log/*
-data_saved/plot/*
-data_saved/data/memory_agent/*
-data_saved/data/memory_all_agent/*
+results/*
 multi_agent/elements/__pycache__/*
 multi_agent/agent/__pycache__/
 multi_agent/communication/__pucache__/
