@@ -9,15 +9,30 @@ from my_utils.motion import *
 from my_utils.map_from_to_txt import *
 from my_utils.to_csv import *
 from constants import *
-from plot_functions.plot_targetEstimator import*
+from plot_functions.plot_targetEstimator import *
 
 
 def clean_mailbox():
     shutil.rmtree("mailbox", ignore_errors=True)
     os.mkdir("mailbox")
 
+
+def create_structur_to_save_data():
+    shutil.rmtree(constants.SavePlotPath.MAIN_FOLDER, ignore_errors=True)
+    "Folder where the data and plot are save"
+    os.mkdir(constants.SavePlotPath.MAIN_FOLDER)
+    "Save data"
+    os.mkdir(constants.SavePlotPath.DATA_FOLDER)
+    os.mkdir(constants.SavePlotPath.DATA_MEMORY_AGENT)
+    os.mkdir(constants.SavePlotPath.DATA_MEMORY_ALL_AGENT)
+    "Save plot"
+    os.mkdir(constants.SavePlotPath.PLOT_FOLDER)
+    os.mkdir(constants.SavePlotPath.PLOT_MEMORY_AGENT)
+    os.mkdir(constants.SavePlotPath.PLOT_MEMORY_ALL_AGENT)
+
+
 class App:
-    def __init__(self, fileName="My_new_map.txt"):
+    def __init__(self, fileName="My_new_map"):
         # Clean the file mailbox
         clean_mailbox()
 
@@ -39,7 +54,7 @@ class App:
     def init(self):
         """Loading the map from a txt file, in map folder"""
         self.room_txt = Room_txt()
-        self.room_txt.load_room_from_txt(self.filename+".txt")
+        self.room_txt.load_room_from_txt(self.filename + ".txt")
         self.exact_data_target = Target_TargetEstimator()
         '''Creation from the room with the given description'''
         self.room = self.room_txt.init_room()
@@ -68,6 +83,13 @@ class App:
         self.link_agent_target = LinkTargetCamera(self.room)
         self.link_agent_target.update_link_camera_target()
 
+        "to save the data"
+
+        if constants.SAVE_DATA:
+            constants.set_folder(self.filename)
+            create_structur_to_save_data()
+            pass
+
     def main(self):
         run = True
         reset = False
@@ -91,10 +113,9 @@ class App:
             # Object are moving in the room
             for target in self.room.active_Target_list:
                 target.save_position()
-                self.exact_data_target.add_create_target_estimator(self.room.time,-1, -1, target.id, target.signature,
-                                    target.xc, target.yc, target.radius, target.type)
+                self.exact_data_target.add_create_target_estimator(self.room.time, -1, -1, target.id, target.signature,
+                                                                   target.xc, target.yc, target.radius, target.type)
                 move_Target(target, 1, self.room)
-
 
             '''
             RUN_ON_THREAD = 0, sequential approach, every agent are call one after the other
@@ -130,7 +151,7 @@ class App:
             if self.room.time > constants.T_MAX and USE_GUI == 1:
                 run = False
                 pygame.quit()
-            elif  self.room.time > constants.T_MAX:
+            elif self.room.time > constants.T_MAX:
                 run = False
 
             '''Updating the time'''
@@ -147,21 +168,22 @@ class App:
         # Clean mailbox
         clean_mailbox()
 
-        #save data
+        # save data
         if constants.SAVE_DATA:
             print("Saving data : generated")
-            save_in_csv_file_dictionnary("data_saved/data/simulated_data",self.exact_data_target.to_csv())
+            save_in_csv_file_dictionnary(constants.SavePlotPath.DATA_REFERENCE, self.exact_data_target.to_csv())
+            print("Data saved !")
 
-        #plot graph
+        # plot graph
         if constants.GENERATE_PLOT:
             print("Generating plots ...")
             for agent in self.room.active_AgentCams_list:
-                plot_agent_memory = AnalyseMemoryAgent(agent.id,self.filename)
+                plot_agent_memory = AnalyseMemoryAgent(agent.id, self.filename)
                 plot_agent_memory.plot_all_target_simulated_data_collected_data()
 
             for agent in self.room.active_AgentUser_list:
-                plot_agent_memory = AnalyseMemoryAgent(agent.id,self.filename)
-                plot_agent_all_memory = AnalyseAllMemoryAgent(agent.id,self.filename)
+                plot_agent_memory = AnalyseMemoryAgent(agent.id, self.filename)
+                plot_agent_all_memory = AnalyseAllMemoryAgent(agent.id, self.filename)
                 plot_agent_memory.plot_all_target_simulated_data_collected_data()
                 plot_agent_memory.plot_position_target_simulated_data_collected_data()
                 plot_agent_all_memory.plot_position_target_simulated_data_collected_data()
@@ -169,6 +191,7 @@ class App:
                     plot_agent_memory.plot_a_target_simulated_data_collected_data(target.id)
 
             print("Done !")
+
 
 def execute():
     myApp = App()

@@ -1,16 +1,6 @@
 from plot_functions.plot_toolbox import *
+import constants
 
-PATH_LOAD_DATA_REF = "data_saved/data/simulated_data"
-PATH_LOAD_MEMORY_AGENT = "data_saved/data/memory_agent/agent"
-PATH_LOAD_MEMORY_ALL_AGENT = "data_saved/data/memory_all_agent/agent"
-PATH_SAVE_PLOT_MEMORY_AGENT = "data_saved/plot/plot_memory_agent/"
-PATH_SAVE_PLOT_MEMORY_ALL_AGENT = "data_saved/plot/plot_memory_all_agent/"
-
-#PATH_LOAD_DATA_REF = "../data_saved/data/simulated_data"
-#PATH_LOAD_MEMORY_AGENT = "../data_saved/data/memory_agent/agent"
-#PATH_LOAD_MEMORY_ALL_AGENT = "../data_saved/data/memory_all_agent/agent"
-#PATH_SAVE_PLOT_MEMORY_AGENT = "../data_saved/plot/plot_memory_agent/"
-#PATH_SAVE_PLOT_MEMORY_ALL_AGENT = "../data_saved/plot/plot_memory_all_agent/"
 
 
 
@@ -197,8 +187,9 @@ class AnalyseMemoryAgent:
     def __init__(self, agent_id,version = "version"):
         self.id = agent_id
         self.version = version
-        self.data = load_csv_file_dictionnary(PATH_LOAD_MEMORY_AGENT + str(agent_id))
-        self.simulated_data = load_csv_file_dictionnary(PATH_LOAD_DATA_REF)
+
+        self.data = load_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT + str(agent_id))
+        self.simulated_data = load_csv_file_dictionnary(constants.SavePlotPath.DATA_REFERENCE)
         self.data_sort_by_target = []
         self.simulated_data_sort_by_target = []
 
@@ -219,7 +210,7 @@ class AnalyseMemoryAgent:
             plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id))
 
         fig_position.colorbar(sc1, ax=ax1)
-        fig_position.savefig(PATH_SAVE_PLOT_MEMORY_AGENT + self.version + "--position_agent_" + str(self.id),
+        fig_position.savefig(constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--position_agent_" + str(self.id),
                                   transparent=False)
         plt.close(fig_position)
 
@@ -247,7 +238,7 @@ class AnalyseMemoryAgent:
         fig_time_type_x_y.colorbar(sc2, ax=ax2)
         fig_time_type_x_y.colorbar(sc3, ax=ax3)
 
-        fig_time_type_x_y.savefig(PATH_SAVE_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(self.id),
+        fig_time_type_x_y.savefig(constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(self.id),
                                   transparent=False)
         plt.close(fig_time_type_x_y)
 
@@ -279,7 +270,7 @@ class AnalyseMemoryAgent:
             fig_time_type_x_y.colorbar(sc2, ax=ax2)
             fig_time_type_x_y.colorbar(sc3, ax=ax3)
             fig_time_type_x_y.savefig(
-                PATH_SAVE_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(self.id) + "-target_" + str(
+                constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(self.id) + "-target_" + str(
                     target_id),
                 transparent=False)
 
@@ -294,8 +285,8 @@ class AnalyseAllMemoryAgent:
     def __init__(self, agent_id,version="version"):
         self.id = agent_id
         self.version = version
-        self.data = load_csv_file_dictionnary(PATH_LOAD_MEMORY_ALL_AGENT + str(agent_id))
-        self.simulated_data = load_csv_file_dictionnary(PATH_LOAD_DATA_REF)
+        self.data = load_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT+ str(agent_id))
+        self.simulated_data = load_csv_file_dictionnary(constants.SavePlotPath.DATA_REFERENCE)
         self.data_sort_by_agent_target = []
         self.simulated_data_sort_by_target = []
 
@@ -321,7 +312,7 @@ class AnalyseAllMemoryAgent:
 
         fig_position.colorbar(sc1, ax=ax1)
 
-        fig_position.savefig(PATH_SAVE_PLOT_MEMORY_ALL_AGENT + self.version + "--position_agent_" + str(self.id),
+        fig_position.savefig(constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--position_agent_" + str(self.id),
                                   transparent=False)
         plt.close(fig_position)
 
@@ -356,7 +347,7 @@ class AnalyseAllMemoryAgent:
         fig_time_type_x_y.colorbar(sc2, ax=ax2)
         fig_time_type_x_y.colorbar(sc3, ax=ax3)
 
-        fig_time_type_x_y.savefig(PATH_SAVE_PLOT_MEMORY_ALL_AGENT + self.version + "--all_agent_" + str(self.id),
+        fig_time_type_x_y.savefig(constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--all_agent_" + str(self.id),
                                   transparent=False)
         plt.close(fig_time_type_x_y)
 

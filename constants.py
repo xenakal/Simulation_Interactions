@@ -1,7 +1,9 @@
-
 """Option for class main"""
 SAVE_DATA = True
 GENERATE_PLOT = True
+if GENERATE_PLOT:
+    SAVE_DATA = True
+
 USE_GUI = 1
 USE_agent = 1
 USE_static_analysis = 1
@@ -51,5 +53,44 @@ WIDTH_ROOM = 300
 LENGHT_ROOM = 300
 
 "CSV_fieldNames"
-TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_stamp', 'agent_id','agent_signature','target_id','target_signature',
-                                   'target_type','target_x','target_y','target_radius']
+TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_stamp', 'agent_id', 'agent_signature', 'target_id', 'target_signature',
+                                   'target_type', 'target_x', 'target_y', 'target_radius']
+
+"Path to save data and create plot"
+
+
+def set_folder(fileName):
+    SavePlotPath.MAIN_FOLDER = SavePlotPath.folder + "/data_saved - " + str(fileName)
+    SavePlotPath.DATA_FOLDER = SavePlotPath.MAIN_FOLDER + "/data"
+    SavePlotPath.PLOT_FOLDER = SavePlotPath.MAIN_FOLDER + "/plot"
+
+    SavePlotPath.DATA_REFERENCE = SavePlotPath.DATA_FOLDER + "/simulated_data"
+    SavePlotPath.DATA_MEMORY_AGENT = SavePlotPath.DATA_FOLDER + "/memory_agent"
+    SavePlotPath.DATA_MEMORY_ALL_AGENT = SavePlotPath.DATA_FOLDER + "/memory_all_agent"
+    SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT = SavePlotPath.DATA_MEMORY_AGENT + "/agent-"
+    SavePlotPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT = SavePlotPath.DATA_MEMORY_ALL_AGENT + "/agent-"
+
+    SavePlotPath.PLOT_MEMORY_AGENT = SavePlotPath.PLOT_FOLDER + "/memory_agent"
+    SavePlotPath.PLOT_MEMORY_ALL_AGENT = SavePlotPath.PLOT_FOLDER + "/memory_all_agent"
+    SavePlotPath.SAVE_LOAD_PLOT_MEMORY_AGENT = SavePlotPath.PLOT_MEMORY_AGENT + "/"
+    SavePlotPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT = SavePlotPath.PLOT_MEMORY_ALL_AGENT + "/"
+
+
+class SavePlotPath:
+    folder = "results"
+
+    MAIN_FOLDER = folder + "/data_saved - " + str("standard")
+    DATA_FOLDER = MAIN_FOLDER + "/data"
+    PLOT_FOLDER = MAIN_FOLDER + "/plot"
+
+    DATA_REFERENCE = DATA_FOLDER + "/simulated_data"
+    DATA_MEMORY_AGENT = DATA_FOLDER + "/memory_agent"
+    DATA_MEMORY_ALL_AGENT = DATA_FOLDER + "/memory_all_agent"
+    SAVE_LOAD_DATA_MEMORY_AGENT = DATA_MEMORY_AGENT + "/agent-"
+    SAVE_LOAD_DATA_MEMORY_ALL_AGENT = DATA_MEMORY_ALL_AGENT + "/agent-"
+
+    PLOT_MEMORY_AGENT = PLOT_FOLDER + "/memory_agent"
+    PLOT_MEMORY_ALL_AGENT = PLOT_FOLDER + "/memory_all_agent"
+    SAVE_LOAD_PLOT_MEMORY_AGENT = PLOT_MEMORY_AGENT + "/agent-"
+    SAVE_LOAD_PLOT_MEMORY_ALL_AGENT = PLOT_MEMORY_ALL_AGENT + "/agent-"
+
