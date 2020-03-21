@@ -9,7 +9,7 @@ from my_utils.motion import *
 from my_utils.map_from_to_txt import *
 from my_utils.to_csv import *
 from constants import *
-from plot_functions.plot_target_targetEstimator import AnalyseMemoryAgent
+from plot_functions.plot_targetEstimator import*
 
 
 def clean_mailbox():
@@ -160,14 +160,17 @@ class App:
         if constants.GENERATE_PLOT:
             print("Generating plots :")
             for agent in self.room.active_AgentCams_list:
-                plot_agent = AnalyseMemoryAgent(agent.id)
-                plot_agent.plot_all_target_simulated_data_collected_data()
+                plot_agent_memory = AnalyseMemoryAgent(agent.id)
+                plot_agent_memory.plot_all_target_simulated_data_collected_data()
 
             for agent in self.room.active_AgentUser_list:
-                plot_agent = AnalyseMemoryAgent(agent.id)
-                plot_agent.plot_all_target_simulated_data_collected_data()
+                plot_agent_memory = AnalyseMemoryAgent(agent.id)
+                plot_agent_all_memory = AnalyseAllMemoryAgent(agent.id)
+                plot_agent_memory.plot_all_target_simulated_data_collected_data()
+                plot_agent_memory.plot_position_target_simulated_data_collected_data()
+                plot_agent_all_memory.plot_position_target_simulated_data_collected_data()
                 for target in self.room.information_simulation.Target_list:
-                    plot_agent.plot_a_target_simulated_data_collected_data(target.id)
+                    plot_agent_memory.plot_a_target_simulated_data_collected_data(target.id)
 
             print("Done !")
 

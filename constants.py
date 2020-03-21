@@ -8,7 +8,7 @@ USE_static_analysis = 1
 USE_dynamic_analysis_simulated_room = 0
 
 
-T_MAX = 400
+T_MAX = 500
 TIME_BTW_FRAMES = .1
 
 STATIC_ANALYSIS_PRECISION = 3  # best with 1 until map size
