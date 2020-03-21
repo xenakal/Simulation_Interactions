@@ -13,4 +13,5 @@ multi_agent/__pycache__/*
 __init__
 */__init__
 *.csv
+*.pcy
 
