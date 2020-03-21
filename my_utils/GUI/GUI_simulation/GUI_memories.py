@@ -27,7 +27,7 @@ class GUI_memories:
         for agent in agents:
             for targetID in self.targets_to_display:
                 agentMemory = agent.memory
-                for targetEstimator in agentMemory.getPreviousPositions(targetID):
+                for targetEstimator in agentMemory.get_previous_positions(targetID):
                     pygame.draw.circle(self.screen, agent.camera.color,
                                        (self.x_offset + int(targetEstimator.target_position[0] * self.scale_x),
                                         self.y_offset + int(targetEstimator.target_position[1] * self.scale_y)), 2)

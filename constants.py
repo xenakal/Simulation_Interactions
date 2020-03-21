@@ -1,6 +1,6 @@
 """Option for class main"""
-SAVE_DATA = True
-GENERATE_PLOT = True
+SAVE_DATA = False
+GENERATE_PLOT = False
 if GENERATE_PLOT:
     SAVE_DATA = True
 

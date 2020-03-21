@@ -53,10 +53,12 @@ class KalmanPrediction:
 
     def get_predictions(self):
         """
-        Starting from the current position, make predictions and propagate using the Kalman transition matrix (defined
-        by our model) to make predictions on futur positions.
-        :return: ([x1, y1], [x2, y2], ...)  predictions     -- a list of size NUMBER_PREDICTIONS containing the
-                                                               predicted positions of the target beeing tracked
+        :description
+            Starting from the current position, make predictions and propagate using the Kalman transition matrix (defined
+            by our model) to make predictions on futur positions.
+        :return:
+            ([x1, y1], [x2, y2], ...)  predictions     -- a list of size NUMBER_PREDICTIONS containing the
+                                                           predicted positions of the target beeing tracked
         """
 
         predictions = []

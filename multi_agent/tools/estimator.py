@@ -418,7 +418,7 @@ class Target_TargetEstimator:
                  else  add the combination in Target_list and create a new cell in Target_TargetEstimator_list
          """
 
-        if not target_id in self.Target_already_discovered_list:
+        if target_id not in self.Target_already_discovered_list:
             self.Target_already_discovered_list.append(target_id)
             self.Target_TargetEstimator_list.append([target_id, []])
 
