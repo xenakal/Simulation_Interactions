@@ -94,7 +94,7 @@ def kfObject(x_init, y_init):
     # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
     vx_init = 0
     vy_init = 0
-    dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
+    dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE + 10
     f.x = np.array([x_init, y_init, vx_init, vy_init])
     f.F = np.array([[1., 0., dt, 0.],
                     [0., 1., 0., dt],
