@@ -95,11 +95,13 @@ class GUI_create_map:
         x_new = (x-self.x_offset)/self.scale_x
         y_new = (y-self.y_offset)/self.scale_y
 
-        x_new = math.ceil(x_new/10)*10-5
-        y_new = math.ceil(y_new/10)*10-5
+        x_new = math.ceil(x_new/10)*10
+        y_new = math.ceil(y_new/10)*10
 
         if on:
             pygame.draw.circle(self.screen, [0, 0, 255], (x, y), 5)
+            label = self.font.render(str((x_new,y_new)), 10, WHITE)
+            self.screen.blit(label, (x+10, y+10))
 
         if self.button_create_map_1.find_button_state(self.button_create_map_1_name[0]):
 

@@ -200,16 +200,18 @@ class AnalyseMemoryAgent:
         fig_position = plt.figure(figsize=(12, 8))
         fig_position.suptitle('Agent ' + str(self.id), fontsize=17, fontweight='bold', y=0.98)
         fig_position.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
-        ax1 = fig_position.add_subplot(1, 1, 1)
+        ax1 = fig_position.add_subplot(1, 2, 1)
+        ax2 = fig_position.add_subplot(1, 2, 2)
 
         for element in self.simulated_data_sort_by_target:
             sc1 = plot_target_memory_time_x_y_2D(ax1, element.data_list,
                                                  curve_label="target" + str(element.target_id))
 
         for element in self.data_sort_by_target:
-            plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id))
-
+            sc2 = plot_target_memory_time_x_y_2D(ax2, element.data_list,
+                                                 curve_label="target" + str(element.target_id))
         fig_position.colorbar(sc1, ax=ax1)
+        fig_position.colorbar(sc2, ax=ax2)
         fig_position.savefig(constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--position_agent_" + str(self.id),
                                   transparent=False)
         plt.close(fig_position)
@@ -297,7 +299,8 @@ class AnalyseAllMemoryAgent:
         fig_position = plt.figure(figsize=(12, 8))
         fig_position.suptitle('Agent ' + str(self.id), fontsize=17, fontweight='bold', y=0.98)
         fig_position.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
-        ax1 = fig_position.add_subplot(1, 1, 1)
+        ax1 = fig_position.add_subplot(1, 2, 1)
+        ax2 = fig_position.add_subplot(1, 2, 2)
 
 
         for element in self.simulated_data_sort_by_target:
@@ -306,11 +309,11 @@ class AnalyseAllMemoryAgent:
 
         for element_agent in self.data_sort_by_agent_target:
             for element_target in element_agent.data_list:
-                plot_target_memory_x_y(ax1, element_target.data_list, curve_label="agent-" + str(element_agent.agent_id)
-                                                                                  + ",target-" + str(
-                    element_target.target_id))
+                sc2 = plot_target_memory_time_x_y_2D(ax2, element_target.data_list,
+                                                     curve_label="agent"+str(element_agent.agent_id) + "-target" + str(element_target.target_id))
 
         fig_position.colorbar(sc1, ax=ax1)
+        fig_position.colorbar(sc2, ax=ax2)
 
         fig_position.savefig(constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--position_agent_" + str(self.id),
                                   transparent=False)
