@@ -57,11 +57,7 @@ LENGHT_ROOM = 300
 TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_stamp', 'agent_id', 'agent_signature', 'target_id', 'target_signature',
                                    'target_type', 'target_x', 'target_y', 'target_radius']
 
-"Path to save data and create plot"
-
-
-def set_folder(fileName):
-    SavePlotPath.MAIN_FOLDER = SavePlotPath.folder + "/data_saved - " + str(fileName)
+"""Path to save data and create plot"""
 
 
 class classproperty(object):
