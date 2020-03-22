@@ -4,6 +4,8 @@ GENERATE_PLOT = False
 if GENERATE_PLOT:
     SAVE_DATA = True
 
+"Je fais de la merde"
+
 USE_GUI = 1
 USE_agent = 1
 USE_static_analysis = 1

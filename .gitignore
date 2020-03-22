@@ -3,6 +3,7 @@
 mailbox/*
 log/*
 results/*
+!results/explication.md
 multi_agent/elements/__pycache__/*
 multi_agent/agent/__pycache__/
 multi_agent/communication/__pucache__/
