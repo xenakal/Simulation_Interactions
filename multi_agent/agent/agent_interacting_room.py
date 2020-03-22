@@ -91,10 +91,7 @@ class AgentInteractingWithRoom(Agent):
             :description
                 1. Function to call to run/start the agent
         """
-        if constants.RUN_ON_A_THREAD == 1:
-            self.main_thread.start()
-        else:
-            self.run_wihout_thread()
+        self.main_thread.start()
 
     def clear(self):
         """
@@ -106,7 +103,7 @@ class AgentInteractingWithRoom(Agent):
             print("Saving data: agent " + str(self.id))
             save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT+str(self.id),self.memory.memory_all_agent.to_csv())
             save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT+ str(self.id), self.memory.memory_agent.to_csv())
-
+            save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_PREDICTION + str(self.id),self.memory.best_estimations_1.to_csv())
 
         "Clear"
         self.thread_is_running = 0
@@ -116,10 +113,6 @@ class AgentInteractingWithRoom(Agent):
         mbox.close()
 
     def thread_run(self):
-        """ interface """
-        pass
-
-    def run_wihout_thread(self):
         """ interface """
         pass
 

@@ -100,7 +100,7 @@ class App:
                 target.save_position()
                 self.exact_data_target.add_create_target_estimator(self.room.time, -1, -1, target.id, target.signature,
                                                                    target.xc, target.yc, target.radius, target.type)
-                move_Target(target, 1, self.room)
+                move_Target(target, 1)
 
     def main(self):
         run = True
@@ -127,20 +127,8 @@ class App:
             # adding/removing target to the room
             self.room.add_del_target_timed()
 
-            # RUN_ON_THREAD = 0: sequential approach, agents are called one after the other
-            # RUN_ON_THREAD = 1: process executed in the same time, every agent is a thread
-            if RUN_ON_A_THREAD == 0:
-                random_order = self.room.active_AgentCams_list
-                # random.shuffle(random_order,random)
-                for agent in random_order:
-                    agent.run()
-
-                for agent in self.room.active_AgentUser_list:
-                    agent.run()
-            else:
-                # to slow down the main thread in comparaison to agent thread
-                time.sleep(TIME_BTW_FRAMES)
-                pass
+            # to slow down the main thread in comparaison to agent thread
+            time.sleep(TIME_BTW_FRAMES)
 
             self.link_agent_target.update_link_camera_target()
             self.link_agent_target.compute_link_camera_target()

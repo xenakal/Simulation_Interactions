@@ -164,17 +164,6 @@ class Target(TargetRepresentation):
             self.t_add = [0]
             self.t_del = [1000]
 
-        """
-        use to thune the potential field method
-        self.k_att = 5
-        self.k_rep = 500000000
-        self.d_rep = tar_size + math.ceil(0.5 * tar_size)
-
-        self.F_att_max = 10
-        self.vx_max = 1
-        self.vy_max = 1
-        """
-
     def save_position(self):
         """
             :params

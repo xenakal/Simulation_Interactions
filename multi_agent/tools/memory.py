@@ -31,6 +31,7 @@ class Memory:
         self.nTime = nTime
         self.memory_all_agent = Agent_Target_TargetEstimator()
         self.memory_agent = Target_TargetEstimator()
+        self.best_estimations_1 = Target_TargetEstimator()
         self.predictors = []
         self.best_estimations = []
 
@@ -116,6 +117,11 @@ class Memory:
             target_prediction = self.get_target_predictions(target_id)
             if target_prediction is not None:
                 predictions.append([target_id, target_prediction])
+
+
+        """
+            list_all_prediction = [list_predtion_tplus1 = Target_TargetEstimator(), list_predtion_t2 = Target_TargetEstimator()]
+        """
         return predictions
 
     def get_target_predictions(self, seeked_target_id):

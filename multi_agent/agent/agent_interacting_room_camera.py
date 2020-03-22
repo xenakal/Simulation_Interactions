@@ -58,6 +58,7 @@ class AgentCam(AgentInteractingWithRoom):
         self.behaviour_analyser = TargetBehaviourAnalyser(self.memory)
         self.link_target_agent = LinkTargetCamera(self.room_representation)
 
+
     def init_and_set_room_description(self, room):
         """
             :description
