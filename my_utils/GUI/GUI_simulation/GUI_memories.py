@@ -27,10 +27,19 @@ class GUI_memories:
         for agent in agents:
             for targetID in self.targets_to_display:
                 agentMemory = agent.memory
+                # draw previous target positions as read by the agent
                 for targetEstimator in agentMemory.get_previous_positions(targetID):
                     pygame.draw.circle(self.screen, agent.camera.color,
                                        (self.x_offset + int(targetEstimator.target_position[0] * self.scale_x),
                                         self.y_offset + int(targetEstimator.target_position[1] * self.scale_y)), 2)
+
+                # draw positions with noise "removed" as estimated by the Kalman Filter
+                for pos in agentMemory.get_noiseless_estimations(targetID):
+                    pygame.draw.circle(self.screen, (0, 0, 204),
+                                       (self.x_offset + int(pos[0] * self.scale_x),
+                                        self.y_offset + int(pos[1] * self.scale_y)), 2)
+
+                # draw internal memory of positions used for the Kalman Filtering
                 predictor = agentMemory.get_target_predictor(targetID)
                 if predictor is not None:
                     #for pos in predictor.batch_filter_debug():
@@ -38,7 +47,7 @@ class GUI_memories:
                         #                   (self.x_offset + int(pos[0] * self.scale_x),
                         #                    self.y_offset + int(pos[1] * self.scale_y)), 2)
                     for pos in predictor.kalman_memory:
-                        pygame.draw.circle(self.screen, (0, 204, 0),
+                        pygame.draw.circle(self.screen, (204, 0, 0),
                                            (self.x_offset + int(pos[0] * self.scale_x),
                                            self.y_offset + int(pos[1] * self.scale_y)), 2)
 

@@ -32,7 +32,7 @@ class Memory:
         self.memory_all_agent = Agent_Target_TargetEstimator()
         self.memory_agent = Target_TargetEstimator()
         self.predictors = []
-        self.best_estimation = []
+        self.best_estimations = []
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
                                     target_xc, target_yc, target_size, target_type):
@@ -146,7 +146,36 @@ class Memory:
 
     # TODO: améliorer avec Kalman distribué
     def update_best_estimation(self, current_best_estimation, seeked_target_id):
-        for [target_id, pos_list] in self.best_estimation:
-            if target_id == seeked_target_id:
-                pos_list.append(current_best_estimation)
+        """
+        :description
+            Updates the estimation list for each target
+        :param
+            1) ([float, float]) current_best_estimation  -- estimated position
+            2) (int) seeked_target_id   -- target id for which the position is added to the best_estimation list
+        """
+        estimation_added = self.add_estimation_if_target_in_estimation_list(seeked_target_id, current_best_estimation)
+        if estimation_added:  # the target was already in the list, which is now updated
+            return
+        else:  # have to add the entry for the target
+            self.best_estimations.append([seeked_target_id, [current_best_estimation]])
 
+    def add_estimation_if_target_in_estimation_list(self, seeked_target_id, estimation):
+        """
+        :description
+            If the estimated noiseless positions list has an entry for this target id, append the estimation to it.
+            Otherwise, do nothing.
+        :param
+            1) (int) seeked_target_id   -- id of target for which the estimation is to be added
+            2) (position) estimation    -- noiseless position to be added in the best_estimation list
+        """
+        for (target_id, pos_list) in self.best_estimations:
+            if target_id == seeked_target_id:
+                pos_list.append(estimation)
+                return True
+        return False
+
+    def get_noiseless_estimations(self, seeked_target_id):
+        for (target_id, pos_list) in self.best_estimations:
+            if target_id == seeked_target_id:
+                return pos_list
+        return None
