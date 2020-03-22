@@ -1,10 +1,8 @@
 """Option for class main"""
 SAVE_DATA = False
-GENERATE_PLOT = False
+GENERATE_PLOT = True
 if GENERATE_PLOT:
     SAVE_DATA = True
-
-"Je fais de la merde"
 
 USE_GUI = 1
 USE_agent = 1
@@ -64,24 +62,69 @@ TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_stamp', 'agent_id', 'agent_signature', 
 
 def set_folder(fileName):
     SavePlotPath.MAIN_FOLDER = SavePlotPath.folder + "/data_saved - " + str(fileName)
-    SavePlotPath.DATA_FOLDER = SavePlotPath.MAIN_FOLDER + "/data"
-    SavePlotPath.PLOT_FOLDER = SavePlotPath.MAIN_FOLDER + "/plot"
 
-    SavePlotPath.DATA_REFERENCE = SavePlotPath.DATA_FOLDER + "/simulated_data"
-    SavePlotPath.DATA_MEMORY_AGENT = SavePlotPath.DATA_FOLDER + "/memory_agent"
-    SavePlotPath.DATA_MEMORY_ALL_AGENT = SavePlotPath.DATA_FOLDER + "/memory_all_agent"
-    SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT = SavePlotPath.DATA_MEMORY_AGENT + "/agent-"
-    SavePlotPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT = SavePlotPath.DATA_MEMORY_ALL_AGENT + "/agent-"
 
-    SavePlotPath.PLOT_MEMORY_AGENT = SavePlotPath.PLOT_FOLDER + "/memory_agent"
-    SavePlotPath.PLOT_MEMORY_ALL_AGENT = SavePlotPath.PLOT_FOLDER + "/memory_all_agent"
-    SavePlotPath.SAVE_LOAD_PLOT_MEMORY_AGENT = SavePlotPath.PLOT_MEMORY_AGENT + "/"
-    SavePlotPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT = SavePlotPath.PLOT_MEMORY_ALL_AGENT + "/"
+class classproperty(object):
+
+    def __init__(self, fget):
+        self.fget = fget
+
+    def __get__(self, owner_self, owner_cls):
+        return self.fget(owner_cls)
 
 
 class SavePlotPath:
     folder = "results"
 
+    @classproperty
+    def MAIN_FOLDER(cls):
+        return SavePlotPath.folder + "/data_saved - " + str("standard")
+
+    @classproperty
+    def DATA_FOLDER(cls):
+        return SavePlotPath.MAIN_FOLDER + "/data"
+
+    @classproperty
+    def PLOT_FOLDER(cls):
+        return SavePlotPath.MAIN_FOLDER + "/plot"
+
+    @classproperty
+    def DATA_REFERENCE(cls):
+        return SavePlotPath.DATA_FOLDER + "/simulated_data"
+
+    @classproperty
+    def DATA_MEMORY_AGENT(cls):
+        return SavePlotPath.DATA_FOLDER + "/memory_agent"
+
+    @classproperty
+    def DATA_MEMORY_ALL_AGENT(cls):
+        return SavePlotPath.DATA_FOLDER + "/memory_all_agent"
+
+    @classproperty
+    def SAVE_LOAD_DATA_MEMORY_AGENT(cls):
+        return SavePlotPath.DATA_MEMORY_AGENT + "/agent-"
+
+    @classproperty
+    def SAVE_LOAD_DATA_MEMORY_ALL_AGENT(cls):
+        return SavePlotPath.DATA_MEMORY_ALL_AGENT + "/agent-"
+
+    @classproperty
+    def PLOT_MEMORY_AGENT(cls):
+        return SavePlotPath.PLOT_FOLDER + "/memory_agent"
+
+    @classproperty
+    def PLOT_MEMORY_ALL_AGENT(cls):
+        return SavePlotPath.PLOT_FOLDER + "/memory_all_agent"
+
+    @classproperty
+    def SAVE_LOAD_PLOT_MEMORY_AGENT(cls):
+        return SavePlotPath.PLOT_MEMORY_AGENT + "/agent-"
+
+    @classproperty
+    def SAVE_LOAD_PLOT_MEMORY_ALL_AGENT(cls):
+        return SavePlotPath.PLOT_MEMORY_ALL_AGENT + "/agent-"
+
+    """
     MAIN_FOLDER = folder + "/data_saved - " + str("standard")
     DATA_FOLDER = MAIN_FOLDER + "/data"
     PLOT_FOLDER = MAIN_FOLDER + "/plot"
@@ -96,4 +139,5 @@ class SavePlotPath:
     PLOT_MEMORY_ALL_AGENT = PLOT_FOLDER + "/memory_all_agent"
     SAVE_LOAD_PLOT_MEMORY_AGENT = PLOT_MEMORY_AGENT + "/agent-"
     SAVE_LOAD_PLOT_MEMORY_ALL_AGENT = PLOT_MEMORY_ALL_AGENT + "/agent-"
+    """
 
