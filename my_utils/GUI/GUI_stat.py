@@ -37,7 +37,7 @@ class GUI_stat:
         label = self.font.render("Receiver", 20, GREEN)
         self.screen.blit(label, (self.x_offset + x_off, self.y_offset + y_off - 20))
 
-        for agent in room.agentCams:
+        for agent in room.active_AgentCams_list:
             label1 = self.font.render(str(agent.id), 20, GREEN)
             label2 = self.font.render(str(agent.id), 20, RED)
             self.screen.blit(label1, (self.x_offset + x_off + n * pas, self.y_offset + y_off))

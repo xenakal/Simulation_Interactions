@@ -10,7 +10,6 @@ multi_agent/__pycache__/*
 */__pycache__/*
 */*/__pycache__/
 my_utils/__pycache__/*
-my_utils
 my_utils/GUI/GUI_simulation/__pycache__/*
 __pycache__/*
 __init__

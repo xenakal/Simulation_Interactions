@@ -230,18 +230,3 @@ class AgentCam(AgentInteractingWithRoom):
         """
         return self.memory.get_predictions(target_id_list)
 
-    def makePredictionsOld(self, method, targetIdList):
-        """
-        :param targetList -- list of targets IDs: the return list will have an entry for each element of this list
-        :return a list of lists: [ [NUMBER_OF_PREDICTIONS*[x_estimated, y_estimated] ],[],...] (len = len(targetIdList)
-        """
-        if method == 1:
-            predictor = LinearPrediction(self.memory, constants.TIME_PICTURE)
-        elif method == 2:
-            predictor = KalmanPredictionOld(self.memory, constants.TIME_PICTURE)
-        else:
-            predictor = LinearPrediction(self.memory, constants.TIME_PICTURE)
-
-        predictions = predictor.makePredictions(targetIdList)
-
-        return predictions

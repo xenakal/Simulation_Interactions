@@ -178,4 +178,4 @@ class Memory:
         for (target_id, pos_list) in self.best_estimations:
             if target_id == seeked_target_id:
                 return pos_list
-        return None
+        return []

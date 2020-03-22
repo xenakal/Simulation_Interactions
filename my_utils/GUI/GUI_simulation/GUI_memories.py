@@ -2,6 +2,7 @@ import pygame
 from my_utils.GUI.GUI import *
 from multi_agent.agent.agent import AgentType
 
+
 class GUI_memories:
 
     def __init__(self, screen, agents, targets, x_off, y_off, scaleX, scaleY):
@@ -42,14 +43,14 @@ class GUI_memories:
                 # draw internal memory of positions used for the Kalman Filtering
                 predictor = agentMemory.get_target_predictor(targetID)
                 if predictor is not None:
-                    #for pos in predictor.batch_filter_debug():
-                        #pygame.draw.circle(self.screen, (204, 0, 0),
-                        #                   (self.x_offset + int(pos[0] * self.scale_x),
-                        #                    self.y_offset + int(pos[1] * self.scale_y)), 2)
+                    # for pos in predictor.batch_filter_debug():
+                    #   pygame.draw.circle(self.screen, (204, 0, 0),
+                    #                      (self.x_offset + int(pos[0] * self.scale_x),
+                    #                      self.y_offset + int(pos[1] * self.scale_y)), 2)
                     for pos in predictor.kalman_memory:
                         pygame.draw.circle(self.screen, (204, 0, 0),
                                            (self.x_offset + int(pos[0] * self.scale_x),
-                                           self.y_offset + int(pos[1] * self.scale_y)), 2)
+                                            self.y_offset + int(pos[1] * self.scale_y)), 2)
 
     def draw_mesure_and_receiveMessages(self, room):
         """ Draws the previous positions of the selected targets for the selected agents. """

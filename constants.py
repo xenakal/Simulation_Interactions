@@ -11,6 +11,7 @@ USE_dynamic_analysis_simulated_room = 0
 
 T_MAX = 10000
 TIME_BTW_FRAMES = .1
+TIME_BTW_TARGET_MOVEMENT = .1
 
 STATIC_ANALYSIS_PRECISION = 3  # best with 1 until map size
 STATIC_ANALYSIS_PRECISION_simulated_room = 10
@@ -29,7 +30,7 @@ DATA_TO_SEND = "behaviour"
 
 """Option for class estimator"""
 INCLUDE_ERROR = True
-STD_MEASURMENT_ERROR = 2
+STD_MEASURMENT_ERROR = 3
 
 """Option for class predication"""
 NUMBER_PREDICTIONS = 6

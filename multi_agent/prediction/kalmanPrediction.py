@@ -105,7 +105,7 @@ def kfObject(x_init, y_init):
     f.u = 0
     f.H = np.array([[1., 0., 0., 0.],
                     [0., 1., 0., 0.]])
-    f.P *= 4.
+    f.P *= 2.
     f.R = np.eye(2) * STD_MEASURMENT_ERROR**2
     f.B = 0
     q = Q_discrete_white_noise(dim=2, dt=dt, var=0.001)  # var => how precise the model is
