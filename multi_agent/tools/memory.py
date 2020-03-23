@@ -1,5 +1,6 @@
 from multi_agent.tools.estimator import *
 from multi_agent.prediction.kalmanPrediction import KalmanPrediction
+import constants
 
 
 class Memory:
@@ -12,17 +13,24 @@ class Memory:
         current_time -- time to be updated so that the memory is on time with the room.
         nTime        -- number of memories over time that should be stored (not use yet)
 
-        ([[agent.id, target.id, [TargetEstimator]],...]) memory_all_agent -- list of all information the agent
-                                                                             has (ie his reading + reading other other
-                                                                             agents sent). The function combine_data
-                                                                             uses memory_all_agent to create memory_agent
+        (Agent_Target_TargetEstimator) memory_all_agent -- list of all information the agent has (ie his reading +
+                                                           reading other other agents sent). The function combine_data
+                                                           uses memory_all_agent to create memory_agent.
 
-        ([[target.id,[TargetEstimator]],...]) memory_agent -- list of positions
+        (Target_TargetEstimator) memory_agent -- list of combined information for each target.
+                                                 Now, it only contains the information the agent himself has gathered.
+                                                 In the future, a different approach may be implemented, where some
+                                                 sort of mean is implemented to combine the information all agents
+                                                 exchange.
 
-        ([KalmanPrediction, ...]) predictors -- KalmanPrediction objects tracking the detected targets
+        ([KalmanPrediction, ...]) predictors -- KalmanPrediction objects tracking the detected targets.
 
-        ([[target.id, [pos, ...], ...]) best_estimation -- best estimation of actual position (ie removing the noise) of
-                                                           each target.
+        (Target_TargetEstimator) best_estimation -- best estimation of actual position (ie removing the noise) of
+                                                    each target.
+
+        ([target.id, [Target_TargetEstimator, ...], ...]) predictions  -- list of size NUMBER_PREDICTIONS, where each element is a
+                                                          Target_TargetEstimator containing the predicted positions of
+                                                          order equal to the index
     """
 
     def __init__(self, agentID, nTime=20, current_time=0):
@@ -33,7 +41,9 @@ class Memory:
         self.memory_agent = Target_TargetEstimator()
         self.best_estimations_1 = Target_TargetEstimator()
         self.predictors = []
-        self.best_estimations = []
+        self.best_estimations = Target_TargetEstimator()
+        self.predictions_order_1 = Target_TargetEstimator()
+        self.predictions_order_2 = Target_TargetEstimator()
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
                                     target_xc, target_yc, target_size, target_type):
@@ -55,7 +65,11 @@ class Memory:
             state = [target_xc, target_yc]
             target_predictor.add_measurement(state)
             new_estimate_current_pos = target_predictor.get_current_position()
-            self.update_best_estimation(new_estimate_current_pos, target_id)
+            self.update_best_estimation(time_from_estimation, agent_id, agent_signature, target_id,
+                                        target_signature, new_estimate_current_pos[0], new_estimate_current_pos[1],
+                                        target_size, target_type)
+            self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, target_id,
+                                        target_signature, target_size, target_type)
 
     def add_target_estimator(self, estimator):
         self.memory_all_agent.add_target_estimator(estimator)
@@ -151,37 +165,34 @@ class Memory:
         self.predictors.append(predictor)
 
     # TODO: améliorer avec Kalman distribué
-    def update_best_estimation(self, current_best_estimation, seeked_target_id):
+    def update_best_estimation(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
+                               pos_x, pos_y, target_size, target_type):
         """
         :description
             Updates the estimation list for each target
         :param
-            1) ([float, float]) current_best_estimation  -- estimated position
-            2) (int) seeked_target_id   -- target id for which the position is added to the best_estimation list
-        """
-        estimation_added = self.add_estimation_if_target_in_estimation_list(seeked_target_id, current_best_estimation)
-        if estimation_added:  # the target was already in the list, which is now updated
-            return
-        else:  # have to add the entry for the target
-            self.best_estimations.append([seeked_target_id, [current_best_estimation]])
 
-    def add_estimation_if_target_in_estimation_list(self, seeked_target_id, estimation):
         """
-        :description
-            If the estimated noiseless positions list has an entry for this target id, append the estimation to it.
-            Otherwise, do nothing.
-        :param
-            1) (int) seeked_target_id   -- id of target for which the estimation is to be added
-            2) (position) estimation    -- noiseless position to be added in the best_estimation list
-        """
-        for (target_id, pos_list) in self.best_estimations:
-            if target_id == seeked_target_id:
-                pos_list.append(estimation)
-                return True
-        return False
+        self.best_estimations.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
+                                                          target_signature, pos_x, pos_y, target_size, target_type)
 
     def get_noiseless_estimations(self, seeked_target_id):
-        for (target_id, pos_list) in self.best_estimations:
-            if target_id == seeked_target_id:
-                return pos_list
-        return []
+        """
+        :return:
+            if not found        -- []
+            else                -- TargetEstimator list
+        """
+        return self.best_estimations.get_Target_list(seeked_target_id)
+
+    def update_predictions_lists(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
+                                 target_size, target_type):
+        predictions_for_target = self.get_target_predictor(target_id).get_predictions()
+        predictions_order_1 = predictions_for_target[0]
+        predictions_order_2 = predictions_for_target[1]
+        self.predictions_order_1.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
+                                                             target_signature, predictions_order_1[0],
+                                                             predictions_order_1[1], target_size, target_type)
+        self.predictions_order_2.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
+                                                             target_signature, predictions_order_2[0],
+                                                             predictions_order_2[1], target_size, target_type)
+

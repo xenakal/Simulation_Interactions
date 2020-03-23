@@ -1,6 +1,6 @@
 """Option for class main"""
-SAVE_DATA = True
-GENERATE_PLOT = False
+SAVE_DATA = False
+GENERATE_PLOT = True
 if GENERATE_PLOT:
     SAVE_DATA = True
 
@@ -58,6 +58,8 @@ TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_stamp', 'agent_id', 'agent_signature', 
                                    'target_type', 'target_x', 'target_y', 'target_radius']
 
 """Path to save data and create plot"""
+
+
 class classproperty(object):
 
     def __init__(self, fget):
@@ -73,7 +75,7 @@ class SavePlotPath:
 
     @classproperty
     def MAIN_FOLDER(cls):
-        return SavePlotPath.folder + "/data_saved - " + SavePlotPath.name_simulation
+        return SavePlotPath.folder + "/data_saved - " + str("standard")
 
     @classproperty
     def DATA_FOLDER(cls):
