@@ -1,6 +1,6 @@
 """Option for class main"""
-SAVE_DATA = False
-GENERATE_PLOT = True
+SAVE_DATA = True
+GENERATE_PLOT = False
 if GENERATE_PLOT:
     SAVE_DATA = True
 
@@ -58,8 +58,6 @@ TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_stamp', 'agent_id', 'agent_signature', 
                                    'target_type', 'target_x', 'target_y', 'target_radius']
 
 """Path to save data and create plot"""
-
-
 class classproperty(object):
 
     def __init__(self, fget):
@@ -71,10 +69,11 @@ class classproperty(object):
 
 class SavePlotPath:
     folder = "results"
+    name_simulation = "standard"
 
     @classproperty
     def MAIN_FOLDER(cls):
-        return SavePlotPath.folder + "/data_saved - " + str("standard")
+        return SavePlotPath.folder + "/data_saved - " + SavePlotPath.name_simulation
 
     @classproperty
     def DATA_FOLDER(cls):
@@ -119,21 +118,4 @@ class SavePlotPath:
     @classproperty
     def SAVE_LOAD_PLOT_MEMORY_ALL_AGENT(cls):
         return SavePlotPath.PLOT_MEMORY_ALL_AGENT + "/agent-"
-
-    """
-    MAIN_FOLDER = folder + "/data_saved - " + str("standard")
-    DATA_FOLDER = MAIN_FOLDER + "/data"
-    PLOT_FOLDER = MAIN_FOLDER + "/plot"
-
-    DATA_REFERENCE = DATA_FOLDER + "/simulated_data"
-    DATA_MEMORY_AGENT = DATA_FOLDER + "/memory_agent"
-    DATA_MEMORY_ALL_AGENT = DATA_FOLDER + "/memory_all_agent"
-    SAVE_LOAD_DATA_MEMORY_AGENT = DATA_MEMORY_AGENT + "/agent-"
-    SAVE_LOAD_DATA_MEMORY_ALL_AGENT = DATA_MEMORY_ALL_AGENT + "/agent-"
-
-    PLOT_MEMORY_AGENT = PLOT_FOLDER + "/memory_agent"
-    PLOT_MEMORY_ALL_AGENT = PLOT_FOLDER + "/memory_all_agent"
-    SAVE_LOAD_PLOT_MEMORY_AGENT = PLOT_MEMORY_AGENT + "/agent-"
-    SAVE_LOAD_PLOT_MEMORY_ALL_AGENT = PLOT_MEMORY_ALL_AGENT + "/agent-"
-    """
 

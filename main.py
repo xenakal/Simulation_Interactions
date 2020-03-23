@@ -90,7 +90,7 @@ class App:
 
         # to save the data
         if constants.SAVE_DATA:
-            constants.set_folder(self.filename)
+            constants.SavePlotPath.name_simulation=self.filename
             create_structur_to_save_data()
 
     def move_all_targets_thread(self):

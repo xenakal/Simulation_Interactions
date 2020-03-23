@@ -103,7 +103,7 @@ class AgentInteractingWithRoom(Agent):
             print("Saving data: agent " + str(self.id))
             save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT+str(self.id),self.memory.memory_all_agent.to_csv())
             save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT+ str(self.id), self.memory.memory_agent.to_csv())
-            save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_PREDICTION + str(self.id),self.memory.best_estimations_1.to_csv())
+            #save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_PREDICTION + str(self.id),self.memory.best_estimations_1.to_csv())
 
         "Clear"
         self.thread_is_running = 0

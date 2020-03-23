@@ -515,6 +515,7 @@ class Target_TargetEstimator:
 
         csv_fieldnames = constants.TARGET_ESTIMATOR_CSV_FIELDNAMES
         data_to_save = []
+        self.Target_TargetEstimator_list.sort()
         for combination_agent_target in self.Target_TargetEstimator_list:
             for targetEstimator in combination_agent_target[1]:
                 data_to_save.append(targetEstimator.to_csv())
