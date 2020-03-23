@@ -1,6 +1,6 @@
 """Option for class main"""
 SAVE_DATA = False
-GENERATE_PLOT = True
+GENERATE_PLOT = False
 if GENERATE_PLOT:
     SAVE_DATA = True
 
@@ -72,6 +72,7 @@ class classproperty(object):
 class SavePlotPath:
     folder = "results"
 
+
     @classproperty
     def MAIN_FOLDER(cls):
         return SavePlotPath.folder + "/data_saved - " + str("standard")
@@ -119,21 +120,3 @@ class SavePlotPath:
     @classproperty
     def SAVE_LOAD_PLOT_MEMORY_ALL_AGENT(cls):
         return SavePlotPath.PLOT_MEMORY_ALL_AGENT + "/agent-"
-
-    """
-    MAIN_FOLDER = folder + "/data_saved - " + str("standard")
-    DATA_FOLDER = MAIN_FOLDER + "/data"
-    PLOT_FOLDER = MAIN_FOLDER + "/plot"
-
-    DATA_REFERENCE = DATA_FOLDER + "/simulated_data"
-    DATA_MEMORY_AGENT = DATA_FOLDER + "/memory_agent"
-    DATA_MEMORY_ALL_AGENT = DATA_FOLDER + "/memory_all_agent"
-    SAVE_LOAD_DATA_MEMORY_AGENT = DATA_MEMORY_AGENT + "/agent-"
-    SAVE_LOAD_DATA_MEMORY_ALL_AGENT = DATA_MEMORY_ALL_AGENT + "/agent-"
-
-    PLOT_MEMORY_AGENT = PLOT_FOLDER + "/memory_agent"
-    PLOT_MEMORY_ALL_AGENT = PLOT_FOLDER + "/memory_all_agent"
-    SAVE_LOAD_PLOT_MEMORY_AGENT = PLOT_MEMORY_AGENT + "/agent-"
-    SAVE_LOAD_PLOT_MEMORY_ALL_AGENT = PLOT_MEMORY_ALL_AGENT + "/agent-"
-    """
-
