@@ -41,10 +41,8 @@ class Memory:
         self.memory_agent = Target_TargetEstimator()
         self.predictors = []
         self.best_estimations = Target_TargetEstimator()
-        self.predictions = []
-        for i in range(constants.NUMBER_PREDICTIONS):
-            # TODO
-            pass
+        self.predictions_order_1 = Target_TargetEstimator()
+        self.predictions_order_2 = Target_TargetEstimator()
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
                                     target_xc, target_yc, target_size, target_type):
@@ -69,6 +67,8 @@ class Memory:
             self.update_best_estimation(time_from_estimation, agent_id, agent_signature, target_id,
                                         target_signature, new_estimate_current_pos[0], new_estimate_current_pos[1],
                                         target_size, target_type)
+            self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, target_id,
+                                        target_signature, target_size, target_type)
 
     def add_target_estimator(self, estimator):
         self.memory_all_agent.add_target_estimator(estimator)
@@ -177,3 +177,16 @@ class Memory:
             else                -- TargetEstimator list
         """
         return self.best_estimations.get_Target_list(seeked_target_id)
+
+    def update_predictions_lists(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
+                                 target_size, target_type):
+        predictions_for_target = self.get_target_predictor(target_id).get_predictions()
+        predictions_order_1 = predictions_for_target[0]
+        predictions_order_2 = predictions_for_target[1]
+        self.predictions_order_1.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
+                                                             target_signature, predictions_order_1[0],
+                                                             predictions_order_1[1], target_size, target_type)
+        self.predictions_order_2.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
+                                                             target_signature, predictions_order_2[0],
+                                                             predictions_order_2[1], target_size, target_type)
+

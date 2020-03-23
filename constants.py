@@ -72,7 +72,6 @@ class classproperty(object):
 class SavePlotPath:
     folder = "results"
 
-
     @classproperty
     def MAIN_FOLDER(cls):
         return SavePlotPath.folder + "/data_saved - " + str("standard")
