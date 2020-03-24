@@ -93,7 +93,7 @@ class AgentCam(AgentInteractingWithRoom):
                 time.sleep(constants.TIME_PICTURE)
 
                 "Allows to simulate crash of the camera"
-                if not self.camera.is_camera_active():
+                if not self.camera.isActive:
                     nextstate = "takePicture"
                     time.sleep(0.3)
                 else:
@@ -216,6 +216,7 @@ class AgentCam(AgentInteractingWithRoom):
                 memories = self.memory.memory_agent.get_Target_list(target.id)
                 if len(memories) > 0:
                     receivers = []
+                 
                     for agent in self.room_representation.active_AgentUser_list:
                         receivers.append([agent.id, agent.signature])
                     last_memory = memories[len(memories) - 1]

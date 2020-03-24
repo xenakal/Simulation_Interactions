@@ -30,7 +30,7 @@ class InformationRoomSimulation:
         "Room radius"
         self.coordinate_room = numpy.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])  # x y l h
 
-        "Target that should appear in the room"
+        "Target with their time of apparition and disparition "
         self.Target_list = []
 
         "Trajectories proposed to the targets"
@@ -137,7 +137,9 @@ class RoomRepresentation:
         self.active_Target_list = []
 
         """Agent informations"""
+        self.agentCams_list = []
         self.active_AgentCams_list = []
+        self.agentUser_list = []
         self.active_AgentUser_list = []
 
         """Others attributes"""
@@ -164,10 +166,12 @@ class RoomRepresentation:
                 self.add_targetRepresentation_from_target(target)
 
         for agent in room.active_AgentCams_list:
-            self.active_AgentCams_list.append(agent)
+            self.agentCams_list.append(agent)
 
         for agent in room.active_AgentUser_list:
-            self.active_AgentUser_list.append(agent)
+            self.agentUser_list.append(agent)
+
+        self.active_AgentUser_list = self.agentUser_list
 
     def update_target_based_on_memory(self, Target_TargetEstimator):
         """
@@ -349,11 +353,10 @@ class Room(RoomRepresentation):
                 5. (int) is_fix                          -- 0 = camera can rotate, 1 = cam orientation is fix
         """
         number_Camera = len(self.active_Camera_list)
-        number_AgentCam = len(self.active_AgentCams_list)
+        number_AgentCam = len(self.agentCams_list)
         camera = Camera(myRoom, number_Camera, cam_x, cam_y, cam_alpha, cam_beta, fix)
         self.active_Camera_list.append(camera)
-        self.active_AgentCams_list.append(
-            multi_agent.agent.agent_interacting_room_camera.AgentCam(number_AgentCam, camera))
+        self.agentCams_list.append(multi_agent.agent.agent_interacting_room_camera.AgentCam(number_AgentCam, camera))
 
     def init_AgentUser(self, number=1):
         """
@@ -364,7 +367,7 @@ class Room(RoomRepresentation):
                 1. (int) number -- number of agent to be created, by default 1
         """
         for n in range(number):
-            number_AgentUser = len(self.active_AgentUser_list)
+            number_AgentUser = len(self.agentUser_list)
             self.active_AgentUser_list.append(multi_agent.agent.agent_interacting_room_user.AgentUser(number_AgentUser))
 
     def init_trajectories(self, all_trajectories_loaded):
@@ -393,6 +396,23 @@ class Room(RoomRepresentation):
                 target.is_on_the_map = False
                 index = self.active_Target_list.index(target)
                 del self.active_Target_list[index]
+
+    def des_activate_camera_agentCam_timed(self):
+        """
+            :description
+                Add and remove target from active_Target_list for given time
+        """
+        for agent in self.agentCams_list:
+            camera = agent.camera
+            if camera.t_add[camera.number_of_time_passed] <= self.time <= camera.t_del[camera.number_of_time_passed] and not camera.isActive:
+                camera.isActive = True
+                self.active_AgentCams_list.append(agent)
+
+            elif self.time > camera.t_del[camera.number_of_time_passed] and camera.isActive:
+                camera.number_of_time_passed = camera.number_of_time_passed+1
+                camera.isActive = False
+                index = self.active_Target_list.index(agent)
+                del self.active_AgentCams_list[index]
 
     def add_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del):
         """"

@@ -49,7 +49,7 @@ class Camera:
 
     """
 
-    def __init__(self, room, id, xc, yc, alpha, beta, is_fix=1, color=0):
+    def __init__(self, room, id, xc, yc, alpha, beta, is_fix=1, color=0,t_add = -1,t_del = -1):
         """Initialisation"""
 
         " Identification name (id) + number "
@@ -64,9 +64,13 @@ class Camera:
 
         "Attibutes"
         self.is_fix = is_fix
-        self.isActive = 1
         self.color = color
         self.room = room
+
+        self.isActive = False
+        self.t_add = t_add
+        self.t_del = t_del
+        self.number_of_time_passed = 0
 
         "Default values"
         if color == 0:
@@ -74,6 +78,10 @@ class Camera:
             g = 25 + 20 * random.randrange(0, 10, 1)
             b = 25 + 20 * random.randrange(0, 10, 1)
             self.color = (r, g, b)
+
+        if t_add == -1 or t_del == -1:
+            self.t_add = [5]
+            self.t_del = [1000]
 
         "List to get target in the camera vision field"
         " !! use the metjod take picture to fill those list !! "
@@ -92,7 +100,7 @@ class Camera:
                 2.        else, empty list []
         """
 
-        if self.is_camera_active():
+        if self.isActive:
             self.take_picture(self.room.active_Target_list, 400)
             return self.targetCameraDistance_list
         else:
@@ -103,24 +111,14 @@ class Camera:
             :description
                  modifies the state of the camera
         """
-        self.isActive = 1
+        self.isActive = True
 
     def desactivate_camera(self):
         """
             :description
                  modifies the state of the camera
         """
-        self.isActive = 0
-
-    def is_camera_active(self):
-        """
-            :return
-                1. (bool) -- True is the camera is active, else False
-        """
-        if self.isActive == 1:
-            return True
-        else:
-            return False
+        self.isActive = False
 
     def cam_rotate(self, delta_angle):
         """

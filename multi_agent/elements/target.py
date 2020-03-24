@@ -170,7 +170,7 @@ class Target(TargetRepresentation):
             self.vx_max = self.vx
             self.vy_max = self.vy
 
-        if t_add == -1:
+        if t_add == -1 or t_del == -1 :
             self.t_add = [0]
             self.t_del = [1000]
 

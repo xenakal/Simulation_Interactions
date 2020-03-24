@@ -253,11 +253,11 @@ class AgentStatistic:
 
         tab0 = []
         tab1 = []
-        for agent in room.active_AgentCams_list:
+        for agent in room.agentCams_list:
             tab0.append([agent.id, 0])
             tab1.append([agent.id, 0])
 
-        for agent in room.active_AgentUser_list:
+        for agent in room.agentUser_list:
             tab0.append([agent.id, 0])
             tab1.append([agent.id, 0])
 

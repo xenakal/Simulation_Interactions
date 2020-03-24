@@ -49,9 +49,9 @@ class App:
         self.room = self.room_txt.init_room()
         # Adding one agent user
         self.room.init_AgentUser(1)
-        for agent in self.room.active_AgentCams_list:
+        for agent in self.room.agentCams_list:
             agent.init_and_set_room_description(self.room)
-        for agent in self.room.active_AgentUser_list:
+        for agent in self.room.agentUser_list:
             agent.init_and_set_room_description(self.room)
 
         # Computing the vision in the room taking into account only fix objects
@@ -64,10 +64,10 @@ class App:
             self.dynamic_region.init(STATIC_ANALYSIS_PRECISION_simulated_room)
         # Starting the multi_agent simulation
         if USE_agent:
-                for agent in self.room.active_AgentCams_list:
-                    agent.run()
-                for agent in self.room.active_AgentUser_list:
-                    agent.run()
+            for agent in self.room.active_AgentCams_list:
+                agent.run()
+            for agent in self.room.agentUser_list:
+                agent.run()
 
         self.link_agent_target = LinkTargetCamera(self.room)
         self.link_agent_target.update_link_camera_target()
@@ -121,6 +121,7 @@ class App:
 
             # adding/removing target to the room
             self.room.add_del_target_timed()
+            self.room.des_activate_camera_agentCam_timed()
 
             #theoritical calculation
             self.link_agent_target.update_link_camera_target()
