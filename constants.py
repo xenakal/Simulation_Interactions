@@ -6,7 +6,7 @@ if GENERATE_PLOT:
 
 USE_GUI = 1
 USE_agent = 1
-USE_static_analysis = 1
+USE_static_analysis = 0
 USE_dynamic_analysis_simulated_room = 0
 
 T_MAX = 30

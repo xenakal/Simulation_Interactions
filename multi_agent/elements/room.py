@@ -392,10 +392,10 @@ class Room(RoomRepresentation):
                 self.active_Target_list.append(target)
 
             elif self.time > target.t_del[target.number_of_time_passed] and target.is_on_the_map:
-                target.number_of_time_passed = target.number_of_time_passed+1
+                if target.number_of_time_passed < len(target.t_add)-1:
+                    target.number_of_time_passed = target.number_of_time_passed+1
                 target.is_on_the_map = False
-                index = self.active_Target_list.index(target)
-                del self.active_Target_list[index]
+                self.active_Target_list.remove(target)
 
     def des_activate_camera_agentCam_timed(self):
         """
@@ -409,10 +409,10 @@ class Room(RoomRepresentation):
                 self.active_AgentCams_list.append(agent)
 
             elif self.time > camera.t_del[camera.number_of_time_passed] and camera.isActive:
-                camera.number_of_time_passed = camera.number_of_time_passed+1
+                if camera.number_of_time_passed < len(camera.t_add)-1:
+                    camera.number_of_time_passed = camera.number_of_time_passed+1
                 camera.isActive = False
-                index = self.active_Target_list.index(agent)
-                del self.active_AgentCams_list[index]
+                self.active_AgentCams_list.remove(agent)
 
     def add_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del):
         """"

@@ -137,7 +137,6 @@ class App:
                     self.dynamic_region.compute_all_map(DYNAMIC_ANALYSIS_PRECISION)
                 else:
                     region = self.static_region
-                    region.init(STATIC_ANALYSIS_PRECISION)
                     self.static_region.compute_all_map(STATIC_ANALYSIS_PRECISION)
 
                 self.myGUI.updateGUI(self.room, region, self.link_agent_target.link_camera_target)

@@ -80,8 +80,8 @@ class Camera:
             self.color = (r, g, b)
 
         if t_add == -1 or t_del == -1:
-            self.t_add = [5]
-            self.t_del = [1000]
+            self.t_add = [3]
+            self.t_del = [20]
 
         "List to get target in the camera vision field"
         " !! use the metjod take picture to fill those list !! "
