@@ -384,9 +384,13 @@ class Room(RoomRepresentation):
         """
 
         for target in self.information_simulation.Target_list:
-            if self.time in target.t_add:
+            if target.t_add[target.number_of_time_passed] <= self.time <= target.t_del[target.number_of_time_passed] and not target.is_on_the_map:
+                target.is_on_the_map = True
                 self.active_Target_list.append(target)
-            elif self.time in target.t_del:
+
+            elif self.time > target.t_del[target.number_of_time_passed] and target.is_on_the_map:
+                target.number_of_time_passed = target.number_of_time_passed+1
+                target.is_on_the_map = False
                 index = self.active_Target_list.index(target)
                 del self.active_Target_list[index]
 

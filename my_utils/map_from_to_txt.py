@@ -46,7 +46,26 @@ class Room_txt:
         fichier.write("# 10 lines to save target data \n")
         fichier.write("# 5 lines to save target data \n")
         fichier.write("# Description start below this line \n")
-        fichier.write("#==================================\n")
+        fichier.write("#Targets description\n")
+        fichier.write("#xc\n")
+        fichier.write("#yc\n")
+        fichier.write("#vx\n")
+        fichier.write("#vy\n")
+        fichier.write("#trajectory_type\n")
+        fichier.write("#trajectory_choice\n")
+        fichier.write("#label_target\n")
+        fichier.write("#radius\n")
+        fichier.write("#t_add\n")
+        fichier.write("#t_del\n")
+        fichier.write("#---------------------------- \n")
+        fichier.write("#Targets description\n")
+        fichier.write("#xc\n")
+        fichier.write("#yc\n")
+        fichier.write("#alpha\n")
+        fichier.write("#beta\n")
+        fichier.write("#fix\n")
+        fichier.write("#---------------------------- \n")
+
         fichier.write("#\n")
         count = 0
         for element in self.data_to_save:
@@ -100,7 +119,7 @@ class Room_txt:
                     for elem in linesplit:
                         if not (elem == "\n"):
                             try:
-                                self.data_to_save[count].append(int(float(elem)))
+                                self.data_to_save[count].append(float(elem))
                             except ValueError:
                                 self.data_to_save[count].append(elem)
                 count = count + 1
@@ -119,7 +138,7 @@ class Room_txt:
                 numbers = re.split("\), \(", traj_num)
                 for number in numbers:
                     xy = re.split(", ", number)
-                    sublist.append((int(xy[0]), int(xy[1])))
+                    sublist.append((float(xy[0]), float(xy[1])))
                 list.append((int(num), sublist))
             except IndexError:
                 pass
@@ -137,7 +156,7 @@ class Room_txt:
                 for number in numbers:
                     if not (number == ""):
                         try:
-                            sublist.append(int(number))
+                            sublist.append(float(number))
                         except IndexError:
                             pass
                 if not (item == ""):

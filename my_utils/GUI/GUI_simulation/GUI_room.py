@@ -58,18 +58,14 @@ class GUI_room:
             color = MOVING_COLOR
         elif target.type == TargetType.UNKNOWN:
             color = UNKNOWN_COLOR
-            #r = random.randrange(20, 230, 1)
-            #g = random.randrange(20, 230, 1)
-            #b = random.randrange(20, 255, 1)
-            #color = (r, g, b)
 
         # so that it is only target.yc drawn in the square
         if (tab[0] <= target.xc + target.radius <= tab[0] + tab[
             2] and tab[1] <= target.yc + target.radius <= tab[1] + tab[3]):  # target inside room
             # render the target.xct
             label = self.font.render(str(target.id), 10, color)
-            self.screen.blit(label, (self.x_offset + int(target.xc * self.scale_x) + target.radius / 2 + 5,
-                                     self.y_offset + int(target.yc * self.scale_y) + target.radius / 2 + 5))
+            self.screen.blit(label, (self.x_offset + int(target.xc * self.scale_x) + self.scale_x*target.radius / 2 + 5,
+                                     self.y_offset + int(target.yc * self.scale_y) + self.scale_y*target.radius / 2 + 5))
             # render form
             pygame.draw.ellipse(self.screen, color, (
                 self.x_offset + int(target.xc * self.scale_x) - self.scale_x * target.radius,
@@ -77,7 +73,7 @@ class GUI_room:
                 self.scale_x * target.radius * 2,
                 self.scale_y * target.radius * 2))
 
-            if target.radius >= 5:
+            if target.radius >= 0.05:
                 pygame.draw.ellipse(self.screen, target.color,
                                     (self.x_offset + int(target.xc * self.scale_x) - self.scale_x * target.radius / 2,
                                      self.y_offset + int(target.yc * self.scale_y) - self.scale_y * target.radius / 2,

@@ -6,7 +6,18 @@ from plot_functions.plot_targetEstimator import *
 constants.SavePlotPath.folder = "../results"
 constants.SavePlotPath.name_simulation = "My_new_map"
 
-test = AnalyseMemoryAgent(100)
-#test.plot_a_target_simulated_data_collected_data(3)
-test.MSE_target_id(4)
+
+agent_id = 1
+analyser_memory_agent = Analyser_Target_TargetEstimator_FormatCSV(agent_id,constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT)
+analyser_memory_all_agent = Analyser_Target_TargetEstimator_FormatCSV(agent_id,constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT)
+analyser_kalman_global = Analyser_Target_TargetEstimator_FormatCSV(agent_id,constants.SavePlotPath.SAVE_LOAD_DATA_KALMAN_GLOBAL)
+analyser_prediction_t_plus_1 = Analyser_Target_TargetEstimator_FormatCSV(agent_id,constants.SavePlotPath.SAVE_LOAD_DATA_PREDICTION_TPLUS1)
+analyser_prediction_t_plus_2 = Analyser_Target_TargetEstimator_FormatCSV(agent_id,constants.SavePlotPath.SAVE_LOAD_DATA_PREDICTION_TPLUS2)
+
+
+target_id = 0
+analyser_kalman_global.MSE_target_id(target_id)
+analyser_memory_agent.MSE_target_id(target_id)
+
+
 plt.show()

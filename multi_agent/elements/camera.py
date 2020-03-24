@@ -196,7 +196,7 @@ class Camera:
         """
         target_camera_distance_list = []
         for target in target_list:
-            distance = math.ceil(distance_btw_two_point(self.xc, self.yc, target.xc, target.yc))
+            distance = distance_btw_two_point(self.xc, self.yc, target.xc, target.yc)
             target_camera_distance_list.append(TargetCameraDistance(target, distance))
 
         target_camera_distance_list.sort()

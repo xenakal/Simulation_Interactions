@@ -103,7 +103,9 @@ class AgentInteractingWithRoom(Agent):
             print("Saving data: agent " + str(self.id))
             save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT+str(self.id),self.memory.memory_all_agent.to_csv())
             save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT+ str(self.id), self.memory.memory_agent.to_csv())
-            #save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_PREDICTION + str(self.id),self.memory.best_estimations_1.to_csv())
+            save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_KALMAN_GLOBAL + str(self.id),self.memory.best_estimations.to_csv())
+            save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_PREDICTION_TPLUS1 + str(self.id),self.memory.predictions_order_1.to_csv())
+            save_in_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_PREDICTION_TPLUS2 + str(self.id),self.memory.predictions_order_2.to_csv())
 
         "Clear"
         self.thread_is_running = 0
@@ -207,7 +209,7 @@ class AgentInteractingWithRoom(Agent):
         """
         s = message.message
         if not (s == ""):
-            estimator = TargetEstimator(0, 0, 0, 0, 0, 0, 0, 0, )
+            estimator = TargetEstimator(0, 0, 0, 0, 0, 0, 0, 0)
             estimator.parse_string(s)
             self.memory.add_target_estimator(estimator)
             self.send_message_ack_nack(message, "ack")

@@ -8,11 +8,11 @@ from matplotlib.colors import ListedColormap, BoundaryNorm
 from mpl_toolkits.mplot3d import Axes3D
 
 X_MIN = 0
-X_MAX = 400
+X_MAX = constants.LENGHT_ROOM+1
 Y_MIN = 0
-Y_MAX = 300
+Y_MAX = constants.WIDTH_ROOM
 T_MIN = 0
-T_MAX = 500
+T_MAX = constants.T_MAX
 
 def plot_graph_3D(ax, x, y, z, title="title", x_label="x_axis", y_label="y_axis", z_label="z_label"):
     ax.plot(x, y, z, "x", label='parametric curve')
@@ -61,7 +61,7 @@ def plot_graph_3D_2D(ax, x, y, z, size, vmin, vmax, title="title", x_label="x_ax
     # lc.set_linewidth(2)
     # line = ax.add_collection(lc)
 
-    sc = ax.scatter(x, y, c=z, s=math.pow(size[0], 2) * math.pi, vmin=vmin, vmax=vmax, cmap="Spectral", alpha=0.4)
+    sc = ax.scatter(x, y, c=z, s = 2500* math.pow(size[0], 2) * math.pi, vmin=vmin, vmax=vmax, cmap="Spectral", alpha=0.4)
     ax.plot(x, y, "x", label=curve_label)
     ax.legend(loc=4)
 

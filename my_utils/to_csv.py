@@ -1,4 +1,39 @@
 import csv
+import os
+import shutil
+import constants
+
+def create_structur_to_save_data():
+    shutil.rmtree(constants.SavePlotPath.MAIN_FOLDER, ignore_errors=True)
+    """Create the main folder to save the result after folder"""
+    os.mkdir(constants.SavePlotPath.MAIN_FOLDER)
+
+    """Create data and it subfolder"""
+    """----------------------------"""
+    os.mkdir(constants.SavePlotPath.DATA_FOLDER)
+
+    """Create memory agent and it subfolder"""
+    os.mkdir(constants.SavePlotPath.DATA_MEMORY_AGENT)
+
+    """Create memory all agent and it subfolder"""
+    os.mkdir(constants.SavePlotPath.DATA_MEMORY_ALL_AGENT)
+
+    """Create folder Kalman and it subfolder"""
+    os.mkdir(constants.SavePlotPath.DATA_KALMAN)
+    os.mkdir(constants.SavePlotPath.DATA_KALMAN_GLOBAL)
+    os.mkdir(constants.SavePlotPath.DATA_KALMAN_DISTRIBUE)
+
+    """Create folder prediction and it subfolder"""
+    os.mkdir(constants.SavePlotPath.DATA_PREDICTION)
+    os.mkdir(constants.SavePlotPath.DATA_PREDICTION_TPLUS1)
+    os.mkdir(constants.SavePlotPath.DATA_PREDICTION_TPLUS2)
+
+    """Create plot and it subfolder"""
+    """----------------------------"""
+    os.mkdir(constants.SavePlotPath.PLOT_FOLDER)
+    os.mkdir(constants.SavePlotPath.PLOT_MEMORY_AGENT)
+    os.mkdir(constants.SavePlotPath.PLOT_MEMORY_ALL_AGENT)
+
 
 def save_in_csv_file(name,data_to_save):
     with open(name+".csv", 'w',newline='') as csvfile:

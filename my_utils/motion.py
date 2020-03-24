@@ -30,15 +30,12 @@ def move_Target(Target, delta_time):
             :return
                 1. modify the position of the target (xc,yc)
     """
-    type_mvt = Target.trajectory_type
+    type_mvt = 1  #int(float(Target.trajectory_type))
     # easy solution need to be investeagted
-    if type_mvt == TargetType.SET_FIX or type_mvt == TargetType.FIX:
+    if type_mvt == TargetMotion.FIX:
         pass
-    elif type_mvt == 'line':
-        Target.xc = Target.xc + math.ceil(Target.vx * delta_time)
-        Target.yc = Target.yc + math.ceil(Target.vy * delta_time)
-    elif type_mvt == 'linear':
-        rectiligne_trajectory(Target, 10, delta_time)
+    elif type_mvt == TargetMotion.LINEAR:
+        rectiligne_trajectory(Target, 0.30, delta_time)
     else:
         print("planning method not recognize")
 
@@ -53,7 +50,6 @@ def rectiligne_trajectory(Target, dist_min, delta_time):
                 moove the target according to a predifined path, the motion between two position are linear.
                 it does not avoid obstacle.
     """
-
     if Target.type != TargetType.SET_FIX:
         (x_goal, y_goal) = Target.trajectory_position[Target.number_of_position_reached]
         '''Updating the postion we want to reach when close enough '''
@@ -63,16 +59,16 @@ def rectiligne_trajectory(Target, dist_min, delta_time):
             Target.number_of_position_reached += 1
 
         '''computing the spped to reach the goal'''
-        if (Target.xc - x_goal != 0):
+        if math.fabs(x_goal-Target.xc) > 0.05:
             v_x = -Target.vx_max * (Target.xc - x_goal) / math.fabs((Target.xc - x_goal))
         else:
             v_x = 0
 
-        if (Target.yc - y_goal != 0):
+        if math.fabs(y_goal-Target.yc) > 0.05:
             v_y = -Target.vy_max * (Target.yc - y_goal) / math.fabs((Target.yc - y_goal))
         else:
             v_y = 0
 
         '''Modifying the position in the target object, always in (int)'''
-        Target.xc = Target.xc + math.ceil(v_x * delta_time)
-        Target.yc = Target.yc + math.ceil(v_y * delta_time)
+        Target.xc = Target.xc + v_x * delta_time
+        Target.yc = Target.yc + v_y * delta_time

@@ -125,14 +125,14 @@ class TargetEstimator:
 
         attribute = re.split("#Timestamp#|#From#|#Sig_agent#|#Target_ID#|#Sig_target#|#Target_type#|x:|y:|#Radius:", s)
 
-        self.time_stamp = int(attribute[1])
+        self.time_stamp = float(attribute[1])
         self.agent_id = int(attribute[2])
         self.agent_signature = int(attribute[3])
         self.target_id = int(attribute[4])
         self.target_signature = int(attribute[5])
-        self.target_type = int(attribute[6])
+        self.target_type = int(float(attribute[6]))
         self.target_position = [float(attribute[7]), float(attribute[8])]
-        self.target_radius = int(attribute[9])
+        self.target_radius = float(attribute[9])
 
     def __eq__(self, other):
         cdt1 = self.time_stamp == other.time_stamp

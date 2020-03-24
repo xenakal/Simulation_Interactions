@@ -39,11 +39,10 @@ class Memory:
         self.nTime = nTime
         self.memory_all_agent = Agent_Target_TargetEstimator()
         self.memory_agent = Target_TargetEstimator()
-        self.best_estimations_1 = Target_TargetEstimator()
-        self.predictors = []
         self.best_estimations = Target_TargetEstimator()
         self.predictions_order_1 = Target_TargetEstimator()
         self.predictions_order_2 = Target_TargetEstimator()
+        self.predictors = []
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
                                     target_xc, target_yc, target_size, target_type):

@@ -3,7 +3,12 @@ import numpy
 import math
 import time
 import random
+import constants
 
+
+class TargetMotion:
+    FIX = 0
+    LINEAR = 1
 
 class TargetType:
     SET_FIX = 0
@@ -91,47 +96,50 @@ class Target(TargetRepresentation):
             Description : This class creates fake targets (data) to run the simulation, see class TargetRepresentation.
 
                 :params
-                    1. (int) id                                   -- numerical value to recognize the target easily
-                    2. (int) xc                                   -- x value of the center of the
+                    1. (float) id                                   -- numerical value to recognize the target easily
+                    2. (float) xc - [m]                             -- x value of the center of the
                                                                     targetRepresentation
-                    3. (int) yc                                   -- y value of the center of the
+                    3. (float) yc - [m]                             -- y value of the center of the
                                                                     targetRepresentation
-                    4. (int) vx                                   -- x speeds
-                    5. (int) vy                                   -- y speeds
-                    6. (int) size                                 -- radius from the center
-                    7. (TargetType) type                          --  see class above, to make
+                    4. (float) vx - [m/s]                           -- x speeds
+                    5. (float) vy - [m/s]                           -- y speeds
+                    6. (float) size - [m]                           -- radius from the center
+                    7. (TargetType) type                            --  see class above, to make
                                                                       the difference between known and unkown target
-                    8. ([(int,int),...]) trajectory_position      -- list [(x,y),...] from all the via point
+                    8. ([(int,int),...]) trajectory_position        -- list [(x,y),...] from all the via point
+                                        - ([m],[m])
                                                                      that the target should reach
-                    9. (string) trajectory_type                   -- "fix","linear" choice for the target's way
+                    9. (string) trajectory_type                     -- "fix","linear" choice for the target's way
                                                                      to moove
-                   10. ([[int],...]) t_add                        -- list [[t1],[t2],...] from all the time where
+                   10. ([[int],...]) t_add - [s]                    -- list [[t1],[t2],...] from all the time where
                                                                      the target should appear in the room
-                   11. ([[int],...]) t_del                        -- list [[t1],[t2],...] from all the time where
+                   11. ([[int],...]) t_del - [s]                    -- list [[t1],[t2],...] from all the time where
                                                                      the target should disappear in the room
+                   12. (int) number_of_time_pa ssed                 -- keeps track of the apparition and disparition time
+                   13. (bool) is_on_map                             -- True if the target is on the map, False otherwise
 
                 :attibutes
-                    1. (int) vx                                   -- x speeds
-                    2. (int) vy                                   -- y speeds
-                    3. (int) vx_max                               -- x speeds max
-                    4. (int) vy_max                               -- y speeds max
-                    5. ([(int,int),...]) trajectory_position      -- list [(x,y),...] containing all the via points that
-                                                                     the target should reach
-                    6. ([[int,int],...]) all_position             -- list [[x,y],...] containing all the previous
-                                                                     positions of the target
-                    7. ([[int],...]) t_add                        -- list [[t1],[t2],...] containing all the times at
-                                                                     which the target should appear in the room
-                    8. ([[int],...]) t_del                        -- list [[t1],[t2],...] containing all the times at
-                                                                     which the target should disappear from the room
-                    9. (string) trajectory_type                   -- "fix","linear" choice for the target's way
-                                                                     to move
-                   10. (int) self.number_of_position_reached      -- keep track from how many via points are reached
+                    1. (float) vx - [m/time_btw_target_mvt]           -- x speeds
+                    2. (float) vy - [m/time_btw_target_mvt]           -- y speeds
+                    3. (float) vx_max - [m/time_btw_target_mvt]       -- x speeds max
+                    4. (float) vy_max - [m/time_btw_target_mvt]       -- y speeds max
+                    5. ([(float,float),...]) trajectory_position      -- list [(x,y),...] containing all the via points
+                                                                        that the target should reach
+                    6. ([[float,float],...]) all_position             -- list [[x,y],...] containing all the previous
+                                         - ([m],[m])                     positions of the target
+                    7. ([[float],...]) t_add -                        -- list [[t1],[t2],...] containing all the times at
+                                                                         which the target should appear in the room
+                    8. ([[float],...]) t_del                          -- list [[t1],[t2],...] containing all the times at
+                                                                         which the target should disappear from the room
+                    9. (string) traject  ory_type                     -- "fix","linear" choice for the target's way
+                                                                          to move
+                   10. (int) self.number_of_position_reached          -- keep track from how many via points are reached
 
                 :notes
-                    fells free to write some comments.
+                    time_btw_target_mvt [s], see constants file
     """
 
-    def __init__(self, id=-1, x=-1, y=-1, vx=0, vy=0, trajectory_type='fix', trajectory=(0, [(0, 0)]), type='fix',
+    def __init__(self, id=-1, x=-1, y=-1, vx=0, vy=0, trajectory_type=TargetMotion.FIX, trajectory=(0, [(0, 0)]), type=TargetType.FIX,
                  radius=5, t_add=-1, t_del=-1):
         # Initialisation
         super().__init__(id, x, y, radius, type, 0)
@@ -148,6 +156,8 @@ class Target(TargetRepresentation):
         # Apparition and disparition times
         self.t_add = t_add
         self.t_del = t_del
+        self.number_of_time_passed = 0
+        self.is_on_the_map = False
 
         # Target attributes
         self.trajectory_type = trajectory_type

@@ -84,7 +84,7 @@ class LinearPrediction(Prediction):
         travelDistance = self.TIMESTEP * 4 * speed
         xPrediction = position[0] + math.cos(direction) * travelDistance
         yPrediction = position[1] + math.sin(direction) * travelDistance  # -: the coords are opposite to the cartesian
-        return [int(xPrediction), int(yPrediction)]
+        return [xPrediction,yPrediction]
 
     def nextPositions(self, prevPosList):
         """ Actual computation of predicted positions. Returns a list (size = NUMBER_PREDICTIONS) of the next estimated

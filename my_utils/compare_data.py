@@ -21,8 +21,6 @@ def error_squared_discrete(data_ref_list,data_mes_list):
 
 
     (x_ref,y_ref,t_ref) = points_ref_filter_list.fill_vectors()
-
-
     error_squared_x = error_squared_list(x_ref, x_mes)
     error_squared_y = error_squared_list(y_ref, y_mes)
     error_squared = error_squared_x_y_list(x_ref, y_ref, x_mes, y_mes)
@@ -95,7 +93,7 @@ def plot_error_square(t_ref,x_ref,y_ref,x_mes,y_mes):
     sc = ax.scatter(x_ref, y_ref,s = 100, c=t_ref,cmap="Spectral", alpha=0.4)
     plot_graph_time_x(ax, x_ref,y_ref, "Trajectory", "x []", "y []",
                       curve_label="interpolation_ref")
-    plot_graph_time_x(ax, x_mes,y_mes, "Trajectory", "x []", "y []",
+    plot_graph_x_y(ax, x_mes,y_mes, "Trajectory", "x []", "y []",
                       curve_label="interpolation_mes")
     plot_graph_time_x(ax1,t_ref,error_squared, "squared error norm  x-y", "time []", "[^2]", curve_label="t_value")
     plot_graph_time_x(ax2, t_ref, error_squared_x, "squared error norm  x", "time []", "[^2]", curve_label="t_value")

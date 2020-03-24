@@ -154,7 +154,7 @@ class TargetSortedTargetEstimator:
     def add_target_estimator(self, data):
         for i in range(len(constants.TARGET_ESTIMATOR_CSV_FIELDNAMES)):
             try:
-                self.data_list[i].append(int(float(data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]])))
+                self.data_list[i].append(float(data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]]))
             except ValueError:
                 self.data_list[i].append(data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]])
 
@@ -184,12 +184,11 @@ class AgentSortedTargetEstimator:
         return self.agent_signature > other.agent_signature
 
 
-class AnalyseMemoryAgent:
-    def __init__(self, agent_id, version="version"):
+class Analyser_Target_TargetEstimator_FormatCSV:
+    def __init__(self, agent_id,path,version="version"):
         self.id = agent_id
         self.version = version
-
-        self.data = load_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT + str(agent_id))
+        self.data = load_csv_file_dictionnary(path+str(agent_id))
         self.simulated_data = load_csv_file_dictionnary(constants.SavePlotPath.DATA_REFERENCE)
         self.data_sort_by_target = []
         self.simulated_data_sort_by_target = []
@@ -211,7 +210,7 @@ class AnalyseMemoryAgent:
                 data_mes = element.data_list
 
         error_squared_discrete(data_ref,data_mes)
-        error_squared_with_interpolation(data_ref,data_mes)
+        #error_squared_with_interpolation(data_ref,data_mes)
 
     def plot_position_target_simulated_data_collected_data(self):
         fig_position = plt.figure(figsize=(12, 8))
@@ -241,27 +240,32 @@ class AnalyseMemoryAgent:
         ax2 = fig_time_type_x_y.add_subplot(2, 2, 2)
         ax3 = fig_time_type_x_y.add_subplot(2, 2, 3)
         ax4 = fig_time_type_x_y.add_subplot(2, 2, 4)
+        try:
 
-        for element in self.simulated_data_sort_by_target:
-            sc1 = plot_target_memory_time_x_y_2D(ax1, element.data_list,
-                                                 curve_label="target" + str(element.target_id))
+            for element in self.simulated_data_sort_by_target:
+                sc1 = plot_target_memory_time_x_y_2D(ax1, element.data_list,
+                                                     curve_label="target" + str(element.target_id))
 
-        for element in self.data_sort_by_target:
-            plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id))
-            sc2 = plot_target_memory_type_x_y_2D(ax2, element.data_list,
-                                                 curve_label="target" + str(element.target_id))
-            sc3 = plot_target_memory_agent_x_y_2D(ax3, element.data_list,
-                                                  curve_label="target" + str(element.target_id))
-            plot_target_memory_time_agent(ax4, element.data_list, curve_label="target" + str(element.target_id))
+            for element in self.data_sort_by_target:
+                plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id))
+                sc2 = plot_target_memory_type_x_y_2D(ax2, element.data_list,
+                                                     curve_label="target" + str(element.target_id))
+                sc3 = plot_target_memory_agent_x_y_2D(ax3, element.data_list,
+                                                      curve_label="target" + str(element.target_id))
+                plot_target_memory_time_agent(ax4, element.data_list, curve_label="target" + str(element.target_id))
 
-        fig_time_type_x_y.colorbar(sc1, ax=ax1)
-        fig_time_type_x_y.colorbar(sc2, ax=ax2)
-        fig_time_type_x_y.colorbar(sc3, ax=ax3)
+            fig_time_type_x_y.colorbar(sc1, ax=ax1)
+            fig_time_type_x_y.colorbar(sc2, ax=ax2)
+            fig_time_type_x_y.colorbar(sc3, ax=ax3)
 
-        fig_time_type_x_y.savefig(
-            constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(self.id),
-            transparent=False)
-        plt.close(fig_time_type_x_y)
+            fig_time_type_x_y.savefig(
+                constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(self.id),
+                transparent=False)
+            plt.close(fig_time_type_x_y)
+
+        except:
+             print("error generating plot")
+
 
     def plot_a_target_simulated_data_collected_data(self, target_id):
         fig_time_type_x_y = plt.figure(figsize=(12, 8), tight_layout=True)
@@ -304,11 +308,11 @@ class AnalyseMemoryAgent:
         plt.close(fig_time_type_x_y)
 
 
-class AnalyseAllMemoryAgent:
-    def __init__(self, agent_id, version="version"):
+class Analyser_Agent_Target_TargetEstimator_FormatCSV:
+    def __init__(self, agent_id,path, version="version"):
         self.id = agent_id
         self.version = version
-        self.data = load_csv_file_dictionnary(constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT + str(agent_id))
+        self.data = load_csv_file_dictionnary(path + str(agent_id))
         self.simulated_data = load_csv_file_dictionnary(constants.SavePlotPath.DATA_REFERENCE)
         self.data_sort_by_agent_target = []
         self.simulated_data_sort_by_target = []

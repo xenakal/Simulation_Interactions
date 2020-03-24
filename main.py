@@ -16,21 +16,6 @@ def clean_mailbox():
     shutil.rmtree("mailbox", ignore_errors=True)
     os.mkdir("mailbox")
 
-
-def create_structur_to_save_data():
-    shutil.rmtree(constants.SavePlotPath.MAIN_FOLDER, ignore_errors=True)
-    # Folder where the data and plot are save
-    os.mkdir(constants.SavePlotPath.MAIN_FOLDER)
-    # Save data
-    os.mkdir(constants.SavePlotPath.DATA_FOLDER)
-    os.mkdir(constants.SavePlotPath.DATA_MEMORY_AGENT)
-    os.mkdir(constants.SavePlotPath.DATA_MEMORY_ALL_AGENT)
-    # Save plot
-    os.mkdir(constants.SavePlotPath.PLOT_FOLDER)
-    os.mkdir(constants.SavePlotPath.PLOT_MEMORY_AGENT)
-    os.mkdir(constants.SavePlotPath.PLOT_MEMORY_ALL_AGENT)
-
-
 class App:
     def __init__(self, fileName="My_new_map"):
         # Clean the file mailbox
@@ -90,19 +75,26 @@ class App:
 
         # to save the data
         if constants.SAVE_DATA:
-            constants.set_folder(self.filename)
+            constants.SavePlotPath.name_simulation = self.filename
             create_structur_to_save_data()
 
     def move_all_targets_thread(self):
+        time_old = time.time()
         while self.targets_moving:
+
             time.sleep(TIME_BTW_TARGET_MOVEMENT)
+            delta_time = time.time() - time_old
             for target in self.room.active_Target_list:
                 target.save_position()
                 self.exact_data_target.add_create_target_estimator(self.room.time, -1, -1, target.id, target.signature,
                                                                    target.xc, target.yc, target.radius, target.type)
-                move_Target(target, 1, self.room)
+                move_Target(target, delta_time)
+            time_old = time.time()
+
 
     def main(self):
+
+
         run = True
         reset = False
 
@@ -110,8 +102,12 @@ class App:
         targets_moving_thread = threading.Thread(target=self.move_all_targets_thread)
         targets_moving_thread.start()
 
+        time_start = time.time()
+
         # Events loop
         while run:
+            time.sleep(constants.TIME_BTW_FRAME)
+
             # To restart the simulation, press r
             if reset:
                 self.room.time = 0
@@ -127,21 +123,7 @@ class App:
             # adding/removing target to the room
             self.room.add_del_target_timed()
 
-            # RUN_ON_THREAD = 0: sequential approach, agents are called one after the other
-            # RUN_ON_THREAD = 1: process executed in the same time, every agent is a thread
-            if RUN_ON_A_THREAD == 0:
-                random_order = self.room.active_AgentCams_list
-                # random.shuffle(random_order,random)
-                for agent in random_order:
-                    agent.run()
-
-                for agent in self.room.active_AgentUser_list:
-                    agent.run()
-            else:
-                # to slow down the main thread in comparaison to agent thread
-                time.sleep(TIME_BTW_FRAMES)
-                pass
-
+            #theoritical calculation
             self.link_agent_target.update_link_camera_target()
             self.link_agent_target.compute_link_camera_target()
 
@@ -164,9 +146,10 @@ class App:
                 run = False
 
             # Updating the time
-            self.room.time = self.room.time + 1
+            self.room.time = time.time()-time_start
+            #self.room.time = self.room.time + 1
             for agent in self.room.active_AgentCams_list:
-                agent.room_representation.time = agent.room_representation.time + 1
+                agent.room_representation.time = self.room.time
 
         for agent in self.room.active_AgentCams_list:
             agent.clear()
@@ -190,12 +173,12 @@ class App:
         if constants.GENERATE_PLOT:
             print("Generating plots ...")
             for agent in self.room.active_AgentCams_list:
-                plot_agent_memory = AnalyseMemoryAgent(agent.id, self.filename)
+                plot_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id,constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT,self.filename)
                 plot_agent_memory.plot_all_target_simulated_data_collected_data()
 
             for agent in self.room.active_AgentUser_list:
-                plot_agent_memory = AnalyseMemoryAgent(agent.id, self.filename)
-                plot_agent_all_memory = AnalyseAllMemoryAgent(agent.id, self.filename)
+                plot_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id,constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT, self.filename)
+                plot_agent_all_memory = Analyser_Agent_Target_TargetEstimator_FormatCSV(agent.id,constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT, self.filename)
                 plot_agent_memory.plot_all_target_simulated_data_collected_data()
                 plot_agent_memory.plot_position_target_simulated_data_collected_data()
                 plot_agent_all_memory.plot_position_target_simulated_data_collected_data()

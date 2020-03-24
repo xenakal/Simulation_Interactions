@@ -24,15 +24,15 @@ class GUI:
         pygame.init()
 
         # define the windows
-        self.w = 800
-        self.h = 600
+        self.w_window = 800
+        self.h_window = 600
 
         x_offset = main.X_OFFSET
         y_offset = main.Y_OFFSET
         scale_x = main.X_SCALE
         scale_y = main.Y_SCALE
 
-        self.screen = pygame.display.set_mode((self.w, self.h), pygame.RESIZABLE)
+        self.screen = pygame.display.set_mode((self.w_window, self.h_window), pygame.RESIZABLE)
 
         self.button_menu = ButtonList(["Simulation","Agent's O","Create Map", "Camera", "Stat",], 10, -30, 0, 0, 100, 30)
         self.button_menu.set_buttons_state("Simulation", True)
@@ -48,7 +48,7 @@ class GUI:
         self.font = pygame.font.SysFont("monospace", 15)
 
     def refresh(self):
-        pygame.draw.rect(self.screen, BLACK, (0, 0, self.w, self.h))
+        pygame.draw.rect(self.screen, BLACK, (0, 0, self.w_window, self.h_window))
 
     def display_menu(self):
         self.GUI_option.check_list(self.button_menu.list)

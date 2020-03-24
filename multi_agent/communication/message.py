@@ -139,7 +139,7 @@ class Message:
             s = s.replace("\n", "")
             s = s.replace(" ", "")
             attribut = re.split("Timestamp:|message#:|From:|sender#|Receiverlist:|Type:|target:|Message:", s)
-            self.timestamp = int(attribut[1])
+            self.timestamp = float(attribut[1])
             self.signature = int(attribut[2])
             self.sender_id = int(attribut[3])
             self.sender_signature = int(attribut[4])
