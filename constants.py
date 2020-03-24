@@ -7,7 +7,7 @@ if GENERATE_PLOT:
 USE_GUI = 1
 USE_agent = 1
 USE_static_analysis = 1
-USE_dynamic_analysis_simulated_room = 1
+USE_dynamic_analysis_simulated_room = 0
 
 T_MAX = 30
 TIME_BTW_FRAME = .1
@@ -15,8 +15,8 @@ NUMBER_OF_POINT = 10 #per m for a speed of 1 m/s
 TIME_BTW_TARGET_MOVEMENT = 1/NUMBER_OF_POINT
 
 
-STATIC_ANALYSIS_PRECISION = 10
-STATIC_ANALYSIS_PRECISION_simulated_room = 10
+STATIC_ANALYSIS_PRECISION = 10 #number of point per m
+DYNAMIC_ANALYSIS_PRECISION = 10  #number of point per m
 
 """Option for class agent"""
 NAME_LOG_PATH = "log/log_agent/Agent"

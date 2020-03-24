@@ -39,9 +39,6 @@ class GUI_simulation:
         if self.button_simulation_4.find_button_state("Cam COV"):
             self.Gui_region.draw_cam_coverage(region)
 
-
-
-
         if self.button_simulation_1.find_button_state("real T"):
             self.GUI_room.drawTarget_all_postion(room)
 

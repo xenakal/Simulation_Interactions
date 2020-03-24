@@ -60,11 +60,12 @@ class App:
         # Computing the vision in the room taking into account only fix objects
         self.static_region = MapRegionStatic(self.room)
         self.dynamic_region = MapRegionDynamic(self.room)
+
         if USE_static_analysis:
             self.static_region.init(STATIC_ANALYSIS_PRECISION)
             self.static_region.compute_all_map(STATIC_ANALYSIS_PRECISION)
         if USE_dynamic_analysis_simulated_room:
-            self.dynamic_region.init(STATIC_ANALYSIS_PRECISION_simulated_room)
+            self.dynamic_region.init(DYNAMIC_ANALYSIS_PRECISION)
         # Starting the multi_agent simulation
         if USE_agent:
             for agent in self.room.active_AgentCams_list:
@@ -132,9 +133,11 @@ class App:
             if USE_GUI == 1:
                 if USE_dynamic_analysis_simulated_room:
                     region = self.dynamic_region
-                    self.dynamic_region.compute_all_map(STATIC_ANALYSIS_PRECISION_simulated_room)
+                    region.init(DYNAMIC_ANALYSIS_PRECISION)
+                    self.dynamic_region.compute_all_map(DYNAMIC_ANALYSIS_PRECISION)
                 else:
                     region = self.static_region
+                    region.init(STATIC_ANALYSIS_PRECISION)
                     self.static_region.compute_all_map(STATIC_ANALYSIS_PRECISION)
 
                 self.myGUI.updateGUI(self.room, region, self.link_agent_target.link_camera_target)
@@ -149,7 +152,6 @@ class App:
 
             # Updating the time
             self.room.time = time.time()-time_start
-            #self.room.time = self.room.time + 1
             for agent in self.room.active_AgentCams_list:
                 agent.room_representation.time = self.room.time
 

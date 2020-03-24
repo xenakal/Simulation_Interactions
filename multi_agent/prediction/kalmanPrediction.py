@@ -37,7 +37,6 @@ class KalmanPrediction:
         self.filter.update(np.array(z))
 
         if self.pivot_point_detected():
-            print("pivot")
             avg_speeds = avgSpeedFunc(self.kalman_memory[-2:])
             self.filter = kfObject(z[0], z[1], avg_speeds[0], avg_speeds[1])
             self.kalman_memory = [z]

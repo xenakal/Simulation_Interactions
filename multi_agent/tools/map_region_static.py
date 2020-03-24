@@ -52,7 +52,6 @@ class MapRegionStatic:
         self.find_distance_to_each_cam()
         # Compute the field of vision not obstructed from each cam
         self.find_angle_view_all_cam()
-        print(self.find_angle_view_all_cam())
 
     def compute_all_map(self, factor=3):
         """
