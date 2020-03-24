@@ -4,7 +4,7 @@ from filterpy.common import Q_discrete_white_noise
 from scipy.linalg import block_diag
 import numpy as np
 
-MAX_STD_SPEED = 15
+MAX_STD_SPEED = 0.7
 
 
 class KalmanPrediction:
@@ -37,7 +37,9 @@ class KalmanPrediction:
         self.filter.update(np.array(z))
 
         if self.pivot_point_detected():
-            self.filter = kfObject(z[0], z[1])
+            print("pivot")
+            avg_speeds = avgSpeedFunc(self.kalman_memory[-2:])
+            self.filter = kfObject(z[0], z[1], avg_speeds[0], avg_speeds[1])
             self.kalman_memory = [z]
 
     def pivot_point_detected(self):
@@ -79,7 +81,7 @@ class KalmanPrediction:
         self.filter = kfObject(x_init, y_init)
 
 
-def kfObject(x_init, y_init):
+def kfObject(x_init, y_init, vx_init=0.0, vy_init=0.0):
     """
     :description
         Returns a KalmanFilter object with the model corresponding to our problem.
@@ -94,9 +96,7 @@ def kfObject(x_init, y_init):
     f = KalmanFilter(dim_x=4,
                      dim_z=2)  # as we have a 4d state space and measurements on only the positions (x,y)
     # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
-    vx_init = 0
-    vy_init = 0
-    dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE + 10
+    dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
     f.x = np.array([x_init, y_init, vx_init, vy_init])
     f.F = np.array([[1., 0., dt, 0.],
                     [0., 1., 0., dt],
@@ -108,8 +108,28 @@ def kfObject(x_init, y_init):
     f.P *= 2.
     f.R = np.eye(2) * STD_MEASURMENT_ERROR**2
     f.B = 0
-    q = Q_discrete_white_noise(dim=2, dt=dt, var=0.001)  # var => how precise the model is
+    q = Q_discrete_white_noise(dim=2, dt=dt, var=0.1)  # var => how precise the model is
     f.Q = block_diag(q, q)
     return f
 
 
+def avgSpeedFunc(positions, timestep=TIME_SEND_READ_MESSAGE+TIME_PICTURE):
+    if len(positions) <= 1:  # one position or less not enough to calculate speed
+        return 0
+    prevPos = positions[0]
+
+    avgSpeed_x = 0.0
+    avgSpeed_y = 0.0
+    for curPos in positions[1:]:
+        stepDistance_x = curPos[0] - prevPos[0]
+        stepDistance_y = curPos[1] - prevPos[1]
+
+        avgSpeed_x += stepDistance_x / timestep
+        avgSpeed_y += stepDistance_y / timestep
+
+        prevPos = curPos
+
+    avgSpeed_x = avgSpeed_x / (len(positions) - 1)
+    avgSpeed_y = avgSpeed_y / (len(positions) - 1)
+
+    return [avgSpeed_x, avgSpeed_y]

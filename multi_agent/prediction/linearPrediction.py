@@ -109,17 +109,18 @@ class LinearPrediction(Prediction):
 
         return predictedPos
 
-    def avgSpeedFunc(self, positions):
-        if len(positions) <= 1:  # one position or less not enough to calculate speed
-            return 0
-        prevPos = positions[0]
 
-        avgSpeed = 0.0
-        for curPos in positions:
-            stepDistance = distanceBtwTwoPoint(prevPos[0], prevPos[1], curPos[0], curPos[1])
-            avgSpeed += stepDistance / self.TIMESTEP
-            prevPos = curPos
+def avgSpeedFunc(positions, timestep):
+    if len(positions) <= 1:  # one position or less not enough to calculate speed
+        return 0
+    prevPos = positions[0]
 
-        avgSpeed = avgSpeed / (len(positions) - 1)
-        return avgSpeed
+    avgSpeed = 0.0
+    for curPos in positions:
+        stepDistance = distanceBtwTwoPoint(prevPos[0], prevPos[1], curPos[0], curPos[1])
+        avgSpeed += stepDistance / timestep
+        prevPos = curPos
+
+    avgSpeed = avgSpeed / (len(positions) - 1)
+    return avgSpeed
 

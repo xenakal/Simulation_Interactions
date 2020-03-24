@@ -89,7 +89,9 @@ def plot_error_square(t_ref,x_ref,y_ref,x_mes,y_mes):
     var__error_squared_x = np.var(error_squared_x)
     var__error_squared_y = np.var(error_squared_y)
     var__error_squared_x_y = np.var(error_squared)
-
+    print("Error x = ", np.sqrt(mean_error_squared_x))
+    print("Error y = ", np.sqrt(mean_error_squared_y))
+    print("Error x,y = ", np.sqrt(mean_error_squared_x_y))
 
     sc = ax.scatter(x_ref, y_ref,s = 100, c=t_ref,cmap="Spectral", alpha=0.4)
     plot_graph_time_x(ax, x_ref,y_ref, "Trajectory", "x []", "y []",

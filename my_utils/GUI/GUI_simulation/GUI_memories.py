@@ -34,7 +34,7 @@ class GUI_memories:
                                        (self.x_offset + int(targetEstimator.target_position[0] * self.scale_x),
                                         self.y_offset + int(targetEstimator.target_position[1] * self.scale_y)), 2)
 
-                """ 
+
                 # draw positions with noise "removed" as estimated by the Kalman Filter
                 for targetEstimator in agentMemory.get_noiseless_estimations(targetID):
                     pygame.draw.circle(self.screen, (0, 0, 204),
@@ -42,6 +42,7 @@ class GUI_memories:
                                         self.y_offset + int(targetEstimator.target_position[1] * self.scale_y)), 2)
                
                 # draw internal memory of positions used for the Kalman Filtering
+                """
                 predictor = agentMemory.get_target_predictor(targetID)
                 if predictor is not None:
                     # for pos in predictor.batch_filter_debug():
@@ -51,8 +52,9 @@ class GUI_memories:
                     for pos in predictor.kalman_memory:
                         pygame.draw.circle(self.screen, (204, 0, 0),
                                            (self.x_offset + int(pos[0] * self.scale_x),
-                                            self.y_offset + int(pos[1] * self.scale_y)), 2)
+                                            self.y_offset + int(pos[1] * self.scale_y)), 2)                        
                 """
+
 
     def draw_mesure_and_receiveMessages(self, room):
         """ Draws the previous positions of the selected targets for the selected agents. """
