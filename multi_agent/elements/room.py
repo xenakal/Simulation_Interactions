@@ -302,7 +302,6 @@ class Room(RoomRepresentation):
     def __init__(self):
         super().__init__(0)
         self.information_simulation = InformationRoomSimulation()
-        self.active_Camera_list = []
 
     def init_room(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del):
         """
@@ -352,10 +351,9 @@ class Room(RoomRepresentation):
                 4. (int) field_opening_beta              -- beta, field from the camera, 0 to 180 degrees
                 5. (int) is_fix                          -- 0 = camera can rotate, 1 = cam orientation is fix
         """
-        number_Camera = len(self.active_Camera_list)
+
         number_AgentCam = len(self.agentCams_list)
-        camera = Camera(myRoom, number_Camera, cam_x, cam_y, cam_alpha, cam_beta, fix)
-        self.active_Camera_list.append(camera)
+        camera = Camera(myRoom, number_AgentCam, cam_x, cam_y, cam_alpha, cam_beta, fix)
         self.agentCams_list.append(multi_agent.agent.agent_interacting_room_camera.AgentCam(number_AgentCam, camera))
 
     def init_AgentUser(self, number=1):
@@ -368,7 +366,9 @@ class Room(RoomRepresentation):
         """
         for n in range(number):
             number_AgentUser = len(self.agentUser_list)
-            self.active_AgentUser_list.append(multi_agent.agent.agent_interacting_room_user.AgentUser(number_AgentUser))
+            self.agentUser_list.append(multi_agent.agent.agent_interacting_room_user.AgentUser(number_AgentUser))
+        self.active_AgentUser_list = self.agentUser_list
+
 
     def init_trajectories(self, all_trajectories_loaded):
         """

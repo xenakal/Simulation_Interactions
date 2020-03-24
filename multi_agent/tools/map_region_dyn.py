@@ -27,7 +27,7 @@ class MapRegionDynamic(MapRegionStatic):
             self.find_angle_view_and_obstruction_small_region()
 
         '''Computation'''
-        (self.minimum_id_in_view, self.minimum_dist_in_view, self.id_in_view) = self.define_region_covered_by_cams()
+        (self.minimum_id_in_view, self.minimum_dist_in_view) = self.define_region_covered_by_cams()
         self.coverage = self.define_region_covered_by_numberOfCams()
 
     def compute_all_map(self,factor = 3):
@@ -51,7 +51,6 @@ class MapRegionDynamic(MapRegionStatic):
         '''Initialisation'''
         minimum_dist_in_view = np.ones(self.xv.shape) * 1000000000
         minimum_id_in_view = np.ones(self.xv.shape) * -1
-        id_in_view = np.chararray(self.xv.shape, itemsize=self.room.agentCamNumber + 5)
         result = np.ones(self.xv.shape) * -1
         (i_tot, j_tot) = result.shape
 
@@ -66,13 +65,12 @@ class MapRegionDynamic(MapRegionStatic):
                         for j in range(j_tot):
                             if res_int[i, j]:
                                 'add the point in the list of the camID'
-                                # id_in_view[i,j] = str(camID)
                                 if distance[i, j] < minimum_dist_in_view[i, j]:
                                     'check if the distance from this cam is the smallest to the point'
                                     minimum_dist_in_view[i, j] = distance[i, j]
                                     minimum_id_in_view[i, j] = camID
 
-        return (minimum_id_in_view, minimum_dist_in_view, id_in_view)
+        return minimum_id_in_view, minimum_dist_in_view
 
     def define_region_covered_by_numberOfCams(self):
         """
@@ -90,21 +88,6 @@ class MapRegionDynamic(MapRegionStatic):
             coverage = coverage + res
         return coverage
 
-
-    def find_angle_view_all_cam(self):
-        """"
-                        :param
-                        -None
-
-                        :return
-                        - fill the list self.angle_view (see description above)
-
-            """
-        self.angle_view = []
-        for cam in self.list_camera:
-            res = self.find_angle_view_one_cam(cam)
-            self.angle_view.append((cam.id, res))
-
     def find_angle_view_and_obstruction(self):
         """"
                 :param
@@ -116,7 +99,8 @@ class MapRegionDynamic(MapRegionStatic):
                 This fills up the list self.angle_view_and_obstruction (see description above)
         """
         self.angle_view_and_obstruction = []
-        for camera in self.list_camera:
+        for agent in self.room.active_AgentCams_list:
+            camera = agent.camera
             for item in self.angle_view:
                 '''compute the region of vision from the cam, wihtout obstruction'''
                 (camID,res) = item
@@ -139,7 +123,7 @@ class MapRegionDynamic(MapRegionStatic):
                 This fills up the list self.angle_view_and_obstruction (see description above)
         """
         self.angle_view_and_obstruction = []
-        for agent in self.room.agentCams:
+        for agent in self.room.active_AgentCams_list:
             '''compute the region of vision from the cam, wihtout obstruction'''
             res = self.find_angle_view_one_cam(agent.cam)
             '''for every target in the room, suppress obstructed region from the res computed above'''
@@ -161,6 +145,6 @@ class MapRegionDynamic(MapRegionStatic):
                    - a array from result's dimension. It gives the camera's field of vision with fix object in the room
 
                   """
-        return cam.is_in_hidden_zone_all_targets_matrix_x_y(result, self.xv, self.yv, self.room)
+        return cam.is_in_hidden_zone_all_targets_matrix_x_y(result, self.xv, self.yv)
 
 

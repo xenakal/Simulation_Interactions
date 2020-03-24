@@ -1,21 +1,21 @@
 """Option for class main"""
-SAVE_DATA = True
-GENERATE_PLOT = True
+SAVE_DATA = False
+GENERATE_PLOT = False
 if GENERATE_PLOT:
     SAVE_DATA = True
 
 USE_GUI = 1
 USE_agent = 1
 USE_static_analysis = 1
-USE_dynamic_analysis_simulated_room = 0
+USE_dynamic_analysis_simulated_room = 1
 
-T_MAX = 200
+T_MAX = 30
 TIME_BTW_FRAME = .1
 NUMBER_OF_POINT = 10 #per m for a speed of 1 m/s
 TIME_BTW_TARGET_MOVEMENT = 1/NUMBER_OF_POINT
 
 
-STATIC_ANALYSIS_PRECISION = 3  # best with 1 until map size
+STATIC_ANALYSIS_PRECISION = 10
 STATIC_ANALYSIS_PRECISION_simulated_room = 10
 
 """Option for class agent"""

@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def create_region(nx, ny, factor, x0=0, y0=0):
-    x = np.linspace(x0, nx, int((nx + 1) / factor))
-    y = np.linspace(y0, ny, int((ny + 1) / factor))
+def create_region(nx, ny, factor=10, x0=0, y0=0):
+    x = np.linspace(x0, nx,nx*factor)
+    y = np.linspace(y0, ny,nx*factor)
     xv, yv = np.meshgrid(x, y)
     return xv, yv
 
@@ -24,10 +24,6 @@ class MapRegionStatic:
         # Mesh from the map
         self.nx, self.ny = (room.coordinate_room[2], room.coordinate_room[3])
         self.xv, self.yv = create_region(self.nx, self.ny, 3)
-        # List from the camera
-        self.list_camera = []
-        for agent in room.active_AgentCams_list:
-            self.list_camera.append(agent.camera)
 
         # Data save from each camera - written always as tuple (camID,res), res is an array from mesh size
         self.distances = []
@@ -46,10 +42,9 @@ class MapRegionStatic:
 
         self.minimum_id_in_view = np.ones(self.xv.shape) * 1000000000
         self.minimum_dist_in_view = np.ones(self.xv.shape) * 1000000000
-        self.id_in_view = np.ones(self.xv.shape) * 1000000000
         self.coverage = np.ones(self.xv.shape) * 1000000000
 
-    def init(self, factor=3):
+    def init(self, factor=10):
         """ Contains every vectors that needs only one computation """
         # Setting the grid to the right size
         (self.xv, self.yv) = create_region(self.nx, self.ny, factor)
@@ -57,6 +52,7 @@ class MapRegionStatic:
         self.find_distance_to_each_cam()
         # Compute the field of vision not obstructed from each cam
         self.find_angle_view_all_cam()
+        print(self.find_angle_view_all_cam())
 
     def compute_all_map(self, factor=3):
         """
@@ -73,14 +69,13 @@ class MapRegionStatic:
         # Initialisation
         self.minimum_id_in_view = np.ones(self.xv.shape) * 1000000000
         self.minimum_dist_in_view = np.ones(self.xv.shape) * 1000000000
-        self.id_in_view = np.ones(self.xv.shape) * 1000000000
         self.coverage = np.ones(self.xv.shape) * 1000000000
 
         # Required for the computation below
         self.find_angle_view_all_cam_and_fix_obstruction()
 
         # Computation
-        (self.minimum_id_in_view, self.minimum_dist_in_view, self.id_in_view) = self.define_region_covered_by_cams()
+        (self.minimum_id_in_view, self.minimum_dist_in_view) = self.define_region_covered_by_cams()
         self.coverage = self.define_region_covered_by_numberOfCams()
 
     def define_region_covered_by_cams(self):
@@ -96,8 +91,6 @@ class MapRegionStatic:
         '''Initialisation'''
         minimum_dist_in_view = np.ones(self.xv.shape) * 1000000000
         minimum_id_in_view = np.ones(self.xv.shape) * -1
-        # id_in_view = np.chararray(self.xv.shape,itemsize=self.room.active_AgentCams_list+5)
-        id_in_view = []
         result = np.ones(self.xv.shape) * -1
         (i_tot, j_tot) = result.shape
 
@@ -114,14 +107,12 @@ class MapRegionStatic:
                     for i in range(i_tot):
                         for j in range(j_tot):
                             if res_int[i, j]:
-                                'add the point in the list of the camID'
-                                # id_in_view[i,j] = str(camID)
                                 if distance[i, j] < minimum_dist_in_view[i, j]:
                                     'check if the distance from this cam is the smallest to the point'
                                     minimum_dist_in_view[i, j] = distance[i, j]
                                     minimum_id_in_view[i, j] = camID
 
-        return (minimum_id_in_view, minimum_dist_in_view, id_in_view)
+        return minimum_id_in_view, minimum_dist_in_view
 
     def define_region_covered_by_numberOfCams(self):
         """
@@ -149,7 +140,8 @@ class MapRegionStatic:
            This fills up the list self.distances, that cointaint the distance from every points from the mesh with respect to the cam
          """
         self.distances = []
-        for camera in self.list_camera:
+        for agent in self.room.active_AgentCams_list:
+            camera = agent.camera
             '''taking the position of the camera'''
             px, py = (camera.xc, camera.yc)
             x0 = px * np.ones(self.xv.shape)
@@ -170,7 +162,8 @@ class MapRegionStatic:
                        This fills up the list self.angle_view_and_obstruction (see description above)
                """
         self.angle_view_and_obstruction = []
-        for camera in self.list_camera:
+        for agent in self.room.active_AgentCams_list:
+            camera = agent.camera
             for item in self.angle_view:
                 '''compute the region of vision from the cam, wihtout obstruction'''
                 (camID, res) = item
@@ -213,11 +206,12 @@ class MapRegionStatic:
                         :return
                         - fill the list self.angle_view (see description above)
 
-            """
+        """
         self.angle_view = []
-        for cam in self.list_camera:
-            res = self.find_angle_view_one_cam(cam)
-            self.angle_view.append((cam.id, res))
+        for agent in self.room.active_AgentCams_list:
+            camera = agent.camera
+            res = self.find_angle_view_one_cam(camera)
+            self.angle_view.append((camera.id, res))
 
     def find_fix_obstruction(self, cam, result):
         """"

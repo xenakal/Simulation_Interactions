@@ -54,6 +54,9 @@ class App:
         for agent in self.room.agentUser_list:
             agent.init_and_set_room_description(self.room)
 
+        self.room.add_del_target_timed()
+        self.room.des_activate_camera_agentCam_timed()
+
         # Computing the vision in the room taking into account only fix objects
         self.static_region = MapRegionStatic(self.room)
         self.dynamic_region = MapRegionDynamic(self.room)
@@ -92,8 +95,6 @@ class App:
 
 
     def main(self):
-
-
         run = True
         reset = False
 
@@ -111,9 +112,9 @@ class App:
             if reset:
                 self.room.time = 0
                 if USE_agent:
-                    for agent in self.room.active_AgentCams_list:
+                    for agent in self.room.agentCams_list:
                         agent.clear()
-                    for agent in self.room.active_AgentUser_list:
+                    for agent in self.room.agentUser_list:
                         agent.clear()
                 clean_mailbox()
                 self.init()
@@ -134,6 +135,7 @@ class App:
                     self.dynamic_region.compute_all_map(STATIC_ANALYSIS_PRECISION_simulated_room)
                 else:
                     region = self.static_region
+                    self.static_region.compute_all_map(STATIC_ANALYSIS_PRECISION)
 
                 self.myGUI.updateGUI(self.room, region, self.link_agent_target.link_camera_target)
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
@@ -151,10 +153,10 @@ class App:
             for agent in self.room.active_AgentCams_list:
                 agent.room_representation.time = self.room.time
 
-        for agent in self.room.active_AgentCams_list:
+        for agent in self.room.agentCams_list:
             agent.clear()
 
-        for agent in self.room.active_AgentUser_list:
+        for agent in self.room.agentUser_list:
             agent.clear()
 
         self.targets_moving = False
@@ -172,11 +174,11 @@ class App:
         # plot graph
         if constants.GENERATE_PLOT:
             print("Generating plots ...")
-            for agent in self.room.active_AgentCams_list:
+            for agent in self.room.agentCams_list:
                 plot_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id,constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT,self.filename)
                 plot_agent_memory.plot_all_target_simulated_data_collected_data()
 
-            for agent in self.room.active_AgentUser_list:
+            for agent in self.room.agentUser_list:
                 plot_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id,constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT, self.filename)
                 plot_agent_all_memory = Analyser_Agent_Target_TargetEstimator_FormatCSV(agent.id,constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT, self.filename)
                 plot_agent_memory.plot_all_target_simulated_data_collected_data()
