@@ -131,6 +131,10 @@ class TargetEstimator:
         self.target_id = int(attribute[4])
         self.target_signature = int(attribute[5])
         self.target_type = int(float(attribute[6]))
+        if attribute[7][0] == "[":
+            attribute[7] = attribute[7][1:-1]
+            attribute[8] = attribute[8][1:-1]
+
         self.target_position = [float(attribute[7]), float(attribute[8])]
         self.target_radius = float(attribute[9])
 

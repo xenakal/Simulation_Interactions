@@ -11,7 +11,8 @@ USE_dynamic_analysis_simulated_room = 0
 
 T_MAX = 200
 TIME_BTW_FRAME = .1
-TIME_BTW_TARGET_MOVEMENT = .1
+NUMBER_OF_POINT = 10 #per m for a speed of 1 m/s
+TIME_BTW_TARGET_MOVEMENT = 1/NUMBER_OF_POINT
 
 
 STATIC_ANALYSIS_PRECISION = 3  # best with 1 until map size
@@ -24,14 +25,13 @@ STD_RECEIVED = 0
 SEUIL_RECEIVED = 10
 
 """Option for class agentCamera"""
-TIME_PICTURE = .5
-TIME_SEND_READ_MESSAGE = .1
-RUN_ON_A_THREAD = 1
+TIME_PICTURE = 1.5*TIME_BTW_TARGET_MOVEMENT
+TIME_SEND_READ_MESSAGE = 0.1*TIME_BTW_TARGET_MOVEMENT
 DATA_TO_SEND = "behaviour"
 
 """Option for class estimator"""
 INCLUDE_ERROR = True
-STD_MEASURMENT_ERROR = 0.5
+STD_MEASURMENT_ERROR = 0.2
 
 """Option for class predication"""
 NUMBER_PREDICTIONS = 2

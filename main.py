@@ -64,7 +64,6 @@ class App:
             self.dynamic_region.init(STATIC_ANALYSIS_PRECISION_simulated_room)
         # Starting the multi_agent simulation
         if USE_agent:
-            if RUN_ON_A_THREAD == 1:
                 for agent in self.room.active_AgentCams_list:
                     agent.run()
                 for agent in self.room.active_AgentUser_list:

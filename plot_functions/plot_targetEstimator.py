@@ -154,8 +154,12 @@ class TargetSortedTargetEstimator:
     def add_target_estimator(self, data):
         for i in range(len(constants.TARGET_ESTIMATOR_CSV_FIELDNAMES)):
             try:
+                if (i == 6 or i == 7) and data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]][0] == "[":
+                    data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]] = data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]][1:-1]
+
                 self.data_list[i].append(float(data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]]))
             except ValueError:
+                print("problème")
                 self.data_list[i].append(data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]])
 
     def __eq__(self, other):

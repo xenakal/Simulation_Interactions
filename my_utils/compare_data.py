@@ -66,6 +66,7 @@ def error_squared_x_y_list(x_ref,y_ref,x_mes,y_mes):
 def error_squared_list(list_ref,list_mes):
     np_ref = np.array(list_ref)
     np_mes = np.array(list_mes)
+
     return np.square(np_ref-np_mes)
 
 def plot_error_square(t_ref,x_ref,y_ref,x_mes,y_mes):

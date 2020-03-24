@@ -16,8 +16,8 @@ analyser_prediction_t_plus_2 = Analyser_Target_TargetEstimator_FormatCSV(agent_i
 
 
 target_id = 0
-analyser_kalman_global.MSE_target_id(target_id)
 analyser_memory_agent.MSE_target_id(target_id)
+analyser_kalman_global.MSE_target_id(target_id)
 
 
 plt.show()
