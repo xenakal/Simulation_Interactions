@@ -27,19 +27,14 @@ class KalmanPrediction:
         self.filter = kfObject(x_init, y_init)
         self.target_id = target_id
         self.kalman_memory = [[x_init, y_init, timestamp]]
-        self.number_of_pivots = 0  # for debug
-        self.data_collected = 0
 
     def add_measurement(self, z, timestamp):
-        self.data_collected += 1
         kalman_memory_element = z.copy()
         kalman_memory_element.append(timestamp)
         self.kalman_memory.append(kalman_memory_element)
 
         if self.pivot_point_detected():
-            self.number_of_pivots += 1
-            print("pivot = ", self.number_of_pivots)
-            avg_speeds = avgSpeedFunc(self.kalman_memory[-2:], self.data_collected)
+            avg_speeds = avgSpeedFunc(self.kalman_memory[-2:])
             self.reset_filter(z[0], z[1], avg_speeds[0], avg_speeds[1])
             self.kalman_memory = [kalman_memory_element]
         """
@@ -194,7 +189,7 @@ def kfObject2(x_init, y_init, vx_init=0.0, vy_init=0.0):
     return f
 
 
-def avgSpeedFunc(positions, data_collected):
+def avgSpeedFunc(positions):
     """
     :description
         Calculates the average speed of the target based on the positions & times passed in the argument.
@@ -225,8 +220,5 @@ def avgSpeedFunc(positions, data_collected):
 
     avgSpeed_x = avgSpeed_x / (len(positions) - 1)
     avgSpeed_y = avgSpeed_y / (len(positions) - 1)
-    if avgSpeed_y > 1 or avgSpeed_x > 1:
-        print(data_collected)
-    print(avgSpeed_x, avgSpeed_y)
 
     return [avgSpeed_x, avgSpeed_y]

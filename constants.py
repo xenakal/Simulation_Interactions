@@ -37,7 +37,7 @@ DATA_TO_SEND = "behaviour"
 
 """Option for class estimator"""
 INCLUDE_ERROR = True
-STD_MEASURMENT_ERROR = 0.1
+STD_MEASURMENT_ERROR = 0.2
 
 """Option for class predication"""
 NUMBER_PREDICTIONS = 2

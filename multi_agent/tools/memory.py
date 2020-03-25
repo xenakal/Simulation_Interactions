@@ -61,7 +61,6 @@ class Memory:
                                                           target_signature, target_xc, target_yc, target_size,
                                                           target_type)
 
-        """
         # add predictor if doesn't exist yet
         if not self.exists_predictor_for_target(target_id):
             self.create_predictor_for_target(target_id, target_xc, target_yc, time_from_estimation)
@@ -76,7 +75,7 @@ class Memory:
                                         target_size, target_type)
             self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, target_id,
                                         target_signature, target_size, target_type)
-    """
+
 
     def add_target_estimator(self, estimator):
         self.log_memory.info("Add memory, from agent : " + str(estimator.agent_id) + " - target " + str(estimator.target_id))
