@@ -107,8 +107,8 @@ class AgentCam(AgentInteractingWithRoom):
                                 target = targetCameraDistance.target
                                 "Simulation from noise on the target's position "
                                 if constants.INCLUDE_ERROR and not (target.type == TargetType.SET_FIX):
-                                    erreurX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1)
-                                    erreurY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1)
+                                    erreurX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1)[0]
+                                    erreurY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1)[0]
                                 else:
                                     erreurX = 0
                                     erreurY = 0

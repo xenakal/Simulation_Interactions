@@ -57,12 +57,12 @@ class Memory:
 
         # add predictor if doesn't exist yet
         if not self.exists_predictor_for_target(target_id):
-            self.create_predictor_for_target(target_id, target_xc, target_yc)
+            self.create_predictor_for_target(target_id, target_xc, target_yc, time_from_estimation)
         else:
             # inform predictor of new measurement
             target_predictor = self.get_target_predictor(target_id)
             state = [target_xc, target_yc]
-            target_predictor.add_measurement(state)
+            target_predictor.add_measurement(state, time_from_estimation)
             new_estimate_current_pos = target_predictor.get_current_position()
             self.update_best_estimation(time_from_estimation, agent_id, agent_signature, target_id,
                                         target_signature, new_estimate_current_pos[0], new_estimate_current_pos[1],
@@ -158,9 +158,9 @@ class Memory:
                 return True
         return False
 
-    def create_predictor_for_target(self, target_id, x_init, y_init):
+    def create_predictor_for_target(self, target_id, x_init, y_init, timestamp):
         """ Creates an entry in self.predictors for this target """
-        predictor = KalmanPrediction(target_id, x_init, y_init)
+        predictor = KalmanPrediction(target_id, x_init, y_init, timestamp)
         self.predictors.append(predictor)
 
     # TODO: améliorer avec Kalman distribué
