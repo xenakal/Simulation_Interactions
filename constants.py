@@ -1,8 +1,8 @@
 import logging
 
 """Option for class main"""
-SAVE_DATA = False
-GENERATE_PLOT = False
+SAVE_DATA = True
+GENERATE_PLOT = True
 if GENERATE_PLOT:
     SAVE_DATA = True
 

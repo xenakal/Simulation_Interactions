@@ -48,7 +48,6 @@ def load_agentCam_txt(s, room):
     camera = Camera(room, -1, -1, -1, -1, -1)
     camera.load_from_txt(camera_agent[1])
     agent = AgentCam(camera)
-    print(agent.id)
     agent.load_from_txt(camera_agent[2])
     room.add_AgentCam(agent)
 

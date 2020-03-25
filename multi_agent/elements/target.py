@@ -204,6 +204,8 @@ class Target(TargetRepresentation):
         self.yc = float(attribute[2])
         self.vx = float(attribute[3])
         self.vy = float(attribute[4])
+        self.vx_max = self.vx
+        self.vy_max = self.vy
         self.radius = float(attribute[5])
         self.type = float(attribute[6])
         self.trajectory_type = float(attribute[7])

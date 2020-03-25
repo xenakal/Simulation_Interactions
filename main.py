@@ -12,6 +12,8 @@ from my_utils.my_IO.IO_data import *
 from constants import *
 from plot_functions.plot_targetEstimator import *
 
+import multi_agent.agent.agent_interacting_room_camera
+import multi_agent.agent.agent_interacting_room_user
 
 def clean_mailbox():
     shutil.rmtree("mailbox", ignore_errors=True)
@@ -27,6 +29,7 @@ class App:
         #Path for logn data,plot ...
         constants.ResultsPath.name_simulation = fileName
         create_structur_to_save_data()
+        shutil.copy("map/"+fileName+".txt",constants.ResultsPath.MAIN_FOLDER)
 
         """Loading the room from the txt.file"""
         self.filename = fileName
@@ -117,6 +120,8 @@ class App:
 
             # To restart the simulation, press r
             if reset:
+                multi_agent.agent.agent_interacting_room_camera.AgentCam.number_agentCam_created = 0
+                multi_agent.agent.agent_interacting_room_user.AgentUser.number_agentUser_created = 0
                 self.room.time = 0
                 if USE_agent:
                     for agent in self.room.agentCams_list:

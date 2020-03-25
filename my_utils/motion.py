@@ -52,6 +52,7 @@ def rectiligne_trajectory(Target, dist_min, delta_time):
     """
     if Target.type != TargetType.SET_FIX:
         (x_goal, y_goal) = Target.trajectory_position[Target.number_of_position_reached]
+
         '''Updating the postion we want to reach when close enough '''
         if math.fabs(Target.xc - x_goal) <= dist_min and math.fabs(
                 Target.yc - y_goal) <= dist_min and Target.number_of_position_reached < len(
@@ -68,6 +69,7 @@ def rectiligne_trajectory(Target, dist_min, delta_time):
             v_y = -Target.vy_max * (Target.yc - y_goal) / math.fabs((Target.yc - y_goal))
         else:
             v_y = 0
+
 
         '''Modifying the position in the target object, always in (int)'''
         Target.xc = Target.xc + v_x * delta_time

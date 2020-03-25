@@ -102,13 +102,13 @@ class AgentInteractingWithRoom(Agent):
         "Save data"
         if constants.SAVE_DATA:
             print("Saving data: agent " + str(self.id))
-            self.log_main("Saving data ...: agent "+str(self.id))
+            self.log_main.info("Saving data ...: agent "+str(self.id))
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT + str(self.id), self.memory.memory_all_agent.to_csv())
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT + str(self.id), self.memory.memory_agent.to_csv())
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL + str(self.id), self.memory.best_estimations.to_csv())
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_PREDICTION_TPLUS1 + str(self.id), self.memory.predictions_order_1.to_csv())
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_PREDICTION_TPLUS2 + str(self.id), self.memory.predictions_order_2.to_csv())
-            self.log_main("Data saved !" + str(self.id))
+            self.log_main.info("Data saved !" + str(self.id))
 
         "Clear"
         self.thread_is_running = 0
