@@ -40,7 +40,7 @@ INCLUDE_ERROR = True
 STD_MEASURMENT_ERROR = 0.2
 
 """Option for class predication"""
-NUMBER_PREDICTIONS = 2
+NUMBER_PREDICTIONS = 4
 PREVIOUS_POSITIONS_USED = 3  # number of previous positions used to make the prediction of the next positions
 
 """Option for class map"""

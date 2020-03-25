@@ -3,7 +3,7 @@ from filterpy.kalman import KalmanFilter, update, predict
 from filterpy.common import Q_discrete_white_noise
 from scipy.linalg import block_diag
 import numpy as np
-import math
+import time
 
 SPEED_CHANGE_THRESHOLD = 4
 MAX_STD_SPEED = 0.7
@@ -94,6 +94,9 @@ class KalmanPrediction:
                                                            predicted positions of the target beeing tracked
         """
         predictions = []
+        # only return if still seeing the object
+        if (not len(self.kalman_memory) < 2) and (self.kalman_memory[-2][2] - self.kalman_memory[-1][2] > 3):
+            return predictions
 
         current_state = self.filter.x
         current_P = self.filter.P
@@ -108,7 +111,6 @@ class KalmanPrediction:
             predictions.append(new_state)
             current_state, current_P = update(current_state, current_P, new_state[0:2], self.filter.R, self.filter.H)
             # current_state, current_P = update(current_state, current_P, new_state, self.filter.R, self.filter.H)
-
         return predictions
 
     def get_current_position(self):

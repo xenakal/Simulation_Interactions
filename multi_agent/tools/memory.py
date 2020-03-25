@@ -197,6 +197,9 @@ class Memory:
     def update_predictions_lists(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
                                  target_size, target_type):
         predictions_for_target = self.get_target_predictor(target_id).get_predictions()
+        if len(predictions_for_target) < 2:  # No predictions made
+            return
+
         predictions_order_1 = predictions_for_target[0]
         predictions_order_2 = predictions_for_target[1]
         self.predictions_order_1.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
