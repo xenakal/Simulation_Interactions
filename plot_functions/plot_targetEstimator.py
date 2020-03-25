@@ -193,7 +193,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         self.id = agent_id
         self.version = version
         self.data = load_csv_file_dictionnary(path+str(agent_id))
-        self.simulated_data = load_csv_file_dictionnary(constants.SavePlotPath.DATA_REFERENCE)
+        self.simulated_data = load_csv_file_dictionnary(constants.ResultsPath.DATA_REFERENCE)
         self.data_sort_by_target = []
         self.simulated_data_sort_by_target = []
 
@@ -235,7 +235,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             fig_position.colorbar(sc1, ax=ax1)
             fig_position.colorbar(sc2, ax=ax2)
             fig_position.savefig(
-                constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--position_agent_" + str(self.id),
+                constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--position_agent_" + str(self.id),
                 transparent=False)
             plt.close(fig_position)
         except:
@@ -267,7 +267,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             fig_time_type_x_y.colorbar(sc3, ax=ax3)
 
             fig_time_type_x_y.savefig(
-                constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(self.id),
+                constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(self.id),
                 transparent=False)
             plt.close(fig_time_type_x_y)
 
@@ -303,7 +303,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             fig_time_type_x_y.colorbar(sc2, ax=ax2)
             fig_time_type_x_y.colorbar(sc3, ax=ax3)
             fig_time_type_x_y.savefig(
-                constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(
+                constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(
                     self.id) + "-target_" + str(
                     target_id),
                 transparent=False)
@@ -321,7 +321,7 @@ class Analyser_Agent_Target_TargetEstimator_FormatCSV:
         self.id = agent_id
         self.version = version
         self.data = load_csv_file_dictionnary(path + str(agent_id))
-        self.simulated_data = load_csv_file_dictionnary(constants.SavePlotPath.DATA_REFERENCE)
+        self.simulated_data = load_csv_file_dictionnary(constants.ResultsPath.DATA_REFERENCE)
         self.data_sort_by_agent_target = []
         self.simulated_data_sort_by_target = []
 
@@ -351,7 +351,7 @@ class Analyser_Agent_Target_TargetEstimator_FormatCSV:
             fig_position.colorbar(sc2, ax=ax2)
 
             fig_position.savefig(
-                constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--position_agent_" + str(self.id),
+                constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--position_agent_" + str(self.id),
                 transparent=False)
             plt.close(fig_position)
         except :
@@ -389,6 +389,6 @@ class Analyser_Agent_Target_TargetEstimator_FormatCSV:
         fig_time_type_x_y.colorbar(sc3, ax=ax3)
 
         fig_time_type_x_y.savefig(
-            constants.SavePlotPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--all_agent_" + str(self.id),
+            constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--all_agent_" + str(self.id),
             transparent=False)
         plt.close(fig_time_type_x_y)

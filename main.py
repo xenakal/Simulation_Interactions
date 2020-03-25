@@ -7,7 +7,7 @@ from multi_agent.tools.map_region_dyn import *
 from multi_agent.tools.estimator import *
 from my_utils.GUI.GUI import *
 from my_utils.motion import *
-from my_utils.map_from_to_txt import *
+from my_utils.IO_map_from_to_txt import *
 from constants import *
 from plot_functions.plot_targetEstimator import *
 
@@ -22,6 +22,10 @@ class App:
         self.exact_data_target = Target_TargetEstimator()  # utilisé comme une simple liste, raison pour laquelle c'est une targetEstimator ?
         # TODO: check that
         clean_mailbox()
+
+        #Path for logn data,plot ...
+        constants.ResultsPath.name_simulation = fileName
+        create_structur_to_save_data()
 
         """Loading the room from the txt.file"""
         self.filename = fileName
@@ -76,10 +80,8 @@ class App:
         self.link_agent_target = LinkTargetCamera(self.room)
         self.link_agent_target.update_link_camera_target()
 
-        # to save the data
-        if constants.SAVE_DATA:
-            constants.SavePlotPath.name_simulation = self.filename
-            create_structur_to_save_data()
+
+
 
     def move_all_targets_thread(self):
         time_old = time.time()
@@ -169,19 +171,19 @@ class App:
         # save data
         if constants.SAVE_DATA:
             print("Saving data : generated")
-            save_in_csv_file_dictionnary(constants.SavePlotPath.DATA_REFERENCE, self.exact_data_target.to_csv())
+            save_in_csv_file_dictionnary(constants.ResultsPath.DATA_REFERENCE, self.exact_data_target.to_csv())
             print("Data saved !")
 
         # plot graph
         if constants.GENERATE_PLOT:
             print("Generating plots ...")
             for agent in self.room.agentCams_list:
-                plot_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id,constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT,self.filename)
+                plot_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id, constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT, self.filename)
                 plot_agent_memory.plot_all_target_simulated_data_collected_data()
 
             for agent in self.room.agentUser_list:
-                plot_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id,constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_AGENT, self.filename)
-                plot_agent_all_memory = Analyser_Agent_Target_TargetEstimator_FormatCSV(agent.id,constants.SavePlotPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT, self.filename)
+                plot_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id, constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT, self.filename)
+                plot_agent_all_memory = Analyser_Agent_Target_TargetEstimator_FormatCSV(agent.id, constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT, self.filename)
                 plot_agent_memory.plot_all_target_simulated_data_collected_data()
                 plot_agent_memory.plot_position_target_simulated_data_collected_data()
                 plot_agent_all_memory.plot_position_target_simulated_data_collected_data()

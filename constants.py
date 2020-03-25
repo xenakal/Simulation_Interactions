@@ -1,3 +1,5 @@
+import logging
+
 """Option for class main"""
 SAVE_DATA = False
 GENERATE_PLOT = False
@@ -9,7 +11,9 @@ USE_agent = 1
 USE_static_analysis = 0
 USE_dynamic_analysis_simulated_room = 0
 
-T_MAX = 30
+T_MAX = 300
+
+
 TIME_BTW_FRAME = .1
 NUMBER_OF_POINT = 10 #per m for a speed of 1 m/s
 TIME_BTW_TARGET_MOVEMENT = 1/NUMBER_OF_POINT
@@ -19,7 +23,9 @@ STATIC_ANALYSIS_PRECISION = 10 #number of point per m
 DYNAMIC_ANALYSIS_PRECISION = 10  #number of point per m
 
 """Option for class agent"""
-NAME_LOG_PATH = "log/log_agent/Agent"
+NAME_LOG_PATH_AGENT = "log/log_agent/"
+NAME_LOG_PATH_MEMORY = "log/log_memory/"
+LOG_LEVEL = logging.INFO
 NAME_MAILBOX = "mailbox/MailBox_Agent"
 STD_RECEIVED = 0
 SEUIL_RECEIVED = 10
@@ -31,7 +37,7 @@ DATA_TO_SEND = "behaviour"
 
 """Option for class estimator"""
 INCLUDE_ERROR = True
-STD_MEASURMENT_ERROR = 0.2
+STD_MEASURMENT_ERROR = 0.1
 
 """Option for class predication"""
 NUMBER_PREDICTIONS = 2
@@ -70,95 +76,107 @@ class classproperty(object):
         return self.fget(owner_cls)
 
 
-class SavePlotPath:
+class ResultsPath:
     folder = "results"
     name_simulation = "standard"
 
     @classproperty
     def MAIN_FOLDER(cls):
-        return SavePlotPath.folder + "/data_saved - " + SavePlotPath.name_simulation
+        return ResultsPath.folder + "/data_saved - " + ResultsPath.name_simulation
+
+    @classproperty
+    def LOG_FOLDER(cls):
+        return ResultsPath.MAIN_FOLDER + "/log"
+
+    @classproperty
+    def LOG_AGENT(cls):
+        return  ResultsPath.LOG_FOLDER +"/log_agent/"
+
+    @classproperty
+    def LOG_MEMORY(cls):
+        return ResultsPath.LOG_FOLDER + "/log_memory/"
 
     @classproperty
     def DATA_FOLDER(cls):
-        return SavePlotPath.MAIN_FOLDER + "/data"
-
-    @classproperty
-    def PLOT_FOLDER(cls):
-        return SavePlotPath.MAIN_FOLDER + "/plot"
+        return ResultsPath.MAIN_FOLDER + "/data"
 
     @classproperty
     def DATA_REFERENCE(cls):
-        return SavePlotPath.DATA_FOLDER + "/simulated_data"
+        return ResultsPath.DATA_FOLDER + "/simulated_data"
 
     @classproperty
     def DATA_MEMORY_AGENT(cls):
-        return SavePlotPath.DATA_FOLDER + "/memory_agent"
+        return ResultsPath.DATA_FOLDER + "/memory_agent"
 
     @classproperty
     def DATA_MEMORY_ALL_AGENT(cls):
-        return SavePlotPath.DATA_FOLDER + "/memory_all_agent"
+        return ResultsPath.DATA_FOLDER + "/memory_all_agent"
 
     @classproperty
     def DATA_PREDICTION(cls):
-        return SavePlotPath.DATA_FOLDER + "/predictions"
+        return ResultsPath.DATA_FOLDER + "/predictions"
 
     @classproperty
     def DATA_PREDICTION_TPLUS1(cls):
-        return SavePlotPath.DATA_PREDICTION + "/t_plus_1"
+        return ResultsPath.DATA_PREDICTION + "/t_plus_1"
 
     @classproperty
     def DATA_PREDICTION_TPLUS2(cls):
-        return SavePlotPath.DATA_PREDICTION + "/t_plus_2"
+        return ResultsPath.DATA_PREDICTION + "/t_plus_2"
 
     @classproperty
     def DATA_KALMAN(cls):
-        return SavePlotPath.DATA_FOLDER + "/kalman"
+        return ResultsPath.DATA_FOLDER + "/kalman"
 
     @classproperty
     def DATA_KALMAN_GLOBAL(cls):
-        return SavePlotPath.DATA_KALMAN + "/kalman_global"
+        return ResultsPath.DATA_KALMAN + "/kalman_global"
 
     @classproperty
     def DATA_KALMAN_DISTRIBUE(cls):
-        return SavePlotPath.DATA_KALMAN + "/kalman_distribue"
+        return ResultsPath.DATA_KALMAN + "/kalman_distribue"
 
     @classproperty
     def SAVE_LOAD_DATA_MEMORY_AGENT(cls):
-        return SavePlotPath.DATA_MEMORY_AGENT + "/agent-"
+        return ResultsPath.DATA_MEMORY_AGENT + "/agent-"
 
     @classproperty
     def SAVE_LOAD_DATA_MEMORY_ALL_AGENT(cls):
-        return SavePlotPath.DATA_MEMORY_ALL_AGENT + "/agent-"
+        return ResultsPath.DATA_MEMORY_ALL_AGENT + "/agent-"
 
     @classproperty
     def SAVE_LOAD_DATA_KALMAN_SIMPLE(cls):
-        return SavePlotPath.DATA_KALMAN_DISTRIBUE + "/agent-"
+        return ResultsPath.DATA_KALMAN_DISTRIBUE + "/agent-"
 
     @classproperty
     def SAVE_LOAD_DATA_KALMAN_GLOBAL(cls):
-        return SavePlotPath.DATA_KALMAN_GLOBAL + "/agent-"
+        return ResultsPath.DATA_KALMAN_GLOBAL + "/agent-"
 
     @classproperty
     def SAVE_LOAD_DATA_PREDICTION_TPLUS1(cls):
-        return SavePlotPath.DATA_PREDICTION_TPLUS1+ "/agent-"
+        return ResultsPath.DATA_PREDICTION_TPLUS1 + "/agent-"
 
     @classproperty
     def SAVE_LOAD_DATA_PREDICTION_TPLUS2(cls):
-        return SavePlotPath.DATA_PREDICTION_TPLUS2 + "/agent-"
+        return ResultsPath.DATA_PREDICTION_TPLUS2 + "/agent-"
+
+    @classproperty
+    def PLOT_FOLDER(cls):
+        return ResultsPath.MAIN_FOLDER + "/plot"
 
     @classproperty
     def PLOT_MEMORY_AGENT(cls):
-        return SavePlotPath.PLOT_FOLDER + "/memory_agent"
+        return ResultsPath.PLOT_FOLDER + "/memory_agent"
 
     @classproperty
     def PLOT_MEMORY_ALL_AGENT(cls):
-        return SavePlotPath.PLOT_FOLDER + "/memory_all_agent"
+        return ResultsPath.PLOT_FOLDER + "/memory_all_agent"
 
     @classproperty
     def SAVE_LOAD_PLOT_MEMORY_AGENT(cls):
-        return SavePlotPath.PLOT_MEMORY_AGENT + "/agent-"
+        return ResultsPath.PLOT_MEMORY_AGENT + "/agent-"
 
     @classproperty
     def SAVE_LOAD_PLOT_MEMORY_ALL_AGENT(cls):
-        return SavePlotPath.PLOT_MEMORY_ALL_AGENT + "/agent-"
+        return ResultsPath.PLOT_MEMORY_ALL_AGENT + "/agent-"
 

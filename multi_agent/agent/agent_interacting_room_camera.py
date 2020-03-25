@@ -70,8 +70,11 @@ class AgentCam(AgentInteractingWithRoom):
                 1. (Room) room  --  To set up the RoomDescription
 
         """
+        self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation)
+        self.log_main.info("initialisation in agent_interacting_room__cam_done !")
+
 
     def thread_run(self):
         """
@@ -81,7 +84,8 @@ class AgentCam(AgentInteractingWithRoom):
 
         state = "takePicture"
         nextstate = state
-        my_previousTime = self.room_representation.time - 1
+        last_heart_beat_sent = time.time()
+        my_previousTime = self.room_representation.time
 
         while self.thread_is_running == 1:
             state = nextstate
@@ -102,7 +106,6 @@ class AgentCam(AgentInteractingWithRoom):
                     if my_previousTime != self.room_representation.time:  # Si la photo est nouvelle
                         my_previousTime = self.room_representation.time
                         for targetCameraDistance in picture:
-                            self.memory.set_current_time(self.room_representation.time)
                             try:
                                 target = targetCameraDistance.target
                                 "Simulation from noise on the target's position "
@@ -129,14 +132,7 @@ class AgentCam(AgentInteractingWithRoom):
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
             elif nextstate == "processData":
-                "Combination of data received and data observed"
-                self.memory.combine_data_agentCam()
-                "Modification from the room description"
-                self.room_representation.update_target_based_on_memory(self.memory.memory_agent)
-                "Computation of the camera that should give the best view, according to map algorithm"
-                self.link_target_agent.update_link_camera_target()
-                self.link_target_agent.compute_link_camera_target()
-                "Descision of the messages to send"
+                self.memory.set_current_time(self.room_representation.time)
                 self.process_information_in_memory()
                 nextstate = "communication"
 
@@ -145,6 +141,10 @@ class AgentCam(AgentInteractingWithRoom):
                 "Suppression of unusefull messages in the list"
                 self.info_message_sent.remove_message_after_given_time(self.room_representation.time, 30)
                 self.info_message_received.remove_message_after_given_time(self.room_representation.time, 30)
+
+                "Send heart_beat to other agent"
+                last_heart_beat_sent = self.send_message_heartbeat(last_heart_beat_sent,1)
+
                 "Message are send (Mailbox)"
                 self.send_messages()
                 "Read messages received"
@@ -163,8 +163,18 @@ class AgentCam(AgentInteractingWithRoom):
     def process_information_in_memory(self):
         """
             :description
-                Condition to detect when a message should be send
+                Process all the information obtain
         """
+
+        "Combination of data received and data observed"
+        self.memory.combine_data_agentCam()
+
+        "Modification from the room description"
+        self.room_representation.update_target_based_on_memory(self.memory.memory_agent)
+
+        "Computation of the camera that should give the best view, according to map algorithm"
+        self.link_target_agent.update_link_camera_target()
+        self.link_target_agent.compute_link_camera_target()
 
         for target in self.room_representation.active_Target_list:
             """
@@ -210,7 +220,6 @@ class AgentCam(AgentInteractingWithRoom):
                Data to send user's agent:
                -----------------------------------------------------------------------------------------------
             """
-
             "If the target is link to this agent then we send the message to the user"
             if self.link_target_agent.is_in_charge(target.id, self.id):
                 memories = self.memory.memory_agent.get_Target_list(target.id)
@@ -222,9 +231,12 @@ class AgentCam(AgentInteractingWithRoom):
                     last_memory = memories[len(memories) - 1]
 
                     "If the message is to old we don't send it -> target lost"
-                    thresh_time_to_send = 10
+                    thresh_time_to_send = 3
                     if self.room_representation.time - last_memory.time_stamp <= thresh_time_to_send:
                         self.send_message_targetEstimator(last_memory, receivers)
+
+
+
 
     def get_predictions(self, target_id_list):
         """

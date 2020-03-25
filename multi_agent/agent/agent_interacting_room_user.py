@@ -45,6 +45,7 @@ class AgentUser(AgentInteractingWithRoom):
     def __init__(self, id):
         super().__init__(id, AgentType.AGENT_USER)
 
+
     def thread_run(self):
         """
             :description
@@ -53,6 +54,7 @@ class AgentUser(AgentInteractingWithRoom):
 
         state = "processData"
         nextstate = state
+        last_heart_beat_sent = time.time()
 
         while self.thread_is_running == 1:
             state = nextstate
@@ -69,6 +71,9 @@ class AgentUser(AgentInteractingWithRoom):
                 '''Suppression of unusefull messages in the list'''
                 self.info_message_sent.remove_message_after_given_time(self.room_representation.time, 30)
                 self.info_message_received.remove_message_after_given_time(self.room_representation.time, 30)
+
+                "Send heart_beat to other agent"
+                last_heart_beat_sent = self.send_message_heartbeat(last_heart_beat_sent, 1)
 
                 '''Message are send (Mailbox)'''
                 self.send_messages()

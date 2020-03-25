@@ -165,13 +165,11 @@ class RoomRepresentation:
             if target.type == TargetType.SET_FIX:
                 self.add_targetRepresentation_from_target(target)
 
-        for agent in room.active_AgentCams_list:
+        for agent in room.agentCams_list:
             self.agentCams_list.append(agent)
 
-        for agent in room.active_AgentUser_list:
+        for agent in room.agentUser_list:
             self.agentUser_list.append(agent)
-
-        self.active_AgentUser_list = self.agentUser_list
 
     def update_target_based_on_memory(self, Target_TargetEstimator):
         """
