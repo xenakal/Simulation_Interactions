@@ -1,1 +1,3 @@
+# Result folder
+
 In this folder you will find the result from the simulation.

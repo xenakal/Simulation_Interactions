@@ -20,7 +20,7 @@ YELLOW = (255, 255, 0)
 BACKGROUND = RED
 
 class GUI:
-    def __init__(self,room_to_txt):
+    def __init__(self):
         pygame.init()
 
         # define the windows
@@ -40,8 +40,8 @@ class GUI:
         self.GUI_option = GUI_option(self.screen)
         self.GUI_projection = GUI_projection(self.screen)
         self.GUI_stat = GUI_stat(self.screen, 0, 50)
-        self.GUI_create_map = GUI_create_map(self.screen,self.GUI_option,room_to_txt,x_offset,y_offset,scale_x,scale_y)
-        self.GUI_simu = GUI_simulation(self.screen, self.GUI_option,room_to_txt,x_offset,y_offset,scale_x,scale_y)
+        self.GUI_create_map = GUI_create_map(self.screen,self.GUI_option,x_offset,y_offset,scale_x,scale_y)
+        self.GUI_simu = GUI_simulation(self.screen, self.GUI_option,x_offset,y_offset,scale_x,scale_y)
         self.GUI_output = GUI_user_output(self.screen, self.GUI_option,x_offset,y_offset,scale_x,scale_y)
 
         pygame.display.set_caption("Camera simulation")

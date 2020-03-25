@@ -1,0 +1,14 @@
+New Map, but you can change the name 
+ 
+This file is the representation to initialise a room description 
+__________________________________________________________________ 
+
+!! You can modify the file, but pay attention to spaces and sign such as , -  !! 
+
+target: x:4.70 y:4.10 vx:1.00 vy:1.00 r:0.30 target_type:2 tj_type:1 t_add:[0.0] t_del:[1000.0] trajectory:[(4.7, 4.1), (5.3, 1.0)]
+target: x:4.70 y:4.70 vx:1.00 vy:1.00 r:0.30 target_type:2 tj_type:1 t_add:[0.0] t_del:[1000.0] trajectory:[(4.7, 4.7), (3.8, 4.7), (3.7, 3.2), (3.7, 1.0)]
+target: x:4.70 y:5.30 vx:1.00 vy:1.00 r:0.30 target_type:2 tj_type:1 t_add:[0.0] t_del:[1000.0] trajectory:[(4.7, 5.3), (7.0, 2.6), (7.1, 6.9)]
+target: x:4.70 y:5.90 vx:1.00 vy:1.00 r:0.30 target_type:2 tj_type:1 t_add:[0.0] t_del:[1000.0] trajectory:[(4.7, 5.9), (0.6, 1.2), (1.4, 6.8)]
+camera: x:0.00 y:4.00 alpha:0.00 beta:1.05 is_fix:1 t_add:[0.0] t_del:[1000.0] agent: t_add:[0.0] t_del:[1000.0]
+camera: x:0.00 y:0.00 alpha:0.52 beta:1.05 is_fix:1 t_add:[0.0] t_del:[1000.0] agent: t_add:[0.0] t_del:[1000.0]
+camera: x:0.00 y:7.90 alpha:-0.52 beta:1.05 is_fix:1 t_add:[0.0] t_del:[1000.0] agent: t_add:[0.0] t_del:[1000.0]

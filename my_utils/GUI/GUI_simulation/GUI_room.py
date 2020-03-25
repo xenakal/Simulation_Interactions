@@ -115,18 +115,22 @@ class GUI_room:
             # render form
             pygame.draw.circle(self.screen, camera.color, (
                 self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 5)
+
+            color = RED
             if camera.isActive == 1:
-                pygame.draw.line(self.screen, WHITE, (
+                color = GREEN
+
+            pygame.draw.line(self.screen, WHITE, (
                     self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
                                  (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(camera.alpha),
                                   self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(camera.alpha)), 2)
-                pygame.draw.line(self.screen, CAMERA, (
+            pygame.draw.line(self.screen, color, (
                     self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
                                  (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
                                      camera.alpha - (camera.beta / 2)),
                                   self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
                                       camera.alpha - (camera.beta / 2))), 2)
-                pygame.draw.line(self.screen, CAMERA, (
+            pygame.draw.line(self.screen, color, (
                     self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
                                  (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
                                      camera.alpha + (camera.beta / 2)),
@@ -134,7 +138,7 @@ class GUI_room:
                                       camera.alpha + (camera.beta / 2))), 2)
 
     def drawCam(self, room, l=100):
-        for agent in room.active_AgentCams_list:
+        for agent in room.agentCams_list:
             self.draw_one_Cam(agent.camera,l)
 
     def drawCam_room_description(self, room, agents_to_display,agentType, allAgents=False):

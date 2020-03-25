@@ -7,7 +7,8 @@ from multi_agent.tools.map_region_dyn import *
 from multi_agent.tools.estimator import *
 from my_utils.GUI.GUI import *
 from my_utils.motion import *
-from my_utils.IO_map_from_to_txt import *
+from my_utils.my_IO.IO_map import *
+from my_utils.my_IO.IO_data import *
 from constants import *
 from plot_functions.plot_targetEstimator import *
 
@@ -29,7 +30,7 @@ class App:
 
         """Loading the room from the txt.file"""
         self.filename = fileName
-        self.room_txt = Room_txt()
+
 
         """CAREFULL: all that depends on my room needs to be initialized again in init
         because my room is first initialized after room_txt.load_room_from_file"""
@@ -43,14 +44,17 @@ class App:
 
         self.init()
         if USE_GUI == 1:
-            self.myGUI = GUI(self.room_txt)
+            self.myGUI = GUI()
 
     def init(self):
-        # Loading the map from a txt file, in map folder
-        self.room_txt = Room_txt()
-        self.room_txt.load_room_from_txt(self.filename + ".txt")
+
+
         # Creation from the room with the given description
-        self.room = self.room_txt.init_room()
+        self.room = Room()
+        # Loading the map from a txt file, in map folder
+        load_room_from_txt(self.filename + ".txt",self.room)
+
+
         # Adding one agent user
         self.room.init_AgentUser(1)
         for agent in self.room.agentCams_list:

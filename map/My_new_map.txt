@@ -1,52 +1,10 @@
-# New Map, but you can change the name 
-# Please let the blank where they are, 
-# Otherwise the map will not be loaded correctly. 
-# This save is not dummysproof 
-#---------------------------- 
-# 10 lines to save target data 
-# 5 lines to save target data 
-# Description start below this line 
-#Targets description
-#xc
-#yc
-#vx
-#vy
-#trajectory_type
-#trajectory_choice
-#label_target
-#radius
-#t_add
-#t_del
-#---------------------------- 
-#Targets description
-#xc
-#yc
-#alpha
-#beta
-#fix
-#---------------------------- 
-#
-#Targets description 
-#---------------------------- 
-*1.7166666666666666,2.716666666666667,4.983333333333333,
-*0.7833333333333333,4.533333333333333,2.316666666666667,
-*1.0,1.0,1.0,
-*1.0,1.0,1.0,
-*linear,linear,linear,
-*0.0,0.0,0.0,
-*2.0,0.0,0.0,
-*0.23000000000000007,0.4000000000000002,0.4000000000000002,
-*[0.0],[0.0],[0.0],
-*[1000.0],[1000.0],[1000.0],
-#Cameras description 
-#---------------------------- 
-*0.0,0.0,
-*0.0,7.983333333333333,
-*45.0,-45,
-*60.0,60,
-*1.0,1,
-#Trajectories description 
-#---------------------------- 
-*(0, [(1.3, 1.3166666666666667), (1.1833333333333333, 5.65), (3.4166666666666665, 5.883333333333334), (5.733333333333333, 4.2), (5.7, 2.3)]),
-#---------------------------- 
-#end of file 
+New Map, but you can change the name
+
+This file is the representation to initialise a room description
+________________________________________________________________
+
+!! You can modify the file, but pay attention to spaces and sign such as , -  !!
+
+target: x:5.30 y:6.00 vx:1.00 vy:1.00 r:0.55 target_type:2 tj_type:1 t_add:[0] t_del:[1000] trajectory:[(5.3, 6.0), (4.6, 5.0), (2.2, 3.8), (1.6, 1.4)]
+target: x:6.20 y:1.60 vx:1.00 vy:1.00 r:0.55 target_type:2 tj_type:1 t_add:[0] t_del:[1000] trajectory:[(6.2, 1.6), (3.4, 1.3), (2.4, 2.3), (1.6, 4.2), (1.0, 2.0)]
+camera: x:1.20 y:5.90 alpha:0.00 beta:1.05 is_fix:1 t_add:[0.0] t_del:[1000.0] agent: t_add:[0] t_del:[1000]

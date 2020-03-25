@@ -1,4 +1,5 @@
 from my_utils.GUI.button import ButtonList
+from my_utils.my_IO.IO_map import save_room_to_txt
 from my_utils.GUI.GUI_simulation.GUI_room import *
 from my_utils.GUI.GUI_simulation.GUI_memories import *
 from my_utils.GUI.GUI_simulation.GUI_agent_target_detected import *
@@ -8,10 +9,9 @@ from my_utils.GUI.GUI_simulation.GUI_agent_region import *
 
 
 class GUI_simulation:
-    def __init__(self, screen, GUI_option,txt_room,x_offset,y_offset,scale_x,scale_y):
+    def __init__(self, screen, GUI_option,x_offset,y_offset,scale_x,scale_y):
         pygame.init()
 
-        self.txt_room = txt_room
         self.screen = screen
         self.GUI_option = GUI_option
 
@@ -52,8 +52,7 @@ class GUI_simulation:
             self.GUI_memories.draw_mesure_and_receiveMessages(room)
 
         if self.button_simulation_4.find_button_state("save to txt"):
-            self.txt_room.from_room_to_seprarate(room)
-            self.txt_room.save_room_to_txt()
+            save_room_to_txt("Current_map.txt",room)
             self.button_simulation_4.find_button("save to txt").set_button(False)
 
         self.GUI_room.drawTarget(room.active_Target_list, room.coordinate_room)

@@ -1,5 +1,4 @@
-import numpy as np
-from my_utils.interpolation import*
+from my_utils.my_math.interpolation import*
 from plot_functions.plot_toolbox import *
 
 def error_squared_discrete(data_ref_list,data_mes_list):

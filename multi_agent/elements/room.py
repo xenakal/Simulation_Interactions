@@ -37,33 +37,7 @@ class InformationRoomSimulation:
         self.trajectories = []
         self.trajectories_number = []
 
-    def init_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del):
-        """"
-            :param
-                1. (int_list) x                               -- x values of the center
-                2. (int_list) y                               -- y values of the center
-                3. (int_list) vx                              -- vx speeds
-                4. (int_list) vy                              -- vy speeds
-                5. (string_list) trajectory_type              -- "fix","linear" choice for the target's way to moove
-                6. (int_list) trajectory_choice               -- will bound the target to the given trajectory
-                                                                in InformationRoomSimulation
-                7. (int_list) radius                            -- radius from the center
-                8. (string_list) type                         -- "fix","target", to make the difference between known
-                                                                 and unkown target
-                9. ([[[int],...],...]) t_add                  -- list of all the times where the target should appear
-                                                                 in the room
-               10. ([[[int],...],...]) t_del                  -- list of all the times where the target should disappear
-                                                                 in the room
-
-            :notes
-                 fells free to write some comments.
-           """
-        if len(x) > 0:
-            for n in range(len(x)):
-                self.add_Target(x[n], y[n], vx[n], vy[n], trajectory_type[n], trajectory_choice[n], type[n], radius[n],
-                                t_add[n], t_del[n])
-
-    def add_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del):
+    def add_create_Target(self, x, y, vx, vy, trajectory_type, trajectory, type, radius, t_add, t_del):
         """"
                :param
                    1. (int) x                               -- x value of the center
@@ -84,13 +58,20 @@ class InformationRoomSimulation:
                 :notes
                         fells free to write some comments.
         """
-        if trajectory_choice in self.trajectories_number:
-            index = self.trajectories_number.index(trajectory_choice)
-            number_Target = len(self.Target_list)
-            self.Target_list.append(Target(number_Target, x, y, vx, vy, trajectory_type,
-                                           self.trajectories[index], type, radius, t_add, t_del))
-        else:
-            print("fichier info_room_simu l27 : error while creating target, trajectory number not found")
+        target = Target(-1,x, y, vx, vy,trajectory_type, trajectory, type, radius, t_add, t_del)
+        self.add_Target(target)
+
+    def add_Target(self,target):
+        """"
+               :param
+                   1. (Target) target  -- a target object
+
+                :notes
+                        fells free to write some comments.
+        """
+        number_of_target =len(self.Target_list)
+        target.id = number_of_target
+        self.Target_list.append(target)
 
     def init_trajectories(self, all_trajectories_loaded):
         """"
@@ -319,8 +300,8 @@ class Room(RoomRepresentation):
                  it will fill the information_simulation
            """
 
-        self.information_simulation.init_Target(x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add,
-                                                t_del)
+        #self.information_simulation.init_Target(x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add,
+                                               # t_del)
 
     def init_AgentCam(self, x, y, orientation_alpha, field_opening_beta, is_fix):
         """
@@ -335,9 +316,9 @@ class Room(RoomRepresentation):
                 5. (int_list) is_fix                          -- 0 = camera can rotate, 1 = cam orientation is fix
         """
         for n in range(len(x)):
-            self.add_AgentCam(x[n], y[n], orientation_alpha[n], field_opening_beta[n], is_fix[n], self)
+            self.add_create_AgentCam(x[n], y[n], orientation_alpha[n], field_opening_beta[n], is_fix[n])
 
-    def add_AgentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix, myRoom):
+    def add_create_AgentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix):
         """
             :description
                 Create and add AgentCam to the room
@@ -351,8 +332,27 @@ class Room(RoomRepresentation):
         """
 
         number_AgentCam = len(self.agentCams_list)
-        camera = Camera(myRoom, number_AgentCam, cam_x, cam_y, cam_alpha, cam_beta, fix)
-        self.agentCams_list.append(multi_agent.agent.agent_interacting_room_camera.AgentCam(number_AgentCam, camera))
+        camera = Camera(self, number_AgentCam, cam_x, cam_y, cam_alpha, cam_beta, fix)
+        self.agentCams_list.append(multi_agent.agent.agent_interacting_room_camera.AgentCam(camera))
+
+    def add_AgentCam(self, agent):
+        """
+            :description
+                Create and add AgentCam to the room
+
+            :param
+                1. (int) x                               -- x values of the center
+                2. (int) y                               -- y values of the center
+                3. (int) orientation_alpha               -- alpha, orientation from the camera, -180 to 180 degrees
+                4. (int) field_opening_beta              -- beta, field from the camera, 0 to 180 degrees
+                5. (int) is_fix                          -- 0 = camera can rotate, 1 = cam orientation is fix
+        """
+
+        number_AgentCam = len(self.agentCams_list)
+
+        agent.camera.id = agent.id
+        self.agentCams_list.append(agent)
+
 
     def init_AgentUser(self, number=1):
         """
@@ -364,7 +364,7 @@ class Room(RoomRepresentation):
         """
         for n in range(number):
             number_AgentUser = len(self.agentUser_list)
-            self.agentUser_list.append(multi_agent.agent.agent_interacting_room_user.AgentUser(number_AgentUser))
+            self.agentUser_list.append(multi_agent.agent.agent_interacting_room_user.AgentUser())
         self.active_AgentUser_list = self.agentUser_list
 
 
@@ -412,7 +412,7 @@ class Room(RoomRepresentation):
                 camera.isActive = False
                 self.active_AgentCams_list.remove(agent)
 
-    def add_Target(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del):
+    def add_create_Target(self, x, y, vx, vy, trajectory_type, trajectory, type, radius, t_add, t_del):
         """"
                :param
                    1. (int) x                               -- x value of the center
@@ -433,5 +433,27 @@ class Room(RoomRepresentation):
                 :notes
                     !!! No effect on active_Target_list
         """
-        self.information_simulation.add_Target(x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add,
-                                               t_del)
+        self.information_simulation.add_create_Target(x, y, vx, vy, trajectory_type, trajectory, type, radius, t_add, t_del)
+
+    def add_Target(self, target):
+        """"
+               :param
+                   1. (int) x                               -- x value of the center
+                   2. (int) y                               -- y value of the center
+                   3. (int) vx                              -- vx speed
+                   4. (int) vy                              -- vy speed
+                   5. (string) trajectory_type              -- "fix","linear" choice for the target's way to moove
+                   6. (int) trajectory_choice               -- will bound the target to the given trajectory
+                                                               in InformationRoomSimulation
+                   7. (int) radius                          -- radius from the center
+                   8. (string) type                         -- "fix","target", to make the difference between known
+                                                                and unkown target
+                   9. ([[int],...]) t_add                   -- list of all the times where the target should
+                                                               appear in the room
+                  10. ([[int],...]) t_del                   -- list of all the times where the target should
+                                                               disappear in the room
+
+                :notes
+                    !!! No effect on active_Target_list
+        """
+        self.information_simulation.add_Target(target)

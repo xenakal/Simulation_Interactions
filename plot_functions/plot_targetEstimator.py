@@ -1,6 +1,4 @@
-from plot_functions.plot_toolbox import *
-from my_utils.interpolation import *
-from my_utils.compare_data import *
+from my_utils.my_math.compare_data import *
 import constants
 
 

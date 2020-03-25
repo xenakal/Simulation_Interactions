@@ -41,10 +41,11 @@ class AgentUser(AgentInteractingWithRoom):
             :notes
                 fells free to write some comments.
     """
+    number_agentUser_created = 0
 
-    def __init__(self, id):
-        super().__init__(id, AgentType.AGENT_USER)
-
+    def __init__(self):
+        super().__init__(AgentUser.number_agentUser_created, AgentType.AGENT_USER)
+        AgentUser.number_agentUser_created +=1
 
     def thread_run(self):
         """

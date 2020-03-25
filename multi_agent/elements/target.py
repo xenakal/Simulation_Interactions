@@ -3,6 +3,7 @@ import numpy
 import math
 import time
 import random
+import re
 import constants
 
 
@@ -139,7 +140,7 @@ class Target(TargetRepresentation):
                     time_btw_target_mvt [s], see constants file
     """
 
-    def __init__(self, id=-1, x=-1, y=-1, vx=0, vy=0, trajectory_type=TargetMotion.FIX, trajectory=(0, [(0, 0)]), type=TargetType.FIX,
+    def __init__(self, id=-1, x=-1, y=-1, vx=0, vy=0, trajectory_type=TargetMotion.FIX, trajectory= -1, type=TargetType.FIX,
                  radius=5, t_add=-1, t_del=-1):
         # Initialisation
         super().__init__(id, x, y, radius, type, 0)
@@ -150,7 +151,7 @@ class Target(TargetRepresentation):
         self.vx_max = vx
         self.vy_max = vy
 
-        (n, self.trajectory_position) = trajectory
+        self.trajectory_position = trajectory
         self.all_position = []
 
         # Apparition and disparition times
@@ -171,8 +172,11 @@ class Target(TargetRepresentation):
             self.vy_max = self.vy
 
         if t_add == -1 or t_del == -1 :
-            self.t_add = [0]
-            self.t_del = [1000]
+           self.t_add = [0]
+           self.t_del = [1000]
+
+        if trajectory == -1:
+            self.trajectory_position = [(x,y)]
 
     def save_position(self):
         """
@@ -183,3 +187,43 @@ class Target(TargetRepresentation):
 
         """
         self.all_position.append([self.xc, self.yc])
+
+    def save_target_to_txt(self):
+        s0 = "x:%0.2f y:%0.2f vx:%0.2f vy:%0.2f r:%0.2f"%(self.xc,self.yc,self.vx,self.vy,self.radius)
+        s1 = " target_type:%d tj_type:%d"%(self.type,1)
+        s2 =" t_add:"+str(self.t_add)+" t_del:"+str(self.t_del)
+        s3 =" trajectory:"+str(self.trajectory_position)
+        return s0 + s1 + s2 + s3 + "\n"
+
+    def load_from_txt(self,s):
+        s = s.replace("\n", "")
+        s = s.replace(" ", "")
+        attribute = re.split("x:|y:|vx:|vy:|r:|target_type:|tj_type:|t_add:|t_del:|trajectory:", s)
+
+        self.xc = float(attribute[1])
+        self.yc = float(attribute[2])
+        self.vx = float(attribute[3])
+        self.vy = float(attribute[4])
+        self.radius = float(attribute[5])
+        self.type = float(attribute[6])
+        self.trajectory_type = float(attribute[7])
+        self.t_add = self.load_tadd_tdel(attribute[8])
+        self.t_del = self.load_tadd_tdel(attribute[9])
+        self.trajectory_position =self.load_trajcetory(attribute[10])
+
+    def load_tadd_tdel(self, s):
+        list = []
+        s = s[1:-1]
+        all_times = re.split(",",s)
+        for time in all_times:
+            list.append(float(time))
+        return list
+
+    def load_trajcetory(self,s):
+        list = []
+        s = s[2:-2]
+        all_trajectories = re.split("\),\(",s)
+        for trajectory in all_trajectories:
+            xy = re.split(",",trajectory)
+            list.append((float(xy[0]),float(xy[1])))
+        return list

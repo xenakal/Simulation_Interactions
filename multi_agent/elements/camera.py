@@ -1,5 +1,4 @@
-import numpy as np
-from my_utils.line import *
+from my_utils.my_math.line import *
 from multi_agent.elements.target import *
 import random
 
@@ -80,8 +79,8 @@ class Camera:
             self.color = (r, g, b)
 
         if t_add == -1 or t_del == -1:
-            self.t_add = [0]
-            self.t_del = [1000]
+            self.t_add = [0.0]
+            self.t_del = [1000.0]
 
         "List to get target in the camera vision field"
         " !! use the metjod take picture to fill those list !! "
@@ -105,6 +104,34 @@ class Camera:
             return self.targetCameraDistance_list
         else:
             return []
+
+    def save_target_to_txt(self):
+        s0 = "x:%0.2f y:%0.2f alpha:%0.2f beta:%0.2f is_fix:%d"%(self.xc,self.yc,self.alpha,self.beta,self.is_fix)
+        s1 =" t_add:"+str(self.t_add)+" t_del:"+str(self.t_del)
+        return s0 + s1 + "\n"
+
+
+    def load_from_txt(self,s):
+        s = s.replace("\n", "")
+        s = s.replace(" ", "")
+
+        attribute = re.split("x:|y:|alpha:|beta:|is_fix:|t_add:|t_del:", s)
+
+        self.xc = float(attribute[1])
+        self.yc = float(attribute[2])
+        self.alpha = float(attribute[3])
+        self.beta = float(attribute[4])
+        self.is_fix = float(attribute[5])
+        self.t_add = self.load_tadd_tdel(attribute[6])
+        self.t_del = self.load_tadd_tdel(attribute[7])
+
+    def load_tadd_tdel(self, s):
+        list = []
+        s = s[1:-1]
+        all_times = re.split(",",s)
+        for time in all_times:
+            list.append(float(time))
+        return list
 
     def activate_camera(self):
         """

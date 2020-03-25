@@ -1,6 +1,6 @@
 import mailbox
 from multi_agent.communication.message import *
-from my_utils.my_IO import *
+from my_utils.my_IO.IO_data import *
 import constants
 import io
 import time
@@ -35,14 +35,17 @@ class Agent:
                 fells free to write some comments.
     """
 
+
     def __init__(self, id, type, color=0):
         """Initialisation"""
 
         "Attributes"
-        self.id = id + type
+        self.id = id + int(type)
         self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
         self.type = type
         self.color = color
+        self.t_add = [0]
+        self.t_del = [1000]
 
         "Communication"
         self.info_message_sent = ListMessage("Sent")
@@ -66,6 +69,25 @@ class Agent:
         self.log_main = create_logger(constants.ResultsPath.LOG_AGENT,"Main informations",self.id)
         self.log_message = create_logger(constants.ResultsPath.LOG_AGENT,"Message",self.id)
 
+    def save_agent_to_txt(self):
+        s0 ="t_add:"+str(self.t_add)+" t_del:"+str(self.t_del)
+        return s0  + "\n"
+
+    def load_from_txt(self,s):
+        s = s.replace("\n", "")
+        s = s.replace(" ", "")
+        attribute = re.split("t_add:|t_del:", s)
+
+        self.t_add = self.load_tadd_tdel(attribute[1])
+        self.t_del = self.load_tadd_tdel(attribute[2])
+
+    def load_tadd_tdel(self, s):
+        list = []
+        s = s[1:-1]
+        all_times = re.split(",",s)
+        for time in all_times:
+            list.append(float(time))
+        return list
 
     def parse_received_messages(self, m):
         """
