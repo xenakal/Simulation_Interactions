@@ -29,7 +29,8 @@ class GUI_projection:
         pygame.draw.rect(self.screen, BLACK, (x_off, y_off, 500, 200))
 
         n = 0
-        for camera in room.active_Camera_list:
+        for agent in room.active_AgentCams_list:
+            camera = agent.camera
             label = self.font.render("camera " + str(camera.id), 10, WHITE)
             self.screen.blit(label, (x_off, y_off + n * 30))
             pygame.draw.circle(self.screen, CAMERA, (x_off + 85, y_off + 8 + n * 30), 5)

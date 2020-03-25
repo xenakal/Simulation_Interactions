@@ -1,8 +1,9 @@
 import mailbox
-import logging
 from multi_agent.communication.message import *
+from my_utils.my_IO import *
 import constants
 import io
+import time
 
 
 class AgentType:
@@ -62,26 +63,10 @@ class Agent:
             self.color = (r, g, b)
 
         "Logger to keep track of every send and received messages"
-        # create logger_message with 'spam_application'
-        logger_message = logging.getLogger('agent' + str(self.type) + " " + str(self.id))
-        logger_message.setLevel(logging.INFO)
-        # create file handler which log_messages even debug messages
-        fh = logging.FileHandler(constants.NAME_LOG_PATH + "-" + str(self.type) + " " + str(self.id) + "-messages.txt",
-                                 "w+")
-        fh.setLevel(logging.DEBUG)
-        # create console handler with a higher log_message level
-        ch = logging.StreamHandler()
-        ch.setLevel(logging.ERROR)
-        # create formatter and add it to the handlers
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        fh.setFormatter(formatter)
-        ch.setFormatter(formatter)
-        # add the handlers to the logger_message
-        logger_message.addHandler(fh)
-        logger_message.addHandler(ch)
-        self.log_message = logger_message
+        self.log_main = create_logger(constants.ResultsPath.LOG_AGENT,"Main informations",self.id)
+        self.log_message = create_logger(constants.ResultsPath.LOG_AGENT,"Message",self.id)
 
-    #
+
     def parse_received_messages(self, m):
         """
             :description
@@ -102,7 +87,8 @@ class Agent:
         if -constants.SEUIL_RECEIVED < random_value < constants.SEUIL_RECEIVED:
             self.message_statistic.count_message_received(rec_mes.sender_id)
             self.info_message_received.add_message(rec_mes)
-            self.log_message.info('RECEIVED : \n' + rec_mes.to_string())
+            self.log_message.debug('RECEIVED : \n' + rec_mes.to_string())
+            self.log_message.info('RECEIVED : ' + str(rec_mes.messageType) + " target : " + str(rec_mes.targetRef) + " from :" + str(rec_mes.sender_id))
 
     def receive_messages(self):
         """
@@ -131,11 +117,11 @@ class Agent:
                 mbox_rec.unlock()
 
         except mailbox.ExternalClashError:
-            self.log_message.warning("Not possible to read messages")
+            self.log_message.debug("Not possible to read messages")
         except FileExistsError:
-            self.log_message.warning("Mailbox file error RECEIVE")
+            self.log_message.debug("Mailbox file error RECEIVE")
         except PermissionError:
-            self.log_message.warning("Windows error")
+            self.log_message.debug("Windows error")
 
         return succes
 
@@ -173,7 +159,8 @@ class Agent:
                     mbox.flush()
                     m.notify_send_to(receiver[0], receiver[1])
                     if m.is_message_sent_to_every_receiver():
-                        self.log_message.info('SEND     : \n' + m.to_string())
+                        self.log_message.info('SENT : ' + str(m.messageType) + " target : " + str(m.targetRef) + " to :" + str(m.receiver_id_and_signature))
+                        self.log_message.debug('SENT     : \n' + m.to_string())
                         succes = 0
                     else:
                         succes = 1
@@ -181,15 +168,15 @@ class Agent:
                     mbox.unlock()
 
             except mailbox.ExternalClashError:
-                self.log_message.warning("Not possible to send messages")
+                self.log_message.debug("Not possible to send messages")
             except FileExistsError:
-                self.log_message.warning("Mailbox file error SEND")
+                self.log_message.debug("Mailbox file error SEND")
             except PermissionError:
-                self.log_message.warning("Windows error")
+                self.log_message.debug("Windows error")
             except FileNotFoundError:
-                self.log_message.warning("Mailbox file error SEND")
+                self.log_message.debug("Mailbox file error SEND")
             except io.UnsupportedOperation:
-                self.log_message.warning("io Unsupported op")
+                self.log_message.debug("io Unsupported op")
 
         return succes
 
