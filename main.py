@@ -98,7 +98,8 @@ class App:
             delta_time = time.time() - time_old
             for target in self.room.active_Target_list:
                 target.save_position()
-                self.exact_data_target.add_create_target_estimator(constants.get_time(), -1, -1, target.id, target.signature,
+                constants.time_when_target_are_moved = constants.get_time()
+                self.exact_data_target.add_create_target_estimator(constants.time_when_target_are_moved, -1, -1, target.id, target.signature,
                                                                    target.xc, target.yc, target.vx, target.vy, target.ax, target.ay,
                                                                    target.radius, target.type)
                 move_Target(target, delta_time)
@@ -180,18 +181,44 @@ class App:
         # plot graph
         if constants.GENERATE_PLOT:
             print("Generating plots ...")
-            for agent in self.room.agentCams_list:
-                plot_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id, constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT, self.filename)
-                plot_agent_memory.plot_all_target_simulated_data_collected_data()
 
-            for agent in self.room.agentUser_list:
-                plot_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id, constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT, self.filename)
-                plot_agent_all_memory = Analyser_Agent_Target_TargetEstimator_FormatCSV(agent.id, constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT, self.filename)
-                plot_agent_memory.plot_all_target_simulated_data_collected_data()
-                plot_agent_memory.plot_position_target_simulated_data_collected_data()
-                plot_agent_all_memory.plot_position_target_simulated_data_collected_data()
+            "PLOT FOR AGENT CAM"
+            for agent in self.room.agentCams_list:
+                "Object to save data"
+                analyser_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id, constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT,constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_AGENT, self.filename)
+                analyser_kalman_global = Analyser_Target_TargetEstimator_FormatCSV(agent.id,constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL,constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL_FILTERED)
+                "Graph to plot"
+                """Including every target"""
+                analyser_agent_memory.plot_all_target_simulated_data_collected_data()
+                analyser_kalman_global.plot_position_target_simulated_data_collected_data()
+
+                """Specific to each target"""
                 for target in self.room.information_simulation.Target_list:
-                    plot_agent_memory.plot_a_target_simulated_data_collected_data(target.id)
+                    analyser_kalman_global.plot_MSE_not_interpolate_target_id(target.id)
+                    analyser_kalman_global.plot_MSE_interpolate_target_id(target.id)
+                    # analyser_prediction_t_plus_1 = Analyser_Target_TargetEstimator_FormatCSV(agent.id,constants.ResultsPath.SAVE_LOAD_DATA_PREDICTION_TPLUS1,constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL)
+                    # analyser_prediction_t_plus_2 = Analyser_Target_TargetEstimator_FormatCSV(agent.id,constants.ResultsPath.SAVE_LOAD_DATA_PREDICTION_TPLUS2,constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL)
+
+            "PLOT FOR AGENT USER"
+            for agent in self.room.agentUser_list:
+                "Object to save data"
+                analyser_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id, constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT,constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_AGENT, self.filename)
+                analyser_agent_all_memory = Analyser_Agent_Target_TargetEstimator_FormatCSV(agent.id, constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT,constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT,self.filename)
+
+                "Graph to plot"
+                """Including every target"""
+                analyser_agent_memory.plot_all_target_simulated_data_collected_data()
+                analyser_agent_memory.plot_position_target_simulated_data_collected_data()
+                analyser_agent_all_memory.plot_position_target_simulated_data_collected_data()
+
+
+                """Specific to each target"""
+                for target in self.room.information_simulation.Target_list:
+                    analyser_agent_memory.plot_a_target_simulated_data_collected_data(target.id)
+                    #analyser_kalman_global.plot_a_target_simulated_data_collected_data(target.id)
+
+
+
 
             print("Done !")
 

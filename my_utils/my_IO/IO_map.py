@@ -5,7 +5,7 @@ import constants
 from multi_agent.elements.target import Target
 from multi_agent.elements.camera import Camera
 from multi_agent.agent.agent_interacting_room_camera import AgentCam
-from multi_agent.agent.agent_interacting_room_user import AgentUser
+import multi_agent.agent.agent_interacting_room_camera
 
 """
         Class use to save and load room
@@ -47,7 +47,7 @@ def load_agentCam_txt(s, room):
 
     camera = Camera(room, -1, -1, -1, -1, -1)
     camera.load_from_txt(camera_agent[1])
-    agent = AgentCam(camera)
+    agent = multi_agent.agent.agent_interacting_room_camera.AgentCam(camera)
     agent.load_from_txt(camera_agent[2])
     room.add_AgentCam(agent)
 

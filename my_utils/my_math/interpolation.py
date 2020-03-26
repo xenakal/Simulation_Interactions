@@ -92,7 +92,7 @@ class Point():
         return cdt1 and cdt2
 
     def __eq__(self, other):
-        return math.fabs(self.time) - other.time < 0.1
+        return math.fabs(self.time) == other.time
 
     def __lt__(self, other):
         return self.time < other.time

@@ -3,6 +3,7 @@ import constants
 from multi_agent.elements.target import TargetType
 
 
+
 def is_corresponding_TargetEstimator(agent_id, target_id, targetEstimator):
     """
         :param
@@ -70,6 +71,7 @@ class TargetEstimator:
                  target_ax=1000, target_ay=1000, target_radius=-1, target_type=TargetType.UNKNOWN):
         "Time information"
         self.time_stamp = time_stamp
+        self.time_to_compare_to_simulated_data = constants.time_when_target_are_moved
 
         "Agent - Target link"
         self.agent_id = agent_id
@@ -143,7 +145,8 @@ class TargetEstimator:
             :return / modify vector
                 1. easy representation to save data in cvs file
         """
-        csv_format = {'time_stamp': self.time_stamp, 'agent_id': self.agent_id, 'agent_signature': self.agent_signature,
+        csv_format = {'time_to_compare': self.time_to_compare_to_simulated_data, 'time_stamp': self.time_stamp,
+                      'agent_id': self.agent_id, 'agent_signature': self.agent_signature,
                       'target_id': self.target_id, 'target_signature': self.target_signature,
                       'target_type': self.target_type,
                       'target_x': self.target_position[0], 'target_y': self.target_position[1],

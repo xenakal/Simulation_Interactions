@@ -32,6 +32,7 @@ def create_structur_to_save_data():
     os.mkdir(constants.ResultsPath.DATA_KALMAN_DISTRIBUE)
 
     """Create folder prediction and it subfolder"""
+    os.mkdir(constants.ResultsPath.DATA_KALMAN_FILTER)
     os.mkdir(constants.ResultsPath.DATA_PREDICTION)
     os.mkdir(constants.ResultsPath.DATA_PREDICTION_TPLUS1)
     os.mkdir(constants.ResultsPath.DATA_PREDICTION_TPLUS2)
@@ -41,6 +42,15 @@ def create_structur_to_save_data():
     os.mkdir(constants.ResultsPath.PLOT_FOLDER)
     os.mkdir(constants.ResultsPath.PLOT_MEMORY_AGENT)
     os.mkdir(constants.ResultsPath.PLOT_MEMORY_ALL_AGENT)
+
+    os.mkdir(constants.ResultsPath.PLOT_KALMAN)
+    os.mkdir(constants.ResultsPath.PLOT_KALMAN_GLOBAL)
+    os.mkdir(constants.ResultsPath.PLOT_KALMAN_FILTERED)
+    os.mkdir(constants.ResultsPath.PLOT_KALMAN_PREDICTION)
+    os.mkdir(constants.ResultsPath.PLOT_KALMAN_PREDICTION_T_PLUS_1)
+    os.mkdir(constants.ResultsPath.PLOT_KALMAN_PREDICTION_T_PLUS_2)
+
+    os.mkdir(constants.ResultsPath.PLOT_KALMAN_DISTRIBUE)
 
 
 def create_logger(path, name, agent_id):

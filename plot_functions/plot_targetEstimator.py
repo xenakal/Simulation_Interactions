@@ -1,57 +1,69 @@
 import constants
 from multi_agent.agent.agent_interacting_room_camera import AgentCam
 from my_utils.my_IO.IO_data import *
-from my_utils.my_math.compare_data import *
+from my_utils.my_math.MSE import *
+
+TIME_TO_COMPARE = 0
+TIME_INDEX = 1
+AGENT_INDEX = 2
+TYPE_INDEX = 6
+X_INDEX = 7
+Y_INDEX = 8
+VX_INDEX = 9
+VY_INDEX = 10
+AX_INDEX = 11
+AY_INDEX = 12
+RADIUS_INDEX = 13
 
 
 def plot_target_memory_type_x_y_2D(ax, data, curve_label):
-    return plot_graph_3D_2D(ax, data[6], data[7], data[5], data[12], 0, 4, "x-y plane, type", "x [m]", "y [m]",
+    return plot_graph_3D_2D(ax, data[X_INDEX], data[Y_INDEX], data[TYPE_INDEX], data[RADIUS_INDEX], 0, 4, "x-y plane, type", "x [m]", "y [m]",
                             curve_label=curve_label)
 
 
 def plot_target_memory_time_x_y_2D(ax, data, curve_label="curve_label"):
-    return plot_graph_3D_2D(ax, data[6], data[7], data[0], data[12], T_MIN, T_MAX, "x-y plane, time", "x [m]", "y [m]",
+    return plot_graph_3D_2D(ax, data[X_INDEX], data[Y_INDEX], data[TIME_INDEX], data[RADIUS_INDEX], T_MIN, T_MAX, "x-y plane, time", "x [m]", "y [m]",
                             curve_label=curve_label)
 
 
 def plot_target_memory_agent_x_y_2D(ax, data, curve_label="curve_label"):
-    return plot_graph_3D_2D(ax, data[6], data[7], data[1], data[12], 0, AgentCam.number_agentCam_created-1, "x-y plane agent",
+    return plot_graph_3D_2D(ax, data[X_INDEX], data[Y_INDEX], data[AGENT_INDEX], data[RADIUS_INDEX], 0, AgentCam.number_agentCam_created-1, "x-y plane agent",
                             "x [m]", "y [m]", curve_label=curve_label)
 
 
 def plot_target_memory_agent_vx_vy_2D(ax, data, curve_label="curve_label"):
-    return plot_graph_3D_2D(ax, data[6], data[7], data[1], data[12], 0, AgentCam.number_agentCam_created-1, "x-y plane agent",
+    return plot_graph_3D_2D(ax, data[VX_INDEX], data[VY_INDEX], data[AGENT_INDEX], data[RADIUS_INDEX], 0, AgentCam.number_agentCam_created-1, "x-y plane agent",
                             "vx [m/s]", "vy [m/s]", curve_label=curve_label)
 
 
 def plot_target_memory_agent_ax_ay_2D(ax, data, curve_label="curve_label"):
-    return plot_graph_3D_2D(ax, data[6], data[7], data[1], data[12], 0, 2, "x-y plane agent",
+    return plot_graph_3D_2D(ax, data[AX_INDEX], data[AY_INDEX], data[AGENT_INDEX], data[RADIUS_INDEX], 0, 2, "x-y plane agent",
                             "ax [m/s^2]", "ay [m/s^2]", curve_label=curve_label)
 
 
 def plot_target_memory_x_y(ax, data, curve_label="curve_label"):
-    plot_graph_x_y(ax, data[6], data[7], "x-y plane, time", "x [m]", "y [m]", curve_label=curve_label)
+    plot_graph_x_y(ax, data[X_INDEX], data[Y_INDEX], "x-y plane, time", "x [m]", "y [m]", curve_label=curve_label)
 
 
 def plot_target_memory_time_x(ax, data, curve_label="curve_label"):
-    plot_graph_time_x(ax, data[0], data[6], "X in terms of time", "time [s]", "x [m]", curve_label=curve_label)
-
-
-def plot_target_memory_type_x_y_3D(ax, data):
-    plot_graph_3D(ax, data[6], data[7], data[5], "x-y plane, type", "x [m]", "y [m]")
-
-
-def plot_target_memory_time_x_y_3D(ax, data):
-    plot_graph_3D(ax, data[6], data[7], data[0], "x-y plane, time", "x [m]", "y [m]")
+    plot_graph_time_x(ax, data[TIME_INDEX], data[X_INDEX], "X in terms of time", "time [s]", "x [m]", curve_label=curve_label)
 
 
 def plot_target_memory_time_y(ax, data, curve_label="curve_label"):
-    plot_graph_time_x(ax, data[0], data[7], "Y in terms of time", "time [s]", "y [m]", curve_label=curve_label)
+    plot_graph_time_x(ax, data[TIME_INDEX], data[Y_INDEX], "Y in terms of time", "time [s]", "y [m]", curve_label=curve_label)
 
 
 def plot_target_memory_time_agent(ax, data, curve_label="curve_label"):
-    plot_graph_time_x(ax, data[0], data[1], "Agent generating info in terms of time", "time [s]", "Agent [id]",
+    plot_graph_time_x(ax, data[TIME_INDEX], data[AGENT_INDEX], "Agent generating info in terms of time", "time [s]", "Agent [id]",
                       curve_label=curve_label)
+
+
+def plot_target_memory_type_x_y_3D(ax, data):
+    plot_graph_3D(ax, data[X_INDEX], data[Y_INDEX], data[TIME_INDEX], "x-y plane, type", "x [m]", "y [m]")
+
+
+def plot_target_memory_time_x_y_3D(ax, data):
+    plot_graph_3D(ax, data[X_INDEX], data[Y_INDEX], data[TIME_INDEX], "x-y plane, time", "x [m]", "y [m]")
 
 
 def plot_time_type_x_y_agent(list):
@@ -200,10 +212,11 @@ class AgentSortedTargetEstimator:
 
 
 class Analyser_Target_TargetEstimator_FormatCSV:
-    def __init__(self, agent_id, path, version="version"):
+    def __init__(self, agent_id, path_to_load_data,path_to_save_data, version="version"):
         self.id = agent_id
         self.version = version
-        self.data = load_csv_file_dictionnary(path + str(agent_id))
+        self.path_to_save_data = path_to_save_data
+        self.data = load_csv_file_dictionnary(path_to_load_data + str(agent_id))
         self.simulated_data = load_csv_file_dictionnary(constants.ResultsPath.DATA_REFERENCE)
         self.data_sort_by_target = []
         self.simulated_data_sort_by_target = []
@@ -211,7 +224,9 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         init_analyse_memory_agent(self.data, self.data_sort_by_target)
         init_analyse_memory_agent(self.simulated_data, self.simulated_data_sort_by_target)
 
-    def MSE_target_id(self, target_id):
+
+
+    def plot_MSE_not_interpolate_target_id(self,target_id):
         data_ref = []
         data_mes = []
 
@@ -223,8 +238,88 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             if target_id == int(element.target_id):
                 data_mes = element.data_list
 
-        error_squared_discrete(data_ref, data_mes)
-        error_squared_with_interpolation(data_ref,data_mes)
+        (t_ref,x_ref,y_ref,x_mes,y_mes,error_squared_x,error_squared_y,error_squared) = error_squared_discrete(data_ref, data_mes)
+        self.plot_MES_target_id(target_id,t_ref,x_ref,y_ref,x_mes,y_mes,error_squared_x,error_squared_y,error_squared)
+
+    def plot_MSE_interpolate_target_id(self,target_id):
+        data_ref = []
+        data_mes = []
+
+        for element in self.simulated_data_sort_by_target:
+            if target_id == int(element.target_id):
+                data_ref = element.data_list
+
+        for element in self.data_sort_by_target:
+            if target_id == int(element.target_id):
+                data_mes = element.data_list
+
+        (t_ref, x_ref, y_ref, x_mes, y_mes) = error_squared_with_interpolation(data_ref, data_mes)
+
+        fig = plt.figure(figsize=(12, 8))
+        fig.suptitle('Agent ' + str(self.id), fontsize=17, fontweight='bold', y=0.98)
+        fig.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
+        ax1 = fig.add_subplot(1, 2, 1)
+        ax2 = fig.add_subplot(1, 2, 2)
+
+
+        sc1 = ax1.scatter(np.array(x_ref), np.array(y_ref), c=np.array(t_ref),
+                         s=2500 * math.pow(data_ref[RADIUS_INDEX][0], 2) * math.pi, vmin=T_MIN, vmax=T_MAX, cmap="Spectral",
+                        alpha=0.4)
+        sc2 = ax2.scatter(np.array(x_mes), np.array(y_mes), c=np.array(t_ref),
+                         s=2500 * math.pow(data_ref[RADIUS_INDEX][0], 2) * math.pi, vmin=T_MIN, vmax=T_MAX,
+                         cmap="Spectral",
+                         alpha=0.4)
+
+        fig.colorbar(sc1, ax=ax1)
+        fig.colorbar(sc2, ax=ax2)
+        fig.savefig(self.path_to_save_data + self.version + "--Interpolation_agent_" + str(self.id),
+                             transparent=False)
+        plt.close(fig)
+
+
+    def plot_MES_target_id(self,target_id, t_ref,x_ref,y_ref,x_mes,y_mes,error_squared_x,error_squared_y,error_squared) :
+
+        fig = plt.figure(figsize=(12, 8), tight_layout=True)
+
+        ax = fig.add_subplot(3, 2, (1, 3))
+        ax1 = fig.add_subplot(3, 2, (5, 6))
+        ax2 = fig.add_subplot(3, 2, 2)
+        ax3 = fig.add_subplot(3, 2, 4)
+
+        mean_error_squared_x = np.mean(error_squared_x)
+        mean_error_squared_y = np.mean(error_squared_y)
+        mean_error_squared_x_y = np.mean(error_squared)
+
+        sc = ax.scatter(x_ref, y_ref, s=100, c=t_ref, cmap="Spectral", alpha=0.4)
+        plot_graph_time_x(ax, x_ref, y_ref, "Trajectory", "x [m]", "y [m]", curve_label="interpolation_ref")
+        plot_graph_x_y(ax, x_mes, y_mes, "Trajectory", "x [m]", "y [m]",curve_label="interpolation_mes")
+        plot_graph_time_x(ax1, t_ref, error_squared, "squared error norm  x-y", "time [s]", "[m^2]",curve_label="t_value")
+        plot_graph_time_x(ax2, t_ref, error_squared_x, "squared error norm  x", "time [s]", "[m^2]",curve_label="t_value")
+        plot_graph_time_x(ax3, t_ref, error_squared_y, "squared norm  y", "time [s]", "[m^2]", curve_label="t_value")
+
+        plot_graph_time_x(ax1, t_ref, mean_error_squared_x_y * np.ones(np.size(t_ref)),
+                          "squared error norm  x-y","time [s]", "[m^2]",curve_label="mean")
+        plot_graph_time_x(ax2, t_ref, mean_error_squared_x * np.ones(np.size(t_ref)), "squared error norm  x",
+                          "time [s]", "[m^2]",
+                          curve_label="mean")
+        plot_graph_time_x(ax3, t_ref, mean_error_squared_y * np.ones(np.size(t_ref)), "squared norm  y", "time [s]",
+                          "[m^2]", curve_label="mean")
+
+
+        (yb, yh) = ax1.get_ylim()
+        ax1.text(0, yh, "mean error = %.2f" % (np.sqrt(mean_error_squared_x_y)), fontweight='bold', fontsize=10)
+
+        (yb, yh) = ax2.get_ylim()
+        ax2.text(0, yb, "mean error = %.2f" % (np.sqrt(mean_error_squared_x)), fontweight='bold', fontsize=10)
+
+        (yb, yh) = ax3.get_ylim()
+        ax3.text(0, yb, "mean error = %.2f" % (np.sqrt(mean_error_squared_y)), fontweight='bold', fontsize=10)
+
+        fig.colorbar(sc, ax=ax)
+        fig.savefig(self.path_to_save_data + self.version + "--MSE_agent_" + str(self.id)+ "-target_" + str(target_id), transparent=False)
+        plt.close(fig)
+
+
 
     def plot_position_target_simulated_data_collected_data(self):
 
@@ -244,12 +339,12 @@ class Analyser_Target_TargetEstimator_FormatCSV:
                                                      curve_label="target" + str(element.target_id))
             fig_position.colorbar(sc1, ax=ax1)
             fig_position.colorbar(sc2, ax=ax2)
-            fig_position.savefig(
-                constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--position_agent_" + str(self.id),
+            fig_position.savefig(self.path_to_save_data + self.version + "--position_agent_" + str(self.id),
                 transparent=False)
             plt.close(fig_position)
         except:
             print("error in  plot_position_target_simulated_data_collected_data")
+
 
     def plot_all_target_simulated_data_collected_data(self):
         fig_time_type_x_y = plt.figure(figsize=(12, 8), tight_layout=True)
@@ -276,8 +371,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             fig_time_type_x_y.colorbar(sc2, ax=ax2)
             fig_time_type_x_y.colorbar(sc3, ax=ax3)
 
-            fig_time_type_x_y.savefig(
-                constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(self.id),
+            fig_time_type_x_y.savefig(self.path_to_save_data + self.version + "--general_agent_" + str(self.id),
                 transparent=False)
             plt.close(fig_time_type_x_y)
 
@@ -311,22 +405,20 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             fig_time_type_x_y.colorbar(sc1, ax=ax1)
             fig_time_type_x_y.colorbar(sc2, ax=ax2)
             fig_time_type_x_y.colorbar(sc3, ax=ax3)
-            fig_time_type_x_y.savefig(
-                constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_AGENT + self.version + "--all_agent_" + str(
-                    self.id) + "-target_" + str(
-                    target_id),
-                transparent=False)
-        except:
+            fig_time_type_x_y.savefig(self.path_to_save_data + self.version + "--general_agent_" + str(
+                    self.id) + "-target_" + str(target_id), transparent=False)
+        except ValueError:
             print("error generating plot")
 
         plt.close(fig_time_type_x_y)
 
 
 class Analyser_Agent_Target_TargetEstimator_FormatCSV:
-    def __init__(self, agent_id, path, version="version"):
+    def __init__(self, agent_id, path_to_load_data, path_to_save_data, version="version"):
         self.id = agent_id
         self.version = version
-        self.data = load_csv_file_dictionnary(path + str(agent_id))
+        self.path_to_save_data = path_to_save_data
+        self.data = load_csv_file_dictionnary(path_to_load_data + str(agent_id))
         self.simulated_data = load_csv_file_dictionnary(constants.ResultsPath.DATA_REFERENCE)
         self.data_sort_by_agent_target = []
         self.simulated_data_sort_by_target = []
@@ -357,7 +449,7 @@ class Analyser_Agent_Target_TargetEstimator_FormatCSV:
             fig_position.colorbar(sc2, ax=ax2)
 
             fig_position.savefig(
-                constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--position_agent_" + str(
+                constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--position_all_agent_" + str(
                     self.id),
                 transparent=False)
             plt.close(fig_position)
@@ -396,6 +488,6 @@ class Analyser_Agent_Target_TargetEstimator_FormatCSV:
         fig_time_type_x_y.colorbar(sc3, ax=ax3)
 
         fig_time_type_x_y.savefig(
-            constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--all_agent_" + str(self.id),
+            constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--general_agent_" + str(self.id),
             transparent=False)
         plt.close(fig_time_type_x_y)
