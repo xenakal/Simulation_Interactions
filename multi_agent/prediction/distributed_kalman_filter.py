@@ -65,3 +65,4 @@ class DistributedKalmanFilter(KalmanFilter):
         self.x = self.x + dot(self.W, self.y)
 
     def assimilate(self, ):
+        pass
