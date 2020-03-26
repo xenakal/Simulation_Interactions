@@ -7,7 +7,7 @@ import time
 
 SPEED_CHANGE_THRESHOLD = 4
 MAX_STD_SPEED = 0.7
-
+MARGE_ACC_ERROR = 0.5
 
 class KalmanPrediction:
     """
@@ -28,16 +28,26 @@ class KalmanPrediction:
         self.target_id = target_id
         self.kalman_memory = [[x_init, y_init,vx_init,vy_init,ax_init,ay_init, timestamp]]
 
-    def add_measurement_position(self, z, timestamp):
+    def add_speed_position(self, z, timestamp):
         kalman_memory_element = z.copy()
         kalman_memory_element.append(timestamp)
         last_z = self.kalman_memory[-1]
         self.kalman_memory.append(kalman_memory_element)
 
-        delta_speed_x = z[2]-last_z[2]
-        delta_speed_y = z[3]-last_z[3]
+        delta_speed_x = 0
+        delta_speed_y = 0
+
+        if self.pivot_point_detected():
+            delta_speed_x = z[2]
+            delta_speed_y = z[3]
+
         u = np.array([0., 0., delta_speed_x, delta_speed_y])
+
+        """Tiens compte des inputs de vitesse"""
         B = np.array([0., 0., 1., 1.])
+        """Ne tiens pas compte des inputs de vitesse"""
+        #B = np.array([0., 0., 1., 1.])
+
         self.filter.predict(u=u, B=B)
         z = [kalman_memory_element[0],kalman_memory_element[1],kalman_memory_element[2],kalman_memory_element[3]]
         self.filter.update(np.array(z))
@@ -51,9 +61,8 @@ class KalmanPrediction:
         delta_ac_x = 0
         delta_ac_y = 0
 
-        if not z[4] < 0.1 :
+        if self.pivot_point_detected():
             delta_ac_x = z[4]
-        if not z[5] == 0:
             delta_ac_y = z[5]
 
 
@@ -65,9 +74,13 @@ class KalmanPrediction:
         self.filter.update(np.array(z))
 
 
+
+
     def pivot_point_detected(self):
-        if self.kalman_memory[-1][4] > STD_MEASURMENT_ERROR_ACCCELERATION + 0.5 or self.kalman_memory[-1][5] > STD_MEASURMENT_ERROR_ACCCELERATION + 0.5:
+        if self.kalman_memory[-1][4] > STD_MEASURMENT_ERROR_ACCCELERATION + MARGE_ACC_ERROR or self.kalman_memory[-1][5] > STD_MEASURMENT_ERROR_ACCCELERATION + MARGE_ACC_ERROR:
             return True
+        else:
+            return  False
 
 
 
