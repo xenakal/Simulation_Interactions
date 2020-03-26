@@ -1,6 +1,7 @@
 from constants import NUMBER_PREDICTIONS, TIME_PICTURE, STD_MEASURMENT_ERROR_POSITION, TIME_SEND_READ_MESSAGE
 from filterpy.kalman import KalmanFilter, update, predict
 from filterpy.common import Q_discrete_white_noise
+from multi_agent.prediction.distributed_kalman_filter import DistributedKalmanFilter
 from scipy.linalg import block_diag
 import numpy as np
 import time
@@ -133,9 +134,9 @@ def kfObject(x_init, y_init, vx_init=0.0, vy_init=0.0):
     :return
         The Kalman Filter object (from pyKalman library) with the model corresponding to our scenario.
     """
-
-    f = KalmanFilter(dim_x=4,
-                     dim_z=2)  # as we have a 4d state space and measurements on only the positions (x,y)
+    # we have a 4d state space and measurements on only the positions (x,y)
+    #f = KalmanFilter(dim_x=4, dim_z=2)
+    f = DistributedKalmanFilter(dim_x=4, dim_z=2)
     # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
     dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
     f.x = np.array([x_init, y_init, vx_init, vy_init])
