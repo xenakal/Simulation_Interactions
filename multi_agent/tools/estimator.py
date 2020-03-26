@@ -133,9 +133,10 @@ class TargetEstimator:
             attribute[12] = attribute[12][1:-1]
 
         self.target_position = [float(attribute[7]), float(attribute[8])]
-        self.target_speeds = [float(attribute[8]), float(attribute[9])]
-        self.target_acceleration = [float(attribute[10]), float(attribute[11])]
-        self.target_radius = float(attribute[12])
+        self.target_speeds = [float(attribute[9]), float(attribute[10])]
+        self.target_acceleration = [float(attribute[11]), float(attribute[12])]
+        self.target_radius = float(attribute[13])
+
 
     def to_csv(self):
         """

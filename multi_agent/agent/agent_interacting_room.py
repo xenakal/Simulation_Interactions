@@ -240,7 +240,7 @@ class AgentInteractingWithRoom(Agent):
         """
         s = message.message
         if not (s == ""):
-            estimator = TargetEstimator(0, 0, 0, 0, 0, 0, 0, 0)
+            estimator = TargetEstimator(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             estimator.parse_string(s)
             self.memory.add_target_estimator(estimator)
             #TODO - ici est ce qu'on veut vraiment renvoyer un ack quand on reçoit un target estimator ??
