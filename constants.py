@@ -37,7 +37,13 @@ DATA_TO_SEND = "behaviour"
 
 """Option for class estimator"""
 INCLUDE_ERROR = True
-STD_MEASURMENT_ERROR = 0.2
+STD_MEASURMENT_ERROR_POSITION = 0.2
+STD_MEASURMENT_ERROR_SPEED = 0.0001
+STD_MEASURMENT_ERROR_ACCCELERATION = 0.0001
+if not INCLUDE_ERROR:
+    STD_MEASURMENT_ERROR_POSITION = 0.001
+    STD_MEASURMENT_ERROR_SPEED = 0.001
+    STD_MEASURMENT_ERROR_ACCCELERATION = 0.001
 
 """Option for class predication"""
 NUMBER_PREDICTIONS = 4
@@ -62,7 +68,8 @@ LENGHT_ROOM = 8 #[m]
 
 "CSV_fieldNames"
 TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_stamp', 'agent_id', 'agent_signature', 'target_id', 'target_signature',
-                                   'target_type', 'target_x', 'target_y', 'target_radius']
+                                   'target_type', 'target_x', 'target_y','target_vx','target_vy',
+                                   'target_ax','target_ay','target_radius']
 
 """Path to save data and create plot"""
 

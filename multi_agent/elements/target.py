@@ -140,16 +140,19 @@ class Target(TargetRepresentation):
                     time_btw_target_mvt [s], see constants file
     """
 
-    def __init__(self, id=-1, x=-1, y=-1, vx=0, vy=0, trajectory_type=TargetMotion.FIX, trajectory= -1, type=TargetType.FIX,
+    def __init__(self, id=-1, x=-1, y=-1, vx=0, vy=0,ax =0,ay = 0, trajectory_type=TargetMotion.FIX, trajectory= -1, type=TargetType.FIX,
                  radius=5, t_add=-1, t_del=-1):
         # Initialisation
         super().__init__(id, x, y, radius, type, 0)
 
         # Target description on the map
+        """!! Attention you responsability to get coherent speed and acceleration"""
         self.vx = vx
         self.vy = vy
         self.vx_max = vx
         self.vy_max = vy
+        self.ax = ax
+        self.ay = ay
 
         self.trajectory_position = trajectory
         self.all_position = []

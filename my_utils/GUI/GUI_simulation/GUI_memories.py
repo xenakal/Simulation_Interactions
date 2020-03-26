@@ -1,7 +1,7 @@
 import pygame
 from my_utils.GUI.GUI import *
 from multi_agent.agent.agent import AgentType
-
+import math
 
 class GUI_memories:
 

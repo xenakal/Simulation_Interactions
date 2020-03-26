@@ -4,42 +4,52 @@ import constants
 
 
 def plot_target_memory_type_x_y_2D(ax, data, curve_label):
-    return plot_graph_3D_2D(ax, data[6], data[7], data[5], data[8], 0, 4, "x-y plane, type", "x []", "y []",
+    return plot_graph_3D_2D(ax, data[6], data[7], data[5], data[12], 0, 4, "x-y plane, type", "x [m]", "y [m]",
                             curve_label=curve_label)
 
 
 def plot_target_memory_time_x_y_2D(ax, data, curve_label="curve_label"):
-    return plot_graph_3D_2D(ax, data[6], data[7], data[0], data[8], T_MIN, T_MAX, "x-y plane, time", "x []", "y []",
+    return plot_graph_3D_2D(ax, data[6], data[7], data[0], data[12], T_MIN, T_MAX, "x-y plane, time", "x [m]", "y [m]",
                             curve_label=curve_label)
 
 
 def plot_target_memory_agent_x_y_2D(ax, data, curve_label="curve_label"):
-    return plot_graph_3D_2D(ax, data[6], data[7], data[1], data[8], 0, 2, "x-y plane agent",
-                            "x []", "y []", curve_label=curve_label)
+    return plot_graph_3D_2D(ax, data[6], data[7], data[1], data[12], 0, 2, "x-y plane agent",
+                            "x [m]", "y [m]", curve_label=curve_label)
+
+
+def plot_target_memory_agent_vx_vy_2D(ax, data, curve_label="curve_label"):
+    return plot_graph_3D_2D(ax, data[6], data[7], data[1], data[12], 0, 2, "x-y plane agent",
+                            "vx [m/s]", "vy [m/s]", curve_label=curve_label)
+
+
+def plot_target_memory_agent_ax_ay_2D(ax, data, curve_label="curve_label"):
+    return plot_graph_3D_2D(ax, data[6], data[7], data[1], data[12], 0, 2, "x-y plane agent",
+                            "ax [m/s^2]", "ay [m/s^2]", curve_label=curve_label)
 
 
 def plot_target_memory_x_y(ax, data, curve_label="curve_label"):
-    plot_graph_x_y(ax, data[6], data[7], "x-y plane, time", "x []", "y []", curve_label=curve_label)
+    plot_graph_x_y(ax, data[6], data[7], "x-y plane, time", "x [m]", "y [m]", curve_label=curve_label)
 
 
 def plot_target_memory_time_x(ax, data, curve_label="curve_label"):
-    plot_graph_time_x(ax, data[0], data[6], "X in terms of time", "time []", "x []", curve_label=curve_label)
+    plot_graph_time_x(ax, data[0], data[6], "X in terms of time", "time [s]", "x [m]", curve_label=curve_label)
 
 
 def plot_target_memory_type_x_y_3D(ax, data):
-    plot_graph_3D(ax, data[6], data[7], data[5], "x-y plane, type", "x []", "y []")
+    plot_graph_3D(ax, data[6], data[7], data[5], "x-y plane, type", "x [m]", "y [m]")
 
 
 def plot_target_memory_time_x_y_3D(ax, data):
-    plot_graph_3D(ax, data[6], data[7], data[0], "x-y plane, time", "x []", "y []")
+    plot_graph_3D(ax, data[6], data[7], data[0], "x-y plane, time", "x [m]", "y [m]")
 
 
 def plot_target_memory_time_y(ax, data, curve_label="curve_label"):
-    plot_graph_time_x(ax, data[0], data[7], "Y in terms of time", "time []", "y []", curve_label=curve_label)
+    plot_graph_time_x(ax, data[0], data[7], "Y in terms of time", "time [s]", "y [m]", curve_label=curve_label)
 
 
 def plot_target_memory_time_agent(ax, data, curve_label="curve_label"):
-    plot_graph_time_x(ax, data[0], data[1], "Agent generating info in terms of time", "time []", "Agent [id]",
+    plot_graph_time_x(ax, data[0], data[1], "Agent generating info in terms of time", "time [s]", "Agent [id]",
                       curve_label=curve_label)
 
 
@@ -154,7 +164,8 @@ class TargetSortedTargetEstimator:
         for i in range(len(constants.TARGET_ESTIMATOR_CSV_FIELDNAMES)):
             try:
                 if (i == 6 or i == 7) and data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]][0] == "[":
-                    data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]] = data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]][1:-1]
+                    data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]] = data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[
+                        i]][1:-1]
 
                 self.data_list[i].append(float(data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]]))
             except ValueError:
@@ -188,10 +199,10 @@ class AgentSortedTargetEstimator:
 
 
 class Analyser_Target_TargetEstimator_FormatCSV:
-    def __init__(self, agent_id,path,version="version"):
+    def __init__(self, agent_id, path, version="version"):
         self.id = agent_id
         self.version = version
-        self.data = load_csv_file_dictionnary(path+str(agent_id))
+        self.data = load_csv_file_dictionnary(path + str(agent_id))
         self.simulated_data = load_csv_file_dictionnary(constants.ResultsPath.DATA_REFERENCE)
         self.data_sort_by_target = []
         self.simulated_data_sort_by_target = []
@@ -199,8 +210,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         init_analyse_memory_agent(self.data, self.data_sort_by_target)
         init_analyse_memory_agent(self.simulated_data, self.simulated_data_sort_by_target)
 
-
-    def MSE_target_id(self,target_id):
+    def MSE_target_id(self, target_id):
         data_ref = []
         data_mes = []
 
@@ -212,8 +222,8 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             if target_id == int(element.target_id):
                 data_mes = element.data_list
 
-        error_squared_discrete(data_ref,data_mes)
-        #error_squared_with_interpolation(data_ref,data_mes)
+        error_squared_discrete(data_ref, data_mes)
+        # error_squared_with_interpolation(data_ref,data_mes)
 
     def plot_position_target_simulated_data_collected_data(self):
 
@@ -271,8 +281,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             plt.close(fig_time_type_x_y)
 
         except:
-             print("error generating plot")
-
+            print("error generating plot")
 
     def plot_a_target_simulated_data_collected_data(self, target_id):
         fig_time_type_x_y = plt.figure(figsize=(12, 8), tight_layout=True)
@@ -306,17 +315,14 @@ class Analyser_Target_TargetEstimator_FormatCSV:
                     self.id) + "-target_" + str(
                     target_id),
                 transparent=False)
-        except :
+        except:
             print("error generating plot")
-
-
-
 
         plt.close(fig_time_type_x_y)
 
 
 class Analyser_Agent_Target_TargetEstimator_FormatCSV:
-    def __init__(self, agent_id,path, version="version"):
+    def __init__(self, agent_id, path, version="version"):
         self.id = agent_id
         self.version = version
         self.data = load_csv_file_dictionnary(path + str(agent_id))
@@ -350,10 +356,11 @@ class Analyser_Agent_Target_TargetEstimator_FormatCSV:
             fig_position.colorbar(sc2, ax=ax2)
 
             fig_position.savefig(
-                constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--position_agent_" + str(self.id),
+                constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT + self.version + "--position_agent_" + str(
+                    self.id),
                 transparent=False)
             plt.close(fig_position)
-        except :
+        except:
             print("error generating plot")
 
     def plot_all_target_simulated_data_collected_data(self):

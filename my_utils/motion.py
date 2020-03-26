@@ -59,7 +59,7 @@ def rectiligne_trajectory(Target, dist_min, delta_time):
                 Target.trajectory_position) - 1:
             Target.number_of_position_reached += 1
 
-        '''computing the spped to reach the goal'''
+        '''computing the speeds to reach the goal'''
         if math.fabs(x_goal-Target.xc) > 0.05:
             v_x = -Target.vx_max * (Target.xc - x_goal) / math.fabs((Target.xc - x_goal))
         else:
@@ -72,5 +72,11 @@ def rectiligne_trajectory(Target, dist_min, delta_time):
 
 
         '''Modifying the position in the target object, always in (int)'''
+        Target.ax = (v_x-Target.vx)
+        Target.ay = (v_y-Target.vx)
+
+        Target.vx = v_x
+        Target.vy = v_y
+        """updating position"""
         Target.xc = Target.xc + v_x * delta_time
         Target.yc = Target.yc + v_y * delta_time

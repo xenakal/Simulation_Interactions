@@ -12,7 +12,7 @@ X_MAX = constants.LENGHT_ROOM+1
 Y_MIN = 0
 Y_MAX = constants.WIDTH_ROOM
 T_MIN = 0
-T_MAX = constants.T_MAX
+T_MAX = 20  #constants.T_MAX
 
 def plot_graph_3D(ax, x, y, z, title="title", x_label="x_axis", y_label="y_axis", z_label="z_label"):
     ax.plot(x, y, z, "x", label='parametric curve')

@@ -1,4 +1,4 @@
-from constants import NUMBER_PREDICTIONS, TIME_PICTURE, STD_MEASURMENT_ERROR, TIME_SEND_READ_MESSAGE
+from constants import NUMBER_PREDICTIONS, TIME_PICTURE, STD_MEASURMENT_ERROR_POSITION, TIME_SEND_READ_MESSAGE
 from filterpy.kalman import KalmanFilter, update, predict
 from filterpy.common import Q_discrete_white_noise
 from scipy.linalg import block_diag
@@ -22,13 +22,15 @@ class KalmanPrediction:
             3. (float) y_init     -- initial y-axis position of object being tracked
     """
 
-    def __init__(self, target_id, x_init, y_init, timestamp):
+    def __init__(self, target_id, x_init, y_init,vx_init,vy_init,ax_init,ay_init, timestamp):
         # Kalman Filter object
         self.filter = kfObject(x_init, y_init)
         self.target_id = target_id
         self.kalman_memory = [[x_init, y_init, timestamp]]
 
     def add_measurement(self, z, timestamp):
+        z = z.copy()
+        z = [z[0],z[1]]
         kalman_memory_element = z.copy()
         kalman_memory_element.append(timestamp)
         self.kalman_memory.append(kalman_memory_element)
@@ -145,7 +147,7 @@ def kfObject(x_init, y_init, vx_init=0.0, vy_init=0.0):
     f.H = np.array([[1., 0., 0., 0.],
                     [0., 1., 0., 0.]])
     f.P *= 2.
-    f.R = np.eye(2) * STD_MEASURMENT_ERROR**2
+    f.R = np.eye(2) * STD_MEASURMENT_ERROR_POSITION**2
     f.B = 0
     q = Q_discrete_white_noise(dim=2, dt=dt, var=0.1)  # var => how precise the model is
     f.Q = block_diag(q, q)
@@ -179,8 +181,8 @@ def kfObject2(x_init, y_init, vx_init=0.0, vy_init=0.0):
                     [0., 0., 1., 0.],
                     [0., 0., 0., 1.]])
     f.P *= 2.
-    f.R = np.eye(4) * STD_MEASURMENT_ERROR**2
-    v_error = STD_MEASURMENT_ERROR**2
+    f.R = np.eye(4) * STD_MEASURMENT_ERROR_POSITION**2
+    v_error = STD_MEASURMENT_ERROR_POSITION**2
     f.R = np.array([[v_error, 0., 0., 0.],
                     [0., v_error, 0., 0.],
                     [0., 0., 2*v_error, 0.],

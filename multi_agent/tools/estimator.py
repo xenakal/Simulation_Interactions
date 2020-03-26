@@ -66,7 +66,8 @@ class TargetEstimator:
     """
 
     def __init__(self, time_stamp, agent_id, agent_signature, target_id, target_signature, target_xc, target_yc,
-                 target_radius, target_type=TargetType.UNKNOWN):
+                 target_vx=1000, target_vy=1000,
+                 target_ax=1000, target_ay=1000, target_radius=-1, target_type=TargetType.UNKNOWN):
         "Time information"
         self.time_stamp = time_stamp
 
@@ -78,6 +79,8 @@ class TargetEstimator:
 
         "Target information"
         self.target_position = [target_xc, target_yc]
+        self.target_speeds = [target_vx, target_vy]
+        self.target_acceleration = [target_ax, target_ay]
         self.target_type = target_type
         self.target_radius = target_radius
 
@@ -90,21 +93,12 @@ class TargetEstimator:
         s1 = "#Timestamp #" + str(self.time_stamp) + "\n"
         s2 = "#From #" + str(self.agent_id) + "#Sig_agent#" + str(self.agent_signature) + "\n"
         s3 = "#Target_ID #" + str(self.target_id) + "#Sig_target#" + str(self.target_signature) + "\n"
-        s4 = "#Target_type #" + str(self.target_type) + "x: " + str(self.target_position[0]) + " y: " + str(
-            self.target_position[1]) + "\n"
-        s5 = "#Radius: " + str(self.target_radius) + "\n"
-        return str("\n" + s1 + s2 + s3 + s4 + s5 + "\n")
-
-    def to_csv(self):
-        """
-            :return / modify vector
-                1. easy representation to save data in cvs file
-        """
-        csv_format = {'time_stamp': self.time_stamp, 'agent_id': self.agent_id,'agent_signature': self.agent_signature,
-               'target_id': self.target_id,'target_signature': self.target_signature,'target_type': self.target_type,
-               'target_x':self.target_position[0],'target_y':self.target_position[1],'target_radius':self.target_radius}
-        return csv_format
-
+        s4 = "#Target_type #" + str(self.target_type) + "\n"
+        s5 = "x: %.02f  y: %.02f" % (self.target_position[0], self.target_position[1]) + "\n"
+        s6 = "vx: %.02f  vy: %.02f" % (self.target_speeds[0], self.target_speeds[1]) + "\n"
+        s7 = "ax: %.02f  ay: %.02f" % (self.target_acceleration[0], self.target_acceleration[1]) + "\n"
+        s8 = "#Radius: " + str(self.target_radius) + "\n"
+        return str("\n" + s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8)
 
     def parse_string(self, s):
         """
@@ -119,7 +113,8 @@ class TargetEstimator:
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
-        attribute = re.split("#Timestamp#|#From#|#Sig_agent#|#Target_ID#|#Sig_target#|#Target_type#|x:|y:|#Radius:", s)
+        attribute = re.split(
+            "#Timestamp#|#From#|#Sig_agent#|#Target_ID#|#Sig_target#|#Target_type#|x:|y:|vx:|vy:|ax:|ay:|#Radius:", s)
 
         self.time_stamp = float(attribute[1])
         self.agent_id = int(attribute[2])
@@ -130,9 +125,31 @@ class TargetEstimator:
         if attribute[7][0] == "[":
             attribute[7] = attribute[7][1:-1]
             attribute[8] = attribute[8][1:-1]
+        if attribute[9][0] == "[":
+            attribute[9] = attribute[9][1:-1]
+            attribute[10] = attribute[10][1:-1]
+        if attribute[11][0] == "[":
+            attribute[11] = attribute[11][1:-1]
+            attribute[12] = attribute[12][1:-1]
 
         self.target_position = [float(attribute[7]), float(attribute[8])]
-        self.target_radius = float(attribute[9])
+        self.target_speeds = [float(attribute[8]), float(attribute[9])]
+        self.target_acceleration = [float(attribute[10]), float(attribute[11])]
+        self.target_radius = float(attribute[12])
+
+    def to_csv(self):
+        """
+            :return / modify vector
+                1. easy representation to save data in cvs file
+        """
+        csv_format = {'time_stamp': self.time_stamp, 'agent_id': self.agent_id, 'agent_signature': self.agent_signature,
+                      'target_id': self.target_id, 'target_signature': self.target_signature,
+                      'target_type': self.target_type,
+                      'target_x': self.target_position[0], 'target_y': self.target_position[1],
+                      'target_vx': self.target_speeds[0], 'target_vy': self.target_speeds[1],
+                      'target_ax': self.target_acceleration[0], 'target_ay': self.target_acceleration[1],
+                      'target_radius': self.target_radius}
+        return csv_format
 
     def __eq__(self, other):
         cdt1 = self.time_stamp == other.time_stamp
@@ -195,7 +212,8 @@ class Agent_Target_TargetEstimator:
             self.Agent_Target_TargetEstimator_list.append([agent_id, target_id, []])
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
-                                    target_xc, target_yc, target_size, target_type):
+                                    target_xc, target_yc, target_vx, target_vy, target_ax, target_ay, target_size,
+                                    target_type):
         """
             :description
                 Creates an estimator and adds it to the list if doesn't exist yet.
@@ -216,7 +234,8 @@ class Agent_Target_TargetEstimator:
         """
 
         new_targetEstimator = TargetEstimator(time_from_estimation, agent_id, agent_signature, target_id,
-                                              target_signature, target_xc, target_yc, target_size, target_type)
+                                              target_signature, target_xc, target_yc, target_vx, target_vy,
+                                              target_ax, target_ay, target_size, target_type)
         self.add_target_estimator(new_targetEstimator)
 
     def add_target_estimator(self, targetEstimator_to_add):
@@ -362,7 +381,7 @@ class Agent_Target_TargetEstimator:
             for targetEstimator in combination_agent_target[2]:
                 data_to_save.append(targetEstimator.to_csv())
 
-        return [csv_fieldnames,data_to_save]
+        return [csv_fieldnames, data_to_save]
 
     def statistic_to_string(self):
         """
@@ -423,7 +442,7 @@ class Target_TargetEstimator:
             self.Target_TargetEstimator_list.append([target_id, []])
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
-                                    target_xc, target_yc, target_size, target_type):
+                                    target_xc, target_yc,target_vx,target_vy,target_ax,target_ay,target_size, target_type):
         """
             :description
                 Creates an estimator and adds it to the list if doesn't exist yet.
@@ -444,7 +463,8 @@ class Target_TargetEstimator:
         """
 
         new_targetEstimator = TargetEstimator(time_from_estimation, agent_id, agent_signature, target_id,
-                                              target_signature, target_xc, target_yc, target_size, target_type)
+                                              target_signature, target_xc, target_yc,target_vx,target_vy,
+                                              target_ax,target_ay, target_size, target_type)
         self.add_TargetEstimator(new_targetEstimator)
 
     def add_TargetEstimator(self, targetEstimator):
@@ -520,4 +540,4 @@ class Target_TargetEstimator:
             for targetEstimator in combination_agent_target[1]:
                 data_to_save.append(targetEstimator.to_csv())
 
-        return [csv_fieldnames,data_to_save]
+        return [csv_fieldnames, data_to_save]

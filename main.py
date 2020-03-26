@@ -99,7 +99,8 @@ class App:
             for target in self.room.active_Target_list:
                 target.save_position()
                 self.exact_data_target.add_create_target_estimator(self.room.time, -1, -1, target.id, target.signature,
-                                                                   target.xc, target.yc, target.radius, target.type)
+                                                                   target.xc, target.yc,target.vx,target.vy,target.ax,target.ay,
+                                                                   target.radius, target.type)
                 move_Target(target, delta_time)
             time_old = time.time()
 

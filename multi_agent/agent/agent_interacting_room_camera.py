@@ -108,15 +108,24 @@ class AgentCam(AgentInteractingWithRoom):
                     if my_previousTime != self.room_representation.time:  # Si la photo est nouvelle
                         my_previousTime = self.room_representation.time
                         for targetCameraDistance in picture:
-                            try:
+
                                 target = targetCameraDistance.target
                                 "Simulation from noise on the target's position "
                                 if constants.INCLUDE_ERROR and not (target.type == TargetType.SET_FIX):
-                                    erreurX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1)[0]
-                                    erreurY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR, size=1)[0]
+                                    erreurPX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
+                                    erreurPY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
+                                    erreurVX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
+                                    erreurVY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
+                                    erreurAX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
+                                    erreurAY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
                                 else:
-                                    erreurX = 0
-                                    erreurY = 0
+                                    erreurPX = 0
+                                    erreurPY = 0
+                                    erreurVX = 0
+                                    erreurVY = 0
+                                    erreurAX = 0
+                                    erreurAY = 0
+
 
                                 target_type = TargetType.UNKNOWN
                                 for target_representation in self.room_representation.active_Target_list:
@@ -125,11 +134,11 @@ class AgentCam(AgentInteractingWithRoom):
 
                                 self.memory.add_create_target_estimator(self.room_representation.time, self.id,
                                                                         self.signature, target.id, target.signature,
-                                                                        target.xc + erreurX, target.yc + erreurY,
+                                                                        target.xc + erreurPX, target.yc + erreurPY,
+                                                                        target.vx + erreurVX,target.vy + erreurPY,
+                                                                        target.ax + erreurAX,target.vy + erreurAY,
                                                                         target.radius,target_type)
 
-                            except AttributeError:
-                                print("fichier agent caméra ligne 134: oupsi un problème")
 
                     nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
 
@@ -189,7 +198,7 @@ class AgentCam(AgentInteractingWithRoom):
             """
             if not target.type == TargetType.SET_FIX:
                 "Check if the target is moving,stopped or changing from one to the other state"
-                (is_moving, is_stopped) = self.behaviour_analyser.detect_target_motion(target.id, 1, 5, constants.STD_MEASURMENT_ERROR+0.01)
+                (is_moving, is_stopped) = self.behaviour_analyser.detect_target_motion(target.id, 1, 5, constants.STD_MEASURMENT_ERROR_POSITION+0.01)
                 "Check if the target is leaving the cam angle_of_view"
                 (is_in, is_out) = self.behaviour_analyser.is_target_leaving_cam_field(self.camera, target.id, 0, 3)
 
