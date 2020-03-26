@@ -1,5 +1,5 @@
 import threading
-from my_utils.my_IO import*
+from my_utils.my_IO import *
 # from elements.room import*
 import multi_agent.elements.room
 from multi_agent.agent.agent import *
@@ -7,6 +7,9 @@ from multi_agent.tools.memory import *
 from multi_agent.communication.message import *
 import constants
 
+class MessageTypeAgentInteractingWithRoom(MessageType):
+    HEARTBEAT = "heartbeat"
+    MEMORY = "memory"
 
 
 class AgentInteractingWithRoom(Agent):
@@ -53,7 +56,7 @@ class AgentInteractingWithRoom(Agent):
         self.thread_is_running = 1
         self.main_thread = threading.Thread(target=self.thread_run)
 
-        self.log_room = create_logger(constants.ResultsPath.LOG_AGENT,"Room + memory",self.id)
+        self.log_room = create_logger(constants.ResultsPath.LOG_AGENT, "Room + memory", self.id)
 
     def init_and_set_room_description(self, room):
         """
@@ -85,8 +88,6 @@ class AgentInteractingWithRoom(Agent):
         self.log_main.debug("active_agentUser :" + str(self.room_representation.active_AgentUser_list))
         self.log_main.debug("target :" + str(self.room_representation.active_Target_list))
 
-
-
     def run(self):
         """
             :description
@@ -102,13 +103,18 @@ class AgentInteractingWithRoom(Agent):
         "Save data"
         if constants.SAVE_DATA:
             print("Saving data: agent " + str(self.id))
-            self.log_main.info("Saving data ...: agent "+str(self.id))
-            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT + str(self.id), self.memory.memory_all_agent.to_csv())
-            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT + str(self.id), self.memory.memory_agent.to_csv())
-            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL + str(self.id), self.memory.best_estimations.to_csv())
-            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_PREDICTION_TPLUS1 + str(self.id), self.memory.predictions_order_1.to_csv())
-            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_PREDICTION_TPLUS2 + str(self.id), self.memory.predictions_order_2.to_csv())
-            self.log_main.info("Data saved !" + str(self.id))
+            self.log_main.info("Saving data ...: agent " + str(self.id))
+            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT + str(self.id),
+                                         self.memory.memory_all_agent.to_csv())
+            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT + str(self.id),
+                                         self.memory.memory_agent.to_csv())
+            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL + str(self.id),
+                                         self.memory.best_estimations.to_csv())
+            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_PREDICTION_TPLUS1 + str(self.id),
+                                         self.memory.predictions_order_1.to_csv())
+            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_PREDICTION_TPLUS2 + str(self.id),
+                                         self.memory.predictions_order_2.to_csv())
+            self.log_main.info("Data saved !")
 
         "Clear"
         self.thread_is_running = 0
@@ -143,11 +149,11 @@ class AgentInteractingWithRoom(Agent):
                 1. Dispatsching to deal with multiple message given the type
         """
         for rec_mes in self.info_message_received.get_list():
-            if rec_mes.messageType == "memory":
+            if rec_mes.messageType == MessageTypeAgentInteractingWithRoom.MEMORY:
                 self.received_message_targetEstimator(rec_mes)
-            elif rec_mes.messageType == "ack" or rec_mes.messageType == "nack":
+            elif rec_mes.messageType == MessageType.ACK or rec_mes.messageType == MessageType.NACK:
                 self.received_message_ack_nack(rec_mes)
-            elif rec_mes.messageType == "heartbeat":
+            elif rec_mes.messageType == MessageTypeAgentInteractingWithRoom.HEARTBEAT:
                 self.received_message_heartbeat(rec_mes)
 
             self.info_message_received.del_message(rec_mes)
@@ -171,7 +177,8 @@ class AgentInteractingWithRoom(Agent):
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
-        m = MessageCheckACKNACK(self.room_representation.time, self.id, self.signature, "memory", s,
+        m = MessageCheckACKNACK(constants.get_time(), self.id, self.signature,
+                                MessageTypeAgentInteractingWithRoom.MEMORY, s,
                                 memory.target_id)
         if len(receivers) == 0:
             for agent in self.room_representation.active_AgentCams_list:
@@ -196,13 +203,13 @@ class AgentInteractingWithRoom(Agent):
                 2. (string) type_message  -- "ack","nack" either OK or not OK
 
         """
-        m = MessageCheckACKNACK(self.room_representation.time, self.id, self.signature, type_message,
+        m = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, type_message,
                                 message.signature,
                                 message.targetRef)
         m.add_receiver(message.sender_id, message.sender_signature)
         self.info_message_to_send.add_message(m)
 
-    def send_message_heartbeat(self,last_heart_beat_time,delta_time_to_send_heart_beat = 3):
+    def send_message_heartbeat(self, last_heart_beat_time, delta_time_to_send_heart_beat=3):
         """
             :description
                 1. Message without signification to tell other agent that the agent is alive
@@ -210,7 +217,7 @@ class AgentInteractingWithRoom(Agent):
 
         delta_time = time.time() - last_heart_beat_time
         if delta_time > delta_time_to_send_heart_beat:
-            m = MessageCheckACKNACK(self.room_representation.time,self.id,self.signature,"heartbeat","Hi there !")
+            m = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, "heartbeat", "Hi there !")
 
             "Message send to every agent define in the room"
             for agent in self.room_representation.agentCams_list:
@@ -243,9 +250,9 @@ class AgentInteractingWithRoom(Agent):
             estimator = TargetEstimator(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             estimator.parse_string(s)
             self.memory.add_target_estimator(estimator)
-            #TODO - ici est ce qu'on veut vraiment renvoyer un ack quand on reçoit un target estimator ??
-            #TODO - On pourrait considérer l'envoie comme un conseil, si il n'arrive pas c'est comme si il n'était pas pris en compte
-            #self.send_message_ack_nack(message, "ack")
+            # TODO - ici est ce qu'on veut vraiment renvoyer un ack quand on reçoit un target estimator ??
+            # TODO - On pourrait considérer l'envoie comme un conseil, si il n'arrive pas c'est comme si il n'était pas pris en compte
+            # self.send_message_ack_nack(message, "ack")
 
     def received_message_ack_nack(self, message):
         """
@@ -260,7 +267,7 @@ class AgentInteractingWithRoom(Agent):
         for sent_mes in self.info_message_sent.get_list():
             sent_mes.add_ack_nack(message)
 
-    def received_message_heartbeat(self,message):
+    def received_message_heartbeat(self, message):
         """
             :description
                 defines what to do when receive a heartbeat
@@ -281,3 +288,42 @@ class AgentInteractingWithRoom(Agent):
                 self.log_main.info("Found someone ! agent user :" + str(agent.id))
                 self.room_representation.active_AgentUser_list.append(agent)
                 self.log_main.debug(self.room_representation.active_AgentUser_list)
+
+
+class HeartbeatCounterAllAgent:
+    def __init__(self, agent_id, agent_list):
+        self.id = agent_id
+        self.agent_list = agent_list
+        self.agent_heartbeat_list = []
+
+    def add_heartbeat(self, m):
+        if m.messageType == MessageTypeAgentInteractingWithRoom.HEARTBEAT:
+            added = False
+            for elem in self.agent_list:
+                added = elem.add_heartbeat(m)
+                if added:
+                    break
+            if not added:
+                new_heartbeat_counter = HeartbeatCounter(m.sender_id, m.sender_signature)
+                new_heartbeat_counter.add_hearbeat(m)
+                self.agent_heartbeat_list.append(new_heartbeat_counter)
+
+
+class HeartbeatCounter:
+    def __init__(self, agent_id, agent_signature, max_delay):
+        self.agent_id = agent_id
+        self.agent_signature = self.agent_signature
+        self.heartbeat_list = []
+        self.max_delay = max_delay
+
+    def add_hearbeat(self, m):
+        cdt_id = m.sender_id == self.agent_id
+        cdt_signature = m.sender_signature == self.agent_signature
+        cdt_hearbeat = m.messageType == MessageTypeAgentInteractingWithRoom.HEARTBEAT
+        if cdt_id and cdt_signature and cdt_hearbeat:
+            self.heartbeat_list.append(m.timestamp)
+            return True
+        return False
+
+    def is_to_late(self):
+        return constants.get_time() - self.max_delay > self.heartbeat_list[-1]

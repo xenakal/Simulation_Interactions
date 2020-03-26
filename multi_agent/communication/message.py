@@ -2,6 +2,9 @@ import numpy as np
 import random
 import re
 
+class MessageType:
+    ACK = "ack"
+    NACK = "nack"
 
 class Message:
     """
@@ -248,12 +251,10 @@ class MessageCheckACKNACK(Message):
               1.(bool) True is a nack was receive, then one of the agent does not agree with the message
               2.       False if no nack, but it does not mean every agent has agreed. (see is approved for this purpose)
         """
-
-        if self.messageType == 'request':
-            if self.get_nack_number() > 0:
-                return True
-            else:
-                return False
+        if self.get_nack_number() > 0:
+            return True
+        else:
+            return False
 
     def is_approved(self):
         """
@@ -261,11 +262,10 @@ class MessageCheckACKNACK(Message):
               1.(bool) True is a acks received = the number of receiver, so that every receiver has agreed.
               2.       False otherwise
         """
-        if self.messageType == 'request':
-            if int(self.get_ack_number()) >= int(self.get_receiver_number()):
-                return True
-            else:
-                return False
+        if int(self.get_ack_number()) >= int(self.get_receiver_number()):
+            return True
+        else:
+            return False
 
     def add_ack_nack(self, rec_message):
         """
@@ -274,11 +274,11 @@ class MessageCheckACKNACK(Message):
           :return
                 1. return True if add succesfully, false otherwise
         """
-        if rec_message.messageType == 'ack' or rec_message.messageType == 'nack':
+        if rec_message.messageType == MessageType.ACK or rec_message.messageType == MessageType.NACK:
             if self.signature == int(rec_message.message):
-                if rec_message.messageType == "ack":
+                if rec_message.messageType == MessageType.ACK:
                     self.ack.append(rec_message)
-                elif rec_message.messageType == "nack":
+                elif rec_message.messageType == MessageType.NACK:
                     self.nack.append(rec_message)
             return True
         else:
@@ -289,7 +289,7 @@ class MessageCheckACKNACK(Message):
              :return
                  1. (string) -- describe every attribut in a string format.
         """
-        if self.messageType == "ack" or self.messageType == "nack":
+        if self.messageType == MessageType.ACK or self.messageType == MessageType.NACK:
             message_in = Message(0, 0, 0, 0, 0)
             message_in.parse_string(self.to_string())
         else:
@@ -333,7 +333,7 @@ class ListMessage:
     def add_message(self, message):
         """
           :param
-                1.(Messsage) message
+                1.(Message) message
           :return
                 1. add a message in the list
         """
@@ -342,7 +342,7 @@ class ListMessage:
     def del_message(self, message):
         """
           :param
-                1.(Messsage) message
+                1.(Message) message
           :return
                 1. remove a message in the list
         """

@@ -70,8 +70,8 @@ class AgentUser(AgentInteractingWithRoom):
 
             elif state == "communication":
                 '''Suppression of unusefull messages in the list'''
-                self.info_message_sent.remove_message_after_given_time(self.room_representation.time, 30)
-                self.info_message_received.remove_message_after_given_time(self.room_representation.time, 30)
+                self.info_message_sent.remove_message_after_given_time(constants.get_time(), constants.MAX_TIME_MESSAGE_IN_LIST)
+                self.info_message_received.remove_message_after_given_time(constants.get_time(), constants.MAX_TIME_MESSAGE_IN_LIST)
 
                 "Send heart_beat to other agent"
                 last_heart_beat_sent = self.send_message_heartbeat(last_heart_beat_sent, 1)

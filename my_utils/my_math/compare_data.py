@@ -13,6 +13,8 @@ def error_squared_discrete(data_ref_list,data_mes_list):
     points_mes_list.del_same_time()
     (x_mes, y_mes, t_mes) = points_mes_list.fill_vectors()
 
+    print(t_ref)
+    print(t_mes)
 
     for point_ref in points_ref_list.points:
         if point_ref in points_mes_list.points:
@@ -20,10 +22,11 @@ def error_squared_discrete(data_ref_list,data_mes_list):
 
 
     (x_ref,y_ref,t_ref) = points_ref_filter_list.fill_vectors()
-    error_squared_x = error_squared_list(x_ref, x_mes)
-    error_squared_y = error_squared_list(y_ref, y_mes)
-    error_squared = error_squared_x_y_list(x_ref, y_ref, x_mes, y_mes)
-    plot_error_square(t_ref,x_ref,y_ref,x_mes,y_mes)
+
+    #error_squared_x = error_squared_list(x_ref, x_mes)
+    #error_squared_y = error_squared_list(y_ref, y_mes)
+    #error_squared = error_squared_x_y_list(x_ref, y_ref, x_mes, y_mes)
+    #plot_error_square(t_ref,x_ref,y_ref,x_mes,y_mes)
 
 
 def error_squared_with_interpolation(data_ref_list,data_mes_list):
@@ -35,6 +38,7 @@ def error_squared_with_interpolation(data_ref_list,data_mes_list):
     "considering the datalist are from TargetEstimator"
     (x_ref,y_ref,t_ref)=points_ref_list.add_sort_fill(data_ref_list[6], data_ref_list[7],data_ref_list[0])
     (x_mes,y_mes,t_mes)=points_mes_list.add_sort_fill(data_mes_list[6],data_mes_list[7],data_mes_list[0])
+
 
     for point_ref in points_ref_list.points:
         if point_ref.time >= points_mes_list.points[0].time and point_ref.time <= points_mes_list.points[-1].time :

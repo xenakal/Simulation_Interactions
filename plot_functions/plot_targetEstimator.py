@@ -1,6 +1,7 @@
-from my_utils.my_math.compare_data import *
-from my_utils.my_IO.IO_data import *
 import constants
+from multi_agent.agent.agent_interacting_room_camera import AgentCam
+from my_utils.my_IO.IO_data import *
+from my_utils.my_math.compare_data import *
 
 
 def plot_target_memory_type_x_y_2D(ax, data, curve_label):
@@ -14,12 +15,12 @@ def plot_target_memory_time_x_y_2D(ax, data, curve_label="curve_label"):
 
 
 def plot_target_memory_agent_x_y_2D(ax, data, curve_label="curve_label"):
-    return plot_graph_3D_2D(ax, data[6], data[7], data[1], data[12], 0, 2, "x-y plane agent",
+    return plot_graph_3D_2D(ax, data[6], data[7], data[1], data[12], 0, AgentCam.number_agentCam_created-1, "x-y plane agent",
                             "x [m]", "y [m]", curve_label=curve_label)
 
 
 def plot_target_memory_agent_vx_vy_2D(ax, data, curve_label="curve_label"):
-    return plot_graph_3D_2D(ax, data[6], data[7], data[1], data[12], 0, 2, "x-y plane agent",
+    return plot_graph_3D_2D(ax, data[6], data[7], data[1], data[12], 0, AgentCam.number_agentCam_created-1, "x-y plane agent",
                             "vx [m/s]", "vy [m/s]", curve_label=curve_label)
 
 
@@ -223,7 +224,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
                 data_mes = element.data_list
 
         error_squared_discrete(data_ref, data_mes)
-        # error_squared_with_interpolation(data_ref,data_mes)
+        error_squared_with_interpolation(data_ref,data_mes)
 
     def plot_position_target_simulated_data_collected_data(self):
 

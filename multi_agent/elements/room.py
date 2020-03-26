@@ -1,3 +1,4 @@
+import time
 from multi_agent.elements.camera import *
 from multi_agent.agent.agent import AgentType
 # from multi_agent.agent_camera import *
@@ -124,7 +125,6 @@ class RoomRepresentation:
         self.active_AgentUser_list = []
 
         """Others attributes"""
-        self.time = 0
         self.color = color
 
         """Default values"""
@@ -385,11 +385,11 @@ class Room(RoomRepresentation):
         """
 
         for target in self.information_simulation.Target_list:
-            if target.t_add[target.number_of_time_passed] <= self.time <= target.t_del[target.number_of_time_passed] and not target.is_on_the_map:
+            if target.t_add[target.number_of_time_passed] <= constants.get_time() <= target.t_del[target.number_of_time_passed] and not target.is_on_the_map:
                 target.is_on_the_map = True
                 self.active_Target_list.append(target)
 
-            elif self.time > target.t_del[target.number_of_time_passed] and target.is_on_the_map:
+            elif constants.get_time() > target.t_del[target.number_of_time_passed] and target.is_on_the_map:
                 if target.number_of_time_passed < len(target.t_add)-1:
                     target.number_of_time_passed = target.number_of_time_passed+1
                 target.is_on_the_map = False
@@ -402,11 +402,11 @@ class Room(RoomRepresentation):
         """
         for agent in self.agentCams_list:
             camera = agent.camera
-            if camera.t_add[camera.number_of_time_passed] <= self.time <= camera.t_del[camera.number_of_time_passed] and not camera.isActive:
+            if camera.t_add[camera.number_of_time_passed] <= constants.get_time() <= camera.t_del[camera.number_of_time_passed] and not camera.isActive:
                 camera.isActive = True
                 self.active_AgentCams_list.append(agent)
 
-            elif self.time > camera.t_del[camera.number_of_time_passed] and camera.isActive:
+            elif constants.get_time() > camera.t_del[camera.number_of_time_passed] and camera.isActive:
                 if camera.number_of_time_passed < len(camera.t_add)-1:
                     camera.number_of_time_passed = camera.number_of_time_passed+1
                 camera.isActive = False

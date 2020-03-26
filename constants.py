@@ -1,10 +1,15 @@
 import logging
-
+import time
 """Option for class main"""
 SAVE_DATA = True
 GENERATE_PLOT = True
 if GENERATE_PLOT:
     SAVE_DATA = True
+
+TIME_START = time.time()
+def get_time():
+    return time.time() - TIME_START
+
 
 USE_GUI = 1
 USE_agent = 1
@@ -18,9 +23,11 @@ TIME_BTW_FRAME = .1
 NUMBER_OF_POINT = 10 #per m for a speed of 1 m/s
 TIME_BTW_TARGET_MOVEMENT = 1/NUMBER_OF_POINT
 
+MAX_TIME_MESSAGE_IN_LIST = 3 #s
 
 STATIC_ANALYSIS_PRECISION = 10 #number of point per m
 DYNAMIC_ANALYSIS_PRECISION = 10  #number of point per m
+
 
 """Option for class agent"""
 NAME_LOG_PATH_AGENT = "log/log_agent/"

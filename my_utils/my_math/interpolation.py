@@ -1,8 +1,10 @@
 import numpy as np
+import time
 import matplotlib.pyplot as plt
 from scipy import interpolate
-from mpl_toolkits.mplot3d import Axes3D
 
+from mpl_toolkits.mplot3d import Axes3D
+import math
 
 class InterpolationLine():
     def __init__(self, x, y, z=0):
@@ -90,7 +92,7 @@ class Point():
         return cdt1 and cdt2
 
     def __eq__(self, other):
-        return self.time == other.time
+        return math.fabs(self.time) - other.time < 0.1
 
     def __lt__(self, other):
         return self.time < other.time

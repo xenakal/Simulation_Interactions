@@ -21,6 +21,8 @@ def clean_mailbox():
 
 class App:
     def __init__(self, fileName="My_new_map"):
+        constants.TIME_START = time.time()
+
         # Clean the file mailbox
         self.exact_data_target = Target_TargetEstimator()  # utilisé comme une simple liste, raison pour laquelle c'est une targetEstimator ?
         # TODO: check that
@@ -88,8 +90,6 @@ class App:
         self.link_agent_target.update_link_camera_target()
 
 
-
-
     def move_all_targets_thread(self):
         time_old = time.time()
         while self.targets_moving:
@@ -98,8 +98,8 @@ class App:
             delta_time = time.time() - time_old
             for target in self.room.active_Target_list:
                 target.save_position()
-                self.exact_data_target.add_create_target_estimator(self.room.time, -1, -1, target.id, target.signature,
-                                                                   target.xc, target.yc,target.vx,target.vy,target.ax,target.ay,
+                self.exact_data_target.add_create_target_estimator(constants.get_time(), -1, -1, target.id, target.signature,
+                                                                   target.xc, target.yc, target.vx, target.vy, target.ax, target.ay,
                                                                    target.radius, target.type)
                 move_Target(target, delta_time)
             time_old = time.time()
@@ -113,8 +113,6 @@ class App:
         targets_moving_thread = threading.Thread(target=self.move_all_targets_thread)
         targets_moving_thread.start()
 
-        time_start = time.time()
-
         # Events loop
         while run:
             time.sleep(constants.TIME_BTW_FRAME)
@@ -123,7 +121,7 @@ class App:
             if reset:
                 multi_agent.agent.agent_interacting_room_camera.AgentCam.number_agentCam_created = 0
                 multi_agent.agent.agent_interacting_room_user.AgentUser.number_agentUser_created = 0
-                self.room.time = 0
+                constants.TIME_START = time.time()
                 if USE_agent:
                     for agent in self.room.agentCams_list:
                         agent.clear()
@@ -155,16 +153,11 @@ class App:
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
 
             # Closing the simulation after a given time if not using GUI
-            if self.room.time > constants.T_MAX and USE_GUI == 1:
+            if constants.get_time()> constants.T_MAX and USE_GUI == 1:
                 run = False
                 pygame.quit()
-            elif self.room.time > constants.T_MAX:
+            elif constants.get_time() > constants.T_MAX:
                 run = False
-
-            # Updating the time
-            self.room.time = time.time()-time_start
-            for agent in self.room.active_AgentCams_list:
-                agent.room_representation.time = self.room.time
 
         for agent in self.room.agentCams_list:
             agent.clear()

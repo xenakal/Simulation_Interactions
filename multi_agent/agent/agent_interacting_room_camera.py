@@ -87,7 +87,6 @@ class AgentCam(AgentInteractingWithRoom):
         state = "takePicture"
         nextstate = state
         last_heart_beat_sent = time.time()
-        my_previousTime = self.room_representation.time
 
         while self.thread_is_running == 1:
             state = nextstate
@@ -103,55 +102,48 @@ class AgentCam(AgentInteractingWithRoom):
                     nextstate = "takePicture"
                     time.sleep(0.3)
                 else:
-                    """If the camera is working and we have a new picture, then the informations are stored in
-                    memory. """
-                    if my_previousTime != self.room_representation.time:  # Si la photo est nouvelle
-                        my_previousTime = self.room_representation.time
-                        for targetCameraDistance in picture:
-
-                                target = targetCameraDistance.target
-                                "Simulation from noise on the target's position "
-                                if constants.INCLUDE_ERROR and not (target.type == TargetType.SET_FIX):
-                                    erreurPX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
-                                    erreurPY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
-                                    erreurVX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
-                                    erreurVY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
-                                    erreurAX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
-                                    erreurAY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
-                                else:
-                                    erreurPX = 0
-                                    erreurPY = 0
-                                    erreurVX = 0
-                                    erreurVY = 0
-                                    erreurAX = 0
-                                    erreurAY = 0
+                    for targetCameraDistance in picture:
+                            target = targetCameraDistance.target
+                            "Simulation from noise on the target's position "
+                            if constants.INCLUDE_ERROR and not (target.type == TargetType.SET_FIX):
+                                erreurPX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
+                                erreurPY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
+                                erreurVX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
+                                erreurVY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
+                                erreurAX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
+                                erreurAY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
+                            else:
+                                erreurPX = 0
+                                erreurPY = 0
+                                erreurVX = 0
+                                erreurVY = 0
+                                erreurAX = 0
+                                erreurAY = 0
 
 
-                                target_type = TargetType.UNKNOWN
-                                for target_representation in self.room_representation.active_Target_list:
-                                    if target_representation.id == target.id:
-                                        target_type = target_representation.type
+                            target_type = TargetType.UNKNOWN
+                            for target_representation in self.room_representation.active_Target_list:
+                                if target_representation.id == target.id:
+                                    target_type = target_representation.type
 
-                                self.memory.add_create_target_estimator(self.room_representation.time, self.id,
+                            self.memory.add_create_target_estimator(constants.get_time(), self.id,
                                                                         self.signature, target.id, target.signature,
                                                                         target.xc + erreurPX, target.yc + erreurPY,
                                                                         target.vx + erreurVX,target.vy + erreurPY,
                                                                         target.ax + erreurAX,target.vy + erreurAY,
                                                                         target.radius,target_type)
 
-
-                    nextstate = "processData"  # A voir si on peut améliorer les prédictions avec les mess recu
-
+                    nextstate = "processData"
             elif nextstate == "processData":
-                self.memory.set_current_time(self.room_representation.time)
+                self.memory.set_current_time(constants.get_time())
                 self.process_information_in_memory()
                 nextstate = "communication"
 
             # TODO: pas mieux de mettre ca avant "processData" ?
             elif state == "communication":
                 "Suppression of unusefull messages in the list"
-                self.info_message_sent.remove_message_after_given_time(self.room_representation.time, 30)
-                self.info_message_received.remove_message_after_given_time(self.room_representation.time, 30)
+                self.info_message_sent.remove_message_after_given_time(constants.get_time(), constants.MAX_TIME_MESSAGE_IN_LIST)
+                self.info_message_received.remove_message_after_given_time(constants.get_time(), constants.MAX_TIME_MESSAGE_IN_LIST)
 
                 "Send heart_beat to other agent"
                 last_heart_beat_sent = self.send_message_heartbeat(last_heart_beat_sent,1)
@@ -243,7 +235,7 @@ class AgentCam(AgentInteractingWithRoom):
 
                     "If the message is to old we don't send it -> target lost"
                     thresh_time_to_send = 3
-                    if self.room_representation.time - last_memory.time_stamp <= thresh_time_to_send:
+                    if constants.get_time() - last_memory.time_stamp <= thresh_time_to_send:
                         self.send_message_targetEstimator(last_memory, receivers)
 
 

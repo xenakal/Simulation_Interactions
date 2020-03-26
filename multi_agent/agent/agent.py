@@ -110,7 +110,7 @@ class Agent:
             self.message_statistic.count_message_received(rec_mes.sender_id)
             self.info_message_received.add_message(rec_mes)
             self.log_message.debug('RECEIVED : \n' + rec_mes.to_string())
-            self.log_message.info('RECEIVED : ' + str(rec_mes.messageType) + " target : " + str(rec_mes.targetRef) + " from :" + str(rec_mes.sender_id))
+            self.log_message.info('RECEIVED : at %.02f'%rec_mes.timestamp + " s " + str(rec_mes.messageType) + " target : " + str(rec_mes.targetRef) + " from :" + str(rec_mes.sender_id))
 
     def receive_messages(self):
         """
@@ -181,7 +181,7 @@ class Agent:
                     mbox.flush()
                     m.notify_send_to(receiver[0], receiver[1])
                     if m.is_message_sent_to_every_receiver():
-                        self.log_message.info('SENT : ' + str(m.messageType) + " target : " + str(m.targetRef) + " to :" + str(m.receiver_id_and_signature))
+                        self.log_message.info('SENT : at %.02f'%m.timestamp + " s "  + str(m.messageType) + " target : " + str(m.targetRef) + " to :" + str(m.receiver_id_and_signature))
                         self.log_message.debug('SENT     : \n' + m.to_string())
                         succes = 0
                     else:
