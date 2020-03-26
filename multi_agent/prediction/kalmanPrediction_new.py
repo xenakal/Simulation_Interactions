@@ -28,6 +28,23 @@ class KalmanPrediction:
         self.target_id = target_id
         self.kalman_memory = [[x_init, y_init,vx_init,vy_init,ax_init,ay_init, timestamp]]
 
+    def add_position(self, z, timestamp):
+        z = z.copy()
+        z = [z[0], z[1]]
+        kalman_memory_element = z.copy()
+        kalman_memory_element.append(timestamp)
+        last_z = self.kalman_memory[-1]
+        self.kalman_memory.append(kalman_memory_element)
+
+        delta_x = z[0] - last_z[0]
+        delta_y = z[1] - last_z[1]
+
+        u = np.array([delta_x, delta_y])
+        B = np.array([0, 0])
+
+        self.filter.predict(u=u, B=B)
+        self.filter.update(np.array(z))
+
     def add_speed_position(self, z, timestamp):
         kalman_memory_element = z.copy()
         kalman_memory_element.append(timestamp)
@@ -82,6 +99,34 @@ class KalmanPrediction:
         else:
             return  False
 
+def kfObject_position(x_init, y_init, vx_init=0.0, vy_init=0.0):
+    """
+    :description
+        Returns a KalmanFilter object with the model corresponding to our problem.
+    :param
+        1. (int) x_init     -- initial x coordinate of tracked object
+        2. (int) y_init     -- initial y coordinate of tracked object
+
+    :return
+        The Kalman Filter object (from pyKalman library) with the model corresponding to our scenario.
+    """
+
+    f = KalmanFilter(dim_x=2,
+                     dim_z=2)  # as we have a 4d state space and measurements on only the positions (x,y)
+    # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
+    dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
+    f.x = np.array([x_init, y_init])
+    f.F = np.array([[1., 0.],
+                    [0., 1.]])
+    f.u = 0
+    f.H = np.array([[1., 0.],
+                    [0., 1.]])
+    f.P *= 2.
+    f.R = np.eye(2) * STD_MEASURMENT_ERROR_POSITION**2
+    f.B = 0
+    q = Q_discrete_white_noise(dim=2, dt=dt, var=0.1)  # var => how precise the model is
+    f.Q = q #block_diag(q, q)
+    return f
 
 
 def kfObject_speed_position(x_init, y_init, vx_init=0.0, vy_init=0.0,ax_init = 0.0,ay_init = 0.0):
