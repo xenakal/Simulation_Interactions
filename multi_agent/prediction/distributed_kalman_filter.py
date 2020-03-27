@@ -22,9 +22,9 @@ class DistributedKalmanFilter(KalmanFilter):
         self.PI_prior = eye(dim_x)          # copy of PI after predict() is called
         self.PI_post = eye(dim_x)           # copy of PI afer update() is called
         self.W = zeros((dim_x, dim_z))      # Kalman gain
-        self.global_x = zeros((dim_x, 1))   # global estimate of target state
-        self.global_P = eye(dim_x)          # global estimate of covariance matrix
-        self.global_PI = eye(dim_x)         # inverse of global estimate P
+        self.x_global = zeros((dim_x, 1))   # global estimate of target state
+        self.P_global = eye(dim_x)          # global estimate of covariance matrix
+        self.PI_global = eye(dim_x)         # inverse of global estimate P
 
     def predict(self, u=None, B=None, F=None, Q=None):
         super().predict(u, B, F, Q)
@@ -76,9 +76,30 @@ class DistributedKalmanFilter(KalmanFilter):
         # x = x + Wy
         self.x = self.x + dot(self.W, self.y)
 
-    def assimilate(self, state_error_info_list, variance_error_info_list):
+    def assimilate(self, state_error_info, variance_error_info):
         """
-        Assimilates the local estimations in the global estimation equations
-        :param ([state_error_info, timestamp]) state_error_info_list: list of state
-        :param variance_error_info_list:
+        Assimilates the local estimation recieved from another node to the local estimation of the global state.
+
+        :param ([state_error_info, timestamp])      -- state_error_info: list of state error info
+                                                       with the corresponding timestamp
+        :param ([variance_error_info, timestamp])   -- variance_error_info:list of variance error info
+                                                       with the corresponding timestamp
         """
+        # TODO: comment on sait quant est-ce qu'on a reçu toutes les données ?
+        #   --> En fait on sait pas: on fait l'hypothèse que les données s'envoient instantanément et que les
+        #       agents sont synchonisés. A vois si c'est vraiment le cas.
+        #       Par contre, on peut vérifier si la donnée est plus ou moins correcte en regardant si elle est à
+        #       une distance plus grande que 2*STD_ERROR de l'estimation locale.
+
+        Pjj = 0
+        PIji = 0
+        xji = 0
+
+        # x(tj|tj) = P(tj|tj)[PI(tj|τi)x(tj|τi) + state_error_info]
+        self.x_global = dot(Pjj, dot(PIji, xji) + state_error_info)
+
+        pIji = 0
+
+        # PI(tj|tj) = PI(tj|τi) + variance_error_info
+        self.PI_global = PIji + variance_error_info
+

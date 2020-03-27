@@ -7,6 +7,7 @@ from multi_agent.tools.memory import *
 from multi_agent.communication.message import *
 import constants
 
+
 class MessageTypeAgentInteractingWithRoom(MessageType):
     HEARTBEAT = "heartbeat"
     MEMORY = "memory"

@@ -10,6 +10,7 @@ class AgentType:
     AGENT_CAM = 0
     AGENT_USER = 100
 
+
 class Agent:
     """
         Class Agent.
@@ -35,7 +36,6 @@ class Agent:
                 fells free to write some comments.
     """
 
-
     def __init__(self, id, type, color=0):
         """Initialisation"""
 
@@ -58,7 +58,6 @@ class Agent:
         mbox.clear()
 
         "Default values"
-
         if color == 0:
             r = random.randrange(20, 230, 1)
             g = random.randrange(20, 230, 1)
@@ -66,14 +65,14 @@ class Agent:
             self.color = (r, g, b)
 
         "Logger to keep track of every send and received messages"
-        self.log_main = create_logger(constants.ResultsPath.LOG_AGENT,"Main informations",self.id)
-        self.log_message = create_logger(constants.ResultsPath.LOG_AGENT,"Message",self.id)
+        self.log_main = create_logger(constants.ResultsPath.LOG_AGENT, "Main informations", self.id)
+        self.log_message = create_logger(constants.ResultsPath.LOG_AGENT, "Message", self.id)
 
     def save_agent_to_txt(self):
-        s0 ="t_add:"+str(self.t_add)+" t_del:"+str(self.t_del)
-        return s0  + "\n"
+        s0 = "t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
+        return s0 + "\n"
 
-    def load_from_txt(self,s):
+    def load_from_txt(self, s):
         s = s.replace("\n", "")
         s = s.replace(" ", "")
         attribute = re.split("t_add:|t_del:", s)
@@ -84,7 +83,7 @@ class Agent:
     def load_tadd_tdel(self, s):
         list = []
         s = s[1:-1]
-        all_times = re.split(",",s)
+        all_times = re.split(",", s)
         for time in all_times:
             list.append(float(time))
         return list
@@ -110,7 +109,9 @@ class Agent:
             self.message_statistic.count_message_received(rec_mes.sender_id)
             self.info_message_received.add_message(rec_mes)
             self.log_message.debug('RECEIVED : \n' + rec_mes.to_string())
-            self.log_message.info('RECEIVED : at %.02f'%rec_mes.timestamp + " s " + str(rec_mes.messageType) + " target : " + str(rec_mes.targetRef) + " from :" + str(rec_mes.sender_id))
+            self.log_message.info(
+                'RECEIVED : at %.02f' % rec_mes.timestamp + " s " + str(rec_mes.messageType) + " target : " + str(
+                    rec_mes.targetRef) + " from :" + str(rec_mes.sender_id))
 
     def receive_messages(self):
         """
@@ -181,7 +182,9 @@ class Agent:
                     mbox.flush()
                     m.notify_send_to(receiver[0], receiver[1])
                     if m.is_message_sent_to_every_receiver():
-                        self.log_message.info('SENT : at %.02f'%m.timestamp + " s "  + str(m.messageType) + " target : " + str(m.targetRef) + " to :" + str(m.receiver_id_and_signature))
+                        self.log_message.info(
+                            'SENT : at %.02f' % m.timestamp + " s " + str(m.messageType) + " target : " + str(
+                                m.targetRef) + " to :" + str(m.receiver_id_and_signature))
                         self.log_message.debug('SENT     : \n' + m.to_string())
                         succes = 0
                     else:
