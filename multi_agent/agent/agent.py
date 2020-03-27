@@ -36,7 +36,7 @@ class Agent:
                 fells free to write some comments.
     """
 
-    def __init__(self, id, type,t_add,t_del,color=0):
+    def __init__(self, id, type, t_add, t_del, color=0):
         """Initialisation"""
 
         "Attributes"

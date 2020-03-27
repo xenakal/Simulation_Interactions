@@ -63,7 +63,8 @@ class AgentCam(AgentInteractingWithRoom):
         super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM,t_add,t_del,camera.color)
         self.behaviour_analyser = TargetBehaviourAnalyser(self.memory)
         self.link_target_agent = LinkTargetCamera(self.room_representation)
-        AgentCam.number_agentCam_created += 1
+        self.log_execution = create_logger(constants.ResultsPath.LOG_AGENT,"Execution time",self.id)
+        AgentCam.number_agentCam_created +=1
 
     def init_and_set_room_description(self, room):
         """
