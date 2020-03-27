@@ -1,0 +1,73 @@
+2020-03-27 13:27:06,960 - Message0 - INFO - RECEIVED : at 1.05 s heartbeat target : -1 from :100
+2020-03-27 13:27:06,977 - Message0 - INFO - RECEIVED : at 1.07 s heartbeat target : -1 from :1
+2020-03-27 13:27:07,328 - Message0 - INFO - SENT : at 1.08 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:08,020 - Message0 - INFO - RECEIVED : at 2.08 s heartbeat target : -1 from :100
+2020-03-27 13:27:08,201 - Message0 - INFO - SENT : at 2.14 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:08,210 - Message0 - INFO - RECEIVED : at 2.19 s heartbeat target : -1 from :1
+2020-03-27 13:27:08,391 - Message0 - INFO - SENT : at 2.53 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:08,745 - Message0 - INFO - SENT : at 2.71 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:08,924 - Message0 - INFO - SENT : at 2.88 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:09,105 - Message0 - INFO - RECEIVED : at 3.09 s heartbeat target : -1 from :100
+2020-03-27 13:27:09,285 - Message0 - INFO - SENT : at 3.24 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:09,294 - Message0 - INFO - RECEIVED : at 3.30 s heartbeat target : -1 from :1
+2020-03-27 13:27:09,644 - Message0 - INFO - SENT : at 3.61 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:09,989 - Message0 - INFO - RECEIVED : at 4.09 s heartbeat target : -1 from :100
+2020-03-27 13:27:10,348 - Message0 - INFO - RECEIVED : at 4.38 s heartbeat target : -1 from :1
+2020-03-27 13:27:10,699 - Message0 - INFO - SENT : at 4.30 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:11,043 - Message0 - INFO - RECEIVED : at 5.09 s heartbeat target : -1 from :100
+2020-03-27 13:27:11,402 - Message0 - INFO - RECEIVED : at 5.51 s heartbeat target : -1 from :1
+2020-03-27 13:27:11,585 - Message0 - INFO - SENT : at 5.36 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:12,104 - Message0 - INFO - SENT : at 6.24 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:12,119 - Message0 - INFO - RECEIVED : at 6.11 s heartbeat target : -1 from :100
+2020-03-27 13:27:12,487 - Message0 - INFO - SENT : at 6.44 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:12,499 - Message0 - INFO - SENT : at 6.44 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:12,509 - Message0 - INFO - RECEIVED : at 6.64 s heartbeat target : -1 from :1
+2020-03-27 13:27:12,867 - Message0 - INFO - SENT : at 6.83 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:13,051 - Message0 - INFO - RECEIVED : at 7.12 s heartbeat target : -1 from :100
+2020-03-27 13:27:13,235 - Message0 - INFO - SENT : at 7.37 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:13,413 - Message0 - INFO - SENT : at 7.55 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:13,776 - Message0 - INFO - SENT : at 7.55 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:13,781 - Message0 - INFO - SENT : at 7.91 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:13,791 - Message0 - INFO - RECEIVED : at 7.74 s heartbeat target : -1 from :1
+2020-03-27 13:27:13,974 - Message0 - INFO - SENT : at 8.11 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:14,156 - Message0 - INFO - RECEIVED : at 8.12 s heartbeat target : -1 from :100
+2020-03-27 13:27:14,699 - Message0 - INFO - SENT : at 8.65 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:14,878 - Message0 - INFO - SENT : at 9.01 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:14,890 - Message0 - INFO - RECEIVED : at 8.84 s heartbeat target : -1 from :1
+2020-03-27 13:27:15,075 - Message0 - INFO - RECEIVED : at 9.14 s heartbeat target : -1 from :100
+2020-03-27 13:27:15,782 - Message0 - INFO - SENT : at 9.74 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:15,962 - Message0 - INFO - RECEIVED : at 10.00 s heartbeat target : -1 from :1
+2020-03-27 13:27:16,141 - Message0 - INFO - RECEIVED : at 10.14 s heartbeat target : -1 from :100
+2020-03-27 13:27:16,320 - Message0 - INFO - SENT : at 10.46 s memory target : 0 to :[[100, 9502312992163970]]
+2020-03-27 13:27:16,497 - Message0 - INFO - SENT : at 10.63 s memory target : 0 to :[[100, 9502312992163970]]
+2020-03-27 13:27:16,678 - Message0 - INFO - SENT : at 10.81 s memory target : 0 to :[[100, 9502312992163970]]
+2020-03-27 13:27:16,866 - Message0 - INFO - SENT : at 10.81 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:16,873 - Message0 - INFO - SENT : at 11.00 s memory target : 0 to :[[100, 9502312992163970]]
+2020-03-27 13:27:17,053 - Message0 - INFO - RECEIVED : at 11.09 s heartbeat target : -1 from :1
+2020-03-27 13:27:17,066 - Message0 - INFO - RECEIVED : at 11.15 s heartbeat target : -1 from :100
+2020-03-27 13:27:18,126 - Message0 - INFO - RECEIVED : at 12.16 s heartbeat target : -1 from :100
+2020-03-27 13:27:18,314 - Message0 - INFO - SENT : at 11.90 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:18,502 - Message0 - INFO - RECEIVED : at 12.25 s heartbeat target : -1 from :1
+2020-03-27 13:27:19,223 - Message0 - INFO - SENT : at 13.00 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:19,231 - Message0 - INFO - RECEIVED : at 13.20 s heartbeat target : -1 from :100
+2020-03-27 13:27:19,243 - Message0 - INFO - RECEIVED : at 13.28 s heartbeat target : -1 from :1
+2020-03-27 13:27:20,140 - Message0 - INFO - RECEIVED : at 14.20 s heartbeat target : -1 from :100
+2020-03-27 13:27:20,515 - Message0 - INFO - SENT : at 14.09 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:20,523 - Message0 - INFO - RECEIVED : at 14.47 s heartbeat target : -1 from :1
+2020-03-27 13:27:21,239 - Message0 - INFO - SENT : at 15.19 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:21,251 - Message0 - INFO - RECEIVED : at 15.28 s heartbeat target : -1 from :100
+2020-03-27 13:27:21,438 - Message0 - INFO - RECEIVED : at 15.47 s heartbeat target : -1 from :1
+2020-03-27 13:27:22,320 - Message0 - INFO - SENT : at 16.28 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:22,325 - Message0 - INFO - RECEIVED : at 16.30 s heartbeat target : -1 from :100
+2020-03-27 13:27:22,696 - Message0 - INFO - RECEIVED : at 16.64 s heartbeat target : -1 from :1
+2020-03-27 13:27:22,881 - Message0 - INFO - SENT : at 17.02 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:23,260 - Message0 - INFO - RECEIVED : at 17.30 s heartbeat target : -1 from :100
+2020-03-27 13:27:23,627 - Message0 - INFO - SENT : at 17.39 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:23,808 - Message0 - INFO - RECEIVED : at 17.85 s heartbeat target : -1 from :1
+2020-03-27 13:27:24,349 - Message0 - INFO - RECEIVED : at 18.30 s heartbeat target : -1 from :100
+2020-03-27 13:27:24,720 - Message0 - INFO - SENT : at 18.85 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:24,905 - Message0 - INFO - SENT : at 18.48 s heartbeat target : -1 to :[[1, 4294554931463570], [100, 9502312992163970]]
+2020-03-27 13:27:24,918 - Message0 - INFO - RECEIVED : at 18.88 s heartbeat target : -1 from :1
+2020-03-27 13:27:25,295 - Message0 - INFO - RECEIVED : at 19.31 s heartbeat target : -1 from :100
+2020-03-27 13:27:25,479 - Message0 - INFO - SENT : at 19.43 s memory target : 1 to :[[100, 9502312992163970]]
+2020-03-27 13:27:26,030 - Message0 - INFO - RECEIVED : at 20.08 s heartbeat target : -1 from :1

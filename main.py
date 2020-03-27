@@ -22,9 +22,20 @@ def clean_mailbox():
 
 def plot_res(room,filename):
     print("Generating plots ...")
+    print("plot simulated_data")
+    analyser_simulated_data = Analyser_Target_TargetEstimator_FormatCSV("simulated_data",
+                                                                      constants.ResultsPath.SAVE_LOAD_DATA_FOLDER,
+                                                                      constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER,
+                                                                      filename)
+    analyser_simulated_data.plot_all_target_simulated_data_collected_data()
+    for target in room.information_simulation.Target_list:
+        analyser_simulated_data.plot_a_target_simulated_data_collected_data(target.id)
+
 
     "PLOT FOR AGENT CAM"
     for agent in room.agentCams_list:
+        print("plot agent :" + str(agent.id))
+
         "Object to save data"
         analyser_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id,
                                                                           constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT,
@@ -55,6 +66,8 @@ def plot_res(room,filename):
 
     "PLOT FOR AGENT USER"
     for agent in room.agentUser_list:
+        print("plot agent :" + str(agent.id))
+
         "Object to save data"
         analyser_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(agent.id,
                                                                           constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT,
@@ -155,13 +168,20 @@ class App:
 
             time.sleep(TIME_BTW_TARGET_MOVEMENT)
             delta_time = time.time() - time_old
+
+            self.link_agent_target.update_link_camera_target()
+            self.link_agent_target.compute_link_camera_target()
+
             for target in self.room.active_Target_list:
                 target.save_position()
                 constants.time_when_target_are_moved = constants.get_time()
-                self.exact_data_target.add_create_target_estimator(constants.time_when_target_are_moved, -1, -1, target.id, target.signature,
+                self.exact_data_target.add_create_target_estimator(constants.time_when_target_are_moved,self.link_agent_target.get_agent_in_charge(target.id), -1, target.id, target.signature,
                                                                    target.xc, target.yc, target.vx, target.vy, target.ax, target.ay,
                                                                    target.radius, target.type)
                 move_Target(target, delta_time)
+
+                # theoritical calculation
+
             time_old = time.time()
 
 
@@ -195,9 +215,7 @@ class App:
             self.room.add_del_target_timed()
             self.room.des_activate_camera_agentCam_timed()
 
-            #theoritical calculation
-            self.link_agent_target.update_link_camera_target()
-            self.link_agent_target.compute_link_camera_target()
+
 
             # Updating GUI interface
             if USE_GUI == 1:

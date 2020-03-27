@@ -37,6 +37,14 @@ class LinkTargetCamera():
             if not is_in_list:
                 self.link_camera_target.append(TargetAgentLink(target.id))
 
+    def get_agent_in_charge(self,target_id):
+        for targetAgentLink in self.link_camera_target:
+            if targetAgentLink.target_id == target_id:
+                return targetAgentLink.agent_id
+                break
+        return -1
+
+
     def reset_agent_and_distance(self):
         """
             :description
