@@ -241,14 +241,14 @@ class GUI_create_map:
         "draw the target on the screen"
 
         if on and  self.button_create_map_3.find_button_state(Button_name.OBJECT_ADD):
-            target = Target(-1, x_new, y_new, self.vx_default, self.vy_default, TargetMotion.LINEAR, (0, [(0, 0)]),
+            target = Target(-1, x_new, y_new, self.vx_default, self.vy_default,0,0, TargetMotion.LINEAR, (0, [(0, 0)]),
                             label, self.size_default, [0], [1000])
             self.GUI_room.draw_one_target(target, self.new_room.coordinate_room)
 
         "Add the target in the room"
         if pressed:
             if self.button_create_map_3.find_button_state(Button_name.OBJECT_ADD):
-                self.new_room.add_create_Target(x_new, y_new, self.vx_default, self.vy_default, TargetMotion.LINEAR,
+                self.new_room.add_create_Target(x_new, y_new, self.vx_default, self.vy_default,TargetMotion.LINEAR,
                                                 self.trajectory, label, self.size_default, [0], [1000])
 
             elif self.button_create_map_3.find_button_state(Button_name.OBJECT_DEL):

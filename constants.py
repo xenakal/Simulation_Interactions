@@ -25,7 +25,9 @@ USE_agent = 1
 USE_static_analysis = 0
 USE_dynamic_analysis_simulated_room = 0
 
-T_MAX = 300
+
+
+T_MAX = 20
 
 TIME_BTW_FRAME = .1
 NUMBER_OF_POINT = 10  # per m for a speed of 1 m/s
@@ -43,6 +45,8 @@ STD_RECEIVED = 0
 SEUIL_RECEIVED = 10
 
 """Option for class agentCamera"""
+TIME_BTW_HEARTBEAT = 1/SCALE_TIME
+MAX_NUMBER_BTW_HEARTBEAT = 5
 TIME_PICTURE = (1.5 * TIME_BTW_TARGET_MOVEMENT)/SCALE_TIME
 TIME_SEND_READ_MESSAGE = (0.1 * TIME_BTW_TARGET_MOVEMENT)/SCALE_TIME
 DATA_TO_SEND = "behaviour"
@@ -164,6 +168,10 @@ class ResultsPath:
         return ResultsPath.DATA_KALMAN + "/kalman_distribue"
 
     @classproperty
+    def SAVE_LOAD_DATA_FOLDER(cls):
+        return ResultsPath.DATA_FOLDER + "/"
+
+    @classproperty
     def SAVE_LOAD_DATA_MEMORY_AGENT(cls):
         return ResultsPath.DATA_MEMORY_AGENT + "/agent-"
 
@@ -222,6 +230,10 @@ class ResultsPath:
     @classproperty
     def PLOT_KALMAN_DISTRIBUE(cls):
         return ResultsPath.PLOT_KALMAN + "/kalman_distribue"
+
+    @classproperty
+    def SAVE_LAOD_PLOT_FOLDER(cls):
+        return ResultsPath.PLOT_FOLDER + "/"
 
     @classproperty
     def SAVE_LAOD_PLOT_KALMAN_GLOBAL_FILTERED(cls):

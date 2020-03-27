@@ -228,8 +228,10 @@ class Target(TargetRepresentation):
     def load_trajcetory(self,s):
         list = []
         s = s[2:-2]
-        all_trajectories = re.split("\),\(",s)
-        for trajectory in all_trajectories:
-            xy = re.split(",",trajectory)
-            list.append((float(xy[0]),float(xy[1])))
+        if not s == "":
+            all_trajectories = re.split("\),\(",s)
+            for trajectory in all_trajectories:
+                xy = re.split(",",trajectory)
+                if not xy == "":
+                    list.append((float(xy[0]),float(xy[1])))
         return list

@@ -84,12 +84,19 @@ class AgentCam(AgentInteractingWithRoom):
 
         state = "takePicture"
         nextstate = state
-        last_heart_beat_sent = time.time()
+        time_last_heartbeat_sent = constants.get_time()
+        execution_loop_number = 0
+        execution_time_start = 0
+        execution_mean_time = 0
 
         while self.thread_is_running == 1:
             state = nextstate
 
+
             if state == "takePicture":
+                execution_time_start = constants.get_time()
+                self.log_execution.debug("Loop %d : at takePicture state after : %.02f s" % (
+                    execution_loop_number, constants.get_time() - execution_time_start))
 
                 "Input from the agent, here the fake room"
                 picture = self.camera.run()
@@ -126,19 +133,30 @@ class AgentCam(AgentInteractingWithRoom):
                         self.memory.add_create_target_estimator(constants.get_time(), self.id,
                                                                 self.signature, target.id, target.signature,
                                                                 target.xc + erreurPX, target.yc + erreurPY,
-                                                                target.vx + erreurVX, target.vy + erreurPY,
+                                                                target.vx + erreurVX, target.vy + erreurVY,
                                                                 target.ax + erreurAX, target.ay + erreurAY,
                                                                 target.radius, target_type)
 
                     nextstate = "processData"
-
+                    self.log_execution.debug("Loop %d : takePicture state completed after : %.02f s" % (
+                    execution_loop_number, constants.get_time() - execution_time_start))
             elif nextstate == "processData":
+                self.log_execution.debug("Loop %d : at processData state after : %.02f s" % (
+                    execution_loop_number, constants.get_time() - execution_time_start))
+
+
                 self.memory.set_current_time(constants.get_time())
                 self.process_information_in_memory()
+
                 nextstate = "communication"
+                self.log_execution.debug("Loop %d : processData state completed after : %.02f s" % (
+                    execution_loop_number, constants.get_time() - execution_time_start))
 
             # TODO: pas mieux de mettre ca avant "processData" ?
             elif state == "communication":
+                self.log_execution.debug("Loop %d : at communication state after : %.02f s" % (
+                    execution_loop_number, constants.get_time() - execution_time_start))
+
                 "Suppression of unusefull messages in the list"
                 self.info_message_sent.remove_message_after_given_time(constants.get_time(),
                                                                        constants.MAX_TIME_MESSAGE_IN_LIST)
@@ -146,7 +164,7 @@ class AgentCam(AgentInteractingWithRoom):
                                                                            constants.MAX_TIME_MESSAGE_IN_LIST)
 
                 "Send heart_beat to other agent"
-                last_heart_beat_sent = self.send_message_heartbeat(last_heart_beat_sent, 1)
+                time_last_heartbeat_sent = self.handle_hearbeat(time_last_heartbeat_sent)
 
                 "Message are send (Mailbox)"
                 self.send_messages()
@@ -157,11 +175,22 @@ class AgentCam(AgentInteractingWithRoom):
                 "Find if other agents reply to a previous message"
                 self.process_message_sent()
 
-                self.log_room.info(self.memory.statistic_to_string() + self.message_statistic.to_string())
                 time.sleep(constants.TIME_SEND_READ_MESSAGE)
+
+                self.log_room.info(self.memory.statistic_to_string() + self.message_statistic.to_string())
                 nextstate = "takePicture"
+
+                self.log_execution.debug("Loop %d :communication state  executed after : %.02f s" % (
+                    execution_loop_number, constants.get_time() - execution_time_start))
+                self.log_execution.info("time : %.02f s, loop %d : completed in : %.02f s"%(
+                constants.get_time(),execution_loop_number, constants.get_time() - execution_time_start))
+                execution_loop_number += 1
+                execution_mean_time += constants.get_time() - execution_time_start
             else:
                 print("FSM not working proerly")
+                self.log_execution.warning("FSM not working as expected")
+
+        self.log_execution.info("Execution mean time : %.02f s",execution_mean_time/execution_loop_number)
 
     def process_information_in_memory(self):
         """

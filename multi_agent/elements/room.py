@@ -38,7 +38,7 @@ class InformationRoomSimulation:
         self.trajectories = []
         self.trajectories_number = []
 
-    def add_create_Target(self, x, y, vx, vy, trajectory_type, trajectory, type, radius, t_add, t_del):
+    def add_create_Target(self, x, y, vx, vy,ax,ay, trajectory_type, trajectory, type, radius, t_add, t_del):
         """"
                :param
                    1. (int) x                               -- x value of the center
@@ -59,7 +59,7 @@ class InformationRoomSimulation:
                 :notes
                         fells free to write some comments.
         """
-        target = Target(-1,x, y, vx, vy,trajectory_type, trajectory, type, radius, t_add, t_del)
+        target = Target(-1,x, y, vx, vy,ax,ay,trajectory_type, trajectory, type, radius, t_add, t_del)
         self.add_Target(target)
 
     def add_Target(self,target):
@@ -433,7 +433,7 @@ class Room(RoomRepresentation):
                 :notes
                     !!! No effect on active_Target_list
         """
-        self.information_simulation.add_create_Target(x, y, vx, vy, trajectory_type, trajectory, type, radius, t_add, t_del)
+        self.information_simulation.add_create_Target(x, y, vx, vy,0,0, trajectory_type, trajectory, type, radius, t_add, t_del)
 
     def add_Target(self, target):
         """"
