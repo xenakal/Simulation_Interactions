@@ -15,6 +15,5 @@ my_utils/GUI/GUI_simulation/__pycache__/*
 __pycache__/*
 __init__
 */__init__
-*.csv
 *.pcy
 
