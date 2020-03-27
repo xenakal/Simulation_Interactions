@@ -53,9 +53,14 @@ class AgentCam(AgentInteractingWithRoom):
     """
     number_agentCam_created = 0
 
-    def __init__(self, camera):
+    def __init__(self, camera,t_add = -1,t_del = -1):
+
+        if t_add == -1 or t_del == -1:
+            t_add = [0]
+            t_del = [constants.T_MAX]
+
         self.camera = camera
-        super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM, camera.color)
+        super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM,t_add,t_del,camera.color)
         self.behaviour_analyser = TargetBehaviourAnalyser(self.memory)
         self.link_target_agent = LinkTargetCamera(self.room_representation)
         AgentCam.number_agentCam_created += 1
@@ -108,34 +113,35 @@ class AgentCam(AgentInteractingWithRoom):
                     time.sleep(0.3)
                 else:
                     for targetCameraDistance in picture:
-                        target = targetCameraDistance.target
-                        "Simulation from noise on the target's position "
-                        if constants.INCLUDE_ERROR and not (target.type == TargetType.SET_FIX):
-                            erreurPX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
-                            erreurPY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
-                            erreurVX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
-                            erreurVY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
-                            erreurAX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
-                            erreurAY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
-                        else:
-                            erreurPX = 0
-                            erreurPY = 0
-                            erreurVX = 0
-                            erreurVY = 0
-                            erreurAX = 0
-                            erreurAY = 0
+                            target = targetCameraDistance.target
+                            "Simulation from noise on the target's position "
+                            if constants.INCLUDE_ERROR and not (target.type == TargetType.SET_FIX):
+                                erreurPX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
+                                erreurPY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
+                                erreurVX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
+                                erreurVY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
+                                erreurAX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
+                                erreurAY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
+                            else:
+                                erreurPX = 0
+                                erreurPY = 0
+                                erreurVX = 0
+                                erreurVY = 0
+                                erreurAX = 0
+                                erreurAY = 0
 
-                        target_type = TargetType.UNKNOWN
-                        for target_representation in self.room_representation.active_Target_list:
-                            if target_representation.id == target.id:
-                                target_type = target_representation.type
 
-                        self.memory.add_create_target_estimator(constants.get_time(), self.id,
-                                                                self.signature, target.id, target.signature,
-                                                                target.xc + erreurPX, target.yc + erreurPY,
-                                                                target.vx + erreurVX, target.vy + erreurVY,
-                                                                target.ax + erreurAX, target.ay + erreurAY,
-                                                                target.radius, target_type)
+                            target_type = TargetType.UNKNOWN
+                            for target_representation in self.room_representation.active_Target_list:
+                                if target_representation.id == target.id:
+                                    target_type = target_representation.type
+
+                            self.memory.add_create_target_estimator(constants.get_time(), self.id,
+                                                                        self.signature, target.id, target.signature,
+                                                                        target.xc + erreurPX, target.yc + erreurPY,
+                                                                        target.vx + erreurVX,target.vy + erreurVY,
+                                                                        target.ax + erreurAX,target.ay + erreurAY,
+                                                                        target.radius,target_type)
 
                     nextstate = "processData"
                     self.log_execution.debug("Loop %d : takePicture state completed after : %.02f s" % (
