@@ -149,8 +149,9 @@ class Target(TargetRepresentation):
         """!! Attention you responsability to get coherent speed and acceleration"""
         self.vx = vx
         self.vy = vy
-        self.vx_max = vx
-        self.vy_max = vy
+        self.vx_max = vx*constants.SCALE_TIME
+        self.vy_max = vy*constants.SCALE_TIME
+
         self.ax = ax
         self.ay = ay
 
@@ -207,8 +208,8 @@ class Target(TargetRepresentation):
         self.yc = float(attribute[2])
         self.vx = float(attribute[3])
         self.vy = float(attribute[4])
-        self.vx_max = self.vx
-        self.vy_max = self.vy
+        self.vx_max = self.vx * constants.SCALE_TIME
+        self.vy_max = self.vy * constants.SCALE_TIME
         self.radius = float(attribute[5])
         self.type = float(attribute[6])
         self.trajectory_type = float(attribute[7])

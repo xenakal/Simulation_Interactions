@@ -7,31 +7,10 @@ Y_INDEX = 8
 TIME_TO_COMPARE = 0
 
 def error_squared_discrete(data_ref_list,data_mes_list):
-
-    "Data ref > Data_mes"
-    points_ref_list = PointsList()
-    points_ref_filter_list = PointsList()
-    points_mes_list = PointsList()
-    "considering the datalist are from TargetEstimator"
-    (x_ref,y_ref,t_ref)=points_ref_list.add_sort_fill(data_ref_list[X_INDEX], data_ref_list[Y_INDEX],data_ref_list[TIME_TO_COMPARE])
-    points_mes_list.add_sort_fill(data_mes_list[X_INDEX],data_mes_list[Y_INDEX],data_mes_list[TIME_TO_COMPARE])
-    points_mes_list.del_same_time()
-    (x_mes, y_mes, t_mes) = points_mes_list.fill_vectors()
-
-    for point_ref in points_ref_list.points:
-        if point_ref in points_mes_list.points:
-            points_ref_filter_list.add_point(point_ref)
-
-
-    (x_ref,y_ref,t_ref) = points_ref_filter_list.fill_vectors()
-    x_mes = x_mes[1:]
-    y_mes = y_mes[1:]
-    t_mes = t_mes[1:]
-
+    (t_ref, x_ref, y_ref, t_mes, x_mes, y_mes) = get_comparable_data_btw_reference_mesure(data_ref_list,data_mes_list)
     error_squared_x = error_squared_list(x_ref, x_mes)
     error_squared_y = error_squared_list(y_ref, y_mes)
     error_squared = error_squared_x_y_list(x_ref, y_ref, x_mes, y_mes)
-
     return (t_ref,x_ref,y_ref,x_mes,y_mes,error_squared_x,error_squared_y,error_squared)
 
 def error_squared_with_interpolation(data_ref_list,data_mes_list):
@@ -65,6 +44,34 @@ def error_squared_with_interpolation(data_ref_list,data_mes_list):
     error_squared = error_squared_x_y_list(x_ref,y_ref,x_mes,y_mes)
     return (t_ref, x_ref, y_ref, x_mes, y_mes)
 
+
+def get_comparable_data_btw_reference_mesure(data_ref_list,data_mes_list):
+    "Data ref > Data_mes"
+    points_ref_list = PointsList()
+    points_ref_filter_list = PointsList()
+    points_mes_list = PointsList()
+    points_mes_filter_list = PointsList()
+
+    "considering the datalist are from TargetEstimator"
+    points_ref_list.add_sort_fill(data_ref_list[X_INDEX], data_ref_list[Y_INDEX],data_ref_list[TIME_TO_COMPARE])
+    points_ref_list.del_same_time()
+    points_mes_list.add_sort_fill(data_mes_list[X_INDEX], data_mes_list[Y_INDEX], data_mes_list[TIME_TO_COMPARE])
+    points_mes_list.del_same_time()
+
+    for point_ref in points_ref_list.points:
+        if point_ref in points_mes_list.points:
+            points_ref_filter_list.add_point(point_ref)
+
+    for point_mes in points_mes_list.points:
+        if point_mes in points_ref_list.points:
+            points_mes_filter_list.add_point(point_mes)
+
+    (x_ref,y_ref,t_ref) = points_ref_filter_list.fill_vectors()
+    (x_mes, y_mes, t_mes) = points_mes_filter_list.fill_vectors()
+    return(t_ref,x_ref,y_ref,t_mes,x_mes,y_mes)
+
+
+
 def error_squared_x_y_list(x_ref,y_ref,x_mes,y_mes):
     error_squared_x = error_squared_list(x_ref,x_mes)
     error_squared_Y = error_squared_list(y_ref,y_mes)
@@ -73,6 +80,5 @@ def error_squared_x_y_list(x_ref,y_ref,x_mes,y_mes):
 def error_squared_list(list_ref,list_mes):
     np_ref = np.array(list_ref)
     np_mes = np.array(list_mes)
-
     return np.square(np_ref-np_mes)
 

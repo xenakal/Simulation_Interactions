@@ -1,14 +1,15 @@
 import logging
 import time
-import sys
 
-sys.setrecursionlimit(1000000)
 
 time_when_target_are_moved = 0
 
+""""""
+SCALE_TIME = 1
+
 """Option for class main"""
 SAVE_DATA = True
-GENERATE_PLOT = False
+GENERATE_PLOT = True
 if GENERATE_PLOT:
     SAVE_DATA = True
 
@@ -16,7 +17,7 @@ TIME_START = time.time()
 
 
 def get_time():
-    return time.time() - TIME_START
+    return (time.time() - TIME_START)*SCALE_TIME
 
 
 USE_GUI = 1
@@ -28,7 +29,7 @@ T_MAX = 300
 
 TIME_BTW_FRAME = .1
 NUMBER_OF_POINT = 10  # per m for a speed of 1 m/s
-TIME_BTW_TARGET_MOVEMENT = 1 / NUMBER_OF_POINT
+TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT*SCALE_TIME)
 
 MAX_TIME_MESSAGE_IN_LIST = 3  # s
 
@@ -42,8 +43,8 @@ STD_RECEIVED = 0
 SEUIL_RECEIVED = 10
 
 """Option for class agentCamera"""
-TIME_PICTURE = 1.5 * TIME_BTW_TARGET_MOVEMENT
-TIME_SEND_READ_MESSAGE = 0.1 * TIME_BTW_TARGET_MOVEMENT
+TIME_PICTURE = (1.5 * TIME_BTW_TARGET_MOVEMENT)/SCALE_TIME
+TIME_SEND_READ_MESSAGE = (0.1 * TIME_BTW_TARGET_MOVEMENT)/SCALE_TIME
 DATA_TO_SEND = "behaviour"
 
 """Option for class estimator"""
@@ -147,16 +148,16 @@ class ResultsPath:
         return ResultsPath.DATA_KALMAN_GLOBAL +"/filtered_data"
 
     @classproperty
-    def DATA_PREDICTION(cls):
+    def DATA_KALMAN_GLOBAL_PREDICTION(cls):
         return ResultsPath.DATA_KALMAN_GLOBAL + "/predictions"
 
     @classproperty
-    def DATA_PREDICTION_TPLUS1(cls):
-        return ResultsPath.DATA_PREDICTION + "/t_plus_1"
+    def DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1(cls):
+        return ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION + "/t_plus_1"
 
     @classproperty
-    def DATA_PREDICTION_TPLUS2(cls):
-        return ResultsPath.DATA_PREDICTION + "/t_plus_2"
+    def DATA_KALMAN_GLOBAL_PREDICTION_TPLUS2(cls):
+        return ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION + "/t_plus_2"
 
     @classproperty
     def DATA_KALMAN_DISTRIBUE(cls):
@@ -171,20 +172,16 @@ class ResultsPath:
         return ResultsPath.DATA_MEMORY_ALL_AGENT + "/agent-"
 
     @classproperty
-    def SAVE_LOAD_DATA_KALMAN_SIMPLE(cls):
-        return ResultsPath.DATA_KALMAN_DISTRIBUE + "/agent-"
-
-    @classproperty
-    def SAVE_LOAD_DATA_KALMAN_GLOBAL(cls):
+    def SAVE_LOAD_DATA_KALMAN_GLOBAL_FILTER(cls):
         return ResultsPath.DATA_KALMAN_FILTER + "/agent-"
 
     @classproperty
-    def SAVE_LOAD_DATA_PREDICTION_TPLUS1(cls):
-        return ResultsPath.DATA_PREDICTION_TPLUS1 + "/agent-"
+    def SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1(cls):
+        return ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1 + "/agent-"
 
     @classproperty
-    def SAVE_LOAD_DATA_PREDICTION_TPLUS2(cls):
-        return ResultsPath.DATA_PREDICTION_TPLUS2 + "/agent-"
+    def SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS2(cls):
+        return ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION_TPLUS2 + "/agent-"
 
     @classproperty
     def PLOT_FOLDER(cls):
@@ -207,7 +204,7 @@ class ResultsPath:
         return ResultsPath.PLOT_KALMAN + "/kalman_global"
 
     @classproperty
-    def PLOT_KALMAN_FILTERED(cls):
+    def PLOT_KALMAN_GLOBAL_FILTERED(cls):
         return ResultsPath.PLOT_KALMAN_GLOBAL + "/kalman_filtered"
 
     @classproperty
@@ -228,7 +225,15 @@ class ResultsPath:
 
     @classproperty
     def SAVE_LAOD_PLOT_KALMAN_GLOBAL_FILTERED(cls):
-        return ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL_FILTERED + "/"
+        return ResultsPath.PLOT_KALMAN_GLOBAL_FILTERED + "/"
+
+    @classproperty
+    def SAVE_LAOD_PLOT_KALMAN_GLOBAL_PREDICTION_T_PLUS_1(cls):
+        return ResultsPath.PLOT_KALMAN_PREDICTION_T_PLUS_1 + "/"
+
+    @classproperty
+    def SAVE_LAOD_PLOT_KALMAN_GLOBAL_PREDICTION_T_PLUS_2(cls):
+        return ResultsPath.PLOT_KALMAN_PREDICTION_T_PLUS_2+ "/"
 
     @classproperty
     def SAVE_LAOD_PLOT_KALMAN_GLOBAL(cls):

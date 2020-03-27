@@ -109,11 +109,11 @@ class AgentInteractingWithRoom(Agent):
                                          self.memory.memory_all_agent.to_csv())
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT + str(self.id),
                                          self.memory.memory_agent.to_csv())
-            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL + str(self.id),
+            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_FILTER + str(self.id),
                                          self.memory.best_estimations.to_csv())
-            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_PREDICTION_TPLUS1 + str(self.id),
+            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1 + str(self.id),
                                          self.memory.predictions_order_1.to_csv())
-            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_PREDICTION_TPLUS2 + str(self.id),
+            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS2 + str(self.id),
                                          self.memory.predictions_order_2.to_csv())
             self.log_main.info("Data saved !")
 
