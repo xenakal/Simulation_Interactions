@@ -27,7 +27,7 @@ USE_dynamic_analysis_simulated_room = 0
 
 
 
-T_MAX = 20
+T_MAX = 15
 
 TIME_BTW_FRAME = .1
 NUMBER_OF_POINT = 10  # per m for a speed of 1 m/s
@@ -39,7 +39,7 @@ STATIC_ANALYSIS_PRECISION = 10  # number of point per m
 DYNAMIC_ANALYSIS_PRECISION = 10  # number of point per m
 
 """Option for class agent"""
-LOG_LEVEL = logging.INFO
+LOG_LEVEL = logging.INFO # logging.DEBUG
 NAME_MAILBOX = "mailbox/MailBox_Agent"
 STD_RECEIVED = 0
 SEUIL_RECEIVED = 10

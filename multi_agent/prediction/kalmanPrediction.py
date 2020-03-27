@@ -1,3 +1,6 @@
+import math
+
+import constants
 from constants import NUMBER_PREDICTIONS, TIME_PICTURE, STD_MEASURMENT_ERROR_POSITION, TIME_SEND_READ_MESSAGE
 from filterpy.kalman import KalmanFilter, update, predict
 from filterpy.common import Q_discrete_white_noise
@@ -7,6 +10,7 @@ import time
 
 SPEED_CHANGE_THRESHOLD = 4
 MAX_STD_SPEED = 0.7
+MARGE_ACC_ERROR = 0.5
 
 
 class KalmanPrediction:
@@ -29,13 +33,15 @@ class KalmanPrediction:
         self.kalman_memory = [[x_init, y_init, timestamp]]
 
     def add_measurement(self, z, timestamp):
-        z = z.copy()
-        z = [z[0],z[1]]
+
         kalman_memory_element = z.copy()
+        z = z.copy()
+        z = [z[0], z[1]]
         kalman_memory_element.append(timestamp)
         self.kalman_memory.append(kalman_memory_element)
 
         if self.pivot_point_detected():
+            print("pivot")
             avg_speeds = avgSpeedFunc(self.kalman_memory[-2:])
             self.reset_filter(z[0], z[1], avg_speeds[0], avg_speeds[1])
             self.kalman_memory = [kalman_memory_element]
@@ -56,6 +62,11 @@ class KalmanPrediction:
         self.filter.update(np.array(z))
 
     def pivot_point_detected(self):
+        cdt_x = math.fabs(self.kalman_memory[-1][4]) == 1 #> constants.STD_MEASURMENT_ERROR_ACCCELERATION + MARGE_ACC_ERROR
+        cdt_y = math.fabs(self.kalman_memory[-1][5]) == 1 #> constants.STD_MEASURMENT_ERROR_ACCCELERATION + MARGE_ACC_ERROR
+        return cdt_x or cdt_y
+
+    def pivot_point_detected_2(self):
         """
         :description
             Detects a pivot point (ie a point where the trajectory changes) by checking if the speed in either axis

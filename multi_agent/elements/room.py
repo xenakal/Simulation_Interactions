@@ -404,13 +404,31 @@ class Room(RoomRepresentation):
             camera = agent.camera
             if camera.t_add[camera.number_of_time_passed] <= constants.get_time() <= camera.t_del[camera.number_of_time_passed] and not camera.isActive:
                 camera.isActive = True
-                self.active_AgentCams_list.append(agent)
+                agent.log_main.info("camera of a agent %d is activated at %.02f s"%(agent.id, constants.get_time()))
+                #self.active_AgentCams_list.append(agent)
 
             elif constants.get_time() > camera.t_del[camera.number_of_time_passed] and camera.isActive:
                 if camera.number_of_time_passed < len(camera.t_add)-1:
                     camera.number_of_time_passed = camera.number_of_time_passed+1
                 camera.isActive = False
+                agent.log_main.info("camera of a agent %d is desactivated at %.02f s"%(agent.id, constants.get_time()))
+                #self.active_AgentCams_list.remove(agent)
+
+    def des_activate_agentCam_timed(self):
+        """
+            :description
+                Add and remove target from active_Target_list for given time
+        """
+        for agent in self.agentCams_list:
+            if agent.t_add[agent.number_of_time_passed] <= constants.get_time() <= agent.t_del[agent.number_of_time_passed] and not agent.is_activated:
+                self.active_AgentCams_list.append(agent)
+                agent.log_main.info("Agent %d is activated at %.02f s"%(agent.id,constants.get_time()))
+
+            elif constants.get_time() > agent.t_del[agent.number_of_time_passed] and agent.is_activated:
+                if agent.number_of_time_passed < len(agent.t_add)-1:
+                    agent.number_of_time_passed = agent.number_of_time_passed+1
                 self.active_AgentCams_list.remove(agent)
+                agent.log_main.info("Agent %d is desactivated at %.02f s"%(agent.id, constants.get_time()))
 
     def add_create_Target(self, x, y, vx, vy, trajectory_type, trajectory, type, radius, t_add, t_del):
         """"

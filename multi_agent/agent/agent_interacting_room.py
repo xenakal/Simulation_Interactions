@@ -47,8 +47,8 @@ class AgentInteractingWithRoom(Agent):
                 fells free to write some comments.
     """
 
-    def __init__(self, id, type_agent, color=0):
-        super().__init__(id, type_agent, color)
+    def __init__(self, id, type_agent,t_add,t_del, color=0):
+        super().__init__(id, type_agent,t_add,t_del,color)
         "Attibutes"
         self.memory = Memory(self.id)
         self.room_representation = multi_agent.elements.room.RoomRepresentation(self.color)

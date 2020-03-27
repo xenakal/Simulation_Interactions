@@ -140,6 +140,7 @@ class App:
             agent.init_and_set_room_description(self.room)
 
         self.room.add_del_target_timed()
+        self.room.des_activate_agentCam_timed()
         self.room.des_activate_camera_agentCam_timed()
 
         # Computing the vision in the room taking into account only fix objects

@@ -124,16 +124,6 @@ class TargetEstimator:
         self.target_id = int(attribute[4])
         self.target_signature = int(attribute[5])
         self.target_type = int(float(attribute[6]))
-        if attribute[7][0] == "[":
-            attribute[7] = attribute[7][1:-1]
-            attribute[8] = attribute[8][1:-1]
-        if attribute[9][0] == "[":
-            attribute[9] = attribute[9][1:-1]
-            attribute[10] = attribute[10][1:-1]
-        if attribute[11][0] == "[":
-            attribute[11] = attribute[11][1:-1]
-            attribute[12] = attribute[12][1:-1]
-
         self.target_position = [float(attribute[7]), float(attribute[8])]
         self.target_speeds = [float(attribute[9]), float(attribute[10])]
         self.target_acceleration = [float(attribute[11]), float(attribute[12])]

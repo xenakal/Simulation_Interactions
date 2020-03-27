@@ -53,9 +53,14 @@ class AgentCam(AgentInteractingWithRoom):
     """
     number_agentCam_created = 0
 
-    def __init__(self, camera):
+    def __init__(self, camera,t_add = -1,t_del = -1):
+
+        if t_add == -1 or t_del == -1:
+            t_add = [0]
+            t_del = [constants.T_MAX]
+
         self.camera = camera
-        super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM, camera.color)
+        super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM,t_add,t_del,camera.color)
         self.behaviour_analyser = TargetBehaviourAnalyser(self.memory)
         self.link_target_agent = LinkTargetCamera(self.room_representation)
         self.log_execution = create_logger(constants.ResultsPath.LOG_AGENT,"Execution time",self.id)
@@ -138,7 +143,7 @@ class AgentCam(AgentInteractingWithRoom):
                                                                         self.signature, target.id, target.signature,
                                                                         target.xc + erreurPX, target.yc + erreurPY,
                                                                         target.vx + erreurVX,target.vy + erreurPY,
-                                                                        target.ax + erreurAX,target.vy + erreurAY,
+                                                                        target.ax + erreurAX,target.ay + erreurAY,
                                                                         target.radius,target_type)
 
                     nextstate = "processData"

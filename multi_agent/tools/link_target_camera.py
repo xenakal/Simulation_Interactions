@@ -102,7 +102,9 @@ class LinkTargetCamera():
                                                                                           target.radius)
                         cdt_not_hidden = not agent.camera.is_x_y_in_hidden_zone_all_targets(target.xc, target.yc)
                         "Check is the camera can see the target for a given room geometry"
-                        if cdt_in_field and cdt_not_hidden:
+                        #if cdt_in_field and cdt_not_hidden and agent.camera.isActive:
+                        #TODO - ici envoyer un message pour signaler une panne de camera ??
+                        if cdt_in_field and cdt_not_hidden and agent.camera.isActive:
 
                             "Distance computation"
                             distance_to_target = np.power(np.power((agent.camera.xc - target.xc), 2)

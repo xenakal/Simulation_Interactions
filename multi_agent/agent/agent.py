@@ -36,7 +36,7 @@ class Agent:
     """
 
 
-    def __init__(self, id, type, color=0):
+    def __init__(self, id, type,t_add,t_del,color=0):
         """Initialisation"""
 
         "Attributes"
@@ -44,8 +44,10 @@ class Agent:
         self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
         self.type = type
         self.color = color
-        self.t_add = [0]
-        self.t_del = [1000]
+        self.t_add = t_add
+        self.t_del = t_del
+        self.is_activated = False
+        self.number_of_time_passed = 0
 
         "Communication"
         self.info_message_sent = ListMessage("Sent")

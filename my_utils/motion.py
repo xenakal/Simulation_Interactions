@@ -73,8 +73,7 @@ def rectiligne_trajectory(Target, dist_min, delta_time):
 
         '''Modifying the position in the target object, always in (int)'''
         Target.ax = (v_x-Target.vx)
-        Target.ay = (v_y-Target.vx)
-
+        Target.ay = (v_y-Target.vy)
         Target.vx = v_x
         Target.vy = v_y
         """updating position"""

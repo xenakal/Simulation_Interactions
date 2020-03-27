@@ -225,63 +225,71 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         init_analyse_memory_agent(self.simulated_data, self.simulated_data_sort_by_target)
 
     def plot_MSE_prediction_1_target_id(self, target_id):
-        data_ref = []
-        data_mes = []
+        try:
+            data_ref = []
+            data_mes = []
 
-        for element in self.simulated_data_sort_by_target:
-            if target_id == int(element.target_id):
-                data_ref = element.data_list
+            for element in self.simulated_data_sort_by_target:
+                if target_id == int(element.target_id):
+                    data_ref = element.data_list
 
-        for element in self.data_sort_by_target:
-            if target_id == int(element.target_id):
-                data_mes = element.data_list
+            for element in self.data_sort_by_target:
+                if target_id == int(element.target_id):
+                    data_mes = element.data_list
 
-        (t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x) = get_comparable_data_btw_reference_mesure(data_ref,data_mes)
-        """to put the prediction on the real data"""
-        x_ref = x_ref[1:]
-        y_ref = y_ref[1:]
-        t_ref = t_ref[1:]
+            (t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x) = get_comparable_data_btw_reference_mesure(data_ref,data_mes)
+            """to put the prediction on the real data"""
+            x_ref = x_ref[1:]
+            y_ref = y_ref[1:]
+            t_ref = t_ref[1:]
 
-        x_mes = x_mes[1:]
-        y_mes = y_mes[1:]
-        t_mes = t_ref[1:]
+            x_mes = x_mes[1:]
+            y_mes = y_mes[1:]
+            t_mes = t_ref[1:]
 
-        error_squared_x = error_squared_list(x_ref, x_mes)
-        error_squared_y = error_squared_list(y_ref, y_mes)
-        error_squared = error_squared_x_y_list(x_ref, y_ref, x_mes, y_mes)
+            error_squared_x = error_squared_list(x_ref, x_mes)
+            error_squared_y = error_squared_list(y_ref, y_mes)
+            error_squared = error_squared_x_y_list(x_ref, y_ref, x_mes, y_mes)
 
-        self.plot_MES_target_id(target_id, t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x, error_squared_y,
-                                error_squared)
+            self.plot_MES_target_id(target_id, t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x, error_squared_y,
+                                    error_squared)
+
+        except:
+            print("plot error : plot_MSE_prediction_1_target_id ")
 
     def plot_MSE_prediction_2_target_id(self, target_id):
-        data_ref = []
-        data_mes = []
 
-        for element in self.simulated_data_sort_by_target:
-            if target_id == int(element.target_id):
-                data_ref = element.data_list
+        try:
+            data_ref = []
+            data_mes = []
 
-        for element in self.data_sort_by_target:
-            if target_id == int(element.target_id):
-                data_mes = element.data_list
+            for element in self.simulated_data_sort_by_target:
+                if target_id == int(element.target_id):
+                    data_ref = element.data_list
 
-        (t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x) = get_comparable_data_btw_reference_mesure(data_ref,
-                                                                                                        data_mes)
-        """to put the prediction on the real data"""
-        x_ref = x_ref[2:]
-        y_ref = y_ref[2:]
-        t_ref = t_ref[2:]
+            for element in self.data_sort_by_target:
+                if target_id == int(element.target_id):
+                    data_mes = element.data_list
 
-        x_mes = x_mes[2:]
-        y_mes = y_mes[2:]
-        t_mes = t_ref[2:]
+            (t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x) = get_comparable_data_btw_reference_mesure(data_ref,
+                                                                                                            data_mes)
+            """to put the prediction on the real data"""
+            x_ref = x_ref[2:]
+            y_ref = y_ref[2:]
+            t_ref = t_ref[2:]
 
-        error_squared_x = error_squared_list(x_ref, x_mes)
-        error_squared_y = error_squared_list(y_ref, y_mes)
-        error_squared = error_squared_x_y_list(x_ref, y_ref, x_mes, y_mes)
+            x_mes = x_mes[2:]
+            y_mes = y_mes[2:]
+            t_mes = t_ref[2:]
 
-        self.plot_MES_target_id(target_id, t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x, error_squared_y,
-                                error_squared)
+            error_squared_x = error_squared_list(x_ref, x_mes)
+            error_squared_y = error_squared_list(y_ref, y_mes)
+            error_squared = error_squared_x_y_list(x_ref, y_ref, x_mes, y_mes)
+
+            self.plot_MES_target_id(target_id, t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x, error_squared_y,
+                                    error_squared)
+        except:
+            print("plot error:  plot_MSE_prediction_2_target_id")
 
     def plot_MSE_not_interpolate_target_id(self, target_id):
         data_ref = []
@@ -476,7 +484,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             fig_time_type_x_y.colorbar(sc3, ax=ax3)
             fig_time_type_x_y.savefig(self.path_to_save_data + self.version + "--general_agent_" + str(
                     self.id) + "-target_" + str(target_id), transparent=False)
-        except ValueError:
+        except:
             print("plot_a_target_simulated_data_collected_data")
 
         plt.close(fig_time_type_x_y)
