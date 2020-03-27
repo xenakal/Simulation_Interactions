@@ -64,21 +64,21 @@ class GUI_room:
             2] and tab[1] <= target.yc + target.radius <= tab[1] + tab[3]):  # target inside room
             # render the target.xct
             label = self.font.render(str(target.id), 10, color)
-            self.screen.blit(label, (self.x_offset + int(target.xc * self.scale_x) + self.scale_x*target.radius / 2 + 5,
-                                     self.y_offset + int(target.yc * self.scale_y) + self.scale_y*target.radius / 2 + 5))
+            self.screen.blit(label, (self.x_offset + int(target.xc * self.scale_x) + int(self.scale_x*target.radius / 2) + 5,
+                                     self.y_offset + int(target.yc * self.scale_y) + int( self.scale_y*target.radius / 2) + 5))
             # render form
             pygame.draw.ellipse(self.screen, color, (
-                self.x_offset + int(target.xc * self.scale_x) - self.scale_x * target.radius,
-                self.y_offset + int(target.yc * self.scale_y) - self.scale_y * target.radius,
-                self.scale_x * target.radius * 2,
-                self.scale_y * target.radius * 2))
+                self.x_offset + int(target.xc * self.scale_x) - int(self.scale_x * target.radius),
+                self.y_offset + int(target.yc * self.scale_y) - int(self.scale_y * target.radius),
+                int(self.scale_x * target.radius * 2),
+                int(self.scale_y * target.radius * 2)))
 
             if target.radius >= 0.05:
                 pygame.draw.ellipse(self.screen, target.color,
-                                    (self.x_offset + int(target.xc * self.scale_x) - self.scale_x * target.radius / 2,
-                                     self.y_offset + int(target.yc * self.scale_y) - self.scale_y * target.radius / 2,
-                                     self.scale_x * target.radius,
-                                     self.scale_y * target.radius))
+                                    (self.x_offset + int(target.xc * self.scale_x) - int(self.scale_x * target.radius / 2),
+                                     self.y_offset + int(target.yc * self.scale_y) - int(self.scale_y * target.radius / 2),
+                                     int(self.scale_x * target.radius),
+                                     int(self.scale_y * target.radius)))
 
     def drawTarget(self, targets, tab):
         for target in targets:

@@ -33,9 +33,9 @@ def create_structur_to_save_data():
 
     """Create folder prediction and it subfolder"""
     os.mkdir(constants.ResultsPath.DATA_KALMAN_FILTER)
-    os.mkdir(constants.ResultsPath.DATA_PREDICTION)
-    os.mkdir(constants.ResultsPath.DATA_PREDICTION_TPLUS1)
-    os.mkdir(constants.ResultsPath.DATA_PREDICTION_TPLUS2)
+    os.mkdir(constants.ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION)
+    os.mkdir(constants.ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1)
+    os.mkdir(constants.ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION_TPLUS2)
 
     """Create plot and it subfolder"""
     """----------------------------"""
@@ -45,7 +45,7 @@ def create_structur_to_save_data():
 
     os.mkdir(constants.ResultsPath.PLOT_KALMAN)
     os.mkdir(constants.ResultsPath.PLOT_KALMAN_GLOBAL)
-    os.mkdir(constants.ResultsPath.PLOT_KALMAN_FILTERED)
+    os.mkdir(constants.ResultsPath.PLOT_KALMAN_GLOBAL_FILTERED)
     os.mkdir(constants.ResultsPath.PLOT_KALMAN_PREDICTION)
     os.mkdir(constants.ResultsPath.PLOT_KALMAN_PREDICTION_T_PLUS_1)
     os.mkdir(constants.ResultsPath.PLOT_KALMAN_PREDICTION_T_PLUS_2)

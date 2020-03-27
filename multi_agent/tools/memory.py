@@ -74,8 +74,8 @@ class Memory:
             self.update_best_estimation(time_from_estimation, agent_id, agent_signature, target_id,
                                         target_signature, new_estimate_current_pos[0], new_estimate_current_pos[1],
                                         target_vx,target_vy,target_ax,target_ay,target_size, target_type)
-            #self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, target_id,
-                                        #target_signature, target_size, target_type)
+            self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, target_id,
+                                        target_signature, target_size, target_type)
 
 
     def add_target_estimator(self, estimator):

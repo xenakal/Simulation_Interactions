@@ -16,7 +16,7 @@ agent_id = 1
 
 analyser_kalman_global = Analyser_Target_TargetEstimator_FormatCSV(agent_id,
                                                                    constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL,
-                                                                   constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL)
+                                                                   constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL_FILTEREDL)
 
 target_id = 0
 analyser_kalman_global.plot_position_target_simulated_data_collected_data()
@@ -25,3 +25,6 @@ analyser_kalman_global.plot_position_target_simulated_data_collected_data()
 
 
 plt.show()
+
+
+
