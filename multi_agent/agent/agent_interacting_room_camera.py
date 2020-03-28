@@ -57,7 +57,7 @@ class AgentCam(AgentInteractingWithRoom):
 
         if t_add == -1 or t_del == -1:
             t_add = [0]
-            t_del = [constants.T_MAX]
+            t_del = [constants.TIME_STOP]
 
         self.camera = camera
         super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM,t_add,t_del,camera.color)

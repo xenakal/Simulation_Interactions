@@ -217,7 +217,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         self.version = version
         self.path_to_save_data = path_to_save_data
         self.data = load_csv_file_dictionnary(path_to_load_data + str(agent_id))
-        self.simulated_data = load_csv_file_dictionnary(constants.ResultsPath.DATA_REFERENCE)
+        self.simulated_data = load_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE)
         self.data_sort_by_target = []
         self.simulated_data_sort_by_target = []
 
@@ -325,6 +325,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
                 if target_id == int(element.target_id):
                     data_mes = element.data_list
 
+
             (t_ref, x_ref, y_ref, x_mes, y_mes) = error_squared_with_interpolation(data_ref, data_mes)
 
             fig = plt.figure(figsize=(12, 8))
@@ -333,6 +334,9 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             ax1 = fig.add_subplot(1, 2, 1)
             ax2 = fig.add_subplot(1, 2, 2)
 
+            plot_graph_x_y(ax1,data_ref[X_INDEX], data_ref[Y_INDEX], "Trajectory interpolation", "x [m]", "y [m]", curve_label="interpolation_ref")
+            plot_graph_x_y(ax2,data_ref[X_INDEX], data_ref[Y_INDEX], "Trajectory interpolation", "x [m]", "y [m]", curve_label="interpolation_ref")
+            plot_graph_x_y(ax2, data_mes[X_INDEX], data_mes[Y_INDEX], "Trajectory interpolation", "x [m]", "y [m]", curve_label="interpolation_ref")
 
             sc1 = ax1.scatter(np.array(x_ref), np.array(y_ref), c=np.array(t_ref),
                              s=2500 * math.pow(data_ref[RADIUS_INDEX][0], 2) * math.pi, vmin=T_MIN, vmax=T_MAX, cmap="Spectral",
@@ -496,7 +500,7 @@ class Analyser_Agent_Target_TargetEstimator_FormatCSV:
         self.version = version
         self.path_to_save_data = path_to_save_data
         self.data = load_csv_file_dictionnary(path_to_load_data + str(agent_id))
-        self.simulated_data = load_csv_file_dictionnary(constants.ResultsPath.DATA_REFERENCE)
+        self.simulated_data = load_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE)
         self.data_sort_by_agent_target = []
         self.simulated_data_sort_by_target = []
 

@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+import constants
+
 
 def create_region(nx, ny, factor=10, x0=0, y0=0):
     x = np.linspace(x0, nx,nx*factor)
@@ -46,7 +48,7 @@ class MapRegionStatic:
         self.minimum_dist_in_view = np.ones(self.xv.shape) * 1000000000
         self.coverage = np.ones(self.xv.shape) * 1000000000
 
-    def init(self, factor=10):
+    def init(self, factor=10, save = False):
         """ Contains every vectors that needs only one computation """
         # Initialisation
         self.minimum_id_in_view = np.ones(self.xv.shape) * 1000000000
@@ -67,11 +69,18 @@ class MapRegionStatic:
         (self.minimum_id_in_view, self.minimum_dist_in_view) = self.define_region_covered_by_cams()
         self.coverage = self.define_region_covered_by_numberOfCams()
 
+        if constants.SAVE_DATA and save:
+            np.savetxt(constants.ResultsPath.SAVE_LOAD_DATA_STATIC_REGION+"x_init", self.xv)
+            np.savetxt(constants.ResultsPath.SAVE_LOAD_DATA_STATIC_REGION+"y_init", self.yv)
+            np.savetxt(constants.ResultsPath.SAVE_LOAD_DATA_STATIC_REGION+"region_init", self.minimum_id_in_view)
+            np.savetxt(constants.ResultsPath.SAVE_LOAD_DATA_STATIC_REGION+"coverage_init", self.coverage)
+
+
     def update_active_cams(self):
         is_changed_in_agent = False
         "adding new id if needed"
         for agent in self.room.active_AgentCams_list:
-            if not agent.id in self.agent_id_taken_into_acount:
+            if not agent.id in self.agent_id_taken_into_acount and agent.camera.isActive:
                 is_changed_in_agent = True
                 self.agent_id_taken_into_acount.append(agent.id)
 
@@ -80,7 +89,7 @@ class MapRegionStatic:
         for agent_id in self.agent_id_taken_into_acount:
             found = False
             for agent in self.room.active_AgentCams_list:
-                if agent_id == agent.id:
+                if agent_id == agent.id and agent.camera.isActive:
                     found = True
                     break
             if not found:
@@ -92,7 +101,7 @@ class MapRegionStatic:
 
         return is_changed_in_agent
 
-    def compute_all_map(self, factor=3):
+    def compute_all_map(self, factor=3,save = False):
         """
         :param
             - factor, room discretation from 1 to infinite. The bigger the number, the faster the computation will be (less precision).
@@ -102,6 +111,14 @@ class MapRegionStatic:
         """
 
         if self.update_active_cams():
+            if constants.SAVE_DATA and save:
+                np.savetxt(
+                    constants.ResultsPath.SAVE_LOAD_DATA_STATIC_REGION + "region_updated %.02f s" % constants.get_time(),
+                    self.minimum_id_in_view)
+                np.savetxt(
+                    constants.ResultsPath.SAVE_LOAD_DATA_STATIC_REGION + "coverage_updated %.02f s" % constants.get_time(),
+                    self.coverage)
+
             (self.minimum_id_in_view, self.minimum_dist_in_view) = self.define_region_covered_by_cams()
             self.coverage = self.define_region_covered_by_numberOfCams()
 

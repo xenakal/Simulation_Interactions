@@ -26,6 +26,10 @@ def create_structur_to_save_data():
     """Create memory all agent and it subfolder"""
     os.mkdir(constants.ResultsPath.DATA_MEMORY_ALL_AGENT)
 
+    "create ideal folder and it subfolder"
+    os.mkdir(constants.ResultsPath.DATA_IDEAL)
+    os.mkdir(constants.ResultsPath.DATA_STATIC_REGION)
+
     """Create folder Kalman and it subfolder"""
     os.mkdir(constants.ResultsPath.DATA_KALMAN)
     os.mkdir(constants.ResultsPath.DATA_KALMAN_GLOBAL)

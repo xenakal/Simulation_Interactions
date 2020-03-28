@@ -15,7 +15,7 @@ T_MIN = 0
 T_MAX = 20  #constants.T_MAX
 
 def plot_graph_3D(ax, x, y, z, title="title", x_label="x_axis", y_label="y_axis", z_label="z_label"):
-    ax.plot(x, y, z, "x", label='parametric curve')
+    ax.plot(x, y, z, label='parametric curve')
 
     # ax.set_xlim(0, max(x))
     # ax.set_ylim(0, max(y))
