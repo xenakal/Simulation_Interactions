@@ -48,8 +48,8 @@ DATA_TO_SEND = "behaviour"
 
 """Option for class estimator"""
 INCLUDE_ERROR = True
-STD_MEASURMENT_ERROR_POSITION = 0.0001
-STD_MEASURMENT_ERROR_SPEED = 0.0001
+STD_MEASURMENT_ERROR_POSITION = 0.2
+STD_MEASURMENT_ERROR_SPEED = 0.1
 STD_MEASURMENT_ERROR_ACCCELERATION = 0.0001
 if not INCLUDE_ERROR:
     STD_MEASURMENT_ERROR_POSITION = 0.001
@@ -87,7 +87,10 @@ TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp',
 
 
 class classproperty(object):
-
+    """
+    Read-only descriptor (non-data descriptor) used for the class variables of the ResultsPath class to return the
+    updated variables.
+    """
     def __init__(self, fget):
         self.fget = fget
 

@@ -2,43 +2,67 @@ from filterpy.kalman import KalmanFilter
 import numpy as np
 from numpy import eye, dot, zeros, isscalar
 from filterpy.common import reshape_z
+from constants import TIME_SEND_READ_MESSAGE, TIME_PICTURE, STD_MEASURMENT_ERROR_POSITION
+import warnings
+
+DEFAULT_TIME_INCREMENT = TIME_PICTURE + TIME_SEND_READ_MESSAGE
 
 
 class DistributedKalmanFilter(KalmanFilter):
     """
     Extends the KalmanFilter class from the filterPy library. It implements a distributed Kalman Filter.
     It also adapts the class from filterPy such that it uses the information form of the variance.
-    The class is used to implement the DKF as described in this paper:
+    The class is used to implement the DKF such as described in this paper:
           Rao, B. S. Y., Durrant-Whyte, H. F., & Sheen, J. A. (1993).
           A Fully Decentralized Multi-Sensor System For Tracking and Surveillance.
           The International Journal of Robotics Research, 12(1), 20–44. https://doi.org/10.1177/027836499301200102
     """
 
-    def __init__(self, dim_x, dim_z, dim_u=0):
+    def __init__(self, dim_x, dim_z, dt=DEFAULT_TIME_INCREMENT, dim_u=0):
+
         super().__init__(dim_x, dim_z, dim_u)
 
         # values used for information form of Kalman equations
-        self.PI = eye(dim_x)                # inverse of P (used for information form of KF)
-        self.PI_prior = eye(dim_x)          # copy of PI after predict() is called
-        self.PI_post = eye(dim_x)           # copy of PI afer update() is called
-        self.W = zeros((dim_x, dim_z))      # Kalman gain
-        self.x_global = zeros((dim_x, 1))   # global estimate of target state
-        self.P_global = eye(dim_x)          # global estimate of covariance matrix
-        self.PI_global = eye(dim_x)         # inverse of global estimate P
+        self.PI = eye(dim_x)  # inverse of P (used for information form of KF)
+        self.PI_prior = eye(dim_x)  # copy of PI after predict() is called
+        self.PI_post = eye(dim_x)  # copy of PI afer update() is called
+        self.W = zeros((dim_x, dim_z))  # Kalman gain
+        self.x_global = zeros((dim_x, 1))  # global estimate of target state
+        self.P_global = eye(dim_x)  # global estimate of covariance matrix
+        self.PI_global = eye(dim_x)  # inverse of global estimate P
+        self.ti = -1  # timestamp of current measurement
+        self.dt = dt  # time difference between measurements
 
     def predict(self, u=None, B=None, F=None, Q=None):
+        self.F = np.array([[1., 0., self.dt, 0.],
+                           [0., 1., 0., self.dt],
+                           [0., 0., 1., 0.],
+                           [0., 0., 0., 1.]])
         super().predict(u, B, F, Q)
         self.PI = self.inv(self.P)
         self.PI_prior = self.PI.copy()
 
-    def update(self, z, R=None, H=None):
+    def update(self, z, R=None, H=None, timestamp=-1):
+
+        if timestamp == -1:
+            warnings.warn("timestamp not specified: default time increment will be used")
+
+            # timestep set to last time difference between subsequent measurements
+            self.dt = DEFAULT_TIME_INCREMENT
+            self.ti += DEFAULT_TIME_INCREMENT
+
+        else:
+            # timestep set to last time difference between subsequent measurements
+            self.dt = timestamp - self.ti
+            self.ti = timestamp
+
         # set to None to force recompute
         self._log_likelihood = None
         self._likelihood = None
         self._mahalanobis = None
 
         if z is None:
-            self.z = np.array([[None]*self.dim_z]).T
+            self.z = np.array([[None] * self.dim_z]).T
             self.x_post = self.x.copy()
             self.P_post = self.P.copy()
             self.y = zeros((self.dim_z, 1))
@@ -76,30 +100,61 @@ class DistributedKalmanFilter(KalmanFilter):
         # x = x + Wy
         self.x = self.x + dot(self.W, self.y)
 
-    def assimilate(self, state_error_info, variance_error_info):
+    # TODO: adapter à x = Fx + Bu
+    def assimilate(self, state_error_info, variance_error_info, ti):
         """
         Assimilates the local estimation recieved from another node to the local estimation of the global state.
 
-        :param ([state_error_info, timestamp])      -- state_error_info: list of state error info
-                                                       with the corresponding timestamp
-        :param ([variance_error_info, timestamp])   -- variance_error_info:list of variance error info
-                                                       with the corresponding timestamp
+        :param ([state_error_info, timestamp])      -- state_error_info: state error info from some other agent
+        :param ([variance_error_info, timestamp])   -- variance_error_info: variance error info from some other agent
+        :param (int)                                -- ti: time of arrival of the other arguments to this
+                                                                  node. In practice, we have to put the time
         """
         # TODO: comment on sait quant est-ce qu'on a reçu toutes les données ?
-        #   --> En fait on sait pas: on fait l'hypothèse que les données s'envoient instantanément et que les
-        #       agents sont synchonisés. A vois si c'est vraiment le cas.
-        #       Par contre, on peut vérifier si la donnée est plus ou moins correcte en regardant si elle est à
+        #   --> En fait on sait pas: on fait l'hypothèse que les données s'envoient instantanément et on update à
+        #       chaque nouvelle donée reçue.
+        #       Par contre, if faut vérifier si la donnée est plus ou moins correcte en regardant si elle est à
         #       une distance plus grande que 2*STD_ERROR de l'estimation locale.
 
-        Pjj = 0
-        PIji = 0
-        xji = 0
+        # assumption: no delay between observation being taken at node j and the data arriving at node i (here)
+        #   ==> ti ≃ tj    meaning we consider the time
+        tj = ti
+        delta_t = tj - (self.ti - self.dt)  # δt = tj - τi ≃ ti - τi
 
-        # x(tj|tj) = P(tj|tj)[PI(tj|τi)x(tj|τi) + state_error_info]
-        self.x_global = dot(Pjj, dot(PIji, xji) + state_error_info)
+        # some values needed for the assimilation equations
+        RI = self.inv(self.R)
+        F = np.array([[1., 0., delta_t, 0.],
+                      [0., 1., 0., delta_t],
+                      [0., 0., 1., 0.],
+                      [0., 0., 0., 1.]])
 
-        pIji = 0
+        ## Pj_prior: PI(tj|τi) = F(δt)*P(τi|τi)FT(δt) + Q
+        Pj_prior = dot(dot(F, self.P_prior), F.T) + self.Q
+        PIj_prior = self.inv(Pj_prior)
+
+        ## xj_prior: x(tj|τi) = F(δt)x(τi|τi)
+        xj_prior = dot(F, self.x_prior)  # TODO: +dot(B, u) --> mais faut voir s'il faut adapter les equa d'assimilation
+
+        # data validation TODO: use a better method
+        for diff_pos_in_axis in np.fabs(xj_prior - self.x):
+            if diff_pos_in_axis > 2 * STD_MEASURMENT_ERROR_POSITION:
+                # invalid data
+                return
 
         # PI(tj|tj) = PI(tj|τi) + variance_error_info
-        self.PI_global = PIji + variance_error_info
+        self.PI_global = PIj_prior + variance_error_info
+        self.P_global = self.inv(self.PI_global)
 
+        # x(tj|tj) = P(tj|tj)[PI(tj|τi)x(tj|τi) + state_error_info]
+        self.x_global = dot(self.P_global, dot(PIj_prior, xj_prior) + state_error_info)
+
+        # udpate the state and covariance
+        self.x = self.x_global.copy()
+        self.PI = self.PI_global.copy()
+        self.P = self.P_global.copy()
+
+    def model_F(self):
+        self.F = np.array([[1., 0., self.dt, 0.],
+                           [0., 1., 0., self.dt],
+                           [0., 0., 1., 0.],
+                           [0., 0., 0., 1.]])

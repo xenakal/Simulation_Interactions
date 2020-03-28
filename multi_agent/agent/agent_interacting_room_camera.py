@@ -127,7 +127,7 @@ class AgentCam(AgentInteractingWithRoom):
                                                                 self.signature, target.id, target.signature,
                                                                 target.xc + erreurPX, target.yc + erreurPY,
                                                                 target.vx + erreurVX, target.vy + erreurPY,
-                                                                target.ax + erreurAX, target.vy + erreurAY,
+                                                                target.ax + erreurAX, target.ay + erreurAY,
                                                                 target.radius, target_type)
 
                     nextstate = "processData"

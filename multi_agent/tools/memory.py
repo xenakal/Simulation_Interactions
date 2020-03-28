@@ -46,10 +46,11 @@ class Memory:
         self.predictors = []
 
         "Logger to keep track of every send and received messages"
-        self.log_memory = create_logger(constants.ResultsPath.LOG_MEMORY,"Memory",self.id)
+        self.log_memory = create_logger(constants.ResultsPath.LOG_MEMORY, "Memory", self.id)
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
-                                    target_xc, target_yc,target_vx,target_vy,target_ax,target_ay, target_size, target_type):
+                                    target_xc, target_yc, target_vx, target_vy, target_ax, target_ay, target_size,
+                                    target_type):
         """
         :description
             Creates an estimator if it doesn't exist and adds it to the memory_all_agent list
@@ -58,28 +59,30 @@ class Memory:
 
         # update "global info" list
         self.memory_all_agent.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
-                                                          target_signature, target_xc, target_yc,target_vx,target_vy,target_ax,target_ay, target_size,
+                                                          target_signature, target_xc, target_yc, target_vx, target_vy,
+                                                          target_ax, target_ay, target_size,
                                                           target_type)
 
         # add predictor if doesn't exist yet
         if not self.exists_predictor_for_target(target_id):
-            self.create_predictor_for_target(target_id, target_xc, target_yc,target_vx,target_vy,target_ax,target_ay, time_from_estimation)
+            self.create_predictor_for_target(agent_id, target_id, target_xc, target_yc, target_vx, target_vy, target_ax,
+                                             target_ay, time_from_estimation)
         else:
             # inform predictor of new measurement
             target_predictor = self.get_target_predictor(target_id)
-            state = [target_xc, target_yc,target_vx,target_vy,target_ax,target_ay]
+            state = [target_xc, target_yc, target_vx, target_vy, target_ax, target_ay]
             target_predictor.add_measurement(state, time_from_estimation)
 
             new_estimate_current_pos = target_predictor.get_current_position()
             self.update_best_estimation(time_from_estimation, agent_id, agent_signature, target_id,
                                         target_signature, new_estimate_current_pos[0], new_estimate_current_pos[1],
-                                        target_vx,target_vy,target_ax,target_ay,target_size, target_type)
-            #self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, target_id,
-                                        #target_signature, target_size, target_type)
-
+                                        target_vx, target_vy, target_ax, target_ay, target_size, target_type)
+            self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, target_id,
+                                          target_signature, target_size, target_type)
 
     def add_target_estimator(self, estimator):
-        self.log_memory.info("Add memory, from agent : " + str(estimator.agent_id) + " - target " + str(estimator.target_id))
+        self.log_memory.info(
+            "Add memory, from agent : " + str(estimator.agent_id) + " - target " + str(estimator.target_id))
         self.memory_all_agent.add_target_estimator(estimator)
 
     def set_current_time(self, current_time):
@@ -170,14 +173,15 @@ class Memory:
                 return True
         return False
 
-    def create_predictor_for_target(self, target_id, x_init, y_init,vx_init,vy_init,ax_init,ay_init, timestamp):
+    def create_predictor_for_target(self, agent_id, target_id, x_init, y_init, vx_init, vy_init, ax_init, ay_init,
+                                    timestamp):
         """ Creates an entry in self.predictors for this target """
-        predictor = KalmanPrediction(target_id, x_init, y_init,vx_init,vy_init,ax_init,ay_init, timestamp)
+        predictor = KalmanPrediction(agent_id, target_id, x_init, y_init, vx_init, vy_init, ax_init, ay_init, timestamp)
         self.predictors.append(predictor)
 
     # TODO: améliorer avec Kalman distribué
     def update_best_estimation(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
-                               pos_x, pos_y,v_x,v_y,a_x,a_y, target_size, target_type):
+                               pos_x, pos_y, v_x, v_y, a_x, a_y, target_size, target_type):
         """
         :description
             Updates the estimation list for each target
@@ -185,7 +189,8 @@ class Memory:
 
         """
         self.best_estimations.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
-                                                          target_signature, pos_x, pos_y,v_x,v_y,a_x,a_y, target_size, target_type)
+                                                          target_signature, pos_x, pos_y, v_x, v_y, a_x, a_y,
+                                                          target_size, target_type)
 
     def get_noiseless_estimations(self, seeked_target_id):
         """
@@ -211,7 +216,9 @@ class Memory:
         predict_ay = 0
         self.predictions_order_1.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
                                                              target_signature, predictions_order_1[0],
-                                                             predictions_order_1[1],predict_vx,predict_vy,predict_ax,predict_ay, target_size, target_type)
+                                                             predictions_order_1[1], predict_vx, predict_vy, predict_ax,
+                                                             predict_ay, target_size, target_type)
         self.predictions_order_2.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
                                                              target_signature, predictions_order_2[0],
-                                                             predictions_order_2[1],predict_vx,predict_vy,predict_ax,predict_ay, target_size, target_type)
+                                                             predictions_order_2[1], predict_vx, predict_vy, predict_ax,
+                                                             predict_ay, target_size, target_type)

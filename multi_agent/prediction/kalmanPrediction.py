@@ -1,13 +1,17 @@
-from constants import NUMBER_PREDICTIONS, TIME_PICTURE, STD_MEASURMENT_ERROR_POSITION, TIME_SEND_READ_MESSAGE
+from constants import NUMBER_PREDICTIONS, TIME_PICTURE, STD_MEASURMENT_ERROR_POSITION, TIME_SEND_READ_MESSAGE, \
+    STD_MEASURMENT_ERROR_SPEED, STD_MEASURMENT_ERROR_ACCCELERATION
 from filterpy.kalman import KalmanFilter, update, predict
 from filterpy.common import Q_discrete_white_noise
 from multi_agent.prediction.distributed_kalman_filter import DistributedKalmanFilter
 from scipy.linalg import block_diag
 import numpy as np
 import time
+import math
 
-SPEED_CHANGE_THRESHOLD = 4
-MAX_STD_SPEED = 0.7
+MARGE_SPEED_ERROR = 0.5
+SPEED_CHANGE_THRESHOLD = 2 * STD_MEASURMENT_ERROR_SPEED + MARGE_SPEED_ERROR
+MARGE_ACC_ERROR = 0.5
+ACC_CHANGE_THRESHOLD = STD_MEASURMENT_ERROR_ACCCELERATION + MARGE_ACC_ERROR
 
 
 class KalmanPrediction:
@@ -23,22 +27,30 @@ class KalmanPrediction:
             3. (float) y_init     -- initial y-axis position of object being tracked
     """
 
-    def __init__(self, target_id, x_init, y_init,vx_init,vy_init,ax_init,ay_init, timestamp):
+    def __init__(self, agent_id, target_id, x_init, y_init, vx_init, vy_init, ax_init, ay_init, timestamp):
         # Kalman Filter object
-        self.filter = kfObject(x_init, y_init)
+        # TODO: change that to a Factory (this way easily change reset_filter() as well).
+        self.filter = distributed_kfObject(x_init, y_init, vx_init, vy_init)
         self.target_id = target_id
-        self.kalman_memory = [[x_init, y_init, timestamp]]
+        self.agent_id = agent_id
+        kalman_memory_element = [x_init, y_init, vx_init, vy_init, ax_init, ay_init, timestamp]
+        self.kalman_memory = [kalman_memory_element]
 
     def add_measurement(self, z, timestamp):
-        z = z.copy()
-        z = [z[0],z[1]]
+        """
+        :description
+            Adds a measurement to the filter and performs a predict() and update() step based on this new info.
+
+        :param
+            z: [x, y, vx, vy, ax, ay]  -- list of the different measurements
+            timestamp: int             -- time at which the measurements was made
+        """
         kalman_memory_element = z.copy()
         kalman_memory_element.append(timestamp)
         self.kalman_memory.append(kalman_memory_element)
 
-        if self.pivot_point_detected():
-            avg_speeds = avgSpeedFunc(self.kalman_memory[-2:])
-            self.reset_filter(z[0], z[1], avg_speeds[0], avg_speeds[1])
+        if self.pivot_point_detected_speed():
+            self.reset_filter(z[0], z[1], z[2], z[3])
             self.kalman_memory = [kalman_memory_element]
         """
         avg_speed_old = avgSpeedFunc(self.kalman_memory[-NUMBER_AVERAGE*2-2:-NUMBER_AVERAGE-1])
@@ -54,38 +66,28 @@ class KalmanPrediction:
         self.filter.predict(u=u, B=B)
         """
         self.filter.predict()
-        self.filter.update(np.array(z))
+        self.filter.update(np.array([z[0], z[1]]))
 
-    def pivot_point_detected(self):
+    def pivot_point_detected_acc(self):
+        acc_x = np.abs(self.kalman_memory[-1][4])
+        acc_y = np.abs(self.kalman_memory[-1][5])
+        return acc_x > ACC_CHANGE_THRESHOLD or acc_y > ACC_CHANGE_THRESHOLD
+
+    def pivot_point_detected_speed(self):
         """
         :description
             Detects a pivot point (ie a point where the trajectory changes) by checking if the speed in either axis
-            change.
+            changes more than expected.
         :return:
             True if a pivot point is detected, False otherwise.
-        :notes:
-            We could calculate the differences in times of adjacent positions (ie last.time - previous.time) and
-            find the covarience in these differences to calculate the threshold used.
         """
-        if len(self.kalman_memory) < 10:
+        if len(self.kalman_memory) < 2:
             return False
-        """
-        avg_speed = avgSpeedFunc(self.kalman_memory[:-2], self.data_collected)           # avg speed up to now
-        #print("avg_speed = ", avg_speed)
-        last_speed = avgSpeedFunc(self.kalman_memory[-2:], self.data_collected)          # last speed
-        #print("last_speed= ", last_speed)
-        speed_diff_x = math.fabs(avg_speed[0] - last_speed[0])
-        speed_diff_y = math.fabs(avg_speed[1] - last_speed[1])
 
-        return speed_diff_x > SPEED_CHANGE_THRESHOLD or speed_diff_y > SPEED_CHANGE_THRESHOLD
-        """
-
-        x = [_[0] for _ in self.kalman_memory]
-        y = [_[1] for _ in self.kalman_memory]
-        x_std = np.std(x)
-        y_std = np.std(y)
-
-        return x_std > MAX_STD_SPEED or y_std > MAX_STD_SPEED
+        prev_speed_xy = np.array([self.kalman_memory[-2][2], self.kalman_memory[-2][3]])
+        current_speed_xy = np.array([self.kalman_memory[-1][2], self.kalman_memory[-1][3]])
+        speed_diff = np.abs(prev_speed_xy - current_speed_xy)
+        return True in [diff > SPEED_CHANGE_THRESHOLD for diff in speed_diff]
 
     def get_predictions(self):
         """
@@ -120,7 +122,52 @@ class KalmanPrediction:
         return self.filter.x
 
     def reset_filter(self, x_init, y_init, vx_init, vy_init):
-        self.filter = kfObject(x_init, y_init, vx_init, vy_init)
+        self.filter = distributed_kfObject(x_init, y_init, vx_init, vy_init)
+
+
+def distributed_kfObject(x_init, y_init, vx_init, vy_init):
+    """
+    :description
+        Returns a KalmanFilter object with the model corresponding to our problem.
+    :param
+        1. (int) x_init     -- initial x coordinate of tracked object
+        2. (int) y_init     -- initial y coordinate of tracked object
+
+    :return
+        The Kalman Filter object (from pyKalman library) with the model corresponding to our scenario.
+    """
+
+    # we have a 4d state space and measurements on only the positions (x,y)
+    # f = KalmanFilter(dim_x=4, dim_z=2)
+    f = DistributedKalmanFilter(dim_x=4, dim_z=2)
+    # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
+    dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
+    f.x = np.array([x_init, y_init, vx_init, vy_init])
+
+    """
+    def F():
+    return np.array([[1., 0., f.dt, 0.],
+                     [0., 1., 0., f.dt],
+                     [0., 0., 1., 0.],
+                     [0., 0., 0., 1.]])
+
+    f.model_F = F
+    f.model_F()
+    """
+    f.F = np.array([[1., 0., dt, 0.],
+                    [0., 1., 0., dt],
+                    [0., 0., 1., 0.],
+                    [0., 0., 0., 1.]])
+
+    f.u = 0
+    f.H = np.array([[1., 0., 0., 0.],
+                    [0., 1., 0., 0.]])
+    f.P *= 2.
+    f.R = np.eye(2) * STD_MEASURMENT_ERROR_POSITION ** 2
+    f.B = 0
+    q = Q_discrete_white_noise(dim=2, dt=f.dt, var=0.1)  # var => how precise the model is
+    f.Q = block_diag(q, q)
+    return f
 
 
 def kfObject(x_init, y_init, vx_init=0.0, vy_init=0.0):
@@ -135,20 +182,31 @@ def kfObject(x_init, y_init, vx_init=0.0, vy_init=0.0):
         The Kalman Filter object (from pyKalman library) with the model corresponding to our scenario.
     """
     # we have a 4d state space and measurements on only the positions (x,y)
-    #f = KalmanFilter(dim_x=4, dim_z=2)
-    f = DistributedKalmanFilter(dim_x=4, dim_z=2)
+    f = KalmanFilter(dim_x=4, dim_z=2)
     # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
     dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
     f.x = np.array([x_init, y_init, vx_init, vy_init])
+
+    """
+    def F():
+        return np.array([[1., 0., f.dt, 0.],
+                         [0., 1., 0., f.dt],
+                         [0., 0., 1., 0.],
+                         [0., 0., 0., 1.]])
+
+    f.model_F = F
+    f.model_F()
+    """
     f.F = np.array([[1., 0., dt, 0.],
                     [0., 1., 0., dt],
                     [0., 0., 1., 0.],
                     [0., 0., 0., 1.]])
+
     f.u = 0
     f.H = np.array([[1., 0., 0., 0.],
                     [0., 1., 0., 0.]])
     f.P *= 2.
-    f.R = np.eye(2) * STD_MEASURMENT_ERROR_POSITION**2
+    f.R = np.eye(2) * STD_MEASURMENT_ERROR_POSITION ** 2
     f.B = 0
     q = Q_discrete_white_noise(dim=2, dt=dt, var=0.1)  # var => how precise the model is
     f.Q = block_diag(q, q)
@@ -182,12 +240,12 @@ def kfObject2(x_init, y_init, vx_init=0.0, vy_init=0.0):
                     [0., 0., 1., 0.],
                     [0., 0., 0., 1.]])
     f.P *= 2.
-    f.R = np.eye(4) * STD_MEASURMENT_ERROR_POSITION**2
-    v_error = STD_MEASURMENT_ERROR_POSITION**2
+    f.R = np.eye(4) * STD_MEASURMENT_ERROR_POSITION ** 2
+    v_error = STD_MEASURMENT_ERROR_POSITION ** 2
     f.R = np.array([[v_error, 0., 0., 0.],
                     [0., v_error, 0., 0.],
-                    [0., 0., 2*v_error, 0.],
-                    [0., 0., 0., 2*v_error]])
+                    [0., 0., 2 * v_error, 0.],
+                    [0., 0., 0., 2 * v_error]])
     f.B = np.array([0, 0, 1, 1])
     q = Q_discrete_white_noise(dim=2, dt=dt, var=0.1)  # var => how precise the model is
     f.Q = block_diag(q, q)
@@ -214,7 +272,7 @@ def avgSpeedFunc(positions):
     for curPos in positions[1:]:
         stepDistance_x = curPos[0] - prevPos_x
         stepDistance_y = curPos[1] - prevPos_y
-        #timestep = curPos[2] - prevTime
+        # timestep = curPos[2] - prevTime
 
         avgSpeed_x += stepDistance_x / timestep
         avgSpeed_y += stepDistance_y / timestep
