@@ -23,13 +23,16 @@ def clean_mailbox():
 def plot_res(room,filename):
     print("Generating plots ...")
     print("plot simulated_data")
-    analyser_simulated_data = Analyser_Target_TargetEstimator_FormatCSV("simulated_data",
-                                                                      constants.ResultsPath.SAVE_LOAD_DATA_FOLDER,
+    analyser_simulated_data = Analyser_Target_TargetEstimator_FormatCSV("",
+                                                                      constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,
                                                                       constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER,
                                                                       filename)
     analyser_simulated_data.plot_all_target_simulated_data_collected_data()
     for target in room.information_simulation.Target_list:
         analyser_simulated_data.plot_a_target_simulated_data_collected_data(target.id)
+
+
+
 
 
     "PLOT FOR AGENT CAM"
@@ -120,7 +123,7 @@ class App:
         self.targets_moving = True
 
         self.init()
-        if USE_GUI == 1:
+        if USE_GUI:
             self.myGUI = GUI()
 
     def init(self):
@@ -148,16 +151,15 @@ class App:
         self.dynamic_region = MapRegionDynamic(self.room)
 
         if USE_static_analysis:
-            self.static_region.init(STATIC_ANALYSIS_PRECISION)
-            self.static_region.compute_all_map(STATIC_ANALYSIS_PRECISION)
+            self.static_region.init(NUMBER_OF_POINT_STATIC_ANALYSIS, True)
+            self.static_region.compute_all_map(NUMBER_OF_POINT_STATIC_ANALYSIS, True)
         if USE_dynamic_analysis_simulated_room:
-            self.dynamic_region.init(DYNAMIC_ANALYSIS_PRECISION)
+            self.dynamic_region.init(NUMBER_OF_POINT_DYNAMIC_ANALYSIS)
         # Starting the multi_agent simulation
-        if USE_agent:
-            for agent in self.room.active_AgentCams_list:
-                agent.run()
-            for agent in self.room.agentUser_list:
-                agent.run()
+        for agent in self.room.active_AgentCams_list:
+            agent.run()
+        for agent in self.room.agentUser_list:
+            agent.run()
 
         self.link_agent_target = LinkTargetCamera(self.room)
         self.link_agent_target.update_link_camera_target()
@@ -203,39 +205,38 @@ class App:
                 multi_agent.agent.agent_interacting_room_camera.AgentCam.number_agentCam_created = 0
                 multi_agent.agent.agent_interacting_room_user.AgentUser.number_agentUser_created = 0
                 constants.TIME_START = time.time()
-                if USE_agent:
-                    for agent in self.room.agentCams_list:
-                        agent.clear()
-                    for agent in self.room.agentUser_list:
-                        agent.clear()
+                for agent in self.room.agentCams_list:
+                    agent.clear()
+                for agent in self.room.agentUser_list:
+                    agent.clear()
                 clean_mailbox()
                 self.init()
                 reset = False
 
             # adding/removing target to the room
             self.room.add_del_target_timed()
+            self.room.des_activate_agentCam_timed()
             self.room.des_activate_camera_agentCam_timed()
 
 
-
             # Updating GUI interface
-            if USE_GUI == 1:
+            if USE_GUI:
                 if USE_dynamic_analysis_simulated_room:
                     region = self.dynamic_region
-                    region.init(DYNAMIC_ANALYSIS_PRECISION)
-                    self.dynamic_region.compute_all_map(DYNAMIC_ANALYSIS_PRECISION)
+                    region.init(NUMBER_OF_POINT_DYNAMIC_ANALYSIS)
+                    self.dynamic_region.compute_all_map(NUMBER_OF_POINT_DYNAMIC_ANALYSIS)
                 else:
                     region = self.static_region
-                    self.static_region.compute_all_map(STATIC_ANALYSIS_PRECISION)
+                    self.static_region.compute_all_map(NUMBER_OF_POINT_STATIC_ANALYSIS, True)
 
                 self.myGUI.updateGUI(self.room, region, self.link_agent_target.link_camera_target)
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
 
             # Closing the simulation after a given time if not using GUI
-            if constants.get_time()> constants.T_MAX and USE_GUI == 1:
+            if constants.get_time()> constants.TIME_STOP and USE_GUI:
                 run = False
                 pygame.quit()
-            elif constants.get_time() > constants.T_MAX:
+            elif constants.get_time() > constants.TIME_STOP:
                 run = False
 
 
@@ -255,7 +256,7 @@ class App:
         # save data
         if constants.SAVE_DATA:
             print("Saving data : generated")
-            save_in_csv_file_dictionnary(constants.ResultsPath.DATA_REFERENCE, self.exact_data_target.to_csv())
+            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE, self.exact_data_target.to_csv())
             print("Data saved !")
 
         # plot graph

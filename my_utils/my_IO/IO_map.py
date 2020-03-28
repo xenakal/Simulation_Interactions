@@ -22,7 +22,7 @@ def save_agent_cam(fichier, room):
 
 
 def save_room_to_txt(filename, room):
-    fichier = open(constants.PATH_TO_SAVE_MAP + filename, "w")
+    fichier = open(constants.MapPath.MAIN_FOLDER + filename, "w")
     fichier.write("New Map, but you can change the name \n \n")
     fichier.write("This file is the representation to initialise a room description \n")
     fichier.write("__________________________________________________________________ \n\n")
@@ -51,7 +51,7 @@ def load_agentCam_txt(s, room):
 
 
 def load_room_from_txt(filename, room):
-    fichier = open(constants.PATH_TO_LOAD_MAP + filename, "r")
+    fichier = open(constants.MapPath.MAIN_FOLDER+ filename, "r")
     lines = fichier.readlines()
     fichier.close()
 

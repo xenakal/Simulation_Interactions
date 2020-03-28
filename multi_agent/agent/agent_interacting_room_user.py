@@ -45,7 +45,7 @@ class AgentUser(AgentInteractingWithRoom):
 
     def __init__(self):
         t_add = [0]
-        t_del = [constants.T_MAX]
+        t_del = [constants.TIME_STOP]
         super().__init__(AgentUser.number_agentUser_created, AgentType.AGENT_USER,t_add,t_del)
         self.log_execution = create_logger(constants.ResultsPath.LOG_AGENT, "Execution time", self.id)
         AgentUser.number_agentUser_created +=1

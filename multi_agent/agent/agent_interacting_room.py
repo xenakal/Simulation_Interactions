@@ -317,7 +317,7 @@ class HeartbeatCounterAllAgent:
     def __init__(self, agent_id, agent_signature,log =None):
         self.id = agent_id
         self.agent_signature = agent_signature
-        self.max_delay = constants.TIME_BTW_HEARTBEAT*constants.MAX_NUMBER_BTW_HEARTBEAT
+        self.max_delay = constants.TIME_BTW_HEARTBEAT*constants.TIME_MAX_BTW_HEARTBEAT
         if not log == None:
             log.info("Using hearbeat messages !")
             log.info("Time between two heartbeats of %.02f s",constants.TIME_BTW_HEARTBEAT)

@@ -1,86 +1,86 @@
 import logging
 import time
 
+"""
+In this file you have the possibility to modify the settings 
+"""
 
-time_when_target_are_moved = 0
-
-""""""
-SCALE_TIME = 1
-
-"""Option for class main"""
+"""Options-----------------------------------------------------------------------------------------------------------"""
 SAVE_DATA = True
 GENERATE_PLOT = True
-if GENERATE_PLOT:
-    SAVE_DATA = True
 
+USE_GUI = True
+USE_static_analysis = True
+USE_dynamic_analysis_simulated_room = False
+
+INCLUDE_ERROR = True
+LOG_LEVEL = logging.INFO # logging.DEBUG
+
+"""Option for ROOM---------------------------------------------------------------------------------------------------"""
+WIDTH_ROOM = 8  # [m]
+LENGHT_ROOM = 8  # [m]
+
+"""Number of data----------------------------------------------------------------------------------------------------"""
+NUMBER_OF_POINT_SIMULATED_DATA = 10  # per m for a speed of 1 m/s
+NUMBER_OF_POINT_STATIC_ANALYSIS = 10  # number of point per m
+NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 10  # number of point per m
+
+"""Time--------------------------------------------------------------------------------------------------------------"""
+"""global parameter for the simulation"""
+SCALE_TIME = 1
 TIME_START = time.time()
-
-
-def get_time():
-    return (time.time() - TIME_START)*SCALE_TIME
-
-
-USE_GUI = 1
-USE_agent = 1
-USE_static_analysis = 0
-USE_dynamic_analysis_simulated_room = 0
-
-
-
-T_MAX = 15
-
+TIME_STOP = 1000 #s
+"""when mooving a target"""
 TIME_BTW_FRAME = .1
-NUMBER_OF_POINT = 10  # per m for a speed of 1 m/s
-TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT*SCALE_TIME)
-
+TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)
+"""Agent"""
+TIME_BTW_HEARTBEAT = 1/SCALE_TIME
+TIME_MAX_BTW_HEARTBEAT = 5/SCALE_TIME
+TIME_PICTURE = (1.5 * TIME_BTW_TARGET_MOVEMENT)/SCALE_TIME
+TIME_SEND_READ_MESSAGE = (0.1 * TIME_BTW_TARGET_MOVEMENT)/SCALE_TIME
 MAX_TIME_MESSAGE_IN_LIST = 3  # s
 
-STATIC_ANALYSIS_PRECISION = 10  # number of point per m
-DYNAMIC_ANALYSIS_PRECISION = 10  # number of point per m
+"""Agent - way to act------------------------------------------------------------------------------------------------"""
+DATA_TO_SEND = "behaviour" #all
 
-"""Option for class agent"""
-LOG_LEVEL = logging.INFO # logging.DEBUG
+"""Error on mesure---------------------------------------------------------------------------------------------------"""
+STD_MEASURMENT_ERROR_POSITION = 0.0001
+STD_MEASURMENT_ERROR_SPEED = 0.0001
+STD_MEASURMENT_ERROR_ACCCELERATION = 0.0001
+
+"""Communication - message option------------------------------------------------------------------------------------"""
 NAME_MAILBOX = "mailbox/MailBox_Agent"
 STD_RECEIVED = 0
 SEUIL_RECEIVED = 10
 
-"""Option for class agentCamera"""
-TIME_BTW_HEARTBEAT = 1/SCALE_TIME
-MAX_NUMBER_BTW_HEARTBEAT = 5
-TIME_PICTURE = (1.5 * TIME_BTW_TARGET_MOVEMENT)/SCALE_TIME
-TIME_SEND_READ_MESSAGE = (0.1 * TIME_BTW_TARGET_MOVEMENT)/SCALE_TIME
-DATA_TO_SEND = "behaviour"
-
-"""Option for class estimator"""
-INCLUDE_ERROR = True
-STD_MEASURMENT_ERROR_POSITION = 0.2
-STD_MEASURMENT_ERROR_SPEED = 0.1
-STD_MEASURMENT_ERROR_ACCCELERATION = 0.0001
-if not INCLUDE_ERROR:
-    STD_MEASURMENT_ERROR_POSITION = 0.001
-    STD_MEASURMENT_ERROR_SPEED = 0.001
-    STD_MEASURMENT_ERROR_ACCCELERATION = 0.001
-
-"""Option for class predication"""
+"""Option for class predication--------------------------------------------------------------------------------------"""
 NUMBER_PREDICTIONS = 4
 PREVIOUS_POSITIONS_USED = 3  # number of previous positions used to make the prediction of the next positions
 
-"""Option for class map"""
-PATH_TO_SAVE_MAP = "map/"
-SAVE_MAP_NAME = "My_new_map.txt"
-PATH_TO_LOAD_MAP = "map/"
-LOAD_MAP_NAME = "My_new_map.txt"
-
-"""Option for GUI"""
-""" 180,100,1.5,1.5 for a Room (300,300)"""
+"""Option for GUI----------------------------------------------------------------------------------------------------"""
 X_OFFSET = 180
 Y_OFFSET = 100
 X_SCALE = 60
 Y_SCALE = 60
 
-"""Option for ROOM"""
-WIDTH_ROOM = 8  # [m]
-LENGHT_ROOM = 8  # [m]
+"""---------------------------------------------------------------------------------------------------------------------
+If you just want to change simulation's parameter you should not modify constant below this line 
+ --------------------------------------------------------------------------------------------------------------------"""
+
+def get_time():
+    return (time.time() - TIME_START)*SCALE_TIME
+
+"""default variable """
+if GENERATE_PLOT:
+    SAVE_DATA = True
+
+if not INCLUDE_ERROR:
+    STD_MEASURMENT_ERROR_POSITION = 0.00001
+    STD_MEASURMENT_ERROR_SPEED = 0.00001
+    STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
+
+"Variable use in multiple classes"
+time_when_target_are_moved = 0
 
 "CSV_fieldNames"
 TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp',
@@ -89,8 +89,6 @@ TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp',
                                    'target_ax', 'target_ay', 'target_radius']
 
 """Path to save data and create plot"""
-
-
 class classproperty(object):
     """
     Read-only descriptor (non-data descriptor) used for the class variables of the ResultsPath class to return the
@@ -101,6 +99,14 @@ class classproperty(object):
 
     def __get__(self, owner_self, owner_cls):
         return self.fget(owner_cls)
+
+
+class MapPath:
+    folder = "map"
+
+    @classproperty
+    def MAIN_FOLDER(cls):
+        return MapPath.folder + "/"
 
 
 class ResultsPath:
@@ -123,13 +129,18 @@ class ResultsPath:
     def LOG_MEMORY(cls):
         return ResultsPath.LOG_FOLDER + "/log_memory/"
 
+
     @classproperty
     def DATA_FOLDER(cls):
         return ResultsPath.MAIN_FOLDER + "/data"
 
     @classproperty
-    def DATA_REFERENCE(cls):
-        return ResultsPath.DATA_FOLDER + "/simulated_data"
+    def DATA_IDEAL(cls):
+        return ResultsPath.DATA_FOLDER + "/ideal"
+
+    @classproperty
+    def DATA_STATIC_REGION(cls):
+        return ResultsPath.DATA_IDEAL+ "/static_region"
 
     @classproperty
     def DATA_MEMORY_AGENT(cls):
@@ -168,8 +179,16 @@ class ResultsPath:
         return ResultsPath.DATA_KALMAN + "/kalman_distribue"
 
     @classproperty
+    def SAVE_LOAD_DATA_STATIC_REGION(cls):
+        return ResultsPath.DATA_STATIC_REGION + "/static-cut-"
+
+    @classproperty
     def SAVE_LOAD_DATA_FOLDER(cls):
         return ResultsPath.DATA_FOLDER + "/"
+
+    @classproperty
+    def SAVE_LOAD_DATA_REFERENCE(cls):
+        return ResultsPath.DATA_IDEAL + "/simulated_data"
 
     @classproperty
     def SAVE_LOAD_DATA_MEMORY_AGENT(cls):

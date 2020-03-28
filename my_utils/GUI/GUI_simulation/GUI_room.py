@@ -108,13 +108,6 @@ class GUI_room:
                                            1)
 
     def draw_one_Cam(self, camera, l=100):
-            # render text
-            label = self.font.render(str(camera.id), 10, CAMERA)
-            self.screen.blit(label, (
-                self.x_offset + int(camera.xc * self.scale_x) + 5, self.y_offset + int(camera.yc * self.scale_y) + 5))
-            # render form
-            pygame.draw.circle(self.screen, camera.color, (
-                self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 5)
 
             color = RED
             if camera.isActive == 1:
@@ -139,7 +132,17 @@ class GUI_room:
 
     def drawCam(self, room, l=100):
         for agent in room.agentCams_list:
-            self.draw_one_Cam(agent.camera,l)
+            camera = agent.camera
+            # render text
+            label = self.font.render(str(camera.id), 10, CAMERA)
+            self.screen.blit(label, (
+                self.x_offset + int(camera.xc * self.scale_x) + 5, self.y_offset + int(camera.yc * self.scale_y) + 5))
+            # render form
+            pygame.draw.circle(self.screen, camera.color, (
+                self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 5)
+
+            if agent.is_activated:
+                self.draw_one_Cam(agent.camera,l)
 
     def drawCam_room_description(self, room, agents_to_display,agentType, allAgents=False):
         """ Draws the previous positions of the selected targets for the selected agents. """

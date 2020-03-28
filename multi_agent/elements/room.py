@@ -421,12 +421,14 @@ class Room(RoomRepresentation):
         """
         for agent in self.agentCams_list:
             if agent.t_add[agent.number_of_time_passed] <= constants.get_time() <= agent.t_del[agent.number_of_time_passed] and not agent.is_activated:
+                agent.is_activated = True
                 self.active_AgentCams_list.append(agent)
                 agent.log_main.info("Agent %d is activated at %.02f s"%(agent.id,constants.get_time()))
 
             elif constants.get_time() > agent.t_del[agent.number_of_time_passed] and agent.is_activated:
                 if agent.number_of_time_passed < len(agent.t_add)-1:
                     agent.number_of_time_passed = agent.number_of_time_passed+1
+                agent.is_activated = False
                 self.active_AgentCams_list.remove(agent)
                 agent.log_main.info("Agent %d is desactivated at %.02f s"%(agent.id, constants.get_time()))
 
