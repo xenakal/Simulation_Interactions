@@ -53,18 +53,18 @@ class AgentCam(AgentInteractingWithRoom):
     """
     number_agentCam_created = 0
 
-    def __init__(self, camera,t_add = -1,t_del = -1):
+    def __init__(self, camera, t_add=-1, t_del=-1):
 
         if t_add == -1 or t_del == -1:
             t_add = [0]
             t_del = [constants.TIME_STOP]
 
         self.camera = camera
-        super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM,t_add,t_del,camera.color)
+        super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM, t_add, t_del, camera.color)
         self.behaviour_analyser = TargetBehaviourAnalyser(self.memory)
         self.link_target_agent = LinkTargetCamera(self.room_representation)
-        self.log_execution = create_logger(constants.ResultsPath.LOG_AGENT,"Execution time",self.id)
-        AgentCam.number_agentCam_created +=1
+        self.log_execution = create_logger(constants.ResultsPath.LOG_AGENT, "Execution time", self.id)
+        AgentCam.number_agentCam_created += 1
 
     def init_and_set_room_description(self, room):
         """
@@ -97,7 +97,6 @@ class AgentCam(AgentInteractingWithRoom):
 
         while self.thread_is_running == 1:
             state = nextstate
-
 
             if state == "takePicture":
                 execution_time_start = constants.get_time()
@@ -146,11 +145,10 @@ class AgentCam(AgentInteractingWithRoom):
 
                     nextstate = "processData"
                     self.log_execution.debug("Loop %d : takePicture state completed after : %.02f s" % (
-                    execution_loop_number, constants.get_time() - execution_time_start))
+                        execution_loop_number, constants.get_time() - execution_time_start))
             elif nextstate == "processData":
                 self.log_execution.debug("Loop %d : at processData state after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
-
 
                 self.memory.set_current_time(constants.get_time())
                 self.process_information_in_memory()
@@ -189,15 +187,15 @@ class AgentCam(AgentInteractingWithRoom):
 
                 self.log_execution.debug("Loop %d :communication state  executed after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
-                self.log_execution.info("time : %.02f s, loop %d : completed in : %.02f s"%(
-                constants.get_time(),execution_loop_number, constants.get_time() - execution_time_start))
+                self.log_execution.info("time : %.02f s, loop %d : completed in : %.02f s" % (
+                    constants.get_time(), execution_loop_number, constants.get_time() - execution_time_start))
                 execution_loop_number += 1
                 execution_mean_time += constants.get_time() - execution_time_start
             else:
                 print("FSM not working proerly")
                 self.log_execution.warning("FSM not working as expected")
 
-        self.log_execution.info("Execution mean time : %.02f s",execution_mean_time/execution_loop_number)
+        self.log_execution.info("Execution mean time : %.02f s", execution_mean_time / execution_loop_number)
 
     def process_information_in_memory(self):
         """
