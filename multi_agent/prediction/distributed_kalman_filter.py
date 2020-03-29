@@ -69,6 +69,7 @@ class DistributedKalmanFilter(KalmanFilter):
             return
 
         z = reshape_z(z, self.dim_z, self.x.ndim)
+        self.z_current = z
 
         if R is None:
             R = self.R
@@ -152,6 +153,14 @@ class DistributedKalmanFilter(KalmanFilter):
         self.x = self.x_global.copy()
         self.PI = self.PI_global.copy()
         self.P = self.P_global.copy()
+
+    def state_error_info(self):
+        RI = self.inv(self.R)
+        return dot(dot(self.H.T, RI), self.z_current)
+
+    def variance_error_info(self):
+        RI = self.inv(self.R)
+        return dot(dot(self.H.T, RI), self.H)
 
     def model_F(self):
         self.F = np.array([[1., 0., self.dt, 0.],

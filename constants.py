@@ -7,7 +7,7 @@ In this file you have the possibility to modify the settings
 
 """Options-----------------------------------------------------------------------------------------------------------"""
 SAVE_DATA = True
-GENERATE_PLOT = True
+GENERATE_PLOT = False
 
 USE_GUI = True
 USE_static_analysis = True
@@ -44,8 +44,8 @@ MAX_TIME_MESSAGE_IN_LIST = 3  # s
 DATA_TO_SEND = "behaviour"  # all
 
 """Error on mesure---------------------------------------------------------------------------------------------------"""
-STD_MEASURMENT_ERROR_POSITION = 0.0001
-STD_MEASURMENT_ERROR_SPEED = 0.0001
+STD_MEASURMENT_ERROR_POSITION = 0.2
+STD_MEASURMENT_ERROR_SPEED = 0.1
 STD_MEASURMENT_ERROR_ACCCELERATION = 0.0001
 
 """Communication - message option------------------------------------------------------------------------------------"""
