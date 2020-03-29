@@ -13,6 +13,15 @@ from multi_agent.tools.link_target_camera import *
 import constants
 
 
+class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
+    INFO_DKF = "info_DKF"
+
+
+class AgentCameraCommunicationBehaviour:
+    ALL = "all"
+    DKF = "dkf"
+
+
 class AgentCam(AgentInteractingWithRoom):
     """
         Class AgentCam extend AgentInteractingWithRoom.
@@ -113,35 +122,34 @@ class AgentCam(AgentInteractingWithRoom):
                     time.sleep(0.3)
                 else:
                     for targetCameraDistance in picture:
-                            target = targetCameraDistance.target
-                            "Simulation from noise on the target's position "
-                            if constants.INCLUDE_ERROR and not (target.type == TargetType.SET_FIX):
-                                erreurPX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
-                                erreurPY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
-                                erreurVX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
-                                erreurVY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
-                                erreurAX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
-                                erreurAY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
-                            else:
-                                erreurPX = 0
-                                erreurPY = 0
-                                erreurVX = 0
-                                erreurVY = 0
-                                erreurAX = 0
-                                erreurAY = 0
+                        target = targetCameraDistance.target
+                        "Simulation from noise on the target's position "
+                        if constants.INCLUDE_ERROR and not (target.type == TargetType.SET_FIX):
+                            erreurPX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
+                            erreurPY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
+                            erreurVX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
+                            erreurVY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
+                            erreurAX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
+                            erreurAY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
+                        else:
+                            erreurPX = 0
+                            erreurPY = 0
+                            erreurVX = 0
+                            erreurVY = 0
+                            erreurAX = 0
+                            erreurAY = 0
 
+                        target_type = TargetType.UNKNOWN
+                        for target_representation in self.room_representation.active_Target_list:
+                            if target_representation.id == target.id:
+                                target_type = target_representation.type
 
-                            target_type = TargetType.UNKNOWN
-                            for target_representation in self.room_representation.active_Target_list:
-                                if target_representation.id == target.id:
-                                    target_type = target_representation.type
-
-                            self.memory.add_create_target_estimator(constants.get_time(), self.id,
-                                                                        self.signature, target.id, target.signature,
-                                                                        target.xc + erreurPX, target.yc + erreurPY,
-                                                                        target.vx + erreurVX,target.vy + erreurVY,
-                                                                        target.ax + erreurAX,target.ay + erreurAY,
-                                                                        target.radius,target_type)
+                        self.memory.add_create_target_estimator(constants.get_time(), self.id,
+                                                                self.signature, target.id, target.signature,
+                                                                target.xc + erreurPX, target.yc + erreurPY,
+                                                                target.vx + erreurVX, target.vy + erreurVY,
+                                                                target.ax + erreurAX, target.ay + erreurAY,
+                                                                target.radius, target_type)
 
                     nextstate = "processData"
                     self.log_execution.debug("Loop %d : takePicture state completed after : %.02f s" % (
@@ -242,16 +250,14 @@ class AgentCam(AgentInteractingWithRoom):
                 -----------------------------------------------------------------------------------------------
             """
             "Send message to other agent"
-            if constants.DATA_TO_SEND == "all":
+            if constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.ALL:
                 memories = self.memory.memory_agent.get_Target_list(target.id)
                 if len(memories) > 0:
-                    last_memory = memories[len(memories) - 1]
+                    last_memory = memories[-1]
                     self.send_message_targetEstimator(last_memory)
 
-            elif constants.DATA_TO_SEND == "behaviour":
-                "If the target stop is it because we loose it, or is the target outside from the range ? "
-                pass
-                "Demande de confirmation à un autre agent par exemple"
+            elif constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.DKF:
+                self.send_message_DKF_info(target.id)
 
             """
                ----------------------------------------------------------------------------------------------
@@ -266,15 +272,57 @@ class AgentCam(AgentInteractingWithRoom):
 
                     for agent in self.room_representation.active_AgentUser_list:
                         receivers.append([agent.id, agent.signature])
-                    last_memory = memories[len(memories) - 1]
+                    last_memory = memories[-1]
 
                     "If the message is to old we don't send it -> target lost"
                     thresh_time_to_send = 3
                     if constants.get_time() - last_memory.time_stamp <= thresh_time_to_send:
                         self.send_message_targetEstimator(last_memory, receivers)
 
+    def process_single_message(self, rec_mes):
+        super().process_single_message(rec_mes)
+        if rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.INFO_DKF:
+            self.receive_message_DKF_info(rec_mes)
+
     def get_predictions(self, target_id_list):
         """
         :return: a list [[targetId, [predicted_position1, ...]], ...]
         """
         return self.memory.get_predictions(target_id_list)
+
+    def send_message_DKF_info(self, target_id):
+        """
+        :description
+            Send a message containing the information needed for the distribution of the Kalman Filter.
+        :param (int) target_id  -- id of tracked target for which we're sending the info
+        """
+
+        dfk_info_string = self.memory.get_DKF_info_string(target_id)
+
+        # message containing the DKF information to send
+        message = Message(constants.get_time(), self.id, self.signature,
+                          MessageTypeAgentCameraInteractingWithRoom.INFO_DKF, dfk_info_string, target_id)
+
+        # send the message to every other agent
+        for agent in self.room_representation.agentCams_list:
+            if agent.id != self.id:
+                message.add_receiver(agent.id, agent.signature)
+
+        # add message to the list if not already inside
+        cdt = self.info_message_to_send.is_message_with_same_message(message)
+        if not cdt:
+            self.info_message_to_send.add_message(message)
+
+    def receive_message_DKF_info(self, message):
+        """
+        :description
+            Receive a message contaning the information needed for the distribtion of the Kalman Filter.
+            When received, the filter associated with the tracked target is informed and can assimilate the new data.
+        :param message: instance of Message class.
+        """
+        info_string = message.message
+        concerned_target_id = message.target_id
+
+        if info_string:  # if message not empty
+            self.memory.process_DKF_info(concerned_target_id, info_string, constants.get_time())
+

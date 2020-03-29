@@ -1,10 +1,11 @@
 from constants import NUMBER_PREDICTIONS, TIME_PICTURE, STD_MEASURMENT_ERROR_POSITION, TIME_SEND_READ_MESSAGE, \
-    STD_MEASURMENT_ERROR_SPEED, STD_MEASURMENT_ERROR_ACCCELERATION
+    STD_MEASURMENT_ERROR_SPEED, STD_MEASURMENT_ERROR_ACCCELERATION, DATA_TO_SEND
 from filterpy.kalman import KalmanFilter, update, predict
 from filterpy.common import Q_discrete_white_noise
 from multi_agent.prediction.distributed_kalman_filter import DistributedKalmanFilter
 from scipy.linalg import block_diag
 import numpy as np
+import warnings
 import time
 import math
 
@@ -123,6 +124,16 @@ class KalmanPrediction:
 
     def reset_filter(self, x_init, y_init, vx_init, vy_init):
         self.filter = distributed_kfObject(x_init, y_init, vx_init, vy_init)
+
+    def get_DKF_info_string(self):
+        if DATA_TO_SEND != "dkf":
+            warnings.warn("sending state/var error info even though DKF not defined in constants")
+        return self.filter.get_DKF_info_string()
+
+    def assimilate(self, dkf_info_string, timestamp):
+        if DATA_TO_SEND != "dkf":
+            warnings.warn("sending state/var error info even though DKF not defined in constants")
+        self.filter.assimilate(dkf_info_string, timestamp)
 
 
 def distributed_kfObject(x_init, y_init, vx_init, vy_init):

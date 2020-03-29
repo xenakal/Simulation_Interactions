@@ -8,6 +8,19 @@ import warnings
 DEFAULT_TIME_INCREMENT = TIME_PICTURE + TIME_SEND_READ_MESSAGE
 
 
+def parse_errors_info_string(string):
+    """
+    :description:
+        Parses a string as encoded by the errors_info_toString function
+    :param string: a string encoded by the errors_info_toString function
+    :return: [state_error_info, variance_error_info]
+    """
+    [state_error_info_str, var_error_info_str] = string.split(" ")
+    [_, state_error_info_value] = state_error_info_str.split(":")[1]
+    [_, var_error_info_value] = var_error_info_str.split(":")[1]
+    return state_error_info_value, var_error_info_value
+
+
 class DistributedKalmanFilter(KalmanFilter):
     """
     Extends the KalmanFilter class from the filterPy library. It implements a distributed Kalman Filter.
@@ -32,6 +45,7 @@ class DistributedKalmanFilter(KalmanFilter):
         self.PI_global = eye(dim_x)  # inverse of global estimate P
         self.ti = -1  # timestamp of current measurement
         self.dt = dt  # time difference between measurements
+        self.z_current = None  # last measurement
 
     def predict(self, u=None, B=None, F=None, Q=None):
         self.F = np.array([[1., 0., self.dt, 0.],
@@ -102,20 +116,22 @@ class DistributedKalmanFilter(KalmanFilter):
         self.x = self.x + dot(self.W, self.y)
 
     # TODO: adapter à x = Fx + Bu
-    def assimilate(self, state_error_info, variance_error_info, ti):
+    def assimilate(self, dkf_info_string, ti):
         """
         Assimilates the local estimation recieved from another node to the local estimation of the global state.
 
-        :param ([state_error_info, timestamp])      -- state_error_info: state error info from some other agent
-        :param ([variance_error_info, timestamp])   -- variance_error_info: variance error info from some other agent
-        :param (int)                                -- ti: time of arrival of the other arguments to this
-                                                                  node. In practice, we have to put the time
+        :param (dkf_info_string) dkf_info_string     -- string containing the state/variance error info needed for the
+                                                        assimilation step
+        :param (int) ti                              -- time of arrival of the other arguments to this
+                                                        node. In practice, we have to put the time
         """
         # TODO: comment on sait quant est-ce qu'on a reçu toutes les données ?
         #   --> En fait on sait pas: on fait l'hypothèse que les données s'envoient instantanément et on update à
         #       chaque nouvelle donée reçue.
         #       Par contre, if faut vérifier si la donnée est plus ou moins correcte en regardant si elle est à
         #       une distance plus grande que 2*STD_ERROR de l'estimation locale.
+
+        [state_error_info, variance_error_info] = parse_errors_info_string(dkf_info_string)
 
         # assumption: no delay between observation being taken at node j and the data arriving at node i (here)
         #   ==> ti ≃ tj    meaning we consider the time
@@ -161,6 +177,19 @@ class DistributedKalmanFilter(KalmanFilter):
     def variance_error_info(self):
         RI = self.inv(self.R)
         return dot(dot(self.H.T, RI), self.H)
+
+    def errors_info_toString(self):
+        """
+        :description:
+            Puts the state_error_info and variance_error_info in a nice string.
+        :return: state_error_info / variance_error_info & target_id in a string
+        """
+        s1 = "StateErrorInfo:" + str(self.state_error_info())
+        s2 = "VarianceErrorInfo:" + str(self.variance_error_info())
+        return s1 + " " + s2
+
+    def get_DKF_info_string(self):
+        return self.errors_info_toString()
 
     def model_F(self):
         self.F = np.array([[1., 0., self.dt, 0.],

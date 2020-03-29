@@ -41,7 +41,7 @@ TIME_SEND_READ_MESSAGE = (0.1 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 MAX_TIME_MESSAGE_IN_LIST = 3  # s
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
-DATA_TO_SEND = "behaviour"  # all
+DATA_TO_SEND = "dkf"
 
 """Error on mesure---------------------------------------------------------------------------------------------------"""
 STD_MEASURMENT_ERROR_POSITION = 0.2

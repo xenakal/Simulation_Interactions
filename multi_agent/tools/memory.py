@@ -67,18 +67,17 @@ class Memory:
         if not self.exists_predictor_for_target(target_id):
             self.create_predictor_for_target(agent_id, target_id, target_xc, target_yc, target_vx, target_vy, target_ax,
                                              target_ay, time_from_estimation)
-        else:
-            # inform predictor of new measurement
-            target_predictor = self.get_target_predictor(target_id)
-            state = [target_xc, target_yc, target_vx, target_vy, target_ax, target_ay]
-            target_predictor.add_measurement(state, time_from_estimation)
+        # inform predictor of new measurement
+        target_predictor = self.get_target_predictor(target_id)
+        state = [target_xc, target_yc, target_vx, target_vy, target_ax, target_ay]
+        target_predictor.add_measurement(state, time_from_estimation)
 
-            new_estimate_current_pos = target_predictor.get_current_position()
-            self.update_best_estimation(time_from_estimation, agent_id, agent_signature, target_id,
-                                        target_signature, new_estimate_current_pos[0], new_estimate_current_pos[1],
-                                        target_vx, target_vy, target_ax, target_ay, target_size, target_type)
-            self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, target_id,
-                                          target_signature, target_size, target_type)
+        new_estimate_current_pos = target_predictor.get_current_position()
+        self.update_best_estimation(time_from_estimation, agent_id, agent_signature, target_id,
+                                    target_signature, new_estimate_current_pos[0], new_estimate_current_pos[1],
+                                    target_vx, target_vy, target_ax, target_ay, target_size, target_type)
+        self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, target_id,
+                                      target_signature, target_size, target_type)
 
     def add_target_estimator(self, estimator):
         self.log_memory.info(
@@ -153,11 +152,36 @@ class Memory:
         return predictions
 
     def get_target_predictions(self, seeked_target_id):
-        """ :return the predicted positions for targetId """
-        for predictor in self.predictors:
-            if predictor.target_id == seeked_target_id:
-                return predictor.get_predictions()
-        return None
+        """
+        :description:
+            Method used for the predictions of future positions.
+        :return the predicted positions for targetId """
+        predictor = self.get_target_predictor(seeked_target_id)
+        if predictor is None:
+            return []
+        return predictor.get_predictions()
+
+    def get_DKF_info_string(self, seeked_target_id):
+        """
+        :description:
+            Method used for the communication of DKF messages. When an agent needs to send the DKF_info to the other
+            agents, it get it through this method.
+        :return the state/variance error info needed for the DKF
+        """
+        predictor = self.get_target_predictor(seeked_target_id)
+        if predictor is None:
+            return []
+        return predictor.get_DKF_info_string()
+
+    def process_DKF_info(self, seeked_target_id, dfk_info_string, timestamp):
+        """
+        :description:
+            Method used for the communication of DKF messages. When an agent receives an DKF_info message, it calls
+            this method to transmit this information to the DKF associated with the target.
+        """
+        predictor = self.get_target_predictor(seeked_target_id)
+        if predictor is not None:
+            predictor.assimilate(dfk_info_string, timestamp)
 
     def get_target_predictor(self, seeked_target_id):
         """ :return the Kalman Predictor associated with this target """

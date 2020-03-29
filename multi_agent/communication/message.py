@@ -2,9 +2,11 @@ import numpy as np
 import random
 import re
 
+
 class MessageType:
     ACK = "ack"
     NACK = "nack"
+
 
 class Message:
     """
@@ -55,6 +57,7 @@ class Message:
         self.sender_signature = int(sender_signature)
         self.receiver_id_and_signature = []
         self.remaining_receiver = []
+        self.target_id = target_id
 
         """Content"""
         self.targetRef = target_id
@@ -185,7 +188,7 @@ class MessageCheckACKNACK(Message):
     """
         Class MessagecheckACKNACK enxtend Message.
 
-        Description : it add an confirmation step (ack or nack) that refers to a message sent.
+        Description : it adds a confirmation step (ack or nack) that refers to a message sent.
 
             :param
                 1. (int) timestamp                   -- time at which the message is created
