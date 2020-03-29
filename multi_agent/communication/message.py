@@ -41,10 +41,6 @@ class Message:
                                                         (ex: memory)
                 8. (string) message_type             -- string  to cleary and quickly identify the message
                                                         (ex "request","ack","nack","heartbeat","information", ...)
-
-
-            :notes
-                fells free to write some comments.
     """
 
     def __init__(self, timestamp, sender_id, sender_signature, message_type, message, target_id=-1):
@@ -183,6 +179,9 @@ class Message:
         base = s1 + s2 + s3 + s4
         return base + str(self.message) + "\n"
 
+    def is_approved(self):
+        # TODO: maybe check if ACK received, or not: think about that
+        return True
 
 class MessageCheckACKNACK(Message):
     """
@@ -224,7 +223,7 @@ class MessageCheckACKNACK(Message):
 
 
             :notes
-                all what you need are:
+                all that you need is:
                 is_approved()  check is every receiver approved the message by sending a ack
                 is_not_approved() check is at least one of the receiver sent a nack
     """
