@@ -13,6 +13,7 @@ from multi_agent.tools.link_target_camera import *
 import constants
 
 
+
 class AgentCam(AgentInteractingWithRoom):
     """
         Class AgentCam extend AgentInteractingWithRoom.
@@ -224,18 +225,24 @@ class AgentCam(AgentInteractingWithRoom):
                         - detection from target leaving the field of the camera
                 ---------------------------------------------------------------------------------------------
             """
+            is_target_changing_state = False
             if not target.type == TargetType.SET_FIX:
                 "Check if the target is moving,stopped or changing from one to the other state"
                 (is_moving, is_stopped) = self.behaviour_analyser.detect_target_motion(target.id, 1, 5, constants.STD_MEASURMENT_ERROR_POSITION+0.01)
                 "Check if the target is leaving the cam angle_of_view"
                 (is_in, is_out) = self.behaviour_analyser.is_target_leaving_cam_field(self.camera, target.id, 0, 3)
 
+                old_target_type = target.type
                 if is_moving:
                     target.type = TargetType.MOVING
                 elif is_stopped:
                     target.type = TargetType.FIX
-                else :
+                else:
                     target.type = TargetType.UNKNOWN
+
+                if not old_target_type == target.type:
+                    is_target_changing_state = True
+                    self.log_main.info("At %.02f Target %d change state from "%(constants.get_time(),target.id)+ str(old_target_type) + " to " + str(target.type))
 
             """
                 ----------------------------------------------------------------------------------------------
@@ -260,19 +267,21 @@ class AgentCam(AgentInteractingWithRoom):
                -----------------------------------------------------------------------------------------------
             """
             "If the target is link to this agent then we send the message to the user"
-            if self.link_target_agent.is_in_charge(target.id, self.id):
-                memories = self.memory.memory_agent.get_Target_list(target.id)
-                if len(memories) > 0:
+            cdt_target_type_1 = not(target.type == TargetType.SET_FIX)
+            cdt_target_type_2 = True #not(target.type == TargetType.FIX) or is_target_changing_state #to decrease the number of messages sent 
+            cdt_agent_is_in_charge = self.link_target_agent.is_in_charge(target.id, self.id)
+
+            memories = self.memory.memory_agent.get_Target_list(target.id)
+            if len(memories) > 0:
+                last_memory = memories[len(memories) - 1]
+                cdt_message_not_to_old = ((constants.get_time() - last_memory.time_stamp) <= constants.TRESH_TIME_TO_SEND_MEMORY)
+
+                if cdt_agent_is_in_charge and cdt_target_type_1  and cdt_target_type_2 and cdt_message_not_to_old :
                     receivers = []
-                 
                     for agent in self.room_representation.active_AgentUser_list:
                         receivers.append([agent.id, agent.signature])
-                    last_memory = memories[len(memories) - 1]
 
-                    "If the message is to old we don't send it -> target lost"
-                    thresh_time_to_send = 3
-                    if constants.get_time() - last_memory.time_stamp <= thresh_time_to_send:
-                        self.send_message_targetEstimator(last_memory, receivers)
+                    self.send_message_targetEstimator(last_memory, receivers)
 
 
 

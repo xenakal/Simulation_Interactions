@@ -103,8 +103,8 @@ class GUI_create_map:
         self.button_create_map_4.find_button(Button_name.OBJECT_ADD).set_button(True)
 
         self.my_room_button = Button("room", coord[0] + self.x_offset-5, coord[1] + self.y_offset-5,
-                                     coord[2]* self.scale_x+5,
-                                     coord[3]* self.scale_y+5)
+                                     coord[2]* self.scale_x+10,
+                                     coord[3]* self.scale_y+10)
 
         self.button_round = Button("round", 10, 530, 100, 20)
         self.button_round.set_button(True)

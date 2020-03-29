@@ -31,10 +31,6 @@ def plot_res(room,filename):
     for target in room.information_simulation.Target_list:
         analyser_simulated_data.plot_a_target_simulated_data_collected_data(target.id)
 
-
-
-
-
     "PLOT FOR AGENT CAM"
     for agent in room.agentCams_list:
         print("plot agent :" + str(agent.id))

@@ -40,7 +40,7 @@ def move_Target(Target, delta_time):
         print("planning method not recognize")
 
 
-def rectiligne_trajectory(Target, dist_min, delta_time):
+def rectiligne_trajectory(target, dist_min, delta_time):
     """
             :param
                 1.(Target) target   --  object, get target trajectory with target.trajectory and to modify its position
@@ -50,32 +50,32 @@ def rectiligne_trajectory(Target, dist_min, delta_time):
                 moove the target according to a predifined path, the motion between two position are linear.
                 it does not avoid obstacle.
     """
-    if Target.type != TargetType.SET_FIX:
-        (x_goal, y_goal) = Target.trajectory_position[Target.number_of_position_reached]
+    if  not target.type == TargetType.SET_FIX:
+        (x_goal, y_goal) = target.trajectory_position[target.number_of_position_reached]
 
         '''Updating the postion we want to reach when close enough '''
-        if math.fabs(Target.xc - x_goal) <= dist_min and math.fabs(
-                Target.yc - y_goal) <= dist_min and Target.number_of_position_reached < len(
-                Target.trajectory_position) - 1:
-            Target.number_of_position_reached += 1
+        if math.fabs(target.xc - x_goal) <= dist_min and math.fabs(
+                target.yc - y_goal) <= dist_min and target.number_of_position_reached < len(
+                target.trajectory_position) - 1:
+            target.number_of_position_reached += 1
 
         '''computing the speeds to reach the goal'''
-        if math.fabs(x_goal-Target.xc) > 0.05:
-            v_x = -Target.vx_max * (Target.xc - x_goal) / math.fabs((Target.xc - x_goal))
+        if math.fabs(x_goal - target.xc) > 0.05:
+            v_x = -target.vx_max * (target.xc - x_goal) / math.fabs((target.xc - x_goal))
         else:
             v_x = 0
 
-        if math.fabs(y_goal-Target.yc) > 0.05:
-            v_y = -Target.vy_max * (Target.yc - y_goal) / math.fabs((Target.yc - y_goal))
+        if math.fabs(y_goal - target.yc) > 0.05:
+            v_y = -target.vy_max * (target.yc - y_goal) / math.fabs((target.yc - y_goal))
         else:
             v_y = 0
 
 
         '''Modifying the position in the target object, always in (int)'''
-        Target.ax = (v_x-Target.vx)
-        Target.ay = (v_y-Target.vy)
-        Target.vx = v_x
-        Target.vy = v_y
+        target.ax = (v_x - target.vx)
+        target.ay = (v_y - target.vy)
+        target.vx = v_x
+        target.vy = v_y
         """updating position"""
-        Target.xc = Target.xc + v_x * delta_time
-        Target.yc = Target.yc + v_y * delta_time
+        target.xc = target.xc + v_x * delta_time
+        target.yc = target.yc + v_y * delta_time

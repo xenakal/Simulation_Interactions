@@ -269,3 +269,4 @@ class MapRegionStatic:
 
            """
         return cam.is_in_hidden_zone_fix_targets_matrix_x_y(result, self.xv, self.yv)
+

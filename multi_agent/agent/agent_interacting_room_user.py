@@ -113,6 +113,7 @@ class AgentUser(AgentInteractingWithRoom):
                 execution_loop_number += 1
                 execution_mean_time += constants.get_time() - execution_time_start
 
+                time.sleep(constants.TIME_TO_SLOW_DOWN)
 
             else:
                 print("FSM not working proerly")

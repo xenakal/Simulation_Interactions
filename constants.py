@@ -7,7 +7,7 @@ In this file you have the possibility to modify the settings
 
 """Options-----------------------------------------------------------------------------------------------------------"""
 SAVE_DATA = True
-GENERATE_PLOT = True
+GENERATE_PLOT = False
 
 USE_GUI = True
 USE_static_analysis = True
@@ -22,7 +22,7 @@ LENGHT_ROOM = 8  # [m]
 
 """Number of data----------------------------------------------------------------------------------------------------"""
 NUMBER_OF_POINT_SIMULATED_DATA = 10  # per m for a speed of 1 m/s
-NUMBER_OF_POINT_STATIC_ANALYSIS = 10  # number of point per m
+NUMBER_OF_POINT_STATIC_ANALYSIS = 35  # number of point per m
 NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 10  # number of point per m
 
 """Time--------------------------------------------------------------------------------------------------------------"""
@@ -36,10 +36,13 @@ TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)
 """Agent"""
 TIME_BTW_HEARTBEAT = 1/SCALE_TIME
 TIME_MAX_BTW_HEARTBEAT = 5/SCALE_TIME
+"Agent-Cam"
 TIME_PICTURE = (1.5 * TIME_BTW_TARGET_MOVEMENT)/SCALE_TIME
-TIME_SEND_READ_MESSAGE = (0.1 * TIME_BTW_TARGET_MOVEMENT)/SCALE_TIME
-MAX_TIME_MESSAGE_IN_LIST = 3  # s
-
+TIME_SEND_READ_MESSAGE = (0.3 * TIME_BTW_TARGET_MOVEMENT)/SCALE_TIME
+MAX_TIME_MESSAGE_IN_LIST = 3  #s
+TRESH_TIME_TO_SEND_MEMORY = 10 #s
+"Agent-User"
+TIME_TO_SLOW_DOWN = 0.15/SCALE_TIME
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 DATA_TO_SEND = "behaviour" #all
 

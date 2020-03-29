@@ -1,5 +1,5 @@
 import numpy as np
-
+from multi_agent.elements.target import TargetType
 
 class LinkTargetCamera():
     """
@@ -85,39 +85,41 @@ class LinkTargetCamera():
 
         "For every target ..."
         for target in self.room.active_Target_list:
-            is_in_list = False
-            for targetAgentLink in self.link_camera_target:
-                "We find the corresponding targetAgentLink"
-                if target.id == targetAgentLink.target_id:
+            "Not usefull to set link with object that are fix"
+            if not target.type == TargetType.SET_FIX:
+                is_in_list = False
+                for targetAgentLink in self.link_camera_target:
+                    "We find the corresponding targetAgentLink"
+                    if target.id == targetAgentLink.target_id:
 
-                    is_in_list = True
+                        is_in_list = True
 
-                    "Computing what agent has the best view for this target"
-                    (agent_id, distance_min) = (-1, 100000)
-                    for agent in self.room.active_AgentCams_list:
-                        # TODO "calcul avec les prédictions au lieu des positions actuelles"
+                        "Computing what agent has the best view for this target"
+                        (agent_id, distance_min) = (-1, 100000)
+                        for agent in self.room.active_AgentCams_list:
+                            # TODO "calcul avec les prédictions au lieu des positions actuelles"
 
-                        "Put target radius = 0 to consider only the centers"
-                        cdt_in_field = agent.camera.is_x_y_radius_in_field_not_obstructed(target.xc, target.yc,
-                                                                                          target.radius)
-                        cdt_not_hidden = not agent.camera.is_x_y_in_hidden_zone_all_targets(target.xc, target.yc)
-                        "Check is the camera can see the target for a given room geometry"
-                        #if cdt_in_field and cdt_not_hidden and agent.camera.isActive:
-                        #TODO - ici envoyer un message pour signaler une panne de camera ??
-                        if cdt_in_field and cdt_not_hidden and agent.camera.isActive:
+                            "Put target radius = 0 to consider only the centers"
+                            cdt_in_field = agent.camera.is_x_y_radius_in_field_not_obstructed(target.xc, target.yc,
+                                                                                              target.radius)
+                            cdt_not_hidden = not agent.camera.is_x_y_in_hidden_zone_all_targets(target.xc, target.yc)
+                            "Check is the camera can see the target for a given room geometry"
+                            #if cdt_in_field and cdt_not_hidden and agent.camera.isActive:
+                            #TODO - ici envoyer un message pour signaler une panne de camera ??
+                            if cdt_in_field and cdt_not_hidden and agent.camera.isActive:
 
-                            "Distance computation"
-                            distance_to_target = np.power(np.power((agent.camera.xc - target.xc), 2)
-                                                          + np.power((agent.camera.yc - target.yc), 2), 0.5)
+                                "Distance computation"
+                                distance_to_target = np.power(np.power((agent.camera.xc - target.xc), 2)
+                                                              + np.power((agent.camera.yc - target.yc), 2), 0.5)
 
-                            if distance_to_target < distance_min:
-                                (agent_id, distance_min) = (agent.id, distance_to_target)
+                                if distance_to_target < distance_min:
+                                    (agent_id, distance_min) = (agent.id, distance_to_target)
 
-                    targetAgentLink.set(agent_id, distance_min)
+                        targetAgentLink.set(agent_id, distance_min)
 
-            "If the target has no targetAgentLink, creation of a new object"
-            if not is_in_list:
-                self.link_camera_target.append(TargetAgentLink(target.id))
+                "If the target has no targetAgentLink, creation of a new object"
+                if not is_in_list:
+                    self.link_camera_target.append(TargetAgentLink(target.id))
 
     def is_in_charge(self, target_id, agent_id):
         """

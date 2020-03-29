@@ -181,6 +181,7 @@ class Camera:
             cdt_in_field = self.is_x_y_radius_in_field_not_obstructed(target.xc, target.yc, target.radius)
             cdt_not_hidden = not (self.is_xc_yc_radius_in_hidden_zone_all_targets(target.xc, target.yc, target.radius))
 
+
             if cdt_in_field and cdt_not_hidden:
                 self.target_in_field_list.append(target)
 
@@ -255,6 +256,7 @@ class Camera:
 
         """Same but for every target now"""
         for element in targetCameraDistance_list:
+
             target = element.target
             """Coordinate change"""
             (x_target_in_camera_frame,
@@ -301,7 +303,6 @@ class Camera:
                 element.set_projection((target_limit_down_projection, target_limit_up_projection))
 
         projection_list.append((camera_limit_down_on_projection_line, camera_limit_up_on_projection_line))
-
         return projection_list
 
     def is_x_y_radius_in_field_not_obstructed(self, x, y, r_target=0):
@@ -336,6 +337,7 @@ class Camera:
 
         y_min = min(target_limit_in_camera_frame[1], target_limit_in_camera_frame[3])
         y_max = max(target_limit_in_camera_frame[1], target_limit_in_camera_frame[3])
+
 
         beta_target_min = math.atan2(y_min, x_target_in_camera_frame)
         beta_target_max = math.atan2(y_max, x_target_in_camera_frame)
@@ -377,16 +379,18 @@ class Camera:
         if not (idca[0] == idca[1] == idca[2] == idca[3] == 0):
             alpha1 = math.atan2(idca[1], idca[0])
             alpha2 = math.atan2(idca[3], idca[2])
+
+            alpha_min = min(alpha1,alpha2)
+            alpha_max = max(alpha1,alpha2)
             alphapt = math.atan2(ycf, xcf)
 
             "Condition to be hidden"
-            if alpha1 > alphapt > alpha2 and xcf > xctf or alpha1 < alphapt < alpha2 and xcf > xctf:
+            if alpha_min <= alphapt <= alpha_max and xcf > xctf:
                 return True
             else:
                 return False
-
         else:
-            return False
+            return None
 
     def is_x_y_in_hidden_zone_all_targets(self, x, y):
         """
@@ -483,7 +487,7 @@ class Camera:
         if not r == 0:
             line_camera_target = Line(self.xc, self.yc, x, y)
             perpendicular_to_line_camera_target = line_camera_target.linePerp(x, y)
-            target_limit = perpendicular_to_line_camera_target.lineCircleIntersection(r, x, y)
+            target_limit = perpendicular_to_line_camera_target.lineCircleIntersection(r+0.01, x, y) #+0.01 because if we compare to the target it self it might be a problem in the condition
             cdt_up = self.is_x_y_in_hidden_zone_all_targets(target_limit[0], target_limit[1])
             cdt_down = self.is_x_y_in_hidden_zone_all_targets(target_limit[2], target_limit[3])
 
@@ -531,7 +535,7 @@ class Camera:
                     alphapt = math.atan2(ycf, xcf)
 
                     "condition to be hidden"
-                    if alpha1 > alphapt > alpha2 and xcf > xctf or alpha1 < alphapt < alpha2 and xcf > xctf:
+                    if (alpha1 > alphapt > alpha2  or alpha1 < alphapt < alpha2) and xcf > xctf:
                         result[i, j] = 0
         return result
 
