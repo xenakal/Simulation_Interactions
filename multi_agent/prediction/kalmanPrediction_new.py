@@ -46,6 +46,8 @@ class KalmanPrediction:
         self.filter.update(np.array(z))
 
     def add_speed_position(self, z, timestamp):
+        z = z.copy()
+        z = [z[0], z[1], z[2], z[3]]
         kalman_memory_element = z.copy()
         kalman_memory_element.append(timestamp)
         last_z = self.kalman_memory[-1]
@@ -114,7 +116,6 @@ def kfObject_position(x_init, y_init, vx_init=0.0, vy_init=0.0):
     f = KalmanFilter(dim_x=2,
                      dim_z=2)  # as we have a 4d state space and measurements on only the positions (x,y)
     # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
-    dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
     f.x = np.array([x_init, y_init])
     f.F = np.array([[1., 0.],
                     [0., 1.]])
@@ -125,7 +126,7 @@ def kfObject_position(x_init, y_init, vx_init=0.0, vy_init=0.0):
     f.R = np.eye(2) * STD_MEASURMENT_ERROR_POSITION**2
     f.B = 0
     q = Q_discrete_white_noise(dim=2, dt=dt, var=0.1)  # var => how precise the model is
-    f.Q = q #block_diag(q, q)
+    f.Q = q  #  block_diag(q, q)
     return f
 
 

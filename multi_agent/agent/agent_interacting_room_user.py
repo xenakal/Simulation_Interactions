@@ -113,6 +113,7 @@ class AgentUser(AgentInteractingWithRoom):
                 execution_loop_number += 1
                 execution_mean_time += constants.get_time() - execution_time_start
 
+                # sleep to avoid sending messages to quickly
                 time.sleep(constants.TIME_TO_SLOW_DOWN)
 
             else:

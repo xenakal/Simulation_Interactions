@@ -1,6 +1,7 @@
 import shutil
 import os
 import threading
+import sys
 
 from multi_agent.tools.link_target_camera import *
 from multi_agent.tools.map_region_dyn import *
@@ -15,18 +16,19 @@ from plot_functions.plot_targetEstimator import *
 import multi_agent.agent.agent_interacting_room_camera
 import multi_agent.agent.agent_interacting_room_user
 
+
 def clean_mailbox():
     shutil.rmtree("mailbox", ignore_errors=True)
     os.mkdir("mailbox")
 
 
-def plot_res(room,filename):
+def plot_res(room, filename):
     print("Generating plots ...")
     print("plot simulated_data")
     analyser_simulated_data = Analyser_Target_TargetEstimator_FormatCSV("",
-                                                                      constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,
-                                                                      constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER,
-                                                                      filename)
+                                                                        constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,
+                                                                        constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER,
+                                                                        filename)
     analyser_simulated_data.plot_all_target_simulated_data_collected_data()
     for target in room.information_simulation.Target_list:
         analyser_simulated_data.plot_a_target_simulated_data_collected_data(target.id)
@@ -41,16 +43,16 @@ def plot_res(room,filename):
                                                                           constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_AGENT,
                                                                           filename)
         analyser_kalman_global = Analyser_Target_TargetEstimator_FormatCSV(agent.id,
-                                                                         constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_FILTER,
-                                                                         constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL_FILTERED)
+                                                                           constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_FILTER,
+                                                                           constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL_FILTERED)
 
         analyser_kalman_prediction_t1 = Analyser_Target_TargetEstimator_FormatCSV(agent.id,
-                                                                           constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1,
-                                                                           constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL_PREDICTION_T_PLUS_1)
+                                                                                  constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1,
+                                                                                  constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL_PREDICTION_T_PLUS_1)
 
         analyser_kalman_prediction_t2 = Analyser_Target_TargetEstimator_FormatCSV(agent.id,
-                                                                           constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS2,
-                                                                           constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL_PREDICTION_T_PLUS_2)
+                                                                                  constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS2,
+                                                                                  constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL_PREDICTION_T_PLUS_2)
         "Graph to plot"
         """Including every target"""
         analyser_agent_memory.plot_all_target_simulated_data_collected_data()
@@ -90,6 +92,7 @@ def plot_res(room,filename):
 
     print("Done !")
 
+
 class App:
     def __init__(self, fileName="My_new_map"):
         constants.TIME_START = time.time()
@@ -99,14 +102,13 @@ class App:
         # TODO: check that
         clean_mailbox()
 
-        #Path for logn data,plot ...
+        # Path for logn data,plot ...
         constants.ResultsPath.name_simulation = fileName
         create_structur_to_save_data()
-        shutil.copy("map/"+fileName+".txt",constants.ResultsPath.MAIN_FOLDER)
+        shutil.copy("map/" + fileName + ".txt", constants.ResultsPath.MAIN_FOLDER)
 
         """Loading the room from the txt.file"""
         self.filename = fileName
-
 
         """CAREFULL: all that depends on my room needs to be initialized again in init
         because my room is first initialized after room_txt.load_room_from_file"""
@@ -124,12 +126,10 @@ class App:
 
     def init(self):
 
-
         # Creation from the room with the given description
         self.room = Room()
         # Loading the map from a txt file, in map folder
-        load_room_from_txt(self.filename + ".txt",self.room)
-
+        load_room_from_txt(self.filename + ".txt", self.room)
 
         # Adding one agent user
         self.room.init_AgentUser(1)
@@ -160,7 +160,6 @@ class App:
         self.link_agent_target = LinkTargetCamera(self.room)
         self.link_agent_target.update_link_camera_target()
 
-
     def move_all_targets_thread(self):
         time_old = time.time()
         while self.targets_moving:
@@ -174,15 +173,17 @@ class App:
             for target in self.room.active_Target_list:
                 target.save_position()
                 constants.time_when_target_are_moved = constants.get_time()
-                self.exact_data_target.add_create_target_estimator(constants.time_when_target_are_moved,self.link_agent_target.get_agent_in_charge(target.id), -1, target.id, target.signature,
-                                                                   target.xc, target.yc, target.vx, target.vy, target.ax, target.ay,
+                self.exact_data_target.add_create_target_estimator(constants.time_when_target_are_moved,
+                                                                   self.link_agent_target.get_agent_in_charge(
+                                                                       target.id), -1, target.id, target.signature,
+                                                                   target.xc, target.yc, target.vx, target.vy,
+                                                                   target.ax, target.ay,
                                                                    target.radius, target.type)
                 move_Target(target, delta_time)
 
                 # theoritical calculation
 
             time_old = time.time()
-
 
     def main(self):
         run = True
@@ -214,7 +215,6 @@ class App:
             self.room.des_activate_agentCam_timed()
             self.room.des_activate_camera_agentCam_timed()
 
-
             # Updating GUI interface
             if USE_GUI:
                 if USE_dynamic_analysis_simulated_room:
@@ -229,13 +229,11 @@ class App:
                 (run, reset) = self.myGUI.GUI_option.getGUI_Info()
 
             # Closing the simulation after a given time if not using GUI
-            if constants.get_time()> constants.TIME_STOP and USE_GUI:
+            if constants.get_time() > constants.TIME_STOP and USE_GUI:
                 run = False
                 pygame.quit()
             elif constants.get_time() > constants.TIME_STOP:
                 run = False
-
-
 
         self.targets_moving = False
         for agent in self.room.agentCams_list:
@@ -252,16 +250,21 @@ class App:
         # save data
         if constants.SAVE_DATA:
             print("Saving data : generated")
-            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE, self.exact_data_target.to_csv())
+            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,
+                                         self.exact_data_target.to_csv())
             print("Data saved !")
 
         # plot graph
         if constants.GENERATE_PLOT:
-            plot_res(self.room,self.filename)
+            plot_res(self.room, self.filename)
 
 
 def execute():
-    myApp = App()
+    if len(sys.argv) > 1:
+        filename = sys.argv[1]
+    else:
+        filename = "My_new_map"
+    myApp = App(filename)
     myApp.main()
 
 

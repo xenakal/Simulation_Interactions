@@ -2,9 +2,11 @@ import numpy as np
 import random
 import re
 
+
 class MessageType:
     ACK = "ack"
     NACK = "nack"
+
 
 class Message:
     """
@@ -39,10 +41,6 @@ class Message:
                                                         (ex: memory)
                 8. (string) message_type             -- string  to cleary and quickly identify the message
                                                         (ex "request","ack","nack","heartbeat","information", ...)
-
-
-            :notes
-                fells free to write some comments.
     """
 
     def __init__(self, timestamp, sender_id, sender_signature, message_type, message, target_id=-1):
@@ -55,6 +53,7 @@ class Message:
         self.sender_signature = int(sender_signature)
         self.receiver_id_and_signature = []
         self.remaining_receiver = []
+        self.target_id = target_id
 
         """Content"""
         self.targetRef = target_id
@@ -180,12 +179,15 @@ class Message:
         base = s1 + s2 + s3 + s4
         return base + str(self.message) + "\n"
 
+    def is_approved(self):
+        # TODO: maybe check if ACK received, or not: think about that
+        return True
 
 class MessageCheckACKNACK(Message):
     """
         Class MessagecheckACKNACK enxtend Message.
 
-        Description : it add an confirmation step (ack or nack) that refers to a message sent.
+        Description : it adds a confirmation step (ack or nack) that refers to a message sent.
 
             :param
                 1. (int) timestamp                   -- time at which the message is created
@@ -221,7 +223,7 @@ class MessageCheckACKNACK(Message):
 
 
             :notes
-                all what you need are:
+                all that you need is:
                 is_approved()  check is every receiver approved the message by sending a ack
                 is_not_approved() check is at least one of the receiver sent a nack
     """

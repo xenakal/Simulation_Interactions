@@ -6,6 +6,7 @@ import constants
 
 
 def create_structur_to_save_data():
+
     shutil.rmtree(constants.ResultsPath.MAIN_FOLDER, ignore_errors=True)
     """Create the main folder to save the result after folder"""
     os.mkdir(constants.ResultsPath.MAIN_FOLDER)

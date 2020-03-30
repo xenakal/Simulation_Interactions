@@ -36,7 +36,7 @@ class GUI_memories:
 
                 # draw positions with noise "removed" as estimated by the Kalman Filter
                 for targetEstimator in agentMemory.get_noiseless_estimations(targetID):
-                    pygame.draw.circle(self.screen, (0, 0, 204),
+                    pygame.draw.circle(self.screen, (255, 51, 255),
                                        (self.x_offset + int(targetEstimator.target_position[0] * self.scale_x),
                                         self.y_offset + int(targetEstimator.target_position[1] * self.scale_y)), 2)
                

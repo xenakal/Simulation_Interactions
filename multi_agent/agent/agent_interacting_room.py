@@ -47,12 +47,12 @@ class AgentInteractingWithRoom(Agent):
                 fells free to write some comments.
     """
 
-    def __init__(self, id, type_agent,t_add,t_del, color=0):
-        super().__init__(id, type_agent,t_add,t_del,color)
+    def __init__(self, id, type_agent, t_add, t_del, color=0):
+        super().__init__(id, type_agent, t_add, t_del, color)
         "Attibutes"
         self.memory = Memory(self.id)
         self.room_representation = multi_agent.elements.room.RoomRepresentation(self.color)
-        self.hearbeat_tracker = HeartbeatCounterAllAgent(self.id, self.signature,self.log_main)
+        self.hearbeat_tracker = HeartbeatCounterAllAgent(self.id, self.signature, self.log_main)
 
         "Create his own thread"
         self.thread_is_running = 1
@@ -153,14 +153,34 @@ class AgentInteractingWithRoom(Agent):
                 1. Dispatsching to deal with multiple message given the type
         """
         for rec_mes in self.info_message_received.get_list():
-            if rec_mes.messageType == MessageTypeAgentInteractingWithRoom.MEMORY:
-                self.received_message_targetEstimator(rec_mes)
-            elif rec_mes.messageType == MessageType.ACK or rec_mes.messageType == MessageType.NACK:
-                self.received_message_ack_nack(rec_mes)
-            elif rec_mes.messageType == MessageTypeAgentInteractingWithRoom.HEARTBEAT:
-                self.received_message_heartbeat(rec_mes)
+            self.process_single_message(rec_mes)
 
-            self.info_message_received.del_message(rec_mes)
+    def process_single_message(self, rec_mes):
+        if rec_mes.messageType == MessageTypeAgentInteractingWithRoom.MEMORY:
+            self.received_message_targetEstimator(rec_mes)
+        elif rec_mes.messageType == MessageType.ACK or rec_mes.messageType == MessageType.NACK:
+            self.received_message_ack_nack(rec_mes)
+        elif rec_mes.messageType == MessageTypeAgentInteractingWithRoom.HEARTBEAT:
+            self.received_message_heartbeat(rec_mes)
+
+        self.info_message_received.del_message(rec_mes)
+
+    def handle_hearbeat(self, time_last_heart_beat_sent):
+        time_last_heart_beat_sent = self.send_message_heartbeat(time_last_heart_beat_sent)
+
+        for heartbeat in self.hearbeat_tracker.agent_heartbeat_list:
+            if heartbeat.is_to_late():
+                agent_to_suppress = -1
+                for agent in self.room_representation.active_AgentCams_list:
+                    if agent.id == heartbeat.agent_id:
+                        agent_to_suppress = agent
+                        break
+                if not agent_to_suppress == -1:
+                    self.room_representation.active_AgentCams_list.remove(agent_to_suppress)
+                    self.log_main.info(
+                        "Agent : " + str(agent_to_suppress.id) + " is not connected anymore, last heartbeat : %.02f s" %
+                        heartbeat.heartbeat_list[-1])
+        return time_last_heart_beat_sent
 
     def handle_hearbeat(self, time_last_heart_beat_sent):
         time_last_heart_beat_sent = self.send_message_heartbeat(time_last_heart_beat_sent)
@@ -231,7 +251,7 @@ class AgentInteractingWithRoom(Agent):
     def send_message_heartbeat(self, last_heart_beat_time):
         """
             :description
-                1. Message without signification to tell other agent that the agent is alive
+                1. Message without meaning, used to inform other agents that the agent is alive
         """
 
         delta_time = constants.get_time() - last_heart_beat_time
@@ -314,13 +334,13 @@ class AgentInteractingWithRoom(Agent):
 
 
 class HeartbeatCounterAllAgent:
-    def __init__(self, agent_id, agent_signature,log =None):
+    def __init__(self, agent_id, agent_signature, log=None):
         self.id = agent_id
         self.agent_signature = agent_signature
-        self.max_delay = constants.TIME_BTW_HEARTBEAT*constants.TIME_MAX_BTW_HEARTBEAT
-        if not log == None:
+        self.max_delay = constants.TIME_BTW_HEARTBEAT * constants.TIME_MAX_BTW_HEARTBEAT
+        if log is not None:
             log.info("Using hearbeat messages !")
-            log.info("Time between two heartbeats of %.02f s",constants.TIME_BTW_HEARTBEAT)
+            log.info("Time between two heartbeats of %.02f s", constants.TIME_BTW_HEARTBEAT)
             log.info("Time max between two heartbeats of %.02f s", self.max_delay)
         self.agent_heartbeat_list = []
 
@@ -335,9 +355,8 @@ class HeartbeatCounterAllAgent:
                 new_heartbeat_counter = HeartbeatCounter(m.sender_id, m.sender_signature, self.max_delay)
                 new_heartbeat_counter.add_heartbeat(m)
                 self.agent_heartbeat_list.append(new_heartbeat_counter)
-                if not log == None:
+                if log is not None:
                     log.info("Add a new heartbeat counter for agent: " + str(m.sender_id))
-
 
 
 class HeartbeatCounter:
