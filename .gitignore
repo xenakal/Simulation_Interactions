@@ -16,4 +16,4 @@ __pycache__/*
 __init__
 */__init__
 *.pcy
-
+map/*
