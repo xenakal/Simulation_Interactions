@@ -57,15 +57,19 @@ def plot_res(room,filename):
                                                                            constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL_PREDICTION_T_PLUS_2)
         "Graph to plot"
         """Including every target"""
+
         analyser_agent_memory.plot_all_target_simulated_data_collected_data()
         analyser_kalman_global.plot_position_target_simulated_data_collected_data()
 
         """Specific to each target"""
+        print("print1")
         for target in room.information_simulation.Target_list:
-            analyser_kalman_global.plot_MSE_not_interpolate_target_id(target.id)
-            analyser_kalman_global.plot_MSE_interpolate_target_id(target.id)
-            analyser_kalman_prediction_t1.plot_MSE_prediction_1_target_id(target.id)
-            analyser_kalman_prediction_t2.plot_MSE_prediction_2_target_id(target.id)
+            print("print2")
+            print("target_id: ", target.id)
+            analyser_kalman_global.plot_MSE_not_interpolate_target_id(target.id) # bug
+            analyser_kalman_global.plot_MSE_interpolate_target_id(target.id) # bug pas
+            analyser_kalman_prediction_t1.plot_MSE_prediction_1_target_id(target.id) # bug
+            analyser_kalman_prediction_t2.plot_MSE_prediction_2_target_id(target.id) # bug
 
     "PLOT FOR AGENT USER"
     for agent in room.agentUser_list:

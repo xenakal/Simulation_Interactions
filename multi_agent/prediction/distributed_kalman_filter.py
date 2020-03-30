@@ -31,7 +31,7 @@ class DistributedKalmanFilter(KalmanFilter):
           The International Journal of Robotics Research, 12(1), 20–44. https://doi.org/10.1177/027836499301200102
     """
 
-    def __init__(self, dim_x, dim_z, dt=DEFAULT_TIME_INCREMENT, dim_u=0):
+    def __init__(self, dim_x, dim_z, dt=DEFAULT_TIME_INCREMENT, dim_u=0, model_F=None):
 
         super().__init__(dim_x, dim_z, dim_u)
 
@@ -46,13 +46,18 @@ class DistributedKalmanFilter(KalmanFilter):
         self.ti = -1  # timestamp of current measurement
         self.dt = dt  # time difference between measurements
         self.z_current = None  # last measurement
+        if model_F is None:
+            def default_F(dt_arg):
+                return np.array([[1., 0., dt_arg, 0.],
+                                 [0., 1., 0., dt_arg],
+                                 [0., 0., 1., 0.],
+                                 [0., 0., 0., 1.]])
+            self.model_F = default_F  # default if nothing is given
+        else:
+            self.model_F = model_F  # function to get the transition matrix ( use: F = self.model_F(dt) )
 
     def predict(self, u=None, B=None, F=None, Q=None):
-        self.F = np.array([[1., 0., self.dt, 0.],
-                           [0., 1., 0., self.dt],
-                           [0., 0., 1., 0.],
-                           [0., 0., 0., 1.]])
-        super().predict(u, B, F, Q)
+        super().predict(u, B, self.model_F(self.dt), Q)
         self.PI = self.inv(self.P)
         self.PI_prior = self.PI.copy()
 
@@ -138,19 +143,12 @@ class DistributedKalmanFilter(KalmanFilter):
         tj = ti
         delta_t = tj - (self.ti - self.dt)  # δt = tj - τi ≃ ti - τi
 
-        # some values needed for the assimilation equations
-        RI = self.inv(self.R)
-        F = np.array([[1., 0., delta_t, 0.],
-                      [0., 1., 0., delta_t],
-                      [0., 0., 1., 0.],
-                      [0., 0., 0., 1.]])
-
         ## Pj_prior: PI(tj|τi) = F(δt)*P(τi|τi)FT(δt) + Q
-        Pj_prior = dot(dot(F, self.P_prior), F.T) + self.Q
+        Pj_prior = dot(dot(self.model_F(delta_t), self.P_prior), self.model_F(delta_t).T) + self.Q
         PIj_prior = self.inv(Pj_prior)
 
         ## xj_prior: x(tj|τi) = F(δt)x(τi|τi)
-        xj_prior = dot(F, self.x_prior)  # TODO: +dot(B, u) --> mais faut voir s'il faut adapter les equa d'assimilation
+        xj_prior = dot(self.model_F(delta_t), self.x_prior)  # TODO: +dot(B, u) --> mais faut voir s'il faut adapter les equa d'assimilation
 
         # data validation TODO: use a better method
         for diff_pos_in_axis in np.fabs(xj_prior - self.x):
@@ -190,9 +188,3 @@ class DistributedKalmanFilter(KalmanFilter):
 
     def get_DKF_info_string(self):
         return self.errors_info_toString()
-
-    def model_F(self):
-        self.F = np.array([[1., 0., self.dt, 0.],
-                           [0., 1., 0., self.dt],
-                           [0., 0., 1., 0.],
-                           [0., 0., 0., 1.]])

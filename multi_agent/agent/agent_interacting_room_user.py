@@ -66,6 +66,7 @@ class AgentUser(AgentInteractingWithRoom):
         while self.thread_is_running == 1:
             state = nextstate
             if nextstate == "processData":
+                time.sleep(0.4)
                 execution_time_start = constants.get_time()
                 self.log_execution.debug("Loop %d : at processData state after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))

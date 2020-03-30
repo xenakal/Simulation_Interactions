@@ -126,7 +126,7 @@ def kfObject_position(x_init, y_init, vx_init=0.0, vy_init=0.0):
     f.R = np.eye(2) * STD_MEASURMENT_ERROR_POSITION**2
     f.B = 0
     q = Q_discrete_white_noise(dim=2, dt=dt, var=0.1)  # var => how precise the model is
-    f.Q = q #block_diag(q, q)
+    f.Q = q  #  block_diag(q, q)
     return f
 
 

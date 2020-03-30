@@ -1,13 +1,12 @@
 from constants import NUMBER_PREDICTIONS, TIME_PICTURE, STD_MEASURMENT_ERROR_POSITION, TIME_SEND_READ_MESSAGE, \
-    STD_MEASURMENT_ERROR_SPEED, STD_MEASURMENT_ERROR_ACCCELERATION, DATA_TO_SEND
+    STD_MEASURMENT_ERROR_SPEED, STD_MEASURMENT_ERROR_ACCCELERATION, DATA_TO_SEND, KALMAN_MODEL_MEASUREMENT_DIM
 from filterpy.kalman import KalmanFilter, update, predict
 from filterpy.common import Q_discrete_white_noise
 from multi_agent.prediction.distributed_kalman_filter import DistributedKalmanFilter
 from scipy.linalg import block_diag
 import numpy as np
 import warnings
-import time
-import math
+from multi_agent.prediction.kalman_filter_models import KalmanFilterModel
 
 MARGE_SPEED_ERROR = 0.5
 SPEED_CHANGE_THRESHOLD = 2 * STD_MEASURMENT_ERROR_SPEED + MARGE_SPEED_ERROR
@@ -30,8 +29,10 @@ class KalmanPrediction:
 
     def __init__(self, agent_id, target_id, x_init, y_init, vx_init, vy_init, ax_init, ay_init, timestamp):
         # Kalman Filter object
-        # TODO: change that to a Factory (this way easily change reset_filter() as well).
-        self.filter = distributed_kfObject(x_init, y_init, vx_init, vy_init)
+        self.filter_model = KalmanFilterModel(x_init, y_init, vx_init, vy_init, ax_init, ay_init, calc_speed=True)
+        self.filter = self.filter_model.filter
+        #self.filter = distributed_kfObject(x_init, y_init, vx_init, vy_init)
+        #self.filter = kfObject(x_init, y_init, vx_init, vy_init)
         self.target_id = target_id
         self.agent_id = agent_id
         kalman_memory_element = [x_init, y_init, vx_init, vy_init, ax_init, ay_init, timestamp]
@@ -51,7 +52,7 @@ class KalmanPrediction:
         self.kalman_memory.append(kalman_memory_element)
 
         if self.pivot_point_detected_speed():
-            self.reset_filter(z[0], z[1], z[2], z[3])
+            self.reset_filter(z[0], z[1], z[2], z[3], z[4], z[5])
             self.kalman_memory = [kalman_memory_element]
         """
         avg_speed_old = avgSpeedFunc(self.kalman_memory[-NUMBER_AVERAGE*2-2:-NUMBER_AVERAGE-1])
@@ -107,23 +108,19 @@ class KalmanPrediction:
         current_state = self.filter.x
         current_P = self.filter.P
         dt = 0.4
-        F = np.array([[1., 0., dt, 0.],
-                      [0., 1., 0., dt],
-                      [0., 0., 1., 0.],
-                      [0., 0., 0., 1.]])
         for _ in range(NUMBER_PREDICTIONS):
-            new_state, new_P = predict(current_state, current_P, F, self.filter.Q)
-            predictions.append(new_state[0:2])
+            new_state, new_P = predict(current_state, current_P, self.filter_model.model_F(dt), self.filter.Q)
+            predictions.append(new_state[0:KALMAN_MODEL_MEASUREMENT_DIM])
             predictions.append(new_state)
-            current_state, current_P = update(current_state, current_P, new_state[0:2], self.filter.R, self.filter.H)
+            current_state, current_P = update(current_state, current_P, new_state[0:KALMAN_MODEL_MEASUREMENT_DIM], self.filter.R, self.filter.H)
             # current_state, current_P = update(current_state, current_P, new_state, self.filter.R, self.filter.H)
         return predictions
 
     def get_current_position(self):
         return self.filter.x
 
-    def reset_filter(self, x_init, y_init, vx_init, vy_init):
-        self.filter = distributed_kfObject(x_init, y_init, vx_init, vy_init)
+    def reset_filter(self, x_init, y_init, vx_init, vy_init, ax_init, ay_init):
+        self.filter = self.filter_model.reset_filter(x_init, y_init, vx_init, vy_init, ax_init, ay_init, calc_speed=True)
 
     def get_DKF_info_string(self):
         if DATA_TO_SEND != "dkf":

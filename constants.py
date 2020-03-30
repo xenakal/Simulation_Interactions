@@ -7,7 +7,7 @@ In this file you have the possibility to modify the settings
 
 """Options-----------------------------------------------------------------------------------------------------------"""
 SAVE_DATA = True
-GENERATE_PLOT = False
+GENERATE_PLOT = True
 
 USE_GUI = True
 USE_static_analysis = True
@@ -41,7 +41,7 @@ TIME_SEND_READ_MESSAGE = (0.1 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 MAX_TIME_MESSAGE_IN_LIST = 3  # s
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
-DATA_TO_SEND = "dkf"
+DATA_TO_SEND = "dkf"  # "all"
 
 """Error on mesure---------------------------------------------------------------------------------------------------"""
 STD_MEASURMENT_ERROR_POSITION = 0.2
@@ -62,6 +62,11 @@ X_OFFSET = 180
 Y_OFFSET = 100
 X_SCALE = 60
 Y_SCALE = 60
+
+"""Options for Kalman Filter-----------------------------------------------------------------------------------------"""
+DISTRIBUTED_KALMAN = True
+KALMAN_MODEL_MEASUREMENT_DIM = 2
+
 
 """---------------------------------------------------------------------------------------------------------------------
 If you just want to change simulation's parameter you should not modify constant below this line 
