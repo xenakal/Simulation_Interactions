@@ -226,7 +226,8 @@ class Memory:
     def update_predictions_lists(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
                                  target_size, target_type):
 
-        predictions_for_target = self.get_target_predictor(target_id).get_predictions()
+       # predictions_for_target = self.get_target_predictor(target_id).get_predictions()
+        predictions_for_target = self.get_target_predictions(target_id)
         if len(predictions_for_target) < 2:  # No predictions made
             return
 

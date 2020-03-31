@@ -1,0 +1,22 @@
+2020-04-01 00:44:20,782 - Main informations100 - INFO - Using hearbeat messages !
+2020-04-01 00:44:20,782 - Main informations100 - INFO - Time between two heartbeats of 1.00 s
+2020-04-01 00:44:20,783 - Main informations100 - INFO - Time max between two heartbeats of 5.00 s
+2020-04-01 00:44:20,786 - Main informations100 - INFO - starting initialisation in agent_interacting_room
+2020-04-01 00:44:20,786 - Main informations100 - INFO - initialisation in agent_interacting_room_done !
+2020-04-01 00:44:22,060 - Main informations100 - INFO - Found someone ! agent cam :1
+2020-04-01 00:44:22,061 - Main informations100 - INFO - Add a new heartbeat counter for agent: 1
+2020-04-01 00:44:22,250 - Main informations100 - INFO - Found someone ! agent cam :0
+2020-04-01 00:44:22,250 - Main informations100 - INFO - Add a new heartbeat counter for agent: 0
+2020-04-01 00:44:31,646 - Main informations100 - INFO - Saving data ...: agent 100
+2020-04-01 00:44:31,650 - Main informations100 - INFO - Data saved !
+2020-04-01 00:44:49,751 - Main informations100 - INFO - Using hearbeat messages !
+2020-04-01 00:44:49,751 - Main informations100 - INFO - Time between two heartbeats of 1.00 s
+2020-04-01 00:44:49,751 - Main informations100 - INFO - Time max between two heartbeats of 5.00 s
+2020-04-01 00:44:49,755 - Main informations100 - INFO - starting initialisation in agent_interacting_room
+2020-04-01 00:44:49,756 - Main informations100 - INFO - initialisation in agent_interacting_room_done !
+2020-04-01 00:44:51,069 - Main informations100 - INFO - Found someone ! agent cam :0
+2020-04-01 00:44:51,069 - Main informations100 - INFO - Add a new heartbeat counter for agent: 0
+2020-04-01 00:44:51,069 - Main informations100 - INFO - Found someone ! agent cam :1
+2020-04-01 00:44:51,070 - Main informations100 - INFO - Add a new heartbeat counter for agent: 1
+2020-04-01 00:45:10,608 - Main informations100 - INFO - Saving data ...: agent 100
+2020-04-01 00:45:10,616 - Main informations100 - INFO - Data saved !

@@ -1,0 +1,282 @@
+2020-04-01 00:41:43,174 - Message3 - INFO - RECEIVED : at 1.15 s heartbeat target : -1 from :0
+2020-04-01 00:41:43,329 - Message3 - INFO - RECEIVED : at 1.17 s heartbeat target : -1 from :1
+2020-04-01 00:41:43,468 - Message3 - INFO - SENT : at 1.17 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:43,599 - Message3 - INFO - RECEIVED : at 1.17 s heartbeat target : -1 from :2
+2020-04-01 00:41:43,731 - Message3 - INFO - RECEIVED : at 1.22 s heartbeat target : -1 from :100
+2020-04-01 00:41:44,285 - Message3 - INFO - RECEIVED : at 2.26 s heartbeat target : -1 from :0
+2020-04-01 00:41:44,439 - Message3 - INFO - RECEIVED : at 2.30 s heartbeat target : -1 from :1
+2020-04-01 00:41:44,574 - Message3 - INFO - SENT : at 2.26 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:44,577 - Message3 - INFO - RECEIVED : at 2.30 s heartbeat target : -1 from :1
+2020-04-01 00:41:44,709 - Message3 - INFO - RECEIVED : at 2.30 s heartbeat target : -1 from :1
+2020-04-01 00:41:44,841 - Message3 - INFO - RECEIVED : at 2.30 s heartbeat target : -1 from :1
+2020-04-01 00:41:44,968 - Message3 - INFO - RECEIVED : at 2.30 s heartbeat target : -1 from :1
+2020-04-01 00:41:45,096 - Message3 - INFO - RECEIVED : at 2.30 s heartbeat target : -1 from :1
+2020-04-01 00:41:45,105 - Message3 - INFO - RECEIVED : at 2.24 s heartbeat target : -1 from :100
+2020-04-01 00:41:45,111 - Message3 - INFO - RECEIVED : at 2.28 s heartbeat target : -1 from :2
+2020-04-01 00:41:45,388 - Message3 - INFO - RECEIVED : at 3.28 s heartbeat target : -1 from :0
+2020-04-01 00:41:45,526 - Message3 - INFO - RECEIVED : at 3.28 s heartbeat target : -1 from :100
+2020-04-01 00:41:45,664 - Message3 - INFO - SENT : at 3.38 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:45,669 - Message3 - INFO - RECEIVED : at 3.31 s heartbeat target : -1 from :1
+2020-04-01 00:41:45,677 - Message3 - INFO - RECEIVED : at 3.29 s heartbeat target : -1 from :2
+2020-04-01 00:41:46,327 - Message3 - INFO - SENT : at 4.33 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:46,335 - Message3 - INFO - RECEIVED : at 4.31 s heartbeat target : -1 from :1
+2020-04-01 00:41:46,727 - Message3 - INFO - RECEIVED : at 4.38 s heartbeat target : -1 from :0
+2020-04-01 00:41:46,740 - Message3 - INFO - RECEIVED : at 4.33 s heartbeat target : -1 from :2
+2020-04-01 00:41:46,889 - Message3 - INFO - SENT : at 4.48 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:47,028 - Message3 - INFO - SENT : at 4.48 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:47,032 - Message3 - INFO - RECEIVED : at 4.33 s heartbeat target : -1 from :100
+2020-04-01 00:41:47,301 - Message3 - INFO - SENT : at 5.17 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:47,432 - Message3 - INFO - SENT : at 5.44 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:47,584 - Message3 - INFO - RECEIVED : at 5.40 s heartbeat target : -1 from :0
+2020-04-01 00:41:47,591 - Message3 - INFO - RECEIVED : at 5.43 s heartbeat target : -1 from :1
+2020-04-01 00:41:47,599 - Message3 - INFO - RECEIVED : at 5.46 s heartbeat target : -1 from :2
+2020-04-01 00:41:47,742 - Message3 - INFO - RECEIVED : at 5.34 s heartbeat target : -1 from :100
+2020-04-01 00:41:47,883 - Message3 - INFO - SENT : at 5.57 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:47,894 - Message3 - INFO - SENT : at 5.89 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:48,034 - Message3 - INFO - SENT : at 6.04 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:48,428 - Message3 - INFO - SENT : at 6.30 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:48,438 - Message3 - INFO - SENT : at 6.43 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:48,593 - Message3 - INFO - RECEIVED : at 6.47 s heartbeat target : -1 from :2
+2020-04-01 00:41:48,608 - Message3 - INFO - RECEIVED : at 6.50 s heartbeat target : -1 from :0
+2020-04-01 00:41:48,616 - Message3 - INFO - RECEIVED : at 6.55 s heartbeat target : -1 from :1
+2020-04-01 00:41:48,764 - Message3 - INFO - SENT : at 6.76 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:48,900 - Message3 - INFO - SENT : at 6.58 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:48,909 - Message3 - INFO - SENT : at 6.91 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:49,059 - Message3 - INFO - RECEIVED : at 6.56 s heartbeat target : -1 from :100
+2020-04-01 00:41:49,203 - Message3 - INFO - SENT : at 7.06 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:49,212 - Message3 - INFO - SENT : at 7.21 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:49,613 - Message3 - INFO - SENT : at 7.48 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:49,632 - Message3 - INFO - SENT : at 7.62 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:49,665 - Message3 - INFO - RECEIVED : at 7.48 s heartbeat target : -1 from :2
+2020-04-01 00:41:49,681 - Message3 - INFO - RECEIVED : at 7.61 s heartbeat target : -1 from :0
+2020-04-01 00:41:49,694 - Message3 - INFO - RECEIVED : at 7.64 s heartbeat target : -1 from :1
+2020-04-01 00:41:49,854 - Message3 - INFO - SENT : at 7.84 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:49,991 - Message3 - INFO - SENT : at 7.62 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:50,125 - Message3 - INFO - RECEIVED : at 7.62 s heartbeat target : -1 from :100
+2020-04-01 00:41:50,267 - Message3 - INFO - SENT : at 8.27 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:50,403 - Message3 - INFO - SENT : at 8.41 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:50,549 - Message3 - INFO - SENT : at 8.55 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:50,553 - Message3 - INFO - RECEIVED : at 8.52 s heartbeat target : -1 from :2
+2020-04-01 00:41:50,711 - Message3 - INFO - RECEIVED : at 8.65 s heartbeat target : -1 from :1
+2020-04-01 00:41:50,722 - Message3 - INFO - RECEIVED : at 8.66 s heartbeat target : -1 from :0
+2020-04-01 00:41:50,861 - Message3 - INFO - SENT : at 8.70 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:51,012 - Message3 - INFO - SENT : at 8.70 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:51,148 - Message3 - INFO - RECEIVED : at 8.67 s heartbeat target : -1 from :100
+2020-04-01 00:41:51,412 - Message3 - INFO - SENT : at 9.42 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:51,552 - Message3 - INFO - SENT : at 9.55 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:51,557 - Message3 - INFO - RECEIVED : at 9.54 s heartbeat target : -1 from :2
+2020-04-01 00:41:51,709 - Message3 - INFO - RECEIVED : at 9.67 s heartbeat target : -1 from :1
+2020-04-01 00:41:51,844 - Message3 - INFO - SENT : at 9.71 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:51,858 - Message3 - INFO - RECEIVED : at 9.67 s heartbeat target : -1 from :1
+2020-04-01 00:41:52,028 - Message3 - INFO - RECEIVED : at 9.67 s heartbeat target : -1 from :1
+2020-04-01 00:41:52,035 - Message3 - INFO - RECEIVED : at 9.70 s heartbeat target : -1 from :100
+2020-04-01 00:41:52,187 - Message3 - INFO - RECEIVED : at 9.70 s heartbeat target : -1 from :0
+2020-04-01 00:41:52,463 - Message3 - INFO - SENT : at 9.71 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:52,472 - Message3 - INFO - SENT : at 10.18 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:52,603 - Message3 - INFO - RECEIVED : at 10.56 s heartbeat target : -1 from :2
+2020-04-01 00:41:52,892 - Message3 - INFO - RECEIVED : at 10.77 s heartbeat target : -1 from :1
+2020-04-01 00:41:53,034 - Message3 - INFO - RECEIVED : at 10.80 s heartbeat target : -1 from :100
+2020-04-01 00:41:53,174 - Message3 - INFO - SENT : at 10.76 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:53,181 - Message3 - INFO - RECEIVED : at 10.75 s heartbeat target : -1 from :0
+2020-04-01 00:41:53,857 - Message3 - INFO - RECEIVED : at 11.80 s heartbeat target : -1 from :0
+2020-04-01 00:41:54,003 - Message3 - INFO - RECEIVED : at 11.93 s heartbeat target : -1 from :1
+2020-04-01 00:41:54,013 - Message3 - INFO - RECEIVED : at 11.67 s heartbeat target : -1 from :2
+2020-04-01 00:41:54,155 - Message3 - INFO - SENT : at 11.84 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:54,287 - Message3 - INFO - RECEIVED : at 11.81 s heartbeat target : -1 from :100
+2020-04-01 00:41:54,830 - Message3 - INFO - SENT : at 12.69 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:54,838 - Message3 - INFO - RECEIVED : at 12.69 s heartbeat target : -1 from :2
+2020-04-01 00:41:55,161 - Message3 - INFO - RECEIVED : at 13.06 s heartbeat target : -1 from :1
+2020-04-01 00:41:55,171 - Message3 - INFO - RECEIVED : at 12.83 s heartbeat target : -1 from :0
+2020-04-01 00:41:55,309 - Message3 - INFO - SENT : at 12.99 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:55,441 - Message3 - INFO - RECEIVED : at 12.87 s heartbeat target : -1 from :100
+2020-04-01 00:41:55,850 - Message3 - INFO - RECEIVED : at 13.82 s heartbeat target : -1 from :2
+2020-04-01 00:41:56,000 - Message3 - INFO - RECEIVED : at 13.86 s heartbeat target : -1 from :0
+2020-04-01 00:41:56,286 - Message3 - INFO - SENT : at 14.00 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:56,292 - Message3 - INFO - RECEIVED : at 14.20 s heartbeat target : -1 from :1
+2020-04-01 00:41:56,433 - Message3 - INFO - RECEIVED : at 13.92 s heartbeat target : -1 from :100
+2020-04-01 00:41:56,835 - Message3 - INFO - RECEIVED : at 14.82 s heartbeat target : -1 from :2
+2020-04-01 00:41:56,972 - Message3 - INFO - RECEIVED : at 14.86 s heartbeat target : -1 from :0
+2020-04-01 00:41:57,280 - Message3 - INFO - RECEIVED : at 15.22 s heartbeat target : -1 from :1
+2020-04-01 00:41:57,559 - Message3 - INFO - SENT : at 15.12 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:57,563 - Message3 - INFO - RECEIVED : at 15.09 s heartbeat target : -1 from :100
+2020-04-01 00:41:57,834 - Message3 - INFO - SENT : at 15.84 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:57,974 - Message3 - INFO - RECEIVED : at 15.87 s heartbeat target : -1 from :0
+2020-04-01 00:41:57,988 - Message3 - INFO - RECEIVED : at 15.88 s heartbeat target : -1 from :2
+2020-04-01 00:41:58,125 - Message3 - INFO - SENT : at 16.13 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:58,290 - Message3 - INFO - SENT : at 16.29 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:58,430 - Message3 - INFO - SENT : at 16.13 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:58,566 - Message3 - INFO - SENT : at 16.57 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:58,570 - Message3 - INFO - RECEIVED : at 16.11 s heartbeat target : -1 from :100
+2020-04-01 00:41:58,709 - Message3 - INFO - RECEIVED : at 16.35 s heartbeat target : -1 from :1
+2020-04-01 00:41:58,983 - Message3 - INFO - SENT : at 16.99 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:58,990 - Message3 - INFO - RECEIVED : at 16.88 s heartbeat target : -1 from :0
+2020-04-01 00:41:59,003 - Message3 - INFO - RECEIVED : at 16.94 s heartbeat target : -1 from :2
+2020-04-01 00:41:59,318 - Message3 - INFO - SENT : at 17.31 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:59,466 - Message3 - INFO - SENT : at 17.15 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:41:59,478 - Message3 - INFO - SENT : at 17.47 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:59,482 - Message3 - INFO - RECEIVED : at 17.36 s heartbeat target : -1 from :1
+2020-04-01 00:41:59,619 - Message3 - INFO - SENT : at 17.63 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:41:59,622 - Message3 - INFO - RECEIVED : at 17.36 s heartbeat target : -1 from :100
+2020-04-01 00:41:59,903 - Message3 - INFO - RECEIVED : at 17.89 s heartbeat target : -1 from :0
+2020-04-01 00:42:00,043 - Message3 - INFO - SENT : at 18.05 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:42:00,051 - Message3 - INFO - RECEIVED : at 17.96 s heartbeat target : -1 from :2
+2020-04-01 00:42:00,501 - Message3 - INFO - SENT : at 18.21 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:42:00,538 - Message3 - INFO - SENT : at 18.21 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:42:00,558 - Message3 - INFO - RECEIVED : at 18.37 s heartbeat target : -1 from :1
+2020-04-01 00:42:00,838 - Message3 - INFO - SENT : at 18.35 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:42:00,857 - Message3 - INFO - SENT : at 18.84 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:42:00,999 - Message3 - INFO - RECEIVED : at 18.55 s heartbeat target : -1 from :100
+2020-04-01 00:42:01,006 - Message3 - INFO - RECEIVED : at 18.96 s heartbeat target : -1 from :0
+2020-04-01 00:42:01,157 - Message3 - INFO - RECEIVED : at 19.01 s heartbeat target : -1 from :2
+2020-04-01 00:42:01,484 - Message3 - INFO - RECEIVED : at 19.42 s heartbeat target : -1 from :1
+2020-04-01 00:42:01,633 - Message3 - INFO - SENT : at 19.32 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:42:01,657 - Message3 - INFO - SENT : at 19.48 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:42:01,670 - Message3 - INFO - SENT : at 19.63 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:42:01,823 - Message3 - INFO - SENT : at 19.32 s heartbeat target : -1 to :[[0, 1546206958711069], [1, 4704499346957968], [2, 440854226856517], [100, 4414671445953372]]
+2020-04-01 00:42:01,973 - Message3 - INFO - SENT : at 19.16 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:42:01,990 - Message3 - INFO - SENT : at 19.97 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:42:01,998 - Message3 - INFO - RECEIVED : at 19.97 s heartbeat target : -1 from :0
+2020-04-01 00:42:02,154 - Message3 - INFO - RECEIVED : at 19.67 s heartbeat target : -1 from :100
+2020-04-01 00:42:02,162 - Message3 - INFO - RECEIVED : at 20.11 s heartbeat target : -1 from :2
+2020-04-01 00:42:02,885 - Message3 - INFO - SENT : at 20.32 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:42:02,933 - Message3 - INFO - SENT : at 20.82 s memory target : 0 to :[[100, 4414671445953372]]
+2020-04-01 00:42:03,035 - Message3 - INFO - RECEIVED : at 20.58 s heartbeat target : -1 from :1
+2020-04-01 00:42:24,920 - Message3 - INFO - RECEIVED : at 1.17 s heartbeat target : -1 from :2
+2020-04-01 00:42:24,936 - Message3 - INFO - RECEIVED : at 1.17 s heartbeat target : -1 from :0
+2020-04-01 00:42:24,947 - Message3 - INFO - RECEIVED : at 1.22 s heartbeat target : -1 from :100
+2020-04-01 00:42:25,099 - Message3 - INFO - RECEIVED : at 1.33 s memory target : 0 from :2
+2020-04-01 00:42:25,117 - Message3 - INFO - RECEIVED : at 1.47 s memory target : 0 from :2
+2020-04-01 00:42:25,254 - Message3 - INFO - SENT : at 1.15 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:25,264 - Message3 - INFO - RECEIVED : at 1.16 s heartbeat target : -1 from :1
+2020-04-01 00:42:25,956 - Message3 - INFO - RECEIVED : at 2.18 s heartbeat target : -1 from :2
+2020-04-01 00:42:25,972 - Message3 - INFO - RECEIVED : at 2.21 s heartbeat target : -1 from :0
+2020-04-01 00:42:26,027 - Message3 - INFO - RECEIVED : at 2.22 s heartbeat target : -1 from :1
+2020-04-01 00:42:26,208 - Message3 - INFO - SENT : at 2.20 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:26,600 - Message3 - INFO - RECEIVED : at 2.42 s heartbeat target : -1 from :100
+2020-04-01 00:42:26,891 - Message3 - INFO - RECEIVED : at 3.20 s heartbeat target : -1 from :2
+2020-04-01 00:42:26,911 - Message3 - INFO - RECEIVED : at 3.27 s heartbeat target : -1 from :0
+2020-04-01 00:42:27,199 - Message3 - INFO - SENT : at 3.27 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:27,209 - Message3 - INFO - SENT : at 3.60 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:27,339 - Message3 - INFO - RECEIVED : at 3.30 s heartbeat target : -1 from :1
+2020-04-01 00:42:27,481 - Message3 - INFO - SENT : at 3.89 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:27,615 - Message3 - INFO - SENT : at 4.02 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:27,619 - Message3 - INFO - RECEIVED : at 3.49 s heartbeat target : -1 from :100
+2020-04-01 00:42:27,901 - Message3 - INFO - RECEIVED : at 4.21 s heartbeat target : -1 from :2
+2020-04-01 00:42:28,181 - Message3 - INFO - RECEIVED : at 4.38 s heartbeat target : -1 from :0
+2020-04-01 00:42:28,189 - Message3 - INFO - RECEIVED : at 4.43 s heartbeat target : -1 from :1
+2020-04-01 00:42:28,327 - Message3 - INFO - SENT : at 4.30 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:28,462 - Message3 - INFO - SENT : at 4.87 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:28,721 - Message3 - INFO - RECEIVED : at 4.49 s heartbeat target : -1 from :100
+2020-04-01 00:42:28,864 - Message3 - INFO - RECEIVED : at 5.24 s heartbeat target : -1 from :2
+2020-04-01 00:42:29,156 - Message3 - INFO - SENT : at 5.27 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:29,165 - Message3 - INFO - SENT : at 5.41 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:29,181 - Message3 - INFO - RECEIVED : at 5.48 s heartbeat target : -1 from :0
+2020-04-01 00:42:29,194 - Message3 - INFO - RECEIVED : at 5.56 s heartbeat target : -1 from :1
+2020-04-01 00:42:29,333 - Message3 - INFO - SENT : at 5.41 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:29,342 - Message3 - INFO - SENT : at 5.74 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:29,729 - Message3 - INFO - RECEIVED : at 5.65 s heartbeat target : -1 from :100
+2020-04-01 00:42:30,003 - Message3 - INFO - SENT : at 6.41 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:30,010 - Message3 - INFO - RECEIVED : at 6.27 s heartbeat target : -1 from :2
+2020-04-01 00:42:30,154 - Message3 - INFO - SENT : at 6.56 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:30,331 - Message3 - INFO - RECEIVED : at 6.71 s heartbeat target : -1 from :1
+2020-04-01 00:42:30,617 - Message3 - INFO - SENT : at 6.56 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:30,632 - Message3 - INFO - SENT : at 6.90 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:30,646 - Message3 - INFO - RECEIVED : at 6.57 s heartbeat target : -1 from :0
+2020-04-01 00:42:31,070 - Message3 - INFO - SENT : at 7.19 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:31,088 - Message3 - INFO - RECEIVED : at 6.95 s heartbeat target : -1 from :100
+2020-04-01 00:42:31,241 - Message3 - INFO - SENT : at 7.34 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:31,251 - Message3 - INFO - SENT : at 7.64 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:31,267 - Message3 - INFO - RECEIVED : at 7.61 s heartbeat target : -1 from :0
+2020-04-01 00:42:31,274 - Message3 - INFO - RECEIVED : at 7.34 s heartbeat target : -1 from :2
+2020-04-01 00:42:31,421 - Message3 - INFO - RECEIVED : at 7.78 s heartbeat target : -1 from :1
+2020-04-01 00:42:31,567 - Message3 - INFO - SENT : at 7.64 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:31,579 - Message3 - INFO - SENT : at 7.82 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:31,592 - Message3 - INFO - SENT : at 7.97 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:31,858 - Message3 - INFO - SENT : at 8.26 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:32,099 - Message3 - INFO - SENT : at 8.42 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:32,264 - Message3 - INFO - SENT : at 8.66 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:32,289 - Message3 - INFO - RECEIVED : at 8.36 s heartbeat target : -1 from :2
+2020-04-01 00:42:32,300 - Message3 - INFO - RECEIVED : at 8.03 s heartbeat target : -1 from :100
+2020-04-01 00:42:32,312 - Message3 - INFO - RECEIVED : at 8.62 s heartbeat target : -1 from :0
+2020-04-01 00:42:32,459 - Message3 - INFO - RECEIVED : at 8.81 s heartbeat target : -1 from :1
+2020-04-01 00:42:32,600 - Message3 - INFO - SENT : at 8.66 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:32,738 - Message3 - INFO - SENT : at 9.14 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:32,877 - Message3 - INFO - SENT : at 9.28 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:33,013 - Message3 - INFO - RECEIVED : at 9.39 s heartbeat target : -1 from :2
+2020-04-01 00:42:33,156 - Message3 - INFO - SENT : at 9.56 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:33,289 - Message3 - INFO - SENT : at 9.70 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:33,307 - Message3 - INFO - RECEIVED : at 9.14 s heartbeat target : -1 from :100
+2020-04-01 00:42:33,447 - Message3 - INFO - RECEIVED : at 9.74 s heartbeat target : -1 from :0
+2020-04-01 00:42:33,593 - Message3 - INFO - RECEIVED : at 9.92 s heartbeat target : -1 from :1
+2020-04-01 00:42:33,735 - Message3 - INFO - SENT : at 9.70 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:34,004 - Message3 - INFO - SENT : at 10.41 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:34,144 - Message3 - INFO - SENT : at 10.55 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:34,148 - Message3 - INFO - RECEIVED : at 10.50 s heartbeat target : -1 from :2
+2020-04-01 00:42:34,287 - Message3 - INFO - RECEIVED : at 10.18 s heartbeat target : -1 from :100
+2020-04-01 00:42:34,437 - Message3 - INFO - RECEIVED : at 10.80 s heartbeat target : -1 from :0
+2020-04-01 00:42:34,711 - Message3 - INFO - SENT : at 10.83 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:34,716 - Message3 - INFO - RECEIVED : at 11.04 s heartbeat target : -1 from :1
+2020-04-01 00:42:34,988 - Message3 - INFO - SENT : at 11.26 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:35,264 - Message3 - INFO - RECEIVED : at 11.63 s heartbeat target : -1 from :2
+2020-04-01 00:42:35,542 - Message3 - INFO - SENT : at 11.95 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:35,565 - Message3 - INFO - RECEIVED : at 11.82 s heartbeat target : -1 from :0
+2020-04-01 00:42:35,572 - Message3 - INFO - RECEIVED : at 11.25 s heartbeat target : -1 from :100
+2020-04-01 00:42:35,732 - Message3 - INFO - SENT : at 12.12 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:35,876 - Message3 - INFO - RECEIVED : at 12.16 s heartbeat target : -1 from :1
+2020-04-01 00:42:36,021 - Message3 - INFO - SENT : at 11.95 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:36,297 - Message3 - INFO - SENT : at 12.70 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:36,431 - Message3 - INFO - RECEIVED : at 12.28 s heartbeat target : -1 from :100
+2020-04-01 00:42:36,586 - Message3 - INFO - RECEIVED : at 12.88 s heartbeat target : -1 from :0
+2020-04-01 00:42:36,594 - Message3 - INFO - RECEIVED : at 12.76 s heartbeat target : -1 from :2
+2020-04-01 00:42:36,869 - Message3 - INFO - SENT : at 12.98 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:36,873 - Message3 - INFO - RECEIVED : at 13.21 s heartbeat target : -1 from :1
+2020-04-01 00:42:37,014 - Message3 - INFO - SENT : at 13.42 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:37,556 - Message3 - INFO - RECEIVED : at 13.81 s heartbeat target : -1 from :2
+2020-04-01 00:42:37,574 - Message3 - INFO - RECEIVED : at 13.33 s heartbeat target : -1 from :100
+2020-04-01 00:42:37,738 - Message3 - INFO - RECEIVED : at 13.33 s heartbeat target : -1 from :100
+2020-04-01 00:42:38,047 - Message3 - INFO - SENT : at 14.12 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:38,056 - Message3 - INFO - RECEIVED : at 13.33 s heartbeat target : -1 from :100
+2020-04-01 00:42:38,073 - Message3 - INFO - RECEIVED : at 13.97 s heartbeat target : -1 from :0
+2020-04-01 00:42:38,080 - Message3 - INFO - RECEIVED : at 14.32 s heartbeat target : -1 from :1
+2020-04-01 00:42:38,658 - Message3 - INFO - RECEIVED : at 14.92 s heartbeat target : -1 from :2
+2020-04-01 00:42:38,674 - Message3 - INFO - RECEIVED : at 14.44 s heartbeat target : -1 from :100
+2020-04-01 00:42:38,840 - Message3 - INFO - RECEIVED : at 14.44 s heartbeat target : -1 from :100
+2020-04-01 00:42:39,025 - Message3 - INFO - RECEIVED : at 14.44 s heartbeat target : -1 from :100
+2020-04-01 00:42:39,039 - Message3 - INFO - RECEIVED : at 15.07 s heartbeat target : -1 from :0
+2020-04-01 00:42:39,051 - Message3 - INFO - RECEIVED : at 15.40 s heartbeat target : -1 from :1
+2020-04-01 00:42:39,332 - Message3 - INFO - RECEIVED : at 15.60 s heartbeat target : -1 from :100
+2020-04-01 00:42:39,653 - Message3 - INFO - SENT : at 16.03 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:39,657 - Message3 - INFO - RECEIVED : at 16.05 s heartbeat target : -1 from :2
+2020-04-01 00:42:39,814 - Message3 - INFO - SENT : at 15.88 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:39,818 - Message3 - INFO - RECEIVED : at 16.20 s heartbeat target : -1 from :0
+2020-04-01 00:42:39,965 - Message3 - INFO - SENT : at 15.22 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:39,978 - Message3 - INFO - SENT : at 15.74 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:40,118 - Message3 - INFO - RECEIVED : at 16.47 s heartbeat target : -1 from :1
+2020-04-01 00:42:40,588 - Message3 - INFO - SENT : at 16.53 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:40,598 - Message3 - INFO - SENT : at 16.69 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:40,609 - Message3 - INFO - SENT : at 16.85 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:40,622 - Message3 - INFO - SENT : at 16.99 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:40,917 - Message3 - INFO - RECEIVED : at 17.28 s heartbeat target : -1 from :0
+2020-04-01 00:42:41,070 - Message3 - INFO - SENT : at 17.17 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:41,081 - Message3 - INFO - SENT : at 17.48 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:41,107 - Message3 - INFO - RECEIVED : at 16.95 s heartbeat target : -1 from :100
+2020-04-01 00:42:41,116 - Message3 - INFO - RECEIVED : at 17.48 s heartbeat target : -1 from :1
+2020-04-01 00:42:41,403 - Message3 - INFO - SENT : at 17.48 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:41,681 - Message3 - INFO - SENT : at 18.09 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:41,820 - Message3 - INFO - RECEIVED : at 18.20 s heartbeat target : -1 from :2
+2020-04-01 00:42:41,962 - Message3 - INFO - RECEIVED : at 18.10 s heartbeat target : -1 from :100
+2020-04-01 00:42:42,134 - Message3 - INFO - RECEIVED : at 18.50 s heartbeat target : -1 from :1
+2020-04-01 00:42:42,290 - Message3 - INFO - SENT : at 18.52 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:42,312 - Message3 - INFO - RECEIVED : at 18.29 s heartbeat target : -1 from :0
+2020-04-01 00:42:42,490 - Message3 - INFO - SENT : at 18.52 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:42,498 - Message3 - INFO - SENT : at 18.88 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:42,963 - Message3 - INFO - RECEIVED : at 19.20 s heartbeat target : -1 from :2
+2020-04-01 00:42:43,120 - Message3 - INFO - SENT : at 19.37 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:43,144 - Message3 - INFO - SENT : at 19.52 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:43,169 - Message3 - INFO - RECEIVED : at 19.36 s heartbeat target : -1 from :0
+2020-04-01 00:42:43,182 - Message3 - INFO - RECEIVED : at 19.50 s heartbeat target : -1 from :1
+2020-04-01 00:42:43,342 - Message3 - INFO - RECEIVED : at 19.28 s heartbeat target : -1 from :100
+2020-04-01 00:42:43,657 - Message3 - INFO - SENT : at 19.52 s heartbeat target : -1 to :[[0, 2472498344029898], [1, 7769028528697204], [2, 1887811292133932], [100, 4022236655931492]]
+2020-04-01 00:42:43,665 - Message3 - INFO - SENT : at 19.73 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:43,674 - Message3 - INFO - SENT : at 20.04 s memory target : 0 to :[[100, 4022236655931492]]
+2020-04-01 00:42:44,491 - Message3 - INFO - RECEIVED : at 20.22 s heartbeat target : -1 from :2

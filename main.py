@@ -60,6 +60,7 @@ def plot_res(room, filename):
 
         """Specific to each target"""
         for target in room.information_simulation.Target_list:
+            analyser_agent_memory.plot_MSE_not_interpolate_target_id(target.id)
             analyser_kalman_global.plot_MSE_not_interpolate_target_id(target.id)
             analyser_kalman_global.plot_MSE_interpolate_target_id(target.id)
             analyser_kalman_prediction_t1.plot_MSE_prediction_1_target_id(target.id)
@@ -94,8 +95,11 @@ def plot_res(room, filename):
 
 
 class App:
-    def __init__(self, fileName="My_new_map"):
+    def __init__(self, fileName="My_new_map",is_kalman_distributed = False, kalman_type = 4, t_stop = 20):
         constants.TIME_START = time.time()
+        constants.DISTRIBUTED_KALMAN = is_kalman_distributed
+        constants.KALMAN_MODEL_MEASUREMENT_DIM = kalman_type
+        constants.TIME_STOP = t_stop
 
         # Clean the file mailbox
         self.exact_data_target = Target_TargetEstimator()  # utilisé comme une simple liste, raison pour laquelle c'est une targetEstimator ?
@@ -105,7 +109,7 @@ class App:
         # Path for logn data,plot ...
         constants.ResultsPath.name_simulation = fileName
         create_structur_to_save_data()
-        shutil.copy("map/" + fileName + ".txt", constants.ResultsPath.MAIN_FOLDER)
+        shutil.copy(constants.MapPath.MAIN_FOLDER + fileName + ".txt", constants.ResultsPath.MAIN_FOLDER)
 
         """Loading the room from the txt.file"""
         self.filename = fileName
@@ -117,11 +121,16 @@ class App:
         self.dynamic_region = MapRegionDynamic(self.room)
         self.link_agent_target = LinkTargetCamera(self.room)
 
+        """thread to move target"""
+        self.targets_moving_thread = threading.Thread(target=self.move_all_targets_thread)
+
         self.init()
         if USE_GUI:
             self.myGUI = GUI()
 
     def init(self):
+        multi_agent.agent.agent_interacting_room_camera.AgentCam.number_agentCam_created = 0
+        multi_agent.agent.agent_interacting_room_user.AgentUser.number_agentUser_created = 0
 
         # Creation from the room with the given description
         self.room = Room()
@@ -161,7 +170,12 @@ class App:
 
         # Used by the thread that moves the targets
         self.targets_moving = True
+        # independent thread moving the targets
+        """thread to move target"""
+        self.targets_moving_thread = threading.Thread(target=self.move_all_targets_thread)
+        self.targets_moving_thread.start()
 
+        constants.TIME_START = time.time()
 
     def move_all_targets_thread(self):
         time_old = time.time()
@@ -192,9 +206,6 @@ class App:
         run = True
         reset = False
 
-        # independent thread moving the targets
-        targets_moving_thread = threading.Thread(target=self.move_all_targets_thread)
-        targets_moving_thread.start()
 
         # Events loop
         while run:
@@ -202,17 +213,21 @@ class App:
 
             # To restart the simulation, press r
             if reset:
-                multi_agent.agent.agent_interacting_room_camera.AgentCam.number_agentCam_created = 0
-                multi_agent.agent.agent_interacting_room_user.AgentUser.number_agentUser_created = 0
-                constants.TIME_START = time.time()
+                self.targets_moving = False
+                self.targets_moving_thread.join()
+
                 for agent in self.room.agentCams_list:
                     agent.clear()
                 for agent in self.room.agentUser_list:
                     agent.clear()
+
                 clean_mailbox()
-                self.init()
+
+                print("starting again !")
                 reset = False
-                self.targets_moving = False
+                self.init()
+
+
 
             # adding/removing target to the room
             self.room.add_del_target_timed()
@@ -246,7 +261,7 @@ class App:
         for agent in self.room.agentUser_list:
             agent.clear()
 
-        targets_moving_thread.join()
+        self.targets_moving_thread.join()
 
         # Clean mailbox
         clean_mailbox()

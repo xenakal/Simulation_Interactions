@@ -1,0 +1,57 @@
+2020-04-01 00:44:20,773 - Main informations0 - INFO - Using hearbeat messages !
+2020-04-01 00:44:20,774 - Main informations0 - INFO - Time between two heartbeats of 1.00 s
+2020-04-01 00:44:20,774 - Main informations0 - INFO - Time max between two heartbeats of 5.00 s
+2020-04-01 00:44:20,784 - Main informations0 - INFO - starting initialisation in agent_interacting_room_agent_cam
+2020-04-01 00:44:20,784 - Main informations0 - INFO - starting initialisation in agent_interacting_room
+2020-04-01 00:44:20,784 - Main informations0 - INFO - initialisation in agent_interacting_room_done !
+2020-04-01 00:44:20,785 - Main informations0 - INFO - initialisation in agent_interacting_room__cam_done !
+2020-04-01 00:44:20,786 - Main informations0 - INFO - Agent 0 is activated at 0.04 s
+2020-04-01 00:44:20,787 - Main informations0 - INFO - camera of a agent 0 is activated at 0.04 s
+2020-04-01 00:44:21,863 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-04-01 00:44:21,863 - Main informations0 - INFO - Add a new heartbeat counter for agent: 1
+2020-04-01 00:44:21,996 - Main informations0 - INFO - At 1.20 Target 0 change state from 2 to 1
+2020-04-01 00:44:22,010 - Main informations0 - INFO - Found someone ! agent user :100
+2020-04-01 00:44:22,010 - Main informations0 - INFO - Add a new heartbeat counter for agent: 100
+2020-04-01 00:44:25,249 - Main informations0 - INFO - At 4.46 Target 0 change state from 1 to 3
+2020-04-01 00:44:27,035 - Main informations0 - INFO - At 6.25 Target 0 change state from 3 to 1
+2020-04-01 00:44:27,168 - Main informations0 - INFO - At 6.38 Target 0 change state from 1 to 3
+2020-04-01 00:44:28,721 - Main informations0 - INFO - At 7.93 Target 0 change state from 3 to 1
+2020-04-01 00:44:28,999 - Main informations0 - INFO - At 8.21 Target 0 change state from 1 to 3
+2020-04-01 00:44:29,555 - Main informations0 - INFO - At 8.77 Target 0 change state from 3 to 1
+2020-04-01 00:44:29,866 - Main informations0 - INFO - At 9.08 Target 0 change state from 1 to 3
+2020-04-01 00:44:30,915 - Main informations0 - INFO - At 10.12 Target 0 change state from 3 to 1
+2020-04-01 00:44:31,064 - Main informations0 - INFO - At 10.27 Target 0 change state from 1 to 3
+2020-04-01 00:44:31,089 - Main informations0 - INFO - Saving data ...: agent 0
+2020-04-01 00:44:31,109 - Main informations0 - INFO - Data saved !
+2020-04-01 00:44:49,743 - Main informations0 - INFO - Using hearbeat messages !
+2020-04-01 00:44:49,743 - Main informations0 - INFO - Time between two heartbeats of 1.00 s
+2020-04-01 00:44:49,743 - Main informations0 - INFO - Time max between two heartbeats of 5.00 s
+2020-04-01 00:44:49,752 - Main informations0 - INFO - starting initialisation in agent_interacting_room_agent_cam
+2020-04-01 00:44:49,753 - Main informations0 - INFO - starting initialisation in agent_interacting_room
+2020-04-01 00:44:49,753 - Main informations0 - INFO - initialisation in agent_interacting_room_done !
+2020-04-01 00:44:49,754 - Main informations0 - INFO - initialisation in agent_interacting_room__cam_done !
+2020-04-01 00:44:49,756 - Main informations0 - INFO - Agent 0 is activated at 0.04 s
+2020-04-01 00:44:49,756 - Main informations0 - INFO - camera of a agent 0 is activated at 0.04 s
+2020-04-01 00:44:50,979 - Main informations0 - INFO - At 1.22 Target 0 change state from 2 to 1
+2020-04-01 00:44:51,016 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-04-01 00:44:51,016 - Main informations0 - INFO - Add a new heartbeat counter for agent: 1
+2020-04-01 00:44:51,016 - Main informations0 - INFO - Found someone ! agent user :100
+2020-04-01 00:44:51,017 - Main informations0 - INFO - Add a new heartbeat counter for agent: 100
+2020-04-01 00:44:51,148 - Main informations0 - INFO - At 1.39 Target 0 change state from 1 to 3
+2020-04-01 00:44:51,287 - Main informations0 - INFO - At 1.53 Target 0 change state from 3 to 1
+2020-04-01 00:44:51,419 - Main informations0 - INFO - At 1.66 Target 0 change state from 1 to 3
+2020-04-01 00:44:55,337 - Main informations0 - INFO - At 5.58 Target 0 change state from 3 to 1
+2020-04-01 00:44:55,911 - Main informations0 - INFO - At 6.15 Target 0 change state from 1 to 3
+2020-04-01 00:44:58,569 - Main informations0 - INFO - At 8.81 Target 0 change state from 3 to 1
+2020-04-01 00:44:58,719 - Main informations0 - INFO - At 8.96 Target 0 change state from 1 to 3
+2020-04-01 00:44:59,610 - Main informations0 - INFO - At 9.85 Target 0 change state from 3 to 1
+2020-04-01 00:44:59,904 - Main informations0 - INFO - At 10.14 Target 0 change state from 1 to 3
+2020-04-01 00:45:01,055 - Main informations0 - INFO - At 11.30 Target 0 change state from 3 to 1
+2020-04-01 00:45:01,342 - Main informations0 - INFO - At 11.58 Target 0 change state from 1 to 3
+2020-04-01 00:45:02,057 - Main informations0 - INFO - At 12.30 Target 0 change state from 3 to 1
+2020-04-01 00:45:02,203 - Main informations0 - INFO - At 12.44 Target 0 change state from 1 to 3
+2020-04-01 00:45:07,815 - Main informations0 - INFO - At 18.06 Target 0 change state from 3 to 1
+2020-04-01 00:45:09,698 - Main informations0 - INFO - At 19.94 Target 0 change state from 1 to 3
+2020-04-01 00:45:09,837 - Main informations0 - INFO - At 20.08 Target 0 change state from 3 to 1
+2020-04-01 00:45:10,080 - Main informations0 - INFO - Saving data ...: agent 0
+2020-04-01 00:45:10,103 - Main informations0 - INFO - Data saved !

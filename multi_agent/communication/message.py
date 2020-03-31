@@ -140,6 +140,7 @@ class Message:
             self.clear_receiver()
             s = s.replace("\n", "")
             s = s.replace(" ", "")
+
             attribut = re.split("Timestamp:|message#:|From:|sender#|Receiverlist:|Type:|target:|Message:", s)
             self.timestamp = float(attribut[1])
             self.signature = int(attribut[2])
@@ -147,22 +148,19 @@ class Message:
             self.sender_signature = int(attribut[4])
             receivers = re.split("To:", attribut[5])
             for receiver in receivers:
-                info = receiver.split("receiver#")
-                try:
-                    if info == "":
-                        pass  # end of the chain
-                    else:
+                if not receiver == "":
+                    try:
+                        info = receiver.split("receiver#")
                         self.add_receiver(info[0], info[1])
-                        pass
-                except IndexError:
-                    # ?
-                    pass
+                    except IndexError:
+                        print("error message class in parse_string()")
+
             self.messageType = attribut[6]
             self.targetRef = attribut[7]
             self.message = attribut[8]
 
         except IndexError:
-            print("erreur")
+            print("erreur message class in parse_string()")
 
     def to_string(self):
         """

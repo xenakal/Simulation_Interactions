@@ -37,7 +37,7 @@ NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 10  # number of point per m
 """global parameter for the simulation"""
 SCALE_TIME = 1
 TIME_START = time.time()
-TIME_STOP = 200  # s
+TIME_STOP = 10  # s
 """when mooving a target"""
 TIME_BTW_FRAME = .1
 TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)
