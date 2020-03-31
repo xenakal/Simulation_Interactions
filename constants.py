@@ -7,11 +7,11 @@ In this file you have the possibility to modify the settings
 """
 
 """Options-----------------------------------------------------------------------------------------------------------"""
-SAVE_DATA = False
-GENERATE_PLOT = False
+SAVE_DATA = True
+GENERATE_PLOT = True
 
 USE_GUI = True
-USE_static_analysis = True
+USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
 
 INCLUDE_ERROR = True
@@ -19,7 +19,7 @@ LOG_LEVEL = logging.INFO  # logging.DEBUG
 
 """Options for Kalman Filter-----------------------------------------------------------------------------------------"""
 DISTRIBUTED_KALMAN = False
-KALMAN_MODEL_MEASUREMENT_DIM = 6
+KALMAN_MODEL_MEASUREMENT_DIM = 4
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 DATA_TO_SEND = "none" #ac.AgentCameraCommunicationBehaviour.NONE
@@ -30,14 +30,14 @@ LENGHT_ROOM = 8  # [m]
 
 """Number of data----------------------------------------------------------------------------------------------------"""
 NUMBER_OF_POINT_SIMULATED_DATA = 15  # per m for a speed of 1 m/s
-NUMBER_OF_POINT_STATIC_ANALYSIS = 35  # number of point per m
+NUMBER_OF_POINT_STATIC_ANALYSIS = 10  # number of point per m
 NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 10  # number of point per m
 
 """Time--------------------------------------------------------------------------------------------------------------"""
 """global parameter for the simulation"""
 SCALE_TIME = 1
 TIME_START = time.time()
-TIME_STOP = 1000  # s
+TIME_STOP = 200  # s
 """when mooving a target"""
 TIME_BTW_FRAME = .1
 TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)

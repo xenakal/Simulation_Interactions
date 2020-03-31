@@ -68,6 +68,7 @@ def get_comparable_data_btw_reference_mesure(data_ref_list,data_mes_list):
 
     (x_ref,y_ref,t_ref) = points_ref_filter_list.fill_vectors()
     (x_mes, y_mes, t_mes) = points_mes_filter_list.fill_vectors()
+
     return(t_ref,x_ref,y_ref,t_mes,x_mes,y_mes)
 
 

@@ -132,6 +132,7 @@ class App:
         self.room.init_AgentUser(1)
         for agent in self.room.agentCams_list:
             agent.init_and_set_room_description(self.room)
+
         for agent in self.room.agentUser_list:
             agent.init_and_set_room_description(self.room)
 
@@ -151,6 +152,7 @@ class App:
         # Starting the multi_agent simulation
         for agent in self.room.active_AgentCams_list:
             agent.run()
+
         for agent in self.room.agentUser_list:
             agent.run()
 
