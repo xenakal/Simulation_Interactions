@@ -117,9 +117,6 @@ class App:
         self.dynamic_region = MapRegionDynamic(self.room)
         self.link_agent_target = LinkTargetCamera(self.room)
 
-        # Used by the thread that moves the targets
-        self.targets_moving = True
-
         self.init()
         if USE_GUI:
             self.myGUI = GUI()
@@ -159,6 +156,10 @@ class App:
 
         self.link_agent_target = LinkTargetCamera(self.room)
         self.link_agent_target.update_link_camera_target()
+
+        # Used by the thread that moves the targets
+        self.targets_moving = True
+
 
     def move_all_targets_thread(self):
         time_old = time.time()
@@ -209,6 +210,7 @@ class App:
                 clean_mailbox()
                 self.init()
                 reset = False
+                self.targets_moving = False
 
             # adding/removing target to the room
             self.room.add_del_target_timed()

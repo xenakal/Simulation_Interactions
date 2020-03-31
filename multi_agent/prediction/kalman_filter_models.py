@@ -62,21 +62,23 @@ class KalmanFilterModel:
             The Kalman Filter object (from pyKalman library) with the model corresponding to our scenario.
         """
 
+        def F_func(dt_arg=TIME_SEND_READ_MESSAGE + TIME_PICTURE):
+            return np.array([[1., 0.],
+                             [0., 1.]])
+
+        self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
+
         if DISTRIBUTED_KALMAN:
+            f = DistributedKalmanFilter(dim_x=2, dim_z=2, model_F=F_func)
+        else:
             f = KalmanFilter(dim_x=2,
                              dim_z=2)  # as we have a 4d state space and measurements on only the positions (x,y)
-        else:
-            f = DistributedKalmanFilter(dim_x=2, dim_z=2)
 
         # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
         f.x = np.array([x_init, y_init])
-        f.F = np.array([[1., 0.],
-                        [0., 1.]])
 
-        def F_func(dt_arg):
-            return np.array([[1., 0.],
-                            [0., 1.]])
-        self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
+        # transition matrix
+        f.F = F_func()
 
         f.u = 0
         f.H = np.array([[1., 0.],
@@ -101,29 +103,29 @@ class KalmanFilterModel:
         :return
             The Kalman Filter object (from pyKalman library) with the model corresponding to our scenario.
         """
+        # redifining the model_F function so that we can get F(dt) (ie, transfer matrix evaluated at some delta time)
+        # without having to hard code it anywhere else that in this class.
+        # This way, we never actually have to touch it again.
+        def F_func(dt_arg=TIME_SEND_READ_MESSAGE + TIME_PICTURE):
+            return np.array([[1., 0., dt_arg, 0.],
+                             [0., 1., 0., dt_arg],
+                             [0., 0., 1., 0.],
+                             [0., 0., 0., 1.]])
+
+        self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
+
         if DISTRIBUTED_KALMAN:
+            f = DistributedKalmanFilter(dim_x=4, dim_z=4, model_F=F_func)
+        else:
             f = KalmanFilter(dim_x=4,
                              dim_z=4)  # as we have a 4d state space and measurements on only the positions (x,y)
-        else:
-            f = DistributedKalmanFilter(dim_x=4, dim_z=4)
 
         # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
         dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
         f.x = np.array([x_init, y_init, vx_init, vy_init])
-        f.F = np.array([[1., 0., dt, 0.],
-                        [0., 1., 0., dt],
-                        [0., 0., 1., 0.],
-                        [0., 0., 0., 1.]])
 
-        # redifining the model_F function so that we can get F(dt) (ie, transfer matrix evaluated at some delta time)
-        # without having to hard code it anywhere else that in this class.
-        # This way, we never actually have to touch it again.
-        def F_func(dt_arg):
-            return np.array([[1., 0., dt_arg, 0.],
-                            [0., 1., 0., dt_arg],
-                            [0., 0., 1., 0.],
-                            [0., 0., 0., 1.]])
-        self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
+        # define transition matrix
+        f.F = F_func()
 
         f.u = 0
         f.H = np.array([[1., 0., 0., 0.],
@@ -155,31 +157,26 @@ class KalmanFilterModel:
         :return
             The Kalman Filter object (from pyKalman library) with the model corresponding to our scenario.
         """
+        def F_func(dt=TIME_SEND_READ_MESSAGE + TIME_PICTURE):
+            return np.array([[1., 0., dt, 0., 0., 0.],
+                             [0., 1., 0., dt, 0., 0.],
+                             [0., 0., 1., 0., dt, 0.],
+                             [0., 0., 0., 1., 0., dt],
+                             [0., 0., 0., 0., 1., 0.],
+                             [0., 0., 0., 0., 0., 1.]])
+
+        self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
 
         if DISTRIBUTED_KALMAN:
+            f = DistributedKalmanFilter(dim_x=6, dim_z=6, model_F=F_func)
+        else:
             f = KalmanFilter(dim_x=6,
                              dim_z=6)  # as we have a 4d state space and measurements on only the positions (x,y)
-        else:
-            f = DistributedKalmanFilter(dim_x=6, dim_z=6)
 
         # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
         dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
         f.x = np.array([x_init, y_init, vx_init, vy_init, ax_init, ay_init])
-        f.F = np.array([[1., 0., dt, 0., 0., 0.],
-                        [0., 1., 0., dt, 0., 0.],
-                        [0., 0., 1., 0., dt, 0.],
-                        [0., 0., 0., 1., 0., dt],
-                        [0., 0., 0., 0., 1., 0.],
-                        [0., 0., 0., 0., 0., 1.]])
-
-        def F_func(dt):
-            return np.array([[1., 0., dt, 0., 0., 0.],
-                            [0., 1., 0., dt, 0., 0.],
-                            [0., 0., 1., 0., dt, 0.],
-                            [0., 0., 0., 1., 0., dt],
-                            [0., 0., 0., 0., 1., 0.],
-                            [0., 0., 0., 0., 0., 1.]])
-        self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
+        f.F = F_func()
 
         f.u = 0
         f.H = np.eye(6, 6)
@@ -211,30 +208,29 @@ class KalmanFilterModel:
         :return
             The Kalman Filter object (from pyKalman library) with the model corresponding to our scenario.
         """
-        # we have a 4d state space and measurements on only the positions (x,y)
-        if DISTRIBUTED_KALMAN:
-            f = DistributedKalmanFilter(dim_x=4, dim_z=2)
-        else:
-            f = KalmanFilter(dim_x=4, dim_z=2)
-
-        # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
-        dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
-        f.x = np.array([x_init, y_init, vx_init, vy_init])
-
-        f.F = np.array([[1., 0., dt, 0.],
-                        [0., 1., 0., dt],
-                        [0., 0., 1., 0.],
-                        [0., 0., 0., 1.]])
 
         # redifining the model_F function so that we can get F(dt) (ie, transfer matrix evaluated at some delta time)
         # without having to hard code it anywhere else that in this class.
         # This way, we never actually have to touch it again.
-        def F_func(dt_arg):
+        def F_func(dt_arg=TIME_SEND_READ_MESSAGE + TIME_PICTURE):
             return np.array([[1., 0., dt_arg, 0.],
                              [0., 1., 0., dt_arg],
                              [0., 0., 1., 0.],
                              [0., 0., 0., 1.]])
+
         self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
+
+        # we have a 4d state space and measurements on only the positions (x,y)
+        if DISTRIBUTED_KALMAN:
+            f = DistributedKalmanFilter(dim_x=4, dim_z=2, model_F=F_func)
+        else:
+            f = KalmanFilter(dim_x=4, dim_z=2)
+
+        # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
+        f.x = np.array([x_init, y_init, vx_init, vy_init])
+
+        # define transition matrix
+        f.F = F_func()
 
         f.u = 0
         f.H = np.array([[1., 0., 0., 0.],
@@ -242,6 +238,8 @@ class KalmanFilterModel:
         f.P *= 2.
         f.R = np.eye(2) * STD_MEASURMENT_ERROR_POSITION ** 2
         f.B = 0
+
+        dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
         q = Q_discrete_white_noise(dim=2, dt=dt, var=0.1)  # var => how precise the model is
         f.Q = block_diag(q, q)
         return f

@@ -1,4 +1,4 @@
-from constants import NUMBER_PREDICTIONS, \
+from constants import NUMBER_PREDICTIONS, DISTRIBUTED_KALMAN, \
     STD_MEASURMENT_ERROR_SPEED, STD_MEASURMENT_ERROR_ACCCELERATION, DATA_TO_SEND, KALMAN_MODEL_MEASUREMENT_DIM
 from filterpy.kalman import update, predict
 import numpy as np

@@ -20,6 +20,7 @@ class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithR
 class AgentCameraCommunicationBehaviour:
     ALL = "all"
     DKF = "dkf"
+    NONE = "none"
 
 
 class AgentCam(AgentInteractingWithRoom):
@@ -266,6 +267,9 @@ class AgentCam(AgentInteractingWithRoom):
 
             elif constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.DKF:
                 self.send_message_DKF_info(target.id)
+
+            elif constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.NONE:
+                pass
 
             """
                ----------------------------------------------------------------------------------------------

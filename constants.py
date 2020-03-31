@@ -1,12 +1,13 @@
 import logging
 import time
+#import multi_agent.agent.agent_interacting_room_camera as ac
 
 """
 In this file you have the possibility to modify the settings 
 """
 
 """Options-----------------------------------------------------------------------------------------------------------"""
-SAVE_DATA = True
+SAVE_DATA = False
 GENERATE_PLOT = False
 
 USE_GUI = True
@@ -16,12 +17,19 @@ USE_dynamic_analysis_simulated_room = False
 INCLUDE_ERROR = True
 LOG_LEVEL = logging.INFO  # logging.DEBUG
 
+"""Options for Kalman Filter-----------------------------------------------------------------------------------------"""
+DISTRIBUTED_KALMAN = False
+KALMAN_MODEL_MEASUREMENT_DIM = 6
+
+"""Agent - way to act------------------------------------------------------------------------------------------------"""
+DATA_TO_SEND = "none" #ac.AgentCameraCommunicationBehaviour.NONE
+
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
 WIDTH_ROOM = 8  # [m]
 LENGHT_ROOM = 8  # [m]
 
 """Number of data----------------------------------------------------------------------------------------------------"""
-NUMBER_OF_POINT_SIMULATED_DATA = 10  # per m for a speed of 1 m/s
+NUMBER_OF_POINT_SIMULATED_DATA = 15  # per m for a speed of 1 m/s
 NUMBER_OF_POINT_STATIC_ANALYSIS = 35  # number of point per m
 NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 10  # number of point per m
 
@@ -44,9 +52,6 @@ TRESH_TIME_TO_SEND_MEMORY = 10  # s
 "Agent-User"
 TIME_TO_SLOW_DOWN = 0.15 / SCALE_TIME
 
-"""Agent - way to act------------------------------------------------------------------------------------------------"""
-DATA_TO_SEND = "dkf"  # "all"
-
 """Error on mesure---------------------------------------------------------------------------------------------------"""
 STD_MEASURMENT_ERROR_POSITION = 0.2
 STD_MEASURMENT_ERROR_SPEED = 0.1
@@ -67,10 +72,6 @@ Y_OFFSET = 100
 X_SCALE = 60
 Y_SCALE = 60
 
-"""Options for Kalman Filter-----------------------------------------------------------------------------------------"""
-DISTRIBUTED_KALMAN = True
-KALMAN_MODEL_MEASUREMENT_DIM = 2
-
 """---------------------------------------------------------------------------------------------------------------------
 If you just want to change simulation's parameter you should not modify constant below this line 
  --------------------------------------------------------------------------------------------------------------------"""
@@ -88,6 +89,9 @@ if not INCLUDE_ERROR:
     STD_MEASURMENT_ERROR_POSITION = 0.00001
     STD_MEASURMENT_ERROR_SPEED = 0.00001
     STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
+
+if DISTRIBUTED_KALMAN:
+    DATA_TO_SEND = "dkf"
 
 "Variable use in multiple classes"
 time_when_target_are_moved = 0
