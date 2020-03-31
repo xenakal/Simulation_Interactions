@@ -19,7 +19,7 @@ LOG_LEVEL = logging.INFO  # logging.DEBUG
 
 """Options for Kalman Filter-----------------------------------------------------------------------------------------"""
 DISTRIBUTED_KALMAN = False
-KALMAN_MODEL_MEASUREMENT_DIM = 6
+KALMAN_MODEL_MEASUREMENT_DIM = 2
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 DATA_TO_SEND = "none" #ac.AgentCameraCommunicationBehaviour.NONE
@@ -55,7 +55,7 @@ TIME_TO_SLOW_DOWN = 0.15 / SCALE_TIME
 """Error on mesure---------------------------------------------------------------------------------------------------"""
 STD_MEASURMENT_ERROR_POSITION = 0.2
 STD_MEASURMENT_ERROR_SPEED = 0.1
-STD_MEASURMENT_ERROR_ACCCELERATION = 0.0001
+STD_MEASURMENT_ERROR_ACCCELERATION = 0.0000
 
 """Communication - message option------------------------------------------------------------------------------------"""
 NAME_MAILBOX = "mailbox/MailBox_Agent"
@@ -63,7 +63,7 @@ STD_RECEIVED = 0
 SEUIL_RECEIVED = 10
 
 """Option for class predication--------------------------------------------------------------------------------------"""
-NUMBER_PREDICTIONS = 4
+NUMBER_PREDICTIONS = 3
 PREVIOUS_POSITIONS_USED = 3  # number of previous positions used to make the prediction of the next positions
 
 """Option for GUI----------------------------------------------------------------------------------------------------"""
@@ -89,6 +89,13 @@ if not INCLUDE_ERROR:
     STD_MEASURMENT_ERROR_POSITION = 0.00001
     STD_MEASURMENT_ERROR_SPEED = 0.00001
     STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
+
+if STD_MEASURMENT_ERROR_POSITION == 0.0 and STD_MEASURMENT_ERROR_SPEED == 0.0\
+                                        and STD_MEASURMENT_ERROR_ACCCELERATION == 0.0:
+    STD_MEASURMENT_ERROR_POSITION = 0.00001
+    STD_MEASURMENT_ERROR_SPEED = 0.00001
+    STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
+
 
 if DISTRIBUTED_KALMAN:
     DATA_TO_SEND = "dkf"

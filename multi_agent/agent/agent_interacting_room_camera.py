@@ -7,7 +7,6 @@ import multi_agent.elements.room
 from multi_agent.agent.agent_interacting_room import *
 from multi_agent.tools.memory import *
 from multi_agent.communication.message import *
-from multi_agent.prediction.kalmanPredictionOld import *
 from multi_agent.tools.behaviour_detection import *
 from multi_agent.tools.link_target_camera import *
 import constants

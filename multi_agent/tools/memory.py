@@ -29,9 +29,8 @@ class Memory:
         (Target_TargetEstimator) best_estimation -- best estimation of actual position (ie removing the noise) of
                                                     each target.
 
-        ([target.id, [Target_TargetEstimator, ...], ...]) predictions  -- list of size NUMBER_PREDICTIONS, where each element is a
-                                                          Target_TargetEstimator containing the predicted positions of
-                                                          order equal to the index
+        (Target_TargetEstimator) predictions_order_X -- predictions at order X.
+
     """
 
     def __init__(self, agent_id, nTime=20, current_time=0):
