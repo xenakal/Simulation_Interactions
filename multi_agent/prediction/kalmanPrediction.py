@@ -59,19 +59,6 @@ class KalmanPrediction:
             self.reset_filter(*z)
             # memory reset as well
             self.kalman_memory = [kalman_memory_element]
-        """
-        avg_speed_old = avgSpeedFunc(self.kalman_memory[-NUMBER_AVERAGE*2-2:-NUMBER_AVERAGE-1])
-        avg_speed_new = avgSpeedFunc(self.kalman_memory[-NUMBER_AVERAGE-1:])
-        delta_avg_speed_x = avg_speed_new[0] - avg_speed_old[0]
-        delta_avg_speed_y = avg_speed_new[1] - avg_speed_old[1]
-        #print(round(delta_avg_speed_x))
-        #print(round(delta_avg_speed_y))
-        print(delta_avg_speed_x)
-        print(delta_avg_speed_y)
-        u = np.array([0., 0., delta_avg_speed_x, delta_avg_speed_y])
-        B = np.array([0., 0., 1., 1.])
-        self.filter.predict(u=u, B=B)
-        """
         self.filter.predict()
         self.filter.update(np.array(z[:KALMAN_MODEL_MEASUREMENT_DIM]))
 

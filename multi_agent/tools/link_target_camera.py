@@ -1,6 +1,7 @@
 import numpy as np
 from multi_agent.elements.target import TargetType
 
+
 class LinkTargetCamera():
     """
         Class Example.
@@ -37,13 +38,11 @@ class LinkTargetCamera():
             if not is_in_list:
                 self.link_camera_target.append(TargetAgentLink(target.id))
 
-    def get_agent_in_charge(self,target_id):
+    def get_agent_in_charge(self, target_id):
         for targetAgentLink in self.link_camera_target:
             if targetAgentLink.target_id == target_id:
                 return targetAgentLink.agent_id
-                break
         return -1
-
 
     def reset_agent_and_distance(self):
         """
@@ -104,8 +103,8 @@ class LinkTargetCamera():
                                                                                               target.radius)
                             cdt_not_hidden = not agent.camera.is_x_y_in_hidden_zone_all_targets(target.xc, target.yc)
                             "Check is the camera can see the target for a given room geometry"
-                            #if cdt_in_field and cdt_not_hidden and agent.camera.isActive:
-                            #TODO - ici envoyer un message pour signaler une panne de camera ??
+                            # if cdt_in_field and cdt_not_hidden and agent.camera.isActive:
+                            # TODO - ici envoyer un message pour signaler une panne de camera ??
                             if cdt_in_field and cdt_not_hidden and agent.camera.isActive:
 
                                 "Distance computation"
