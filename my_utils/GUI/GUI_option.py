@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from my_utils.GUI.GUI import *
 from my_utils.GUI.button import *
+import constants
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -113,6 +114,9 @@ class GUI_option:
                     return False, False
                 if event.key == K_r:
                     return True, True
+                if event.key == K_s:
+                    print("screenshot")
+                    pygame.image.save(self.screen, constants.ResultsPath.DATA_SCREENSHOT+"/screenshot_at_%.02fs.png"%constants.get_time())
 
             elif type_event == MOUSEMOTION and event.buttons[0] == 1:  # déplacement + boutton enfoncer
                 pass

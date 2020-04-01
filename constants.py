@@ -12,7 +12,7 @@ GENERATE_PLOT = True
 
 USE_GUI = True
 USE_static_analysis = False
-USE_dynamic_analysis_simulated_room = False
+USE_dynamic_analysis_simulated_room = True
 
 INCLUDE_ERROR = True
 LOG_LEVEL = logging.INFO  # logging.DEBUG
@@ -31,7 +31,7 @@ LENGHT_ROOM = 8  # [m]
 """Number of data----------------------------------------------------------------------------------------------------"""
 NUMBER_OF_POINT_SIMULATED_DATA = 15  # per m for a speed of 1 m/s
 NUMBER_OF_POINT_STATIC_ANALYSIS = 10  # number of point per m
-NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 10  # number of point per m
+NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 5 # number of point per m
 
 """Time--------------------------------------------------------------------------------------------------------------"""
 """global parameter for the simulation"""
@@ -152,6 +152,10 @@ class ResultsPath:
     @classproperty
     def LOG_MEMORY(cls):
         return ResultsPath.LOG_FOLDER + "/log_memory/"
+
+    @classproperty
+    def DATA_SCREENSHOT(cls):
+        return ResultsPath.MAIN_FOLDER + "/screenshot"
 
     @classproperty
     def DATA_FOLDER(cls):

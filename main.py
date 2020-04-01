@@ -95,7 +95,7 @@ def plot_res(room, filename):
 
 
 class App:
-    def __init__(self, fileName="My_new_map",is_kalman_distributed = False, kalman_type = 4, t_stop = 20):
+    def __init__(self, fileName="My_new_map",is_kalman_distributed = False, kalman_type = 4, t_stop =1000):
         constants.TIME_START = time.time()
         constants.DISTRIBUTED_KALMAN = is_kalman_distributed
         constants.KALMAN_MODEL_MEASUREMENT_DIM = kalman_type

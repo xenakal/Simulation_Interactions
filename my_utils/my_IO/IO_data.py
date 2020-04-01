@@ -12,6 +12,10 @@ def create_structur_to_save_data():
 
     os.mkdir(constants.ResultsPath.MAIN_FOLDER)
 
+    "Screen shot"
+    """---------------------------------------"""
+    os.mkdir(constants.ResultsPath.DATA_SCREENSHOT)
+
     """Create data and it subfolder"""
     """----------------------------"""
     os.mkdir(constants.ResultsPath.LOG_FOLDER)
