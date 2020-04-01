@@ -1,6 +1,7 @@
 import pygame
 import math
 import random
+import constants
 from my_utils.GUI.GUI import *
 from multi_agent.elements.target import TargetType
 from multi_agent.agent.agent import AgentType
@@ -35,6 +36,9 @@ class GUI_room:
         self.scale_y = scale_y
 
     def drawRoom(self, tab):
+
+        label = self.font.render("time = %.02f s" % constants.get_time(), 10, WHITE)
+        self.screen.blit(label, (self.x_offset,self.y_offset-30))
 
         pygame.draw.rect(self.screen, BLACK, (
             self.x_offset + tab[0] - 10, self.y_offset + tab[1] - 10, self.scale_x * tab[2] + 20,

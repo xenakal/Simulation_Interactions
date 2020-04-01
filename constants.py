@@ -12,7 +12,7 @@ GENERATE_PLOT = True
 
 USE_GUI = True
 USE_static_analysis = False
-USE_dynamic_analysis_simulated_room = True
+USE_dynamic_analysis_simulated_room = False
 
 INCLUDE_ERROR = True
 LOG_LEVEL = logging.INFO  # logging.DEBUG
@@ -29,8 +29,8 @@ WIDTH_ROOM = 8  # [m]
 LENGHT_ROOM = 8  # [m]
 
 """Number of data----------------------------------------------------------------------------------------------------"""
-NUMBER_OF_POINT_SIMULATED_DATA = 15  # per m for a speed of 1 m/s
-NUMBER_OF_POINT_STATIC_ANALYSIS = 10  # number of point per m
+NUMBER_OF_POINT_SIMULATED_DATA = 10  # per m for a speed of 1 m/s
+NUMBER_OF_POINT_STATIC_ANALYSIS = 5  # number of point per m
 NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 5 # number of point per m
 
 """Time--------------------------------------------------------------------------------------------------------------"""

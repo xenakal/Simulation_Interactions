@@ -250,7 +250,7 @@ class AgentCam(AgentInteractingWithRoom):
 
                 if not old_target_type == target.type:
                     is_target_changing_state = True
-                    self.log_main.info("At %.02f Target %d change state from "%(constants.get_time(),target.id)+ str(old_target_type) + " to " + str(target.type))
+                    #self.log_main.info("At %.02f Target %d change state from "%(constants.get_time(),target.id)+ str(old_target_type) + " to " + str(target.type))
 
             """
                 ----------------------------------------------------------------------------------------------

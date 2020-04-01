@@ -6,7 +6,7 @@ from my_utils.GUI.GUI_simulation.GUI_agent_target_detected import *
 from my_utils.GUI.GUI_simulation.GUI_predictions import *
 from my_utils.GUI.GUI_simulation.GUI_room import GUI_room
 from my_utils.GUI.GUI_simulation.GUI_agent_region import *
-
+import constants
 
 class GUI_simulation:
     def __init__(self, screen, GUI_option,x_offset,y_offset,scale_x,scale_y):
@@ -31,6 +31,7 @@ class GUI_simulation:
     def run(self, room, region, link_cam_to_target):
         self.display_simulation_button()
         self.GUI_room.drawRoom(room.coordinate_room)
+
 
 
         if self.button_simulation_4.find_button_state("Cam ROI"):
