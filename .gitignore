@@ -1,19 +1,22 @@
 .idea/
 
 code/mailbox/*
-log/*
+
 results/*
 !results/explication.md
+
+maps/*
+!maps/explication.md
+
 code/multi_agent/elements/__pycache__/*
 code/multi_agent/agent/__pycache__/
 code/multi_agent/communication/__pucache__/
 code/multi_agent/__pycache__/*
-*/__pycache__/*
-*/*/__pycache__/
 code/my_utils/__pycache__/*
 code/my_utils/GUI/GUI_simulation/__pycache__/*
+*/__pycache__/*
+*/*/__pycache__/
 __pycache__/*
 __init__
 */__init__
 *.pcy
-maps/*
