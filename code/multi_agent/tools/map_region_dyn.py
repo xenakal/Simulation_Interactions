@@ -141,7 +141,7 @@ class MapRegionDynamic(MapRegionStatic):
                             a standart choice could be result = np.ones(self.xv.shape)
                              -> 1 means point x,y is viewed
                              -> 0 means point x,y is hidden
-                              the function use the map_to_test and turn 1 in 0 if the point is not in view.
+                              the function use the maps and turn 1 in 0 if the point is not in view.
 
                :return
                    - a array from result's dimension. It gives the camera's field of vision with fix object in the room
@@ -157,7 +157,7 @@ class MapRegionDynamic(MapRegionStatic):
                             a standart choice could be result = np.ones(self.xv.shape)
                              -> 1 means point x,y is viewed
                              -> 0 means point x,y is hidden
-                              the function use the map_to_test and turn 1 in 0 if the point is not in view.
+                              the function use the maps and turn 1 in 0 if the point is not in view.
 
                :return
                    - a array from result's dimension. It gives the camera's field of vision with fix object in the room

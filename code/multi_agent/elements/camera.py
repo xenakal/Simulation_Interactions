@@ -57,7 +57,7 @@ class Camera:
         self.id = id
         self.signature = self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
 
-        "Camera description on the map_to_test"
+        "Camera description on the maps"
         self.xc = xc
         self.yc = yc
         self.alpha = math.radians(alpha)  # deg rotation

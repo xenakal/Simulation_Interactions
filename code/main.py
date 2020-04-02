@@ -4,11 +4,11 @@ from code import constants
 
 
 """
-map_to_test_name is a list taking multiple map_to_test's name. 
+map_to_test_name is a list taking multiple maps's name. 
 ex: map_to_test_name = ["my_map_1","my_map_2",...]
 
-set the folder in which those map_to_test are located with constants.MapPath.folder
-by default in map_to_test
+set the folder in which those maps are located with constants.MapPath.folder
+by default in maps
 """
 #constants.MapPath.folder = "to_test"
 map_to_test_name = ["My_new_map"]

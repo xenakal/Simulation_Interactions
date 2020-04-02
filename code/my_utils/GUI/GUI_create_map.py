@@ -21,8 +21,8 @@ class Button_name:
     MAIN_CAMERA = "Camera"
     MAIN_TRAJECTORY = "Trajectory"
     MAIN_CLEAN = "Clean"
-    MAIN_LOAD = "Load map_to_test"
-    MAIN_SAVE = "Save map_to_test"
+    MAIN_LOAD = "Load maps"
+    MAIN_SAVE = "Save maps"
 
     TRAJECTORY_SHOW = "Show Trajectory"
     TRAJECTORY_SAVE = "Save Trajectory"

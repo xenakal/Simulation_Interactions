@@ -22,7 +22,7 @@ class MapRegionStatic:
     def __init__(self, room):
         self.room = room
 
-        # Mesh from the map_to_test
+        # Mesh from the maps
         self.nx, self.ny = (room.coordinate_room[2], room.coordinate_room[3])
         self.xv, self.yv = create_region(self.nx, self.ny, 10)
 
@@ -34,7 +34,7 @@ class MapRegionStatic:
         self.agent_id_taken_into_acount = []
 
         """
-        Data representing the map_to_test after computation, array size from the matrix
+        Data representing the maps after computation, array size from the matrix
         the position in the array i,j refers always to the point i,j in the mesh 
         
         self.minimum_id_in_view, contains the cam ID, that is the clostest from x,y and sees it
@@ -106,7 +106,7 @@ class MapRegionStatic:
             - factor, room discretation from 1 to infinite. The bigger the number, the faster the computation will be (less precision).
 
         :return
-            - Fill all the table that contains information from the map_to_test
+            - Fill all the table that contains information from the maps
         """
 
         if self.update_active_cams():
@@ -261,7 +261,7 @@ class MapRegionStatic:
                      a standart choice could be result = np.ones(self.xv.shape)
                       -> 1 means point x,y is viewed
                       -> 0 means point x,y is hidden
-                       the function use the map_to_test and turn 1 in 0 if the point is not in view.
+                       the function use the maps and turn 1 in 0 if the point is not in view.
 
         :return
             - a array from result's dimension. It gives the camera's field of vision with fix object in the room

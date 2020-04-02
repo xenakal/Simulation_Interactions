@@ -126,7 +126,7 @@ class classproperty(object):
 
 
 class MapPath:
-    folder = "../map_to_test"
+    folder = "../maps"
 
     @classproperty
     def MAIN_FOLDER(cls):

@@ -29,7 +29,7 @@ class TargetRepresentation:
                         5. (int) size                 -- radius from the center
                         6. (TargetType) type          -- see class above, to make the difference
                                                           between known and unkown target
-                        7. ((int),(int),(int)) color  -- color to represent the target on the map_to_test,
+                        7. ((int),(int),(int)) color  -- color to represent the target on the maps,
                                                          if = 0 than random color selected
 
                     :attibutes
@@ -39,7 +39,7 @@ class TargetRepresentation:
                         4. (int) size                 -- radius from the center
                         5. (TargetType) type              -- TargetType see class,
                                                          to make the difference between known and unknown target
-                        6. ((int),(int),(int)) color  -- color to represent the target on the map_to_test, if = 0 than random
+                        6. ((int),(int),(int)) color  -- color to represent the target on the maps, if = 0 than random
                                                          color selected
 
                     :notes
@@ -53,7 +53,7 @@ class TargetRepresentation:
         self.id = id
         self.signature = self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
 
-        "TargetRepresentation description on the map_to_test"
+        "TargetRepresentation description on the maps"
         "Position and Speeds"""
         self.xc = x
         self.yc = y
@@ -114,7 +114,7 @@ class Target(TargetRepresentation):
                    11. ([[int],...]) t_del - [s]                    -- list [[t1],[t2],...] from all the time where
                                                                      the target should disappear in the room
                    12. (int) number_of_time_pa ssed                 -- keeps track of the apparition and disparition time
-                   13. (bool) is_on_map                             -- True if the target is on the map_to_test, False otherwise
+                   13. (bool) is_on_map                             -- True if the target is on the maps, False otherwise
 
                 :attibutes
                     1. (float) vx - [m/time_btw_target_mvt]           -- x speeds
@@ -142,7 +142,7 @@ class Target(TargetRepresentation):
         # Initialisation
         super().__init__(id, x, y, radius, type, 0)
 
-        # Target description on the map_to_test
+        # Target description on the maps
         """!! Attention you responsability to get coherent speed and acceleration"""
         self.vx = vx
         self.vy = vy

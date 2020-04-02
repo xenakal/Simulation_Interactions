@@ -213,7 +213,7 @@ class AgentCam(AgentInteractingWithRoom):
         "Modification from the room description"
         self.room_representation.update_target_based_on_memory(self.memory.memory_agent)
 
-        "Computation of the camera that should give the best view, according to map_to_test algorithm"
+        "Computation of the camera that should give the best view, according to maps algorithm"
         self.link_target_agent.update_link_camera_target()
         self.link_target_agent.compute_link_camera_target()
 
