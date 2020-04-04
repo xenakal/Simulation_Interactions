@@ -1,5 +1,6 @@
 import re
 from code import constants
+from code.multi_agent.elements.mobile_camera import MobileCameraType
 from code.multi_agent.elements.target import TargetType
 
 
@@ -35,7 +36,125 @@ def is_in_list_TargetEstimator(list_TargetEstimator, targetEstimator):
     return False
 
 
-class TargetEstimator:
+
+class ItemEstimator:
+    """
+           Class TargetEstimator.
+
+           Description : Conserve the data relative to a agent and a target for a given time
+
+               :param
+                  1. (int) time_stamp           -- time to which the estimator is created
+                  2. (int) agent_id             -- numerical value to identify the agent
+                  3. (int) agent_signature      -- numerical value to identify the agent
+                  4. (int) target_id            -- numerical value to identify the target
+                  5. (int) target_signature     -- numerical value to identify the target
+                  6. (int) target_xc            -- x value of the center of the targetRepresentation
+                  7. (int) target_yc            -- y value of the center of the targetRepresentation
+                  8. (int) target_size          -- radius from the center
+                  9. (int) target_position      -- [x,y] values of the center of the targetRepresentation
+
+               :attibutes
+                  1. (int) time_stamp           -- time to which the estimator is created
+                  2. (int) agent_id             -- numerical value to identify the agent
+                  3. (int) agent_signature      -- numerical value to identify the agent
+                  4. (int) target_id            -- numerical value to identify the target
+                  5. (int) target_signature     -- numerical value to identify the target
+                  6. (int) target_position      -- [x,y] values of the center of the targetRepresentation
+                  7. (int) target_type          -- identification from the Target.type
+
+               :notes
+                   fells free to write some comments.
+    """
+
+    def __init__(self, time_stamp, agent_id, agent_signature, item_id, item_signature, item_xc, item_yc,item_vx=1000, item_vy=1000,
+                 item_ax=1000, item_ay=1000, item_type=TargetType.UNKNOWN):
+        "Time information"
+        self.time_stamp = time_stamp
+        self.time_to_compare_to_simulated_data = constants.time_when_target_are_moved
+
+        "Agent - Target link"
+        self.agent_id = agent_id
+        self.agent_signature = agent_signature
+        self.item_id = item_id
+        self.item_signature = item_signature
+
+        "Target information"
+        self.item_position = [item_xc, item_yc]
+        self.item_speeds = [item_vx, item_vy]
+        self.item_acceleration = [item_ax, item_ay]
+        self.item_type = item_type
+
+    def to_string(self):
+        """
+            :return / modify vector
+                1. (string) s0+s1 -- description of the targetRepresentation
+
+        """
+        s1 = "#Timestamp #" + str(self.time_stamp) + "\n"
+        s2 = "#From #" + str(self.agent_id) + "#Sig_agent#" + str(self.agent_signature) + "\n"
+        s3 = "#item_ID #" + str(self.item_id) + "#Sig_item#" + str(self.item_signature) + "\n"
+        s4 = "#item_type #" + str(self.item_type) + "\n"
+        s5 = "x: %.02f  y: %.02f" % (self.item_position[0], self.item_position[1]) + "\n"
+        s6 = "vx: %.02f  vy: %.02f" % (self.item_speeds[0], self.item_speeds[1]) + "\n"
+        s7 = "ax: %.02f  ay: %.02f" % (self.item_acceleration[0], self.item_acceleration[1]) + "\n"
+        return str("\n" + s1 + s2 + s3 + s4 + s5 + s6 + s7)
+
+    def parse_string(self, s):
+        """
+            :params
+                1.(string) s -- string representing a TargetEstimator, use the method to_string().
+
+             :return / modify vector
+                1. Set all the attributes from self to the values described in the sting representation.
+
+        """
+
+        s = s.replace("\n", "")
+        s = s.replace(" ", "")
+
+        attribute = re.split(
+            "#Timestamp#|#From#|#Sig_agent#|#item_ID#|#Sig_item#|#item_type#|x:|y:|vx:|vy:|ax:|ay:|#Radius:", s)
+
+        self.time_stamp = float(attribute[1])
+        self.agent_id = int(attribute[2])
+        self.agent_signature = int(attribute[3])
+        self.item_id = int(attribute[4])
+        self.item_signature = int(attribute[5])
+        self.item_type = int(float(attribute[6]))
+        self.item_position = [float(attribute[7]), float(attribute[8])]
+        self.item_speeds = [float(attribute[9]), float(attribute[10])]
+        self.item_acceleration = [float(attribute[11]), float(attribute[12])]
+
+    def to_csv(self):
+        """
+            :return / modify vector
+                1. easy representation to save data in cvs file
+        """
+        csv_format = {'time_to_compare': self.time_to_compare_to_simulated_data, 'time_stamp': self.time_stamp,
+                      'agent_id': self.agent_id, 'agent_signature': self.agent_signature,
+                      'target_id': self.item_id, 'target_signature': self.item_signature,
+                      'target_type': self.item_type,
+                      'target_x': self.item_position[0], 'target_y': self.item_position[1],
+                      'target_vx': self.item_speeds[0], 'target_vy': self.item_speeds[1],
+                      'target_ax': self.item_acceleration[0], 'target_ay': self.item_acceleration[1]}
+        return csv_format
+
+    def __eq__(self, other):
+        cdt1 = self.time_stamp == other.time_stamp
+        cdt2 = self.agent_id == other.agent_id
+        cdt3 = self.item_id == other.target_id
+        cdt4 = self.item_signature == other.target_signature
+        cdt5 = self.agent_signature == other.agent_signature
+        return cdt1 and cdt2 and cdt3 and cdt4 and cdt5
+
+    def __lt__(self, other):
+        return self.time_stamp < other.time_stamp
+
+    def __gt__(self, other):
+        return self.time_stamp > other.time_stamp
+
+class TargetEstimator(ItemEstimator):
     """
            Class TargetEstimator.
 
@@ -66,24 +185,11 @@ class TargetEstimator:
                    fells free to write some comments.
     """
 
-    def __init__(self, time_stamp, agent_id, agent_signature, target_id, target_signature, target_xc, target_yc,
-                 target_vx=1000, target_vy=1000,
-                 target_ax=1000, target_ay=1000, target_radius=-1, target_type=TargetType.UNKNOWN):
-        "Time information"
-        self.time_stamp = time_stamp
-        self.time_to_compare_to_simulated_data = constants.time_when_target_are_moved
+    def __init__(self, time_stamp, agent_id, agent_signature, target_id, target_signature, target_xc, target_yc, target_vx=1000, target_vy=1000, target_ax=1000,
+                 target_ay=1000, target_radius=-1, target_type=TargetType.UNKNOWN):
 
-        "Agent - Target link"
-        self.agent_id = agent_id
-        self.agent_signature = agent_signature
-        self.target_id = target_id
-        self.target_signature = target_signature
-
-        "Target information"
-        self.target_position = [target_xc, target_yc]
-        self.target_speeds = [target_vx, target_vy]
-        self.target_acceleration = [target_ax, target_ay]
-        self.target_type = target_type
+        super().__init__(time_stamp, agent_id, agent_signature, target_id, target_signature, target_xc, target_yc, target_vx, target_vy, target_ax,
+                 target_ay, target_type)
         self.target_radius = target_radius
 
     def to_string(self):
@@ -94,11 +200,11 @@ class TargetEstimator:
         """
         s1 = "#Timestamp #" + str(self.time_stamp) + "\n"
         s2 = "#From #" + str(self.agent_id) + "#Sig_agent#" + str(self.agent_signature) + "\n"
-        s3 = "#Target_ID #" + str(self.target_id) + "#Sig_target#" + str(self.target_signature) + "\n"
-        s4 = "#Target_type #" + str(self.target_type) + "\n"
-        s5 = "x: %.02f  y: %.02f" % (self.target_position[0], self.target_position[1]) + "\n"
-        s6 = "vx: %.02f  vy: %.02f" % (self.target_speeds[0], self.target_speeds[1]) + "\n"
-        s7 = "ax: %.02f  ay: %.02f" % (self.target_acceleration[0], self.target_acceleration[1]) + "\n"
+        s3 = "#Target_ID #" + str(self.item_id) + "#Sig_target#" + str(self.item_signature) + "\n"
+        s4 = "#Target_type #" + str(self.item_type) + "\n"
+        s5 = "x: %.02f  y: %.02f" % (self.item_position[0], self.item_position[1]) + "\n"
+        s6 = "vx: %.02f  vy: %.02f" % (self.item_speeds[0], self.item_speeds[1]) + "\n"
+        s7 = "ax: %.02f  ay: %.02f" % (self.item_acceleration[0], self.item_acceleration[1]) + "\n"
         s8 = "#Radius: " + str(self.target_radius) + "\n"
         return str("\n" + s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8)
 
@@ -121,12 +227,12 @@ class TargetEstimator:
         self.time_stamp = float(attribute[1])
         self.agent_id = int(attribute[2])
         self.agent_signature = int(attribute[3])
-        self.target_id = int(attribute[4])
-        self.target_signature = int(attribute[5])
-        self.target_type = int(float(attribute[6]))
-        self.target_position = [float(attribute[7]), float(attribute[8])]
-        self.target_speeds = [float(attribute[9]), float(attribute[10])]
-        self.target_acceleration = [float(attribute[11]), float(attribute[12])]
+        self.item_id = int(attribute[4])
+        self.item_signature = int(attribute[5])
+        self.item_type = int(float(attribute[6]))
+        self.item_position = [float(attribute[7]), float(attribute[8])]
+        self.item_speeds = [float(attribute[9]), float(attribute[10])]
+        self.item_acceleration = [float(attribute[11]), float(attribute[12])]
         self.target_radius = float(attribute[13])
 
 
@@ -137,27 +243,116 @@ class TargetEstimator:
         """
         csv_format = {'time_to_compare': self.time_to_compare_to_simulated_data, 'time_stamp': self.time_stamp,
                       'agent_id': self.agent_id, 'agent_signature': self.agent_signature,
-                      'target_id': self.target_id, 'target_signature': self.target_signature,
-                      'target_type': self.target_type,
-                      'target_x': self.target_position[0], 'target_y': self.target_position[1],
-                      'target_vx': self.target_speeds[0], 'target_vy': self.target_speeds[1],
-                      'target_ax': self.target_acceleration[0], 'target_ay': self.target_acceleration[1],
+                      'target_id': self.item_id, 'target_signature': self.item_signature,
+                      'target_type': self.item_type,
+                      'target_x': self.item_position[0], 'target_y': self.item_position[1],
+                      'target_vx': self.item_speeds[0], 'target_vy': self.item_speeds[1],
+                      'target_ax': self.item_acceleration[0], 'target_ay': self.item_acceleration[1],
                       'target_radius': self.target_radius}
         return csv_format
 
-    def __eq__(self, other):
-        cdt1 = self.time_stamp == other.time_stamp
-        cdt2 = self.agent_id == other.agent_id
-        cdt3 = self.target_id == other.target_id
-        cdt4 = self.target_signature == other.target_signature
-        cdt5 = self.agent_signature == other.agent_signature
-        return cdt1 and cdt2 and cdt3 and cdt4 and cdt5
+class AgentEstimator(ItemEstimator):
+    """
+           Class TargetEstimator.
 
-    def __lt__(self, other):
-        return self.time_stamp < other.time_stamp
+           Description : Conserve the data relative to a agent and a target for a given time
 
-    def __gt__(self, other):
-        return self.time_stamp > other.time_stamp
+               :param
+                  1. (int) time_stamp           -- time to which the estimator is created
+                  2. (int) agent_id             -- numerical value to identify the agent
+                  3. (int) agent_signature      -- numerical value to identify the agent
+                  4. (int) target_id            -- numerical value to identify the target
+                  5. (int) target_signature     -- numerical value to identify the target
+                  6. (int) target_xc            -- x value of the center of the targetRepresentation
+                  7. (int) target_yc            -- y value of the center of the targetRepresentation
+                  8. (int) target_size          -- radius from the center
+                  9. (int) target_position      -- [x,y] values of the center of the targetRepresentation
+
+               :attibutes
+                  1. (int) time_stamp           -- time to which the estimator is created
+                  2. (int) agent_id             -- numerical value to identify the agent
+                  3. (int) agent_signature      -- numerical value to identify the agent
+                  4. (int) target_id            -- numerical value to identify the target
+                  5. (int) target_signature     -- numerical value to identify the target
+                  6. (int) target_position      -- [x,y] values of the center of the targetRepresentation
+                  7. (int) target_type          -- identification from the Target.type
+                  8. (int) target_size          -- radius from the center
+
+               :notes
+                   fells free to write some comments.
+    """
+
+    def __init__(self, time_stamp, agent_id, agent_signature, agent_camera_id, agent_camera_signature, agent_camera_xc, agent_camera_yc,
+                 agent_camera_vx=1000, agent_camera_vy=1000, agent_camera_ax=1000,agent_camera_ay =1000, agent_camera_type=MobileCameraType.FIX,alpha = 0, beta = 60):
+
+        super().__init__(time_stamp, agent_id, agent_signature, agent_camera_id, agent_camera_signature, agent_camera_xc, agent_camera_yc,
+                 agent_camera_vx, agent_camera_vy, agent_camera_ax,agent_camera_ay, agent_camera_type)
+        self.alpha = alpha
+        self.beta = beta
+
+
+
+    def to_string(self):
+        """
+            :return / modify vector
+                1. (string) s0+s1 -- description of the targetRepresentation
+
+        """
+        s1 = "#Timestamp #" + str(self.time_stamp) + "\n"
+        s2 = "#From #" + str(self.agent_id) + "#Sig_agent#" + str(self.agent_signature) + "\n"
+        s3 = "#Agent_camera_ID #" + str(self.item_id) + "#Sig_agent_camera#" + str(self.item_signature) + "\n"
+        s4 = "#Camera_type #" + str(self.item_type) + "\n"
+        s5 = "x: %.02f  y: %.02f" % (self.item_position[0], self.item_position[1]) + "\n"
+        s6 = "vx: %.02f  vy: %.02f" % (self.item_speeds[0], self.item_speeds[1]) + "\n"
+        s7 = "ax: %.02f  ay: %.02f" % (self.item_acceleration[0], self.item_acceleration[1]) + "\n"
+        s8 = "#alpha: " + str(self.alpha) + "#beta: " + str(self.beta) + "\n"
+        return str("\n" + s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8)
+
+    def parse_string(self, s):
+        """
+            :params
+                1.(string) s -- string representing a TargetEstimator, use the method to_string().
+
+             :return / modify vector
+                1. Set all the attributes from self to the values described in the sting representation.
+
+        """
+
+        s = s.replace("\n", "")
+        s = s.replace(" ", "")
+
+        attribute = re.split(
+            "#Timestamp#|#From#|#Sig_agent#|#Agent_camera_ID #|#Sig_agent_camera#|#Camera_type#|x:|y:|vx:|vy:|ax:|ay:|#alpha:|#beta:", s)
+
+        self.time_stamp = float(attribute[1])
+        self.agent_id = int(attribute[2])
+        self.agent_signature = int(attribute[3])
+        self.item_id = int(attribute[4])
+        self.item_signature = int(attribute[5])
+        self.item_type = int(float(attribute[6]))
+        self.item_position = [float(attribute[7]), float(attribute[8])]
+        self.item_speeds = [float(attribute[9]), float(attribute[10])]
+        self.item_acceleration = [float(attribute[11]), float(attribute[12])]
+        self.alpha = float(attribute[13])
+        self.alpha = float(attribute[14])
+
+
+    def to_csv(self):
+        """
+            :return / modify vector
+                1. easy representation to save data in cvs file
+        """
+        csv_format = {'time_to_compare': self.time_to_compare_to_simulated_data, 'time_stamp': self.time_stamp,
+                      'agent_id': self.agent_id, 'agent_signature': self.agent_signature,
+                      'camera_id': self.item_id, 'camera_signature': self.item_signature,
+                      'camera_type': self.item_type,
+                      'camera_x': self.item_position[0], 'camera_y': self.item_position[1],
+                      'camera_vx': self.item_speeds[0], 'camera_vy': self.item_speeds[1],
+                      'camera_ax': self.item_acceleration[0], 'camera_ay': self.item_acceleration[1],
+                      'alpha': self.alpha,'beta': self.beta}
+        return csv_format
+
+
 
 
 class Agent_Target_TargetEstimator:

@@ -10,7 +10,25 @@ class AgentType:
     AGENT_USER = 100
 
 
-class Agent:
+class AgentRepresentation:
+    def __init__(self, id, type):
+        self.id = id + int(type)
+        self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
+        self.type = type
+        self.is_activated = False
+        self.color = 0
+
+    def update_from_agent(self, agent):
+        self.id = agent.id
+        self.signature = agent.signature
+        self.type = agent.type
+        self.is_activated = agent.is_activated
+        self.color = agent.color
+
+
+
+
+class Agent(AgentRepresentation):
     """
         Class Agent.
 
@@ -38,14 +56,11 @@ class Agent:
     def __init__(self, id, type, t_add, t_del, color=0):
         """Initialisation"""
 
+        super().__init__(id, type)
         "Attributes"
-        self.id = id + int(type)
-        self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
-        self.type = type
         self.color = color
         self.t_add = t_add
         self.t_del = t_del
-        self.is_activated = False
         self.number_of_time_passed = 0
 
         "Communication"
@@ -266,11 +281,11 @@ class AgentStatistic:
 
         tab0 = []
         tab1 = []
-        for agent in room.agentCams_list:
+        for agent in room.agentCams_representation_list:
             tab0.append([agent.id, 0])
             tab1.append([agent.id, 0])
 
-        for agent in room.agentUser_list:
+        for agent in room.agentUser_representation_list:
             tab0.append([agent.id, 0])
             tab1.append([agent.id, 0])
 

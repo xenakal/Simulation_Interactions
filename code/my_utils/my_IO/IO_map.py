@@ -1,7 +1,7 @@
 import re
 from code import constants
 from code.multi_agent.elements.target import Target
-from code.multi_agent.elements.camera import Camera
+from code.multi_agent.elements.mobile_camera import MobileCamera
 import code.multi_agent.agent.agent_interacting_room_camera
 
 """
@@ -40,7 +40,7 @@ def load_agentCam_txt(s, room):
     s = s.replace(" ", "")
     camera_agent = re.split("camera:|agent:", s)
 
-    camera = Camera(room, -1, -1, -1, -1, -1)
+    camera = MobileCamera(room, -1, -1, -1, -1, -1,[],-1)
     camera.load_from_txt(camera_agent[1])
     agent = code.multi_agent.agent.agent_interacting_room_camera.AgentCam(camera)
     agent.load_from_txt(camera_agent[2])

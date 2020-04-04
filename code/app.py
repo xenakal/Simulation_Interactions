@@ -102,9 +102,10 @@ class App:
 
         """Set the room representation for every agent based the information given in the room,
          only agent position and set_fix target are here taken into account """
-        for agent in self.room.agentCams_list:
+        for agent in self.room.information_simulation.agentCams_list:
             agent.init_and_set_room_description(self.room)
-        for agent in self.room.agentUser_list:
+
+        for agent in self.room.information_simulation.agentUser_list:
             agent.init_and_set_room_description(self.room)
 
         self.room.add_del_target_timed()
@@ -121,15 +122,20 @@ class App:
         if USE_dynamic_analysis_simulated_room:
             self.dynamic_region.init(NUMBER_OF_POINT_DYNAMIC_ANALYSIS)
 
+
         self.link_agent_target = LinkTargetCamera(self.room)
         self.link_agent_target.update_link_camera_target()
 
-        """Agents start to run"""
-        for agent in self.room.active_AgentCams_list:
-            agent.run()
 
-        for agent in self.room.agentUser_list:
+        """Agents start to run"""
+        for agent in self.room.information_simulation.agentCams_list:
+            print(agent)
             agent.run()
+            pass
+
+        for agent in self.room.information_simulation.agentUser_list:
+           print(agent)
+           agent.run()
 
         """Start the time"""
         constants.TIME_START = time.time()
@@ -150,9 +156,9 @@ class App:
         self.targets_moving_thread.join()
 
         "Stopping each agent"
-        for agent in self.room.agentCams_list:
+        for agent in self.room.information_simulation.agentCams_list:
             agent.clear()
-        for agent in self.room.agentUser_list:
+        for agent in self.room.information_simulation.agentUser_list:
             agent.clear()
 
         "Clean mailbox"

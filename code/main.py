@@ -10,7 +10,6 @@ ex: map_to_test_name = ["my_map_1","my_map_2",...]
 set the folder in which those maps are located with constants.MapPath.folder
 by default in maps
 """
-#constants.MapPath.folder = "to_test"
 map_to_test_name = ["My_new_map"]
 
 
@@ -29,7 +28,7 @@ kalman_distributed = [False]
 kalman_type = [4]
 
 """Time at which the simulation should stop, the time to start is eaqual to 0 s"""
-t_stop = [20]
+t_stop = [1000]
 """When many cameras are used, it might be a good idea to slowdown the simulation using a scaling factor < 1"""
 t_scale = [1]
 

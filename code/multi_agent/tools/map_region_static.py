@@ -180,7 +180,7 @@ class MapRegionStatic:
            This fills up the list self.distances, that cointaint the distance from every points from the mesh with respect to the cam
          """
         self.distances = []
-        for agent in self.room.agentCams_list: #ici on se permet de prendre les cameras qui sont dans la description
+        for agent in self.room.information_simulation.agentCams_list: #ici on se permet de prendre les cameras qui sont dans la description
             camera = agent.camera
             '''taking the position of the camera'''
             px, py = (camera.xc, camera.yc)
@@ -202,7 +202,7 @@ class MapRegionStatic:
                        This fills up the list self.angle_view_and_obstruction (see description above)
                """
         self.angle_view_and_fix_obstruction = []
-        for agent in self.room.agentCams_list:
+        for agent in self.room.information_simulation.agentCams_list:
             camera = agent.camera
             for item in self.angle_view:
                 '''compute the region of vision from the cam, wihtout obstruction'''
@@ -248,7 +248,7 @@ class MapRegionStatic:
 
         """
         self.angle_view = []
-        for agent in self.room.agentCams_list:
+        for agent in self.room.information_simulation.agentCams_list:
             camera = agent.camera
             res = self.find_angle_view_one_cam(camera)
             self.angle_view.append((camera.id, res))

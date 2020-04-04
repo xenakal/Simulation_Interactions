@@ -3,57 +3,11 @@ import random
 import math
 
 from code.my_utils.my_math.line import Line, distance_btw_two_point
+import code.multi_agent.elements.room as rm
 
+class CameraRepresentation:
 
-class Camera:
-    """
-                Class Camera.
-
-                Description : This class create a camera,
-                              can also be use to describe real camera in the room representation.
-
-                    :param
-                        1. (Room)room                          -- Room object, see class Room
-                        2. (int) id                            -- numerical value to recognize the camera easily
-                        3. (int) xc                            -- x value of the center of the camera
-                        4. (int) yc                            -- y value of the center of the camera
-                        5. (int) alpha                         -- orientation angel of the camera
-                        6. (string) beta                       -- opening field of the camera
-                        7. (int) is_fix                        -- 1 if the camera can rotate, else 0
-                        8. ((int),(int),(int)) color           -- color to represent the camera
-1
-                    :attibutes
-                         1. (int) id                           -- numerical value to recognize the camera easily
-                        2. (int) signature                     -- numerical value to identify the camera
-                        3. (int) xc                            -- x value of the center of the camera
-                        4. (int) yc                            -- y value of the center of the camera
-                        5. (int) alpha                         -- orientation angel of the camera
-                        6. (string) beta                       -- opening field of the camera
-                        7. (int) is_fix                        -- 1 if the camera can rotate, else 0
-                        8. (int) is_active                     -- 1 if the camera is active, else 0
-                        9. ((int),(int),(int)) color           -- color to represent the camera
-                       10. (Room)room                          -- Room object, see class Room
-                       11. (list) target_in_field_list         -- [Target, ...] Contains every target
-                                                                  (not hidden by an other one)
-                                                                  in the triangle field of vue
-                       12. (list) targetCameraDistance_list    -- [TargetCameraDistance, ...] Contains 11, but
-                                                                  sort in terms of distance to cam
-                       13. (list) target_projection            -- [(y_down,y_up),...,(limite_fied_down,limit_field_up)],
-                                                                  uses 12 to create a representation of the 2D field
-                                                                  in 1D
-
-                    :notes
-                        1. ! use the run() or method take_picture() to fill 11,12,13
-                        2. For every function using a radius, radius >= 0
-                        3. Camera is considered as active when the function run fills the vector 12.
-
-
-    """
-
-    def __init__(self, room, id, xc, yc, alpha, beta, is_fix=1, color=0,t_add = -1,t_del = -1):
-        """Initialisation"""
-
-        " Identification name (id) + number "
+    def __init__(self,room,id, xc, yc, alpha, beta, d_max,color = 0):
         self.id = id
         self.signature = self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
 
@@ -62,21 +16,17 @@ class Camera:
         self.yc = yc
         self.alpha = math.radians(alpha)  # deg rotation
         self.beta = math.radians(beta)  # deg view angle
+        self.field_depth = d_max
 
-        self.vx = 0
-        self.vy = 0
-        self.alpha_d = 0
-        self.beta_d = 0
+        "Error"
+        self.std_measurment_error_position = constants.STD_MEASURMENT_ERROR_POSITION
+        self.std_measurment_error_speed = constants.STD_MEASURMENT_ERROR_SPEED
+        self.std_measurment_error_acceleration = constants.STD_MEASURMENT_ERROR_ACCCELERATION
 
         "Attibutes"
-        self.is_fix = is_fix
-        self.color = color
         self.room = room
-
         self.isActive = False
-        self.t_add = t_add
-        self.t_del = t_del
-        self.number_of_time_passed = 0
+        self.color = color
 
         "Default values"
         if color == 0:
@@ -85,117 +35,20 @@ class Camera:
             b = 25 + 20 * random.randrange(0, 10, 1)
             self.color = (r, g, b)
 
-        if t_add == -1 or t_del == -1:
-            self.t_add = [0.0]
-            self.t_del = [1000.0]
-
-        "List to get target in the camera vision field"
-        " !! use the metjod take picture to fill those list !! "
-        self.target_in_field_list = []
-        self.targetCameraDistance_list = []
-        self.target_projection = []
-
-    def run(self):
-        """
-            :description
-               function to call to get a picture of the room in the simulation
-
-            :return / modify vector
-                1. (bool) if camemra is_active, self.targetCameraDistance_list -- [TargetCameraDistance, ...]
-                                                                                 Contains 11, but sort by distances
-                2.        else, empty list []
-        """
-
-        if self.isActive:
-            self.take_picture(self.room.active_Target_list, 400)
-            return self.targetCameraDistance_list
-        else:
-            return []
-
-    def save_target_to_txt(self):
-        s0 = "x:%0.2f y:%0.2f alpha:%0.2f beta:%0.2f is_fix:%d"%(self.xc,self.yc,self.alpha,self.beta,self.is_fix)
-        s1 =" t_add:"+str(self.t_add)+" t_del:"+str(self.t_del)
-        return s0 + s1 + "\n"
-
-
-    def load_from_txt(self,s):
-        s = s.replace("\n", "")
-        s = s.replace(" ", "")
-
-        attribute = re.split("x:|y:|alpha:|beta:|is_fix:|t_add:|t_del:", s)
-
-        self.xc = float(attribute[1])
-        self.yc = float(attribute[2])
-        self.alpha = float(attribute[3])
-        self.beta = float(attribute[4])
-        self.is_fix = float(attribute[5])
-        self.t_add = self.load_tadd_tdel(attribute[6])
-        self.t_del = self.load_tadd_tdel(attribute[7])
-
-    def load_tadd_tdel(self, s):
-        list = []
-        s = s[1:-1]
-        all_times = re.split(",",s)
-        for time in all_times:
-            list.append(float(time))
-        return list
-
-    def activate_camera(self):
-        """
-            :description
-                 modifies the state of the camera
-        """
-        self.isActive = True
-
-    def desactivate_camera(self):
-        """
-            :description
-                 modifies the state of the camera
-        """
-        self.isActive = False
-
-    def cam_rotate(self, delta_angle):
-        """
-            :description
-                To modify alpha from step
-
-            :param
-                1. (int) delta_angle -- orientation change in degree
-        """
-        if self.is_fix == 0:
-            self.alpha = self.alpha + math.radians(delta_angle)
-
-    def take_picture(self, target_list, length_projection):
-        """
-            :description
-                Function to call in order to fill 11,12,13 in the class description.
-
-                From target_list below it:
-                    1. Find the target seen by the camera in a given Room
-                    2. Sort the target seen in terms of distances
-                    3. Compute the projection to create a fake loose of information from 2D to 1D
-                       (x_target_in_room_frame,y_target_in_room_frame) coordinate becomes y_target_in_camera_frame
-
-            :param
-                1. (Target_list) target_list     -- a list of Target
-                2. (int) > 0 length_projection   -- distance in camera frame to which we want to build the projection
-        """
-
-        self.target_in_field_list = []
-        self.targetCameraDistance_list = []
-        "1. Detection of all the target viewed by the cam"
-        for target in target_list:
-            cdt_in_field = self.is_x_y_radius_in_field_not_obstructed(target.xc, target.yc, target.radius)
-            cdt_not_hidden = not (self.is_xc_yc_radius_in_hidden_zone_all_targets(target.xc, target.yc, target.radius))
-
-
-            if cdt_in_field and cdt_not_hidden:
-                self.target_in_field_list.append(target)
-
-        "2. Sorting the target in terms of distance to the cam"
-        self.targetCameraDistance_list = self.sort_detected_target(self.target_in_field_list)
-        "3. Computing the projections"
-        self.target_projection = self.compute_projection(self.targetCameraDistance_list, length_projection)
+    def init_from_camera(self,camera):
+        self.id = camera.id
+        self.signature = camera.signature
+        self.xc = camera.xc
+        self.yc = camera.yc
+        self.alpha = camera.alpha
+        self.beta = camera.beta
+        self.field_depth = camera.field_depth
+        self.std_measurment_error_position = camera.std_measurment_error_position
+        self.std_measurment_error_speed = camera.std_measurment_error_speed
+        self.std_measurment_error_acceleration = camera.std_measurment_error_acceleration
+        self.color = camera.color
+        self.room = camera.room
+        self.isActive = camera.isActive
 
     def coordinate_change_from_world_frame_to_camera_frame(self, x_in_room_frame, y_in_room_frame):
         """
@@ -216,101 +69,6 @@ class Camera:
         x_in_camera_frame = math.cos(self.alpha) * x_no_offset + math.sin(self.alpha) * y_no_offset
         y_in_camera_frame = -math.sin(self.alpha) * x_no_offset + math.cos(self.alpha) * y_no_offset
         return x_in_camera_frame, y_in_camera_frame
-
-    def sort_detected_target(self, target_list):
-        """
-            :description
-               Function to sort a target list in terms of distances
-
-            :param
-                1. (Target_list) target_list     -- a list of Target
-            :return
-                1. (TargetCameraDistance_list)   -- a list of TargetCameraDistance sorted by distances
-        """
-        target_camera_distance_list = []
-        for target in target_list:
-            distance = distance_btw_two_point(self.xc, self.yc, target.xc, target.yc)
-            target_camera_distance_list.append(TargetCameraDistance(target, distance))
-
-        target_camera_distance_list.sort()
-        return target_camera_distance_list
-
-    def compute_projection(self, targetCameraDistance_list, length_projection=200):
-        """
-            :description
-               Create the lost of information when using a camera.
-
-            :param
-                1.(TargetCameraDistance_list) targetCameraDistance_list    -- a list of Target
-
-            :return
-                1. ([(int,int),...]) projection_list       -- [(y_down,y_up),...,(limite_fied_down,limit_field_up)]
-                                                                a list of TargetCameraDistance sorted by distances
-        """
-
-        projection_list = []
-        """Placing the view in the cam frame"""
-        median_camera = Line(0, 0, 1, 0)
-        projection_line = median_camera.linePerp(length_projection, 0)
-
-        """Bound of the field camera"""
-        limit_up_camera = Line(0, 0, math.cos(self.beta / 2), math.sin(self.beta / 2))
-        limit_down_camera = Line(0, 0, math.cos(self.beta / 2), math.sin(-self.beta / 2))
-
-        """Projection of the limit on the projection plane"""
-        camera_limit_up_on_projection_line = limit_up_camera.lineIntersection(projection_line)[1]
-        camera_limit_down_on_projection_line = limit_down_camera.lineIntersection(projection_line)[1]
-
-        """Same but for every target now"""
-        for element in targetCameraDistance_list:
-
-            target = element.target
-            """Coordinate change"""
-            (x_target_in_camera_frame,
-             y_target_in_camera_frame) = self.coordinate_change_from_world_frame_to_camera_frame(target.xc, target.yc)
-            """Compute the value on the projection plane"""
-            line_camera_target = Line(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
-            perpendicular_to_line_camera_target = line_camera_target.linePerp(x_target_in_camera_frame,
-
-                                                                              y_target_in_camera_frame)
-
-            target_limit_in_camera_frame = perpendicular_to_line_camera_target.lineCircleIntersection(target.radius,
-                                                                                            x_target_in_camera_frame,
-                                                                                            y_target_in_camera_frame)
-            "Cheking if there is an intersection"
-            if not (target_limit_in_camera_frame[0] == target_limit_in_camera_frame[1] == target_limit_in_camera_frame[
-                2] == target_limit_in_camera_frame[3] == 0):
-
-                if target_limit_in_camera_frame[1] < target_limit_in_camera_frame[3]:
-                    target_limit_up = Line(0, 0, target_limit_in_camera_frame[0], target_limit_in_camera_frame[1])
-                    target_limit_down = Line(0, 0, target_limit_in_camera_frame[2], target_limit_in_camera_frame[3])
-                else:
-                    target_limit_up = Line(0, 0, target_limit_in_camera_frame[0], target_limit_in_camera_frame[3])
-                    target_limit_down = Line(0, 0, target_limit_in_camera_frame[2], target_limit_in_camera_frame[1])
-
-                target_limit_up_projection = target_limit_up.lineIntersection(projection_line)[1]
-                target_limit_down_projection = target_limit_down.lineIntersection(projection_line)[1]
-
-                """Checkin limits are in the field"""
-
-                if target_limit_down_projection < camera_limit_down_on_projection_line:
-                    target_limit_down_projection = camera_limit_down_on_projection_line
-
-                if target_limit_up_projection < camera_limit_down_on_projection_line:
-                    target_limit_up_projection = camera_limit_down_on_projection_line
-
-                if target_limit_down_projection > camera_limit_up_on_projection_line:
-                    target_limit_down_projection = camera_limit_up_on_projection_line
-
-                if target_limit_up_projection > camera_limit_up_on_projection_line:
-                    target_limit_up_projection = camera_limit_up_on_projection_line
-
-                projection_list.append((target_limit_down_projection, target_limit_up_projection))
-
-                element.set_projection((target_limit_down_projection, target_limit_up_projection))
-
-        projection_list.append((camera_limit_down_on_projection_line, camera_limit_up_on_projection_line))
-        return projection_list
 
     def is_x_y_radius_in_field_not_obstructed(self, x, y, r_target=0):
         """
@@ -335,16 +93,15 @@ class Camera:
             x, y)
 
         line_camera_target = Line(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
-        perpendicular_to_line_camera_target = line_camera_target.linePerp(x_target_in_camera_frame,
-                                                                          y_target_in_camera_frame)
+        perpendicular_to_line_camera_target = line_camera_target.find_line_perp(x_target_in_camera_frame,
+                                                                                y_target_in_camera_frame)
 
-        target_limit_in_camera_frame = perpendicular_to_line_camera_target.lineCircleIntersection(r_target,
-                                                                                            x_target_in_camera_frame,
-                                                                                            y_target_in_camera_frame)
+        target_limit_in_camera_frame = perpendicular_to_line_camera_target.find_intersection_btw_line_circle(r_target,
+                                                                                                             x_target_in_camera_frame,
+                                                                                                             y_target_in_camera_frame)
 
         y_min = min(target_limit_in_camera_frame[1], target_limit_in_camera_frame[3])
         y_max = max(target_limit_in_camera_frame[1], target_limit_in_camera_frame[3])
-
 
         beta_target_min = math.atan2(y_min, x_target_in_camera_frame)
         beta_target_max = math.atan2(y_max, x_target_in_camera_frame)
@@ -352,7 +109,8 @@ class Camera:
         margin_low = beta_target_max >= -(math.fabs(self.beta / 2))
         margin_high = beta_target_min <= math.fabs(self.beta / 2)
 
-        if margin_low and margin_high:
+        distance = distance_btw_two_point(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
+        if margin_low and margin_high and self.field_depth > distance:
             return True
         else:
             return False
@@ -379,16 +137,16 @@ class Camera:
 
         "Computing limits"
         line_cam_target = Line(0, 0, xctf, yctf)
-        line_perp_cam_target = line_cam_target.linePerp(xctf, yctf)
-        idca = line_perp_cam_target.lineCircleIntersection(r_target, xctf, yctf)
+        line_perp_cam_target = line_cam_target.find_line_perp(xctf, yctf)
+        idca = line_perp_cam_target.find_intersection_btw_line_circle(r_target, xctf, yctf)
 
         "Check if intersection exist"
         if not (idca[0] == idca[1] == idca[2] == idca[3] == 0):
             alpha1 = math.atan2(idca[1], idca[0])
             alpha2 = math.atan2(idca[3], idca[2])
 
-            alpha_min = min(alpha1,alpha2)
-            alpha_max = max(alpha1,alpha2)
+            alpha_min = min(alpha1, alpha2)
+            alpha_max = max(alpha1, alpha2)
             alphapt = math.atan2(ycf, xcf)
 
             "Condition to be hidden"
@@ -493,8 +251,9 @@ class Camera:
 
         if not r == 0:
             line_camera_target = Line(self.xc, self.yc, x, y)
-            perpendicular_to_line_camera_target = line_camera_target.linePerp(x, y)
-            target_limit = perpendicular_to_line_camera_target.lineCircleIntersection(r+0.01, x, y) #+0.01 because if we compare to the target it self it might be a problem in the condition
+            perpendicular_to_line_camera_target = line_camera_target.find_line_perp(x, y)
+            target_limit = perpendicular_to_line_camera_target.find_intersection_btw_line_circle(r + 0.01, x,
+                                                                                                 y)  # +0.01 because if we compare to the target it self it might be a problem in the condition
             cdt_up = self.is_x_y_in_hidden_zone_all_targets(target_limit[0], target_limit[1])
             cdt_down = self.is_x_y_in_hidden_zone_all_targets(target_limit[2], target_limit[3])
 
@@ -528,8 +287,8 @@ class Camera:
 
         "line between target and camera"
         line_cam_target = Line(0, 0, xctf, yctf)
-        line_perp_cam_target = line_cam_target.linePerp(xctf, yctf)
-        idca = line_perp_cam_target.lineCircleIntersection(r_target, xctf, yctf)
+        line_perp_cam_target = line_cam_target.find_line_perp(xctf, yctf)
+        idca = line_perp_cam_target.find_intersection_btw_line_circle(r_target, xctf, yctf)
 
         "checking if there is an intersection "
         if not (idca[0] == idca[1] == idca[2] == idca[3] == 0):
@@ -542,7 +301,7 @@ class Camera:
                     alphapt = math.atan2(ycf, xcf)
 
                     "condition to be hidden"
-                    if (alpha1 > alphapt > alpha2  or alpha1 < alphapt < alpha2) and xcf > xctf:
+                    if (alpha1 > alphapt > alpha2 or alpha1 < alphapt < alpha2) and xcf > xctf:
                         result[i, j] = 0
         return result
 
@@ -582,7 +341,7 @@ class Camera:
             :return / modify vector
                 1. (np.array)         -- 0 if (x,y) is between hidden, else 1
         """
-        for target in self.room.information_simulation.Target_list:
+        for target in self.room.information_simulation.target_list:
             if target.type == TargetType.SET_FIX:
                 xt = target.xc
                 yt = target.yc
@@ -611,6 +370,260 @@ class Camera:
                 radius = target.radius
                 result = self.is_in_hidden_zone_one_target_matrix_x_y(result, x, y, xt, yt, radius)
         return result
+
+
+class Camera(CameraRepresentation):
+    """
+                Class Camera.
+
+                Description : This class create a camera,
+                              can also be use to describe real camera in the room representation.
+
+                    :param
+                        1. (Room)room                          -- Room object, see class Room
+                        2. (int) id                            -- numerical value to recognize the camera easily
+                        3. (int) xc                            -- x value of the center of the camera
+                        4. (int) yc                            -- y value of the center of the camera
+                        5. (int) alpha                         -- orientation angel of the camera
+                        6. (string) beta                       -- opening field of the camera
+                        7. (int) is_fix                        -- 1 if the camera can rotate, else 0
+                        8. ((int),(int),(int)) color           -- color to represent the camera
+1
+                    :attibutes
+                         1. (int) id                           -- numerical value to recognize the camera easily
+                        2. (int) signature                     -- numerical value to identify the camera
+                        3. (int) xc                            -- x value of the center of the camera
+                        4. (int) yc                            -- y value of the center of the camera
+                        5. (int) alpha                         -- orientation angel of the camera
+                        6. (string) beta                       -- opening field of the camera
+                        7. (int) is_fix                        -- 1 if the camera can rotate, else 0
+                        8. (int) is_active                     -- 1 if the camera is active, else 0
+                        9. ((int),(int),(int)) color           -- color to represent the camera
+                       10. (Room)room                          -- Room object, see class Room
+                       11. (list) target_in_field_list         -- [Target, ...] Contains every target
+                                                                  (not hidden by an other one)
+                                                                  in the triangle field of vue
+                       12. (list) targetCameraDistance_list    -- [TargetCameraDistance, ...] Contains 11, but
+                                                                  sort in terms of distance to cam
+                       13. (list) target_projection            -- [(y_down,y_up),...,(limite_fied_down,limit_field_up)],
+                                                                  uses 12 to create a representation of the 2D field
+                                                                  in 1D
+
+                    :notes
+                        1. ! use the run() or method take_picture() to fill 11,12,13
+                        2. For every function using a radius, radius >= 0
+                        3. Camera is considered as active when the function run fills the vector 12.
+
+
+    """
+
+    def __init__(self, room, id, xc, yc, alpha, beta, d_max=8, color=0, t_add=-1, t_del=-1):
+        """Initialisation"""
+        super().__init__(room,id, xc, yc, alpha, beta,d_max,color)
+        "Attibutes"
+        self.t_add = t_add
+        self.t_del = t_del
+        self.number_of_time_passed = 0
+
+        "Default values"
+
+        if t_add == -1 or t_del == -1:
+            self.t_add = [0.0]
+            self.t_del = [1000.0]
+
+        "List to get target in the camera vision field"
+        " !! use the metjod take picture to fill those list !! "
+        self.target_in_field_list = []
+        self.targetCameraDistance_list = []
+        self.target_projection = []
+
+    def run(self):
+        """
+            :description
+               function to call to get a picture of the room in the simulation
+
+            :return / modify vector
+                1. (bool) if camemra is_active, self.targetCameraDistance_list -- [TargetCameraDistance, ...]
+                                                                                 Contains 11, but sort by distances
+                2.        else, empty list []
+        """
+
+        if self.isActive: #we can take only picture in the real world
+            self.take_picture(self.room.active_Target_list, 400)
+            return self.targetCameraDistance_list
+        else:
+            return []
+
+    def save_target_to_txt(self):
+        s0 = "x:%0.2f y:%0.2f alpha:%0.2f beta:%0.2f field_depth:%0.2f" % (
+        self.xc, self.yc, math.degrees(self.alpha), math.degrees(self.beta), self.field_depth)
+        s1 = " t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
+        return s0 + s1 + "\n"
+
+    def load_from_txt(self, s):
+        s = s.replace("\n", "")
+        s = s.replace(" ", "")
+
+        attribute = re.split("x:|y:|alpha:|beta:|field_depth:|t_add:|t_del:", s)
+
+        self.xc = float(attribute[1])
+        self.yc = float(attribute[2])
+        self.alpha = math.radians(float(attribute[3]))
+        self.beta = math.radians(float(attribute[4]))
+        self.field_depth = float(attribute[5])
+        self.t_add = self.load_tadd_tdel(attribute[6])
+        self.t_del = self.load_tadd_tdel(attribute[7])
+
+    def load_tadd_tdel(self, s):
+        list = []
+        s = s[1:-1]
+        all_times = re.split(",", s)
+        for time in all_times:
+            if not time == "":
+                list.append(float(time))
+        return list
+
+    def activate_camera(self):
+        """
+            :description
+                 modifies the state of the camera
+        """
+        self.isActive = True
+
+    def desactivate_camera(self):
+        """
+            :description
+                 modifies the state of the camera
+        """
+        self.isActive = False
+
+    def take_picture(self, target_list, length_projection):
+        """
+            :description
+                Function to call in order to fill 11,12,13 in the class description.
+
+                From target_list below it:
+                    1. Find the target seen by the camera in a given Room
+                    2. Sort the target seen in terms of distances
+                    3. Compute the projection to create a fake loose of information from 2D to 1D
+                       (x_target_in_room_frame,y_target_in_room_frame) coordinate becomes y_target_in_camera_frame
+
+            :param
+                1. (Target_list) target_list     -- a list of Target
+                2. (int) > 0 length_projection   -- distance in camera frame to which we want to build the projection
+        """
+
+        self.target_in_field_list = []
+        self.targetCameraDistance_list = []
+        "1. Detection of all the target viewed by the cam"
+        for target in target_list:
+            cdt_in_field = self.is_x_y_radius_in_field_not_obstructed(target.xc, target.yc, target.radius)
+            cdt_not_hidden = not (self.is_xc_yc_radius_in_hidden_zone_all_targets(target.xc, target.yc, target.radius))
+
+            if cdt_in_field and cdt_not_hidden:
+                self.target_in_field_list.append(target)
+
+        "2. Sorting the target in terms of distance to the cam"
+        self.targetCameraDistance_list = self.sort_detected_target(self.target_in_field_list)
+        "3. Computing the projections"
+        self.target_projection = self.compute_projection(self.targetCameraDistance_list, length_projection)
+
+    def sort_detected_target(self, target_list):
+        """
+            :description
+               Function to sort a target list in terms of distances
+
+            :param
+                1. (Target_list) target_list     -- a list of Target
+            :return
+                1. (TargetCameraDistance_list)   -- a list of TargetCameraDistance sorted by distances
+        """
+        target_camera_distance_list = []
+        for target in target_list:
+            distance = distance_btw_two_point(self.xc, self.yc, target.xc, target.yc)
+            target_camera_distance_list.append(TargetCameraDistance(target, distance))
+
+        target_camera_distance_list.sort()
+        return target_camera_distance_list
+
+    def compute_projection(self, targetCameraDistance_list, length_projection=200):
+        """
+            :description
+               Create the lost of information when using a camera.
+
+            :param
+                1.(TargetCameraDistance_list) targetCameraDistance_list    -- a list of Target
+
+            :return
+                1. ([(int,int),...]) projection_list       -- [(y_down,y_up),...,(limite_fied_down,limit_field_up)]
+                                                                a list of TargetCameraDistance sorted by distances
+        """
+
+        projection_list = []
+        """Placing the view in the cam frame"""
+        median_camera = Line(0, 0, 1, 0)
+        projection_line = median_camera.find_line_perp(length_projection, 0)
+
+        """Bound of the field camera"""
+        limit_up_camera = Line(0, 0, math.cos(self.beta / 2), math.sin(self.beta / 2))
+        limit_down_camera = Line(0, 0, math.cos(self.beta / 2), math.sin(-self.beta / 2))
+
+        """Projection of the limit on the projection plane"""
+        camera_limit_up_on_projection_line = limit_up_camera.find_intersection_btw_two_line(projection_line)[1]
+        camera_limit_down_on_projection_line = limit_down_camera.find_intersection_btw_two_line(projection_line)[1]
+
+        """Same but for every target now"""
+        for element in targetCameraDistance_list:
+
+            target = element.target
+            """Coordinate change"""
+            (x_target_in_camera_frame,
+             y_target_in_camera_frame) = self.coordinate_change_from_world_frame_to_camera_frame(target.xc, target.yc)
+            """Compute the value on the projection plane"""
+            line_camera_target = Line(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
+            perpendicular_to_line_camera_target = line_camera_target.find_line_perp(x_target_in_camera_frame,
+
+                                                                                    y_target_in_camera_frame)
+
+            target_limit_in_camera_frame = perpendicular_to_line_camera_target.find_intersection_btw_line_circle(
+                target.radius,
+                x_target_in_camera_frame,
+                y_target_in_camera_frame)
+            "Cheking if there is an intersection"
+            if not (target_limit_in_camera_frame[0] == target_limit_in_camera_frame[1] == target_limit_in_camera_frame[
+                2] == target_limit_in_camera_frame[3] == 0):
+
+                if target_limit_in_camera_frame[1] < target_limit_in_camera_frame[3]:
+                    target_limit_up = Line(0, 0, target_limit_in_camera_frame[0], target_limit_in_camera_frame[1])
+                    target_limit_down = Line(0, 0, target_limit_in_camera_frame[2], target_limit_in_camera_frame[3])
+                else:
+                    target_limit_up = Line(0, 0, target_limit_in_camera_frame[0], target_limit_in_camera_frame[3])
+                    target_limit_down = Line(0, 0, target_limit_in_camera_frame[2], target_limit_in_camera_frame[1])
+
+                target_limit_up_projection = target_limit_up.find_intersection_btw_two_line(projection_line)[1]
+                target_limit_down_projection = target_limit_down.find_intersection_btw_two_line(projection_line)[1]
+
+                """Checkin limits are in the field"""
+
+                if target_limit_down_projection < camera_limit_down_on_projection_line:
+                    target_limit_down_projection = camera_limit_down_on_projection_line
+
+                if target_limit_up_projection < camera_limit_down_on_projection_line:
+                    target_limit_up_projection = camera_limit_down_on_projection_line
+
+                if target_limit_down_projection > camera_limit_up_on_projection_line:
+                    target_limit_down_projection = camera_limit_up_on_projection_line
+
+                if target_limit_up_projection > camera_limit_up_on_projection_line:
+                    target_limit_up_projection = camera_limit_up_on_projection_line
+
+                projection_list.append((target_limit_down_projection, target_limit_up_projection))
+
+                element.set_projection((target_limit_down_projection, target_limit_up_projection))
+
+        projection_list.append((camera_limit_down_on_projection_line, camera_limit_up_on_projection_line))
+        return projection_list
+
 
 
 class TargetCameraDistance:

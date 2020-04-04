@@ -70,7 +70,7 @@ class GUI:
             self.GUI_create_map.run()
 
         elif self.button_menu.find_button_state("Agent's O"):
-            self.GUI_output.run(room, link_camera_target)
+            self.GUI_output.run(room)
 
         self.GUI_option.reset_mouse_list()
         pygame.display.update()

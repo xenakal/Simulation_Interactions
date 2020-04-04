@@ -12,6 +12,11 @@ class MessageTypeAgentInteractingWithRoom(MessageType):
     MEMORY = "memory"
 
 
+class  AgentInteractingWithRoomRepresentation(AgentRepresentation):
+    def __init__(self, id, type):
+        super().__init__(id, type)
+
+
 class AgentInteractingWithRoom(Agent):
     """
         Class AgentInteractingWithRoom extend Agent.
@@ -71,22 +76,14 @@ class AgentInteractingWithRoom(Agent):
         """
         self.log_main.info("starting initialisation in agent_interacting_room")
         self.room_representation.init_RoomRepresentation(room)
-        if self.type == AgentType.AGENT_USER:
-            if not self in self.room_representation.active_AgentUser_list:
-                self.room_representation.active_AgentUser_list.append(self)
-
-        elif self.type == AgentType.AGENT_CAM:
-            if not self in self.room_representation.active_AgentCams_list:
-                self.room_representation.active_AgentCams_list.append(self)
-
         self.message_statistic.init_message_static(self.room_representation)
 
         self.log_main.info("initialisation in agent_interacting_room_done !")
         self.log_main.debug("see below the room representation ")
-        self.log_main.debug("agentCams :" + str(self.room_representation.agentCams_list))
-        self.log_main.debug("active_agentCams :" + str(self.room_representation.active_AgentCams_list))
-        self.log_main.debug("agentUser :" + str(self.room_representation.agentUser_list))
-        self.log_main.debug("active_agentUser :" + str(self.room_representation.active_AgentUser_list))
+        self.log_main.debug("agentCams :" + str(self.room_representation.agentCams_representation_list))
+        self.log_main.debug("active_agentCams :" + str(self.room_representation.agentCams_representation_list))
+        self.log_main.debug("agentUser :" + str(self.room_representation.agentUser_representation_list))
+        self.log_main.debug("active_agentUser :" + str(self.room_representation.agentUser_representation_list))
         self.log_main.debug("target :" + str(self.room_representation.active_Target_list))
 
     def run(self):
@@ -106,9 +103,9 @@ class AgentInteractingWithRoom(Agent):
             print("Saving data: agent " + str(self.id))
             self.log_main.info("Saving data ...: agent " + str(self.id))
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT + str(self.id),
-                                         self.memory.memory_all_agent.to_csv())
+                                         self.memory.memory_all_agent_from_target.to_csv())
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT + str(self.id),
-                                         self.memory.memory_agent.to_csv())
+                                         self.memory.memory_agent_from_target_target.to_csv())
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_FILTER + str(self.id),
                                          self.memory.best_estimations.to_csv())
             save_in_csv_file_dictionnary(
@@ -170,12 +167,12 @@ class AgentInteractingWithRoom(Agent):
         for heartbeat in self.hearbeat_tracker.agent_heartbeat_list:
             if heartbeat.is_to_late():
                 agent_to_suppress = -1
-                for agent in self.room_representation.active_AgentCams_list:
+                for agent in self.room_representation.agentCams_representation_list:
                     if agent.id == heartbeat.agent_id:
                         agent_to_suppress = agent
                         break
                 if not agent_to_suppress == -1:
-                    self.room_representation.active_AgentCams_list.remove(agent_to_suppress)
+                    self.room_representation.agentCams_representation_list.remove(agent_to_suppress)
                     self.log_main.info(
                         "Agent : " + str(agent_to_suppress.id) + " is not connected anymore, last heartbeat : %.02f s" %
                         heartbeat.heartbeat_list[-1])
@@ -187,12 +184,12 @@ class AgentInteractingWithRoom(Agent):
         for heartbeat in self.hearbeat_tracker.agent_heartbeat_list:
             if heartbeat.is_to_late():
                 agent_to_suppress = -1
-                for agent in self.room_representation.active_AgentCams_list:
+                for agent in self.room_representation.agentCams_representation_list:
                     if agent.id == heartbeat.agent_id:
                         agent_to_suppress = agent
                         break
                 if not agent_to_suppress == -1:
-                    self.room_representation.active_AgentCams_list.remove(agent_to_suppress)
+                    self.room_representation.agentCams_representation_list.remove(agent_to_suppress)
                     self.log_main.info("Agent : " + str(agent_to_suppress.id) + " is not connected anymore, last heartbeat : %.02f s"%heartbeat.heartbeat_list[-1])
         return time_last_heart_beat_sent
 
@@ -258,11 +255,11 @@ class AgentInteractingWithRoom(Agent):
             m = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, "heartbeat", "Hi there !")
 
             "Message send to every agent define in the room"
-            for agent in self.room_representation.agentCams_list:
+            for agent in self.room_representation.agentCams_representation_list:
                 if agent.id != self.id:
                     m.add_receiver(agent.id, agent.signature)
 
-            for agent in self.room_representation.agentUser_list:
+            for agent in self.room_representation.agentUser_representation_list:
                 if agent.id != self.id:
                     m.add_receiver(agent.id, agent.signature)
 
@@ -310,22 +307,22 @@ class AgentInteractingWithRoom(Agent):
             :description
                 defines what to do when receive a heartbeat
         """
-        for agent in self.room_representation.agentCams_list:
+        for agent in self.room_representation.agentCams_representation_list:
             cdt1 = message.sender_id == agent.id and message.sender_signature == agent.signature
-            cdt2 = agent in self.room_representation.active_AgentCams_list
+            cdt2 = agent in self.room_representation.agentCams_representation_list
             if cdt1 and not cdt2:
                 self.log_main.info("Found someone ! agent cam :" + str(agent.id))
-                self.room_representation.active_AgentCams_list.append(agent)
-                self.log_main.debug(self.room_representation.active_AgentCams_list)
+                self.room_representation.agentCams_representation_list.append(agent)
+                self.log_main.debug(self.room_representation.agentCams_representation_list)
                 break
 
-        for agent in self.room_representation.agentUser_list:
+        for agent in self.room_representation.agentUser_representation_list:
             cdt1 = message.sender_id == agent.id and message.sender_signature == agent.signature
-            cdt2 = agent in self.room_representation.active_AgentUser_list
+            cdt2 = agent in self.room_representation.agentCams_representation_list
             if cdt1 and not cdt2:
                 self.log_main.info("Found someone ! agent user :" + str(agent.id))
-                self.room_representation.active_AgentUser_list.append(agent)
-                self.log_main.debug(self.room_representation.active_AgentUser_list)
+                self.room_representation.agentCams_representation_list.append(agent)
+                self.log_main.debug(self.room_representation.agentCams_representation_list)
                 break
 
         """Add heartbeart"""

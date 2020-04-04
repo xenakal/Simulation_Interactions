@@ -1,10 +1,16 @@
 # from elements.room import*
 from code.multi_agent.agent.agent_interacting_room import *
 from code.multi_agent.communication.message import *
+from code.multi_agent.elements.camera import CameraRepresentation
+from code.multi_agent.elements.mobile_camera import MobileCameraType, MobileCameraRepresentation
+from code.multi_agent.tools.behaviour_agent import *
 from code.multi_agent.tools.behaviour_detection import *
 from code.multi_agent.tools.link_target_camera import *
+from code.my_utils.controller import CameraController
 from code import constants
+import math
 import time
+
 
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
     INFO_DKF = "info_DKF"
@@ -14,6 +20,25 @@ class AgentCameraCommunicationBehaviour:
     ALL = "all"
     DKF = "dkf"
     NONE = "none"
+
+
+class AgentCameraFSM:
+    MOVE_CAMERA = "Move camera"
+    TAKE_PICTURE = "Take picture"
+    PROCESS_DATA = "Process Data"
+    COMMUNICATION = "Communication"
+    BUG = "Bug"
+
+class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
+    def __init__(self, id, type):
+        super().__init__(id, type)
+        self.camera_representation = MobileCameraRepresentation(0,0,0,0,0,0,0,0)
+
+    def update_from_agent(self, agent):
+        super().update_from_agent(agent)
+        self.camera_representation.init_from_camera(agent.camera)
+
+
 
 
 class AgentCam(AgentInteractingWithRoom):
@@ -64,8 +89,9 @@ class AgentCam(AgentInteractingWithRoom):
 
         self.camera = camera
         super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM, t_add, t_del, camera.color)
-        self.behaviour_analyser = TargetBehaviourAnalyser(self.memory)
-        self.link_target_agent = LinkTargetCamera(self.room_representation)
+        self.camera_controller = None
+        self.behaviour_analyser = None
+        self.link_target_agent = None
         self.log_execution = create_logger(constants.ResultsPath.LOG_AGENT, "Execution time", self.id)
         AgentCam.number_agentCam_created += 1
 
@@ -82,7 +108,9 @@ class AgentCam(AgentInteractingWithRoom):
         """
         self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
-        self.link_target_agent = LinkTargetCamera(self.room_representation)
+        self.link_target_agent = LinkTargetCamera(self.room_representation,True)
+        self.behaviour_analyser = TargetBehaviourAnalyser(self.memory)
+        self.camera_controller = CameraController(0, 0, 0.2, 0, 0.05, 0)
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
 
     def thread_run(self):
@@ -91,18 +119,65 @@ class AgentCam(AgentInteractingWithRoom):
                 FSM defining the agent's behaviour
         """
 
-        state = "takePicture"
+        state = AgentCameraFSM.MOVE_CAMERA
         nextstate = state
         time_last_heartbeat_sent = constants.get_time()
         execution_loop_number = 0
         execution_time_start = 0
         execution_mean_time = 0
+        last_time_move = 0
 
         while self.thread_is_running == 1:
             state = nextstate
 
+            if state == AgentCameraFSM.MOVE_CAMERA:
 
-            if state == "takePicture":
+                """Define the values to reaches"""
+                x_target = self.camera.xc
+                y_target = self.camera.yc
+                alpha_target = alpha_target = self.camera.alpha
+                beta_target = self.camera.beta_max
+
+                #TODO chanqe this bit of code here
+                "If a target is link than we try to foscuse and to follow it "
+                if len(self.link_target_agent.link_camera_target) > 0:
+                    target_id = self.link_target_agent.link_camera_target[0].target_id
+                    if self.link_target_agent.get_agent_in_charge(target_id) == self.id:
+                        for target in self.room_representation.active_Target_list:
+                            if target_id == target.id:
+                                alpha_target = get_angle_alpha_command_based_on_target_pos(self.camera,target.xc,target.yc)
+                                beta_target = get_angle_beta_command_based_on_target_pos(self.camera,target.xc,target.yc,target.radius)
+
+
+                self.camera_controller.set_targets(x_target, y_target, alpha_target, beta_target)
+                x_mes = self.camera.xc  # + error si on veut ajouter ici
+                y_mes = self.camera.yc
+                if self.camera.camera_type == MobileCameraType.RAIL:
+                    "1 D"
+                    x_mes = self.camera.trajectory.sum_delta
+                    y_target = 0
+                    y_mes = 0
+
+                alpha_mes = self.camera.alpha
+                beta_mes = self.camera.beta
+
+
+                (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes, y_mes,
+                                                                                                         alpha_mes,
+                                                                                                         beta_mes)
+
+                self.camera.rotate(alpha_command, constants.get_time() - last_time_move)
+                self.camera.zoom(beta_command, constants.get_time() - last_time_move)
+                self.camera.move(x_command, y_command, constants.get_time() - last_time_move)
+
+                last_time_move = constants.get_time()
+
+                if not self.camera.isActive or not self.is_activated:
+                    nextstate = AgentCameraFSM.BUG
+                else:
+                    nextstate = AgentCameraFSM.TAKE_PICTURE
+
+            elif state == AgentCameraFSM.TAKE_PICTURE:
                 execution_time_start = constants.get_time()
                 self.log_execution.debug("Loop %d : at takePicture state after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
@@ -113,19 +188,18 @@ class AgentCam(AgentInteractingWithRoom):
 
                 "Allows to simulate crash of the camera"
                 if not self.camera.isActive or not self.is_activated:
-                    nextstate = "takePicture"
-                    time.sleep(0.3)
+                    nextstate = AgentCameraFSM.BUG
                 else:
                     for targetCameraDistance in picture:
                         target = targetCameraDistance.target
                         "Simulation from noise on the target's position "
                         if constants.INCLUDE_ERROR and not target.type == TargetType.SET_FIX:
-                            erreurPX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
-                            erreurPY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_POSITION, size=1)[0]
-                            erreurVX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
-                            erreurVY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_SPEED, size=1)[0]
-                            erreurAX = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
-                            erreurAY = np.random.normal(scale=constants.STD_MEASURMENT_ERROR_ACCCELERATION, size=1)[0]
+                            erreurPX = np.random.normal(scale=self.camera.std_measurment_error_position, size=1)[0]
+                            erreurPY = np.random.normal(scale=self.camera.std_measurment_error_position, size=1)[0]
+                            erreurVX = np.random.normal(scale=self.camera.std_measurment_error_speed, size=1)[0]
+                            erreurVY = np.random.normal(scale=self.camera.std_measurment_error_speed, size=1)[0]
+                            erreurAX = np.random.normal(scale=self.camera.std_measurment_error_acceleration, size=1)[0]
+                            erreurAY = np.random.normal(scale=self.camera.std_measurment_error_acceleration, size=1)[0]
                         else:
                             erreurPX = 0
                             erreurPY = 0
@@ -146,23 +220,26 @@ class AgentCam(AgentInteractingWithRoom):
                                                                 target.ax + erreurAX, target.ay + erreurAY,
                                                                 target.radius, target_type)
 
-                    nextstate = "processData"
+                    nextstate = AgentCameraFSM.PROCESS_DATA
                     self.log_execution.debug("Loop %d : takePicture state completed after : %.02f s" % (
                         execution_loop_number, constants.get_time() - execution_time_start))
 
-            elif nextstate == "processData":
+            elif nextstate == AgentCameraFSM.PROCESS_DATA:
                 self.log_execution.debug("Loop %d : at processData state after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
 
                 self.memory.set_current_time(constants.get_time())
                 self.process_information_in_memory()
 
-                nextstate = "communication"
+                if not self.camera.isActive or not self.is_activated:
+                    nextstate = AgentCameraFSM.BUG
+                else:
+                    nextstate = AgentCameraFSM.COMMUNICATION
                 self.log_execution.debug("Loop %d : processData state completed after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
 
             # TODO: pas mieux de mettre ca avant "processData" ?
-            elif state == "communication":
+            elif state == AgentCameraFSM.COMMUNICATION:
                 self.log_execution.debug("Loop %d : at communication state after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
 
@@ -187,7 +264,11 @@ class AgentCam(AgentInteractingWithRoom):
                 time.sleep(constants.TIME_SEND_READ_MESSAGE)
 
                 self.log_room.info(self.memory.statistic_to_string() + self.message_statistic.to_string())
-                nextstate = "takePicture"
+
+                if not self.camera.isActive or not self.is_activated:
+                    nextstate = AgentCameraFSM.BUG
+                else:
+                    nextstate = AgentCameraFSM.MOVE_CAMERA
 
                 self.log_execution.debug("Loop %d :communication state  executed after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
@@ -195,6 +276,13 @@ class AgentCam(AgentInteractingWithRoom):
                     constants.get_time(), execution_loop_number, constants.get_time() - execution_time_start))
                 execution_loop_number += 1
                 execution_mean_time += constants.get_time() - execution_time_start
+
+            elif state == AgentCameraFSM.BUG:
+                time.sleep(3)
+                if not self.camera.isActive or not self.is_activated:
+                    nextstate = AgentCameraFSM.BUG
+                else:
+                    nextstate = AgentCameraFSM.MOVE_CAMERA
             else:
                 print("FSM not working proerly")
                 self.log_execution.warning("FSM not working as expected")
@@ -208,11 +296,11 @@ class AgentCam(AgentInteractingWithRoom):
         """
 
         "Combination of data received and data observed"
-        self.memory.combine_data_agentCam()
+        self.memory.combine_data_agentCam(CombineDataChoice.DATA_KALMAN)
 
         "Modification from the room description"
         self.room_representation.update_target_based_on_memory(self.memory.memory_agent)
-
+        self.room_representation.update_agent(self)
         "Computation of the camera that should give the best view, according to maps algorithm"
         self.link_target_agent.update_link_camera_target()
         self.link_target_agent.compute_link_camera_target()
@@ -244,7 +332,7 @@ class AgentCam(AgentInteractingWithRoom):
 
                 if not old_target_type == target.type:
                     is_target_changing_state = True
-                    #self.log_main.info("At %.02f Target %d change state from "%(constants.get_time(),target.id)+ str(old_target_type) + " to " + str(target.type))
+                    # self.log_main.info("At %.02f Target %d change state from "%(constants.get_time(),target.id)+ str(old_target_type) + " to " + str(target.type))
 
             """
                 ----------------------------------------------------------------------------------------------
@@ -270,19 +358,19 @@ class AgentCam(AgentInteractingWithRoom):
                -----------------------------------------------------------------------------------------------
             """
             "If the target is link to this agent then we send the message to the user"
-            cdt_target_type_1 = not(target.type == TargetType.SET_FIX)
-            cdt_target_type_2 = True #not(target.type == TargetType.FIX) or is_target_changing_state #to decrease the number of messages sent 
+            cdt_target_type_1 = not (target.type == TargetType.SET_FIX)
+            cdt_target_type_2 = True  # not(target.type == TargetType.FIX) or is_target_changing_state #to decrease the number of messages sent
             cdt_agent_is_in_charge = self.link_target_agent.is_in_charge(target.id, self.id)
 
             memories = self.memory.memory_agent.get_Target_list(target.id)
             if len(memories) > 0:
                 last_memory = memories[-1]
                 cdt_message_not_to_old = ((
-                                                      constants.get_time() - last_memory.time_stamp) <= constants.TRESH_TIME_TO_SEND_MEMORY)
+                                                  constants.get_time() - last_memory.time_stamp) <= constants.TRESH_TIME_TO_SEND_MEMORY)
 
-                if cdt_agent_is_in_charge and cdt_target_type_1  and cdt_target_type_2 and cdt_message_not_to_old :
+                if cdt_agent_is_in_charge and cdt_target_type_1 and cdt_target_type_2 and cdt_message_not_to_old:
                     receivers = []
-                    for agent in self.room_representation.active_AgentUser_list:
+                    for agent in self.room_representation.agentCams_representation_list:
                         receivers.append([agent.id, agent.signature])
 
                     self.send_message_targetEstimator(last_memory, receivers)
@@ -333,4 +421,3 @@ class AgentCam(AgentInteractingWithRoom):
 
         if info_string:  # if message not empty
             self.memory.process_DKF_info(concerned_target_id, info_string, constants.get_time())
-

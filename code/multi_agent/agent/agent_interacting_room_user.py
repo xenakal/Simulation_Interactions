@@ -3,6 +3,15 @@ from code.multi_agent.agent.agent_interacting_room import *
 from code import constants
 import time
 
+
+class AgentUserRepresentation(AgentInteractingWithRoomRepresentation):
+    def __init__(self, id, type):
+        super().__init__(id, type)
+
+    def update_from_agent(self, agent):
+        super().update_from_agent(agent)
+
+
 class AgentUser(AgentInteractingWithRoom):
     """
         Class AgentUser extend AgentInteractingWithRoom.

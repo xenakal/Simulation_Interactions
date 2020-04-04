@@ -19,8 +19,9 @@ class LinkTargetCamera():
                 fells free to write some comments.
     """
 
-    def __init__(self, room):
+    def __init__(self, room, is_room_representation=False):
         self.room = room
+        self.is_room_representation = is_room_representation
         self.link_camera_target = []
 
     def update_link_camera_target(self):
@@ -95,21 +96,26 @@ class LinkTargetCamera():
 
                         "Computing what agent has the best view for this target"
                         (agent_id, distance_min) = (-1, 100000)
-                        for agent in self.room.active_AgentCams_list:
+                        for agent in self.room.agentCams_representation_list:
                             # TODO "calcul avec les prédictions au lieu des positions actuelles"
 
+                            if not self.is_room_representation:
+                                camera = agent.camera
+                            else:
+                                camera = agent.camera_representation
+
                             "Put target radius = 0 to consider only the centers"
-                            cdt_in_field = agent.camera.is_x_y_radius_in_field_not_obstructed(target.xc, target.yc,
+                            cdt_in_field = camera.is_x_y_radius_in_field_not_obstructed(target.xc, target.yc,
                                                                                               target.radius)
-                            cdt_not_hidden = not agent.camera.is_x_y_in_hidden_zone_all_targets(target.xc, target.yc)
+                            cdt_not_hidden = not camera.is_x_y_in_hidden_zone_all_targets(target.xc, target.yc)
                             "Check is the camera can see the target for a given room geometry"
                             # if cdt_in_field and cdt_not_hidden and agent.camera.isActive:
                             # TODO - ici envoyer un message pour signaler une panne de camera ??
-                            if cdt_in_field and cdt_not_hidden and agent.camera.isActive:
+                            if cdt_in_field and cdt_not_hidden: # and camera.isActive:
 
                                 "Distance computation"
-                                distance_to_target = np.power(np.power((agent.camera.xc - target.xc), 2)
-                                                              + np.power((agent.camera.yc - target.yc), 2), 0.5)
+                                distance_to_target = np.power(np.power((camera.xc - target.xc), 2)
+                                                              + np.power((camera.yc - target.yc), 2), 0.5)
 
                                 if distance_to_target < distance_min:
                                     (agent_id, distance_min) = (agent.id, distance_to_target)
