@@ -1,5 +1,8 @@
 .idea/
 
+**/__pycache__/
+**/__init__/
+
 src/mailbox/*
 
 results/*
@@ -8,21 +11,10 @@ results/*
 maps/*
 !maps/explication.md
 
-src/multi_agent/elements/__pycache__/*
-src/multi_agent/agent/__pycache__/
-<<<<<<< HEAD
-src/multi_agent/communication/__pycache__/
-=======
-src/multi_agent/communication/__pucache__/
->>>>>>> mobile-cam
-src/multi_agent/__pycache__/*
-src/my_utils/__pycache__/*
-src/my_utils/GUI/GUI_simulation/__pycache__/*
-*/__pycache__/*
-*/*/__pycache__/
-__pycache__/*
-__init__
-*/__init__
 *.pyc
+src/my_utils/GUI
+ src/my_utils/GUI/__pycache__/__init__.cpython-37.pyc
+
+
 log/*
 venv/*
