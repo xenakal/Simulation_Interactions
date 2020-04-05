@@ -105,7 +105,7 @@ def init_analyse_memory_agent(list_init, list_sort):
         is_in_list = False
         for element in list_sort:
             if int(data_element['target_signature']) == element.target_signature:
-                element.add_target_estimator(data_element)
+                element.add_itemEstimator(data_element)
                 is_in_list = True
                 break
         if not is_in_list:
@@ -132,7 +132,7 @@ def init_analyse_memory_all_agent(list_init, list_sort):
                         is_in_list_target = True
 
                         "Add Data"
-                        target_element.add_target_estimator(data_element)
+                        target_element.add_itemEstimator(data_element)
                         break
 
                 if not is_in_list_target:

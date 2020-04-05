@@ -2,6 +2,11 @@ from src.multi_agent.tools.estimator import *
 from src.multi_agent.prediction.kalmanPrediction import KalmanPrediction
 from src.my_utils.my_IO.IO_data import *
 
+class CombineDataChoice:
+    DATA_MEASURED_ONLY_SELF = "data measured only self"
+    DATA_KALMAN = "data_kalman"
+    DATA_PREDICTION_T_PLUS_1 = "data_preditiction_1"
+    DATA_PREDICTION_T_PLUS_2 = "data_preditiction_2"
 
 class Memory:
     """
@@ -36,8 +41,13 @@ class Memory:
         self.id = agent_id
         self.time = current_time
         self.nTime = nTime
-        self.memory_all_agent = Agent_Target_TargetEstimator()
-        self.memory_agent = Target_TargetEstimator()
+
+        self.memory_all_agent_from_agent = Agent_Agent_AgentEstimator()
+        self.memory_agent_from_agent = Agent_AgentEstimator()
+
+        self.memory_all_agent_from_target = Agent_Target_TargetEstimator()
+        self.memory_agent_from_target = Target_TargetEstimator()
+
         self.best_estimations = Target_TargetEstimator()
         self.predictions_order_1 = Target_TargetEstimator()
         self.predictions_order_2 = Target_TargetEstimator()
@@ -47,8 +57,7 @@ class Memory:
         self.log_memory = create_logger(constants.ResultsPath.LOG_MEMORY, "Memory", self.id)
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
-                                    target_xc, target_yc, target_vx, target_vy, target_ax, target_ay, target_size,
-                                    target_type):
+                             target_xc, target_yc,target_vx, target_vy, target_ax, target_ay, target_type,target_size):
         """
         :description
             Creates an estimator if it doesn't exist and adds it to the memory_all_agent list
@@ -56,10 +65,9 @@ class Memory:
         self.log_memory.info("Add memory, from agent : " + str(agent_id) + " - target " + str(target_id))
 
         # update "global info" list
-        self.memory_all_agent.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
-                                                          target_signature, target_xc, target_yc, target_vx, target_vy,
-                                                          target_ax, target_ay, target_size,
-                                                          target_type)
+        self.memory_all_agent_from_target.add_create_target_estimator(time_from_estimation, agent_id, agent_signature, target_id,
+                                                                      target_signature, target_xc, target_yc, target_vx, target_vy,
+                                                                     target_ax, target_ay, target_type,target_size)
 
         # add predictor if doesn't exist yet
         if not self.exists_predictor_for_target(target_id):
@@ -79,15 +87,55 @@ class Memory:
 
     def add_target_estimator(self, estimator):
         self.log_memory.info(
-            "Add memory, from agent : " + str(estimator.agent_id) + " - target " + str(estimator.target_id))
-        self.memory_all_agent.add_target_estimator(estimator)
+            "Add memory, from agent : " + str(estimator.agent_id) + " - target " + str(estimator.item_id))
+        self.memory_all_agent_from_target.add_itemEstimator(estimator)
+
+    def add_create_agent_estimator_from_agent(self, time_from_estimation, agent,agent_observed):
+        """
+        :description
+            Creates an estimator if it doesn't exist and adds it to the memory_all_agent list
+        """
+        self.log_memory.info("Add memory, from agent : " + str(agent.id) + " - agent " + str(agent_observed.id))
+
+        # update "global info" list
+        self.memory_all_agent_from_agent.add_create_agent_estimator_from_agent(time_from_estimation,agent,agent_observed)
+
+    def add_create_agent_estimator(self, time_from_estimation, agent_id, agent_signature, agent_camera_id, agent_camera_signature,
+                                   agent_camera_xc, agent_camera_yc, agent_camera_vx, agent_camera_vy,
+                                   agent_camera_ax, agent_camera_ay, agent_camera_type,
+                                   agent_camera_alpha, agent_camera_beta,agent_camera_field_depth,
+                                   agent_camera_color, agent_camera_room, agent_camera_is_camera_active, agent_is_agent_active,
+                                   agent_camera_trajectory):
+        """
+        :description
+            Creates an estimator if it doesn't exist and adds it to the memory_all_agent list
+        """
+        self.log_memory.info("Add memory, from agent : " + str(agent_camera_id) + " - agent " + str(agent_camera_id))
+
+        # update "global info" list
+        self.memory_all_agent_from_agent.add_create_agent_estimator(time_from_estimation, agent_id, agent_signature,
+                                                                      agent_camera_id,agent_camera_signature,
+                                                                      agent_camera_xc, agent_camera_yc,
+                                                                      agent_camera_vx,agent_camera_vy,
+                                                                      agent_camera_ax, agent_camera_ay,
+                                                                      agent_camera_type,agent_camera_alpha,
+                                                                      agent_camera_beta,agent_camera_field_depth,
+                                                                      agent_camera_color, agent_camera_room,
+                                                                      agent_camera_is_camera_active, agent_is_agent_active,
+                                                                      agent_camera_trajectory)
+
+    def add_agent_estimator(self, estimator):
+        self.log_memory.info(
+            "Add memory, from agent : " + str(estimator.agent_id) + " - agent " + str(estimator.target_id))
+        self.memory_all_agent_from_agent.add_itemEstimator(estimator)
+
 
     def set_current_time(self, current_time):
         self.time = current_time
-        self.memory_all_agent.current_time = current_time
-        self.memory_agent.current_time = current_time
+        self.memory_all_agent_from_target.current_time = current_time
+        self.memory_agent_from_target.current_time = current_time
 
-    def combine_data_agentCam(self, choice=1):
+    def combine_data_agentCam(self, choice):
         """
         :description
             Creates the memory_agent list from the memory_all_agent list
@@ -99,40 +147,59 @@ class Memory:
             In the future, a different method could be added, where the information from all agents is combined (for
             example using some kind of mean) to create the memory_agent list.
         """
-        if choice == 1:
+        choice = CombineDataChoice.DATA_MEASURED_ONLY_SELF
+        "Combine data related to target"
+        if choice == CombineDataChoice.DATA_MEASURED_ONLY_SELF:
             # find the targets known by all agents
-            for (agent_id, target_id) in self.memory_all_agent.Agent_Target_already_discovered_list:
+            for (agent_id, target_id) in self.memory_all_agent_from_target.Agent_item_already_discovered_list:
                 # keep the ones known by the agents whose memory this is
                 if agent_id == self.id:
-                    for estimateur in self.memory_all_agent.get_Agent_Target_list(target_id, self.id):
-                        if not is_in_list_TargetEstimator(self.memory_agent.get_Target_list(target_id), estimateur):
+                    for estimateur in self.memory_all_agent_from_target.get_Agent_item_list(target_id, self.id):
+                        if not is_in_list_TargetEstimator(self.memory_agent_from_target.get_Target_list(target_id), estimateur):
                             self.log_memory.info(
                                 "Combine data from agent : " + str(agent_id) + " - target " + str(target_id))
-                            self.memory_agent.add_TargetEstimator(estimateur)
+                            self.memory_agent_from_target.add_itemEstimator(estimateur)
+
+        elif choice == CombineDataChoice.DATA_KALMAN:
+            self.memory_agent_from_target = self.best_estimations
+        elif choice == CombineDataChoice.DATA_PREDICTION_T_PLUS_1:
+            self.memory_agent_from_target = self.predictions_order_1
+        elif choice == CombineDataChoice.DATA_PREDICTION_T_PLUS_2:
+            self.memory_agent_from_target = self.predictions_order_2
+
+        "Combine data related to agentCam"
+        if True:
+            # find the targets known by all agents
+            for (agent_id, agent_observed_id) in self.memory_all_agent_from_agent.Agent_item_already_discovered_list:
+                if agent_id == self.id:
+                    for estimateur in self.memory_all_agent_from_agent.get_Agent_item_list(agent_observed_id, self.id):
+                        self.log_memory.info("Combine data from agent : " + str(agent_id) + " - agent " + str(agent_observed_id))
+                        self.memory_agent_from_agent.add_itemEstimator(estimateur)
+
 
     def combine_data_userCam(self, choice=1):
         if choice == 1:
-            for (agent_id, target_id) in self.memory_all_agent.Agent_Target_already_discovered_list:
-                for estimateur in self.memory_all_agent.get_Agent_Target_list(target_id, agent_id):
-                    if not is_in_list_TargetEstimator(self.memory_agent.get_Target_list(target_id), estimateur):
+            for (agent_id, target_id) in self.memory_all_agent_from_target.Agent_item_already_discovered_list:
+                for estimateur in self.memory_all_agent_from_target.get_Agent_item_list(target_id, agent_id):
+                    if not is_in_list_TargetEstimator(self.memory_agent_from_target.get_Target_list(target_id), estimateur):
                         self.log_memory.info(
                             "Combine data, from agent : " + str(agent_id) + " - target " + str(target_id))
-                        self.memory_agent.add_TargetEstimator(estimateur)
+                        self.memory_agent_from_target.add_itemEstimator(estimateur)
 
     def get_previous_positions(self, targetID):
-        return self.memory_agent.get_Target_list(targetID)
+        return self.memory_agent_from_target.get_Target_list(targetID)
 
     def getPreviousPositions_allMessages(self, targetID, agentID):
-        return self.memory_all_agent.get_Agent_Target_list(targetID, agentID)
+        return self.memory_all_agent_from_target.get_Agent_item_list(targetID, agentID)
 
     def to_string_memory_all(self):
-        return self.memory_all_agent.to_string()
+        return self.memory_all_agent_from_target.to_string()
 
     def to_string_memory(self):
-        return self.memory_all_agent.to_string()
+        return self.memory_all_agent_from_target.to_string()
 
     def statistic_to_string(self):
-        return self.memory_all_agent.statistic_to_string()
+        return self.memory_all_agent_from_target.statistic_to_string()
 
     def get_predictions(self, seeked_target_id):
         """

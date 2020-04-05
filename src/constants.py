@@ -109,6 +109,10 @@ TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp',
                                    'target_type', 'target_x', 'target_y', 'target_vx', 'target_vy',
                                    'target_ax', 'target_ay', 'target_radius']
 
+CAMERA_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp','agent_id','agent_signature','camera_id',
+                                   'camera_signature','camera_type','camera_x','camera_y', 'camera_vx', 'camera_vy',
+                                    'camera_ax', 'camera_ay','alpha', 'beta']
+
 """Path to save data and create plot"""
 
 

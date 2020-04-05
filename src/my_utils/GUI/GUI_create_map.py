@@ -1,4 +1,5 @@
-from src.my_utils.GUI.GUI_simulation.GUI_room import GUI_room
+from src.my_utils.GUI.GUI_simulation.GUI_room_representation import GUI_room_representation
+from src.multi_agent.elements.target import TargetMotion
 from src.my_utils.GUI.button import Button
 from src.my_utils.GUI.button import ButtonList
 from src.multi_agent.elements.room import *

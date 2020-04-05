@@ -10,7 +10,11 @@ maps/*
 
 src/multi_agent/elements/__pycache__/*
 src/multi_agent/agent/__pycache__/
+<<<<<<< HEAD
 src/multi_agent/communication/__pycache__/
+=======
+src/multi_agent/communication/__pucache__/
+>>>>>>> mobile-cam
 src/multi_agent/__pycache__/*
 src/my_utils/__pycache__/*
 src/my_utils/GUI/GUI_simulation/__pycache__/*

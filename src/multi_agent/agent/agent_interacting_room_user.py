@@ -3,6 +3,15 @@ from src.multi_agent.agent.agent_interacting_room import *
 from src import constants
 import time
 
+
+class AgentUserRepresentation(AgentInteractingWithRoomRepresentation):
+    def __init__(self, id, type):
+        super().__init__(id, type)
+
+    def update_from_agent(self, agent):
+        super().update_from_agent(agent)
+
+
 class AgentUser(AgentInteractingWithRoom):
     """
         Class AgentUser extend AgentInteractingWithRoom.
@@ -65,7 +74,7 @@ class AgentUser(AgentInteractingWithRoom):
                 '''Combination of data received and data observed'''
                 self.memory.combine_data_userCam()
                 '''Modification from the room description'''
-                self.room_representation.update_target_based_on_memory(self.memory.memory_agent)
+                self.room_representation.update_target_based_on_memory(self.memory.memory_agent_from_target)
                 '''Descision of the messages to send'''
                 self.process_information_in_memory()
 
