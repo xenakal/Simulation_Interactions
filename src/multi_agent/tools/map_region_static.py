@@ -79,7 +79,7 @@ class MapRegionStatic:
         is_changed_in_agent = False
         "adding new id if needed"
         for agent in self.room.active_AgentCams_list:
-            if not agent.id in self.agent_id_taken_into_acount and agent.camera.isActive:
+            if not agent.id in self.agent_id_taken_into_acount and agent.camera.is_active:
                 is_changed_in_agent = True
                 self.agent_id_taken_into_acount.append(agent.id)
 
@@ -88,7 +88,7 @@ class MapRegionStatic:
         for agent_id in self.agent_id_taken_into_acount:
             found = False
             for agent in self.room.active_AgentCams_list:
-                if agent_id == agent.id and agent.camera.isActive:
+                if agent_id == agent.id and agent.camera.is_active:
                     found = True
                     break
             if not found:

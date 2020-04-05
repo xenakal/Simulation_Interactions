@@ -197,7 +197,7 @@ class RoomRepresentation:
                     camera.beta = last_AgentEstimator.beta
                     camera.field_depth = last_AgentEstimator.field_depth
                     camera.room = last_AgentEstimator.room
-                    camera.is_active = last_AgentEstimator.is_agent_active
+                    camera.is_active = last_AgentEstimator.is_camera_active
                     camera.trajectory = last_AgentEstimator.trajectory
                     break
 
@@ -383,13 +383,13 @@ class Room(RoomRepresentation):
             camera = agent.camera
             if camera.t_add[camera.number_of_time_passed] <= constants.get_time() <= camera.t_del[
                 camera.number_of_time_passed] and not camera.is_active:
-                camera.isActive = True
+                camera.is_active = True
                 agent.log_main.info("camera of a agent %d is activated at %.02f s" % (agent.id, constants.get_time()))
 
             elif constants.get_time() > camera.t_del[camera.number_of_time_passed] and camera.is_active:
                 if camera.number_of_time_passed < len(camera.t_add) - 1:
                     camera.number_of_time_passed = camera.number_of_time_passed + 1
-                camera.isActive = False
+                camera.is_active = False
                 agent.log_main.info(
                     "camera of a agent %d is desactivated at %.02f s" % (agent.id, constants.get_time()))
 

@@ -122,6 +122,7 @@ class AgentInteractingWithRoom(Agent):
             pass
         mbox = mailbox.mbox(constants.NAME_MAILBOX + str(self.id))
         mbox.close()
+        self.log_main.info("Agent cleared \n")
 
     def thread_run(self):
         """ interface """
@@ -172,26 +173,13 @@ class AgentInteractingWithRoom(Agent):
                         agent_to_suppress = agent
                         break
                 if not agent_to_suppress == -1:
-                    self.room_representation.agentCams_representation_list.remove(agent_to_suppress)
+                    self.room_representation.agentCams_representation_list.agent_to_suppress.is_active = False
                     self.log_main.info(
                         "Agent : " + str(agent_to_suppress.id) + " is not connected anymore, last heartbeat : %.02f s" %
                         heartbeat.heartbeat_list[-1])
         return time_last_heart_beat_sent
 
-    def handle_hearbeat(self, time_last_heart_beat_sent):
-        time_last_heart_beat_sent = self.send_message_heartbeat(time_last_heart_beat_sent)
 
-        for heartbeat in self.hearbeat_tracker.agent_heartbeat_list:
-            if heartbeat.is_to_late():
-                agent_to_suppress = -1
-                for agent in self.room_representation.agentCams_representation_list:
-                    if agent.id == heartbeat.agent_id:
-                        agent_to_suppress = agent
-                        break
-                if not agent_to_suppress == -1:
-                    self.room_representation.agentCams_representation_list.remove(agent_to_suppress)
-                    self.log_main.info("Agent : " + str(agent_to_suppress.id) + " is not connected anymore, last heartbeat : %.02f s"%heartbeat.heartbeat_list[-1])
-        return time_last_heart_beat_sent
 
     def send_message_targetEstimator(self, memory, receivers=None):
         """
@@ -312,7 +300,8 @@ class AgentInteractingWithRoom(Agent):
             cdt2 = agent in self.room_representation.agentCams_representation_list
             if cdt1 and not cdt2:
                 self.log_main.info("Found someone ! agent cam :" + str(agent.id))
-                self.room_representation.agentCams_representation_list.append(agent)
+                agent.is_active = True
+                #self.room_representation.agentCams_representation_list.append(agent)
                 self.log_main.debug(self.room_representation.agentCams_representation_list)
                 break
 
@@ -321,8 +310,9 @@ class AgentInteractingWithRoom(Agent):
             cdt2 = agent in self.room_representation.agentCams_representation_list
             if cdt1 and not cdt2:
                 self.log_main.info("Found someone ! agent user :" + str(agent.id))
-                self.room_representation.agentCams_representation_list.append(agent)
-                self.log_main.debug(self.room_representation.agentCams_representation_list)
+                agent.is_active = True
+                #self.room_representation.agentUser_representation_list.append(agent)
+                self.log_main.debug(self.room_representation.agentUser_representation_list)
                 break
 
         """Add heartbeart"""

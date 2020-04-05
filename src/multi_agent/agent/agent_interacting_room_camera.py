@@ -126,7 +126,9 @@ class AgentCam(AgentInteractingWithRoom):
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation,True)
         self.behaviour_analyser = TargetBehaviourAnalyser(self.memory)
-        self.camera_controller = CameraController(0, 0, 0.2, 0, 0.05, 0)
+        self.camera_controller = CameraController(0, 0, 1, 0, 0.8, 0)
+        self.camera_controller.set_targets(self.camera.xc, self.camera.yc, self.camera.alpha,self.camera.beta)
+
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
 
     def thread_run(self):
@@ -138,61 +140,68 @@ class AgentCam(AgentInteractingWithRoom):
         state = AgentCameraFSM.MOVE_CAMERA
         nextstate = state
         time_last_heartbeat_sent = constants.get_time()
-        execution_loop_number = 0
+        execution_loop_number = 1
         execution_time_start = 0
         execution_mean_time = 0
-        last_time_move = 0
+
+        last_time_move = None
 
         while self.thread_is_running == 1:
             state = nextstate
 
             if state == AgentCameraFSM.MOVE_CAMERA:
 
-                """Define the values to reaches"""
-                x_target = self.camera.xc
-                y_target = self.camera.yc
-                alpha_target = alpha_target = self.camera.alpha
-                beta_target = self.camera.beta_max
-
-                #TODO chanqe this bit of src here
-                "If a target is link than we try to foscuse and to follow it "
-                if len(self.link_target_agent.link_camera_target) > 0:
-                    target_id = self.link_target_agent.link_camera_target[0].target_id
-                    if self.link_target_agent.get_agent_in_charge(target_id) == self.id:
-                        for target in self.room_representation.active_Target_list:
-                            if target_id == target.id:
-                                alpha_target = get_angle_alpha_command_based_on_target_pos(self.camera,target.xc,target.yc)
-                                beta_target = get_angle_beta_command_based_on_target_pos(self.camera,target.xc,target.yc,target.radius)
+                if not last_time_move == None:
+                    """Define the values to reaches"""
+                    x_target = self.camera.default_xc
+                    y_target = self.camera.default_yc
+                    alpha_target = self.camera.default_alpha
+                    beta_target = self.camera.default_beta
 
 
-                self.camera_controller.set_targets(x_target, y_target, alpha_target, beta_target)
+                    #TODO implement a way for the camera to move correctly !!!
+                    "If a target is link than we try to foscuse and to follow it "
+                    if constants.get_time() > 5:
+                        beta_target = math.radians(30)
+                    if constants.get_time() > 10:
+                        beta_target = math.radians(70)
 
-                """Define the values measured"""
-                x_mes = self.camera.xc  # + error si on veut ajouter ici
-                y_mes = self.camera.yc
-                if self.camera.camera_type == MobileCameraType.RAIL:
-                    "1 D"
-                    x_mes = self.camera.trajectory.sum_delta
-                    y_target = 0
-                    y_mes = 0
+                    self.camera_controller.set_targets(x_target, y_target, alpha_target, beta_target)
 
-                alpha_mes = self.camera.alpha
-                beta_mes = self.camera.beta
+                    """Define the values measured"""
+                    x_mes = self.camera.xc  # + error si on veut ajouter ici
+                    y_mes = self.camera.yc
+                    alpha_mes = self.camera.alpha
+                    beta_mes = self.camera.beta
 
-                """Find the command to apply"""
-                (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes, y_mes,
-                                                                                                         alpha_mes,
-                                                                                                         beta_mes)
-                """Apply the command"""
-                self.camera.rotate(alpha_command, constants.get_time() - last_time_move)
-                self.camera.zoom(beta_command, constants.get_time() - last_time_move)
-                self.camera.move(x_command, y_command, constants.get_time() - last_time_move)
-                last_time_move = constants.get_time()
+                    if self.camera.camera_type == MobileCameraType.RAIL:
+                        "1 D"
+                        x_mes = self.camera.trajectory.sum_delta
+                        y_target = 0
+                        y_mes = 0
+
+                    """Find the command to apply"""
+                    (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes, y_mes,
+                                                                                                             alpha_mes,
+                                                                                                             beta_mes)
+                    """Apply the command"""
+                    if constants.get_time() - last_time_move < 0:
+                        print("problem time < 0 : %.02f s"%constants.get_time())
+                    else:
+                        self.camera.rotate(alpha_command, constants.get_time() - last_time_move)
+                        self.camera.zoom(beta_command,constants.get_time() - last_time_move)
+                        self.camera.move(x_command, y_command, constants.get_time() - last_time_move)
+                        last_time_move = constants.get_time()
+
+                else:
+                    last_time_move = constants.get_time()
+
+
 
                 """Create a new memory to save the """
                 self.memory.add_create_agent_estimator_from_agent(constants.get_time(),self,self)
 
-                if not self.camera.isActive or not self.is_active:
+                if not self.camera.is_active or not self.is_active:
                     nextstate = AgentCameraFSM.BUG
                 else:
                     nextstate = AgentCameraFSM.TAKE_PICTURE
@@ -207,7 +216,9 @@ class AgentCam(AgentInteractingWithRoom):
                 time.sleep(constants.TIME_PICTURE)
 
                 "Allows to simulate crash of the camera"
-                if not self.camera.isActive or not self.is_active:
+                if not self.camera.is_active:
+                    nextstate = AgentCameraFSM.PROCESS_DATA
+                elif not self.is_active:
                     nextstate = AgentCameraFSM.BUG
                 else:
                     for targetCameraDistance in picture:
@@ -250,7 +261,7 @@ class AgentCam(AgentInteractingWithRoom):
                 self.memory.set_current_time(constants.get_time())
                 self.process_information_in_memory()
 
-                if not self.camera.isActive or not self.is_active:
+                if not self.is_active:
                     nextstate = AgentCameraFSM.BUG
                 else:
                     nextstate = AgentCameraFSM.COMMUNICATION
@@ -284,7 +295,7 @@ class AgentCam(AgentInteractingWithRoom):
 
                 self.log_room.info(self.memory.statistic_to_string() + self.message_statistic.to_string())
 
-                if not self.camera.isActive or not self.is_active:
+                if not self.is_active:
                     nextstate = AgentCameraFSM.BUG
                 else:
                     nextstate = AgentCameraFSM.MOVE_CAMERA
@@ -299,7 +310,7 @@ class AgentCam(AgentInteractingWithRoom):
             elif state == AgentCameraFSM.BUG:
                 time.sleep(3)
                 print("bug")
-                if not self.camera.isActive or not self.is_active:
+                if not self.camera.is_active or not self.is_active:
                     nextstate = AgentCameraFSM.BUG
                 else:
                     nextstate = AgentCameraFSM.MOVE_CAMERA
@@ -320,7 +331,7 @@ class AgentCam(AgentInteractingWithRoom):
 
         "Modification from the room description"
         self.room_representation.update_target_based_on_memory(self.memory.memory_agent_from_target)
-        #self.room_representation.update_agent_based_on_memory(self.memory.memory_agent_from_agent)
+        self.room_representation.update_agent_based_on_memory(self.memory.memory_agent_from_agent)
 
         "Computation of the camera that should give the best view, according to maps algorithm"
         self.link_target_agent.update_link_camera_target()

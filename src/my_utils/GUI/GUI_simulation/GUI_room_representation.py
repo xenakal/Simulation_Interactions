@@ -170,7 +170,7 @@ class GUI_room_representation():
         pygame.draw.line(self.screen, color, (
             self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
                          (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
-                             camera.alpha + (camera.beta / 2)),
+                             camera.alpha + (camera.beta/2)),
                           self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
                               camera.alpha + (camera.beta / 2))), 2)
         """
@@ -188,7 +188,7 @@ class GUI_room_representation():
         try :
             pygame.draw.arc(self.screen, color, [self.x_offset + int(camera.xc * self.scale_x) - int(l),
                                                  self.y_offset + int(camera.yc * self.scale_y) - int(l), 2 * l, 2 * l],
-                            -camera.alpha - (camera.beta / 2), -camera.alpha + (camera.beta / 2), 2)
+                            -camera.alpha - (camera.beta/2), -camera.alpha+(camera.beta/2), 2)
         except ValueError:
             print("Error draw cam")
 
@@ -211,17 +211,19 @@ class GUI_room_representation():
             self.screen.blit(label, (pt2[0] + 5, pt2[1] + 5))
 
     def draw_link_cam_region(self, room, link_cam_to_target,room_representation=False):
-        for agent in room.agentCams_representation_list:
-            if not room_representation:
-                camera = agent.camera
-            else:
-                camera = agent.camera_representation
+
 
         for targetAgentLink in link_cam_to_target:
             for agent in room.agentCams_representation_list:
+                if not room_representation:
+                    camera = agent.camera
+                else:
+                    camera = agent.camera_representation
+
                 if agent.id == targetAgentLink.agent_id:
                     for target in room.active_Target_list:
                         if target.id == targetAgentLink.target_id:
+
                             pygame.draw.line(self.screen, agent.color, (
                             self.x_offset + int(camera.xc * self.scale_x),
                             self.y_offset + int(camera.yc * self.scale_y)),

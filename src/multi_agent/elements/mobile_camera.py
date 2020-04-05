@@ -1,7 +1,7 @@
 import re
 import math
 import numpy as np
-from src.multi_agent.elements.camera import Camera, CameraRepresentation
+from src.multi_agent.elements.camera import Camera, CameraRepresentation,born_minus_pi_plus_pi
 
 
 class MobileCameraType:
@@ -36,9 +36,15 @@ class MobileCameraRepresentation(CameraRepresentation):
 class MobileCamera(Camera,MobileCameraRepresentation):
     def __init__(self, room, id, xc, yc, alpha, beta, trajectory, d_max, color=0, t_add=-1, t_del=-1,
                  type=MobileCameraType.RAIL, vx_vy_min=0, vx_vy_max=1, v_alpha_min=0, v_alpha_max=1,
-                 delta_beta=55, v_beta_min=0, v_beta_max=1):
+                 delta_beta=40, v_beta_min=0, v_beta_max=1):
 
         super().__init__(room,id, xc, yc, alpha, beta, d_max, color,t_add,t_del)
+
+        self.default_xc = xc
+        self.default_yc = yc
+        self.default_alpha = born_minus_pi_plus_pi(math.radians(alpha))
+        self.default_beta = born_minus_pi_plus_pi(math.radians(beta))
+
         self.camera_type = type
         "Limit the variation"
         self.vx_vy_min = vx_vy_min
@@ -47,8 +53,8 @@ class MobileCamera(Camera,MobileCameraRepresentation):
         self.v_alpha_max = v_alpha_max
         "Zoom"
         self.delta_beta = math.radians(delta_beta)
-        self.beta_min = self.beta - self.delta_beta
-        self.beta_max = self.beta + self.delta_beta
+        self.beta_min = born_minus_pi_plus_pi(self.beta - self.delta_beta)
+        self.beta_max = born_minus_pi_plus_pi(self.beta + self.delta_beta)
 
         self.v_beta_min = v_beta_min
         self.v_beta_max = v_beta_max
@@ -104,6 +110,12 @@ class MobileCamera(Camera,MobileCameraRepresentation):
         self.v_beta_max = float(attribute[13])
         self.trajectory = TrajectoryPlaner([])
 
+
+        self.default_xc =  float(attribute[1])
+        self.default_yc =  float(attribute[2])
+        self.default_alpha = born_minus_pi_plus_pi(math.radians(float(attribute[3])))
+        self.default_beta = born_minus_pi_plus_pi(math.radians(float(attribute[4])))
+
         self.trajectory.load_trajcetory(attribute[14])
         self.beta_min = self.beta - self.delta_beta
         self.beta_max = self.beta + self.delta_beta
@@ -142,6 +154,8 @@ class MobileCamera(Camera,MobileCameraRepresentation):
         self.std_measurment_error_speed -= delta * self.coeff_std_speed
         self.std_measurment_error_acceleration -= delta * self.coeff_std_acc
 
+        born_minus_pi_plus_pi(self.beta)
+
     def rotate(self, speed, dt):
         """
            :description
@@ -156,6 +170,7 @@ class MobileCamera(Camera,MobileCameraRepresentation):
             sign = np.sign(speed)
             delta = sign * dt * (self.v_alpha_min + math.fabs(speed) * (self.v_alpha_max - self.v_alpha_min))
             self.alpha += delta
+            born_minus_pi_plus_pi(self.alpha)
 
     def move(self, speed_x, speed_y, dt):
         """

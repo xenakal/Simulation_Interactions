@@ -83,22 +83,23 @@ class LinkTargetCamera():
 
         self.reset_agent_and_distance()
 
-        "For every target ..."
-        for target in self.room.active_Target_list:
-            "Not usefull to set link with object that are fix"
-            if not target.type == TargetType.SET_FIX:
+        "For every target ... Not usefull to set link with object that are fix"
+
+        targets = [target for target in self.room.active_Target_list if not target.type == TargetType.SET_FIX]
+        for target in targets:
+                "check if we already saw it"
                 is_in_list = False
-                for targetAgentLink in self.link_camera_target:
-                    "We find the corresponding targetAgentLink"
-                    if target.id == targetAgentLink.target_id:
 
-                        is_in_list = True
+                "We find the corresponding targetAgentLink"
+                targetAgentLink_list = [targetAgentLink for targetAgentLink in self.link_camera_target if target.id == targetAgentLink.target_id]
+                if len(targetAgentLink_list) > 0:
+                    targetAgentLink = targetAgentLink_list[0]
+                    is_in_list = True
 
-                        "Computing what agent has the best view for this target"
-                        (agent_id, distance_min) = (-1, 100000)
-                        for agent in self.room.agentCams_representation_list:
-                            # TODO "calcul avec les prédictions au lieu des positions actuelles"
-
+                    "Computing what agent has the best view for this target"
+                    (agent_id_dist_min, distance_min) = (-1, 100000)
+                    for agent in self.room.agentCams_representation_list:
+                        # TODO "calcul avec les prédictions au lieu des positions actuelles"
                             if not self.is_room_representation:
                                 camera = agent.camera
                             else:
@@ -109,18 +110,16 @@ class LinkTargetCamera():
                                                                                               target.radius)
                             cdt_not_hidden = not camera.is_x_y_in_hidden_zone_all_targets(target.xc, target.yc)
                             "Check is the camera can see the target for a given room geometry"
-                            # if cdt_in_field and cdt_not_hidden and agent.camera.isActive:
-                            # TODO - ici envoyer un message pour signaler une panne de camera ??
-                            if cdt_in_field and cdt_not_hidden: # and camera.isActive:
 
+                            if cdt_in_field and cdt_not_hidden and camera.is_active:
                                 "Distance computation"
                                 distance_to_target = np.power(np.power((camera.xc - target.xc), 2)
                                                               + np.power((camera.yc - target.yc), 2), 0.5)
 
                                 if distance_to_target < distance_min:
-                                    (agent_id, distance_min) = (agent.id, distance_to_target)
+                                    (agent_id_dist_min, distance_min) = (agent.id, distance_to_target)
 
-                        targetAgentLink.set(agent_id, distance_min)
+                            targetAgentLink.set(agent_id_dist_min, distance_min)
 
                 "If the target has no targetAgentLink, creation of a new object"
                 if not is_in_list:

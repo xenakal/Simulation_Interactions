@@ -94,6 +94,9 @@ class App:
         src.multi_agent.agent.agent_interacting_room_camera.AgentCam.number_agentCam_created = 0
         src.multi_agent.agent.agent_interacting_room_user.AgentUser.number_agentUser_created = 0
 
+        """Start the time"""
+        constants.TIME_START = time.time()
+
         """Create a new room and load it from it representation in .txt file"""
         self.room = Room()
         load_room_from_txt(self.filename + ".txt", self.room)
@@ -134,8 +137,6 @@ class App:
         for agent in self.room.information_simulation.agentUser_list:
            agent.run()
 
-        """Start the time"""
-        constants.TIME_START = time.time()
 
         """Target start to move"""
         self.targets_moving = True

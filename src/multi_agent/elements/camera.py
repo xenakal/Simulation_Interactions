@@ -5,6 +5,10 @@ import math
 from src.my_utils.my_math.line import Line, distance_btw_two_point
 import src.multi_agent.elements.room as rm
 
+
+def born_minus_pi_plus_pi(angle):
+    return math.fmod(angle,(2*math.pi))
+
 class CameraRepresentation:
 
     def __init__(self,room,id, xc, yc, alpha, beta, d_max,color = 0):
@@ -14,8 +18,8 @@ class CameraRepresentation:
         "Camera description on the maps"
         self.xc = xc
         self.yc = yc
-        self.alpha = math.radians(alpha)  # deg rotation
-        self.beta = math.radians(beta)  # deg view angle
+        self.alpha = born_minus_pi_plus_pi(math.radians(alpha))  # deg rotation
+        self.beta = born_minus_pi_plus_pi(math.radians(beta))  # deg view angle
         self.field_depth = d_max
 
         "Error"
@@ -40,8 +44,8 @@ class CameraRepresentation:
         self.signature = camera.signature
         self.xc = camera.xc
         self.yc = camera.yc
-        self.alpha = camera.alpha
-        self.beta = camera.beta
+        self.alpha = born_minus_pi_plus_pi(camera.alpha)
+        self.beta = born_minus_pi_plus_pi(camera.beta)
         self.field_depth = camera.field_depth
         self.std_measurment_error_position = camera.std_measurment_error_position
         self.std_measurment_error_speed = camera.std_measurment_error_speed
@@ -55,8 +59,8 @@ class CameraRepresentation:
         self.signature = signature
         self.xc = xc
         self.yc = yc
-        self.alpha = alpha
-        self.beta = beta
+        self.alpha = born_minus_pi_plus_pi(alpha)
+        self.beta = born_minus_pi_plus_pi(beta)
         self.field_depth = field_depth
         self.std_measurment_error_position = error_pos
         self.std_measurment_error_speed = error_speed
@@ -463,7 +467,7 @@ class Camera(CameraRepresentation):
                 2.        else, empty list []
         """
 
-        if self.isActive: #we can take only picture in the real world
+        if self.is_active: #we can take only picture in the real world
             self.take_picture(self.room.active_Target_list, 400)
             return self.targetCameraDistance_list
         else:
