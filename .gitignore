@@ -12,9 +12,6 @@ maps/*
 !maps/explication.md
 
 *.pyc
-src/my_utils/GUI
- src/my_utils/GUI/__pycache__/__init__.cpython-37.pyc
-
 
 log/*
 venv/*
