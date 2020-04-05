@@ -385,6 +385,8 @@ class AgentCam(AgentInteractingWithRoom):
 
             elif constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.NONE:
                 pass
+            else:
+                print("Wrong configuration found")
 
             """
                ----------------------------------------------------------------------------------------------
@@ -405,7 +407,7 @@ class AgentCam(AgentInteractingWithRoom):
 
                 if cdt_agent_is_in_charge and cdt_target_type_1 and cdt_target_type_2 and cdt_message_not_to_old:
                     receivers = []
-                    for agent in self.room_representation.agentCams_representation_list:
+                    for agent in self.room_representation.agentUser_representation_list:
                         receivers.append([agent.id, agent.signature])
 
                     self.send_message_targetEstimator(last_memory, receivers)

@@ -173,9 +173,8 @@ class AgentInteractingWithRoom(Agent):
                         agent_to_suppress = agent
                         break
                 if not agent_to_suppress == -1:
-                    self.room_representation.agentCams_representation_list.agent_to_suppress.is_active = False
-                    self.log_main.info(
-                        "Agent : " + str(agent_to_suppress.id) + " is not connected anymore, last heartbeat : %.02f s" %
+                   agent_to_suppress.is_active = False
+                   self.log_main.info("Agent : " + str(agent_to_suppress.id) + " is not connected anymore, last heartbeat : %.02f s" %
                         heartbeat.heartbeat_list[-1])
         return time_last_heart_beat_sent
 
@@ -193,7 +192,6 @@ class AgentInteractingWithRoom(Agent):
                                                         tell to whom to send the message.
 
         """
-
         if receivers is None:
             receivers = []
         s = memory.to_string()
@@ -296,22 +294,23 @@ class AgentInteractingWithRoom(Agent):
                 defines what to do when receive a heartbeat
         """
         for agent in self.room_representation.agentCams_representation_list:
+
             cdt1 = message.sender_id == agent.id and message.sender_signature == agent.signature
-            cdt2 = agent in self.room_representation.agentCams_representation_list
-            if cdt1 and not cdt2:
+            cdt2 = agent.is_active == False
+
+            if cdt1 and cdt2:
                 self.log_main.info("Found someone ! agent cam :" + str(agent.id))
                 agent.is_active = True
-                #self.room_representation.agentCams_representation_list.append(agent)
+                agent.camera_representation.is_active = True
                 self.log_main.debug(self.room_representation.agentCams_representation_list)
                 break
 
         for agent in self.room_representation.agentUser_representation_list:
             cdt1 = message.sender_id == agent.id and message.sender_signature == agent.signature
-            cdt2 = agent in self.room_representation.agentCams_representation_list
+            cdt2 = agent.is_active == False
             if cdt1 and not cdt2:
                 self.log_main.info("Found someone ! agent user :" + str(agent.id))
                 agent.is_active = True
-                #self.room_representation.agentUser_representation_list.append(agent)
                 self.log_main.debug(self.room_representation.agentUser_representation_list)
                 break
 
