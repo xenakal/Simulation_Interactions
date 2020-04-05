@@ -1,6 +1,6 @@
 .idea/
 
-myCode/mailbox/*
+src/mailbox/*
 
 results/*
 !results/explication.md
@@ -8,12 +8,12 @@ results/*
 maps/*
 !maps/explication.md
 
-myCode/multi_agent/elements/__pycache__/*
-myCode/multi_agent/agent/__pycache__/
-myCode/multi_agent/communication/__pycache__/
-myCode/multi_agent/__pycache__/*
-myCode/my_utils/__pycache__/*
-myCode/my_utils/GUI/GUI_simulation/__pycache__/*
+src/multi_agent/elements/__pycache__/*
+src/multi_agent/agent/__pycache__/
+src/multi_agent/communication/__pycache__/
+src/multi_agent/__pycache__/*
+src/my_utils/__pycache__/*
+src/my_utils/GUI/GUI_simulation/__pycache__/*
 */__pycache__/*
 */*/__pycache__/
 __pycache__/*
