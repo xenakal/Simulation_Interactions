@@ -8,6 +8,7 @@ from src.multi_agent.agent.agent import AgentType
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
+ORANGE = (255, 125, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
@@ -50,14 +51,16 @@ class GUI_room_representation():
         for agent in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
             self.draw_all_target(agent.room_representation.active_Target_list, room.coordinate_room)
 
-    def draw_agentCam_room_description(self, room, agents_to_display, agentType,is_room_representation, allAgents=False):
+    def draw_agentCam_room_description(self, room, agents_to_display, agentType, is_room_representation,
+                                       allAgents=False):
         for agent in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
-            self.draw_all_agentCam(agent.room_representation,is_room_representation)
+            self.draw_all_agentCam(agent.room_representation, is_room_representation)
 
-    def draw_link_cam_region_room_description(self, room, agents_to_display, agentType,is_room_representation,allAgents=False):
-        for agent_to_display in  get_agent_to_draw(room, agents_to_display, agentType, allAgents):
+    def draw_link_cam_region_room_description(self, room, agents_to_display, agentType, is_room_representation,
+                                              allAgents=False):
+        for agent_to_display in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
             self.draw_link_cam_region(agent_to_display.room_representation,
-                                      agent_to_display.link_target_agent.link_camera_target,is_room_representation)
+                                      agent_to_display.link_target_agent.link_camera_target, is_room_representation)
 
     def draw_room(self, tab, draw_time=False):
         if draw_time:
@@ -90,6 +93,17 @@ class GUI_room_representation():
             color = MOVING_COLOR
         elif target.type == TargetType.UNKNOWN:
             color = UNKNOWN_COLOR
+
+        if target.confidence_pos > 0:
+            color_conf = [math.ceil(255-2.5 * target.confidence_pos), math.ceil(target.confidence_pos * 2.5), 0]
+        elif target.confidence_pos == -1:
+            color_conf = WHITE
+
+        pygame.draw.ellipse(self.screen, color_conf, (
+            self.x_offset + int(target.xc * self.scale_x) - int(self.scale_x * (target.radius * 1.2)),
+            self.y_offset + int(target.yc * self.scale_y) - int(self.scale_y * (target.radius * 1.2)),
+            int(self.scale_x * (target.radius * 1.2) * 2),
+            int(self.scale_y * (target.radius * 1.2) * 2)))
 
         # so that it is only target.yc drawn in the square
         if (tab[0] <= target.xc + target.radius <= tab[0] + tab[
@@ -125,7 +139,7 @@ class GUI_room_representation():
                                                                        self.y_offset + int(position[1] * self.scale_y)),
                                            1)
 
-    def draw_all_agentCam(self, room, room_representation = False):
+    def draw_all_agentCam(self, room, room_representation=False):
         for agent in room.agentCams_representation_list:
             if not room_representation:
                 camera = agent.camera
@@ -135,13 +149,29 @@ class GUI_room_representation():
             label = self.font.render(str(camera.id), 10, CAMERA)
             self.screen.blit(label, (
                 self.x_offset + int(camera.xc * self.scale_x) + 5, self.y_offset + int(camera.yc * self.scale_y) + 5))
+
+            self.draw_one_camera(camera)
+
             # render form
             if not agent.is_active:
                 color = RED
             else:
                 color = GREEN
 
-            self.draw_one_camera(camera)
+            if agent.confidence > 5:
+                color_conf = GREEN
+            elif agent.confidence > 3:
+                color_conf = ORANGE
+            elif agent.confidence == -1:
+                color_conf = WHITE
+            else:
+                color_conf = RED
+
+            pygame.draw.circle(self.screen, color_conf, (
+                self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 11)
+
+            pygame.draw.circle(self.screen, BLACK, (
+                self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 9)
 
             pygame.draw.circle(self.screen, color, (
                 self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 8)
@@ -170,7 +200,7 @@ class GUI_room_representation():
         pygame.draw.line(self.screen, color, (
             self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
                          (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
-                             camera.alpha + (camera.beta/2)),
+                             camera.alpha + (camera.beta / 2)),
                           self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
                               camera.alpha + (camera.beta / 2))), 2)
         """
@@ -185,10 +215,10 @@ class GUI_room_representation():
                                   camera.alpha + (camera.beta / 2)))
             pygame.draw.line(self.screen, color, pt1, pt2, 2)
             """
-        try :
+        try:
             pygame.draw.arc(self.screen, color, [self.x_offset + int(camera.xc * self.scale_x) - int(l),
                                                  self.y_offset + int(camera.yc * self.scale_y) - int(l), 2 * l, 2 * l],
-                            -camera.alpha - (camera.beta/2), -camera.alpha+(camera.beta/2), 2)
+                            -camera.alpha - (camera.beta / 2), -camera.alpha + (camera.beta / 2), 2)
         except ValueError:
             print("Error draw cam")
 
@@ -210,8 +240,7 @@ class GUI_room_representation():
             label = self.font.render(str(n + 1), 10, CAMERA)
             self.screen.blit(label, (pt2[0] + 5, pt2[1] + 5))
 
-    def draw_link_cam_region(self, room, link_cam_to_target,room_representation=False):
-
+    def draw_link_cam_region(self, room, link_cam_to_target, room_representation=False):
 
         for targetAgentLink in link_cam_to_target:
             for agent in room.agentCams_representation_list:
@@ -223,9 +252,8 @@ class GUI_room_representation():
                 if agent.id == targetAgentLink.agent_id:
                     for target in room.active_Target_list:
                         if target.id == targetAgentLink.target_id:
-
                             pygame.draw.line(self.screen, agent.color, (
-                            self.x_offset + int(camera.xc * self.scale_x),
-                            self.y_offset + int(camera.yc * self.scale_y)),
+                                self.x_offset + int(camera.xc * self.scale_x),
+                                self.y_offset + int(camera.yc * self.scale_y)),
                                              (self.x_offset + int(target.xc * self.scale_x),
                                               self.y_offset + int(target.yc * self.scale_y)), 1)

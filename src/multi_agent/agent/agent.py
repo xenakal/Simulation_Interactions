@@ -1,4 +1,5 @@
 import mailbox
+import math
 from src.multi_agent.communication.message import *
 from src.my_utils.my_IO.IO_data import *
 from src import constants
@@ -14,17 +15,25 @@ class AgentRepresentation:
     def __init__(self, id, type):
         self.id = id + int(type)
         self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
+
         self.type = type
         self.is_active = False
         self.color = 0
 
+        self.confidence = -1
+
     def update_from_agent(self, agent):
         self.id = agent.id
         self.signature = agent.signature
+
         self.type = agent.type
         self.is_active = agent.is_active
         self.color = agent.color
 
+        self.confidence = -1
+
+    def evaluate_confidence(self,error, delta_time):
+        self.confidence = math.pow((1 / error), 2) * math.exp(-delta_time)
 
 
 

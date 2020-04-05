@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import random
 import re
+import math
 from src import constants
-
 
 class TargetMotion:
     FIX = 0
@@ -62,6 +62,8 @@ class TargetRepresentation:
         self.radius = radius
         self.type = type
         self.color = color
+        self.confidence_pos = -1
+
 
         "Default values"
         if color == 0:
@@ -69,6 +71,9 @@ class TargetRepresentation:
             g = random.randrange(20, 230, 1)
             b = random.randrange(20, 255, 1)
             self.color = (r, g, b)
+
+    def evaluate_confidence(self, error, delta_time,time_constant):
+        self.confidence_pos = (1 / math.pow(error, 2)) * math.exp(-delta_time*time_constant)
 
     def to_string(self):
         """

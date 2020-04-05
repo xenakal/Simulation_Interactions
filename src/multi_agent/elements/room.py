@@ -159,6 +159,7 @@ class RoomRepresentation:
                     target.xc = last_TargetEstimator.item_position[0]
                     target.yc = last_TargetEstimator.item_position[1]
                     target.type = last_TargetEstimator.item_type
+                    target.evaluate_confidence(0.1,constants.get_time()-last_TargetEstimator.time_stamp,2)
                     break
 
             if not is_in_RoomRepresentation:
@@ -186,6 +187,7 @@ class RoomRepresentation:
                     is_in_RoomRepresentation = True
 
                     agent.is_active = last_AgentEstimator.is_agent_active
+                    agent.evaluate_confidence(0.001,constants.get_time()-last_AgentEstimator.time_stamp)
 
                     camera.xc = last_AgentEstimator.item_position[0]
                     camera.yc = last_AgentEstimator.item_position[1]

@@ -147,7 +147,7 @@ class Memory:
             In the future, a different method could be added, where the information from all agents is combined (for
             example using some kind of mean) to create the memory_agent list.
         """
-        choice = CombineDataChoice.DATA_MEASURED_ONLY_SELF
+
         "Combine data related to target"
         if choice == CombineDataChoice.DATA_MEASURED_ONLY_SELF:
             # find the targets known by all agents
