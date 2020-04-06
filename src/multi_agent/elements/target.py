@@ -63,6 +63,7 @@ class TargetRepresentation:
         self.type = type
         self.color = color
         self.confidence_pos = -1
+        self.priority_level = 0
 
 
         "Default values"

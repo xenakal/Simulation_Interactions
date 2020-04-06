@@ -1,4 +1,5 @@
 import numpy as np
+import src.multi_agent.elements.camera as cam
 from src.multi_agent.elements.target import TargetType
 
 
@@ -106,9 +107,8 @@ class LinkTargetCamera():
                                 camera = agent.camera_representation
 
                             "Put target radius = 0 to consider only the centers"
-                            cdt_in_field = camera.is_x_y_radius_in_field_not_obstructed(target.xc, target.yc,
-                                                                                              target.radius)
-                            cdt_not_hidden = not camera.is_x_y_in_hidden_zone_all_targets(target.xc, target.yc)
+                            cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(camera,target.xc, target.yc,target.radius)
+                            cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(self.room,camera.id,target.xc, target.yc)
                             "Check is the camera can see the target for a given room geometry"
 
                             if cdt_in_field and cdt_not_hidden and camera.is_active:

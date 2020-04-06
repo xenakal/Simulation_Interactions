@@ -9,7 +9,7 @@ from src import constants
 
 class MessageTypeAgentInteractingWithRoom(MessageType):
     HEARTBEAT = "heartbeat"
-    MEMORY = "memory"
+    TARGET_ESTIMATOR = "targetEstimator"
 
 
 class  AgentInteractingWithRoomRepresentation(AgentRepresentation):
@@ -57,11 +57,13 @@ class AgentInteractingWithRoom(Agent):
         self.memory = Memory(self.id)
         self.room_representation = src.multi_agent.elements.room.RoomRepresentation(self.color)
         self.hearbeat_tracker = HeartbeatCounterAllAgent(self.id, self.signature, self.log_main)
+        self.time_last_message_targetEstimtor_sent = constants.get_time()
 
         "Create his own thread"
         self.thread_is_running = 1
-        self.main_thread = threading.Thread(target=self.thread_run)
+        self.main_thread = None
 
+        self.time_last_heartbeat_sent = constants.get_time()
         self.log_room = create_logger(constants.ResultsPath.LOG_AGENT, "Room + memory", self.id)
 
     def init_and_set_room_description(self, room):
@@ -77,6 +79,7 @@ class AgentInteractingWithRoom(Agent):
         self.log_main.info("starting initialisation in agent_interacting_room")
         self.room_representation.init_RoomRepresentation(room)
         self.message_statistic.init_message_static(self.room_representation)
+        self.main_thread = threading.Thread(target=self.thread_run,args=[room])
 
         self.log_main.info("initialisation in agent_interacting_room_done !")
         self.log_main.debug("see below the room representation ")
@@ -92,6 +95,11 @@ class AgentInteractingWithRoom(Agent):
                 1. Function to call to run/start the agent
         """
         self.main_thread.start()
+
+
+    def thread_run(self, room):
+        pass
+
 
     def clear(self):
         """
@@ -124,9 +132,7 @@ class AgentInteractingWithRoom(Agent):
         mbox.close()
         self.log_main.info("Agent cleared \n")
 
-    def thread_run(self):
-        """ interface """
-        pass
+
 
     def process_information_in_memory(self):
         """ interface """
@@ -153,7 +159,7 @@ class AgentInteractingWithRoom(Agent):
             self.process_single_message(rec_mes)
 
     def process_single_message(self, rec_mes):
-        if rec_mes.messageType == MessageTypeAgentInteractingWithRoom.MEMORY:
+        if rec_mes.messageType == MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATOR:
             self.received_message_targetEstimator(rec_mes)
         elif rec_mes.messageType == MessageType.ACK or rec_mes.messageType == MessageType.NACK:
             self.received_message_ack_nack(rec_mes)
@@ -162,8 +168,8 @@ class AgentInteractingWithRoom(Agent):
 
         self.info_message_received.del_message(rec_mes)
 
-    def handle_hearbeat(self, time_last_heart_beat_sent):
-        time_last_heart_beat_sent = self.send_message_heartbeat(time_last_heart_beat_sent)
+    def handle_hearbeat(self):
+        self.send_message_heartbeat()
 
         for heartbeat in self.hearbeat_tracker.agent_heartbeat_list:
             if heartbeat.is_to_late():
@@ -172,15 +178,17 @@ class AgentInteractingWithRoom(Agent):
                     if agent.id == heartbeat.agent_id:
                         agent_to_suppress = agent
                         break
-                if not agent_to_suppress == -1:
+                if not agent_to_suppress == -1 and agent_to_suppress.is_active:
                    agent_to_suppress.is_active = False
-                   self.log_main.info("Agent : " + str(agent_to_suppress.id) + " is not connected anymore, last heartbeat : %.02f s" %
-                        heartbeat.heartbeat_list[-1])
-        return time_last_heart_beat_sent
+                   self.log_main.info("Agent : " + str(agent_to_suppress.id) + "at:  %.02fs is not connected anymore, last heartbeat : %.02f s" %
+                                      (constants.get_time(),heartbeat.heartbeat_list[-1]))
 
 
 
-    def send_message_targetEstimator(self, memory, receivers=None):
+
+
+
+    def send_message_targetEstimator(self, targetEstimator, receivers=None):
         """
             :description
                 1. Create a message based on a TargetEstimator
@@ -194,13 +202,13 @@ class AgentInteractingWithRoom(Agent):
         """
         if receivers is None:
             receivers = []
-        s = memory.to_string()
+        s = targetEstimator.to_string()
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
         m = MessageCheckACKNACK(constants.get_time(), self.id, self.signature,
-                                MessageTypeAgentInteractingWithRoom.MEMORY, s,
-                                memory.item_id)
+                                MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATOR, s,
+                                targetEstimator.item_id)
         if len(receivers) == 0:
             for agent in self.room_representation.agentCams_representation_list:
                 if agent.id != self.id:
@@ -212,6 +220,20 @@ class AgentInteractingWithRoom(Agent):
         cdt1 = self.info_message_to_send.is_message_with_same_message(m)
         if not cdt1:
             self.info_message_to_send.add_message(m)
+
+    def send_message_timed_targetEstimator(self,target_id,receivers= None):
+        delta_time = constants.get_time() - self.time_last_message_targetEstimtor_sent
+
+
+        if delta_time > constants.TIME_BTW_TARGET_ESTIMATOR:
+            target_estimator_list = self.memory.memory_agent_from_target.get_item_list(target_id)
+
+            if len(target_estimator_list) > 0:
+                last_target_estimator = target_estimator_list[-1]
+                cdt_message_not_to_old = ((constants.get_time() - last_target_estimator.time_stamp) <= constants.TRESH_TIME_TO_SEND_MEMORY)
+                if cdt_message_not_to_old:
+                    self.send_message_targetEstimator(last_target_estimator,receivers)
+                    self.time_last_message_targetEstimtor_sent = constants.get_time()
 
     def send_message_ack_nack(self, message, type_message):
         """
@@ -230,13 +252,13 @@ class AgentInteractingWithRoom(Agent):
         m.add_receiver(message.sender_id, message.sender_signature)
         self.info_message_to_send.add_message(m)
 
-    def send_message_heartbeat(self, last_heart_beat_time):
+    def send_message_heartbeat(self):
         """
             :description
                 1. Message without meaning, used to inform other agents that the agent is alive
         """
 
-        delta_time = constants.get_time() - last_heart_beat_time
+        delta_time = constants.get_time() - self.time_last_heartbeat_sent
         if delta_time > constants.TIME_BTW_HEARTBEAT:
             m = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, "heartbeat", "Hi there !")
 
@@ -253,8 +275,7 @@ class AgentInteractingWithRoom(Agent):
             if not cdt1:
                 self.info_message_to_send.add_message(m)
 
-            return constants.get_time()
-        return last_heart_beat_time
+            self.time_last_heartbeat_sent = constants.get_time()
 
     def received_message_targetEstimator(self, message):
         """

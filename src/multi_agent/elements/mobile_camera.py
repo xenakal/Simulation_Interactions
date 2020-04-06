@@ -1,7 +1,7 @@
 import re
 import math
 import numpy as np
-from src.multi_agent.elements.camera import Camera, CameraRepresentation,born_minus_pi_plus_pi
+from src.multi_agent.elements.camera import Camera, CameraRepresentation, born_minus_pi_plus_pi
 
 
 class MobileCameraType:
@@ -12,12 +12,11 @@ class MobileCameraType:
 
 
 class MobileCameraRepresentation(CameraRepresentation):
-    def __init__(self,room,id, xc, yc, alpha, beta, d_max, type):
-        super().__init__(room,id, xc, yc, alpha, beta, d_max)
-        super().__init__(room,id, xc, yc, alpha, beta, d_max)
+    def __init__(self, room, id, xc, yc, alpha, beta, d_max, type):
+        super().__init__(room, id, xc, yc, alpha, beta, d_max)
+        super().__init__(room, id, xc, yc, alpha, beta, d_max)
         self.camera_type = type
         self.trajectory = TrajectoryPlaner([])
-
 
     def init_from_camera(self, camera):
         super().init_from_camera(camera)
@@ -26,19 +25,20 @@ class MobileCameraRepresentation(CameraRepresentation):
         new_trajectory.trajectory = camera.trajectory.trajectory
         self.trajectory = new_trajectory
 
-    def init_from_values_extend(self,id,signature,xc,yc,alpha,beta,field_depth,error_pos,error_speed,error_acc,color,room,is_active,camera_type,trajectory):
-        super().init_from_values(id,signature,xc,yc,alpha,beta,field_depth,error_pos,error_speed,error_acc,color,room,is_active)
+    def init_from_values_extend(self, id, signature, xc, yc, alpha, beta, field_depth, error_pos, error_speed,
+                                error_acc, color, is_active, camera_type, trajectory):
+        super().init_from_values(id, signature, xc, yc, alpha, beta, field_depth, error_pos, error_speed, error_acc,
+                                 color, is_active)
         self.camera_type = camera_type
         self.trajectory = trajectory
 
 
-
-class MobileCamera(Camera,MobileCameraRepresentation):
-    def __init__(self, room, id, xc, yc, alpha, beta, trajectory, d_max, color=0, t_add=-1, t_del=-1,
+class MobileCamera(Camera):
+    def __init__(self, id, xc, yc, alpha, beta, trajectory, field_depth, color=0, t_add=-1, t_del=-1,
                  type=MobileCameraType.RAIL, vx_vy_min=0, vx_vy_max=1, v_alpha_min=0, v_alpha_max=1,
                  delta_beta=40, v_beta_min=0, v_beta_max=1):
 
-        super().__init__(room,id, xc, yc, alpha, beta, d_max, color,t_add,t_del)
+        super().__init__(id, xc, yc, alpha, beta, field_depth, color, t_add, t_del)
 
         self.default_xc = xc
         self.default_yc = yc
@@ -62,7 +62,6 @@ class MobileCamera(Camera,MobileCameraRepresentation):
         self.coeff_std_position = 0.05 * self.std_measurment_error_position
         self.coeff_std_speed = 0.01 * self.std_measurment_error_speed
         self.coeff_std_acc = 0.1 * self.std_measurment_error_acceleration
-
 
         self.trajectory = TrajectoryPlaner(trajectory)
 
@@ -110,9 +109,8 @@ class MobileCamera(Camera,MobileCameraRepresentation):
         self.v_beta_max = float(attribute[13])
         self.trajectory = TrajectoryPlaner([])
 
-
-        self.default_xc =  float(attribute[1])
-        self.default_yc =  float(attribute[2])
+        self.default_xc = float(attribute[1])
+        self.default_yc = float(attribute[2])
         self.default_alpha = born_minus_pi_plus_pi(math.radians(float(attribute[3])))
         self.default_beta = born_minus_pi_plus_pi(math.radians(float(attribute[4])))
 

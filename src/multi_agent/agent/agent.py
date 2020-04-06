@@ -32,8 +32,8 @@ class AgentRepresentation:
 
         self.confidence = -1
 
-    def evaluate_confidence(self,error, delta_time):
-        self.confidence = math.pow((1 / error), 2) * math.exp(-delta_time)
+    def evaluate_confidence(self,error, delta_time,time_constants):
+        self.confidence = math.pow((1 / error), 2) * math.exp(-delta_time*time_constants)
 
 
 
@@ -135,8 +135,8 @@ class Agent(AgentRepresentation):
             self.info_message_received.add_message(rec_mes)
             self.log_message.debug('RECEIVED : \n' + rec_mes.to_string())
             self.log_message.info(
-                'RECEIVED : at %.02f' % rec_mes.timestamp + " s " + str(rec_mes.messageType) + " target : " + str(
-                    rec_mes.targetRef) + " from :" + str(rec_mes.sender_id))
+                'RECEIVED : at %.02f' % rec_mes.timestamp + " s " + str(rec_mes.messageType) + " item : " + str(
+                    rec_mes.item_ref) + " from :" + str(rec_mes.sender_id))
 
     def receive_messages(self):
         """
@@ -209,7 +209,7 @@ class Agent(AgentRepresentation):
                     if m.is_message_sent_to_every_receiver():
                         self.log_message.info(
                             'SENT : at %.02f' % m.timestamp + " s " + str(m.messageType) + " target : " + str(
-                                m.targetRef) + " to :" + str(m.receiver_id_and_signature))
+                                m.item_ref) + " to :" + str(m.receiver_id_and_signature))
                         self.log_message.debug('SENT     : \n' + m.to_string())
                         succes = 0
                     else:

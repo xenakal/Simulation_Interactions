@@ -94,6 +94,7 @@ class App:
 
         """Reset the number of agent created"""
         src.multi_agent.agent.agent_interacting_room_camera.AgentCam.number_agentCam_created = 0
+        src.multi_agent.agent.agent_interacting_room_camera.AgentCam.time_last_message_agentEstimtor_sent = 0
         src.multi_agent.agent.agent_interacting_room_user.AgentUser.number_agentUser_created = 0
 
 

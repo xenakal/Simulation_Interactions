@@ -40,10 +40,12 @@ def load_agentCam_txt(s, room):
     s = s.replace(" ", "")
     camera_agent = re.split("camera:|agent:", s)
 
-    camera = MobileCamera(room, -1, -1, -1, -1, -1,[],-1)
+    camera = MobileCamera(-1, -1, -1, -1, -1,[],-1)
     camera.load_from_txt(camera_agent[1])
     agent = src.multi_agent.agent.agent_interacting_room_camera.AgentCam(camera)
+
     agent.load_from_txt(camera_agent[2])
+    agent.camera.id = agent.id
     room.add_AgentCam(agent)
 
 

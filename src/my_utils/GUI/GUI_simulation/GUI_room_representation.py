@@ -4,6 +4,7 @@ from src import constants
 from src.multi_agent.elements.room import Room
 from src.multi_agent.elements.target import TargetType
 from src.multi_agent.agent.agent import AgentType
+import src.multi_agent.elements.camera as cam
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -51,16 +52,14 @@ class GUI_room_representation():
         for agent in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
             self.draw_all_target(agent.room_representation.active_Target_list, room.coordinate_room)
 
-    def draw_agentCam_room_description(self, room, agents_to_display, agentType, is_room_representation,
-                                       allAgents=False):
+    def draw_agentCam_room_description(self, room, agents_to_display, agentType,allAgents=False):
         for agent in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
-            self.draw_all_agentCam(agent.room_representation, is_room_representation)
+            self.draw_all_agentCam(agent.room_representation)
 
-    def draw_link_cam_region_room_description(self, room, agents_to_display, agentType, is_room_representation,
-                                              allAgents=False):
+    def draw_link_cam_region_room_description(self, room, agents_to_display, agentType,allAgents=False):
         for agent_to_display in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
             self.draw_link_cam_region(agent_to_display.room_representation,
-                                      agent_to_display.link_target_agent.link_camera_target, is_room_representation)
+                                      agent_to_display.link_target_agent.link_camera_target)
 
     def draw_room(self, tab, draw_time=False):
         if draw_time:
@@ -94,10 +93,10 @@ class GUI_room_representation():
         elif target.type == TargetType.UNKNOWN:
             color = UNKNOWN_COLOR
 
+        color_conf = WHITE
         if target.confidence_pos > 0:
             color_conf = [math.ceil(255-2.5 * target.confidence_pos), math.ceil(target.confidence_pos * 2.5), 0]
-        elif target.confidence_pos == -1:
-            color_conf = WHITE
+
 
         pygame.draw.ellipse(self.screen, color_conf, (
             self.x_offset + int(target.xc * self.scale_x) - int(self.scale_x * (target.radius * 1.2)),
@@ -139,13 +138,9 @@ class GUI_room_representation():
                                                                        self.y_offset + int(position[1] * self.scale_y)),
                                            1)
 
-    def draw_all_agentCam(self, room, room_representation=False):
+    def draw_all_agentCam(self, room):
         for agent in room.agentCams_representation_list:
-            if not room_representation:
-                camera = agent.camera
-            else:
-                camera = agent.camera_representation
-
+            camera = cam.get_camera_agentCam_vs_agentCamRepresentation(agent)
             label = self.font.render(str(camera.id), 10, CAMERA)
             self.screen.blit(label, (
                 self.x_offset + int(camera.xc * self.scale_x) + 5, self.y_offset + int(camera.yc * self.scale_y) + 5))
@@ -240,15 +235,11 @@ class GUI_room_representation():
             label = self.font.render(str(n + 1), 10, CAMERA)
             self.screen.blit(label, (pt2[0] + 5, pt2[1] + 5))
 
-    def draw_link_cam_region(self, room, link_cam_to_target, room_representation=False):
+    def draw_link_cam_region(self, room, link_cam_to_target):
 
         for targetAgentLink in link_cam_to_target:
             for agent in room.agentCams_representation_list:
-                if not room_representation:
-                    camera = agent.camera
-                else:
-                    camera = agent.camera_representation
-
+                camera = cam.get_camera_agentCam_vs_agentCamRepresentation(agent)
                 if agent.id == targetAgentLink.agent_id:
                     for target in room.active_Target_list:
                         if target.id == targetAgentLink.target_id:

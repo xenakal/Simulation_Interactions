@@ -11,7 +11,6 @@ class AgentUserRepresentation(AgentInteractingWithRoomRepresentation):
     def update_from_agent(self, agent):
         super().update_from_agent(agent)
 
-
 class AgentUser(AgentInteractingWithRoom):
     """
         Class AgentUser extend AgentInteractingWithRoom.
@@ -51,7 +50,7 @@ class AgentUser(AgentInteractingWithRoom):
         self.log_execution = create_logger(constants.ResultsPath.LOG_AGENT, "Execution time", self.id)
         AgentUser.number_agentUser_created +=1
 
-    def thread_run(self):
+    def thread_run(self,room):
         """
             :description
                 FSM defining the agent's behaviour
@@ -91,7 +90,7 @@ class AgentUser(AgentInteractingWithRoom):
                 self.info_message_received.remove_message_after_given_time(constants.get_time(), constants.MAX_TIME_MESSAGE_IN_LIST)
 
                 "Send heart_beat to other agent"
-                time_last_heartbeat_sent = self.handle_hearbeat(time_last_heartbeat_sent)
+                time_last_heartbeat_sent = self.handle_hearbeat()
 
                 '''Message are send (Mailbox)'''
                 self.send_messages()

@@ -444,7 +444,8 @@ class GUI_create_map:
 
         "draw the cam"
         if on and self.button_create_map_3.find_button_state(Button_name.OBJECT_ADD):
-            cam = MobileCamera(self.new_room, 0, x_new, y_new, self.alpha_default, self.beta_default, [],d_max=self.depth_default)
+            cam = MobileCamera(self.new_room, 0, x_new, y_new, self.alpha_default, self.beta_default, [],
+                               field_depth=self.depth_default)
             self.GUI_room.draw_one_camera(cam)
 
         "add the cam to the room"

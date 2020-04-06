@@ -126,7 +126,7 @@ class Memory:
 
     def add_agent_estimator(self, estimator):
         self.log_memory.info(
-            "Add memory, from agent : " + str(estimator.agent_id) + " - agent " + str(estimator.target_id))
+            "Add memory, from agent : " + str(estimator.agent_id) + " - agent " + str(estimator.item_id))
         self.memory_all_agent_from_agent.add_itemEstimator(estimator)
 
 
@@ -155,7 +155,7 @@ class Memory:
                 # keep the ones known by the agents whose memory this is
                 if agent_id == self.id:
                     for estimateur in self.memory_all_agent_from_target.get_Agent_item_list(target_id, self.id):
-                        if not is_in_list_TargetEstimator(self.memory_agent_from_target.get_Target_list(target_id), estimateur):
+                        if not is_in_list_TargetEstimator(self.memory_agent_from_target.get_item_list(target_id), estimateur):
                             self.log_memory.info(
                                 "Combine data from agent : " + str(agent_id) + " - target " + str(target_id))
                             self.memory_agent_from_target.add_itemEstimator(estimateur)
@@ -169,34 +169,31 @@ class Memory:
 
         "Combine data related to agentCam"
         if True:
-            # find the targets known by all agents
             for (agent_id, agent_observed_id) in self.memory_all_agent_from_agent.Agent_item_already_discovered_list:
-                if agent_id == self.id:
-                    for estimateur in self.memory_all_agent_from_agent.get_Agent_item_list(agent_observed_id, self.id):
+                if agent_id == agent_observed_id:
+                    for estimateur in self.memory_all_agent_from_agent.get_Agent_item_list(agent_id,agent_id):
                         self.log_memory.info("Combine data from agent : " + str(agent_id) + " - agent " + str(agent_observed_id))
-                        self.memory_agent_from_agent.add_itemEstimator(estimateur)
-
+                        if not is_in_list_TargetEstimator(self.memory_agent_from_agent.get_item_list(agent_id),estimateur):
+                            self.log_memory.info("Combine data from agent : " + str(agent_id) + " - target " + str(agent_id))
+                            self.memory_agent_from_agent.add_itemEstimator(estimateur)
 
     def combine_data_userCam(self, choice=1):
         if choice == 1:
             for (agent_id, target_id) in self.memory_all_agent_from_target.Agent_item_already_discovered_list:
                 for estimateur in self.memory_all_agent_from_target.get_Agent_item_list(target_id, agent_id):
-                    if not is_in_list_TargetEstimator(self.memory_agent_from_target.get_Target_list(target_id), estimateur):
+                    if not is_in_list_TargetEstimator(self.memory_agent_from_target.get_item_list(target_id), estimateur):
                         self.log_memory.info(
                             "Combine data, from agent : " + str(agent_id) + " - target " + str(target_id))
                         self.memory_agent_from_target.add_itemEstimator(estimateur)
 
     def get_previous_positions(self, targetID):
-        return self.memory_agent_from_target.get_Target_list(targetID)
+        return self.memory_agent_from_target.get_item_list(targetID)
 
     def getPreviousPositions_allMessages(self, targetID, agentID):
         return self.memory_all_agent_from_target.get_Agent_item_list(targetID, agentID)
 
     def to_string_memory_all(self):
-        return self.memory_all_agent_from_target.to_string()
-
-    def to_string_memory(self):
-        return self.memory_all_agent_from_target.to_string()
+        return self.memory_all_agent_from_target.to_string() + "\n" + self.memory_all_agent_from_agent.to_string()
 
     def statistic_to_string(self):
         return self.memory_all_agent_from_target.statistic_to_string()
@@ -287,7 +284,7 @@ class Memory:
             if not found        -- []
             else                -- TargetEstimator list
         """
-        return self.best_estimations.get_Target_list(seeked_target_id)
+        return self.best_estimations.get_item_list(seeked_target_id)
 
     def update_predictions_lists(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
                                  target_size, target_type):

@@ -12,7 +12,7 @@ class GUI_user_output:
         self.GUI_option = GUI_option
 
 
-        self.button_simulation_1 = ButtonList(["prediction"], 10, -20, 0, 40, 100,20)
+        self.button_simulation_1 = ButtonList(["prediction","real"], 10, -20, 0, 40, 100,20)
         self.button_simulation_2 = ButtonList(["0", "1", "2", "3", "4", "5", "6","7","8","9","10","11","12"], -35, 10, 700, 40, 35, 15)
         self.button_simulation_3 = ButtonList(["0", "1", "2", "3", "4", "5", "6","7","8","9","10","11","12"], -35, 10, 750, 40, 35, 15)
 
@@ -24,11 +24,16 @@ class GUI_user_output:
         self.display_simulation_button()
         self.GUI_room.draw_room(room.coordinate_room)
         self.GUI_room.draw_all_target_room_description(room, self.GUI_option.agent_to_display, AgentType.AGENT_CAM)
-        self.GUI_room.draw_agentCam_room_description(room, self.GUI_option.agent_to_display, AgentType.AGENT_CAM,True)
-        self.GUI_room.draw_link_cam_region_room_description(room, self.GUI_option.agent_to_display, AgentType.AGENT_CAM,True)
+        self.GUI_room.draw_agentCam_room_description(room, self.GUI_option.agent_to_display, AgentType.AGENT_CAM)
+        self.GUI_room.draw_link_cam_region_room_description(room, self.GUI_option.agent_to_display, AgentType.AGENT_CAM)
 
         if self.button_simulation_1.find_button_state("prediction"):
             self.GUI_pred.drawPredictions(room)
+
+        if self.button_simulation_1.find_button_state("real"):
+            self.GUI_room.draw_all_target(room.active_Target_list, room.coordinate_room)
+            self.GUI_room.draw_all_agentCam(room)
+
 
     def display_simulation_button(self):
         for button in self.button_simulation_1.list:

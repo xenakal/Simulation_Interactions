@@ -150,7 +150,7 @@ class RoomRepresentation:
          """
         for target_detected_id in Target_TargetEstimator.item_already_discovered_list:
             is_in_RoomRepresentation = False
-            all_TargetEstimator_for_target_id = Target_TargetEstimator.get_Target_list(target_detected_id)
+            all_TargetEstimator_for_target_id = Target_TargetEstimator.get_item_list(target_detected_id)
             last_TargetEstimator = all_TargetEstimator_for_target_id[-1]
 
             for target in self.active_Target_list:
@@ -159,7 +159,7 @@ class RoomRepresentation:
                     target.xc = last_TargetEstimator.item_position[0]
                     target.yc = last_TargetEstimator.item_position[1]
                     target.type = last_TargetEstimator.item_type
-                    target.evaluate_confidence(0.1,constants.get_time()-last_TargetEstimator.time_stamp,2)
+                    target.evaluate_confidence(0.1,constants.get_time()-last_TargetEstimator.time_stamp,1.2)
                     break
 
             if not is_in_RoomRepresentation:
@@ -178,17 +178,15 @@ class RoomRepresentation:
 
         for agent_detected_id in Agent_AgentEstimator.item_already_discovered_list:
             is_in_RoomRepresentation = False
-            all_TargetEstimator_for_target_id = Agent_AgentEstimator.get_Target_list(agent_detected_id)
+            all_TargetEstimator_for_target_id = Agent_AgentEstimator.get_item_list(agent_detected_id)
             last_AgentEstimator = all_TargetEstimator_for_target_id[-1]
 
             for agent in self.agentCams_representation_list:
                 camera = agent.camera_representation
                 if agent.id == agent_detected_id:
                     is_in_RoomRepresentation = True
-
                     agent.is_active = last_AgentEstimator.is_agent_active
-                    agent.evaluate_confidence(0.001,constants.get_time()-last_AgentEstimator.time_stamp)
-
+                    agent.evaluate_confidence(0.001,constants.get_time()-last_AgentEstimator.time_stamp,2)
                     camera.xc = last_AgentEstimator.item_position[0]
                     camera.yc = last_AgentEstimator.item_position[1]
                     #self.item_speeds = [0, 0]  # [ camera.vx,  camera.vy]
@@ -197,9 +195,7 @@ class RoomRepresentation:
                     camera.alpha = last_AgentEstimator.alpha
                     camera.beta = last_AgentEstimator.beta
                     camera.field_depth = last_AgentEstimator.field_depth
-                    camera.room = last_AgentEstimator.room
                     camera.is_active = last_AgentEstimator.is_camera_active
-                    camera.trajectory = last_AgentEstimator.trajectory
                     break
 
 

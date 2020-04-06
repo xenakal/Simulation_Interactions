@@ -43,7 +43,7 @@ class Message:
                                                         (ex "request","ack","nack","heartbeat","information", ...)
     """
 
-    def __init__(self, timestamp, sender_id, sender_signature, message_type, message, target_id=-1):
+    def __init__(self, timestamp, sender_id, sender_signature, message_type, message, item_ref=-1):
         """Message informations"""
         self.timestamp = timestamp
         self.signature = int(random.random() * 10000000000000000)
@@ -55,7 +55,7 @@ class Message:
         self.remaining_receiver = []
 
         """Content"""
-        self.targetRef = target_id
+        self.item_ref = item_ref
         self.message = message
         self.messageType = message_type
 
@@ -140,7 +140,7 @@ class Message:
             s = s.replace("\n", "")
             s = s.replace(" ", "")
 
-            attribut = re.split("Timestamp:|message#:|From:|sender#|Receiverlist:|Type:|target:|Message:", s)
+            attribut = re.split("Timestamp:|message#:|From:|sender#|Receiverlist:|Type:|item:|Message:", s)
             self.timestamp = float(attribut[1])
             self.signature = int(attribut[2])
             self.sender_id = int(attribut[3])
@@ -155,7 +155,7 @@ class Message:
                         print("error message class in parse_string()")
 
             self.messageType = attribut[6]
-            self.targetRef = attribut[7]
+            self.item_ref = attribut[7]
             self.message = attribut[8]
 
         except IndexError:
@@ -172,7 +172,7 @@ class Message:
         for receiver in self.receiver_id_and_signature:
             s3 = s3 + "To: " + str(receiver[0]) + " receiver#" + str(receiver[1]) + "\n"
 
-        s4 = 'Type: ' + str(self.messageType) + " target: " + str(self.targetRef) + " Message: "
+        s4 = 'Type: ' + str(self.messageType) + " item: " + str(self.item_ref) + " Message: "
         base = s1 + s2 + s3 + s4
         return base + str(self.message) + "\n"
 
