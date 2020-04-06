@@ -307,7 +307,6 @@ class AgentCam(AgentInteractingWithRoom):
         """
 
         dkf_info_string = self.memory.get_DKF_info_string(target_id)
-
         # message containing the DKF information to send
         message = MessageCheckACKNACK(constants.get_time(), self.id, self.signature,
                                       MessageTypeAgentCameraInteractingWithRoom.INFO_DKF, dkf_info_string, target_id)
@@ -328,11 +327,7 @@ class AgentCam(AgentInteractingWithRoom):
             When received, the filter associated with the tracked target is informed and can assimilate the new data.
         :param message: instance of Message class.
         """
-        pass
-        """
         info_string = message.message
-        print("received: ", info_string)
         concerned_target_id = int(message.targetRef)
         if info_string:  # if message not empty
             self.memory.process_DKF_info(concerned_target_id, info_string, constants.get_time())
-        """

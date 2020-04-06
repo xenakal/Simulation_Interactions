@@ -37,6 +37,8 @@ class KalmanPrediction:
         kalman_memory_element = [x_init, y_init, vx_init, vy_init, ax_init, ay_init, timestamp]
         # list to store the information
         self.kalman_memory = [kalman_memory_element]
+        # timestamp of last measurement received
+        self.prev_timestamp = timestamp
 
     def add_measurement(self, z, timestamp):
         """
@@ -59,8 +61,12 @@ class KalmanPrediction:
             self.reset_filter(*z)
             # memory reset as well
             self.kalman_memory = [kalman_memory_element]
-        self.filter.predict()
 
+        #dt = timestamp - self.prev_timestamp
+        #F = self.filter_model.model_F(dt)
+        #self.filter.predict(F=F)
+        #print(F)
+        self.filter.predict()
         if constants.DISTRIBUTED_KALMAN:
             self.filter.update(np.array(z[:KALMAN_MODEL_MEASUREMENT_DIM]), timestamp=timestamp)
         else:
@@ -104,12 +110,19 @@ class KalmanPrediction:
         current_state = self.filter.x
         current_P = self.filter.P
         dt = 0.4
-        for _ in range(NUMBER_PREDICTIONS):
-            new_state, new_P = predict(current_state, current_P, self.filter_model.model_F(dt), self.filter.Q)
-            predictions.append(new_state[0:KALMAN_MODEL_MEASUREMENT_DIM])
-            predictions.append(new_state)
-            current_state, current_P = update(current_state, current_P, new_state[0:KALMAN_MODEL_MEASUREMENT_DIM], self.filter.R, self.filter.H)
-            # current_state, current_P = update(current_state, current_P, new_state, self.filter.R, self.filter.H)
+        try:
+            for _ in range(NUMBER_PREDICTIONS):
+                new_state, new_P = predict(current_state, current_P, self.filter_model.model_F(dt), self.filter.Q)
+                predictions.append(new_state[0:KALMAN_MODEL_MEASUREMENT_DIM])
+                predictions.append(new_state)
+                current_state, current_P = update(new_state, new_P, new_state[0:KALMAN_MODEL_MEASUREMENT_DIM],
+                                                  self.filter.R, self.filter.H)
+        except ValueError:
+            print("error in prediction")
+            import sys
+            print(sys.exc_info())
+            print("current_state: ", current_state)
+
         return predictions
 
     def get_current_position(self):

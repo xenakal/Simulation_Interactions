@@ -3,40 +3,11 @@ import numpy as np
 from numpy import eye, dot, zeros, isscalar
 from filterpy.common import reshape_z
 from src.constants import TIME_SEND_READ_MESSAGE, TIME_PICTURE, STD_MEASURMENT_ERROR_POSITION
+import src.constants as constants
 import warnings
 
 DEFAULT_TIME_INCREMENT = TIME_PICTURE + TIME_SEND_READ_MESSAGE
 
-
-def npArray_to_String(array):
-    """
-    Converts a np array to a string that can be sent correctly using the mailbox
-    :param array: np array
-    :return: a string corresponding to this array
-    """
-    return np.array2string(array).replace(" ", "&").replace("\n", "$")
-
-
-def npString_to_array(string):
-    """
-    Converts a string parsed by npArray_to_String back to an np array again.
-    :param string: string output of npArray_to_String
-    :return: np array corresponding to this String
-    """
-
-
-
-def parse_errors_info_string(string):
-    """
-    :description:
-        Parses a string as encoded by the errors_info_toString function
-    :param string: a string encoded by the errors_info_toString function
-    :return: [state_error_info, variance_error_info]
-    """
-    [state_error_info_str, var_error_info_str] = string.split("+")
-    [_, state_error_info_value] = state_error_info_str.split("&")
-    [_, var_error_info_value] = var_error_info_str.split("&")
-    return float(state_error_info_value), float(var_error_info_value)
 
 
 class DistributedKalmanFilter(KalmanFilter):
@@ -75,9 +46,7 @@ class DistributedKalmanFilter(KalmanFilter):
             self.model_F = model_F  # function to get the transition matrix ( use: F = self.model_F(dt) )
 
     def predict(self, u=None, B=None, F=None, Q=None):
-        #super().predict(u, B, self.model_F(self.dt), Q)
-        dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
-        super().predict(u, B, self.model_F(dt), Q)
+        super().predict(u, B, F, Q)
         self.PI = self.inv(self.P)
         self.PI_prior = self.PI.copy()
 
@@ -155,6 +124,7 @@ class DistributedKalmanFilter(KalmanFilter):
         #       chaque nouvelle donée reçue.
         #       Par contre, if faut vérifier si la donnée est plus ou moins correcte en regardant si elle est à
         #       une distance plus grande que 2*STD_ERROR de l'estimation locale.
+
         [state_error_info, variance_error_info] = parse_errors_info_string(dkf_info_string)
 
         # assumption: no delay between observation being taken at node j and the data arriving at node i (here)
@@ -168,21 +138,31 @@ class DistributedKalmanFilter(KalmanFilter):
 
         ## xj_prior: x(tj|τi) = F(δt)x(τi|τi)
         xj_prior = dot(self.model_F(delta_t), self.x_prior)
-        # TODO: +dot(B, u)  --> mais faut voir s'il faut adapter les equa d'assimilation
 
         # data validation TODO: use a better method
-        for diff_pos_in_axis in np.fabs(xj_prior - self.x):
-            if diff_pos_in_axis > 2 * STD_MEASURMENT_ERROR_POSITION:
-                # invalid data
-                return
+        try:
+            for diff_pos_in_axis in np.fabs(xj_prior - self.x):
+                if diff_pos_in_axis > 2 * STD_MEASURMENT_ERROR_POSITION:
+                    # invalid data
+                    return
+        except ValueError:
+            print("error occured during assimilation of DKF data")
+            print("xj_prior = ", self.x)
+            print("x = ", self.x)
+            import sys
+            print(sys.exc_info())
 
         # PI(tj|tj) = PI(tj|τi) + variance_error_info
         self.PI_global = PIj_prior + variance_error_info
         self.P_global = self.inv(self.PI_global)
 
         # x(tj|tj) = P(tj|tj)[PI(tj|τi)x(tj|τi) + state_error_info]
-        self.x_global = dot(self.P_global, dot(PIj_prior, xj_prior) + state_error_info)
-
+        # TODO: cette ligne renvoie un truc de mauvaise taille visiblement
+        x_global_part1 = dot(PIj_prior, xj_prior)
+        x_global_part2 = x_global_part1 + state_error_info
+        self.x_global = dot(self.P_global, x_global_part2)
+        #self.x_global = dot(self.P_global, dot(PIj_prior, xj_prior) + state_error_info)
+        # self.x_global = self.x # todo:remove
         # udpate the state and covariance
         self.x = self.x_global.copy()
         self.PI = self.PI_global.copy()
@@ -190,7 +170,8 @@ class DistributedKalmanFilter(KalmanFilter):
 
     def state_error_info(self):
         RI = self.inv(self.R)
-        return dot(dot(self.H.T, RI), self.z_current)
+        state_error_info = dot(dot(self.H.T, RI), self.z_current)
+        return state_error_info
 
     def variance_error_info(self):
         RI = self.inv(self.R)
@@ -204,7 +185,84 @@ class DistributedKalmanFilter(KalmanFilter):
         """
         s1 = "StateErrorInfo=" + npArray_to_String(self.state_error_info())
         s2 = "VarianceErrorInfo=" + npArray_to_String(self.variance_error_info())
-        return s1 + "+" + s2
+        return s1 + "%" + s2
 
     def get_DKF_info_string(self):
         return self.errors_info_toString()
+
+
+def npArray_to_String(array):
+    """
+    Converts a np array to a string that can be sent correctly using the mailbox
+    :param array: np array
+    :return: a string corresponding to this array
+    """
+    return np.array2string(array).replace(" ", "&").replace("\n", "$")
+
+
+def npString_to_array(string):
+    """
+    Converts a string parsed by npArray_to_String back to an np array again.
+    :param string: string output of npArray_to_String
+    :return: np array corresponding to this String
+    """
+    formated_string = string.replace("$", "\n").replace("&", " ")[2:-2]
+    rows = formated_string.split("\n")
+    #print(rows, "& ", len(rows))
+    if len(rows) == 1:
+        return state_error_info_string_to_array(rows[0])
+    elif len(rows) == constants.KALMAN_MODEL_MEASUREMENT_DIM:
+        return var_error_info_string_to_array(rows)
+
+
+def state_error_info_string_to_array(row):
+    row = row.split(" ")
+    ret_arr = np.empty(4,)
+    index = 0
+    for elem in row:
+        if elem not in ["", "[", " "]:
+            ret_arr[index] = float(elem)
+            index += 1
+    return np.array(ret_arr)
+
+
+def var_error_info_string_to_array(rows):
+    ret_arr = np.empty((4, 4))
+    row_index = 0
+    for row in rows:
+        row = row.split(" ")
+        column_index = 0
+        for elem in row:
+            if elem not in ["", "[", " "]:
+                if elem[-1] == "]":
+                    elem = elem[:-1]
+                if elem[0] == "[":
+                    elem = elem[1:]
+                ret_arr[row_index, column_index] = float(elem)
+                column_index += 1
+        row_index += 1
+
+    return ret_arr.transpose()
+
+
+def parse_errors_info_string(string):
+    """
+    :description:
+        Parses a string as encoded by the errors_info_toString function
+    :param string: a string encoded by the errors_info_toString function
+    :return: [state_error_info, variance_error_info]
+    """
+    try:
+        [state_error_info_str, var_error_info_str] = string.split("%")
+        [_, state_error_info_value] = state_error_info_str.split("=")
+        [_, var_error_info_value] = var_error_info_str.split("=")
+        state_error_info_value = npString_to_array(state_error_info_value)
+        var_error_info_value = npString_to_array(var_error_info_value)
+        return state_error_info_value, var_error_info_value
+    except ValueError:
+        print("error occured during parsing of DKF string")
+        print("string to parse: ", string)
+        import sys
+        print(sys.exc_info())
+        exit(1)
+
