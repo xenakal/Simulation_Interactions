@@ -444,15 +444,15 @@ class GUI_create_map:
 
         "draw the cam"
         if on and self.button_create_map_3.find_button_state(Button_name.OBJECT_ADD):
-            cam = MobileCamera(self.new_room, 0, x_new, y_new, self.alpha_default, self.beta_default, [],
-                               field_depth=self.depth_default)
+            cam = MobileCamera(0, x_new, y_new, self.alpha_default, self.beta_default, [],
+                               self.depth_default)
             self.GUI_room.draw_one_camera(cam)
 
         "add the cam to the room"
         if pressed:
             if self.button_create_map_3.find_button_state(Button_name.OBJECT_ADD):
                 self.new_room.add_create_AgentCam(x_new, y_new, self.alpha_default, self.beta_default, [],
-                                                  d_max=self.depth_default, color=0, t_add=-1, t_del=-1, type=label,
+                                                  field_depth=self.depth_default, color=0, t_add=-1, t_del=-1, type=label,
                                                   vx_vy_min=self.vx_min_default,
                                                   vx_vy_max=self.vx_max_default, v_alpha_min=self.v_alpha_min_default,
                                                   v_alpha_max=self.v_alpha_max_default,
@@ -461,9 +461,9 @@ class GUI_create_map:
                                                   v_beta_max=self.v_beta_max_default)
 
             elif self.button_create_map_3.find_button_state(Button_name.OBJECT_DEL):
-                for agent in self.new_room.agentCams_list:
+                for agent in self.new_room.information_simulation.agentCams_list:
                     if math.fabs(x_new - agent.camera.xc) < 0.2 and math.fabs(y_new - agent.camera.yc) < 0.2:
-                        self.new_room.agentCams_list.remove(agent)
+                        self.new_room.information_simulation.agentCams_list.remove(agent)
 
     def add_trajectories(self, x_new, y_new, pressed, on):
         self.add_trajectories_target(x_new, y_new, pressed, on)
@@ -524,7 +524,7 @@ class GUI_create_map:
             self.button_create_map_trajectoire.set_buttons_state(Button_name.TRAJECTORY_CLEAN, False)
             self.button_create_map_trajectoire.set_buttons_state(Button_name.TRAJECTORY_SAVE, False)
 
-            for agent in self.new_room.agentCams_list:
+            for agent in self.new_room.information_simulation.agentCams_list:
                 camera = agent.camera
                 if MobileCameraType.RAIL == camera.camera_type:
 
