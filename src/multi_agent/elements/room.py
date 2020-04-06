@@ -455,7 +455,7 @@ class Room(RoomRepresentation):
                               vx_vy_max, v_alpha_min, v_alpha_max, delta_beta, v_beta_min, v_beta_max)
         agentCam = aCam.AgentCam(camera, t_add, t_del)
         self.information_simulation.agentCams_list.append(agentCam)
-        self.active_AgentCams_list.append(agentCam)
+        self.agentCams_representation_list.append(agentCam)
 
     def add_Target(self, target):
         """"
