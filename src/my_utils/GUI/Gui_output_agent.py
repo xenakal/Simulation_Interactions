@@ -32,7 +32,7 @@ class GUI_user_output:
 
         if self.button_simulation_1.find_button_state("real"):
             self.GUI_room.draw_all_target(room.active_Target_list, room.coordinate_room)
-            self.GUI_room.draw_all_agentCam(room)
+            self.GUI_room.draw_all_agentCam(room.agentCams_representation_list)
 
 
     def display_simulation_button(self):

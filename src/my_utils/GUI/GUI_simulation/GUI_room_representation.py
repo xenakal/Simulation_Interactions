@@ -54,7 +54,7 @@ class GUI_room_representation():
 
     def draw_agentCam_room_description(self, room, agents_to_display, agentType,allAgents=False):
         for agent in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
-            self.draw_all_agentCam(agent.room_representation)
+            self.draw_all_agentCam(agent.room_representation.agentCams_representation_list)
 
     def draw_link_cam_region_room_description(self, room, agents_to_display, agentType,allAgents=False):
         for agent_to_display in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
@@ -138,8 +138,8 @@ class GUI_room_representation():
                                                                        self.y_offset + int(position[1] * self.scale_y)),
                                            1)
 
-    def draw_all_agentCam(self, room):
-        for agent in room.agentCams_representation_list:
+    def draw_all_agentCam(self, cam_list):
+        for agent in cam_list:
             camera = cam.get_camera_agentCam_vs_agentCamRepresentation(agent)
             label = self.font.render(str(camera.id), 10, CAMERA)
             self.screen.blit(label, (
