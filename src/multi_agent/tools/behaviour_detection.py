@@ -18,7 +18,7 @@ class TargetBehaviourAnalyser:
     """
 
     def __init__(self, memory):
-        self.room_memory = memory.memory_agent
+        self.room_memory = memory.memory_agent_from_target
 
     def is_target_stopped(self, target_id, delta_t, n, thresh):
         """
@@ -110,7 +110,7 @@ class TargetBehaviourAnalyser:
             :note
                 1.(boolean list) state -- True if the target is stopped for the time t - deltaT(i)
          """
-        list_to_check = self.room_memory.get_Target_list(target_id)
+        list_to_check = self.room_memory.get_item_list(target_id)
         list_len = len(list_to_check)
 
         state = []
@@ -150,7 +150,7 @@ class TargetBehaviourAnalyser:
                 1. (boolean) fix -- true if the target seems to be stationary otherwise false
         """
 
-        list_to_check = self.room_memory.get_Target_list(target_id)
+        list_to_check = self.room_memory.get_item_list(target_id)
         list_len = len(list_to_check)
         if n <= list_len:
             list_to_check = list_to_check[list_len - n - t:list_len - t]
@@ -158,8 +158,8 @@ class TargetBehaviourAnalyser:
             x = []
             y = []
             for item in list_to_check:
-                x.append(item.target_position[0])
-                y.append(item.target_position[1])
+                x.append(item.item_position[0])
+                y.append(item.item_position[1])
 
             x_sdt = np.std(x)
             y_sdt = np.std(y)
@@ -195,7 +195,7 @@ class TargetBehaviourAnalyser:
             In fact the camera is not able to give data outside from its range
         """
 
-        list_to_check = self.room_memory.get_Target_list(targetID)
+        list_to_check = self.room_memory.get_item_list(targetID)
         field = []
         in_field = []
         out_field = []
@@ -209,7 +209,7 @@ class TargetBehaviourAnalyser:
 
             for item in list_to_check:
                 field.append(
-                    cam.is_x_y_radius_in_field_not_obstructed(item.target_position[0], item.target_position[1]))
+                    cam.is_x_y_radius_in_field_not_obstructed(item.item_position[0], item.item_position[1]))
                 in_field.append(True)
                 out_field.append(False)
 

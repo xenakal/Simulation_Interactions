@@ -1,4 +1,5 @@
 import mailbox
+import math
 from src.multi_agent.communication.message import *
 from src.my_utils.my_IO.IO_data import *
 from src import constants
@@ -10,7 +11,33 @@ class AgentType:
     AGENT_USER = 100
 
 
-class Agent:
+class AgentRepresentation:
+    def __init__(self, id, type):
+        self.id = id + int(type)
+        self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
+
+        self.type = type
+        self.is_active = False
+        self.color = 0
+
+        self.confidence = -1
+
+    def update_from_agent(self, agent):
+        self.id = agent.id
+        self.signature = agent.signature
+
+        self.type = agent.type
+        self.is_active = agent.is_active
+        self.color = agent.color
+
+        self.confidence = -1
+
+    def evaluate_confidence(self,error, delta_time,time_constants):
+        self.confidence = math.pow((1 / error), 2) * math.exp(-delta_time*time_constants)
+
+
+
+class Agent(AgentRepresentation):
     """
         Class Agent.
 
@@ -38,14 +65,11 @@ class Agent:
     def __init__(self, id, type, t_add, t_del, color=0):
         """Initialisation"""
 
+        super().__init__(id, type)
         "Attributes"
-        self.id = id + int(type)
-        self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
-        self.type = type
         self.color = color
         self.t_add = t_add
         self.t_del = t_del
-        self.is_activated = False
         self.number_of_time_passed = 0
 
         "Communication"
@@ -111,8 +135,8 @@ class Agent:
             self.info_message_received.add_message(rec_mes)
             self.log_message.debug('RECEIVED : \n' + rec_mes.to_string())
             self.log_message.info(
-                'RECEIVED : at %.02f' % rec_mes.timestamp + " s " + str(rec_mes.messageType) + " target : " + str(
-                    rec_mes.targetRef) + " from :" + str(rec_mes.sender_id))
+                'RECEIVED : at %.02f' % rec_mes.timestamp + " s " + str(rec_mes.messageType) + " item : " + str(
+                    rec_mes.item_ref) + " from :" + str(rec_mes.sender_id))
 
     def receive_messages(self):
         """
@@ -185,7 +209,7 @@ class Agent:
                     if m.is_message_sent_to_every_receiver():
                         self.log_message.info(
                             'SENT : at %.02f' % m.timestamp + " s " + str(m.messageType) + " target : " + str(
-                                m.targetRef) + " to :" + str(m.receiver_id_and_signature))
+                                m.item_ref) + " to :" + str(m.receiver_id_and_signature))
                         self.log_message.debug('SENT     : \n' + m.to_string())
                         succes = 0
                     else:
@@ -266,11 +290,11 @@ class AgentStatistic:
 
         tab0 = []
         tab1 = []
-        for agent in room.agentCams_list:
+        for agent in room.agentCams_representation_list:
             tab0.append([agent.id, 0])
             tab1.append([agent.id, 0])
 
-        for agent in room.agentUser_list:
+        for agent in room.agentUser_representation_list:
             tab0.append([agent.id, 0])
             tab1.append([agent.id, 0])
 

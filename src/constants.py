@@ -15,14 +15,14 @@ USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
 
 INCLUDE_ERROR = True
-LOG_LEVEL = logging.DEBUG #logging.INFO  #
+LOG_LEVEL = logging.INFO  #
 
 """Options for Kalman Filter-----------------------------------------------------------------------------------------"""
 DISTRIBUTED_KALMAN = False
 KALMAN_MODEL_MEASUREMENT_DIM = 4
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
-DATA_TO_SEND = "none" #ac.AgentCameraCommunicationBehaviour.NONE
+DATA_TO_SEND = "none"#ac.AgentCameraCommunicationBehaviour.NONE
 
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
 WIDTH_ROOM = 8  # [m]
@@ -42,8 +42,10 @@ TIME_STOP = 10  # s
 TIME_BTW_FRAME = .1
 TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)
 """Agent"""
-TIME_BTW_HEARTBEAT = 1 / SCALE_TIME
-TIME_MAX_BTW_HEARTBEAT = 3 / SCALE_TIME
+TIME_BTW_HEARTBEAT = 3 / SCALE_TIME
+TIME_MAX_BTW_HEARTBEAT = 9 / SCALE_TIME
+TIME_BTW_AGENT_ESTIMATOR = 0.3/ SCALE_TIME
+TIME_BTW_TARGET_ESTIMATOR = 0.5/SCALE_TIME
 "Agent-Cam"
 TIME_PICTURE = (1.5 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 TIME_SEND_READ_MESSAGE = (0.3 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
@@ -108,6 +110,10 @@ TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp',
                                    'agent_id', 'agent_signature', 'target_id', 'target_signature',
                                    'target_type', 'target_x', 'target_y', 'target_vx', 'target_vy',
                                    'target_ax', 'target_ay', 'target_radius']
+
+CAMERA_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp','agent_id','agent_signature','camera_id',
+                                   'camera_signature','camera_type','camera_x','camera_y', 'camera_vx', 'camera_vy',
+                                    'camera_ax', 'camera_ay','alpha', 'beta']
 
 """Path to save data and create plot"""
 
@@ -304,3 +310,5 @@ class ResultsPath:
     @classproperty
     def SAVE_LOAD_PLOT_MEMORY_ALL_AGENT(cls):
         return ResultsPath.PLOT_MEMORY_ALL_AGENT + "/"
+
+

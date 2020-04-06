@@ -51,12 +51,12 @@ def rectiligne_trajectory(target, dist_min, delta_time):
                 it does not avoid obstacle.
     """
     if  not target.type == TargetType.SET_FIX:
-        (x_goal, y_goal) = target.trajectory_position[target.number_of_position_reached]
+        (x_goal, y_goal) = target.trajectory[target.number_of_position_reached]
 
         '''Updating the postion we want to reach when close enough '''
         if math.fabs(target.xc - x_goal) <= dist_min and math.fabs(
                 target.yc - y_goal) <= dist_min and target.number_of_position_reached < len(
-                target.trajectory_position) - 1:
+                target.trajectory) - 1:
             target.number_of_position_reached += 1
 
         '''computing the speeds to reach the goal'''

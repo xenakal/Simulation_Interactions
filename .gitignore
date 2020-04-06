@@ -1,5 +1,8 @@
 .idea/
 
+**/__pycache__/
+**/__init__/
+
 src/mailbox/*
 
 results/*
@@ -8,17 +11,7 @@ results/*
 maps/*
 !maps/explication.md
 
-src/multi_agent/elements/__pycache__/*
-src/multi_agent/agent/__pycache__/
-src/multi_agent/communication/__pycache__/
-src/multi_agent/__pycache__/*
-src/my_utils/__pycache__/*
-src/my_utils/GUI/GUI_simulation/__pycache__/*
-*/__pycache__/*
-*/*/__pycache__/
-__pycache__/*
-__init__
-*/__init__
 *.pyc
+
 log/*
 venv/*

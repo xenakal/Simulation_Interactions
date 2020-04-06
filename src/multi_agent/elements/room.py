@@ -1,15 +1,13 @@
 import numpy
 import random
 from src.multi_agent.agent.agent import AgentType
-from src.multi_agent.elements.camera import Camera
+from src.multi_agent.elements.mobile_camera import MobileCamera, MobileCameraType
 from src.multi_agent.elements.target import TargetType, TargetRepresentation, Target
 # from multi_agent.agent_camera import *
 # from multi_agent.agent_user import *
-import src.multi_agent.agent.agent_interacting_room_camera
-import src.multi_agent.agent.agent_interacting_room_user
+import src.multi_agent.agent.agent_interacting_room_camera as aCam
+import src.multi_agent.agent.agent_interacting_room_user as aUser
 from src import constants
-
-
 
 class InformationRoomSimulation:
     """
@@ -35,13 +33,11 @@ class InformationRoomSimulation:
         self.coordinate_room = numpy.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])  # x y l h
 
         "Target with their time of apparition and disparition "
-        self.Target_list = []
+        self.target_list = []
+        self.agentCams_list = []
+        self.agentUser_list = []
 
-        "Trajectories proposed to the targets"
-        self.trajectories = []
-        self.trajectories_number = []
-
-    def add_create_Target(self, x, y, vx, vy,ax,ay, trajectory_type, trajectory, type, radius, t_add, t_del):
+    def add_create_Target(self, x, y, vx, vy, ax, ay, trajectory_type, trajectory, type, radius, t_add, t_del):
         """"
                :param
                    1. (int) x                               -- x value of the center
@@ -62,10 +58,10 @@ class InformationRoomSimulation:
                 :notes
                         fells free to write some comments.
         """
-        target = Target(-1,x, y, vx, vy,ax,ay,trajectory_type, trajectory, type, radius, t_add, t_del)
+        target = Target(-1, x, y, vx, vy, ax, ay, trajectory_type, trajectory, type, radius, t_add, t_del)
         self.add_Target(target)
 
-    def add_Target(self,target):
+    def add_Target(self, target):
         """"
                :param
                    1. (Target) target  -- a target object
@@ -73,22 +69,9 @@ class InformationRoomSimulation:
                 :notes
                         fells free to write some comments.
         """
-        number_of_target =len(self.Target_list)
+        number_of_target = len(self.target_list)
         target.id = number_of_target
-        self.Target_list.append(target)
-
-    def init_trajectories(self, all_trajectories_loaded):
-        """"
-            :param
-                 1. (list) all_trajectories_loaded  -- [(trajectory_number,trajectory),(int, [(int,int),...]),]
-
-            :notes
-                 fells free to write some comments.
-        """
-        for num_traj in all_trajectories_loaded:
-            (num, traj) = num_traj
-            self.trajectories.append(num_traj)
-            self.trajectories_number.append(num)
+        self.target_list.append(target)
 
 
 class RoomRepresentation:
@@ -122,10 +105,8 @@ class RoomRepresentation:
         self.active_Target_list = []
 
         """Agent informations"""
-        self.agentCams_list = []
-        self.active_AgentCams_list = []
-        self.agentUser_list = []
-        self.active_AgentUser_list = []
+        self.agentCams_representation_list = []
+        self.agentUser_representation_list = []
 
         """Others attributes"""
         self.color = color
@@ -145,15 +126,19 @@ class RoomRepresentation:
             :param
                 1. (Room) room -- object
         """
-        for target in room.information_simulation.Target_list:
+        for target in room.information_simulation.target_list:
             if target.type == TargetType.SET_FIX:
                 self.add_targetRepresentation_from_target(target)
 
-        for agent in room.agentCams_list:
-            self.agentCams_list.append(agent)
+        for agent in room.information_simulation.agentCams_list:
+                agentCam_representation = aCam.AgentCamRepresentation(0, 0)
+                agentCam_representation.update_from_agent(agent)
+                self.agentCams_representation_list.append(agentCam_representation)
 
-        for agent in room.agentUser_list:
-            self.agentUser_list.append(agent)
+        for agent in room.information_simulation.agentUser_list:
+            agentUser_representation = aUser.AgentUserRepresentation(0,0)
+            agentUser_representation.update_from_agent(agent)
+            self.agentUser_representation_list.append(agentUser_representation)
 
     def update_target_based_on_memory(self, Target_TargetEstimator):
         """
@@ -163,23 +148,62 @@ class RoomRepresentation:
               :param
                   1. (list) Target_TargetEstimator -- see file memory, class Target_TargetEstimator
          """
-        for Target_detected_id in Target_TargetEstimator.Target_already_discovered_list:
+        for target_detected_id in Target_TargetEstimator.item_already_discovered_list:
             is_in_RoomRepresentation = False
-            all_TargetEstimator_for_target_id = Target_TargetEstimator.get_Target_list(Target_detected_id)
-            last_TargetEstimator = all_TargetEstimator_for_target_id[len(all_TargetEstimator_for_target_id) - 1]
+            all_TargetEstimator_for_target_id = Target_TargetEstimator.get_item_list(target_detected_id)
+            last_TargetEstimator = all_TargetEstimator_for_target_id[-1]
 
             for target in self.active_Target_list:
-                if target.id == Target_detected_id:
+                if target.id == target_detected_id:
                     is_in_RoomRepresentation = True
-                    target.xc = last_TargetEstimator.target_position[0]
-                    target.yc = last_TargetEstimator.target_position[1]
-                    target.type = last_TargetEstimator.target_type
+                    target.xc = last_TargetEstimator.item_position[0]
+                    target.yc = last_TargetEstimator.item_position[1]
+                    target.type = last_TargetEstimator.item_type
+                    target.evaluate_confidence(0.1,constants.get_time()-last_TargetEstimator.time_stamp,1.2)
                     break
 
             if not is_in_RoomRepresentation:
-                self.add_targetRepresentation(last_TargetEstimator.target_id, last_TargetEstimator.target_position[0],
-                                              last_TargetEstimator.target_position[1],
-                                              last_TargetEstimator.target_radius, last_TargetEstimator.target_type)
+                self.add_targetRepresentation(last_TargetEstimator.item_id, last_TargetEstimator.item_position[0],
+                                              last_TargetEstimator.item_position[1],
+                                              last_TargetEstimator.target_radius, last_TargetEstimator.item_type)
+
+    def update_agent_based_on_memory(self, Agent_AgentEstimator):
+        """
+              :description
+                 Use agent's TargetEstimator to modify the RoomRepresentation
+
+              :param
+                  1. (list) Target_TargetEstimator -- see file memory, class Target_TargetEstimator
+         """
+
+        for agent_detected_id in Agent_AgentEstimator.item_already_discovered_list:
+            is_in_RoomRepresentation = False
+            all_TargetEstimator_for_target_id = Agent_AgentEstimator.get_item_list(agent_detected_id)
+            last_AgentEstimator = all_TargetEstimator_for_target_id[-1]
+
+            for agent in self.agentCams_representation_list:
+                camera = agent.camera_representation
+                if agent.id == agent_detected_id:
+                    is_in_RoomRepresentation = True
+                    agent.is_active = last_AgentEstimator.is_agent_active
+                    agent.evaluate_confidence(0.001,constants.get_time()-last_AgentEstimator.time_stamp,2)
+                    camera.xc = last_AgentEstimator.item_position[0]
+                    camera.yc = last_AgentEstimator.item_position[1]
+                    #self.item_speeds = [0, 0]  # [ camera.vx,  camera.vy]
+                    #self.item_acceleration = [0, 0]  # [ camera.ax,  camera.ay]
+                    camera.type = last_AgentEstimator.item_type
+                    camera.alpha = last_AgentEstimator.alpha
+                    camera.beta = last_AgentEstimator.beta
+                    camera.field_depth = last_AgentEstimator.field_depth
+                    camera.is_active = last_AgentEstimator.is_camera_active
+                    break
+
+
+
+            if not is_in_RoomRepresentation:
+                self.add_agentCamRepresentation(last_AgentEstimator)
+
+
 
     def add_targetRepresentation_from_target(self, target):
         """
@@ -190,7 +214,7 @@ class RoomRepresentation:
                 :param
                     1. (Target) target -- object, see class Target
         """
-        self.add_targetRepresentation(target.id, target.xc, target.yc, target.radius, target.type)
+        self.add_targetRepresentation(target.id, target.xc, target.yc,target.radius, target.type)
 
     def add_targetRepresentation(self, id, x, y, radius, label):
         """
@@ -206,21 +230,21 @@ class RoomRepresentation:
         """
         self.active_Target_list.append(TargetRepresentation(id, x, y, radius, label, self.color))
 
-    def get_multiple_Agent_with_id(self, id_list, agent_type):
+    def add_agentCamRepresentation(self, agentEstimator):
         """
+            :description
+                 create and add a TargetRepresentation to the RoomRepresentation
+
             :param
-                 1. (list) id_list                  -- list from id we want to get
-                 2. (AgentType) agent_type          -- see class
-
-            :return
-                1. list of agents with ids in the list provided in the argument
-
+                  1. (int) id                  -- numerical value to recognize the target easily
+                  2. (int) x                   -- x value of the center of the targetRepresentation
+                  3. (int) y                   -- y value of the center of the targetRepresentation
+                  4. (int) radius                -- radius from the center
+                  5. (string) type             -- "fix","target", to make the difference between known and unkown target
         """
-
-        if agent_type == AgentType.AGENT_CAM:
-            return [agent for agent in self.active_AgentCams_list if agent.id in id_list]
-        elif agent_type == AgentType.AGENT_USER:
-            return [agent for agent in self.active_AgentUser_list if agent.id in id_list]
+        agentCam_representation = aCam.AgentCamRepresentation(0, 0)
+        agentCam_representation.update_from_agent_estimator(agentEstimator)
+        self.agentCams_representation_list.append(agentCam_representation)
 
     def get_multiple_target_with_id(self, id_list):
         """
@@ -246,20 +270,6 @@ class RoomRepresentation:
                 return target
         return None
 
-    def get_Agent_with_id(self, agent_id):
-        """
-            :param
-                 1. (int) agent_id  -- target's id
-            :return
-                1. None if not found
-                2. Agent else
-
-        """
-        for agent in self.active_AgentCams_list:
-            if agent.id == agent_id:
-                return agent
-        return None
-
 
 class Room(RoomRepresentation):
     """
@@ -281,8 +291,11 @@ class Room(RoomRepresentation):
             :notes
                 fells free to write some comments.
     """
+
     def __init__(self):
         super().__init__(0)
+        self.active_AgentCams_list = []
+        self.active_AgentUser_list = []
         self.information_simulation = InformationRoomSimulation()
 
     def init_room(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del):
@@ -303,41 +316,6 @@ class Room(RoomRepresentation):
                  it will fill the information_simulation
            """
 
-        #self.information_simulation.init_Target(x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add,
-                                               # t_del)
-
-    def init_AgentCam(self, x, y, orientation_alpha, field_opening_beta, is_fix):
-        """
-            :description
-                Create and add AgentCam to the room
-
-            :param
-                1. (int_list) x                               -- x values of the center
-                2. (int_list) y                               -- y values of the center
-                3. (int_list) orientation_alpha               -- alpha, orientation from the camera, -180 to 180 degrees
-                4. (int_list) field_opening_beta              -- beta, field from the camera, 0 to 180 degrees
-                5. (int_list) is_fix                          -- 0 = camera can rotate, 1 = cam orientation is fix
-        """
-        for n in range(len(x)):
-            self.add_create_AgentCam(x[n], y[n], orientation_alpha[n], field_opening_beta[n], is_fix[n])
-
-    def add_create_AgentCam(self, cam_x, cam_y, cam_alpha, cam_beta, fix):
-        """
-            :description
-                Create and add AgentCam to the room
-
-            :param
-                1. (int) x                               -- x values of the center
-                2. (int) y                               -- y values of the center
-                3. (int) orientation_alpha               -- alpha, orientation from the camera, -180 to 180 degrees
-                4. (int) field_opening_beta              -- beta, field from the camera, 0 to 180 degrees
-                5. (int) is_fix                          -- 0 = camera can rotate, 1 = cam orientation is fix
-        """
-
-        number_AgentCam = len(self.agentCams_list)
-        camera = Camera(self, number_AgentCam, cam_x, cam_y, cam_alpha, cam_beta, fix)
-        self.agentCams_list.append(src.multi_agent.agent.agent_interacting_room_camera.AgentCam(camera))
-
     def add_AgentCam(self, agent):
         """
             :description
@@ -350,12 +328,9 @@ class Room(RoomRepresentation):
                 4. (int) field_opening_beta              -- beta, field from the camera, 0 to 180 degrees
                 5. (int) is_fix                          -- 0 = camera can rotate, 1 = cam orientation is fix
         """
-
-        number_AgentCam = len(self.agentCams_list)
-
         agent.camera.id = agent.id
-        self.agentCams_list.append(agent)
-
+        self.information_simulation.agentCams_list.append(agent)
+        self.agentCams_representation_list = self.active_AgentCams_list
 
     def init_AgentUser(self, number=1):
         """
@@ -366,20 +341,11 @@ class Room(RoomRepresentation):
                 1. (int) number -- number of agent to be created, by default 1
         """
         for n in range(number):
-            number_AgentUser = len(self.agentUser_list)
-            self.agentUser_list.append(src.multi_agent.agent.agent_interacting_room_user.AgentUser())
-        self.active_AgentUser_list = self.agentUser_list
+            agent = aUser.AgentUser()
+            self.information_simulation.agentUser_list.append(agent)
 
-
-    def init_trajectories(self, all_trajectories_loaded):
-        """
-            :description
-                Add fake trajectories to the room
-
-             :param
-                1. (list) all_trajectories_loaded  -- [(trajectory_number,trajectory),(int, [(int,int),...]),]
-         """
-        self.information_simulation.init_trajectories(all_trajectories_loaded)
+        self.active_AgentUser_list = self.information_simulation.agentUser_list
+        self.agentUser_representation_list = self.active_AgentUser_list
 
     def add_del_target_timed(self):
         """
@@ -387,14 +353,15 @@ class Room(RoomRepresentation):
                 Add and remove target from active_Target_list for given time
         """
 
-        for target in self.information_simulation.Target_list:
-            if target.t_add[target.number_of_time_passed] <= constants.get_time() <= target.t_del[target.number_of_time_passed] and not target.is_on_the_map:
+        for target in self.information_simulation.target_list:
+            if target.t_add[target.number_of_time_passed] <= constants.get_time() <= target.t_del[
+                target.number_of_time_passed] and not target.is_on_the_map:
                 target.is_on_the_map = True
                 self.active_Target_list.append(target)
 
             elif constants.get_time() > target.t_del[target.number_of_time_passed] and target.is_on_the_map:
-                if target.number_of_time_passed < len(target.t_add)-1:
-                    target.number_of_time_passed = target.number_of_time_passed+1
+                if target.number_of_time_passed < len(target.t_add) - 1:
+                    target.number_of_time_passed = target.number_of_time_passed + 1
                 target.is_on_the_map = False
                 self.active_Target_list.remove(target)
 
@@ -403,35 +370,36 @@ class Room(RoomRepresentation):
             :description
                 Add and remove target from active_Target_list for given time
         """
-        for agent in self.agentCams_list:
+        for agent in self.information_simulation.agentCams_list:
             camera = agent.camera
-            if camera.t_add[camera.number_of_time_passed] <= constants.get_time() <= camera.t_del[camera.number_of_time_passed] and not camera.isActive:
-                camera.isActive = True
+            if camera.t_add[camera.number_of_time_passed] <= constants.get_time() <= camera.t_del[
+                camera.number_of_time_passed] and not camera.is_active:
+                camera.is_active = True
                 agent.log_main.info("camera of a agent %d is activated at %.02f s" % (agent.id, constants.get_time()))
-                #self.active_AgentCams_list.append(agent)
 
-            elif constants.get_time() > camera.t_del[camera.number_of_time_passed] and camera.isActive:
-                if camera.number_of_time_passed < len(camera.t_add)-1:
-                    camera.number_of_time_passed = camera.number_of_time_passed+1
-                camera.isActive = False
-                agent.log_main.info("camera of a agent %d is desactivated at %.02f s" % (agent.id, constants.get_time()))
-                #self.active_AgentCams_list.remove(agent)
+            elif constants.get_time() > camera.t_del[camera.number_of_time_passed] and camera.is_active:
+                if camera.number_of_time_passed < len(camera.t_add) - 1:
+                    camera.number_of_time_passed = camera.number_of_time_passed + 1
+                camera.is_active = False
+                agent.log_main.info(
+                    "camera of a agent %d is desactivated at %.02f s" % (agent.id, constants.get_time()))
 
     def des_activate_agentCam_timed(self):
         """
             :description
                 Add and remove target from active_Target_list for given time
         """
-        for agent in self.agentCams_list:
-            if agent.t_add[agent.number_of_time_passed] <= constants.get_time() <= agent.t_del[agent.number_of_time_passed] and not agent.is_activated:
-                agent.is_activated = True
+        for agent in self.information_simulation.agentCams_list:
+            if agent.t_add[agent.number_of_time_passed] <= constants.get_time() <= agent.t_del[
+                agent.number_of_time_passed] and not agent.is_active:
+                agent.is_active = True
                 self.active_AgentCams_list.append(agent)
                 agent.log_main.info("Agent %d is activated at %.02f s" % (agent.id, constants.get_time()))
 
-            elif constants.get_time() > agent.t_del[agent.number_of_time_passed] and agent.is_activated:
-                if agent.number_of_time_passed < len(agent.t_add)-1:
-                    agent.number_of_time_passed = agent.number_of_time_passed+1
-                agent.is_activated = False
+            elif constants.get_time() > agent.t_del[agent.number_of_time_passed] and agent.is_active:
+                if agent.number_of_time_passed < len(agent.t_add) - 1:
+                    agent.number_of_time_passed = agent.number_of_time_passed + 1
+                agent.is_active = False
                 self.active_AgentCams_list.remove(agent)
                 agent.log_main.info("Agent %d is desactivated at %.02f s" % (agent.id, constants.get_time()))
 
@@ -456,7 +424,8 @@ class Room(RoomRepresentation):
                 :notes
                     !!! No effect on active_Target_list
         """
-        self.information_simulation.add_create_Target(x, y, vx, vy,0,0, trajectory_type, trajectory, type, radius, t_add, t_del)
+        self.information_simulation.add_create_Target(x, y, vx, vy, 0, 0, trajectory_type, trajectory, type, radius,
+                                                      t_add, t_del)
 
     def add_Target(self, target):
         """"
@@ -480,3 +449,33 @@ class Room(RoomRepresentation):
                     !!! No effect on active_Target_list
         """
         self.information_simulation.add_Target(target)
+
+    def get_multiple_Agent_with_id(self, id_list, agent_type):
+        """
+            :param
+                 1. (list) id_list                  -- list from id we want to get
+                 2. (AgentType) agent_type          -- see class
+
+            :return
+                1. list of agents with ids in the list provided in the argument
+
+        """
+
+        if agent_type == AgentType.AGENT_CAM:
+            return [agent for agent in self.active_AgentCams_list if agent.id in id_list]
+        elif agent_type == AgentType.AGENT_USER:
+            return [agent for agent in self.active_AgentUser_list if agent.id in id_list]
+
+    def get_Agent_with_id(self, agent_id):
+        """
+            :param
+                 1. (int) agent_id  -- target's id
+            :return
+                1. None if not found
+                2. Agent else
+
+        """
+        for agent in self.active_AgentCams_list:
+            if agent.id == agent_id:
+                return agent
+        return None

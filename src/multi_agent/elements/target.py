@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import random
 import re
+import math
 from src import constants
-
 
 class TargetMotion:
     FIX = 0
@@ -62,6 +62,9 @@ class TargetRepresentation:
         self.radius = radius
         self.type = type
         self.color = color
+        self.confidence_pos = -1
+        self.priority_level = 0
+
 
         "Default values"
         if color == 0:
@@ -69,6 +72,9 @@ class TargetRepresentation:
             g = random.randrange(20, 230, 1)
             b = random.randrange(20, 255, 1)
             self.color = (r, g, b)
+
+    def evaluate_confidence(self, error, delta_time,time_constant):
+        self.confidence_pos = (1 / math.pow(error, 2)) * math.exp(-delta_time*time_constant)
 
     def to_string(self):
         """
@@ -152,7 +158,7 @@ class Target(TargetRepresentation):
         self.ax = ax
         self.ay = ay
 
-        self.trajectory_position = trajectory
+        self.trajectory = trajectory
         self.all_position = []
 
         # Apparition and disparition times
@@ -177,7 +183,7 @@ class Target(TargetRepresentation):
            self.t_del = [1000]
 
         if trajectory == -1:
-            self.trajectory_position = [(x,y)]
+            self.trajectory = [(x, y)]
 
     def save_position(self):
         """
@@ -193,7 +199,7 @@ class Target(TargetRepresentation):
         s0 = "x:%0.2f y:%0.2f vx:%0.2f vy:%0.2f r:%0.2f"%(self.xc,self.yc,self.vx,self.vy,self.radius)
         s1 = " target_type:%d tj_type:%d"%(self.type,1)
         s2 =" t_add:"+str(self.t_add)+" t_del:"+str(self.t_del)
-        s3 =" trajectory:"+str(self.trajectory_position)
+        s3 =" trajectory:"+str(self.trajectory)
         return s0 + s1 + s2 + s3 + "\n"
 
     def load_from_txt(self,s):
@@ -212,7 +218,7 @@ class Target(TargetRepresentation):
         self.trajectory_type = float(attribute[7])
         self.t_add = self.load_tadd_tdel(attribute[8])
         self.t_del = self.load_tadd_tdel(attribute[9])
-        self.trajectory_position =self.load_trajcetory(attribute[10])
+        self.trajectory =self.load_trajcetory(attribute[10])
 
     def load_tadd_tdel(self, s):
         list = []

@@ -3,6 +3,14 @@ from src.multi_agent.agent.agent_interacting_room import *
 from src import constants
 import time
 
+
+class AgentUserRepresentation(AgentInteractingWithRoomRepresentation):
+    def __init__(self, id, type):
+        super().__init__(id, type)
+
+    def update_from_agent(self, agent):
+        super().update_from_agent(agent)
+
 class AgentUser(AgentInteractingWithRoom):
     """
         Class AgentUser extend AgentInteractingWithRoom.
@@ -42,7 +50,7 @@ class AgentUser(AgentInteractingWithRoom):
         self.log_execution = create_logger(constants.ResultsPath.LOG_AGENT, "Execution time", self.id)
         AgentUser.number_agentUser_created +=1
 
-    def thread_run(self):
+    def thread_run(self,room):
         """
             :description
                 FSM defining the agent's behaviour
@@ -65,7 +73,7 @@ class AgentUser(AgentInteractingWithRoom):
                 '''Combination of data received and data observed'''
                 self.memory.combine_data_userCam()
                 '''Modification from the room description'''
-                self.room_representation.update_target_based_on_memory(self.memory.memory_agent)
+                self.room_representation.update_target_based_on_memory(self.memory.memory_agent_from_target)
                 '''Descision of the messages to send'''
                 self.process_information_in_memory()
 
@@ -82,7 +90,7 @@ class AgentUser(AgentInteractingWithRoom):
                 self.info_message_received.remove_message_after_given_time(constants.get_time(), constants.MAX_TIME_MESSAGE_IN_LIST)
 
                 "Send heart_beat to other agent"
-                time_last_heartbeat_sent = self.handle_hearbeat(time_last_heartbeat_sent)
+                time_last_heartbeat_sent = self.handle_hearbeat()
 
                 '''Message are send (Mailbox)'''
                 self.send_messages()
