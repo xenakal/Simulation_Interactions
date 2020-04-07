@@ -163,10 +163,12 @@ class AgentCam(AgentInteractingWithRoom):
 
                     # TODO implement a way for the camera to move correctly !!!
                     "If a target is link than we try to foscuse and to follow it "
+                    """
                     if constants.get_time() > 5:
                         beta_target = math.radians(30)
                     if constants.get_time() > 10:
                         beta_target = math.radians(70)
+                    """
 
                     self.camera_controller.set_targets(x_target, y_target, alpha_target, beta_target)
 
@@ -332,8 +334,8 @@ class AgentCam(AgentInteractingWithRoom):
         self.memory.combine_data_agentCam(CombineDataChoice.DATA_KALMAN)
 
         "Modification from the room description"
-        self.room_representation.update_target_based_on_memory(self.memory.memory_agent_from_target)
-        self.room_representation.update_agent_based_on_memory(self.memory.memory_agent_from_agent)
+        self.room_representation.update_target_based_on_memory(self.memory.memory_use_to_send_information_from_target)
+        self.room_representation.update_agent_based_on_memory(self.memory.memory_use_to_send_information_from_target)
 
         "Computation of the camera that should give the best view, according to maps algorithm"
         self.link_target_agent.update_link_camera_target()
@@ -437,7 +439,7 @@ class AgentCam(AgentInteractingWithRoom):
                                       MessageTypeAgentCameraInteractingWithRoom.INFO_DKF, dkf_info_string, target_id)
 
         # send the message to every other agent
-        [message.add_receiver(agent.id, agent.signature) for agent in self.room_representation.agentCams_list
+        [message.add_receiver(agent.id, agent.signature) for agent in self.room_representation.agentCams_representation_list
          if not agent.id == self.id]
 
         # add message to the list if not already inside
@@ -453,7 +455,7 @@ class AgentCam(AgentInteractingWithRoom):
         :param message: instance of Message class.
         """
         info_string = message.message
-        concerned_target_id = int(message.targetRef)
+        concerned_target_id = int(message.item_ref)
         if info_string:  # if message not empty
             self.memory.process_DKF_info(concerned_target_id, info_string, constants.get_time())
 

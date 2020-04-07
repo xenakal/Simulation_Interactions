@@ -1,5 +1,5 @@
 import numpy as np
-import src.multi_agent.elements.camera as cam
+import src.multi_agent.elements.camera as aCam
 
 
 class TargetBehaviourAnalyser:
@@ -19,7 +19,7 @@ class TargetBehaviourAnalyser:
     """
 
     def __init__(self, memory):
-        self.room_memory = memory.memory_agent_from_target
+        self.room_memory = memory.memory_use_to_send_information_from_target
 
     def is_target_stopped(self, target_id, delta_t, n, thresh):
         """
@@ -210,7 +210,7 @@ class TargetBehaviourAnalyser:
 
             for item in list_to_check:
                 field.append(
-                    cam.is_x_y_radius_in_field_not_obstructed(camera,item.item_position[0], item.item_position[1]))
+                    aCam.is_x_y_radius_in_field_not_obstructed(cam, item.item_position[0], item.item_position[1]))
                 in_field.append(True)
                 out_field.append(False)
 
