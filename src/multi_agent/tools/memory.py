@@ -53,7 +53,6 @@ class Memory:
         self.memory_predictions_order_1_from_target = Target_TargetEstimator()
         self.memory_predictions_order_2_from_target = Target_TargetEstimator()
 
-        self.memory_use_to_send_information_from_target = Target_TargetEstimator()
         self.predictors = []
 
         "Logger to keep track of every send and received messages"
@@ -139,7 +138,7 @@ class Memory:
         self.memory_all_agent_from_target.current_time = current_time
         self.memory_measured_from_target.current_time = current_time
 
-    def combine_data_agentCam(self, choice):
+    def combine_data_agentCam(self):
         """
         :description
             Creates the memory_agent list from the memory_all_agent list
@@ -158,16 +157,6 @@ class Memory:
                         self.log_memory.info("Combine data from agent : " + str(agent_id) + " - target " + str(target_id))
                         self.memory_measured_from_target.add_itemEstimator(estimateur)
 
-        "Combine data related to target"
-        if choice == CombineDataChoice.DATA_MEASURED_ONLY_SELF:
-            self.memory_agent_from_target= self.memory_measured_from_target
-        elif choice == CombineDataChoice.DATA_KALMAN:
-            self.memory_agent_from_target = self.memory_best_estimations_from_target
-        elif choice == CombineDataChoice.DATA_PREDICTION_T_PLUS_1:
-            self.memory_agent_from_target = self.memory_predictions_order_1_from_target
-        elif choice == CombineDataChoice.DATA_PREDICTION_T_PLUS_2:
-            self.memory_agent_from_target = self.memory_predictions_order_2_from_target
-
         "Combine data related to agentCam"
         if True:
             for (agent_id, agent_observed_id) in self.memory_all_agent_from_agent.Agent_item_already_discovered_list:
@@ -177,6 +166,7 @@ class Memory:
                         if not is_in_list_TargetEstimator(self.memory_agent_from_agent.get_item_list(agent_id),estimateur):
                             self.log_memory.info("Combine data from agent : " + str(agent_id) + " - target " + str(agent_id))
                             self.memory_agent_from_agent.add_itemEstimator(estimateur)
+
 
     def combine_data_userCam(self, choice=1):
         if choice == 1:
