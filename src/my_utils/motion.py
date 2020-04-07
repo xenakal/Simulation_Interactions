@@ -50,22 +50,23 @@ def rectiligne_trajectory(target, dist_min, delta_time):
                 moove the target according to a predifined path, the motion between two position are linear.
                 it does not avoid obstacle.
     """
-    if  not target.type == TargetType.SET_FIX:
-        (x_goal, y_goal) = target.trajectory[target.number_of_position_reached]
+    if not target.type == TargetType.SET_FIX:
+        if target.trajectory:
+            (x_goal, y_goal) = target.trajectory[target.number_of_position_reached]
 
         '''Updating the postion we want to reach when close enough '''
-        if math.fabs(target.xc - x_goal) <= dist_min and math.fabs(
+        if target.trajectory and math.fabs(target.xc - x_goal) <= dist_min and math.fabs(
                 target.yc - y_goal) <= dist_min and target.number_of_position_reached < len(
                 target.trajectory) - 1:
             target.number_of_position_reached += 1
 
         '''computing the speeds to reach the goal'''
-        if math.fabs(x_goal - target.xc) > 0.05:
+        if target.trajectory and math.fabs(x_goal - target.xc) > 0.05:
             v_x = -target.vx_max * (target.xc - x_goal) / math.fabs((target.xc - x_goal))
         else:
             v_x = 0
 
-        if math.fabs(y_goal - target.yc) > 0.05:
+        if target.trajectory and math.fabs(y_goal - target.yc) > 0.05:
             v_y = -target.vy_max * (target.yc - y_goal) / math.fabs((target.yc - y_goal))
         else:
             v_y = 0

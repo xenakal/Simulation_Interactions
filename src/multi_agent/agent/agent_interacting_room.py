@@ -12,7 +12,7 @@ class MessageTypeAgentInteractingWithRoom(MessageType):
     TARGET_ESTIMATOR = "targetEstimator"
 
 
-class  AgentInteractingWithRoomRepresentation(AgentRepresentation):
+class AgentInteractingWithRoomRepresentation(AgentRepresentation):
     def __init__(self, id, type):
         super().__init__(id, type)
 
@@ -41,7 +41,7 @@ class AgentInteractingWithRoom(Agent):
                 8. (AgentStatistic) message_statistic           -- object to compute how many messages are sent and
                                                                    received
 
-                ---NEW
+                -- NEW
                 9. (Memory) memory                              -- object to deal with TargetEstimator
                10. (RoomRepresentation) room_representation     -- object to reconstruct the room
                11. (int) thread_is_running                      -- runnig if 1, else stop
@@ -53,13 +53,13 @@ class AgentInteractingWithRoom(Agent):
 
     def __init__(self, id, type_agent, t_add, t_del, color=0):
         super().__init__(id, type_agent, t_add, t_del, color)
-        "Attibutes"
+        """Attibutes"""
         self.memory = Memory(self.id)
         self.room_representation = src.multi_agent.elements.room.RoomRepresentation(self.color)
         self.hearbeat_tracker = HeartbeatCounterAllAgent(self.id, self.signature, self.log_main)
         self.time_last_message_targetEstimtor_sent = constants.get_time()
 
-        "Create his own thread"
+        """Create his own thread"""
         self.thread_is_running = 1
         self.main_thread = None
 

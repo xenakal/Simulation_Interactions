@@ -9,10 +9,9 @@ import src.multi_agent.agent.agent_interacting_room_camera as aCam
 import src.multi_agent.agent.agent_interacting_room_user as aUser
 from src import constants
 
+
 class InformationRoomSimulation:
     """
-        Class Example.
-
         Description : Contains all the elements necessary to simulate the environment
 
             :attibutes
@@ -107,8 +106,6 @@ class RoomRepresentation:
     """
         Class RoomRepresentation.
 
-        Description : This class gives a standart version for the layout of a file
-
             :param
                 1. ((int),(int),(int) color       -- color to represent all the targets. If = 0,
                                                     the random color selected.
@@ -160,12 +157,12 @@ class RoomRepresentation:
                 self.add_targetRepresentation_from_target(target)
 
         for agent in room.information_simulation.agentCams_list:
-                agentCam_representation = aCam.AgentCamRepresentation(0, 0)
-                agentCam_representation.update_from_agent(agent)
-                self.agentCams_representation_list.append(agentCam_representation)
+            agentCam_representation = aCam.AgentCamRepresentation(0, 0)
+            agentCam_representation.update_from_agent(agent)
+            self.agentCams_representation_list.append(agentCam_representation)
 
         for agent in room.information_simulation.agentUser_list:
-            agentUser_representation = aUser.AgentUserRepresentation(0,0)
+            agentUser_representation = aUser.AgentUserRepresentation(0, 0)
             agentUser_representation.update_from_agent(agent)
             self.agentUser_representation_list.append(agentUser_representation)
 
@@ -187,11 +184,11 @@ class RoomRepresentation:
                     is_in_RoomRepresentation = True
                     target.xc = last_TargetEstimator.item_position[0]
                     target.yc = last_TargetEstimator.item_position[1]
-                    #print(last_TargetEstimator.variance_on_estimation)
+                    # print(last_TargetEstimator.variance_on_estimation)
                     target.variance_on_estimation = last_TargetEstimator.variance_on_estimation
                     target.type = last_TargetEstimator.item_type
                     target.alpha = last_TargetEstimator.alpha
-                    target.evaluate_confidence(0.1,constants.get_time()-last_TargetEstimator.time_stamp,1.2)
+                    target.evaluate_confidence(0.1, constants.get_time() - last_TargetEstimator.time_stamp, 1.2)
                     break
 
             if not is_in_RoomRepresentation:
@@ -218,11 +215,11 @@ class RoomRepresentation:
                 if agent.id == agent_detected_id:
                     is_in_RoomRepresentation = True
                     agent.is_active = last_AgentEstimator.is_agent_active
-                    agent.evaluate_confidence(0.001,constants.get_time()-last_AgentEstimator.time_stamp,2)
+                    agent.evaluate_confidence(0.001, constants.get_time() - last_AgentEstimator.time_stamp, 2)
                     camera.xc = last_AgentEstimator.item_position[0]
                     camera.yc = last_AgentEstimator.item_position[1]
-                    #self.item_speeds = [0, 0]  # [ camera.vx,  camera.vy]
-                    #self.item_acceleration = [0, 0]  # [ camera.ax,  camera.ay]
+                    # self.item_speeds = [0, 0]  # [ camera.vx,  camera.vy]
+                    # self.item_acceleration = [0, 0]  # [ camera.ax,  camera.ay]
                     camera.type = last_AgentEstimator.item_type
                     camera.alpha = last_AgentEstimator.alpha
                     camera.beta = last_AgentEstimator.beta
@@ -230,12 +227,8 @@ class RoomRepresentation:
                     camera.is_active = last_AgentEstimator.is_camera_active
                     break
 
-
-
             if not is_in_RoomRepresentation:
                 self.add_agentCamRepresentation(last_AgentEstimator)
-
-
 
     def add_targetRepresentation_from_target(self, target):
         """
@@ -246,7 +239,7 @@ class RoomRepresentation:
                 :param
                     1. (Target) target -- object, see class Target
         """
-        self.add_targetRepresentation(target.id, target.xc, target.yc,target.radius, target.type)
+        self.add_targetRepresentation(target.id, target.xc, target.yc, target.radius, target.type)
 
     def add_targetRepresentation(self, id, x, y, radius, label):
         """
@@ -458,8 +451,6 @@ class Room(RoomRepresentation):
         """
         self.information_simulation.add_create_Target(x, y, vx, vy, 0, 0, trajectory_type, trajectory, type, radius,
                                                       t_add, t_del)
-
-
 
     def add_Target(self, target):
         """"

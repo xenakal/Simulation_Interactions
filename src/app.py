@@ -7,7 +7,6 @@ from src.multi_agent.elements.room import Room
 from src.multi_agent.tools.link_target_camera import *
 from src.multi_agent.tools.map_region_dyn import *
 from src.multi_agent.tools.estimator import *
-from src.multi_agent.agent.agent_interacting_room_camera import AgentCameraCommunicationBehaviour
 from src.my_utils.GUI.GUI import GUI
 from src.my_utils.motion import move_Target
 from src.my_utils.my_IO.IO_map import *
@@ -25,12 +24,10 @@ def clean_mailbox():
 
 
 class App:
-    def __init__(self, file_name=None, is_kalman_distributed=None, kalman_type=None, t_stop=None,t_scale=None):
-        """"""
-
-        """ 
-            Modification from the constant file to get the desired parameter once runing from main
-            By default set to NONE, in this case the value taken is the one set by the constants.py file itself
+    def __init__(self, file_name=None, is_kalman_distributed=None, kalman_type=None, t_stop=None, t_scale=None):
+        """
+        Modification from the constant file to get the desired parameter once runing from main
+        By default set to NONE, in this case the value taken is the one set by the constants.py file itself
         """
         if not (file_name is None):
             constants.ResultsPath.name_simulation = file_name
@@ -45,17 +42,12 @@ class App:
         if not (t_scale is None):
             constants.SCALE_TIME = t_scale
 
-        """
-            Setting all the folders and cleaning mailboxes
-        """
+        """ Setting all the folders and cleaning mailboxes """
         clean_mailbox()
         create_structur_to_save_data()
         shutil.copy(constants.MapPath.MAIN_FOLDER + file_name + ".txt", constants.ResultsPath.MAIN_FOLDER)
 
-
-        """
-            Creation of a logger to store every data
-        """
+        """ Creation of a logger to store every data """
         self.log_app = create_logger(constants.ResultsPath.LOG_FOLDER, "/Log_app", -1)
         self.log_app.info("app started")
         self.log_app.info("file name : " + str(file_name))
@@ -64,31 +56,25 @@ class App:
         self.log_app.info("Simulation end in time : %.02f s", t_stop)
         self.log_app.info("Scaling time factor : %.02f s", t_scale)
 
-        """
-            Create a structure to save the generated data
-        """
-        self.exact_data_target = Target_TargetEstimator()  # utilisé comme une simple liste, raison pour laquelle c'est une targetEstimator ?
+        """ Create a structure to save the generated data """
+        self.exact_data_target = Target_TargetEstimator()
 
-        """
-            Create app variables
-        """
+        """ Create app variables """
         self.filename = file_name
 
-        """
-            All required object needed to create data, analyse ideal solutions 
-        """
+        """ All required object needed to create data, analyse ideal solutions """
         self.room = None
         self.static_region = None
         self.dynamic_region = None
         self.link_agent_target = None
         self.targets_moving_thread = None
+        self.targets_moving = False
 
         self.init()
         if USE_GUI:
             self.myGUI = GUI()
 
     def init(self):
-        """"""
         self.log_app.info("Starting init ...")
         clean_mailbox()
 
@@ -96,7 +82,6 @@ class App:
         src.multi_agent.agent.agent_interacting_room_camera.AgentCam.number_agentCam_created = 0
         src.multi_agent.agent.agent_interacting_room_camera.AgentCam.time_last_message_agentEstimtor_sent = 0
         src.multi_agent.agent.agent_interacting_room_user.AgentUser.number_agentUser_created = 0
-
 
         """Start the time"""
         constants.TIME_START = time.time()
@@ -119,7 +104,8 @@ class App:
         self.room.des_activate_agentCam_timed()
         self.room.des_activate_camera_agentCam_timed()
 
-        """Creating tools to analyse the situation based on the created data  => it means the best solution we could have"""
+        """Creating tools to analyse the situation based on the created data  => it means the best solution we could 
+        have """
         self.static_region = MapRegionStatic(self.room)
         self.dynamic_region = MapRegionDynamic(self.room)
 
@@ -129,18 +115,15 @@ class App:
         if USE_dynamic_analysis_simulated_room:
             self.dynamic_region.init(NUMBER_OF_POINT_DYNAMIC_ANALYSIS)
 
-
         self.link_agent_target = LinkTargetCamera(self.room)
         self.link_agent_target.update_link_camera_target()
-
 
         """Agents start to run"""
         for agent in self.room.information_simulation.agentCams_list:
             agent.run()
 
         for agent in self.room.information_simulation.agentUser_list:
-           agent.run()
-
+            agent.run()
 
         """Target start to move"""
         self.targets_moving = True
@@ -170,7 +153,8 @@ class App:
         if constants.SAVE_DATA:
             self.log_app.info("Saving data : generated")
             print("Saving data : generated")
-            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,self.exact_data_target.to_csv())
+            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,
+                                         self.exact_data_target.to_csv())
 
             self.log_app.info("Data saved !")
             print("Data saved !")
@@ -207,9 +191,8 @@ class App:
                                                                        target.id), -1, target.id, target.signature,
                                                                    target.xc, target.yc, target.vx, target.vy,
                                                                    target.ax, target.ay,
-                                                                   target.radius, target.type,-1)
+                                                                   target.radius, target.type, -1)
                 move_Target(target, delta_time)
-
 
                 # theoritical calculation
 

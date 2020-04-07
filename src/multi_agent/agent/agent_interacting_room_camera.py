@@ -1,24 +1,16 @@
-# from elements.room import*
 from src.multi_agent.agent.agent_interacting_room import *
 from src.multi_agent.communication.message import *
 from src.multi_agent.tools.behaviour_detection import *
 from src.multi_agent.tools.link_target_camera import *
 from src.my_utils.controller import CameraController
 from src import constants
-import math
 import time
 import src.multi_agent.elements.mobile_camera as mobCam
-
+from warnings import warn
 
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
     INFO_DKF = "info_DKF"
     AGENT_ESTIMATOR = "agentEstimator"
-
-
-class AgentCameraCommunicationBehaviour:
-    ALL = "all"
-    DKF = "dkf"
-    NONE = "none"
 
 
 class AgentCameraFSM:
@@ -77,30 +69,30 @@ class AgentCam(AgentInteractingWithRoom):
                 8. (AgentStatistic) message_statistic           -- object to compute how many messages are
                                                                     sent and received
                 9. (Memory) memory                              -- object to deal with TargetEstimator
-               10. (RoomRepresentation) room_representation     -- object to reconstruct the room
-               11. (int) thread_is_running                      -- running if 1, else stop
-               12. (thread) main_thread                         -- thread
+                10. (RoomRepresentation) room_representation     -- object to reconstruct the room
+                11. (int) thread_is_running                      -- running if 1, else stop
+                12. (thread) main_thread                         -- thread
 
-               --New
-               13. (Camera) camera                              -- Camera object, allows target to detect
+                --New
+                13. (Camera) camera                              -- Camera object, allows target to detect
                                                                    object in the room
-               14. (TargetBehaviourAnalyser) behaviour_analyser -- TargetBehaviourAnalyser object,
+                14. (TargetBehaviourAnalyser) behaviour_analyser -- TargetBehaviourAnalyser object,
                                                                     to detect some feature from the target
-               15 (LinkTargetCamera) link_target_agent         -- LinkTargetCamera object, to tell the agent
+                15. (LinkTargetCamera) link_target_agent         -- LinkTargetCamera object, to tell the agent
                                                                    wich target to track taking into account the
                                                                    geometry from the room and the position of targets
+                16. ([target_id]) targets_to_track                -- List of targets to track.
+
             :notes
                 fells free to write some comments.
     """
     number_agentCam_created = 0
-
 
     def __init__(self, camera, t_add=-1, t_del=-1):
 
         if t_add == -1 or t_del == -1:
             t_add = [0]
             t_del = [constants.TIME_STOP]
-
 
         self.camera = camera
         super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM, t_add, t_del, camera.color)
@@ -113,6 +105,9 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_execution = create_logger(constants.ResultsPath.LOG_AGENT, "Execution time", self.id)
         AgentCam.number_agentCam_created += 1
 
+        # targets to be tracked by this agent
+        self.targets_to_track = []
+        self.initialized_targets_to_track = False
 
     def init_and_set_room_description(self, room):
         """
@@ -134,6 +129,19 @@ class AgentCam(AgentInteractingWithRoom):
 
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
 
+    def init_targets_to_track(self):
+        if constants.INIT_TARGET_LIST == constants.AgentCameraInitializeTargetList.ALL_SEEN:
+            self.init_targets_to_track_from_seen()
+        else:
+            warn("Invalid method for initializing targets to tracks, default will be used.")
+            self.init_targets_to_track_from_seen()
+
+    def init_targets_to_track_from_seen(self):
+        """ Initializes the targets to track as all targets seen by the agent at the time of initialization. """
+        self.targets_to_track = self.room_representation.active_Target_list
+        tracked_targets_id = [target.id for target in self.targets_to_track]
+        print("agent ", self.id, "tracks the targets: ", tracked_targets_id)
+
     def thread_run(self, real_room):
         """
             :description
@@ -154,7 +162,7 @@ class AgentCam(AgentInteractingWithRoom):
 
             if state == AgentCameraFSM.MOVE_CAMERA:
 
-                if not last_time_move == None:
+                if last_time_move is not None:
                     """Define the values to reaches"""
                     x_target = self.camera.default_xc
                     y_target = self.camera.default_yc
@@ -299,6 +307,10 @@ class AgentCam(AgentInteractingWithRoom):
 
                 self.log_room.info(self.memory.statistic_to_string() + self.message_statistic.to_string())
 
+                if not self.initialized_targets_to_track:
+                    self.init_targets_to_track()
+                    self.initialized_targets_to_track = False
+
                 if not self.is_active:
                     nextstate = AgentCameraFSM.BUG
                 else:
@@ -318,6 +330,7 @@ class AgentCam(AgentInteractingWithRoom):
                     nextstate = AgentCameraFSM.BUG
                 else:
                     nextstate = AgentCameraFSM.MOVE_CAMERA
+
             else:
                 print("FSM not working proerly")
                 self.log_execution.warning("FSM not working as expected")
@@ -385,13 +398,11 @@ class AgentCam(AgentInteractingWithRoom):
                 -----------------------------------------------------------------------------------------------
             """
             "Send message to other agent"
-            if constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.ALL:
+            if constants.DATA_TO_SEND == constants.AgentCameraCommunicationBehaviour.ALL:
                 self.send_message_timed_targetEstimator(target.id)
-
-            elif constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.DKF:
+            elif constants.DATA_TO_SEND == constants.AgentCameraCommunicationBehaviour.DKF:
                 self.send_message_DKF_info(target.id)
-
-            elif constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.NONE:
+            elif constants.DATA_TO_SEND == constants.AgentCameraCommunicationBehaviour.NONE:
                 pass
             else:
                 print("Wrong configuration found")
@@ -411,7 +422,7 @@ class AgentCam(AgentInteractingWithRoom):
                 for agent in self.room_representation.agentUser_representation_list:
                     receivers.append([agent.id, agent.signature])
 
-                self.send_message_timed_targetEstimator(target.id,receivers)
+                self.send_message_timed_targetEstimator(target.id, receivers)
 
     def process_single_message(self, rec_mes):
         super().process_single_message(rec_mes)
@@ -420,6 +431,7 @@ class AgentCam(AgentInteractingWithRoom):
         elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.AGENT_ESTIMATOR:
             self.received_message_agentEstimator(rec_mes)
 
+    # TODO: remove this, as it's used only in GUI. Before, make the GUI take this info directly from the agent's memory.
     def get_predictions(self, target_id_list):
         """
         :return: a list [[targetId, [predicted_position1, ...]], ...]
@@ -439,7 +451,8 @@ class AgentCam(AgentInteractingWithRoom):
                                       MessageTypeAgentCameraInteractingWithRoom.INFO_DKF, dkf_info_string, target_id)
 
         # send the message to every other agent
-        [message.add_receiver(agent.id, agent.signature) for agent in self.room_representation.agentCams_representation_list
+        [message.add_receiver(agent.id, agent.signature) for agent in
+         self.room_representation.agentCams_representation_list
          if not agent.id == self.id]
 
         # add message to the list if not already inside
@@ -521,4 +534,3 @@ class AgentCam(AgentInteractingWithRoom):
                 last_agent_estimator = agent_estimator_list[-1]
                 self.send_message_agentEstimator(last_agent_estimator)
                 self.time_last_message_agentEstimtor_sent = constants.get_time()
-

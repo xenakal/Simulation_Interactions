@@ -1,6 +1,7 @@
 import logging
 import time
-#import multi_agent.agent.agent_interacting_room_camera as ac
+
+# import src.multi_agent.agent.agent_interacting_room_camera as ac
 
 """
 In this file you have the possibility to modify the settings 
@@ -22,7 +23,22 @@ DISTRIBUTED_KALMAN = False
 KALMAN_MODEL_MEASUREMENT_DIM = 4
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
-DATA_TO_SEND = "none"#ac.AgentCameraCommunicationBehaviour.NONE
+
+
+class AgentCameraCommunicationBehaviour:
+    ALL = "all"
+    DKF = "dkf"
+    NONE = "none"
+
+
+DATA_TO_SEND = AgentCameraCommunicationBehaviour.NONE
+
+
+class AgentCameraInitializeTargetList:
+    ALL_SEEN = "all_seen"
+
+
+INIT_TARGET_LIST = AgentCameraInitializeTargetList.ALL_SEEN
 
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
 WIDTH_ROOM = 8  # [m]
@@ -31,7 +47,7 @@ LENGHT_ROOM = 8  # [m]
 """Number of data----------------------------------------------------------------------------------------------------"""
 NUMBER_OF_POINT_SIMULATED_DATA = 20  # per m for a speed of 1 m/s
 NUMBER_OF_POINT_STATIC_ANALYSIS = 5  # number of point per m
-NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 5 # number of point per m
+NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 5  # number of point per m
 
 """Time--------------------------------------------------------------------------------------------------------------"""
 """global parameter for the simulation"""
@@ -44,8 +60,8 @@ TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)
 """Agent"""
 TIME_BTW_HEARTBEAT = 3 / SCALE_TIME
 TIME_MAX_BTW_HEARTBEAT = 9 / SCALE_TIME
-TIME_BTW_AGENT_ESTIMATOR = 0.3/ SCALE_TIME
-TIME_BTW_TARGET_ESTIMATOR = 0.5/SCALE_TIME
+TIME_BTW_AGENT_ESTIMATOR = 0.3 / SCALE_TIME
+TIME_BTW_TARGET_ESTIMATOR = 0.5 / SCALE_TIME
 "Agent-Cam"
 TIME_PICTURE = (1.5 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 TIME_SEND_READ_MESSAGE = (0.3 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
@@ -92,12 +108,11 @@ if not INCLUDE_ERROR:
     STD_MEASURMENT_ERROR_SPEED = 0.00001
     STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
 
-if STD_MEASURMENT_ERROR_POSITION == 0.0 and STD_MEASURMENT_ERROR_SPEED == 0.0\
-                                        and STD_MEASURMENT_ERROR_ACCCELERATION == 0.0:
+if STD_MEASURMENT_ERROR_POSITION == 0.0 and STD_MEASURMENT_ERROR_SPEED == 0.0 \
+        and STD_MEASURMENT_ERROR_ACCCELERATION == 0.0:
     STD_MEASURMENT_ERROR_POSITION = 0.00001
     STD_MEASURMENT_ERROR_SPEED = 0.00001
     STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
-
 
 if DISTRIBUTED_KALMAN:
     DATA_TO_SEND = "dkf"
@@ -109,11 +124,11 @@ time_when_target_are_moved = 0
 TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp',
                                    'agent_id', 'agent_signature', 'target_id', 'target_signature',
                                    'target_type', 'target_x', 'target_y', 'target_vx', 'target_vy',
-                                   'target_ax', 'target_ay', 'target_radius','target_alpha']
+                                   'target_ax', 'target_ay', 'target_radius', 'target_alpha']
 
-CAMERA_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp','agent_id','agent_signature','camera_id',
-                                   'camera_signature','camera_type','camera_x','camera_y', 'camera_vx', 'camera_vy',
-                                    'camera_ax', 'camera_ay','alpha', 'beta']
+CAMERA_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp', 'agent_id', 'agent_signature', 'camera_id',
+                                   'camera_signature', 'camera_type', 'camera_x', 'camera_y', 'camera_vx', 'camera_vy',
+                                   'camera_ax', 'camera_ay', 'alpha', 'beta']
 
 """Path to save data and create plot"""
 
@@ -314,5 +329,3 @@ class ResultsPath:
     @classproperty
     def SAVE_LOAD_PLOT_MEMORY_ALL_AGENT(cls):
         return ResultsPath.PLOT_MEMORY_ALL_AGENT + "/"
-
-
