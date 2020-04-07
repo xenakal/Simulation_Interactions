@@ -56,7 +56,7 @@ class GUI_simulation:
             self.button_simulation_4.find_button("save to txt").set_button(False)
 
         self.GUI_room.draw_all_target(room.active_Target_list, room.coordinate_room)
-        self.GUI_room.draw_all_agentCam(room)
+        self.GUI_room.draw_all_agentCam(room.agentCams_representation_list)
         self.GUI_room.draw_link_cam_region(room, link_cam_to_target)
 
         if self.button_simulation_4.find_button_state("User's O"):

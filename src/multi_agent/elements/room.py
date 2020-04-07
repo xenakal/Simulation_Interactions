@@ -61,6 +61,34 @@ class InformationRoomSimulation:
         target = Target(-1, x, y, vx, vy, ax, ay, trajectory_type, trajectory, type, radius, t_add, t_del)
         self.add_Target(target)
 
+    def add_create_AgentCam(self, x, y, alpha, beta, trajectory, field_depth=None, color=0,
+                            t_add=-1, t_del=-1, type=None, vx_vy_min=None, vx_vy_max=None, v_alpha_min=None,
+                            v_alpha_max=None, delta_beta=None, v_beta_min=None, v_beta_max=None):
+        """"
+               :param
+                   1. (int) x                               -- x value of the center
+                   2. (int) y                               -- y value of the center
+                   3. (int) vx                              -- vx speed
+                   4. (int) vy                              -- vy speed
+                   5. (string) trajectory_type              -- "fix","linear" choice for the target's way to moove
+                   6. (int) trajectory_choice               -- will bound the target to the given trajectory in
+                                                               InformationRoomSimulation
+                   7. (int) radius                            -- radius from the center
+                   8. (string) type                         -- "fix","target", to make the difference between known
+                                                                and unkown target
+                   9. ([[int],...]) t_add                   -- list of all the times where the target should appear
+                                                               in the room
+                  10. ([[int],...]) t_del                   -- list of all the times where the target should disappear
+                                                               in the room
+
+                :notes
+                        fells free to write some comments.
+        """
+        camera = MobileCamera(-1, x, y, alpha, beta, trajectory, field_depth, color, t_add, t_del, type, vx_vy_min,
+                              vx_vy_max, v_alpha_min, v_alpha_max, delta_beta, v_beta_min, v_beta_max)
+        agentCam = aCam.AgentCam(camera, t_add, t_del)
+        agentCam.camera.id = agentCam.id
+        self.agentCams_list.append(agentCam)
 
     def add_Target(self, target):
         """"
@@ -428,34 +456,7 @@ class Room(RoomRepresentation):
         self.information_simulation.add_create_Target(x, y, vx, vy, 0, 0, trajectory_type, trajectory, type, radius,
                                                       t_add, t_del)
 
-    def add_create_AgentCam(self, x, y, alpha, beta, trajectory, field_depth=None, color=0,
-                            t_add=-1, t_del=-1, type=None, vx_vy_min=None, vx_vy_max=None, v_alpha_min=None,
-                            v_alpha_max=None, delta_beta=None, v_beta_min=None, v_beta_max=None):
-        """"
-               :param
-                   1. (int) x                               -- x value of the center
-                   2. (int) y                               -- y value of the center
-                   3. (int) vx                              -- vx speed
-                   4. (int) vy                              -- vy speed
-                   5. (string) trajectory_type              -- "fix","linear" choice for the target's way to moove
-                   6. (int) trajectory_choice               -- will bound the target to the given trajectory in
-                                                               InformationRoomSimulation
-                   7. (int) radius                            -- radius from the center
-                   8. (string) type                         -- "fix","target", to make the difference between known
-                                                                and unkown target
-                   9. ([[int],...]) t_add                   -- list of all the times where the target should appear
-                                                               in the room
-                  10. ([[int],...]) t_del                   -- list of all the times where the target should disappear
-                                                               in the room
 
-                :notes
-                        fells free to write some comments.
-        """
-        camera = MobileCamera(-1, x, y, alpha, beta, trajectory, field_depth, color, t_add, t_del, type, vx_vy_min,
-                              vx_vy_max, v_alpha_min, v_alpha_max, delta_beta, v_beta_min, v_beta_max)
-        agentCam = aCam.AgentCam(camera, t_add, t_del)
-        self.information_simulation.agentCams_list.append(agentCam)
-        self.agentCams_representation_list.append(agentCam)
 
     def add_Target(self, target):
         """"

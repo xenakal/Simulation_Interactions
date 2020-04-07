@@ -193,7 +193,7 @@ class GUI_create_map:
         self.GUI_room.draw_room(self.new_room.coordinate_room)
         self.GUI_room.draw_all_target(self.new_room.information_simulation.target_list, self.new_room.coordinate_room)
         self.GUI_room.draw_all_target(self.new_room.active_Target_list, self.new_room.coordinate_room)
-        self.GUI_room.draw_all_agentCam(self.new_room)
+        self.GUI_room.draw_all_agentCam(self.new_room.information_simulation.agentCams_list)
         self.display_create_map_button()
 
     def get_xy(self):
@@ -451,7 +451,7 @@ class GUI_create_map:
         "add the cam to the room"
         if pressed:
             if self.button_create_map_3.find_button_state(Button_name.OBJECT_ADD):
-                self.new_room.add_create_AgentCam(x_new, y_new, self.alpha_default, self.beta_default, [],
+                self.new_room.information_simulation.add_create_AgentCam(x_new, y_new, self.alpha_default, self.beta_default, [],
                                                   field_depth=self.depth_default, color=0, t_add=-1, t_del=-1, type=label,
                                                   vx_vy_min=self.vx_min_default,
                                                   vx_vy_max=self.vx_max_default, v_alpha_min=self.v_alpha_min_default,
@@ -480,7 +480,7 @@ class GUI_create_map:
             self.button_create_map_trajectoire.set_buttons_state(Button_name.TRAJECTORY_CLEAN, False)
             self.button_create_map_trajectoire.set_buttons_state(Button_name.TRAJECTORY_SAVE, False)
 
-            for target in self.new_room.information_simulation.Target_list:
+            for target in self.new_room.information_simulation.target_list:
                 if TargetType.UNKNOWN == target.type:
                     if math.fabs(x_new - target.xc) < 0.2 and math.fabs(y_new - target.yc) < 0.2:
                         if self.button_create_map_trajectoire.find_button_state(Button_name.TRAJECTORY_SHOW):
@@ -511,7 +511,7 @@ class GUI_create_map:
                 self.create_trajectory_target = False
                 self.trajectory_for_target.trajectory = self.trajectory_target
                 self.trajectory_target = []
-                print("là")
+
 
     def add_trajectories_camera(self, x_new, y_new, pressed, on):
 
