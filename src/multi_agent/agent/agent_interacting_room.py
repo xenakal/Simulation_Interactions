@@ -226,7 +226,8 @@ class AgentInteractingWithRoom(Agent):
 
 
         if delta_time > constants.TIME_BTW_TARGET_ESTIMATOR:
-            target_estimator_list = self.memory.memory_measured_from_target.get_item_list(target_id)
+            #target_estimator_list = self.memory.memory_measured_from_target.get_item_list(target_id)
+            target_estimator_list = self.memory.memory_predictions_order_2_from_target.get_item_list(target_id)
 
             if len(target_estimator_list) > 0:
                 last_target_estimator = target_estimator_list[-1]

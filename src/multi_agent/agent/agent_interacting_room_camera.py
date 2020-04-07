@@ -1,6 +1,7 @@
 # from elements.room import*
 from src.multi_agent.agent.agent_interacting_room import *
 from src.multi_agent.communication.message import *
+from src.multi_agent.tools.behaviour_agent import use_pca_to_get_alpha_beta_xc_yc
 from src.multi_agent.tools.behaviour_detection import *
 from src.multi_agent.tools.link_target_camera import *
 from src.my_utils.controller import CameraController
@@ -105,7 +106,6 @@ class AgentCam(AgentInteractingWithRoom):
         self.camera = camera
         super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM, t_add, t_del, camera.color)
         self.camera_controller = None
-        self.behaviour_analyser = None
         self.link_target_agent = None
 
         self.time_last_message_agentEstimtor_sent = constants.get_time()
@@ -128,8 +128,7 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation, True)
-        self.behaviour_analyser = TargetBehaviourAnalyser(self.memory)
-        self.camera_controller = CameraController(0, 0, 1, 0, 0.8, 0)
+        self.camera_controller = CameraController(0.5, 0,0.4 , 0, 0.8, 0)
         self.camera_controller.set_targets(self.camera.xc, self.camera.yc, self.camera.alpha, self.camera.beta)
 
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
@@ -162,13 +161,12 @@ class AgentCam(AgentInteractingWithRoom):
                     beta_target = self.camera.default_beta
 
                     # TODO implement a way for the camera to move correctly !!!
-                    "If a target is link than we try to foscuse and to follow it "
-                    if constants.get_time() > 5:
-                        beta_target = math.radians(30)
-                    if constants.get_time() > 10:
-                        beta_target = math.radians(70)
+                    x_target,y_target,alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.camera, real_room.information_simulation.target_list)
+
 
                     self.camera_controller.set_targets(x_target, y_target, alpha_target, beta_target)
+
+
 
                     """Define the values measured"""
                     x_mes = self.camera.xc  # + error si on veut ajouter ici
@@ -179,14 +177,13 @@ class AgentCam(AgentInteractingWithRoom):
                     if self.camera.camera_type == mobCam.MobileCameraType.RAIL:
                         "1 D"
                         x_mes = self.camera.trajectory.sum_delta
-                        y_target = 0
-                        y_mes = 0
 
                     """Find the command to apply"""
                     (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes,
                                                                                                              y_mes,
                                                                                                              alpha_mes,
                                                                                                              beta_mes)
+
                     """Apply the command"""
                     if constants.get_time() - last_time_move < 0:
                         print("problem time < 0 : %.02f s" % constants.get_time())
@@ -329,10 +326,10 @@ class AgentCam(AgentInteractingWithRoom):
         """
 
         "Combination of data received and data observed"
-        self.memory.combine_data_agentCam(CombineDataChoice.DATA_KALMAN)
+        self.memory.combine_data_agentCam()
 
         "Modification from the room description"
-        self.room_representation.update_target_based_on_memory(self.memory.memory_agent_from_target)
+        self.room_representation.update_target_based_on_memory(self.memory.memory_predictions_order_2_from_target)
         self.room_representation.update_agent_based_on_memory(self.memory.memory_agent_from_agent)
 
         "Computation of the camera that should give the best view, according to maps algorithm"
@@ -358,10 +355,9 @@ class AgentCam(AgentInteractingWithRoom):
             is_target_changing_state = False
             if not target.type == TargetType.SET_FIX:
                 "Check if the target is moving,stopped or changing from one to the other state"
-                (is_moving, is_stopped) = self.behaviour_analyser.detect_target_motion(target.id, 1, 5,
-                                                                                       constants.STD_MEASURMENT_ERROR_POSITION + 0.01)
+                (is_moving, is_stopped) = detect_target_motion(self.memory.memory_best_estimations_from_target,target.id, 1, 5,constants.STD_MEASURMENT_ERROR_POSITION + 0.01)
                 "Check if the target is leaving the cam angle_of_view"
-                (is_in, is_out) = self.behaviour_analyser.is_target_leaving_cam_field(self.camera, target.id, 0, 3)
+                (is_in, is_out) = is_target_leaving_cam_field(self.memory.memory_best_estimations_from_target,self.camera, target.id, 0, 3)
 
                 old_target_type = target.type
                 if is_moving:

@@ -73,7 +73,7 @@ class AgentUser(AgentInteractingWithRoom):
                 '''Combination of data received and data observed'''
                 self.memory.combine_data_userCam()
                 '''Modification from the room description'''
-                self.room_representation.update_target_based_on_memory(self.memory.memory_agent_from_target)
+                self.room_representation.update_target_based_on_memory(self.memory.memory_measured_from_target)
                 '''Descision of the messages to send'''
                 self.process_information_in_memory()
 
