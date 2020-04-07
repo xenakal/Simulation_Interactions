@@ -74,8 +74,8 @@ class Line:
 
         elif line.m is None:
             "line is vertical"
-            xi = line.ya
-            yi = line.compute_x(xi)
+            xi = line.xa
+            yi = self.compute_y(xi)
 
         elif math.fabs(self.m) < self.tol:
             """self is horizontal"""

@@ -322,7 +322,7 @@ class GUI_create_map:
                                                 self.trajectory_target, label, self.size_default, [0], [1000])
 
             elif self.button_create_map_2.find_button_state(Button_name.OBJECT_DEL):
-                for target in self.new_room.information_simulation.Target_list:
+                for target in self.new_room.information_simulation.target_list:
                     if math.fabs(x_new - target.xc) < 0.2 and math.fabs(y_new - target.yc) < 0.2:
                         self.new_room.information_simulation.Target_list.remove(target)
 
