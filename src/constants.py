@@ -160,6 +160,10 @@ class ResultsPath:
         return ResultsPath.LOG_FOLDER + "/log_memory/"
 
     @classproperty
+    def LOG_KALMAN(cls):
+        return ResultsPath.LOG_FOLDER + "/log_kalman/"
+
+    @classproperty
     def DATA_SCREENSHOT(cls):
         return ResultsPath.MAIN_FOLDER + "/screenshot"
 

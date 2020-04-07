@@ -20,6 +20,7 @@ def create_structur_to_save_data():
     os.mkdir(constants.ResultsPath.LOG_FOLDER)
     os.mkdir(constants.ResultsPath.LOG_AGENT)
     os.mkdir(constants.ResultsPath.LOG_MEMORY)
+    os.mkdir(constants.ResultsPath.LOG_KALMAN)
 
     """Create data and it subfolder"""
     """----------------------------"""

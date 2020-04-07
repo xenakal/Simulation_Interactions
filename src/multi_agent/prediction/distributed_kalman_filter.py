@@ -7,7 +7,7 @@ import src.constants as constants
 import warnings
 
 DEFAULT_TIME_INCREMENT = TIME_PICTURE + TIME_SEND_READ_MESSAGE
-
+INTERNODAL_VALIDATION_BOUND = 580
 
 
 class DistributedKalmanFilter(KalmanFilter):
@@ -20,7 +20,7 @@ class DistributedKalmanFilter(KalmanFilter):
           The International Journal of Robotics Research, 12(1), 20–44. https://doi.org/10.1177/027836499301200102
     """
 
-    def __init__(self, dim_x, dim_z, dt=DEFAULT_TIME_INCREMENT, dim_u=0, model_F=None):
+    def __init__(self, dim_x, dim_z, logger, dt=DEFAULT_TIME_INCREMENT, dim_u=0, model_F=None):
 
         super().__init__(dim_x, dim_z, dim_u)
 
@@ -32,8 +32,9 @@ class DistributedKalmanFilter(KalmanFilter):
         self.x_global = zeros((dim_x, 1))  # global estimate of target state
         self.P_global = eye(dim_x)  # global estimate of covariance matrix
         self.PI_global = eye(dim_x)  # inverse of global estimate P
-        self.ti = -1  # timestamp of current measurement
+        self.curr_ti = -1  # timestamp of current measurement
         self.dt = dt  # time difference between measurements
+        self.prev_ti = -1  # time of previous measurement
         self.z_current = None  # last measurement
         if model_F is None:
             def default_F(dt_arg):
@@ -44,6 +45,11 @@ class DistributedKalmanFilter(KalmanFilter):
             self.model_F = default_F  # default if nothing is given
         else:
             self.model_F = model_F  # function to get the transition matrix ( use: F = self.model_F(dt) )
+
+        # creation of log file
+        #self.logger_kalman = log.create_logger(constants.ResultsPath.LOG_KALMAN, "kalman_info_" + str(target_id), agent_id)
+        self.logger_kalman = logger
+        self.logger_kalman.info("new distributed kalman at time %.02f s" % constants.get_time())
 
     def predict(self, u=None, B=None, F=None, Q=None):
         super().predict(u, B, F, Q)
@@ -57,12 +63,14 @@ class DistributedKalmanFilter(KalmanFilter):
 
             # timestep set to last time difference between subsequent measurements
             self.dt = DEFAULT_TIME_INCREMENT
-            self.ti += DEFAULT_TIME_INCREMENT
+            self.prev_ti = self.curr_ti
+            self.curr_ti += DEFAULT_TIME_INCREMENT
 
         else:
             # timestep set to last time difference between subsequent measurements
-            self.dt = timestamp - self.ti
-            self.ti = timestamp
+            self.prev_ti = self.curr_ti
+            self.curr_ti = timestamp
+            self.dt = timestamp - self.curr_ti
 
         # set to None to force recompute
         self._log_likelihood = None
@@ -109,8 +117,7 @@ class DistributedKalmanFilter(KalmanFilter):
         # x = x + Wy
         self.x = self.x + dot(self.W, self.y)
 
-    # TODO: adapter à x = Fx + Bu
-    def assimilate(self, dkf_info_string, ti):
+    def assimilate(self, dkf_info_string, tj):
         """
         Assimilates the local estimation recieved from another node to the local estimation of the global state.
 
@@ -119,18 +126,10 @@ class DistributedKalmanFilter(KalmanFilter):
         :param (int) ti                              -- time of arrival of the other arguments to this
                                                         node. In practice, we have to put the time
         """
-        # TODO: comment on sait quant est-ce qu'on a reçu toutes les données ?
-        #   --> En fait on sait pas: on fait l'hypothèse que les données s'envoient instantanément et on update à
-        #       chaque nouvelle donée reçue.
-        #       Par contre, if faut vérifier si la donnée est plus ou moins correcte en regardant si elle est à
-        #       une distance plus grande que 2*STD_ERROR de l'estimation locale.
 
         [state_error_info, variance_error_info] = parse_errors_info_string(dkf_info_string)
 
-        # assumption: no delay between observation being taken at node j and the data arriving at node i (here)
-        #   ==> ti ≃ tj    meaning we consider the time
-        tj = ti
-        delta_t = tj - (self.ti - self.dt)  # δt = tj - τi ≃ ti - τi
+        delta_t = tj - self.prev_ti  # δt = tj - τi ≃ ti - τi
 
         ## Pj_prior: PI(tj|τi) = F(δt)*P(τi|τi)FT(δt) + Q
         Pj_prior = dot(dot(self.model_F(delta_t), self.P_prior), self.model_F(delta_t).T) + self.Q
@@ -140,6 +139,7 @@ class DistributedKalmanFilter(KalmanFilter):
         xj_prior = dot(self.model_F(delta_t), self.x_prior)
 
         # data validation TODO: use a better method
+        """
         try:
             for diff_pos_in_axis in np.fabs(xj_prior - self.x):
                 if diff_pos_in_axis > 2 * STD_MEASURMENT_ERROR_POSITION:
@@ -151,19 +151,34 @@ class DistributedKalmanFilter(KalmanFilter):
             print("x = ", self.x)
             import sys
             print(sys.exc_info())
+        """
+
+        # Internodal Validation
+        Y_minus = dot(self.H.T, dot(self.inv(dot(self.H, dot(variance_error_info, self.H.T))), self.H))
+        Nij_subexpression = self.inv(dot(self.H, dot(variance_error_info, self.H.T))) + dot(self.H, dot(self.P_prior,
+                                                                                                        self.H.T))
+        Nij = dot(self.H.T, dot(Nij_subexpression, self.H))
+        Hij = dot(Y_minus, state_error_info) - dot(self.H.T, dot(self.H, xj_prior))
+        region_to_validate = dot(Hij.transpose(), dot(self.inv(Nij), Hij))
+        #print("validation: ", region_to_validate)
+        if region_to_validate < INTERNODAL_VALIDATION_BOUND:
+            return
+        else:
+            self.logger_kalman.info("Assimilation of data at time " + str(constants.get_time()) + ". Time when data was sent: " +
+                                    str(tj) + ". Time of last local measurement: " + str(self.curr_ti))
 
         # PI(tj|tj) = PI(tj|τi) + variance_error_info
         self.PI_global = PIj_prior + variance_error_info
         self.P_global = self.inv(self.PI_global)
 
         # x(tj|tj) = P(tj|tj)[PI(tj|τi)x(tj|τi) + state_error_info]
-        # TODO: cette ligne renvoie un truc de mauvaise taille visiblement
         x_global_part1 = dot(PIj_prior, xj_prior)
         x_global_part2 = x_global_part1 + state_error_info
         self.x_global = dot(self.P_global, x_global_part2)
-        #self.x_global = dot(self.P_global, dot(PIj_prior, xj_prior) + state_error_info)
-        # self.x_global = self.x # todo:remove
         # udpate the state and covariance
+        self.x_prior = self.x.copy()
+        self.P_prior = self.P.copy()
+        self.PI_prior = self.PI.copy()
         self.x = self.x_global.copy()
         self.PI = self.PI_global.copy()
         self.P = self.P_global.copy()
@@ -242,7 +257,7 @@ def var_error_info_string_to_array(rows):
                 column_index += 1
         row_index += 1
 
-    return ret_arr.transpose()
+    return ret_arr
 
 
 def parse_errors_info_string(string):

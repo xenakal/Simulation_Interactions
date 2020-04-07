@@ -1,4 +1,5 @@
 import numpy as np
+import src.multi_agent.elements.camera as aCam
 
 
 class TargetBehaviourAnalyser:
@@ -209,7 +210,7 @@ class TargetBehaviourAnalyser:
 
             for item in list_to_check:
                 field.append(
-                    cam.is_x_y_radius_in_field_not_obstructed(item.item_position[0], item.item_position[1]))
+                    aCam.is_x_y_radius_in_field_not_obstructed(cam, item.item_position[0], item.item_position[1]))
                 in_field.append(True)
                 out_field.append(False)
 
