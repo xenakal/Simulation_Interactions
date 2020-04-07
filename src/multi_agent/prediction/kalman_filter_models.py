@@ -24,7 +24,8 @@ class KalmanFilterModel:
     constants.py.
     """
 
-    def __init__(self, x_init, y_init, vx_init=0, vy_init=0, ax_init=0, ay_init=0, calc_speed=False):
+    def __init__(self, x_init, y_init, kalman_logger, vx_init=0, vy_init=0, ax_init=0, ay_init=0, calc_speed=False):
+        self.kalman_logger = kalman_logger
         self.filter = self.find_appropriate_filter(x_init, y_init, vx_init, vy_init, ax_init, ay_init, calc_speed)
 
     def reset_filter(self, x_init, y_init, vx_init=0, vy_init=0, ax_init=0, ay_init=0, calc_speed=False):
@@ -70,7 +71,7 @@ class KalmanFilterModel:
         self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
 
         if constants.DISTRIBUTED_KALMAN:
-            f = DistributedKalmanFilter(dim_x=2, dim_z=2, model_F=F_func)
+            f = DistributedKalmanFilter(dim_x=2, dim_z=2, model_F=F_func, logger=self.kalman_logger)
         else:
             f = KalmanFilter(dim_x=2,
                              dim_z=2)  # as we have a 4d state space and measurements on only the positions (x,y)
@@ -116,7 +117,7 @@ class KalmanFilterModel:
         self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
 
         if constants.DISTRIBUTED_KALMAN:
-            f = DistributedKalmanFilter(dim_x=4, dim_z=4, model_F=F_func)
+            f = DistributedKalmanFilter(dim_x=4, dim_z=4, model_F=F_func, logger=self.kalman_logger)
         else:
             f = KalmanFilter(dim_x=4,
                              dim_z=4)  # as we have a 4d state space and measurements on only the positions (x,y)
@@ -169,7 +170,7 @@ class KalmanFilterModel:
         self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
 
         if constants.DISTRIBUTED_KALMAN:
-            f = DistributedKalmanFilter(dim_x=6, dim_z=6, model_F=F_func)
+            f = DistributedKalmanFilter(dim_x=6, dim_z=6, model_F=F_func, logger=self.kalman_logger)
         else:
             f = KalmanFilter(dim_x=6,
                              dim_z=6)  # as we have a 4d state space and measurements on only the positions (x,y)
@@ -223,7 +224,7 @@ class KalmanFilterModel:
 
         # we have a 4d state space and measurements on only the positions (x,y)
         if constants.DISTRIBUTED_KALMAN:
-            f = DistributedKalmanFilter(dim_x=4, dim_z=2, model_F=F_func)
+            f = DistributedKalmanFilter(dim_x=4, dim_z=2, model_F=F_func, logger=self.kalman_logger)
         else:
             f = KalmanFilter(dim_x=4, dim_z=2)
 

@@ -4,6 +4,7 @@ from filterpy.kalman import update, predict
 import numpy as np
 import warnings
 from src.multi_agent.prediction.kalman_filter_models import KalmanFilterModel
+import src.my_utils.my_IO.IO_data as log
 
 MARGE_SPEED_ERROR = 0.5
 SPEED_CHANGE_THRESHOLD = 2 * STD_MEASURMENT_ERROR_SPEED + MARGE_SPEED_ERROR
@@ -25,8 +26,12 @@ class KalmanPrediction:
     """
 
     def __init__(self, agent_id, target_id, x_init, y_init, vx_init, vy_init, ax_init, ay_init, timestamp):
+        # logger to gather debug information
+        self.logger_kalman = log.create_logger(constants.ResultsPath.LOG_KALMAN, "kalman_info_" + str(target_id),
+                                               agent_id)
         # contains the information on the model used
-        self.filter_model = KalmanFilterModel(x_init, y_init, vx_init, vy_init, ax_init, ay_init, calc_speed=True)
+        self.filter_model = KalmanFilterModel(x_init, y_init, self.logger_kalman, vx_init, vy_init, ax_init, ay_init,
+                                              calc_speed=True)
         # actual filter that processes the measurements
         self.filter = self.filter_model.filter
         # id of tracked target
@@ -55,22 +60,26 @@ class KalmanPrediction:
         kalman_memory_element.append(timestamp)
         self.kalman_memory.append(kalman_memory_element)
 
+        pivot_detected = False
         # a pivot is defined as a change of direction (in our case equivalent to change in speed in either axis)
         if self.pivot_point_detected_speed():
             # filter reset to "forget" the previous information
             self.reset_filter(*z)
             # memory reset as well
             self.kalman_memory = [kalman_memory_element]
+            pivot_detected = True
 
-        #dt = timestamp - self.prev_timestamp
-        #F = self.filter_model.model_F(dt)
-        #self.filter.predict(F=F)
-        #print(F)
-        self.filter.predict()
+        dt = timestamp - self.prev_timestamp
+        self.prev_timestamp = timestamp
+        F = self.filter_model.model_F(dt)
+        self.filter.predict(F=F)
+
         if constants.DISTRIBUTED_KALMAN:
             self.filter.update(np.array(z[:KALMAN_MODEL_MEASUREMENT_DIM]), timestamp=timestamp)
         else:
             self.filter.update(np.array(z[:KALMAN_MODEL_MEASUREMENT_DIM]))
+
+        return pivot_detected
 
     def pivot_point_detected_acc(self):
         acc_x = np.abs(self.kalman_memory[-1][4])
