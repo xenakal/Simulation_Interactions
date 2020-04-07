@@ -53,7 +53,6 @@ class Memory:
         self.memory_predictions_order_1_from_target = Target_TargetEstimator()
         self.memory_predictions_order_2_from_target = Target_TargetEstimator()
 
-        self.memory_use_to_send_information_from_target = Target_TargetEstimator()
         self.predictors = []
 
         "Logger to keep track of every send and received messages"

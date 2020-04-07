@@ -210,7 +210,7 @@ class TargetBehaviourAnalyser:
 
             for item in list_to_check:
                 field.append(
-                    aCam.is_x_y_radius_in_field_not_obstructed(cam, item.item_position[0], item.item_position[1]))
+                    aCam.is_x_y_radius_in_field_not_obstructed(camera, item.item_position[0], item.item_position[1]))
                 in_field.append(True)
                 out_field.append(False)
 
