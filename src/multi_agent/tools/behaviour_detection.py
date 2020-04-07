@@ -1,4 +1,5 @@
 import numpy as np
+import src.multi_agent.elements.camera as cam
 
 
 class TargetBehaviourAnalyser:
@@ -168,7 +169,7 @@ class TargetBehaviourAnalyser:
                 return True
         return False
 
-    def is_target_leaving_cam_field(self, cam, targetID, t, n):
+    def is_target_leaving_cam_field(self, camera, targetID, t, n):
         """
             :description
                 based on multiple position, we want to detect if the target is leaving the camera field
@@ -209,7 +210,7 @@ class TargetBehaviourAnalyser:
 
             for item in list_to_check:
                 field.append(
-                    cam.is_x_y_radius_in_field_not_obstructed(item.item_position[0], item.item_position[1]))
+                    cam.is_x_y_radius_in_field_not_obstructed(camera,item.item_position[0], item.item_position[1]))
                 in_field.append(True)
                 out_field.append(False)
 

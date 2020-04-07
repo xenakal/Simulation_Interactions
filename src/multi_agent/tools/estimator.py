@@ -1,5 +1,7 @@
+import math
 import re
 from src import constants
+
 
 def is_corresponding_TargetEstimator(agent_id, target_id, targetEstimator):
     """
@@ -62,8 +64,9 @@ class ItemEstimator:
                    fells free to write some comments.
     """
 
-    def __init__(self, time_stamp=None, agent_id=None, agent_signature=None, item_id=None, item_signature=None, item_xc=None, item_yc=None, item_vx=None,
-                 item_vy=None,item_ax=None, item_ay=None, item_type=None):
+    def __init__(self, time_stamp=None, agent_id=None, agent_signature=None, item_id=None, item_signature=None,
+                 item_xc=None, item_yc=None, item_vx=None,
+                 item_vy=None, item_ax=None, item_ay=None, item_type=None):
         "Time information"
         self.time_stamp = time_stamp
         self.time_to_compare_to_simulated_data = constants.time_when_target_are_moved
@@ -181,14 +184,21 @@ class TargetEstimator(ItemEstimator):
                    fells free to write some comments.
     """
 
-    def __init__(self, time_stamp=None, agent_id=None, agent_signature=None, target_id=None, target_signature=None, target_xc=None, target_yc=None,
-                 target_vx=None, target_vy=None, target_ax=None, target_ay=None, target_type=None,target_radius=None):
+    def __init__(self, time_stamp=None, agent_id=None, agent_signature=None, target_id=None, target_signature=None,
+                 target_xc=None, target_yc=None,
+                 target_vx=None, target_vy=None, target_ax=None, target_ay=None, target_type=None, target_radius=None,
+                 variance_on_estimation=None):
 
         super().__init__(time_stamp, agent_id, agent_signature, target_id, target_signature, target_xc, target_yc,
                          target_vx, target_vy, target_ax, target_ay, target_type)
         self.target_radius = target_radius
+        if target_vx is None or target_vy is None:
+            self.alpha = None
+        else:
+            self.alpha = math.atan2(target_vy, target_vx)
+        self.variance_on_estimation = variance_on_estimation
 
-    def set_from_target(self,time_stamp,agent,target):
+    def set_from_target(self, time_stamp, agent, target):
         "Time information"
         self.time_stamp = time_stamp
         self.time_to_compare_to_simulated_data = constants.time_when_target_are_moved
@@ -201,11 +211,12 @@ class TargetEstimator(ItemEstimator):
 
         "Target information"
         self.item_position = [target.xc, target.yc]
-        self.item_speeds = [target.vx,target.vy]
+        self.item_speeds = [target.vx, target.vy]
         self.item_acceleration = [target.ax, target.ay]
         self.item_type = target.type
+        self.alpha = math.atan2(target.vy, target.vx)
         self.target_radius = target.radius
-
+        self.variance_on_estimation = -1
 
     def to_string(self):
         """
@@ -220,7 +231,8 @@ class TargetEstimator(ItemEstimator):
         s5 = "x: %.02f  y: %.02f" % (self.item_position[0], self.item_position[1]) + "\n"
         s6 = "vx: %.02f  vy: %.02f" % (self.item_speeds[0], self.item_speeds[1]) + "\n"
         s7 = "ax: %.02f  ay: %.02f" % (self.item_acceleration[0], self.item_acceleration[1]) + "\n"
-        s8 = "#Radius: " + str(self.target_radius) + "\n"
+        s8 = "#Radius: " + str(self.target_radius) + "#alpha: " + str(self.alpha) + "\n"
+
         return str("\n" + s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8)
 
     def parse_string(self, s):
@@ -237,7 +249,8 @@ class TargetEstimator(ItemEstimator):
         s = s.replace(" ", "")
 
         attribute = re.split(
-            "#Timestamp#|#From#|#Sig_agent#|#Target_ID#|#Sig_target#|#Target_type#|x:|y:|vx:|vy:|ax:|ay:|#Radius:", s)
+            "#Timestamp#|#From#|#Sig_agent#|#Target_ID#|#Sig_target#|#Target_type#|x:|y:|vx:|vy:|ax:|ay:|#Radius:|#alpha:",
+            s)
 
         self.time_stamp = float(attribute[1])
         self.agent_id = int(attribute[2])
@@ -249,6 +262,7 @@ class TargetEstimator(ItemEstimator):
         self.item_speeds = [float(attribute[9]), float(attribute[10])]
         self.item_acceleration = [float(attribute[11]), float(attribute[12])]
         self.target_radius = float(attribute[13])
+        self.alpha = float(attribute[14])
 
     def to_csv(self):
         """
@@ -262,7 +276,7 @@ class TargetEstimator(ItemEstimator):
                       'target_x': self.item_position[0], 'target_y': self.item_position[1],
                       'target_vx': self.item_speeds[0], 'target_vy': self.item_speeds[1],
                       'target_ax': self.item_acceleration[0], 'target_ay': self.item_acceleration[1],
-                      'target_radius': self.target_radius}
+                      'target_radius': self.target_radius, 'target_alpha': self.alpha}
         return csv_format
 
 
@@ -297,10 +311,13 @@ class AgentEstimator(ItemEstimator):
                    fells free to write some comments.
     """
 
-    def __init__(self, time_stamp=None, agent_id=None, agent_signature=None, agent_camera_id=None, agent_camera_signature=None,
-                 agent_camera_xc=None,agent_camera_yc=None, agent_camera_vx=None, agent_camera_vy=None, agent_camera_ax=None,
-                 agent_camera_ay=None,error_pos=None,error_speeds=None,error_acc=None,agent_camera_type=None, alpha=None, beta=None,
-                 field_depth=None,is_camera_active=None,is_agent_active=None):
+    def __init__(self, time_stamp=None, agent_id=None, agent_signature=None, agent_camera_id=None,
+                 agent_camera_signature=None,
+                 agent_camera_xc=None, agent_camera_yc=None, agent_camera_vx=None, agent_camera_vy=None,
+                 agent_camera_ax=None,
+                 agent_camera_ay=None, error_pos=None, error_speeds=None, error_acc=None, agent_camera_type=None,
+                 alpha=None, beta=None,
+                 field_depth=None, is_camera_active=None, is_agent_active=None):
 
         super().__init__(time_stamp, agent_id, agent_signature, agent_camera_id, agent_camera_signature,
                          agent_camera_xc, agent_camera_yc, agent_camera_vx, agent_camera_vy, agent_camera_ax,
@@ -314,7 +331,7 @@ class AgentEstimator(ItemEstimator):
         self.is_camera_active = is_camera_active
         self.is_agent_active = is_agent_active
 
-    def set_agent_agent_obeserved(self,time_stamp,agent,agent_to_observed):
+    def set_agent_agent_obeserved(self, time_stamp, agent, agent_to_observed):
         "Time information"
         self.time_stamp = time_stamp
         self.time_to_compare_to_simulated_data = constants.time_when_target_are_moved
@@ -329,10 +346,9 @@ class AgentEstimator(ItemEstimator):
         self.item_type = agent_to_observed.type
         camera = agent_to_observed.camera
 
-
-        self.item_position = [camera.xc,  camera.yc]
-        self.item_speeds =  [0,0]# [ camera.vx,  camera.vy]
-        self.item_acceleration = [0,0]# [ camera.ax,  camera.ay]
+        self.item_position = [camera.xc, camera.yc]
+        self.item_speeds = [0, 0]  # [ camera.vx,  camera.vy]
+        self.item_acceleration = [0, 0]  # [ camera.ax,  camera.ay]
 
         self.alpha = camera.alpha
         self.beta = camera.beta
@@ -352,11 +368,15 @@ class AgentEstimator(ItemEstimator):
         s2 = "#From " + str(self.agent_id) + "#Sig_agent_responsible " + str(self.agent_signature) + "\n"
         s3 = "#Agent_camera_ID " + str(self.item_id) + "#Sig_agent_camera " + str(self.item_signature) + "\n"
         s4 = "#Camera_type " + str(self.item_type) + "\n"
-        s5 = "#x: %.02f  #y: %.02f #error_pos: %.02f "% (self.item_position[0], self.item_position[1],self.error_pos) + "\n"
-        s6 = "# vx: %.02f  #vy: %.02f #error_speed: %.02f"% (self.item_speeds[0], self.item_speeds[1],self.error_speed) +"\n"
-        s7 = "# ax: %.02f  #ay: %.02f #error_acc: %.02f"% (self.item_acceleration[0], self.item_acceleration[1],self.error_acc) + "\n"
-        s8 = "# alpha: %.02f #beta: %.02f #field_depth: %.02f" %(self.alpha,self.beta,self.field_depth) + "\n"
-        s9 = "# agent_is_active: " + str(self.is_agent_active) + " #camera_is_active: " + str(self.is_camera_active) + "\n"
+        s5 = "#x: %.02f  #y: %.02f #error_pos: %.02f " % (
+        self.item_position[0], self.item_position[1], self.error_pos) + "\n"
+        s6 = "# vx: %.02f  #vy: %.02f #error_speed: %.02f" % (
+        self.item_speeds[0], self.item_speeds[1], self.error_speed) + "\n"
+        s7 = "# ax: %.02f  #ay: %.02f #error_acc: %.02f" % (
+        self.item_acceleration[0], self.item_acceleration[1], self.error_acc) + "\n"
+        s8 = "# alpha: %.02f #beta: %.02f #field_depth: %.02f" % (self.alpha, self.beta, self.field_depth) + "\n"
+        s9 = "# agent_is_active: " + str(self.is_agent_active) + " #camera_is_active: " + str(
+            self.is_camera_active) + "\n"
         return str("\n" + s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8 + s9)
 
     def parse_string(self, s):
@@ -384,12 +404,12 @@ class AgentEstimator(ItemEstimator):
         self.item_position = [float(attribute[7]), float(attribute[8])]
         self.error_pos = (float(attribute[9]))
         self.item_speeds = [float(attribute[10]), float(attribute[11])]
-        self.error_speed =float(attribute[12])
+        self.error_speed = float(attribute[12])
         self.item_acceleration = [float(attribute[13]), float(attribute[14])]
         self.error_pos = (float(attribute[15]))
         self.alpha = float(attribute[16])
         self.beta = float(attribute[17])
-        self.field_depth =float(attribute[18])
+        self.field_depth = float(attribute[18])
 
         if attribute[19] == "True":
             self.is_agent_active = True
@@ -611,7 +631,8 @@ class Agent_Target_TargetEstimator(Agent_item_itemEstimator):
         super().__init__()
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
-                                    target_xc, target_yc, target_vx, target_vy, target_ax, target_ay, target_type,target_size):
+                                    target_xc, target_yc, target_vx, target_vy, target_ax, target_ay, target_type,
+                                    target_size, variance_on_estimation=-1):
         """
             :description
                 Creates an estimator and adds it to the list if doesn't exist yet.
@@ -632,9 +653,8 @@ class Agent_Target_TargetEstimator(Agent_item_itemEstimator):
         """
         new_targetEstimator = TargetEstimator(time_from_estimation, agent_id, agent_signature, target_id,
                                               target_signature, target_xc, target_yc, target_vx, target_vy,
-                                              target_ax, target_ay,target_type,target_size)
+                                              target_ax, target_ay, target_type, target_size, variance_on_estimation)
         self.add_itemEstimator(new_targetEstimator)
-
 
     def to_csv(self):
         """
@@ -657,8 +677,9 @@ class Agent_Agent_AgentEstimator(Agent_item_itemEstimator):
         super().__init__()
 
     def add_create_agent_estimator(self, time_stamp, agent_id, agent_signature, agent_camera_id, agent_camera_signature,
-                                   agent_camera_xc,agent_camera_yc,agent_camera_vx, agent_camera_vy,
-                                   agent_camera_ax,agent_camera_ay,error_pos,error_speed,error_acc,agent_camera_type,alpha,beta,field_depth,
+                                   agent_camera_xc, agent_camera_yc, agent_camera_vx, agent_camera_vy,
+                                   agent_camera_ax, agent_camera_ay, error_pos, error_speed, error_acc,
+                                   agent_camera_type, alpha, beta, field_depth,
                                    is_camera_active, is_agent_active):
 
         """
@@ -682,14 +703,15 @@ class Agent_Agent_AgentEstimator(Agent_item_itemEstimator):
         new_agentEstimator = AgentEstimator(time_stamp, agent_id, agent_signature, agent_camera_id,
                                             agent_camera_signature, agent_camera_xc,
                                             agent_camera_yc, agent_camera_vx, agent_camera_vy, agent_camera_ax,
-                                            agent_camera_ay,error_pos,error_speed,error_acc, agent_camera_type, alpha, beta, field_depth,
+                                            agent_camera_ay, error_pos, error_speed, error_acc, agent_camera_type,
+                                            alpha, beta, field_depth,
                                             is_camera_active, is_agent_active)
 
         self.add_itemEstimator(new_agentEstimator)
 
     def add_create_agent_estimator_from_agent(self, time_from_estimation, agent, agent_observed):
         new_agentEstimator = AgentEstimator()
-        new_agentEstimator.set_agent_agent_obeserved(time_from_estimation,agent,agent_observed)
+        new_agentEstimator.set_agent_agent_obeserved(time_from_estimation, agent, agent_observed)
         self.add_itemEstimator(new_agentEstimator)
 
     def to_csv(self):
@@ -706,7 +728,6 @@ class Agent_Agent_AgentEstimator(Agent_item_itemEstimator):
                 data_to_save.append(targetEstimator.to_csv())
 
         return [csv_fieldnames, data_to_save]
-
 
 
 class Item_ItemEstimator:
@@ -843,7 +864,7 @@ class Target_TargetEstimator(Item_ItemEstimator):
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
                                     target_xc, target_yc, target_vx, target_vy, target_ax, target_ay, target_size,
-                                    target_type):
+                                    target_type, variance_on_estimation):
         """
             :description
                 Creates an estimator and adds it to the list if doesn't exist yet.
@@ -865,10 +886,8 @@ class Target_TargetEstimator(Item_ItemEstimator):
 
         new_targetEstimator = TargetEstimator(time_from_estimation, agent_id, agent_signature, target_id,
                                               target_signature, target_xc, target_yc, target_vx, target_vy,
-                                              target_ax, target_ay,  target_type, target_size)
+                                              target_ax, target_ay, target_type, target_size, variance_on_estimation)
         self.add_itemEstimator(new_targetEstimator)
-
-
 
     def to_csv(self):
         csv_fieldnames = constants.TARGET_ESTIMATOR_CSV_FIELDNAMES
@@ -932,7 +951,7 @@ class Agent_AgentEstimator(Item_ItemEstimator):
                                             agent_camera_signature, agent_camera_xc,
                                             agent_camera_yc, agent_camera_vx, agent_camera_vy, agent_camera_ax,
                                             agent_camera_ay, error_pos, error_speed, error_acc, agent_camera_type,
-                                            alpha, beta, field_depth,is_camera_active, is_agent_active)
+                                            alpha, beta, field_depth, is_camera_active, is_agent_active)
 
         self.add_itemEstimator(new_agentEstimator)
 
@@ -940,5 +959,3 @@ class Agent_AgentEstimator(Item_ItemEstimator):
         new_agentEstimator = AgentEstimator()
         new_agentEstimator.set_agent_agent_obeserved(time_from_estimation, agent, agent_observed)
         self.add_itemEstimator(new_agentEstimator)
-
-

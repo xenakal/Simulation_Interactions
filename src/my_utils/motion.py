@@ -77,6 +77,8 @@ def rectiligne_trajectory(target, dist_min, delta_time):
         target.vx = v_x
         target.vy = v_y
 
+        target.alpha = math.atan2(v_y,v_x)
+
         """updating position"""
         target.xc = target.xc + v_x * delta_time
         target.yc = target.yc + v_y * delta_time

@@ -329,7 +329,7 @@ class AgentCam(AgentInteractingWithRoom):
         """
 
         "Combination of data received and data observed"
-        self.memory.combine_data_agentCam(CombineDataChoice.DATA_PREDICTION_T_PLUS_1)
+        self.memory.combine_data_agentCam(CombineDataChoice.DATA_KALMAN)
 
         "Modification from the room description"
         self.room_representation.update_target_based_on_memory(self.memory.memory_agent_from_target)

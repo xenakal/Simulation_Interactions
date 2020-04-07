@@ -113,8 +113,7 @@ class KalmanPrediction:
         try:
             for _ in range(NUMBER_PREDICTIONS):
                 new_state, new_P = predict(current_state, current_P, self.filter_model.model_F(dt), self.filter.Q)
-                predictions.append(new_state[0:KALMAN_MODEL_MEASUREMENT_DIM])
-                predictions.append(new_state)
+                predictions.append((new_state,new_P))
                 current_state, current_P = update(new_state, new_P, new_state[0:KALMAN_MODEL_MEASUREMENT_DIM],
                                                   self.filter.R, self.filter.H)
         except ValueError:
@@ -126,7 +125,7 @@ class KalmanPrediction:
         return predictions
 
     def get_current_position(self):
-        return self.filter.x
+        return (self.filter.x,self.filter.P)
 
     def reset_filter(self, x_init, y_init, vx_init, vy_init, ax_init, ay_init):
         self.filter = self.filter_model.reset_filter(x_init, y_init, vx_init, vy_init, ax_init, ay_init, calc_speed=True)

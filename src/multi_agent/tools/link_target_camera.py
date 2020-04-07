@@ -107,17 +107,23 @@ class LinkTargetCamera():
                                 camera = agent.camera_representation
 
                             "Put target radius = 0 to consider only the centers"
-                            cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(camera,target.xc, target.yc,target.radius)
-                            cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(self.room,camera.id,target.xc, target.yc)
-                            "Check is the camera can see the target for a given room geometry"
+                            if isinstance(target.radius,float):
+                                cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(camera,target.xc, target.yc,target.radius)
+                                cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(self.room, camera.id, target.xc, target.yc)
 
-                            if cdt_in_field and cdt_not_hidden and camera.is_active:
-                                "Distance computation"
-                                distance_to_target = np.power(np.power((camera.xc - target.xc), 2)
-                                                              + np.power((camera.yc - target.yc), 2), 0.5)
 
-                                if distance_to_target < distance_min:
-                                    (agent_id_dist_min, distance_min) = (agent.id, distance_to_target)
+                                "Check is the camera can see the target for a given room geometry"
+
+                                if cdt_in_field and cdt_not_hidden and camera.is_active:
+                                    "Distance computation"
+                                    distance_to_target = np.power(np.power((camera.xc - target.xc), 2)
+                                                                  + np.power((camera.yc - target.yc), 2), 0.5)
+
+                                    if distance_to_target < distance_min:
+                                        (agent_id_dist_min, distance_min) = (agent.id, distance_to_target)
+                            else:
+                                pass
+                                #print(target.radius)
 
                             targetAgentLink.set(agent_id_dist_min, distance_min)
 

@@ -46,7 +46,7 @@ class TargetRepresentation:
                         fells free to write some comments.
     """
 
-    def __init__(self, id=-1, x=-1, y=-1, radius=5, type=TargetType.UNKNOWN, color=0):
+    def __init__(self, id=None, x=None, y=None, radius=None, type=None, color=None):
         """Initialisation"""
 
         " Identification name (id) + number "
@@ -57,17 +57,19 @@ class TargetRepresentation:
         "Position and Speeds"""
         self.xc = x
         self.yc = y
+        self.alpha = 0
 
         "TargetRepresentation attributes"
         self.radius = radius
         self.type = type
         self.color = color
+        self.variance_on_estimation = (0,0)
         self.confidence_pos = -1
         self.priority_level = 0
 
 
         "Default values"
-        if color == 0:
+        if color is None:
             r = random.randrange(20, 230, 1)
             g = random.randrange(20, 230, 1)
             b = random.randrange(20, 255, 1)
@@ -150,10 +152,11 @@ class Target(TargetRepresentation):
 
         # Target description on the maps
         """!! Attention you responsability to get coherent speed and acceleration"""
-        self.vx = vx
-        self.vy = vy
         self.vx_max = vx * constants.SCALE_TIME
         self.vy_max = vy * constants.SCALE_TIME
+
+        self.vx = vx
+        self.vy = vy
 
         self.ax = ax
         self.ay = ay

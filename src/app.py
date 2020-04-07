@@ -207,8 +207,9 @@ class App:
                                                                        target.id), -1, target.id, target.signature,
                                                                    target.xc, target.yc, target.vx, target.vy,
                                                                    target.ax, target.ay,
-                                                                   target.radius, target.type)
+                                                                   target.radius, target.type,-1)
                 move_Target(target, delta_time)
+
 
                 # theoritical calculation
 

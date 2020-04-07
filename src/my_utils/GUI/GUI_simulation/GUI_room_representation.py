@@ -97,7 +97,6 @@ class GUI_room_representation():
         if target.confidence_pos > 0:
             color_conf = [math.ceil(255-2.5 * target.confidence_pos), math.ceil(target.confidence_pos * 2.5), 0]
 
-
         pygame.draw.ellipse(self.screen, color_conf, (
             self.x_offset + int(target.xc * self.scale_x) - int(self.scale_x * (target.radius * 1.2)),
             self.y_offset + int(target.yc * self.scale_y) - int(self.scale_y * (target.radius * 1.2)),
@@ -128,6 +127,50 @@ class GUI_room_representation():
                                          self.scale_y * target.radius / 2),
                                      int(self.scale_x * target.radius),
                                      int(self.scale_y * target.radius)))
+
+        pygame.draw.circle(self.screen, RED, (
+        self.x_offset + int(target.xc * self.scale_x + target.radius * self.scale_x * math.cos(target.alpha)),
+        self.y_offset + int(target.yc * self.scale_y + target.radius * self.scale_y * math.sin(target.alpha))), 3)
+
+
+
+
+        if not target.variance_on_estimation is None or not target == (0,0):
+
+            facteur = 100
+            value_to_draw1 = target.variance_on_estimation[0] #+target.radius
+            value_to_draw2 = target.variance_on_estimation[1] #+target.radius
+
+
+            pygame.draw.line(self.screen, WHITE, (self.x_offset + int(target.xc * self.scale_x),self.y_offset + int(target.yc * self.scale_y)),
+                                                 (self.x_offset + int((target.xc + facteur*value_to_draw1*math.cos(target.alpha))*self.scale_x),
+                                                  self.y_offset + int((target.yc+ facteur*value_to_draw1*math.sin(target.alpha))* self.scale_y)),3)
+
+            pygame.draw.line(self.screen, WHITE, (
+            self.x_offset + int(target.xc * self.scale_x), self.y_offset + int(target.yc * self.scale_y)),
+                             (self.x_offset + int(
+                                 (target.xc + facteur * value_to_draw1 * math.cos(target.alpha+math.pi)) * self.scale_x),
+                              self.y_offset + int(
+                                  (target.yc + facteur * value_to_draw1 * math.sin(target.alpha+math.pi)) * self.scale_y)), 3)
+
+            pygame.draw.line(self.screen, WHITE, (
+                self.x_offset + int(target.xc * self.scale_x), self.y_offset + int(target.yc * self.scale_y)),
+                             (self.x_offset + int(
+                                 (target.xc + facteur * value_to_draw2 * math.cos(
+                                     target.alpha + math.pi/2)) * self.scale_x),
+                              self.y_offset + int(
+                                  (target.yc + facteur * value_to_draw2 * math.sin(
+                                      target.alpha + math.pi/2)) * self.scale_y)), 3)
+
+            pygame.draw.line(self.screen, WHITE, (
+                self.x_offset + int(target.xc * self.scale_x), self.y_offset + int(target.yc * self.scale_y)),
+                             (self.x_offset + int(
+                                 (target.xc + facteur * value_to_draw2 * math.cos(
+                                     target.alpha - math.pi/2)) * self.scale_x),
+                              self.y_offset + int(
+                                  (target.yc + facteur * value_to_draw2 * math.sin(
+                                      target.alpha - math.pi/2)) * self.scale_y)), 3)
+
 
     def draw_one_target_all_previous_position(self, room):
         for target in room.information_simulation.target_list:

@@ -109,7 +109,7 @@ time_when_target_are_moved = 0
 TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp',
                                    'agent_id', 'agent_signature', 'target_id', 'target_signature',
                                    'target_type', 'target_x', 'target_y', 'target_vx', 'target_vy',
-                                   'target_ax', 'target_ay', 'target_radius']
+                                   'target_ax', 'target_ay', 'target_radius','target_alpha']
 
 CAMERA_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp','agent_id','agent_signature','camera_id',
                                    'camera_signature','camera_type','camera_x','camera_y', 'camera_vx', 'camera_vy',

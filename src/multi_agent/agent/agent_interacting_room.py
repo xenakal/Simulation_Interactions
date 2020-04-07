@@ -113,15 +113,15 @@ class AgentInteractingWithRoom(Agent):
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT + str(self.id),
                                          self.memory.memory_all_agent_from_target.to_csv())
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT + str(self.id),
-                                         self.memory.memory_agent_from_target.to_csv())
+                                         self.memory.memory_measured_from_target.to_csv())
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_FILTER + str(self.id),
-                                         self.memory.best_estimations.to_csv())
+                                         self.memory.memory_best_estimations_from_target.to_csv())
             save_in_csv_file_dictionnary(
                 constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1 + str(self.id),
-                self.memory.predictions_order_1.to_csv())
+                self.memory.memory_predictions_order_1_from_target.to_csv())
             save_in_csv_file_dictionnary(
                 constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS2 + str(self.id),
-                self.memory.predictions_order_2.to_csv())
+                self.memory.memory_predictions_order_2_from_target.to_csv())
             self.log_main.info("Data saved !")
 
         "Clear"
@@ -226,7 +226,7 @@ class AgentInteractingWithRoom(Agent):
 
 
         if delta_time > constants.TIME_BTW_TARGET_ESTIMATOR:
-            target_estimator_list = self.memory.memory_agent_from_target.get_item_list(target_id)
+            target_estimator_list = self.memory.memory_measured_from_target.get_item_list(target_id)
 
             if len(target_estimator_list) > 0:
                 last_target_estimator = target_estimator_list[-1]
