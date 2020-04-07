@@ -19,7 +19,7 @@ class TargetBehaviourAnalyser:
     """
 
     def __init__(self, memory):
-        self.room_memory = memory.memory_agent_from_target
+        self.room_memory = memory.memory_use_to_send_information_from_target
 
     def is_target_stopped(self, target_id, delta_t, n, thresh):
         """

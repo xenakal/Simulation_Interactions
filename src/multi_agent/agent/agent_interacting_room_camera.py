@@ -334,8 +334,8 @@ class AgentCam(AgentInteractingWithRoom):
         self.memory.combine_data_agentCam(CombineDataChoice.DATA_KALMAN)
 
         "Modification from the room description"
-        self.room_representation.update_target_based_on_memory(self.memory.memory_agent_from_target)
-        self.room_representation.update_agent_based_on_memory(self.memory.memory_agent_from_agent)
+        self.room_representation.update_target_based_on_memory(self.memory.memory_use_to_send_information_from_target)
+        self.room_representation.update_agent_based_on_memory(self.memory.memory_use_to_send_information_from_target)
 
         "Computation of the camera that should give the best view, according to maps algorithm"
         self.link_target_agent.update_link_camera_target()
