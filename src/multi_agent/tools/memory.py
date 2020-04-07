@@ -46,6 +46,7 @@ class Memory:
         self.memory_agent_from_agent = Agent_AgentEstimator()
 
         self.memory_all_agent_from_target = Agent_Target_TargetEstimator()
+        self.memory_agent_from_target = Target_TargetEstimator()
 
         self.memory_measured_from_target = Target_TargetEstimator()
         self.memory_best_estimations_from_target = Target_TargetEstimator()
@@ -159,13 +160,13 @@ class Memory:
 
         "Combine data related to target"
         if choice == CombineDataChoice.DATA_MEASURED_ONLY_SELF:
-            self.memory_use_to_send_information_from_target = self.memory_measured_from_target
+            self.memory_agent_from_target= self.memory_measured_from_target
         elif choice == CombineDataChoice.DATA_KALMAN:
-            self.memory_use_to_send_information_from_target = self.memory_best_estimations_from_target
+            self.memory_agent_from_target = self.memory_best_estimations_from_target
         elif choice == CombineDataChoice.DATA_PREDICTION_T_PLUS_1:
-            self.memory_use_to_send_information_from_target = self.memory_predictions_order_1_from_target
+            self.memory_agent_from_target = self.memory_predictions_order_1_from_target
         elif choice == CombineDataChoice.DATA_PREDICTION_T_PLUS_2:
-            self.memory_use_to_send_information_from_target= self.memory_predictions_order_2_from_target
+            self.memory_agent_from_target = self.memory_predictions_order_2_from_target
 
         "Combine data related to agentCam"
         if True:
