@@ -26,7 +26,7 @@ class GUI_predictions:
             # predictions = agent.makePredictionsOld(self.method, self.targetsToDisplay)
             predictions = agent.get_predictions(self.targetsToDisplay)
             for prediction in predictions:
-                for point in prediction[1]:
+                for (point, variance) in prediction[1]:
                     pygame.draw.circle(self.screen, agent.color,
                                        (self.xOffset + int(point[0] * self.scaleX),
                                         self.yOffset + int(point[1] * self.scaleY)), 2)
