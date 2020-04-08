@@ -27,7 +27,7 @@ class CameraController:
         return x_command,y_command, self.get_alpha_command(alpha_mes), self.get_beta_command(beta_mes)
 
     def get_pos_command(self, x_mes, y_mes):
-        return  self.position_controller.get_command(x_mes,y_mes)
+        return self.position_controller.get_command(x_mes,y_mes)
 
     def get_alpha_command(self,alpha_mes):
         return self.alpha_controller.get_command(alpha_mes)
@@ -41,8 +41,10 @@ class PositionController:
         self.y_controller = ControllerPI(y_target, kp, ki)
 
     def get_command(self, x_mes, y_mes):
+        #print(self.x_controller.value_target)
+        #print(self.y_controller.value_target)
         x_command = self.x_controller.get_command(x_mes)
-        y_command = self.x_controller.get_command(y_mes)
+        y_command = self.y_controller.get_command(y_mes)
         return x_command, y_command
 
 
@@ -69,7 +71,7 @@ class ControllerP:
 
     def born_command(self, command):
         if math.fabs(command) > self.command_max:
-            return np.sin(command) * self.command_max
+            return np.sign(command) * self.command_max
         else:
             return command
 

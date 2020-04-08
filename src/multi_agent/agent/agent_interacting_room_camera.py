@@ -1,6 +1,6 @@
 from src.multi_agent.agent.agent_interacting_room import *
 from src.multi_agent.communication.message import *
-from src.multi_agent.tools.behaviour_agent import use_pca_to_get_alpha_beta_xc_yc
+from src.multi_agent.tools.behaviour_agent import use_pca_to_get_alpha_beta_xc_yc, PCA_track_points_possibilites
 from src.multi_agent.tools.behaviour_detection import *
 from src.multi_agent.tools.link_target_camera import *
 from src.my_utils.controller import CameraController
@@ -102,6 +102,8 @@ class AgentCam(AgentInteractingWithRoom):
         super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM, t_add, t_del, camera.color)
         self.camera_controller = None
         self.link_target_agent = None
+        self.memory_of_objectives = []
+        self.memory_of_position_to_reach = []
 
         self.time_last_message_agentEstimtor_sent = constants.get_time()
 
@@ -175,9 +177,7 @@ class AgentCam(AgentInteractingWithRoom):
 
                     # TODO implement a way for the camera to move correctly !!!
 
-                    # x_target, y_target, alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.camera,
-                    # real_room.information_simulation.target_list)
-
+                    x_target,y_target,alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,self.memory_of_position_to_reach,self.camera, real_room.information_simulation.target_list,PCA_track_points_possibilites.MEDIAN_POINTS)
                     self.camera_controller.set_targets(x_target, y_target, alpha_target, beta_target)
 
                     """Define the values measured"""
@@ -189,12 +189,13 @@ class AgentCam(AgentInteractingWithRoom):
                     if self.camera.camera_type == mobCam.MobileCameraType.RAIL:
                         "1 D"
                         x_mes = self.camera.trajectory.sum_delta
+                        y_mes = 0
+
+
 
                     """Find the command to apply"""
-                    (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes,
-                                                                                                             y_mes,
-                                                                                                             alpha_mes,
-                                                                                                             beta_mes)
+                    (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes,y_mes,alpha_mes,beta_mes)
+
 
                     """Apply the command"""
                     if constants.get_time() - last_time_move < 0:
@@ -398,6 +399,8 @@ class AgentCam(AgentInteractingWithRoom):
 
         "Combination of data received and data observed"
         self.memory.combine_data_agentCam()
+
+
 
         "Modification from the room description"
         self.room_representation.update_target_based_on_memory(self.memory.memory_predictions_order_2_from_target)
@@ -668,3 +671,32 @@ class Configuration:
     def __init__(self):
         self.is_valid_configuration = True
         # TODO: add everything needed for a configuration
+
+
+"""
+    def find_new_configuration_based_on_targetEstimator(self,method,target_estimator_list):
+        "target_estimator_list = Target_TargetEstimator()"
+        new_room_representation = self.room_representation.copy()
+        new_room_representation.update_target_based_on_memory(target_estimator_list)
+        
+        if method == 1:
+            x_target, y_target, alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,
+                                                                               self.memory_of_position_to_reach,
+                                                                               self.camera,
+                                                                                new_room_representation.target_list,
+                                                                               PCA_track_points_possibilites.MEDIAN_POINTS)
+        
+        return None
+
+    def check_new_configuration(self,target_estimator_list):
+        (x_target, y_target, alpha_target,beta_target) =  self.find_new_configuration_based_on_targetEstimator(1,target_estimator_list)
+        new_camera = self.camera.copy()
+        new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target,beta_target)
+        for target in new_room_representation.target_list:
+            cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, target.xc, target.yc, target.radius)
+            cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(new_room_representation, new_camera.id, target.xc, target.yc)
+
+            "Check is the camera can see the target for a given room geometry"
+
+            if cdt_in_field and cdt_not_hidden: #and new_camera.is_active:
+                do what you want

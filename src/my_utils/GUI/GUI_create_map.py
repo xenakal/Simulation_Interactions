@@ -324,7 +324,7 @@ class GUI_create_map:
             elif self.button_create_map_2.find_button_state(Button_name.OBJECT_DEL):
                 for target in self.new_room.information_simulation.target_list:
                     if math.fabs(x_new - target.xc) < 0.2 and math.fabs(y_new - target.yc) < 0.2:
-                        self.new_room.information_simulation.Target_list.remove(target)
+                        self.new_room.information_simulation.target_list.remove(target)
 
     def add_camera_to_the_room(self, on, pressed, x_new, y_new):
         """Check if a button was clicked"""

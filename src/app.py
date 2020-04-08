@@ -195,12 +195,13 @@ class App:
                 move_Target(target, delta_time)
 
                 # theoritical calculation
-
             time_old = time.time()
 
     def main(self):
         run = True
         reset = False
+        do_next = True
+        do_previous = False
 
         """Event loo^p"""
         while run:
@@ -231,7 +232,7 @@ class App:
                     self.static_region.compute_all_map(NUMBER_OF_POINT_STATIC_ANALYSIS, True)
 
                 self.myGUI.updateGUI(self.room, region, self.link_agent_target.link_camera_target)
-                (run, reset) = self.myGUI.GUI_option.getGUI_Info()
+                (run, reset, do_next,do_previous) = self.myGUI.GUI_option.getGUI_Info()
 
             """Closing the simulation options"""
             if constants.get_time() > constants.TIME_STOP and USE_GUI:
@@ -241,6 +242,7 @@ class App:
                 run = False
 
         self.clear()
+        return (do_previous,do_next)
 
 
 def execute():

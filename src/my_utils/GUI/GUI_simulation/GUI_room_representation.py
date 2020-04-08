@@ -61,6 +61,7 @@ class GUI_room_representation():
             self.draw_link_cam_region(agent_to_display.room_representation,
                                       agent_to_display.link_target_agent.link_camera_target)
 
+
     def draw_room(self, tab, draw_time=False):
         if draw_time:
             label = self.font.render("time = %.02f s" % constants.get_time(), 10, WHITE)
@@ -188,7 +189,6 @@ class GUI_room_representation():
                 self.x_offset + int(camera.xc * self.scale_x) + 5, self.y_offset + int(camera.yc * self.scale_y) + 5))
 
             self.draw_one_camera(camera)
-
             # render form
             if not agent.is_active:
                 color = RED
@@ -203,6 +203,24 @@ class GUI_room_representation():
                 color_conf = WHITE
             else:
                 color_conf = RED
+
+
+
+            if len(agent.memory_of_position_to_reach) > 0:
+                for mem in agent.memory_of_position_to_reach[-1]:
+                    (x,y,index)= mem
+                    pygame.draw.circle(self.screen, RED, (
+                        self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 4)
+
+            if len(agent.memory_of_objectives) > 0:
+                xt = agent.memory_of_objectives[-1][0]
+                yt = agent.memory_of_objectives[-1][1]
+                angle = agent.memory_of_objectives[-1][2]
+                length = 0.5
+                pt1 = (self.x_offset + int(xt*self.scale_x),self.y_offset+int(yt*self.scale_y))
+                pt2 = (self.x_offset + int((xt+length*math.cos(angle))*self.scale_x),self.y_offset + int((yt+length*math.sin(angle))*self.scale_y))
+                pygame.draw.line(self.screen, agent.color,pt1,pt2, 3)
+                pygame.draw.circle(self.screen, WHITE,pt1, 3)
 
             pygame.draw.circle(self.screen, color_conf, (
                 self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 11)

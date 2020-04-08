@@ -22,19 +22,19 @@ class Line:
         if self.m is None:
             return self.xa
         else:
-            return (y - self.ya) / self.m
+            return ((y - self.ya) / self.m) + self.xa
 
-    def compute_y(self,x):
+    def compute_y(self,x,line):
         """
             :param
                 - x
             :return
                 - Compute the y coordinate for the value of x
         """
-        if self.m is None:
-            return self.ya
+        if line.m is None:
+            return line.ya
         else:
-            return self.ya+x*self.m
+            return self.ya+(x-self.xa)*self.m
 
     def find_line_perp(self, x, y):
         """
@@ -70,22 +70,12 @@ class Line:
         elif self.m is None:
             "self is vertical"
             xi = self.xa
-            yi = line.compute_y(xi)
+            yi = line.compute_y(xi,line)
 
         elif line.m is None:
             "line is vertical"
             xi = line.xa
-            yi = self.compute_y(xi)
-
-        elif math.fabs(self.m) < self.tol:
-            """self is horizontal"""
-            yi = self.xa
-            xi = line.compute_y(yi)
-
-        elif math.fabs(self.m) < self.tol:
-            """line is horizontal"""
-            yi = line.ya
-            xi = line.compute_y(yi)
+            yi = self.compute_y(xi,self)
 
         else:
             """Every other line"""
