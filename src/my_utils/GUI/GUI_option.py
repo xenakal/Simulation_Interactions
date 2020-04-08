@@ -109,17 +109,18 @@ class GUI_option:
             if type_event == KEYDOWN:
                 if event.key == K_ESCAPE:
                     pygame.quit()
-                    return False, False
+                    return False, False, False, False
                 if event.key == K_r:
-                    return True, True
+                    return True, True, True,False
                 if event.key == K_s:
                     print("screenshot")
                     pygame.image.save(self.screen, constants.ResultsPath.DATA_SCREENSHOT + "/screenshot_at_%.02fs.png" % constants.get_time())
                 if event.key == K_n:
                     print("To next map")
-                    return False, False
+                    return False, False,True,False
                 if event.key == K_p:
-                   pass
+                    print("previous next map")
+                    return False, False, False,True
 
             elif type_event == MOUSEMOTION and event.buttons[0] == 1:  # déplacement + boutton enfoncer
                 pass
@@ -132,4 +133,4 @@ class GUI_option:
             elif type_event == MOUSEBUTTONUP:
                 self.position_mouse_pressed.append([pygame.mouse.get_pos()])
 
-        return True, False
+        return True, False ,True,False

@@ -41,6 +41,8 @@ class PositionController:
         self.y_controller = ControllerPI(y_target, kp, ki)
 
     def get_command(self, x_mes, y_mes):
+        #print(self.x_controller.value_target)
+        #print(self.y_controller.value_target)
         x_command = self.x_controller.get_command(x_mes)
         y_command = self.y_controller.get_command(y_mes)
         return x_command, y_command

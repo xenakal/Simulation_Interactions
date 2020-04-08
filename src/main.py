@@ -38,8 +38,19 @@ t_stop = [500,500,500,500]
 """When many cameras are used, it might be a good idea to slowdown the simulation using a scaling factor < 1"""
 t_scale = [1,1,1,1]
 
-for name, kalman_distributed_elem, kalman_type_elem, t_stop_elem, t_scale_elem in zip(map_to_test_name,
-                                                                                      kalman_distributed, kalman_type,
-                                                                                      t_stop, t_scale):
-    print("processing " + str(name))
-    App(name, kalman_distributed_elem, kalman_type_elem, t_stop_elem, t_scale_elem).main()
+index = 0
+while  index < len(map_to_test_name):
+
+    print("processing " + str(map_to_test_name[index]))
+    (is_do_previous,is_do_next) = App(map_to_test_name[index], kalman_distributed[index], kalman_type[index], t_stop[index], t_scale[index]).main()
+
+    if is_do_previous:
+        index -= 1
+        if index < 0:
+            index = 0
+
+    elif is_do_next:
+        index += 1
+    else:
+        print("exit complietly")
+        break

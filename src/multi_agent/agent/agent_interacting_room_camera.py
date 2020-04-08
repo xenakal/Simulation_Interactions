@@ -130,7 +130,7 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation, True)
-        self.camera_controller = CameraController(0.5,0,0.4 ,0,0.8, 0)
+        self.camera_controller = CameraController(0.5,0.1,0.4 ,0,0.8, 0)
         self.camera_controller.set_targets(self.camera.xc, self.camera.yc, self.camera.alpha, self.camera.beta)
 
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
