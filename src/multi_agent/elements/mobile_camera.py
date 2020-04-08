@@ -2,6 +2,7 @@ import re
 import math
 import numpy as np
 from src.multi_agent.elements.camera import Camera, CameraRepresentation, born_minus_pi_plus_pi
+from src.my_utils.my_math.line import distance_btw_two_point, Line
 
 
 class MobileCameraType:
@@ -35,7 +36,7 @@ class MobileCameraRepresentation(CameraRepresentation):
 
 class MobileCamera(Camera):
     def __init__(self, id, xc, yc, alpha, beta, trajectory, field_depth, color=0, t_add=-1, t_del=-1,
-                 type=MobileCameraType.RAIL, vx_vy_min=0, vx_vy_max=1, v_alpha_min=0, v_alpha_max=1,
+                 type=None, vx_vy_min=0, vx_vy_max=1, v_alpha_min=0, v_alpha_max=1,
                  delta_beta=40, v_beta_min=0, v_beta_max=1):
 
         super().__init__(id, xc, yc, alpha, beta, field_depth, color, t_add, t_del)
@@ -83,7 +84,7 @@ class MobileCamera(Camera):
         s2 = " vx_vy_min:%.02f vx_vy_max:%.02f" % (self.vx_vy_min, self.vx_vy_max)
         s3 = " v_alpha_min:%.02f v_alpha_max:%.02f" % (self.v_alpha_min, self.v_alpha_max)
         s4 = " v_beta_min:%.02f v_beta_max:%.02f" % (self.v_beta_min, self.v_beta_max)
-        s5 = " traj: " + str(self.trajectory.trajectory)
+        s5 = " traj: " + str(self.trajectory.trajectory) + "type: " + str(self.camera_type)
         return s0 + s1 + s2 + s3 + s4 + s5 + "\n"
 
     def load_from_txt(self, s):
@@ -91,13 +92,20 @@ class MobileCamera(Camera):
         s = s.replace(" ", "")
 
         attribute = re.split(
-            "x:|y:|alpha:|beta:|field_depth:|t_add:|t_del:|vx_vy_min:|vx_vy_max:|v_alpha_min:|v_alpha_max:|v_beta_min:|v_beta_max:|traj:",
+            "x:|y:|alpha:|beta:|field_depth:|t_add:|t_del:|vx_vy_min:|vx_vy_max:|v_alpha_min:|v_alpha_max:|v_beta_min:|v_beta_max:|traj:|type:",
             s)
 
         self.xc = float(attribute[1])
         self.yc = float(attribute[2])
         self.alpha = math.radians(float(attribute[3]))
         self.beta = math.radians(float(attribute[4]))
+
+        self.default_xc = float(attribute[1])
+        self.default_yc = float(attribute[2])
+        self.default_alpha = born_minus_pi_plus_pi(math.radians(float(attribute[3])))
+        self.default_beta = born_minus_pi_plus_pi(math.radians(float(attribute[4])))
+
+
         self.field_depth = float(attribute[5])
         self.t_add = self.load_tadd_tdel(attribute[6])
         self.t_del = self.load_tadd_tdel(attribute[7])
@@ -108,13 +116,8 @@ class MobileCamera(Camera):
         self.v_beta_min = float(attribute[12])
         self.v_beta_max = float(attribute[13])
         self.trajectory = TrajectoryPlaner([])
-
-        self.default_xc = float(attribute[1])
-        self.default_yc = float(attribute[2])
-        self.default_alpha = born_minus_pi_plus_pi(math.radians(float(attribute[3])))
-        self.default_beta = born_minus_pi_plus_pi(math.radians(float(attribute[4])))
-
         self.trajectory.load_trajcetory(attribute[14])
+        self.camera_type = int(attribute[15])
         self.beta_min = self.beta - self.delta_beta
         self.beta_max = self.beta + self.delta_beta
 
@@ -220,13 +223,14 @@ class TrajectoryPlaner:
         if len(self.trajectory) > 1:
             (xi, yi) = self.trajectory[self.trajectory_index]
             (xf, yf) = self.trajectory[self.trajectory_index + 1]
+
             (x_trajectory_frame, y_trajectory_frame) = self.from_world_frame_to_trajectory_frame(x, y)
             (xf_trajectory_frame, yf_trajectory_frame) = self.from_world_frame_to_trajectory_frame(xf, yf)
 
             "Variation"
             self.sum_delta += delta
             x_trajectory_frame += delta
-            if y_trajectory_frame > 0.000001:
+            if y_trajectory_frame > 0.0001:
                 print("problème in move_on_trajectory y = %.2f", y_trajectory_frame)
 
             if x_trajectory_frame > xf_trajectory_frame:
@@ -249,12 +253,62 @@ class TrajectoryPlaner:
                     return self.move_on_trajectory(xi, yi, delta_new)
                 else:
                     "Reaching start point"
+                    self.sum_delta = 0
                     return self.from_trajectory_frame_to_world_frame(0, 0)
 
             else:
                 return self.from_trajectory_frame_to_world_frame(x_trajectory_frame, y_trajectory_frame)
         else:
             return x, y
+
+    def find_all_intersection(self, line):
+        all_possible_intersection = []
+        for index in range(len(self.trajectory)-1):
+            (xi, yi) = self.trajectory[index]
+            (xf, yf) = self.trajectory[index + 1]
+
+            segment = Line(xi, yi, xf, yf)
+            x_intersection, y_intersection = segment.find_intersection_btw_two_line(line)
+
+            x_intersection_in_trajecotry_frame, y_intersection_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(x_intersection, y_intersection, index)
+            xf_in_trajectory_frame, yf_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(xf, yf, index)
+
+            if y_intersection_in_trajectory_frame > 0.001:
+                print(y_intersection)
+                print("problème")
+
+            elif 0 < x_intersection_in_trajecotry_frame < xf_in_trajectory_frame:
+                all_possible_intersection.append((x_intersection,y_intersection,index))
+
+        return all_possible_intersection
+
+    def find_closest_intersection(self,line,index):
+        if index < 0:
+            return  (0,0,0)
+        elif index >= len(self.trajectory)-1:
+            return (self.trajectory[-1][0],self.trajectory[-1][1],len(self.trajectory)-1)
+        else:
+            (xi, yi) = self.trajectory[index]
+            (xf, yf) = self.trajectory[index+1]
+            segment = Line(xi, yi, xf, yf)
+            x_intersection,y_intersection = segment.find_intersection_btw_two_line(line)
+
+            x_intersection_in_trajecotry_frame,y_intersection_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(x_intersection,y_intersection,index)
+            xf_in_trajectory_frame,yf_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(xf,yf,index)
+
+            if y_intersection_in_trajectory_frame > 0.001:
+                #print(y_intersection)
+                print("problème  in find closest intersection")
+                return(None,None,None)
+            elif x_intersection_in_trajecotry_frame > xf_in_trajectory_frame or x_intersection  is None:
+                return self.find_closest_intersection(line,index+1)
+            elif x_intersection_in_trajecotry_frame < xi:
+                return self.find_closest_intersection(line,index-1)
+            else:
+                return (x_intersection,y_intersection,index)
+
+
+
 
     def get_angle(self):
         (xi, yi) = self.trajectory[self.trajectory_index]
@@ -269,6 +323,27 @@ class TrajectoryPlaner:
     def from_world_frame_to_trajectory_frame(self, x, y):
         (xi, yi) = self.trajectory[self.trajectory_index]
         angle = self.get_angle()
+        x_no_offset = x - xi
+        y_no_offset = y - yi
+        return self.rotate_angle(angle, x_no_offset, y_no_offset)
+
+    def compute_distance_for_point_x_y(self, x, y, i_index):
+        sum = 0
+        for n in range(i_index):
+            (xi, yi) = self.trajectory[n]
+            (xf, yf) = self.trajectory[n+1]
+            d = distance_btw_two_point(xi,yi,xf,yf)
+            sum += d
+
+        (xi, yi) = self.trajectory[i_index]
+        d = distance_btw_two_point(xi, yi, x, y)
+        sum += d
+        return sum,0
+
+    def from_world_frame_to_trajectory_frame_for_a_given_segment(self, x, y,index):
+        (xi, yi) = self.trajectory[index]
+        (xf, yf) = self.trajectory[self.trajectory_index + 1]
+        angle = math.atan2(yf - yi, xf - xi)
         x_no_offset = x - xi
         y_no_offset = y - yi
         return self.rotate_angle(angle, x_no_offset, y_no_offset)

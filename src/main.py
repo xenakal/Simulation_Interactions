@@ -11,10 +11,10 @@ set the folder in which those maps are located with constants.MapPath.folder
 by default in maps
 """
 
-map_to_test_name = ["My_new_map"]
+map_to_test_name = ["map1","map2","map3","map4"]
 
 """ Used to specify whether we want to use arguments passed from user. """
-use_args = True
+use_args = False
 
 """
 Variable here are use to set the desired parameter during the simulation.
@@ -22,7 +22,7 @@ Variable here are use to set the desired parameter during the simulation.
 
 """Kalman centralised VS Kalman distributed to track the targets"""
 if not use_args:
-    kalman_distributed = [False]
+    kalman_distributed = [False,False,False,False]
 else:
     kalman_distributed = [sys.argv[1] == "T"]
 
@@ -31,12 +31,12 @@ else:
         - positions and speeds = 4
         - positions,speeds and accelerations = 6
 """
-kalman_type = [4]
+kalman_type = [4,4,4,4]
 
 """Time at which the simulation should stop, the time to start is eaqual to 0 s"""
-t_stop = [1000]
+t_stop = [500,500,500,500]
 """When many cameras are used, it might be a good idea to slowdown the simulation using a scaling factor < 1"""
-t_scale = [1]
+t_scale = [1,1,1,1]
 
 for name, kalman_distributed_elem, kalman_type_elem, t_stop_elem, t_scale_elem in zip(map_to_test_name,
                                                                                       kalman_distributed, kalman_type,

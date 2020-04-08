@@ -185,9 +185,6 @@ class AgentInteractingWithRoom(Agent):
 
 
 
-
-
-
     def send_message_targetEstimator(self, targetEstimator, receivers=None):
         """
             :description
@@ -223,7 +220,6 @@ class AgentInteractingWithRoom(Agent):
 
     def send_message_timed_targetEstimator(self,target_id,receivers= None):
         delta_time = constants.get_time() - self.time_last_message_targetEstimtor_sent
-
 
         if delta_time > constants.TIME_BTW_TARGET_ESTIMATOR:
             #target_estimator_list = self.memory.memory_measured_from_target.get_item_list(target_id)

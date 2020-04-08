@@ -115,6 +115,11 @@ class GUI_option:
                 if event.key == K_s:
                     print("screenshot")
                     pygame.image.save(self.screen, constants.ResultsPath.DATA_SCREENSHOT + "/screenshot_at_%.02fs.png" % constants.get_time())
+                if event.key == K_n:
+                    print("To next map")
+                    return False, False
+                if event.key == K_p:
+                   pass
 
             elif type_event == MOUSEMOTION and event.buttons[0] == 1:  # déplacement + boutton enfoncer
                 pass

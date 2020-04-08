@@ -212,7 +212,6 @@ class App:
 
 
                 # theoritical calculation
-
             time_old = time.time()
 
     def main(self):
