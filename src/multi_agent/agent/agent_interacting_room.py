@@ -145,15 +145,15 @@ class AgentInteractingWithRoom(Agent):
         """
         for message_sent in self.info_message_sent.get_list():
             if message_sent.is_approved():
-                '''Do something'''
+                """Do something"""
                 self.info_message_sent.del_message(message_sent)
             elif message_sent.is_not_approved():
                 self.info_message_sent.del_message(message_sent)
 
     def process_message_received(self):
         """
-            :description
-                1. Dispatsching to deal with multiple message given the type
+        :description
+            1. Dispatsching to deal with multiple message given the type
         """
         for rec_mes in self.info_message_received.get_list():
             self.process_single_message(rec_mes)

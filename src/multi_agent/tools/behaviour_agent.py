@@ -8,7 +8,7 @@ from src.multi_agent.elements.target import TargetType
 from src.my_utils.my_math.line import Line
 
 
-def use_pca_to_get_alpha_beta_xc_yc(camera,target_representation_list):
+def use_pca_to_get_alpha_beta_xc_yc(camera, target_representation_list):
     sample = []
     all_x = []
     all_y = []
