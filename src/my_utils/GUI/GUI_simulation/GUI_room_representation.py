@@ -1,6 +1,7 @@
 import pygame
 import math
 from src import constants
+from src.multi_agent.agent.agent_interacting_room_camera import AgentCam
 from src.multi_agent.elements.room import Room
 from src.multi_agent.elements.target import TargetType
 from src.multi_agent.agent.agent import AgentType
@@ -129,9 +130,6 @@ class GUI_room_representation():
                                      int(self.scale_x * target.radius),
                                      int(self.scale_y * target.radius)))
 
-        pygame.draw.circle(self.screen, RED, (
-        self.x_offset + int(target.xc * self.scale_x + target.radius * self.scale_x * math.cos(target.alpha)),
-        self.y_offset + int(target.yc * self.scale_y + target.radius * self.scale_y * math.sin(target.alpha))), 3)
 
 
         if not target.variance_on_estimation is None:
@@ -171,6 +169,9 @@ class GUI_room_representation():
                                       (target.yc + facteur * value_to_draw2 * math.sin(
                                           target.alpha - math.pi/2)) * self.scale_y)), 3)
 
+        pygame.draw.circle(self.screen, RED, (
+            self.x_offset + int(target.xc * self.scale_x + target.radius * self.scale_x * math.cos(target.alpha)),
+            self.y_offset + int(target.yc * self.scale_y + target.radius * self.scale_y * math.sin(target.alpha))), 3)
 
     def draw_one_target_all_previous_position(self, room):
         for target in room.information_simulation.target_list:
@@ -204,24 +205,6 @@ class GUI_room_representation():
             else:
                 color_conf = RED
 
-
-
-            if len(agent.memory_of_position_to_reach) > 0:
-                for mem in agent.memory_of_position_to_reach[-1]:
-                    (x,y,index)= mem
-                    pygame.draw.circle(self.screen, RED, (
-                        self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 4)
-
-            if len(agent.memory_of_objectives) > 0:
-                xt = agent.memory_of_objectives[-1][0]
-                yt = agent.memory_of_objectives[-1][1]
-                angle = agent.memory_of_objectives[-1][2]
-                length = 0.5
-                pt1 = (self.x_offset + int(xt*self.scale_x),self.y_offset+int(yt*self.scale_y))
-                pt2 = (self.x_offset + int((xt+length*math.cos(angle))*self.scale_x),self.y_offset + int((yt+length*math.sin(angle))*self.scale_y))
-                pygame.draw.line(self.screen, agent.color,pt1,pt2, 3)
-                pygame.draw.circle(self.screen, WHITE,pt1, 3)
-
             pygame.draw.circle(self.screen, color_conf, (
                 self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 11)
 
@@ -233,6 +216,26 @@ class GUI_room_representation():
 
             pygame.draw.circle(self.screen, camera.color, (
                 self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 5)
+
+
+            if isinstance(agent,AgentCam):
+                    if len(agent.memory_of_position_to_reach) > 0:
+                        for mem in agent.memory_of_position_to_reach[-1]:
+                            (x,y,index)= mem
+                            pygame.draw.circle(self.screen, RED, (
+                                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 4)
+
+                    if len(agent.memory_of_objectives) > 0:
+                        xt = agent.memory_of_objectives[-1][0]
+                        yt = agent.memory_of_objectives[-1][1]
+                        angle = agent.memory_of_objectives[-1][2]
+                        length = 0.5
+                        pt1 = (self.x_offset + int(xt*self.scale_x),self.y_offset+int(yt*self.scale_y))
+                        pt2 = (self.x_offset + int((xt+length*math.cos(angle))*self.scale_x),self.y_offset + int((yt+length*math.sin(angle))*self.scale_y))
+                        pygame.draw.line(self.screen, agent.color,pt1,pt2, 3)
+                        pygame.draw.circle(self.screen, WHITE,pt1, 3)
+
+
 
     def draw_one_camera(self, camera):
         l = camera.field_depth * math.pow((math.pow(self.scale_x * math.cos(camera.alpha), 2) + math.pow(

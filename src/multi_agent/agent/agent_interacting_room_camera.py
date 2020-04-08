@@ -130,7 +130,7 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation, True)
-        self.camera_controller = CameraController(0.5,0.1,0.4 ,0,0.8, 0)
+        self.camera_controller = CameraController(1.2,0,0.4 ,0,0.8, 0.1)
         self.camera_controller.set_targets(self.camera.xc, self.camera.yc, self.camera.alpha, self.camera.beta)
 
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
@@ -164,7 +164,7 @@ class AgentCam(AgentInteractingWithRoom):
 
                     # TODO implement a way for the camera to move correctly !!!
 
-                    x_target,y_target,alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,self.memory_of_position_to_reach,self.camera, real_room.information_simulation.target_list,PCA_track_points_possibilites.MEDIAN_POINTS)
+                    x_target,y_target,alpha_target,beta_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,self.memory_of_position_to_reach,self.camera, real_room.information_simulation.target_list,PCA_track_points_possibilites.MEDIAN_POINTS)
                     self.camera_controller.set_targets(x_target, y_target, alpha_target, beta_target)
 
 
@@ -180,18 +180,19 @@ class AgentCam(AgentInteractingWithRoom):
                         y_mes = 0
 
 
-
                     """Find the command to apply"""
                     (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes,y_mes,alpha_mes,beta_mes)
-
 
                     """Apply the command"""
                     if constants.get_time() - last_time_move < 0:
                         print("problem time < 0 : %.02f s" % constants.get_time())
                     else:
-                        self.camera.rotate(alpha_command, constants.get_time() - last_time_move)
-                        self.camera.zoom(beta_command, constants.get_time() - last_time_move)
-                        self.camera.move(x_command, y_command, constants.get_time() - last_time_move)
+                        dt = constants.get_time() - last_time_move
+                        if dt > 0.5:
+                            dt = 0.5
+                        self.camera.rotate(alpha_command,dt )
+                        self.camera.zoom(beta_command, dt)
+                        self.camera.move(x_command, y_command, dt)
                         last_time_move = constants.get_time()
 
                 else:
