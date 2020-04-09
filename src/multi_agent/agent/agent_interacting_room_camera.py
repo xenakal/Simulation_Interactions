@@ -134,7 +134,7 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation, True)
-        self.camera_controller = CameraController(0.5, 0, 0.4, 0, 0.8, 0)
+        self.camera_controller = CameraController(1.2, 0, 0.4, 0, 0.8, 0.1)
         self.camera_controller.set_targets(self.camera.xc, self.camera.yc, self.camera.alpha, self.camera.beta)
 
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
@@ -178,8 +178,14 @@ class AgentCam(AgentInteractingWithRoom):
                     alpha_target = self.camera.default_alpha
                     beta_target = self.camera.default_beta
 
+<<<<<<< HEAD
                     # TODO: use the methods defined at the end for that
                     x_target,y_target,alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,self.memory_of_position_to_reach,self.camera, real_room.information_simulation.target_list,PCA_track_points_possibilites.MEDIAN_POINTS)
+=======
+                    # TODO implement a way for the camera to move correctly !!!
+
+                    x_target,y_target,alpha_target,beta_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,self.memory_of_position_to_reach,self.camera, real_room.information_simulation.target_list,PCA_track_points_possibilites.MEDIAN_POINTS)
+>>>>>>> 6aa0a4c3fb9f5fdeb0e6b4e5e0749dd654b56a0e
                     self.camera_controller.set_targets(x_target, y_target, alpha_target, beta_target)
 
                     """Define the values measured"""
@@ -194,23 +200,23 @@ class AgentCam(AgentInteractingWithRoom):
                         y_mes = 0
 
 
-
                     """Find the command to apply"""
                     (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes,y_mes,alpha_mes,beta_mes)
-
 
                     """Apply the command"""
                     if constants.get_time() - last_time_move < 0:
                         print("problem time < 0 : %.02f s" % constants.get_time())
                     else:
-                        self.camera.rotate(alpha_command, constants.get_time() - last_time_move)
-                        self.camera.zoom(beta_command, constants.get_time() - last_time_move)
-                        self.camera.move(x_command, y_command, constants.get_time() - last_time_move)
+                        dt = constants.get_time() - last_time_move
+                        if dt > 0.5:
+                            dt = 0.5
+                        self.camera.rotate(alpha_command,dt )
+                        self.camera.zoom(beta_command, dt)
+                        self.camera.move(x_command, y_command, dt)
                         last_time_move = constants.get_time()
 
                     '''
                     if constants.MOVE_AGENTS:
-
                         # check what targets are untrackable (used latter in send/rec messages)
 
                         configuration = self.find_configuration_for_tracked_targets()
@@ -410,7 +416,8 @@ class AgentCam(AgentInteractingWithRoom):
         new_target_targetEstimator = Target_TargetEstimator()
         for (target_id, targetEstimator_list) in target_target_estimator:
             if target_id in targets:
-                new_target_targetEstimator.add_itemEstimator(targetEstimator_list[-1])  #([target_id, targetEstimator_list])
+                new_target_targetEstimator.add_itemEstimator(
+                    targetEstimator_list[-1])  # ([target_id, targetEstimator_list])
 
         # find a configuration for these targets
         new_room_representation = self.room_representation.deepcopy()
@@ -426,13 +433,14 @@ class AgentCam(AgentInteractingWithRoom):
         # check if this configuration covers all targets
         new_camera = self.camera.deepcopy()
         new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target)
-        targetEstimators = [targetEstimator_list[-1] for (target_id, targetEstimator_list) in new_target_targetEstimator]
+        targetEstimators = [targetEstimator_list[-1] for (target_id, targetEstimator_list) in
+                            new_target_targetEstimator]
         for targetEstimator in targetEstimators:
             cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, targetEstimator.item_position[0],
                                                                      targetEstimator.item_position[1],
                                                                      targetEstimator.target_radius)
             cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(new_room_representation, new_camera.id,
-                                                                        targetEstimator.xc, targetEstimator.yc)
+                                                                       targetEstimator.xc, targetEstimator.yc)
             if not (cdt_in_field or cdt_not_hidden):
                 return None
 
@@ -446,8 +454,6 @@ class AgentCam(AgentInteractingWithRoom):
 
         "Combination of data received and data observed"
         self.memory.combine_data_agentCam()
-
-
 
         "Modification from the room description"
         self.room_representation.update_target_based_on_memory(self.memory.memory_predictions_order_2_from_target)
@@ -623,7 +629,8 @@ class AgentCam(AgentInteractingWithRoom):
         if configuration is not None:  # this agent can track the target
             self.targets_to_track.append(targetItem)
             # TODO: check how to get id of targetItem
-            ack_message = Message(constants.get_time(), self.id, self.signature, MessageTypeAgentCameraInteractingWithRoom.ACK_UNTRACKABLE_TARGET, "", targetItem.id)
+            ack_message = Message(constants.get_time(), self.id, self.signature,
+                                  MessageTypeAgentCameraInteractingWithRoom.ACK_UNTRACKABLE_TARGET, "", targetItem.id)
             self.broadcast_message(ack_message)
 
     def receive_message_ack_untrackableTarget(self, message):
@@ -702,7 +709,8 @@ def make_string(target, target_xc, target_yc):
 def parse_message_untrackableTarget(message):
     # TODO: see in what form to return the target
     pass
-    #return TargetEstimator(...)
+    # return TargetEstimator(...)
+
 
 def remove_target_with_lowest_priority(target_list):
     """
@@ -712,36 +720,38 @@ def remove_target_with_lowest_priority(target_list):
     # TODO: define a better method
     return target_list[:-1]
 
-
+"""
 def find_new_configuration_based_on_targetEstimator(target_estimator_list):
-    """target_estimator_list = Target_TargetEstimator()"""
+    '''target_estimator_list = Target_TargetEstimator()'''
     new_room_representation = self.room_representation.copy()
     new_room_representation.update_target_based_on_memory(target_estimator_list)
     x_target, y_target, alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,
                                                                        self.memory_of_position_to_reach,
                                                                        self.camera,
-                                                                        new_room_representation.target_list,
+                                                                       new_room_representation.target_list,
                                                                        PCA_track_points_possibilites.MEDIAN_POINTS)
 
     configuration = Configuration(x_target, y_target, alpha_target, None)
 
     return configuration
 
-def check_new_configuration(self,target_estimator_list):
-    (x_target, y_target, alpha_target,beta_target) =  \
+
+def check_new_configuration(self, target_estimator_list):
+    (x_target, y_target, alpha_target, beta_target) = \
         find_new_configuration_based_on_targetEstimator(target_estimator_list)
     new_camera = self.camera.copy()
-    new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target,beta_target)
+    new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target)
     for target in new_room_representation.target_list:
         cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, target.xc, target.yc, target.radius)
-        cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(new_room_representation, new_camera.id, target.xc, target.yc)
+        cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(new_room_representation, new_camera.id, target.xc,
+                                                                   target.yc)
 
         "Check is the camera can see the target for a given room geometry"
 
-        if cdt_in_field and cdt_not_hidden: #and new_camera.is_active:
+        if cdt_in_field and cdt_not_hidden:  # and new_camera.is_active:
             pass
             # do what you want
-
+"""
 
 class Configuration:
     def __init__(self, x, y, alpha, beta):
@@ -749,5 +759,3 @@ class Configuration:
         self.y = y
         self.alpha = alpha
         self.beta = beta
-
-

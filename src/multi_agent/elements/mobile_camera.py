@@ -144,10 +144,21 @@ class MobileCamera(Camera):
         """
 
         sign = np.sign(speed)
+
         if self.beta_min <= self.beta <= self.beta_max:
-            delta = sign * dt * (self.v_beta_min + math.fabs(speed) * (self.v_beta_max - self.v_beta_min))
-        else:
+            if speed == 0:
+                delta = 0
+            else:
+                delta = sign * dt * (self.v_beta_min + math.fabs(speed) * (self.v_beta_max - self.v_beta_min))
+        elif self.beta < self.beta_min:
+            self.beta = self.beta_min
             delta = 0
+        elif self.beta > self.beta_max:
+            self.beta = self.beta_max
+            delta = 0
+        else:
+            print("bizare")
+
 
         self.beta += delta
         self.field_depth -= delta * self.coeff_field
@@ -155,7 +166,7 @@ class MobileCamera(Camera):
         self.std_measurment_error_speed -= delta * self.coeff_std_speed
         self.std_measurment_error_acceleration -= delta * self.coeff_std_acc
 
-        born_minus_pi_plus_pi(self.beta)
+        self.beta = born_minus_pi_plus_pi(self.beta)
 
     def rotate(self, speed, dt):
         """
@@ -242,7 +253,8 @@ class TrajectoryPlaner:
                     return self.move_on_trajectory(xf, yf, delta_new)
                 else:
                     "Reaching the end point"
-                    return self.from_trajectory_frame_to_world_frame(xf_trajectory_frame, yf_trajectory_frame)
+                    (self.sum_delta,y) = self.compute_distance_for_point_x_y(xf,yf,self.trajectory_index)
+                    return (xf,yf)
 
             elif x_trajectory_frame < 0:
                 "On the previous segment"
@@ -254,7 +266,7 @@ class TrajectoryPlaner:
                 else:
                     "Reaching start point"
                     self.sum_delta = 0
-                    return self.from_trajectory_frame_to_world_frame(0, 0)
+                    return (xi,yi)
 
             else:
                 return self.from_trajectory_frame_to_world_frame(x_trajectory_frame, y_trajectory_frame)

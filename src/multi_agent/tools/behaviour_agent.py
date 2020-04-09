@@ -6,7 +6,8 @@ from sklearn.decomposition import PCA
 
 import src.multi_agent.elements.mobile_camera as mobileCam
 from src.multi_agent.elements.target import TargetType
-from src.my_utils.my_math.line import Line
+from src.my_utils.my_math.line import Line, distance_btw_two_point
+
 
 
 class PCA_track_points_possibilites:
@@ -25,24 +26,27 @@ def use_pca_to_get_alpha_beta_xc_yc(memory_objectives, memory_point_to_reach, ca
             all_x.append(target_representation.xc)
             all_y.append(target_representation.yc)
 
+    pca = PCA(n_components=2)
+    pca.fit(sample)
+
     if point_to_track_choice == PCA_track_points_possibilites.MEANS_POINTS:
         xt = np.mean(all_x)
         yt = np.mean(all_y)
+
+        #xt = pca.mean_[0] #only on point taken into account by pca
+        #yt = pca.mean_[1]
     elif point_to_track_choice == PCA_track_points_possibilites.MEDIAN_POINTS:
         xt = np.median(all_x)
         yt = np.median(all_y)
     else:
         print("pca method not defined")
-        return None, None, None, None
-
-    pca = PCA(n_components=2)
-    pca.fit(sample)
+        return (None,None,None,None)
 
     eigen_vector = pca.components_
-    eigen_value_ratio = pca.explained_variance_ratio_
+    eigen_value_ = pca.explained_variance_
 
-    lambda1 = eigen_value_ratio[0]
-    lambda2 = eigen_value_ratio[1]
+    lambda1 = eigen_value_[0]
+    lambda2 = eigen_value_[1]
     if lambda1 < lambda2:
         vector = eigen_vector[0]
     else:
@@ -52,8 +56,10 @@ def use_pca_to_get_alpha_beta_xc_yc(memory_objectives, memory_point_to_reach, ca
     # TODO définir comment choisir l'ange que l'on veut choisir
     memory_objectives.append((xt, yt, angle))
 
+
+
+    xc, yc = (camera.default_xc, camera.default_yc)
     if camera.camera_type == mobileCam.MobileCameraType.RAIL:
-        xc, yc = (camera.default_xc, camera.default_yc)
         line_we_want_to_be_align_with = Line(xt, yt, xt + math.cos(angle), yt + math.sin(angle))
         # memory_point_to_reach.append(camera.trajectory.find_all_intersection(line_we_want_to_be_align_with))
         index = camera.trajectory.trajectory_index
@@ -61,19 +67,31 @@ def use_pca_to_get_alpha_beta_xc_yc(memory_objectives, memory_point_to_reach, ca
         memory_point_to_reach.append([(xi, yi, new_index)])
         xc, yc = camera.trajectory.compute_distance_for_point_x_y(xi, yi, new_index)
 
-        return xc, yc, get_angle_alpha_command_based_on_target_pos(camera, xt, yt)
-
-    elif camera.camera_type == mobileCam.MobileCameraType.FREE:
-        d = camera.field_depth - 1
-        xc = xt + math.cos(angle) * d
-        yc = yt + math.sin(angle) * d
+    elif  camera.camera_type == mobileCam.MobileCameraType.FREE:
+        d = camera.field_depth*0.8
+        xc = xt + math.cos(angle)*d
+        yc = yt + math.sin(angle)*d
 
         if xc < 0:
             xc = 0
         if yc < 0:
             yc = 0
 
-        return xc, yc, get_angle_alpha_command_based_on_target_pos(camera, xt, yt)
+        memory_point_to_reach.append([(xc, yc, 0)])
+
+    beta = 0
+    if point_to_track_choice == PCA_track_points_possibilites.MEANS_POINTS:
+        coeff_correcteur = 1.5
+        distance_camera_xy_target = distance_btw_two_point(xc, yc, xt, yt)
+        beta = math.atan2(coeff_correcteur *2* np.sqrt(max(lambda1, lambda2)), distance_camera_xy_target)
+    elif point_to_track_choice == PCA_track_points_possibilites.MEDIAN_POINTS:
+        #TODO ici si on sait qu'on ne prends de toute façon pas tous les points en prenant la mediane, peut être réapliquer les pca
+        #TODO avec la moyenne pour obtenir l'orrientation et la variance maximale sur les targets qui sont réellement vus.
+        coeff_correcteur = 1.5
+        distance_camera_xy_target = distance_btw_two_point(xc, yc, xt, yt)
+        beta = math.atan2(coeff_correcteur * 2 * np.sqrt(max(lambda1, lambda2)), distance_camera_xy_target)
+
+    return xc, yc, get_angle_alpha_command_based_on_target_pos(camera, xt, yt), beta
 
 
 def get_angle_zoom_based_on_target_representation(camera, target_representation):
