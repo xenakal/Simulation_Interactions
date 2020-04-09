@@ -67,17 +67,17 @@ class ItemEstimator:
     def __init__(self, time_stamp=None, agent_id=None, agent_signature=None, item_id=None, item_signature=None,
                  item_xc=None, item_yc=None, item_vx=None,
                  item_vy=None, item_ax=None, item_ay=None, item_type=None):
-        "Time information"
+        """Time information"""
         self.time_stamp = time_stamp
         self.time_to_compare_to_simulated_data = constants.time_when_target_are_moved
 
-        "Agent - Target link"
+        """Agent - Target link"""
         self.agent_id = agent_id
         self.agent_signature = agent_signature
         self.item_id = item_id
         self.item_signature = item_signature
 
-        "Target information"
+        """Target information"""
         self.item_position = [item_xc, item_yc]
         self.item_speeds = [item_vx, item_vy]
         self.item_acceleration = [item_ax, item_ay]
@@ -745,10 +745,6 @@ class Item_ItemEstimator:
                     2. (int) current_times                   -- reference time, to add estimator or clean the list (here time in the room)
                     3. (list) Target_already_discovered_list -- [target.id,...], link between target and agent already created
                     4. (list) Target_TargetEstimator_list    -- [[target.id, [TargetEstimator]], ...]
-
-
-               :notes
-                   fells free to write some comments.
     """
 
     def __init__(self, current_time=0):

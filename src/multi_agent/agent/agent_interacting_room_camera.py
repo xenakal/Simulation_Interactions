@@ -116,6 +116,10 @@ class AgentCam(AgentInteractingWithRoom):
         # targets in self.targets_to_track for which a configuration wasn't found
         self.untrackable_targets = []
 
+        # Configuration used by the agent to move
+        # TODO: see how to use this
+        self.configuration = None
+
     def init_and_set_room_description(self, room):
         """
             :description
@@ -145,8 +149,6 @@ class AgentCam(AgentInteractingWithRoom):
     def init_targets_to_track_from_seen(self):
         """ Initializes the targets to track as all targets seen by the agent at the time of initialization. """
         self.targets_to_track = self.room_representation.active_Target_list
-        tracked_targets_id = [target.id for target in self.targets_to_track]
-        print("agent ", self.id, "tracks the targets: ", tracked_targets_id)
 
     def thread_run(self, real_room):
         """
@@ -168,15 +170,15 @@ class AgentCam(AgentInteractingWithRoom):
 
             if state == AgentCameraFSM.MOVE_CAMERA:
 
-                if last_time_move is not None:
+                if last_time_move:
+                    '''
                     """Define the values to reaches"""
                     x_target = self.camera.default_xc
                     y_target = self.camera.default_yc
                     alpha_target = self.camera.default_alpha
                     beta_target = self.camera.default_beta
 
-                    # TODO implement a way for the camera to move correctly !!!
-
+                    # TODO: use the methods defined at the end for that
                     x_target,y_target,alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,self.memory_of_position_to_reach,self.camera, real_room.information_simulation.target_list,PCA_track_points_possibilites.MEDIAN_POINTS)
                     self.camera_controller.set_targets(x_target, y_target, alpha_target, beta_target)
 
@@ -206,9 +208,14 @@ class AgentCam(AgentInteractingWithRoom):
                         self.camera.move(x_command, y_command, constants.get_time() - last_time_move)
                         last_time_move = constants.get_time()
 
-                    # check what targets are untrackable (used latter in send/rec messages)
-                    configuration = self.find_configuration_for_tracked_targets()
-                    # TODO: use this config to move the agent ?
+                    '''
+                    if constants.MOVE_AGENTS:
+
+                        # check what targets are untrackable (used latter in send/rec messages)
+
+                        configuration = self.find_configuration_for_tracked_targets()
+                        self.move_based_on_config(configuration, last_time_move)
+                        last_time_move = constants.get_time()
 
                 else:
                     last_time_move = constants.get_time()
@@ -344,6 +351,12 @@ class AgentCam(AgentInteractingWithRoom):
 
         self.log_execution.info("Execution mean time : %.02f s", execution_mean_time / execution_loop_number)
 
+    def move_based_on_config(self, configuration, last_time_move):
+        timestep = constants.get_time() - last_time_move
+        self.camera.rotate(configuration.alpha, timestep)
+        self.camera.zoom(configuration.beta, timestep)
+        self.camera.move(configuration.x, configuration.y, timestep)
+
     def find_configuration_for_tracked_targets(self):
         """
         :description:
@@ -367,6 +380,7 @@ class AgentCam(AgentInteractingWithRoom):
 
             # if somehow couldn't find a configuration covering any of the elements
             if number_targets_to_remove == len(self.targets_to_track):
+                self.untrackable_targets = self.targets_to_track.copy()
                 return None
 
             # remove the desired number of targets
@@ -384,12 +398,45 @@ class AgentCam(AgentInteractingWithRoom):
     def find_configuration_for_targets(self, targets):
         """
         :description:
-            Checks if a configuration exists where all assigned targets as well as the extra_targets are seen.
+            Checks if a configuration can be found where all targets are seen.
         :param targets: target ids
         :return: Configuration object if exists, None otherwise
         """
-        # TODO
-        return Configuration()
+        target_target_estimator = self.memory.memory_agent_from_target.copy()
+
+        # TODO: c'est dégeu, faire plutôt en sorte que update_target_based_on_memory puisse prendre une liste
+        #       de TargetEstimator
+        # reconstruct the Target_TargetEstimator by flitering the targets
+        new_target_targetEstimator = Target_TargetEstimator()
+        for (target_id, targetEstimator_list) in target_target_estimator:
+            if target_id in targets:
+                new_target_targetEstimator.add_itemEstimator(targetEstimator_list[-1])  #([target_id, targetEstimator_list])
+
+        # find a configuration for these targets
+        new_room_representation = self.room_representation.deepcopy()
+        new_room_representation.update_target_based_on_memory(new_target_targetEstimator)
+        x_target, y_target, alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,
+                                                                           self.memory_of_position_to_reach,
+                                                                           self.camera,
+                                                                           new_room_representation.target_list,
+                                                                           PCA_track_points_possibilites.MEDIAN_POINTS)
+
+        beta_target = self.camera.beta  # TODO: make PCA return that
+
+        # check if this configuration covers all targets
+        new_camera = self.camera.deepcopy()
+        new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target)
+        targetEstimators = [targetEstimator_list[-1] for (target_id, targetEstimator_list) in new_target_targetEstimator]
+        for targetEstimator in targetEstimators:
+            cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, targetEstimator.item_position[0],
+                                                                     targetEstimator.item_position[1],
+                                                                     targetEstimator.target_radius)
+            cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(new_room_representation, new_camera.id,
+                                                                        targetEstimator.xc, targetEstimator.yc)
+            if not (cdt_in_field or cdt_not_hidden):
+                return None
+
+        return Configuration(x_target, y_target, alpha_target, beta_target)
 
     def process_information_in_memory(self):
         """
@@ -662,41 +709,45 @@ def remove_target_with_lowest_priority(target_list):
     :param target_list: list of targets (not ids)
     :return: target_list minus the target with the lowest priority
     """
-    # TODO: find better method
+    # TODO: define a better method
     return target_list[:-1]
 
 
+def find_new_configuration_based_on_targetEstimator(target_estimator_list):
+    """target_estimator_list = Target_TargetEstimator()"""
+    new_room_representation = self.room_representation.copy()
+    new_room_representation.update_target_based_on_memory(target_estimator_list)
+    x_target, y_target, alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,
+                                                                       self.memory_of_position_to_reach,
+                                                                       self.camera,
+                                                                        new_room_representation.target_list,
+                                                                       PCA_track_points_possibilites.MEDIAN_POINTS)
+
+    configuration = Configuration(x_target, y_target, alpha_target, None)
+
+    return configuration
+
+def check_new_configuration(self,target_estimator_list):
+    (x_target, y_target, alpha_target,beta_target) =  \
+        find_new_configuration_based_on_targetEstimator(target_estimator_list)
+    new_camera = self.camera.copy()
+    new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target,beta_target)
+    for target in new_room_representation.target_list:
+        cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, target.xc, target.yc, target.radius)
+        cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(new_room_representation, new_camera.id, target.xc, target.yc)
+
+        "Check is the camera can see the target for a given room geometry"
+
+        if cdt_in_field and cdt_not_hidden: #and new_camera.is_active:
+            pass
+            # do what you want
+
+
 class Configuration:
+    def __init__(self, x, y, alpha, beta):
+        self.x = x
+        self.y = y
+        self.alpha = alpha
+        self.beta = beta
 
-    def __init__(self):
-        self.is_valid_configuration = True
-        # TODO: add everything needed for a configuration
 
-
-"""
-    def find_new_configuration_based_on_targetEstimator(self,method,target_estimator_list):
-        "target_estimator_list = Target_TargetEstimator()"
-        new_room_representation = self.room_representation.copy()
-        new_room_representation.update_target_based_on_memory(target_estimator_list)
-        
-        if method == 1:
-            x_target, y_target, alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,
-                                                                               self.memory_of_position_to_reach,
-                                                                               self.camera,
-                                                                                new_room_representation.target_list,
-                                                                               PCA_track_points_possibilites.MEDIAN_POINTS)
-        
-        return None
-
-    def check_new_configuration(self,target_estimator_list):
-        (x_target, y_target, alpha_target,beta_target) =  self.find_new_configuration_based_on_targetEstimator(1,target_estimator_list)
-        new_camera = self.camera.copy()
-        new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target,beta_target)
-        for target in new_room_representation.target_list:
-            cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, target.xc, target.yc, target.radius)
-            cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(new_room_representation, new_camera.id, target.xc, target.yc)
-
-            "Check is the camera can see the target for a given room geometry"
-
-            if cdt_in_field and cdt_not_hidden: #and new_camera.is_active:
-                do what you want
