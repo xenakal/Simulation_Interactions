@@ -170,11 +170,8 @@ class DistributedKalmanFilter(KalmanFilter):
         region_to_validate = dot(Hij.transpose(), dot(self.inv(Nij), Hij))
         # print("validation: ", region_to_validate)
         if region_to_validate < INTERNODAL_VALIDATION_BOUND:
-            print("out")
             return
         else:
-            print(region_to_validate)
-            # print("assimilation !")
             self.logger_kalman.info("Assimilation of data at time " + str(constants.get_time()) + ". Time when data was sent: " +
                                     str(tj) + ". Time of last local measurement: " + str(self.curr_ti) + ". Rec data: "
                                     + "sei = " + str(state_error_info) + "vei = " + str(variance_error_info))
