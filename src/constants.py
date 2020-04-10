@@ -24,7 +24,7 @@ KALMAN_MODEL_MEASUREMENT_DIM = 4
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 
-MOVE_AGENTS = False
+MOVE_AGENTS = True
 
 class AgentCameraCommunicationBehaviour:
     ALL = "all"

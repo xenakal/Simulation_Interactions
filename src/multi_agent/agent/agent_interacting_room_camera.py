@@ -8,6 +8,7 @@ from src import constants
 import time
 import src.multi_agent.elements.mobile_camera as mobCam
 from warnings import warn
+import copy
 
 
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
@@ -358,10 +359,31 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_execution.info("Execution mean time : %.02f s", execution_mean_time / execution_loop_number)
 
     def move_based_on_config(self, configuration, last_time_move):
+        self.camera_controller.set_targets_based_on_config(configuration)
+        # Define the values measured
+        x_mes = self.camera.xc
+        y_mes = self.camera.yc
+        alpha_mes = self.camera.alpha
+        beta_mes = self.camera.beta
+
+        if self.camera.camera_type == mobCam.MobileCameraType.RAIL:
+            # 1D
+            x_mes = self.camera.trajectory.sum_delta
+            y_mes = 0
+
+        # Find the command to apply
+        x_command, y_command, alpha_command, beta_command = self.camera_controller.get_command(x_mes, y_mes, alpha_mes,
+                                                                                               beta_mes)
+        # Apply the commands
         timestep = constants.get_time() - last_time_move
-        self.camera.rotate(configuration.alpha, timestep)
-        self.camera.zoom(configuration.beta, timestep)
-        self.camera.move(configuration.x, configuration.y, timestep)
+
+        if timestep < 0:
+            print("problem time < 0: %.02f s" % constants.get_time())
+        else:
+            timestep = max(0.5, timestep)
+            self.camera.rotate(alpha_command, timestep)
+            self.camera.zoom(beta_command, timestep)
+            self.camera.move(x_command, y_command, timestep)
 
     def find_configuration_for_tracked_targets(self):
         """
@@ -369,7 +391,7 @@ class AgentCam(AgentInteractingWithRoom):
             Updates self.untrackable_targets and returns a configuration for the targets the agent is able to track
         :return a configuration for the targets the agent is able to track, or None if he can't track any
         """
-        tracked_targets = self.targets_to_track.copy()  # try to find a configuration covering all targets
+        tracked_targets = copy.copy(self.targets_to_track)  # try to find a configuration covering all targets
 
         # do nothing if no targets need tracking
         if not tracked_targets:
@@ -382,11 +404,11 @@ class AgentCam(AgentInteractingWithRoom):
             # try to find configuration removing one more element
             if not tracked_targets:
                 number_targets_to_remove += 1
-                tracked_targets = self.targets_to_track.copy()
+                tracked_targets = copy.copy(self.targets_to_track)
 
             # if somehow couldn't find a configuration covering any of the elements
             if number_targets_to_remove == len(self.targets_to_track):
-                self.untrackable_targets = self.targets_to_track.copy()
+                self.untrackable_targets = copy.copy(self.targets_to_track)
                 return None
 
             # remove the desired number of targets
@@ -408,30 +430,30 @@ class AgentCam(AgentInteractingWithRoom):
         :param targets: target ids
         :return: Configuration object if exists, None otherwise
         """
-        target_target_estimator = self.memory.memory_agent_from_target.copy()
+        target_target_estimator = copy.copy(self.memory.memory_agent_from_target)
 
         # TODO: c'est dégeu, faire plutôt en sorte que update_target_based_on_memory puisse prendre une liste
         #       de TargetEstimator
         # reconstruct the Target_TargetEstimator by flitering the targets
         new_target_targetEstimator = Target_TargetEstimator()
-        for (target_id, targetEstimator_list) in target_target_estimator:
+        for (target_id, targetEstimator_list) in target_target_estimator.item_itemEstimator_list:
             if target_id in targets:
                 new_target_targetEstimator.add_itemEstimator(
                     targetEstimator_list[-1])  # ([target_id, targetEstimator_list])
 
         # find a configuration for these targets
-        new_room_representation = self.room_representation.deepcopy()
+        new_room_representation = copy.deepcopy(self.room_representation)
         new_room_representation.update_target_based_on_memory(new_target_targetEstimator)
         x_target, y_target, alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,
                                                                            self.memory_of_position_to_reach,
                                                                            self.camera,
-                                                                           new_room_representation.target_list,
+                                                                           new_room_representation.active_Target_list,
                                                                            PCA_track_points_possibilites.MEDIAN_POINTS)
 
         beta_target = self.camera.beta  # TODO: make PCA return that
 
         # check if this configuration covers all targets
-        new_camera = self.camera.deepcopy()
+        new_camera = copy.deepcopy(self.camera)
         new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target)
         targetEstimators = [targetEstimator_list[-1] for (target_id, targetEstimator_list) in
                             new_target_targetEstimator]
@@ -624,7 +646,8 @@ class AgentCam(AgentInteractingWithRoom):
         """
         # TODO: check format of targetItem
         targetItem = parse_message_untrackableTarget(message)
-        total_items_to_track = self.targets_to_track.copy().append(targetItem)
+        total_items_to_track = copy.copy(self.targets_to_track)
+        total_items_to_track.append(targetItem)
         configuration = self.find_configuration_for_targets(total_items_to_track)
         if configuration is not None:  # this agent can track the target
             self.targets_to_track.append(targetItem)
