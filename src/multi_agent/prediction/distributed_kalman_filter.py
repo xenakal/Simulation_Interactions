@@ -7,7 +7,7 @@ import src.constants as constants
 import warnings
 
 DEFAULT_TIME_INCREMENT = TIME_PICTURE + TIME_SEND_READ_MESSAGE
-INTERNODAL_VALIDATION_BOUND = 580
+INTERNODAL_VALIDATION_BOUND = 2
 
 
 class DistributedKalmanFilter(KalmanFilter):
@@ -117,6 +117,10 @@ class DistributedKalmanFilter(KalmanFilter):
         # x = x + Wy
         self.x = self.x + dot(self.W, self.y)
 
+        # update x_post & P_post
+        self.x_post = self.x
+        self.P_post = self.P
+
     def assimilate(self, dkf_info_string, tj):
         """
         Assimilates the local estimation recieved from another node to the local estimation of the global state.
@@ -127,16 +131,20 @@ class DistributedKalmanFilter(KalmanFilter):
                                                         node. In practice, we have to put the time
         """
 
+        if tj < self.curr_ti:
+            print("probleeeeem")
+            return
+
         [state_error_info, variance_error_info] = parse_errors_info_string(dkf_info_string)
 
         delta_t = tj - self.prev_ti  # δt = tj - τi ≃ ti - τi
 
         ## Pj_prior: PI(tj|τi) = F(δt)*P(τi|τi)FT(δt) + Q
-        Pj_prior = dot(dot(self.model_F(delta_t), self.P_prior), self.model_F(delta_t).T) + self.Q
+        Pj_prior = dot(dot(self.model_F(delta_t), self.P_post), self.model_F(delta_t).T) + self.Q
         PIj_prior = self.inv(Pj_prior)
 
         ## xj_prior: x(tj|τi) = F(δt)x(τi|τi)
-        xj_prior = dot(self.model_F(delta_t), self.x_prior)
+        xj_prior = dot(self.model_F(delta_t), self.x_post)
 
         # data validation TODO: use a better method
         """
@@ -155,17 +163,18 @@ class DistributedKalmanFilter(KalmanFilter):
 
         # Internodal Validation
         Y_minus = dot(self.H.T, dot(self.inv(dot(self.H, dot(variance_error_info, self.H.T))), self.H))
-        Nij_subexpression = self.inv(dot(self.H, dot(variance_error_info, self.H.T))) + dot(self.H, dot(self.P_prior,
+        Nij_subexpression = self.inv(dot(self.H, dot(variance_error_info, self.H.T))) + dot(self.H, dot(self.P_post,
                                                                                                         self.H.T))
         Nij = dot(self.H.T, dot(Nij_subexpression, self.H))
         Hij = dot(Y_minus, state_error_info) - dot(self.H.T, dot(self.H, xj_prior))
         region_to_validate = dot(Hij.transpose(), dot(self.inv(Nij), Hij))
-        #print("validation: ", region_to_validate)
+        # print("validation: ", region_to_validate)
         if region_to_validate < INTERNODAL_VALIDATION_BOUND:
             return
         else:
             self.logger_kalman.info("Assimilation of data at time " + str(constants.get_time()) + ". Time when data was sent: " +
-                                    str(tj) + ". Time of last local measurement: " + str(self.curr_ti))
+                                    str(tj) + ". Time of last local measurement: " + str(self.curr_ti) + ". Rec data: "
+                                    + "sei = " + str(state_error_info) + "vei = " + str(variance_error_info))
 
         # PI(tj|tj) = PI(tj|τi) + variance_error_info
         self.PI_global = PIj_prior + variance_error_info
@@ -176,21 +185,25 @@ class DistributedKalmanFilter(KalmanFilter):
         x_global_part2 = x_global_part1 + state_error_info
         self.x_global = dot(self.P_global, x_global_part2)
         # udpate the state and covariance
-        self.x_prior = self.x.copy()
-        self.P_prior = self.P.copy()
-        self.PI_prior = self.PI.copy()
         self.x = self.x_global.copy()
         self.PI = self.PI_global.copy()
         self.P = self.P_global.copy()
 
+        self.prev_ti = self.curr_ti
+        self.curr_ti = tj
+
     def state_error_info(self):
         RI = self.inv(self.R)
-        state_error_info = dot(dot(self.H.T, RI), self.z_current)
+        HRI = dot(self.H.T, RI)
+        state_error_info = dot(HRI, self.z_current)
+        self.logger_kalman.info("Calc state_error_info = " + str(state_error_info))
         return state_error_info
 
     def variance_error_info(self):
         RI = self.inv(self.R)
-        return dot(dot(self.H.T, RI), self.H)
+        var_error_info = dot(dot(self.H.T, RI), self.H)
+        self.logger_kalman.info("Calc var_error_info = " + str(var_error_info))
+        return var_error_info
 
     def errors_info_toString(self):
         """
@@ -221,12 +234,14 @@ def npString_to_array(string):
     :param string: string output of npArray_to_String
     :return: np array corresponding to this String
     """
-    formated_string = string.replace("$", "\n").replace("&", " ")[2:-2]
-    rows = formated_string.split("\n")
-    #print(rows, "& ", len(rows))
-    if len(rows) == 1:
+    formated_string = string.replace("$", "\n").replace("&", " ")
+    if formated_string[1] != "[":
+        formated_string = formated_string[1:-1]
+        rows = formated_string.split("\n")
         return state_error_info_string_to_array(rows[0])
-    elif len(rows) == constants.KALMAN_MODEL_MEASUREMENT_DIM:
+    else:
+        formated_string = formated_string[2:-2]
+        rows = formated_string.split("\n")
         return var_error_info_string_to_array(rows)
 
 
@@ -238,7 +253,8 @@ def state_error_info_string_to_array(row):
         if elem not in ["", "[", " "]:
             ret_arr[index] = float(elem)
             index += 1
-    return np.array(ret_arr)
+    state_error_info = np.array(ret_arr)
+    return state_error_info
 
 
 def var_error_info_string_to_array(rows):

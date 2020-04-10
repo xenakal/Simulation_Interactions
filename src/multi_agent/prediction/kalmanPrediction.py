@@ -63,6 +63,7 @@ class KalmanPrediction:
         pivot_detected = False
         # a pivot is defined as a change of direction (in our case equivalent to change in speed in either axis)
         if self.pivot_point_detected_speed():
+            # print("agent " + str(self.agent_id) + " pivot !")
             # filter reset to "forget" the previous information
             self.reset_filter(*z)
             # memory reset as well
@@ -126,10 +127,10 @@ class KalmanPrediction:
                 current_state, current_P = update(new_state, new_P, new_state[0:KALMAN_MODEL_MEASUREMENT_DIM],
                                                   self.filter.R, self.filter.H)
         except ValueError:
-            print("error in prediction")
+            #print("error in prediction")
             import sys
-            print(sys.exc_info())
-            print("current_state: ", current_state)
+            #print(sys.exc_info())
+            #print("current_state: ", current_state)
 
         return predictions
 
@@ -147,4 +148,5 @@ class KalmanPrediction:
     def assimilate(self, dkf_info_string, timestamp):
         if constants.DATA_TO_SEND != "dkf":
             warnings.warn("assimilating data even though DKF not defined in constants")
-        self.filter.assimilate(dkf_info_string, timestamp)
+        #self.filter.assimilate(dkf_info_string, timestamp)
+        self.filter.assimilate(dkf_info_string, constants.get_time())

@@ -1,7 +1,8 @@
 from src.multi_agent.agent.agent_interacting_room_camera import AgentCam
 from src.my_utils.my_IO.IO_data import *
-from src.my_utils.my_math.MSE import error_squared_list, error_squared_x_y_list
-from src.plot_functions.plot_toolbox import plot_graph_x_y
+from src.my_utils.my_math.MSE import *
+from src.plot_functions.plot_toolbox import *
+import matplotlib.pyplot as plt
 
 TIME_TO_COMPARE = 0
 TIME_INDEX = 1
@@ -107,7 +108,8 @@ def init_analyse_memory_agent(list_init, list_sort):
         is_in_list = False
         for element in list_sort:
             if int(data_element['target_signature']) == element.target_signature:
-                element.add_itemEstimator(data_element)
+                #element.add_itemEstimator(data_element)
+                element.add_target_estimator(data_element)
                 is_in_list = True
                 break
         if not is_in_list:
