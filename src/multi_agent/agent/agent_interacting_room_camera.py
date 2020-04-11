@@ -167,6 +167,7 @@ class AgentCam(AgentInteractingWithRoom):
         last_time_move = None
 
         while self.thread_is_running == 1:
+
             state = nextstate
 
             if state == AgentCameraFSM.MOVE_CAMERA:
@@ -359,6 +360,8 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_execution.info("Execution mean time : %.02f s", execution_mean_time / execution_loop_number)
 
     def move_based_on_config(self, configuration, last_time_move):
+        if configuration is None:
+            return
         self.camera_controller.set_targets_based_on_config(configuration)
         # Define the values measured
         x_mes = self.camera.xc
@@ -376,7 +379,6 @@ class AgentCam(AgentInteractingWithRoom):
                                                                                                beta_mes)
         # Apply the commands
         timestep = constants.get_time() - last_time_move
-
         if timestep < 0:
             print("problem time < 0: %.02f s" % constants.get_time())
         else:
@@ -395,19 +397,19 @@ class AgentCam(AgentInteractingWithRoom):
 
         # do nothing if no targets need tracking
         if not tracked_targets:
-            return
+            return None
 
-        number_targets_to_remove = 0
+        number_targets_to_remove = -1
         configuration = None
         while configuration is None:  # configuration not found
 
-            # try to find configuration removing one more element
-            if not tracked_targets:
+            # try to find configuration removing one more element if list not empty
+            if tracked_targets:
                 number_targets_to_remove += 1
                 tracked_targets = copy.copy(self.targets_to_track)
 
             # if somehow couldn't find a configuration covering any of the elements
-            if number_targets_to_remove == len(self.targets_to_track):
+            if number_targets_to_remove >= len(tracked_targets):
                 self.untrackable_targets = copy.copy(self.targets_to_track)
                 return None
 
@@ -430,10 +432,14 @@ class AgentCam(AgentInteractingWithRoom):
         :param targets: target ids
         :return: Configuration object if exists, None otherwise
         """
+
+        # TODO: see how to move when only 1 target to track
+        if len(targets) < 2:
+            print("len < 2")
+            return
+
         target_target_estimator = copy.copy(self.memory.memory_agent_from_target)
 
-        # TODO: c'est dégeu, faire plutôt en sorte que update_target_based_on_memory puisse prendre une liste
-        #       de TargetEstimator
         # reconstruct the Target_TargetEstimator by flitering the targets
         new_target_targetEstimator = Target_TargetEstimator()
         for (target_id, targetEstimator_list) in target_target_estimator.item_itemEstimator_list:
@@ -445,10 +451,10 @@ class AgentCam(AgentInteractingWithRoom):
         new_room_representation = copy.deepcopy(self.room_representation)
         new_room_representation.update_target_based_on_memory(new_target_targetEstimator)
         x_target, y_target, alpha_target, _ = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,
-                                                                           self.memory_of_position_to_reach,
-                                                                           self.camera,
-                                                                           new_room_representation.active_Target_list,
-                                                                           PCA_track_points_possibilites.MEDIAN_POINTS)
+                                                                              self.memory_of_position_to_reach,
+                                                                              self.camera,
+                                                                              new_room_representation.active_Target_list,
+                                                                              PCA_track_points_possibilites.MEDIAN_POINTS)
 
         beta_target = self.camera.beta  # TODO: make PCA return that
 
@@ -743,6 +749,7 @@ def remove_target_with_lowest_priority(target_list):
     # TODO: define a better method
     return target_list[:-1]
 
+
 """
 def find_new_configuration_based_on_targetEstimator(target_estimator_list):
     '''target_estimator_list = Target_TargetEstimator()'''
@@ -775,6 +782,7 @@ def check_new_configuration(self, target_estimator_list):
             pass
             # do what you want
 """
+
 
 class Configuration:
     def __init__(self, x, y, alpha, beta):

@@ -17,6 +17,8 @@ class PCA_track_points_possibilites:
 
 def use_pca_to_get_alpha_beta_xc_yc(memory_objectives, memory_point_to_reach, camera, target_representation_list,
                                     point_to_track_choice=PCA_track_points_possibilites.MEDIAN_POINTS):
+    if len(target_representation_list) < 2:
+        return
     sample = []
     all_x = []
     all_y = []

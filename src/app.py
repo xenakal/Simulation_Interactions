@@ -176,7 +176,6 @@ class App:
     def move_all_targets_thread(self):
         time_old = time.time()
         while self.targets_moving:
-
             time.sleep(TIME_BTW_TARGET_MOVEMENT)
             delta_time = time.time() - time_old
 
