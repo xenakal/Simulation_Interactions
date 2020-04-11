@@ -211,6 +211,12 @@ class MobileCamera(Camera):
             self.xc += delta_x
             self.yc += delta_y
 
+    def set_x_y_alpha_beta(self, x_target, y_target, alpha_target, beta_target):
+        self.xc = x_target
+        self.yc = y_target
+        self.alpha = alpha_target
+        self.beta = beta_target
+
 
 class TrajectoryPlaner:
     def __init__(self, trajectory):
