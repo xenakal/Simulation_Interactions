@@ -444,7 +444,7 @@ class AgentCam(AgentInteractingWithRoom):
         # find a configuration for these targets
         new_room_representation = copy.deepcopy(self.room_representation)
         new_room_representation.update_target_based_on_memory(new_target_targetEstimator)
-        x_target, y_target, alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,
+        x_target, y_target, alpha_target, _ = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,
                                                                            self.memory_of_position_to_reach,
                                                                            self.camera,
                                                                            new_room_representation.active_Target_list,
@@ -456,7 +456,7 @@ class AgentCam(AgentInteractingWithRoom):
         new_camera = copy.deepcopy(self.camera)
         new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target)
         targetEstimators = [targetEstimator_list[-1] for (target_id, targetEstimator_list) in
-                            new_target_targetEstimator]
+                            new_target_targetEstimator.item_itemEstimator_list]
         for targetEstimator in targetEstimators:
             cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, targetEstimator.item_position[0],
                                                                      targetEstimator.item_position[1],
