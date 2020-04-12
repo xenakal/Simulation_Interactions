@@ -1,5 +1,6 @@
 from src.multi_agent.agent.agent_interacting_room import *
 from src.multi_agent.communication.message import *
+import src.multi_agent.elements.room as room
 from src.multi_agent.tools.behaviour_agent import use_pca_to_get_alpha_beta_xc_yc, PCA_track_points_possibilites
 from src.multi_agent.tools.behaviour_detection import *
 from src.multi_agent.tools.link_target_camera import *
@@ -7,8 +8,11 @@ from src.my_utils.controller import CameraController
 from src import constants
 import time
 import src.multi_agent.elements.mobile_camera as mobCam
+import src.multi_agent.elements.camera as cam
 from warnings import warn
 import copy
+
+from src.my_utils.my_math.line import Line
 
 
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
@@ -135,7 +139,7 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation, True)
-        self.camera_controller = CameraController(1.2, 0, 0.4, 0, 0.8, 0.1)
+        self.camera_controller = CameraController(1.2, 0, 0.2, 0, 0.8, 0.1)
         self.camera_controller.set_targets(self.camera.xc, self.camera.yc, self.camera.alpha, self.camera.beta)
 
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
@@ -149,7 +153,7 @@ class AgentCam(AgentInteractingWithRoom):
 
     def init_targets_to_track_from_seen(self):
         """ Initializes the targets to track as all targets seen by the agent at the time of initialization. """
-        self.targets_to_track = self.room_representation.active_Target_list
+        self.targets_to_track = copy.copy(self.room_representation.active_Target_list)
 
     def thread_run(self, real_room):
         """
@@ -220,7 +224,6 @@ class AgentCam(AgentInteractingWithRoom):
                     '''
                     if constants.MOVE_AGENTS:
                         # check what targets are untrackable (used latter in send/rec messages)
-
                         configuration = self.find_configuration_for_tracked_targets()
                         self.move_based_on_config(configuration, last_time_move)
                         last_time_move = constants.get_time()
@@ -377,6 +380,7 @@ class AgentCam(AgentInteractingWithRoom):
         # Find the command to apply
         x_command, y_command, alpha_command, beta_command = self.camera_controller.get_command(x_mes, y_mes, alpha_mes,
                                                                                                beta_mes)
+
         # Apply the commands
         timestep = constants.get_time() - last_time_move
         if timestep < 0:
@@ -418,6 +422,7 @@ class AgentCam(AgentInteractingWithRoom):
             for _ in range(number_targets_to_remove):
                 tracked_targets = remove_target_with_lowest_priority(tracked_targets)
 
+            # print([target.id for target in tracked_targets])
             configuration = self.find_configuration_for_targets(tracked_targets)
 
         # update the list of untrackable targets
@@ -429,31 +434,32 @@ class AgentCam(AgentInteractingWithRoom):
         """
         :description:
             Checks if a configuration can be found where all targets are seen.
-        :param targets: target ids
+        :param targets: target representations
         :return: Configuration object if exists, None otherwise
         """
 
-        # TODO: see how to move when only 1 target to track
-        if len(targets) < 2:
-            print("len < 2")
-            return
+        if len(targets) == 0:
+            return None
 
-        target_target_estimator = copy.copy(self.memory.memory_agent_from_target)
+        if len(targets) == 1:
+            return None
+
+        target_target_estimator = self.memory.memory_predictions_order_2_from_target
 
         # reconstruct the Target_TargetEstimator by flitering the targets
         new_target_targetEstimator = Target_TargetEstimator()
+        target_ids = [target.id for target in targets]
         for (target_id, targetEstimator_list) in target_target_estimator.item_itemEstimator_list:
-            if target_id in targets:
+            if target_id in target_ids:
                 new_target_targetEstimator.add_itemEstimator(
                     targetEstimator_list[-1])  # ([target_id, targetEstimator_list])
-
         # find a configuration for these targets
-        new_room_representation = copy.deepcopy(self.room_representation)
-        new_room_representation.update_target_based_on_memory(new_target_targetEstimator)
+        tracked_targets_room_representation = room.RoomRepresentation()
+        tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
         x_target, y_target, alpha_target, _ = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,
                                                                               self.memory_of_position_to_reach,
                                                                               self.camera,
-                                                                              new_room_representation.active_Target_list,
+                                                                              tracked_targets_room_representation.active_Target_list,
                                                                               PCA_track_points_possibilites.MEDIAN_POINTS)
 
         beta_target = self.camera.beta  # TODO: make PCA return that
@@ -461,15 +467,18 @@ class AgentCam(AgentInteractingWithRoom):
         # check if this configuration covers all targets
         new_camera = copy.deepcopy(self.camera)
         new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target)
-        targetEstimators = [targetEstimator_list[-1] for (target_id, targetEstimator_list) in
-                            new_target_targetEstimator.item_itemEstimator_list]
-        for targetEstimator in targetEstimators:
-            cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, targetEstimator.item_position[0],
-                                                                     targetEstimator.item_position[1],
-                                                                     targetEstimator.target_radius)
-            cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(new_room_representation, new_camera.id,
-                                                                       targetEstimator.xc, targetEstimator.yc)
-            if not (cdt_in_field or cdt_not_hidden):
+        # print("active target list: ", [target.id for target in tracked_targets_room_representation.active_Target_list])
+        for targetRepresentation in tracked_targets_room_representation.active_Target_list:
+            in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, targetRepresentation.xc,
+                                                                 targetRepresentation.yc,
+                                                                 targetRepresentation.radius)
+
+            hidden = cam.is_x_y_in_hidden_zone_all_targets_based_on_camera(tracked_targets_room_representation,
+                                                                           new_camera,
+                                                                           targetRepresentation.xc,
+                                                                           targetRepresentation.yc)
+            if hidden or not in_field:
+                print("no config, target: ", targetRepresentation.id)
                 return None
 
         return Configuration(x_target, y_target, alpha_target, beta_target)

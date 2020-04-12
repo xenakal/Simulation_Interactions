@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 from sklearn.decomposition import PCA
-
 import src.multi_agent.elements.mobile_camera as mobileCam
+from src import constants
 from src.multi_agent.elements.target import TargetType
 from src.my_utils.my_math.line import Line, distance_btw_two_point
 
@@ -69,15 +69,19 @@ def use_pca_to_get_alpha_beta_xc_yc(memory_objectives, memory_point_to_reach, ca
         memory_point_to_reach.append([(xi, yi, new_index)])
         xc, yc = camera.trajectory.compute_distance_for_point_x_y(xi, yi, new_index)
 
-    elif  camera.camera_type == mobileCam.MobileCameraType.FREE:
-        d = camera.field_depth*0.8
+    elif camera.camera_type == mobileCam.MobileCameraType.FREE:
+        d = camera.field_depth*0.6
         xc = xt + math.cos(angle)*d
         yc = yt + math.sin(angle)*d
 
         if xc < 0:
             xc = 0
+        elif xc > constants.LENGHT_ROOM:
+            xc = constants.LENGHT_ROOM
         if yc < 0:
             yc = 0
+        elif yc > constants.WIDTH_ROOM:
+            yc = constants.WIDTH_ROOM
 
         memory_point_to_reach.append([(xc, yc, 0)])
 

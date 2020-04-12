@@ -326,8 +326,6 @@ class TrajectoryPlaner:
                 return (x_intersection,y_intersection,index)
 
 
-
-
     def get_angle(self):
         (xi, yi) = self.trajectory[self.trajectory_index]
         (xf, yf) = self.trajectory[self.trajectory_index + 1]

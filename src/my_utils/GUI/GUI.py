@@ -32,7 +32,7 @@ class GUI:
 
         self.screen = pygame.display.set_mode((self.w_window, self.h_window), pygame.RESIZABLE)
 
-        self.button_menu = ButtonList(["Simulation","Agent's O","Create Map", "Camera", "Stat",], 10, -30, 0, 0, 100, 30)
+        self.button_menu = ButtonList(["Simulation","Agent's O","Create Map", "Camera", "Stat"], 10, -30, 0, 0, 100, 30)
         self.button_menu.set_buttons_state("Simulation", True)
 
         self.GUI_option = GUI_option(self.screen)
