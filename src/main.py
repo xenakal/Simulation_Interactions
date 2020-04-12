@@ -34,7 +34,7 @@ else:
 kalman_type = [4,4,4,4,4]
 
 """Time at which the simulation should stop, the time to start is eaqual to 0 s"""
-t_stop = [500,500,500,500,500]
+t_stop = [100,100,100,100,100]
 """When many cameras are used, it might be a good idea to slowdown the simulation using a scaling factor < 1"""
 t_scale = [1,1,1,1,1]
 

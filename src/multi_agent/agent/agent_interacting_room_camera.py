@@ -1,7 +1,7 @@
 # from elements.room import*
 from src.multi_agent.agent.agent_interacting_room import *
 from src.multi_agent.communication.message import *
-from src.multi_agent.tools.behaviour_agent import use_pca_to_get_alpha_beta_xc_yc, PCA_track_points_possibilites
+from src.multi_agent.tools.behaviour_agent import PCA_track_points_possibilites, get_configuration_based_on_seen_target
 from src.multi_agent.tools.behaviour_detection import *
 from src.multi_agent.tools.link_target_camera import *
 from src.my_utils.controller import CameraController
@@ -162,11 +162,8 @@ class AgentCam(AgentInteractingWithRoom):
                     alpha_target = self.camera.default_alpha
                     beta_target = self.camera.default_beta
 
-                    # TODO implement a way for the camera to move correctly !!!
-
-                    x_target,y_target,alpha_target,beta_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,self.memory_of_position_to_reach,self.camera, real_room.information_simulation.target_list,PCA_track_points_possibilites.MEDIAN_POINTS)
+                    x_target,y_target,alpha_target,beta_target = get_configuration_based_on_seen_target(self.camera, real_room.information_simulation.target_list,PCA_track_points_possibilites.MEANS_POINTS,self.memory_of_objectives,self.memory_of_position_to_reach)
                     self.camera_controller.set_targets(x_target, y_target, alpha_target, beta_target)
-
 
                     """Define the values measured"""
                     x_mes = self.camera.xc  # + error si on veut ajouter ici
@@ -188,8 +185,8 @@ class AgentCam(AgentInteractingWithRoom):
                         print("problem time < 0 : %.02f s" % constants.get_time())
                     else:
                         dt = constants.get_time() - last_time_move
-                        if dt > 0.5:
-                            dt = 0.5
+                        if dt > 0.5/constants.SCALE_TIME:
+                            dt = 0.5/constants.SCALE_TIME
                         self.camera.rotate(alpha_command,dt )
                         self.camera.zoom(beta_command, dt)
                         self.camera.move(x_command, y_command, dt)

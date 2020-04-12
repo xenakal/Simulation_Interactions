@@ -223,7 +223,7 @@ class GUI_room_representation():
                         for mem in agent.memory_of_position_to_reach[-1]:
                             (x,y,index)= mem
                             pygame.draw.circle(self.screen, RED, (
-                                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 4)
+                                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)),3)
 
                     if len(agent.memory_of_objectives) > 0:
                         xt = agent.memory_of_objectives[-1][0]
