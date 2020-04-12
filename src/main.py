@@ -39,7 +39,7 @@ t_stop = [500,500,500,500,500]
 t_scale = [1,1,1,1,1]
 
 index = 0
-while  index < len(map_to_test_name):
+while index < len(map_to_test_name):
 
     print("processing " + str(map_to_test_name[index]))
     (is_do_previous,is_do_next) = App(map_to_test_name[index], kalman_distributed[index], kalman_type[index], t_stop[index], t_scale[index]).main()

@@ -397,7 +397,7 @@ class AgentCam(AgentInteractingWithRoom):
             Updates self.untrackable_targets and returns a configuration for the targets the agent is able to track
         :return a configuration for the targets the agent is able to track, or None if he can't track any
         """
-        tracked_targets = copy.copy(self.targets_to_track)  # try to find a configuration covering all targets
+        tracked_targets = copy.deepcopy(self.targets_to_track)  # try to find a configuration covering all targets
 
         # do nothing if no targets need tracking
         if not tracked_targets:
@@ -410,11 +410,11 @@ class AgentCam(AgentInteractingWithRoom):
             # try to find configuration removing one more element if list not empty
             if tracked_targets:
                 number_targets_to_remove += 1
-                tracked_targets = copy.copy(self.targets_to_track)
+                tracked_targets = copy.deepcopy(self.targets_to_track)
 
             # if somehow couldn't find a configuration covering any of the elements
             if number_targets_to_remove >= len(tracked_targets):
-                self.untrackable_targets = copy.copy(self.targets_to_track)
+                self.untrackable_targets = copy.deepcopy(self.targets_to_track)
                 return None
 
             # remove the desired number of targets
@@ -661,7 +661,7 @@ class AgentCam(AgentInteractingWithRoom):
         """
         # TODO: check format of targetItem
         targetItem = parse_message_untrackableTarget(message)
-        total_items_to_track = copy.copy(self.targets_to_track)
+        total_items_to_track = copy.deepcopy(self.targets_to_track)
         total_items_to_track.append(targetItem)
         configuration = self.find_configuration_for_targets(total_items_to_track)
         if configuration is not None:  # this agent can track the target

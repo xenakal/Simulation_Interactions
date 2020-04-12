@@ -65,14 +65,8 @@ def is_x_y_radius_in_field_not_obstructed(camera, x, y, r_target=0):
     beta_target_min = math.atan2(y_min, x_target_in_camera_frame)
     beta_target_max = math.atan2(y_max, x_target_in_camera_frame)
 
-    if beta_target_max < 0:
-        margin_low = beta_target_max >= -(math.fabs(camera.beta / 2))
-    else:
-        margin_low = True
-    if beta_target_min > 0:
-        margin_high = beta_target_min <= math.fabs(camera.beta / 2)
-    else:
-        margin_high = True
+    margin_low = beta_target_max >= -(math.fabs(camera.beta / 2))
+    margin_high = beta_target_min <= math.fabs(camera.beta / 2)
 
     distance = distance_btw_two_point(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
     if margin_low and margin_high and camera.field_depth > distance:
