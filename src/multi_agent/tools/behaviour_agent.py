@@ -88,13 +88,21 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
 
     xc1, yc1, alpha1 = define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room_representation,
                                        memory_objectives, memory_point_to_reach)
+    xc2, yc2, alpha2 = define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target,
+                                          angle_in_room_representation + math.pi,
+                                          memory_objectives, memory_point_to_reach)
 
-    xc2, yc2, alpha2 = define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room_representation,
-                                       memory_objectives, memory_point_to_reach)
+    distance1 = distance_btw_two_point(xc1,yc1,constants.WIDTH_ROOM / 2, constants.LENGHT_ROOM / 2)
+    distance2 = distance_btw_two_point(xc2, yc2, constants.WIDTH_ROOM / 2,  constants.LENGHT_ROOM / 2)
 
-    xc = xc1
-    yc = yc1
-    alpha = alpha1
+    if distance1 < distance2:
+        xc = xc1
+        yc = yc1
+        alpha = alpha1
+    else:
+        xc = xc2
+        yc = yc2
+        alpha = alpha2
 
     beta = define_beta(distance_to_keep_to_target, y_to_compute_beta)
     return xc, yc, alpha, beta
