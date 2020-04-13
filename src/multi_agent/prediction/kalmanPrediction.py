@@ -145,7 +145,7 @@ class KalmanPrediction:
         return self.filter.get_DKF_info_string()
 
     def assimilate(self, dkf_info_string, timestamp):
-        if constants.DATA_TO_SEND != "dkf":
+        if constants.DATA_TO_SEND != constants.AgentCameraCommunicationBehaviour.DKF:
             warnings.warn("assimilating data even though DKF not defined in constants")
         if constants.USE_TIMESTAMP_FOR_ASSIMILATION:
             self.filter.assimilate(dkf_info_string, timestamp)

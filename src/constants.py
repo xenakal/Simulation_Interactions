@@ -7,14 +7,14 @@ In this file you have the possibility to modify the settings
 """
 
 """Options-----------------------------------------------------------------------------------------------------------"""
-SAVE_DATA = True
-GENERATE_PLOT = True
+SAVE_DATA = False
+GENERATE_PLOT = False
 
 USE_GUI = True
 USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
 
-INCLUDE_ERROR = True
+INCLUDE_ERROR = False
 LOG_LEVEL = logging.INFO  #
 
 """Options for Kalman Filter-----------------------------------------------------------------------------------------"""
@@ -23,9 +23,17 @@ KALMAN_MODEL_MEASUREMENT_DIM = 4
 USE_TIMESTAMP_FOR_ASSIMILATION = True
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
-DATA_TO_SEND = "none"#ac.AgentCameraCommunicationBehaviour.NONE
 
-AGENTS_MOVING = True
+
+class AgentCameraCommunicationBehaviour:
+    ALL = "all"
+    DKF = "dkf"
+    NONE = "none"
+
+
+DATA_TO_SEND = AgentCameraCommunicationBehaviour.DKF
+
+AGENTS_MOVING = False
 
 
 class AgentCameraInitializeTargetList:
@@ -111,6 +119,8 @@ if STD_MEASURMENT_ERROR_POSITION == 0.0 and STD_MEASURMENT_ERROR_SPEED == 0.0\
 
 if DISTRIBUTED_KALMAN:
     DATA_TO_SEND = "dkf"
+else:
+    DATA_TO_SEND = "none"
 
 "Variable use in multiple classes"
 time_when_target_are_moved = 0

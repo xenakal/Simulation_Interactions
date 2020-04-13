@@ -10,6 +10,7 @@ from src.multi_agent.tools.behaviour_detection import *
 from src.multi_agent.tools.link_target_camera import *
 from src.my_utils.controller import CameraController
 from src import constants
+from src.constants import AgentCameraCommunicationBehaviour
 import math
 import time
 import src.multi_agent.elements.mobile_camera as mobCam
@@ -18,12 +19,6 @@ import src.multi_agent.elements.mobile_camera as mobCam
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
     INFO_DKF = "info_DKF"
     AGENT_ESTIMATOR = "agentEstimator"
-
-
-class AgentCameraCommunicationBehaviour:
-    ALL = "all"
-    DKF = "dkf"
-    NONE = "none"
 
 
 class AgentCameraFSM:
