@@ -1,5 +1,6 @@
 from src import constants
-from src.plot_functions.plot_targetEstimator import Analyser_Target_TargetEstimator_FormatCSV
+from src.plot_functions.plot_targetEstimator import Analyser_Target_TargetEstimator_FormatCSV, \
+                                                    Analyser_Agent_Target_TargetEstimator_FormatCSV
 
 
 "To plot a graph just put the agent id and run"
@@ -15,11 +16,11 @@ def plot_res(room, filename):
                                                                         constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER,
                                                                         filename)
     analyser_simulated_data.plot_all_target_simulated_data_collected_data()
-    for target in room.information_simulation.Target_list:
+    for target in room.information_simulation.target_list:
         analyser_simulated_data.plot_a_target_simulated_data_collected_data(target.id)
 
     "PLOT FOR AGENT CAM"
-    for agent in room.agentCams_list:
+    for agent in room.active_AgentCams_list:
         print("plot agent :" + str(agent.id))
 
         "Object to save data"
@@ -44,7 +45,7 @@ def plot_res(room, filename):
         analyser_kalman_global.plot_position_target_simulated_data_collected_data()
 
         """Specific to each target"""
-        for target in room.information_simulation.Target_list:
+        for target in room.information_simulation.target_list:
             analyser_agent_memory.plot_MSE_not_interpolate_target_id(target.id)
             analyser_kalman_global.plot_MSE_not_interpolate_target_id(target.id)
             analyser_kalman_global.plot_MSE_interpolate_target_id(target.id)
@@ -52,7 +53,7 @@ def plot_res(room, filename):
             analyser_kalman_prediction_t2.plot_MSE_prediction_2_target_id(target.id)
 
     "PLOT FOR AGENT USER"
-    for agent in room.agentUser_list:
+    for agent in room.active_AgentUser_list:
         print("plot agent :" + str(agent.id))
 
         "Object to save data"
