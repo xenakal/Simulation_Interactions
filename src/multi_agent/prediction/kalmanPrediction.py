@@ -122,7 +122,7 @@ class KalmanPrediction:
         try:
             for _ in range(NUMBER_PREDICTIONS):
                 new_state, new_P = predict(current_state, current_P, self.filter_model.model_F(dt), self.filter.Q)
-                predictions.append((new_state,new_P))
+                predictions.append((new_state, new_P))
                 current_state, current_P = update(new_state, new_P, new_state[0:KALMAN_MODEL_MEASUREMENT_DIM],
                                                   self.filter.R, self.filter.H)
         except ValueError:
@@ -147,4 +147,7 @@ class KalmanPrediction:
     def assimilate(self, dkf_info_string, timestamp):
         if constants.DATA_TO_SEND != "dkf":
             warnings.warn("assimilating data even though DKF not defined in constants")
-        self.filter.assimilate(dkf_info_string, timestamp)
+        if constants.USE_TIMESTAMP_FOR_ASSIMILATION:
+            self.filter.assimilate(dkf_info_string, timestamp)
+        else:
+            self.filter.assimilate(dkf_info_string, constants.get_time())

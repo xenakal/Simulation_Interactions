@@ -20,11 +20,13 @@ LOG_LEVEL = logging.INFO  #
 """Options for Kalman Filter-----------------------------------------------------------------------------------------"""
 DISTRIBUTED_KALMAN = False
 KALMAN_MODEL_MEASUREMENT_DIM = 4
+USE_TIMESTAMP_FOR_ASSIMILATION = True
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 DATA_TO_SEND = "none"#ac.AgentCameraCommunicationBehaviour.NONE
 
 AGENTS_MOVING = False
+
 
 class AgentCameraInitializeTargetList:
     ALL_SEEN = "all_seen"
