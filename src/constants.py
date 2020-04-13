@@ -25,7 +25,7 @@ USE_TIMESTAMP_FOR_ASSIMILATION = True
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 DATA_TO_SEND = "none"#ac.AgentCameraCommunicationBehaviour.NONE
 
-AGENTS_MOVING = False
+AGENTS_MOVING = True
 
 
 class AgentCameraInitializeTargetList:
