@@ -21,6 +21,7 @@ class PCA_track_points_possibilites:
     MEDIAN_POINTS = "median points"
 
 
+
 def born_camera_displacement_in_the_room(xc, yc):
     if xc < 0:
         xc = 0
@@ -104,6 +105,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
         xc = xc2
         yc = yc2
         alpha = alpha2
+
 
     beta = define_beta(distance_to_keep_to_target, y_to_compute_beta)
     return xc, yc, alpha, beta
