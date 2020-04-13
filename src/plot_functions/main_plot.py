@@ -73,7 +73,7 @@ def plot_res(room, filename):
         analyser_agent_all_memory.plot_position_target_simulated_data_collected_data()
 
         """Specific to each target"""
-        for target in room.information_simulation.Target_list:
+        for target in room.information_simulation.target_list:
             analyser_agent_memory.plot_a_target_simulated_data_collected_data(target.id)
             # analyser_kalman_global.plot_a_target_simulated_data_collected_data(target.id)
 

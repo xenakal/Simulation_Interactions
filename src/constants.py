@@ -7,8 +7,8 @@ In this file you have the possibility to modify the settings
 """
 
 """Options-----------------------------------------------------------------------------------------------------------"""
-SAVE_DATA = False
-GENERATE_PLOT = False
+SAVE_DATA = True
+GENERATE_PLOT = True
 
 USE_GUI = True
 USE_static_analysis = False
