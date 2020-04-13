@@ -72,6 +72,7 @@ def is_x_y_radius_in_field_not_obstructed(camera, x, y, r_target=0):
     if margin_low and margin_high and camera.field_depth > distance:
         return True
     else:
+        #print(margin_low, beta_target_max, y_max, x_target_in_camera_frame)
         return False
 
 

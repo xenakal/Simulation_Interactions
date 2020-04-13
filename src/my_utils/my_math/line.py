@@ -24,7 +24,7 @@ class Line:
         else:
             return ((y - self.ya) / self.m) + self.xa
 
-    def compute_y(self,x,line):
+    def compute_y(self, x, line):
         """
             :param
                 - x
@@ -34,7 +34,7 @@ class Line:
         if line.m is None:
             return line.ya
         else:
-            return self.ya+(x-self.xa)*self.m
+            return self.ya + (x - self.xa) * self.m
 
     def find_line_perp(self, x, y):
         """
@@ -49,11 +49,12 @@ class Line:
             return Line(x, y, x + 1, y)
         elif math.fabs(self.m) < self.tol:
             """if line is horizontal"""
-            return Line(x, y, x , y)
+            return Line(x, y, x, y+1)
         else:
             """Every other line"""
+            x1 = x - 1
             y1 = (-1 / self.m) + y
-            return Line(x, y, x + 1, y1)
+            return Line(x, y, x1, y1)
 
     def find_intersection_btw_two_line(self, line):
         """
@@ -70,12 +71,12 @@ class Line:
         elif self.m is None:
             "self is vertical"
             xi = self.xa
-            yi = line.compute_y(xi,line)
+            yi = line.compute_y(xi, line)
 
         elif line.m is None:
             "line is vertical"
             xi = line.xa
-            yi = self.compute_y(xi,self)
+            yi = self.compute_y(xi, self)
 
         else:
             """Every other line"""
@@ -83,7 +84,6 @@ class Line:
             yi = self.m * (xi - self.xa) + self.ya
 
         return xi, yi
-
 
     def find_intersection_btw_line_circle(self, r, xc, yc):
         """

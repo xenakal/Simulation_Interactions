@@ -177,51 +177,6 @@ class AgentCam(AgentInteractingWithRoom):
             if state == AgentCameraFSM.MOVE_CAMERA:
 
                 if last_time_move:
-                    '''
-                    """Define the values to reaches"""
-                    x_target = self.camera.default_xc
-                    y_target = self.camera.default_yc
-                    alpha_target = self.camera.default_alpha
-                    beta_target = self.camera.default_beta
-
-<<<<<<< HEAD
-                    # TODO: use the methods defined at the end for that
-                    x_target,y_target,alpha_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,self.memory_of_position_to_reach,self.camera, real_room.information_simulation.target_list,PCA_track_points_possibilites.MEDIAN_POINTS)
-=======
-                    # TODO implement a way for the camera to move correctly !!!
-
-                    x_target,y_target,alpha_target,beta_target = use_pca_to_get_alpha_beta_xc_yc(self.memory_of_objectives,self.memory_of_position_to_reach,self.camera, real_room.information_simulation.target_list,PCA_track_points_possibilites.MEDIAN_POINTS)
->>>>>>> 6aa0a4c3fb9f5fdeb0e6b4e5e0749dd654b56a0e
-                    self.camera_controller.set_targets(x_target, y_target, alpha_target, beta_target)
-
-                    """Define the values measured"""
-                    x_mes = self.camera.xc  # + error si on veut ajouter ici
-                    y_mes = self.camera.yc
-                    alpha_mes = self.camera.alpha
-                    beta_mes = self.camera.beta
-
-                    if self.camera.camera_type == mobCam.MobileCameraType.RAIL:
-                        "1 D"
-                        x_mes = self.camera.trajectory.sum_delta
-                        y_mes = 0
-
-
-                    """Find the command to apply"""
-                    (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes,y_mes,alpha_mes,beta_mes)
-
-                    """Apply the command"""
-                    if constants.get_time() - last_time_move < 0:
-                        print("problem time < 0 : %.02f s" % constants.get_time())
-                    else:
-                        dt = constants.get_time() - last_time_move
-                        if dt > 0.5:
-                            dt = 0.5
-                        self.camera.rotate(alpha_command,dt )
-                        self.camera.zoom(beta_command, dt)
-                        self.camera.move(x_command, y_command, dt)
-                        last_time_move = constants.get_time()
-
-                    '''
                     if constants.MOVE_AGENTS:
                         # check what targets are untrackable (used latter in send/rec messages)
                         configuration = self.find_configuration_for_tracked_targets()
@@ -444,7 +399,7 @@ class AgentCam(AgentInteractingWithRoom):
         if len(targets) == 1:
             return None
 
-        target_target_estimator = self.memory.memory_predictions_order_2_from_target
+        target_target_estimator = copy.deepcopy(self.memory.memory_predictions_order_2_from_target)
 
         # reconstruct the Target_TargetEstimator by flitering the targets
         new_target_targetEstimator = Target_TargetEstimator()
@@ -477,9 +432,12 @@ class AgentCam(AgentInteractingWithRoom):
                                                                            new_camera,
                                                                            targetRepresentation.xc,
                                                                            targetRepresentation.yc)
+
             if hidden or not in_field:
-                print("no config, target: ", targetRepresentation.id)
+                #print("no config, target: ", targetRepresentation.id, targetRepresentation.xc, targetRepresentation.yc,
+                      #new_camera.xc, new_camera.yc, new_camera.alpha, new_camera.beta)
                 return None
+
 
         return Configuration(x_target, y_target, alpha_target, beta_target)
 
@@ -581,6 +539,7 @@ class AgentCam(AgentInteractingWithRoom):
         elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET:
             self.receive_message_untrackableTarget(rec_mes)
         elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.ACK_UNTRACKABLE_TARGET:
+            print("ook")
             self.receive_message_ack_untrackableTarget(rec_mes)
 
     # TODO: remove this, as it's used only in GUI. Before, make the GUI take this info directly from the agent's memory.
