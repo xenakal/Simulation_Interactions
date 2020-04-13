@@ -42,6 +42,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
     """Default values"""
     xt = camera.xc
     yt = camera.yc
+    alpha = camera.alpha
     beta = camera.beta
     angle_in_room_representation = 0
 
@@ -53,7 +54,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
 
     if number_of_target < 0:
         """Should not append"""
-        return (None, None, None, None)
+        return (xt, yt, alpha, beta)
 
     if number_of_target == 1:
         distance_to_keep_to_target = camera.field_depth * 0.3
@@ -235,19 +236,26 @@ def pca_methode_2D_plan(target_representation_list, point_to_track_choice=PCA_tr
             all_x.append(target_representation.xc)
             all_y.append(target_representation.yc)
 
-    """Compute the PCA analysis"""
-    pca = PCA(n_components=2)
-    pca.fit(sample)
+    if len(sample) > 0:
+        """Compute the PCA analysis"""
+        pca = PCA(n_components=2)
+        pca.fit(sample)
 
-    """To possibilities to choose were to place the PCA origin"""
-    if point_to_track_choice == PCA_track_points_possibilites.MEANS_POINTS:
-        xt = np.mean(all_x)
-        yt = np.mean(all_y)
-    elif point_to_track_choice == PCA_track_points_possibilites.MEDIAN_POINTS:
-        xt = np.median(all_x)
-        yt = np.median(all_y)
+        """To possibilities to choose were to place the PCA origin"""
+        if len(all_x) <= 0 or len(all_y) <= 0:
+            xt = pca.mean_[0]
+            yt = pca.mean_[1]
+        elif point_to_track_choice == PCA_track_points_possibilites.MEANS_POINTS:
+            xt = np.mean(all_x)
+            yt = np.mean(all_y)
+        elif point_to_track_choice == PCA_track_points_possibilites.MEDIAN_POINTS:
+            xt = np.median(all_x)
+            yt = np.median(all_y)
+        else:
+            print("pca method not defined")
+            return (None, None, None, None)
+
+        return (xt, yt, pca.mean_, pca.explained_variance_, pca.explained_variance_ratio_, pca.components_)
     else:
-        print("pca method not defined")
+        print("no samples")
         return (None, None, None, None)
-
-    return (xt, yt, pca.mean_, pca.explained_variance_, pca.explained_variance_ratio_, pca.components_)

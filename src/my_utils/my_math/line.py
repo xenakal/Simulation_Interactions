@@ -34,7 +34,7 @@ class Line:
         if line.m is None:
             return line.ya
         else:
-            return self.ya+(x-self.xa)*self.m
+            return(x-self.xa)*self.m+ self.ya
 
     def find_line_perp(self, x, y):
         """
@@ -49,11 +49,12 @@ class Line:
             return Line(x, y, x + 1, y)
         elif math.fabs(self.m) < self.tol:
             """if line is horizontal"""
-            return Line(x, y, x , y)
+            return Line(x, y, x, y)
         else:
             """Every other line"""
+            x1 = x - 1
             y1 = (-1 / self.m) + y
-            return Line(x, y, x + 1, y1)
+            return Line(x, y, x1 , y1)
 
     def find_intersection_btw_two_line(self, line):
         """

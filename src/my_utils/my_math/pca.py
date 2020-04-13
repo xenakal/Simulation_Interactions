@@ -49,11 +49,6 @@ angle_min = math.atan2(vector_min[1],vector_min[0])
 angle_max = math.atan2(vector_max[1],vector_max[0])
 
 angle = angle_min
-print(math.degrees(angle_min))
-print(math.degrees(angle_max))
-print(math.degrees(angle))
-
-
 
 
 for length, vector in zip(pca.explained_variance_, pca.components_):

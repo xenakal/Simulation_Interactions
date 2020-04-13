@@ -2,6 +2,7 @@ import pygame
 import math
 from src import constants
 from src.multi_agent.agent.agent_interacting_room_camera import AgentCam
+from src.multi_agent.elements.mobile_camera import MobileCameraType
 from src.multi_agent.elements.room import Room
 from src.multi_agent.elements.target import TargetType
 from src.multi_agent.agent.agent import AgentType
@@ -53,15 +54,14 @@ class GUI_room_representation():
         for agent in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
             self.draw_all_target(agent.room_representation.active_Target_list, room.coordinate_room)
 
-    def draw_agentCam_room_description(self, room, agents_to_display, agentType,allAgents=False):
+    def draw_agentCam_room_description(self, room, agents_to_display, agentType, allAgents=False):
         for agent in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
             self.draw_all_agentCam(agent.room_representation.agentCams_representation_list)
 
-    def draw_link_cam_region_room_description(self, room, agents_to_display, agentType,allAgents=False):
+    def draw_link_cam_region_room_description(self, room, agents_to_display, agentType, allAgents=False):
         for agent_to_display in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
             self.draw_link_cam_region(agent_to_display.room_representation,
                                       agent_to_display.link_target_agent.link_camera_target)
-
 
     def draw_room(self, tab, draw_time=False):
         if draw_time:
@@ -97,7 +97,7 @@ class GUI_room_representation():
 
         color_conf = WHITE
         if target.confidence_pos > 0:
-            color_conf = [math.ceil(255-2.5 * target.confidence_pos), math.ceil(target.confidence_pos * 2.5), 0]
+            color_conf = [math.ceil(255 - 2.5 * target.confidence_pos), math.ceil(target.confidence_pos * 2.5), 0]
 
         pygame.draw.ellipse(self.screen, color_conf, (
             self.x_offset + int(target.xc * self.scale_x) - int(self.scale_x * (target.radius * 1.2)),
@@ -130,44 +130,46 @@ class GUI_room_representation():
                                      int(self.scale_x * target.radius),
                                      int(self.scale_y * target.radius)))
 
-
-
         if not target.variance_on_estimation is None:
-            #if not target.variance_on_estimation[0] is None and  target.variance_on_estimation[1] is None and not target.variance_on_estimation == (0,0):
+            # if not target.variance_on_estimation[0] is None and  target.variance_on_estimation[1] is None and not target.variance_on_estimation == (0,0):
 
-                facteur = 1
-                value_to_draw1 = target.variance_on_estimation[0] +target.radius
-                value_to_draw2 = target.variance_on_estimation[1] +target.radius
+            facteur = 1
+            value_to_draw1 = target.variance_on_estimation[0] + target.radius
+            value_to_draw2 = target.variance_on_estimation[1] + target.radius
 
+            pygame.draw.line(self.screen, WHITE, (
+            self.x_offset + int(target.xc * self.scale_x), self.y_offset + int(target.yc * self.scale_y)),
+                             (self.x_offset + int(
+                                 (target.xc + facteur * value_to_draw1 * math.cos(target.alpha)) * self.scale_x),
+                              self.y_offset + int(
+                                  (target.yc + facteur * value_to_draw1 * math.sin(target.alpha)) * self.scale_y)), 3)
 
-                pygame.draw.line(self.screen, WHITE, (self.x_offset + int(target.xc * self.scale_x),self.y_offset + int(target.yc * self.scale_y)),
-                                                     (self.x_offset + int((target.xc + facteur*value_to_draw1*math.cos(target.alpha))*self.scale_x),
-                                                      self.y_offset + int((target.yc+ facteur*value_to_draw1*math.sin(target.alpha))* self.scale_y)),3)
-
-                pygame.draw.line(self.screen, WHITE, (
+            pygame.draw.line(self.screen, WHITE, (
                 self.x_offset + int(target.xc * self.scale_x), self.y_offset + int(target.yc * self.scale_y)),
-                                 (self.x_offset + int(
-                                     (target.xc + facteur * value_to_draw1 * math.cos(target.alpha+math.pi)) * self.scale_x),
-                                  self.y_offset + int(
-                                      (target.yc + facteur * value_to_draw1 * math.sin(target.alpha+math.pi)) * self.scale_y)), 3)
+                             (self.x_offset + int(
+                                 (target.xc + facteur * value_to_draw1 * math.cos(
+                                     target.alpha + math.pi)) * self.scale_x),
+                              self.y_offset + int(
+                                  (target.yc + facteur * value_to_draw1 * math.sin(
+                                      target.alpha + math.pi)) * self.scale_y)), 3)
 
-                pygame.draw.line(self.screen, WHITE, (
-                    self.x_offset + int(target.xc * self.scale_x), self.y_offset + int(target.yc * self.scale_y)),
-                                 (self.x_offset + int(
-                                     (target.xc + facteur * value_to_draw2 * math.cos(
-                                         target.alpha + math.pi/2)) * self.scale_x),
-                                  self.y_offset + int(
-                                      (target.yc + facteur * value_to_draw2 * math.sin(
-                                          target.alpha + math.pi/2)) * self.scale_y)), 3)
+            pygame.draw.line(self.screen, WHITE, (
+                self.x_offset + int(target.xc * self.scale_x), self.y_offset + int(target.yc * self.scale_y)),
+                             (self.x_offset + int(
+                                 (target.xc + facteur * value_to_draw2 * math.cos(
+                                     target.alpha + math.pi / 2)) * self.scale_x),
+                              self.y_offset + int(
+                                  (target.yc + facteur * value_to_draw2 * math.sin(
+                                      target.alpha + math.pi / 2)) * self.scale_y)), 3)
 
-                pygame.draw.line(self.screen, WHITE, (
-                    self.x_offset + int(target.xc * self.scale_x), self.y_offset + int(target.yc * self.scale_y)),
-                                 (self.x_offset + int(
-                                     (target.xc + facteur * value_to_draw2 * math.cos(
-                                         target.alpha - math.pi/2)) * self.scale_x),
-                                  self.y_offset + int(
-                                      (target.yc + facteur * value_to_draw2 * math.sin(
-                                          target.alpha - math.pi/2)) * self.scale_y)), 3)
+            pygame.draw.line(self.screen, WHITE, (
+                self.x_offset + int(target.xc * self.scale_x), self.y_offset + int(target.yc * self.scale_y)),
+                             (self.x_offset + int(
+                                 (target.xc + facteur * value_to_draw2 * math.cos(
+                                     target.alpha - math.pi / 2)) * self.scale_x),
+                              self.y_offset + int(
+                                  (target.yc + facteur * value_to_draw2 * math.sin(
+                                      target.alpha - math.pi / 2)) * self.scale_y)), 3)
 
         pygame.draw.circle(self.screen, RED, (
             self.x_offset + int(target.xc * self.scale_x + target.radius * self.scale_x * math.cos(target.alpha)),
@@ -217,25 +219,24 @@ class GUI_room_representation():
             pygame.draw.circle(self.screen, camera.color, (
                 self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 5)
 
-
-            if isinstance(agent,AgentCam):
+            if camera.camera_type == MobileCameraType.RAIL or camera.camera_type == MobileCameraType.FREE:
+                if isinstance(agent, AgentCam):
                     if len(agent.memory_of_position_to_reach) > 0:
                         for mem in agent.memory_of_position_to_reach[-1]:
-                            (x,y,index)= mem
+                            (x, y, index) = mem
                             pygame.draw.circle(self.screen, RED, (
-                                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)),3)
+                                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 3)
 
                     if len(agent.memory_of_objectives) > 0:
                         xt = agent.memory_of_objectives[-1][0]
                         yt = agent.memory_of_objectives[-1][1]
                         angle = agent.memory_of_objectives[-1][2]
                         length = 0.5
-                        pt1 = (self.x_offset + int(xt*self.scale_x),self.y_offset+int(yt*self.scale_y))
-                        pt2 = (self.x_offset + int((xt+length*math.cos(angle))*self.scale_x),self.y_offset + int((yt+length*math.sin(angle))*self.scale_y))
-                        pygame.draw.line(self.screen, agent.color,pt1,pt2, 3)
-                        pygame.draw.circle(self.screen, WHITE,pt1, 3)
-
-
+                        pt1 = (self.x_offset + int(xt * self.scale_x), self.y_offset + int(yt * self.scale_y))
+                        pt2 = (self.x_offset + int((xt + length * math.cos(angle)) * self.scale_x),
+                               self.y_offset + int((yt + length * math.sin(angle)) * self.scale_y))
+                        pygame.draw.line(self.screen, agent.color, pt1, pt2, 3)
+                        pygame.draw.circle(self.screen, WHITE, pt1, 3)
 
     def draw_one_camera(self, camera):
         l = camera.field_depth * math.pow((math.pow(self.scale_x * math.cos(camera.alpha), 2) + math.pow(
