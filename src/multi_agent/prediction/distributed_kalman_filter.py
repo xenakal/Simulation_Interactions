@@ -156,7 +156,8 @@ class DistributedKalmanFilter(KalmanFilter):
         if region_to_validate < INTERNODAL_VALIDATION_BOUND:
             return
         else:
-            self.logger_kalman.info("Assimilation of data at time " + str(constants.get_time()) + ". Time when data was sent: " +
+            self.logger_kalman.info("Assimilation of data at time " + str(constants.get_time()) + ". Time when data "
+                                                                                                  "was sent: " +
                                     str(tj) + ". Time of last local measurement: " + str(self.curr_ti))
 
         # PI(tj|tj) = PI(tj|τi) + variance_error_info
@@ -167,6 +168,7 @@ class DistributedKalmanFilter(KalmanFilter):
         x_global_part1 = dot(PIj_prior, xj_prior)
         x_global_part2 = x_global_part1 + state_error_info
         self.x_global = dot(self.P_global, x_global_part2)
+
         # udpate the state and covariance
         self.x = self.x_global.copy()
         self.PI = self.PI_global.copy()

@@ -19,7 +19,7 @@ AY_INDEX = 12
 RADIUS_INDEX = 13
 
 
-def plot_target_memory_type_x_y_2D(ax, data, curve_label):
+def plot_target_memory_type_x_y_2D(ax, data, curve_label="Title Here"):
     return plot_graph_3D_2D(ax, data[X_INDEX], data[Y_INDEX], data[TYPE_INDEX], data[RADIUS_INDEX], 0, 3,
                             "Trajectory x-y plane (type in color)", "x [m]", "y [m]",
                             curve_label=curve_label)
@@ -120,6 +120,7 @@ def init_analyse_memory_agent(list_init, list_sort):
         for element in list_sort:
             if int(data_element['target_signature']) == element.target_signature:
                 element.add_itemEstimator(data_element)
+                # element.add_target_estimator(data_element)
                 is_in_list = True
                 break
         if not is_in_list:

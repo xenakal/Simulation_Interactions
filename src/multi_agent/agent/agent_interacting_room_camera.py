@@ -407,26 +407,23 @@ class AgentCam(AgentInteractingWithRoom):
 
         # reconstruct the Target_TargetEstimator by flitering the targets
         new_target_targetEstimator = Target_TargetEstimator()
-        target_ids = [target.id for target in targets]
         for (target_id, targetEstimator_list) in target_target_estimator.item_itemEstimator_list:
-            if target_id in target_ids:
-                new_target_targetEstimator.add_itemEstimator(
-                    targetEstimator_list[-1])  # ([target_id, targetEstimator_list])
+            if target_id in [target.id for target in targets]:
+                new_target_targetEstimator.add_itemEstimator(targetEstimator_list[-1])
+
         # find a configuration for these targets
         tracked_targets_room_representation = room.RoomRepresentation()
         tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
 
-        x_target, y_target, alpha_target, beta_target = get_configuration_based_on_seen_target(self.camera,
-                                                                                               tracked_targets_room_representation.active_Target_list,
-                                                                                               PCA_track_points_possibilites.MEANS_POINTS,
-                                                                                               self.memory_of_objectives,
-                                                                                               self.memory_of_position_to_reach,
-                                                                                               True)
+        x_target, y_target, alpha_target, beta_target = \
+            get_configuration_based_on_seen_target(self.camera, tracked_targets_room_representation.active_Target_list,
+                                                   PCA_track_points_possibilites.MEANS_POINTS,
+                                                   self.memory_of_objectives, self.memory_of_position_to_reach, True)
 
         # check if this configuration covers all targets
         new_camera = copy.deepcopy(self.camera)
         new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target, True)
-        # print("active target list: ", [target.id for target in tracked_targets_room_representation.active_Target_list])
+
         for targetRepresentation in tracked_targets_room_representation.active_Target_list:
 
             in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, targetRepresentation.xc,
