@@ -24,6 +24,14 @@ KALMAN_MODEL_MEASUREMENT_DIM = 4
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 DATA_TO_SEND = "none"#ac.AgentCameraCommunicationBehaviour.NONE
 
+AGENTS_MOVING = False
+
+class AgentCameraInitializeTargetList:
+    ALL_SEEN = "all_seen"
+
+
+INIT_TARGET_LIST = AgentCameraInitializeTargetList.ALL_SEEN
+
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
 WIDTH_ROOM = 8  # [m]
 LENGHT_ROOM = 8  # [m]

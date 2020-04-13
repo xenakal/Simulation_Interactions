@@ -59,7 +59,7 @@ class MobileCamera(Camera):
 
         self.v_beta_min = v_beta_min
         self.v_beta_max = v_beta_max
-        self.coeff_field = 0.5
+        self.coeff_field = 0
         self.coeff_std_position = 0.05 * self.std_measurment_error_position
         self.coeff_std_speed = 0.01 * self.std_measurment_error_speed
         self.coeff_std_acc = 0.1 * self.std_measurment_error_acceleration
@@ -210,6 +210,12 @@ class MobileCamera(Camera):
         elif self.camera_type == MobileCameraType.FREE:
             self.xc += delta_x
             self.yc += delta_y
+
+    def set_x_y_alpha_beta(self, x_target, y_target, alpha_target, beta_target, is_virtual):
+        self.xc = x_target
+        self.yc = y_target
+        self.alpha = alpha_target
+        self.beta = beta_target
 
 
 class TrajectoryPlaner:

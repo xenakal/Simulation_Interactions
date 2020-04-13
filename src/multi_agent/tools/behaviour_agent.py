@@ -38,7 +38,7 @@ def born_camera_displacement_in_the_room(xc, yc):
 def get_configuration_based_on_seen_target(camera, target_representation_list,
                                            point_to_track_choice=PCA_track_points_possibilites.MEDIAN_POINTS,
                                            memory_objectives=None,
-                                           memory_point_to_reach=None):
+                                           memory_point_to_reach=None, virtual=False):
     """Default values"""
     xt = camera.xc
     yt = camera.yc
@@ -46,7 +46,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
     beta = camera.beta
     angle_in_room_representation = 0
 
-    distance_to_keep_to_target = camera.field_depth * 0.8
+    distance_to_keep_to_target = camera.field_depth * 0.3
     y_to_compute_beta = 0
 
     placement_choice = None
@@ -83,20 +83,20 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
             target_representation_list,
             point_to_track_choice)
         placement_choice = Angle_configuration.PERPENDICULAR_TO_COMPUTED_DIRECTION
+        #placement_choice = Angle_configuration.PARALLEL_TO_COMPUTED_DIRECTION
 
     angle_in_room_representation = modify_angle(angle_in_room_representation, placement_choice)
 
-
     xc1, yc1, alpha1 = define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room_representation,
-                                       memory_objectives, memory_point_to_reach)
+                                          memory_objectives, memory_point_to_reach, virtual)
     xc2, yc2, alpha2 = define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target,
                                           angle_in_room_representation + math.pi,
-                                          memory_objectives, memory_point_to_reach)
+                                          memory_objectives, memory_point_to_reach, virtual)
 
     distance1 = distance_btw_two_point(xc1,yc1,constants.WIDTH_ROOM / 2, constants.LENGHT_ROOM / 2)
     distance2 = distance_btw_two_point(xc2, yc2, constants.WIDTH_ROOM / 2,  constants.LENGHT_ROOM / 2)
 
-    if distance1 < distance2:
+    if distance1 > distance2:
         xc = xc1
         yc = yc1
         alpha = alpha1
@@ -105,11 +105,13 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
         yc = yc2
         alpha = alpha2
 
+    memory_point_to_reach.append([(xc, yc, 0)])
+
     beta = define_beta(distance_to_keep_to_target, y_to_compute_beta)
     return xc, yc, alpha, beta
 
 
-def define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room_coordinate, memory_objectives=None,memory_point_to_reach=None):
+def define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room_coordinate, memory_objectives=None, memory_point_to_reach=None, virtual=False):
     """Finding were the camera should move in terms of its type, fix and rotative cannot move"""
     memory_objectives.append((xt, yt, angle_in_room_coordinate))
     xc, yc = (camera.default_xc, camera.default_yc)
@@ -129,8 +131,11 @@ def define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room
         xc, yc = born_camera_displacement_in_the_room(xc, yc)
         memory_point_to_reach.append([(xc, yc, 0)])
 
-    return xc, yc, get_angle_alpha_command_based_on_target_pos(camera, xt, yt)
-
+    if virtual:
+        alpha = math.atan2(yt-yc, xt-xc)
+    else:
+        alpha = math.atan2(yt - camera.yc, xt - camera.xc)
+    return xc, yc, alpha
 
 def define_beta(distance, radius):
     security_margin_on_beta = 1.2
@@ -200,17 +205,6 @@ def get_angle_alpha_beta_PCA_method(target_representation_list,
         radius_for_beta = 2 * np.sqrt(max(eigen_value_[0], eigen_value_[1]))
 
     return xt, yt, angle_in_room_coordinate, radius_for_beta, coeff_corrector
-
-
-def get_angle_zoom_based_on_target_representation(camera, target_representation):
-    alpha = get_angle_alpha_command_based_on_target_pos(camera, target_representation.xc, target_representation.yc)
-    beta = get_angle_beta_command_based_on_target_pos(target_representation.xc, target_representation.yc)
-
-
-def get_angle_alpha_command_based_on_target_pos(camera, xt, yt):
-    (xt_in_camera_frame, yt_in_camera_frame) = camera.coordinate_change_from_world_frame_to_camera_frame(xt, yt)
-    rotation_in_camera_frame = math.atan2(yt_in_camera_frame, xt_in_camera_frame)
-    return camera.alpha + rotation_in_camera_frame
 
 
 def get_angle_beta_command_based_on_target_pos(camera, xt, yt, radius):
