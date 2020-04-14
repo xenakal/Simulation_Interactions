@@ -18,6 +18,7 @@ def get_camera_agentCam_vs_agentCamRepresentation(agent):
         camera = agent.camera_representation
     return camera
 
+
 def find_cam_in_camera_representation(room_representation, camera_id):
     for agentCam in room_representation.agentCams_representation_list:
         camera = get_camera_agentCam_vs_agentCamRepresentation(agentCam)

@@ -1,6 +1,5 @@
 import logging
 import time
-#import multi_agent.agent.agent_interacting_room_camera as ac
 
 """
 In this file you have the possibility to modify the settings 
@@ -23,7 +22,15 @@ KALMAN_MODEL_MEASUREMENT_DIM = 4
 USE_TIMESTAMP_FOR_ASSIMILATION = True
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
-DATA_TO_SEND = "none"#ac.AgentCameraCommunicationBehaviour.NONE
+
+
+class AgentCameraCommunicationBehaviour:
+    ALL = "all"
+    DKF = "dkf"
+    NONE = "none"
+
+
+DATA_TO_SEND = AgentCameraCommunicationBehaviour.NONE
 
 AGENT_DATA_TO_PROCESS = 0
 AGENTS_MOVING = True

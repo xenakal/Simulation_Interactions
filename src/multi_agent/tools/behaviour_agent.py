@@ -110,7 +110,10 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, c
 
     """Camera has to moove in a different way"""
 
-    if camera.camera_type == mobileCam.MobileCameraType.FIX or camera.camera_type == mobileCam.MobileCameraType.ROTATIVE:
+    if camera.camera_type == mobileCam.MobileCameraType.FIX or \
+            camera.camera_type == mobileCam.MobileCameraType.ROTATIVE:
+        _, _, alpha = define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room_representation,
+                                         memory_objectives, memory_point_to_reach, virtual)
         xc = camera.xc
         yc = camera.yc
     elif camera.camera_type == mobileCam.MobileCameraType.RAIL:
@@ -142,8 +145,8 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, c
         yc=-1
         print("camera_type not recognize")
 
-
     beta = define_beta(distance_to_keep_to_target, y_to_compute_beta)
+    print("in behaviour", alpha)
     return xc, yc, alpha, beta
 
 
@@ -178,6 +181,7 @@ def define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room
     else:
         alpha = math.atan2(yt - camera.yc, xt - camera.xc)
 
+    print("in define xc_yc", alpha)
     return xc, yc, alpha
 
 
