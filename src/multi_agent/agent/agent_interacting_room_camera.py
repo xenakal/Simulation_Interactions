@@ -14,7 +14,6 @@ import math
 import time
 import src.multi_agent.elements.mobile_camera as mobCam
 
-
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
     INFO_DKF = "info_DKF"
     AGENT_ESTIMATOR = "agentEstimator"
@@ -145,7 +144,7 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation, True)
-        self.camera_controller = CameraController(1.2, 0, 0.4, 0, 0.8, 0.1)
+        self.camera_controller = CameraController(0.2, 0, 0.4, 0, 0.2, 0)
         self.camera_controller.set_targets(self.camera.xc, self.camera.yc, self.camera.alpha, self.camera.beta)
 
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
@@ -343,6 +342,7 @@ class AgentCam(AgentInteractingWithRoom):
         (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes, y_mes,
                                                                                                  alpha_mes, beta_mes)
 
+
         """Apply the command"""
         if constants.get_time() - last_time_move < 0:
             print("problem time < 0 : %.02f s" % constants.get_time())
@@ -362,7 +362,8 @@ class AgentCam(AgentInteractingWithRoom):
             Updates self.untrackable_targets and returns a configuration for the targets the agent is able to track
         :return a configuration for the targets the agent is able to track, or None if he can't track any
         """
-        tracked_targets = copy.copy(self.targets_to_track)  # try to find a configuration covering all targets
+        tracked_targets = self.room_representation.active_Target_list
+        #copy.copy(self.targets_to_track)  # try to find a configuration covering all targets
 
         # do nothing if no targets need tracking
         if not tracked_targets:
@@ -370,6 +371,11 @@ class AgentCam(AgentInteractingWithRoom):
 
         number_targets_to_remove = -1
         configuration = None
+
+        configuration = self.find_configuration_for_targets(self.room_representation.active_Target_list)
+        """
+        configuration = self.find_configuration_for_targets(tracked_targets)
+       
         while configuration is None:  # configuration not found
 
             # try to find configuration removing one more element if list not empty
@@ -392,7 +398,7 @@ class AgentCam(AgentInteractingWithRoom):
 
         # update the list of untrackable targets
         self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
-
+        """
         return configuration
 
     def find_configuration_for_targets(self, targets):
@@ -402,8 +408,7 @@ class AgentCam(AgentInteractingWithRoom):
         :param targets: target representations
         :return: Configuration object if exists, None otherwise
         """
-
-        target_target_estimator = self.memory.memory_predictions_order_2_from_target
+        target_target_estimator = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
 
         # reconstruct the Target_TargetEstimator by flitering the targets
         new_target_targetEstimator = Target_TargetEstimator()
@@ -416,7 +421,7 @@ class AgentCam(AgentInteractingWithRoom):
         tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
 
         x_target, y_target, alpha_target, beta_target = \
-            get_configuration_based_on_seen_target(self.camera, tracked_targets_room_representation.active_Target_list,
+            get_configuration_based_on_seen_target(self.camera, tracked_targets_room_representation.active_Target_list,0.8,
                                                    PCA_track_points_possibilites.MEANS_POINTS,
                                                    self.memory_of_objectives, self.memory_of_position_to_reach, True)
 
@@ -439,12 +444,12 @@ class AgentCam(AgentInteractingWithRoom):
                 return None
 
         x_target, y_target, alpha_target, beta_target = get_configuration_based_on_seen_target(self.camera,
-                                                                                               tracked_targets_room_representation.active_Target_list,
+                                                                                               tracked_targets_room_representation.active_Target_list,0.8,
                                                                                                PCA_track_points_possibilites.MEANS_POINTS,
                                                                                                self.memory_of_objectives,
                                                                                                self.memory_of_position_to_reach,
                                                                                                False)
-        beta_target = self.camera.beta
+
         return Configuration(x_target, y_target, alpha_target, beta_target)
 
     def process_information_in_memory(self):
@@ -457,7 +462,7 @@ class AgentCam(AgentInteractingWithRoom):
         self.memory.combine_data_agentCam()
 
         "Modification from the room description"
-        self.room_representation.update_target_based_on_memory(self.memory.memory_predictions_order_2_from_target)
+        self.room_representation.update_target_based_on_memory(self.pick_data(constants.AGENT_DATA_TO_PROCESS))
         self.room_representation.update_agent_based_on_memory(self.memory.memory_agent_from_agent)
 
         "Computation of the camera that should give the best view, according to maps algorithm"
@@ -537,6 +542,8 @@ class AgentCam(AgentInteractingWithRoom):
                     receivers.append([agent.id, agent.signature])
 
                 self.send_message_timed_targetEstimator(target.id, receivers)
+
+
 
     def process_single_message(self, rec_mes):
         super().process_single_message(rec_mes)
@@ -647,6 +654,9 @@ class AgentCam(AgentInteractingWithRoom):
                 last_agent_estimator = agent_estimator_list[-1]
                 self.send_message_agentEstimator(last_agent_estimator)
                 self.time_last_message_agentEstimtor_sent = constants.get_time()
+
+
+
 
 
 def remove_target_with_lowest_priority(target_list):

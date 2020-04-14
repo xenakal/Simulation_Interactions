@@ -7,8 +7,8 @@ In this file you have the possibility to modify the settings
 """
 
 """Options-----------------------------------------------------------------------------------------------------------"""
-SAVE_DATA = True
-GENERATE_PLOT = True
+SAVE_DATA = False
+GENERATE_PLOT = False
 
 USE_GUI = True
 USE_static_analysis = False
@@ -25,6 +25,7 @@ USE_TIMESTAMP_FOR_ASSIMILATION = True
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 DATA_TO_SEND = "none"#ac.AgentCameraCommunicationBehaviour.NONE
 
+AGENT_DATA_TO_PROCESS = 0
 AGENTS_MOVING = True
 
 

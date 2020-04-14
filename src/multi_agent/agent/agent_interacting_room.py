@@ -7,6 +7,12 @@ from src.multi_agent.communication.message import *
 from src import constants
 
 
+class AgentDataToWorkWith:
+    Data_measured = -1
+    Best_estimation = 0
+    Prediction_t_1 = 1
+    Prediction_t_2 = 2
+
 class MessageTypeAgentInteractingWithRoom(MessageType):
     HEARTBEAT = "heartbeat"
     TARGET_ESTIMATOR = "targetEstimator"
@@ -165,8 +171,17 @@ class AgentInteractingWithRoom(Agent):
             self.received_message_ack_nack(rec_mes)
         elif rec_mes.messageType == MessageTypeAgentInteractingWithRoom.HEARTBEAT:
             self.received_message_heartbeat(rec_mes)
-
         self.info_message_received.del_message(rec_mes)
+
+    def pick_data(self,choice):
+        if choice == AgentDataToWorkWith.Data_measured:
+            return self.memory.memory_measured_from_target
+        if choice == AgentDataToWorkWith.Best_estimation:
+            return self.memory.memory_best_estimations_from_target
+        elif choice == AgentDataToWorkWith.Prediction_t_1:
+            return self.memory.memory_predictions_order_1_from_target
+        elif choice == AgentDataToWorkWith.Prediction_t_2:
+            return self.memory.memory_predictions_order_2_from_target
 
     def handle_hearbeat(self):
         self.send_message_heartbeat()
@@ -222,8 +237,7 @@ class AgentInteractingWithRoom(Agent):
         delta_time = constants.get_time() - self.time_last_message_targetEstimtor_sent
 
         if delta_time > constants.TIME_BTW_TARGET_ESTIMATOR:
-            #target_estimator_list = self.memory.memory_measured_from_target.get_item_list(target_id)
-            target_estimator_list = self.memory.memory_predictions_order_2_from_target.get_item_list(target_id)
+            target_estimator_list = self.pick_data(constants.AGENT_DATA_TO_PROCESS).get_item_list(target_id)
 
             if len(target_estimator_list) > 0:
                 last_target_estimator = target_estimator_list[-1]

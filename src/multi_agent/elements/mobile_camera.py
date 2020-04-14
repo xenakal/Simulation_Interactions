@@ -59,7 +59,7 @@ class MobileCamera(Camera):
 
         self.v_beta_min = v_beta_min
         self.v_beta_max = v_beta_max
-        self.coeff_field = 0
+        self.coeff_field = 0.75
         self.coeff_std_position = 0.05 * self.std_measurment_error_position
         self.coeff_std_speed = 0.01 * self.std_measurment_error_speed
         self.coeff_std_acc = 0.1 * self.std_measurment_error_acceleration
@@ -315,7 +315,6 @@ class TrajectoryPlaner:
             xf_in_trajectory_frame,yf_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(xf,yf,index)
 
             if y_intersection_in_trajectory_frame > 0.001:
-                #print(y_intersection)
                 print("problème  in find closest intersection")
                 return(None,None,None)
             elif x_intersection_in_trajecotry_frame > xf_in_trajectory_frame or x_intersection  is None:
