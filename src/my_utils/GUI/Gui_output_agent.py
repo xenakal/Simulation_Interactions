@@ -16,7 +16,7 @@ class GUI_user_output:
         self.button_simulation_2 = ButtonList(["0", "1", "2", "3", "4", "5", "6","7","8","9","10","11","12"], -35, 10, 700, 40, 35, 15)
         self.button_simulation_3 = ButtonList(["0", "1", "2", "3", "4", "5", "6","7","8","9","10","11","12"], -35, 10, 750, 40, 35, 15)
 
-        self.GUI_room = GUI_room_representation(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, x_offset,y_offset, scale_x,scale_y)
+        self.GUI_room = GUI_room_representation(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, x_offset,y_offset, scale_x,scale_y,GUI_option)
         self.GUI_pred = GUI_predictions(self.screen, self.GUI_option.agent_to_display,self.GUI_option.target_to_display, x_offset,y_offset,scale_x, scale_y, 2)
         self.font = pygame.font.SysFont("monospace", 15)
 

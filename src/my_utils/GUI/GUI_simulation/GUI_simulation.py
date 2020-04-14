@@ -19,7 +19,7 @@ class GUI_simulation:
         self.button_simulation_3 = ButtonList(["0", "1", "2", "3", "4", "5", "6","7","8","9","10","11","12"], -35, 10, 750, 40, 35, 15)
         self.button_simulation_4 = ButtonList(["save to txt","Cam ROI","Cam COV","User's O"], -100, 10, 0, 100, 100, 20)
 
-        self.GUI_room = GUI_room_representation(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, x_offset,y_offset, scale_x,scale_y)
+        self.GUI_room = GUI_room_representation(self.screen, self.GUI_option.agent_to_display, self.GUI_option.target_to_display, x_offset,y_offset, scale_x,scale_y,GUI_option)
         self.GUI_memories = GUI_memories(self.screen, self.GUI_option.agent_to_display,self.GUI_option.target_to_display,x_offset,y_offset, scale_x, scale_y)
         self.GUI_ATD = GUI_Agent_Target_Detected(self.screen)
         self.GUI_pred = GUI_predictions(self.screen, self.GUI_option.agent_to_display,self.GUI_option.target_to_display, x_offset,y_offset,scale_x, scale_y, 2)

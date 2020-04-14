@@ -38,9 +38,10 @@ def get_agent_to_draw(room, agents_to_display, agentType, allAgents=False):
 
 
 class GUI_room_representation():
-    def __init__(self, screen, agent, target, x_off, y_off, scale_x, scale_y):
+    def __init__(self, screen, agent, target, x_off, y_off, scale_x, scale_y,GUI_option):
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 15)
+        self.GUI_option = GUI_option
 
         self.agent_to_display = agent
         self.target_to_display = target
@@ -197,7 +198,7 @@ class GUI_room_representation():
                 self.x_offset + int(camera.xc * self.scale_x) + 5, self.y_offset + int(camera.yc * self.scale_y) + 5))
 
             self.draw_one_camera(camera)
-            if isinstance(agent,AgentCam) and not agent.virtual_camera is None :
+            if isinstance(agent,AgentCam) and  self.GUI_option.show_virtual_cam and not agent.virtual_camera is None :
                 self.draw_one_camera(agent.virtual_camera,True)
 
             # render form
@@ -227,7 +228,7 @@ class GUI_room_representation():
             pygame.draw.circle(self.screen, camera.color, (
                 self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 5)
 
-            if camera.camera_type == MobileCameraType.RAIL or camera.camera_type == MobileCameraType.FREE:
+            if camera.camera_type == MobileCameraType.RAIL or camera.camera_type == MobileCameraType.FREE and self.GUI_option.show_point_to_reach:
                 if isinstance(agent, AgentCam):
                     if len(agent.memory_of_position_to_reach) > 0:
                         for mem in agent.memory_of_position_to_reach[-1]:
@@ -257,42 +258,32 @@ class GUI_room_representation():
         if virtual:
             color = (0,125,125)
 
-        pygame.draw.line(self.screen, WHITE, (
-            self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
-                         (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(camera.alpha),
-                          self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(camera.alpha)), 2)
-        pygame.draw.line(self.screen, color, (
-            self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
-                         (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
-                             camera.alpha - (camera.beta / 2)),
-                          self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
-                              camera.alpha - (camera.beta / 2))), 2)
-        pygame.draw.line(self.screen, color, (
-            self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
-                         (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
-                             camera.alpha + (camera.beta / 2)),
-                          self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
-                              camera.alpha + (camera.beta / 2))), 2)
-        """
-            pt1 =  (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
-                            camera.alpha - (camera.beta / 2)),
-                         self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
-                             camera.alpha - (camera.beta / 2)))
-
-            pt2 =  (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
+        if self.GUI_option.show_field_cam:
+            pygame.draw.line(self.screen, WHITE, (
+                self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
+                             (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(camera.alpha),
+                              self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(camera.alpha)), 2)
+            pygame.draw.line(self.screen, color, (
+                self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
+                             (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
+                                 camera.alpha - (camera.beta / 2)),
+                              self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
+                                  camera.alpha - (camera.beta / 2))), 2)
+            pygame.draw.line(self.screen, color, (
+                self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
+                             (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
                                  camera.alpha + (camera.beta / 2)),
                               self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
-                                  camera.alpha + (camera.beta / 2)))
-            pygame.draw.line(self.screen, color, pt1, pt2, 2)
-            """
-        try:
-            pygame.draw.arc(self.screen, color, [self.x_offset + int(camera.xc * self.scale_x) - int(l),
-                                                 self.y_offset + int(camera.yc * self.scale_y) - int(l), 2 * l, 2 * l],
-                            -camera.alpha - (camera.beta / 2), -camera.alpha + (camera.beta / 2), 2)
-        except ValueError:
-            print("Error draw cam")
+                                  camera.alpha + (camera.beta / 2))), 2)
 
-        self.draw_a_trajectory(camera.trajectory.trajectory, camera.color)
+            try:
+                pygame.draw.arc(self.screen, color, [self.x_offset + int(camera.xc * self.scale_x) - int(l),
+                                                     self.y_offset + int(camera.yc * self.scale_y) - int(l), 2 * l, 2 * l],
+                                -camera.alpha - (camera.beta / 2), -camera.alpha + (camera.beta / 2), 2)
+            except ValueError:
+                print("Error draw cam")
+
+            self.draw_a_trajectory(camera.trajectory.trajectory, camera.color)
 
     def draw_a_trajectory(self, traj, color):
         for n in range(len(traj) - 1):

@@ -17,6 +17,15 @@ USE_dynamic_analysis_simulated_room = True
 INCLUDE_ERROR = True
 LOG_LEVEL = logging.INFO  #
 
+"""Option GUI--------------------------------------------------------------------------------------------------------"""
+
+"Push o to show or hide"
+INIT_show_point_to_reach = False
+"Push v to show or hide"
+INIT_show_virtual_cam = False
+"Push f to show or hide"
+INIT_show_field_cam = True
+
 """Options for Kalman Filter-----------------------------------------------------------------------------------------"""
 DISTRIBUTED_KALMAN = False
 KALMAN_MODEL_MEASUREMENT_DIM = 4
@@ -61,7 +70,8 @@ TIME_BTW_TARGET_ESTIMATOR = 0.5/SCALE_TIME
 TIME_PICTURE = (1.5 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 TIME_SEND_READ_MESSAGE = (0.3 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 MAX_TIME_MESSAGE_IN_LIST = 3  # s
-TRESH_TIME_TO_SEND_MEMORY = 10  # s
+TRESH_TIME_TO_SEND_MEMORY = 10  #
+DISTANCE_TO_KEEP_WITH_TARGET = 0.8# in term of the depth field (max = 1)
 "Agent-User"
 TIME_TO_SLOW_DOWN = 0.15 / SCALE_TIME
 

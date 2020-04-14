@@ -40,6 +40,8 @@ class Configuration:
         self.alpha = alpha
         self.beta = beta
 
+    def to_string(self):
+        print("config x: %.02f y: %.02f alpha: %.02f beta: %.02f"%(self.x,self.y,self.alpha,self.beta))
 
 class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
     def __init__(self, id, type):
@@ -145,7 +147,7 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation, True)
-        self.camera_controller = CameraController(0.2, 0, 0.4, 0, 0.2, 0)
+        self.camera_controller = CameraController(0.4, 0, 0.4, 0, 0.1, 0)
         self.camera_controller.set_targets(self.camera.xc, self.camera.yc, self.camera.alpha, self.camera.beta)
 
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
@@ -189,6 +191,7 @@ class AgentCam(AgentInteractingWithRoom):
                             last_not_None_configuration = configuration
 
                         last_time_move = self.move_based_on_config(last_not_None_configuration, last_time_move)
+
                     else:
                         last_time_move = constants.get_time()
 
@@ -324,6 +327,7 @@ class AgentCam(AgentInteractingWithRoom):
     def move_based_on_config(self, configuration, last_time_move):
 
         if configuration is None:
+            self.log_main.debug("no config to move at time %.02f" % constants.get_time())
             return
 
         self.camera_controller.set_targets(configuration.x, configuration.y, configuration.alpha, configuration.beta)
@@ -421,7 +425,7 @@ class AgentCam(AgentInteractingWithRoom):
         tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
 
         x_target, y_target, alpha_target, beta_target = \
-            get_configuration_based_on_seen_target(self.camera, tracked_targets_room_representation.active_Target_list,0.9,
+            get_configuration_based_on_seen_target(self.camera, tracked_targets_room_representation.active_Target_list,0.8,
                                                    PCA_track_points_possibilites.MEANS_POINTS,
                                                    self.memory_of_objectives, self.memory_of_position_to_reach, True)
 
@@ -440,7 +444,7 @@ class AgentCam(AgentInteractingWithRoom):
                                                                            targetRepresentation.yc)
 
             if hidden or not in_field:
-                print("no config")
+                self.log_main.debug("no config at time %.02f"%constants.get_time())
                 return None
 
         x_target, y_target, alpha_target, beta_target = get_configuration_based_on_seen_target(self.camera,
