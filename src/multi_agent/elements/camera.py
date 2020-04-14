@@ -74,6 +74,31 @@ def is_x_y_radius_in_field_not_obstructed(camera, x, y, r_target=0):
         return False
 
 
+def is_x_y_in_hidden_zone_all_targets_based_on_camera(room_representation, camera, x, y):
+    """
+            :description
+                Extend the function is_x_y_in_hidden_zone_one_target,
+                1.for every target in the room
+            :param
+                1. (int) x        -- x coordinate of a point in the room frame
+                2. (int) y        -- y coordinate of a point in the room frame
+            :return / modify vector
+                1. (bool)         -- True if the point is not hidden
+        """
+
+    if camera is None:
+        return False
+
+    for target in room_representation.active_Target_list:
+        xt = target.xc
+        yt = target.yc
+        radius = target.radius
+        if is_x_y_in_hidden_zone_one_target(camera, x, y, xt, yt, radius):
+            return True
+
+    return False
+
+
 def is_x_y_in_hidden_zone_one_target(camera, x, y, xt, yt, r_target):
     """
             :description

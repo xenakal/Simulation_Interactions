@@ -12,6 +12,11 @@ class CameraController:
         self.set_alpha_target(alpha_target)
         self.set_beta_target(beta_target)
 
+    def set_targets_based_on_config(self, configuration):
+        self.set_post_target(configuration.x, configuration.y)
+        self.set_alpha_target(configuration.alpha)
+        self.set_beta_target(configuration.beta)
+
     def set_post_target(self,x_target,y_target):
         self.position_controller.x_controller.value_target = x_target
         self.position_controller.y_controller.value_target = y_target

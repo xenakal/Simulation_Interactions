@@ -1,3 +1,4 @@
+import itertools
 import math
 import matplotlib.pyplot as plt
 import numpy as np
@@ -36,10 +37,10 @@ def born_camera_displacement_in_the_room(xc, yc):
     return xc, yc
 
 
-def get_configuration_based_on_seen_target(camera, target_representation_list,
+def get_configuration_based_on_seen_target(camera, target_representation_list, coeff_distance=0.8,
                                            point_to_track_choice=PCA_track_points_possibilites.MEDIAN_POINTS,
                                            memory_objectives=None,
-                                           memory_point_to_reach=None):
+                                           memory_point_to_reach=None, virtual=False):
     """Default values"""
     xt = camera.xc
     yt = camera.yc
@@ -47,8 +48,11 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
     beta = camera.beta
     angle_in_room_representation = 0
 
-    distance_to_keep_to_target = camera.field_depth * 0.8
+    distance_to_keep_to_target = camera.field_depth * coeff_distance
     y_to_compute_beta = 0
+
+    point_to_be_close_x = constants.LENGHT_ROOM/2
+    point_to_be_close_y = constants.WIDTH_ROOM/2
 
     placement_choice = None
     number_of_target = len(target_representation_list)
@@ -75,7 +79,6 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
 
         (xt_in_camera_frame, yt_in_camera_frame) = camera.coordinate_change_from_world_frame_to_camera_frame(xt, yt)
         y_to_compute_beta = 2 * target.radius
-
         placement_choice = Angle_configuration.PARALLEL_TO_COMPUTED_DIRECTION
 
     if number_of_target >= 2:
@@ -84,34 +87,68 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
             target_representation_list,
             point_to_track_choice)
         placement_choice = Angle_configuration.PERPENDICULAR_TO_COMPUTED_DIRECTION
+        # placement_choice = Angle_configuration.PARALLEL_TO_COMPUTED_DIRECTION
+
+        if number_of_target == 3:
+            "We want to be closer from the 3rd target"
+            distance_max = -1
+            distance_max_and_ids = (-1,[-1,-1])
+
+            for targets in itertools.combinations(target_representation_list, 2):
+                target1,target2 = targets
+                distance_to_compute = distance_btw_two_point(target1.xc,target1.yc,target2.xc,target2.yc)
+                if distance_max < distance_to_compute:
+                    distance_max = distance_to_compute
+                    distance_max_and_ids = (distance_max,[target1.id,target2.id])
+
+            for target in target_representation_list:
+                if target.id not in distance_max_and_ids[1]:
+                    point_to_be_close_x = 2*xt-math.fabs(target.xc)
+                    point_to_be_close_y = 2*yt-math.fabs(target.yc)
 
     angle_in_room_representation = modify_angle(angle_in_room_representation, placement_choice)
 
+    """Camera has to moove in a different way"""
 
-    xc1, yc1, alpha1 = define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room_representation,
-                                       memory_objectives, memory_point_to_reach)
-    xc2, yc2, alpha2 = define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target,
-                                          angle_in_room_representation + math.pi,
-                                          memory_objectives, memory_point_to_reach)
+    if camera.camera_type == mobileCam.MobileCameraType.FIX or camera.camera_type == mobileCam.MobileCameraType.ROTATIVE:
+        xc = camera.xc
+        yc = camera.yc
+    elif camera.camera_type == mobileCam.MobileCameraType.RAIL:
+        xc, yc, alpha = define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room_representation,
+                                           memory_objectives, memory_point_to_reach, virtual)
 
-    distance1 = distance_btw_two_point(xc1,yc1,constants.WIDTH_ROOM / 2, constants.LENGHT_ROOM / 2)
-    distance2 = distance_btw_two_point(xc2, yc2, constants.WIDTH_ROOM / 2,  constants.LENGHT_ROOM / 2)
+    elif camera.camera_type == mobileCam.MobileCameraType.FREE:
+        xc1, yc1, alpha1 = define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room_representation,
+                                              memory_objectives, memory_point_to_reach, virtual)
+        xc2, yc2, alpha2 = define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target,
+                                              angle_in_room_representation + math.pi,
+                                              memory_objectives, memory_point_to_reach, virtual)
 
-    if distance1 < distance2:
-        xc = xc1
-        yc = yc1
-        alpha = alpha1
+        distance1 = distance_btw_two_point(xc1, yc1, point_to_be_close_x, point_to_be_close_y)
+        distance2 = distance_btw_two_point(xc2, yc2, point_to_be_close_x, point_to_be_close_y)
+
+        if distance1 < distance2:
+            xc = xc1
+            yc = yc1
+            alpha = alpha1
+        else:
+            xc = xc2
+            yc = yc2
+            alpha = alpha2
+
+        memory_point_to_reach.append([(xc, yc, 0),(point_to_be_close_x,point_to_be_close_y,0)])
     else:
-        xc = xc2
-        yc = yc2
-        alpha = alpha2
+        xc=-1
+        yc=-1
+        print("camera_type not recognize")
 
 
     beta = define_beta(distance_to_keep_to_target, y_to_compute_beta)
     return xc, yc, alpha, beta
 
 
-def define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room_coordinate, memory_objectives=None,memory_point_to_reach=None):
+def define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room_coordinate, memory_objectives=None,
+                       memory_point_to_reach=None, virtual=False):
     """Finding were the camera should move in terms of its type, fix and rotative cannot move"""
     memory_objectives.append((xt, yt, angle_in_room_coordinate))
     xc, yc = (camera.default_xc, camera.default_yc)
@@ -119,9 +156,14 @@ def define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room
     if camera.camera_type == mobileCam.MobileCameraType.RAIL:
         line_we_want_to_be_align_with = Line(xt, yt, xt + math.cos(angle_in_room_coordinate),
                                              yt + math.sin(angle_in_room_coordinate))
-        (xi, yi, new_index) = camera.trajectory.find_closest_intersection(line_we_want_to_be_align_with,
-                                                                          camera.trajectory.trajectory_index)
-        xc, yc = camera.trajectory.compute_distance_for_point_x_y(xi, yi, new_index)
+
+        index = camera.trajectory.trajectory_index
+        (xi, yi, new_index) = camera.trajectory.find_closest_intersection(line_we_want_to_be_align_with, index)
+        if virtual:
+            xc = xi
+            yc = yi
+        else:
+            xc, yc = camera.trajectory.compute_distance_for_point_x_y(xi, yi, new_index)
         "Save data"
         memory_point_to_reach.append([(xi, yi, new_index)])
 
@@ -131,7 +173,12 @@ def define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room
         xc, yc = born_camera_displacement_in_the_room(xc, yc)
         memory_point_to_reach.append([(xc, yc, 0)])
 
-    return xc, yc, get_angle_alpha_command_based_on_target_pos(camera, xt, yt)
+    if virtual:
+        alpha = math.atan2(yt - yc, xt - xc)
+    else:
+        alpha = math.atan2(yt - camera.yc, xt - camera.xc)
+
+    return xc, yc, alpha
 
 
 def define_beta(distance, radius):
@@ -202,17 +249,6 @@ def get_angle_alpha_beta_PCA_method(target_representation_list,
         radius_for_beta = 2 * np.sqrt(max(eigen_value_[0], eigen_value_[1]))
 
     return xt, yt, angle_in_room_coordinate, radius_for_beta, coeff_corrector
-
-
-def get_angle_zoom_based_on_target_representation(camera, target_representation):
-    alpha = get_angle_alpha_command_based_on_target_pos(camera, target_representation.xc, target_representation.yc)
-    beta = get_angle_beta_command_based_on_target_pos(target_representation.xc, target_representation.yc)
-
-
-def get_angle_alpha_command_based_on_target_pos(camera, xt, yt):
-    (xt_in_camera_frame, yt_in_camera_frame) = camera.coordinate_change_from_world_frame_to_camera_frame(xt, yt)
-    rotation_in_camera_frame = math.atan2(yt_in_camera_frame, xt_in_camera_frame)
-    return camera.alpha + rotation_in_camera_frame
 
 
 def get_angle_beta_command_based_on_target_pos(camera, xt, yt, radius):
