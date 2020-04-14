@@ -136,7 +136,7 @@ class App:
 
         """Agents start to run"""
         for agent in self.room.information_simulation.agentCams_list:
-            agent.run()
+           agent.run()
 
         for agent in self.room.information_simulation.agentUser_list:
            agent.run()

@@ -47,56 +47,47 @@ def is_x_y_radius_in_field_not_obstructed(camera, x, y, r_target=0):
             :return / modify vector
                 1. (bool)         -- True if (x,y) or circle limit point is between the limits
         """
-    (x_target_in_camera_frame, y_target_in_camera_frame) = camera.coordinate_change_from_world_frame_to_camera_frame(
-        x, y)
+    (x_target_in_camera_frame, y_target_in_camera_frame) = camera.coordinate_change_from_world_frame_to_camera_frame(x, y)
+    if x_target_in_camera_frame >= 0:
 
-    line_camera_target = Line(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
-    perpendicular_to_line_camera_target = line_camera_target.find_line_perp(x_target_in_camera_frame,
-                                                                            y_target_in_camera_frame)
+        line_camera_target = Line(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
+        perpendicular_to_line_camera_target = line_camera_target.find_line_perp(x_target_in_camera_frame,
+                                                                                y_target_in_camera_frame)
+        
 
-    target_limit_in_camera_frame = perpendicular_to_line_camera_target.find_intersection_btw_line_circle(r_target,
-                                                                                                         x_target_in_camera_frame,
-                                                                                                         y_target_in_camera_frame)
+        target_limit_in_camera_frame = perpendicular_to_line_camera_target.find_intersection_btw_line_circle(r_target,
+                                                                                                             x_target_in_camera_frame,
+                                                                                                             y_target_in_camera_frame)
+    
+        y_min = min(target_limit_in_camera_frame[1], target_limit_in_camera_frame[3])
+        y_max = max(target_limit_in_camera_frame[1], target_limit_in_camera_frame[3])
 
-    y_min = min(target_limit_in_camera_frame[1], target_limit_in_camera_frame[3])
-    y_max = max(target_limit_in_camera_frame[1], target_limit_in_camera_frame[3])
+        beta_target_min = math.atan2(y_min, x_target_in_camera_frame)
+        beta_target_max = math.atan2(y_max, x_target_in_camera_frame)
 
-    beta_target_min = math.atan2(y_min, x_target_in_camera_frame)
-    beta_target_max = math.atan2(y_max, x_target_in_camera_frame)
-
-    margin_low = beta_target_max >= -(math.fabs(camera.beta / 2))
-    margin_high = beta_target_min <= math.fabs(camera.beta / 2)
-
-    distance = distance_btw_two_point(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
-    if margin_low and margin_high and camera.field_depth > distance:
-        return True
-    else:
-        return False
+        margin_low = beta_target_max >= -(math.fabs(camera.beta / 2))
+        margin_high = beta_target_min <= math.fabs(camera.beta / 2)
+        distance = distance_btw_two_point(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
+        distance_test = camera.field_depth > distance
 
 
-def is_x_y_in_hidden_zone_all_targets_based_on_camera(room_representation, camera, x, y):
-    """
-            :description
-                Extend the function is_x_y_in_hidden_zone_one_target,
-                1.for every target in the room
-            :param
-                1. (int) x        -- x coordinate of a point in the room frame
-                2. (int) y        -- y coordinate of a point in the room frame
-            :return / modify vector
-                1. (bool)         -- True if the point is not hidden
+        """
+        angle = math.atan2(y_target_in_camera_frame,x_target_in_camera_frame)
+        margin_low = angle > -(math.fabs(camera.beta / 2))
+        margin_high = angle < math.fabs(camera.beta / 2)
+        distance = distance_btw_two_point(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
+        distance_test = camera.field_depth > distance
+        print(margin_high)
+        print(margin_low)
+        print(distance_test)
         """
 
-    if camera is None:
-        return False
-
-    for target in room_representation.active_Target_list:
-        xt = target.xc
-        yt = target.yc
-        radius = target.radius
-        if is_x_y_in_hidden_zone_one_target(camera, x, y, xt, yt, radius):
+        if margin_low and margin_high and distance_test:
             return True
-
-    return False
+        else:
+            return False
+    else:
+        return False
 
 
 def is_x_y_in_hidden_zone_one_target(camera, x, y, xt, yt, r_target):
@@ -119,27 +110,29 @@ def is_x_y_in_hidden_zone_one_target(camera, x, y, xt, yt, r_target):
     (xcf, ycf) = camera.coordinate_change_from_world_frame_to_camera_frame(x, y)
     (xctf, yctf) = camera.coordinate_change_from_world_frame_to_camera_frame(xt, yt)
 
-    "Computing limits"
-    line_cam_target = Line(0, 0, xctf, yctf)
-    line_perp_cam_target = line_cam_target.find_line_perp(xctf, yctf)
-    idca = line_perp_cam_target.find_intersection_btw_line_circle(r_target, xctf, yctf)
+    "check to see if the target is in the field of view"
+    if is_x_y_radius_in_field_not_obstructed(camera, xt, yt, r_target):
+        "Computing limits"
+        line_cam_target = Line(0, 0, xctf, yctf)
+        line_perp_cam_target = line_cam_target.find_line_perp(xctf, yctf)
+        idca = line_perp_cam_target.find_intersection_btw_line_circle(r_target, xctf, yctf)
 
-    "Check if intersection exist"
-    if not (idca[0] == idca[1] == idca[2] == idca[3] == 0):
-        alpha1 = math.atan2(idca[1], idca[0])
-        alpha2 = math.atan2(idca[3], idca[2])
+        "Check if intersection exist"
+        if not (idca[0] == idca[1] == idca[2] == idca[3] == 0):
+            alpha1 = math.atan2(idca[1], idca[0])
+            alpha2 = math.atan2(idca[3], idca[2])
 
-        alpha_min = min(alpha1, alpha2)
-        alpha_max = max(alpha1, alpha2)
-        alphapt = math.atan2(ycf, xcf)
+            alpha_min = min(alpha1, alpha2)
+            alpha_max = max(alpha1, alpha2)
+            alphapt = math.atan2(ycf, xcf)
 
-        "Condition to be hidden"
-        if alpha_min <= alphapt <= alpha_max and xcf > xctf:
-            return True
-        else:
-            return False
-    else:
-        return None
+            "Condition to be hidden"
+            if alpha_min <= alphapt <= alpha_max and xcf > xctf:
+                return True
+            else:
+                return False
+
+    return None
 
 
 def is_x_y_in_hidden_zone_all_targets(room_representation, camera_id, x, y):
@@ -157,6 +150,30 @@ def is_x_y_in_hidden_zone_all_targets(room_representation, camera_id, x, y):
         """
 
     camera = find_cam_in_camera_representation(room_representation, camera_id)
+    if camera is None:
+        return False
+
+    for target in room_representation.active_Target_list:
+        xt = target.xc
+        yt = target.yc
+        radius = target.radius
+        if is_x_y_in_hidden_zone_one_target(camera, x, y, xt, yt, radius):
+            return True
+
+    return False
+
+def is_x_y_in_hidden_zone_all_targets_based_on_camera(room_representation, camera, x, y):
+    """
+            :description
+                Extend the function is_x_y_in_hidden_zone_one_target,
+                1.for every target in the room
+            :param
+                1. (int) x        -- x coordinate of a point in the room frame
+                2. (int) y        -- y coordinate of a point in the room frame
+            :return / modify vector
+                1. (bool)         -- True if the point is not hidden
+        """
+
     if camera is None:
         return False
 
@@ -198,35 +215,7 @@ def is_x_y_in_hidden_zone_fix_targets(room_representation, camera_id, x, y):
     return False
 
 
-def is_x_y_in_hidden_zone_mooving_targets(room_representation, camera_id, x, y):
-    """
-            :description
-                Extend the function is_x_y_in_hidden_zone_one_target,
-                1.for "target" and "obstruction" target in the room
-
-            :param
-                1. (int) x        -- x coordinate of a point in the room frame
-                2. (int) y        -- y coordinate of a point in the room frame
-
-            :return / modify vector
-                1. (bool)         -- True if the point is not hidden
-        """
-
-    camera = find_cam_in_camera_representation(room_representation, camera_id)
-    if camera is None:
-        return False
-
-    for target in room_representation.active_Target_list:
-        if target.type == TargetType.MOVING or target.type == TargetType.FIX or target.type == TargetType.UNKNOWN:
-            xt = target.xc
-            yt = target.yc
-            radius = target.radius
-            if is_x_y_in_hidden_zone_one_target(camera, x, y, xt, yt, radius):
-                return True
-    return False
-
-
-def is_xc_yc_radius_in_hidden_zone_all_targets(room_representation, camera_id, x, y, r=0):
+def is_xc_yc_radius_in_hidden_zone_all_targets(room_representation, camera_id, x, y,r =0):
     """
             :description
                 Extend the function is_x_y_in_hidden_zone_one_target,
@@ -246,7 +235,7 @@ def is_xc_yc_radius_in_hidden_zone_all_targets(room_representation, camera_id, x
             :return / modify vector
                 1. (bool)         -- True if the point is not hidden
         """
-
+    r = 0
     camera = find_cam_in_camera_representation(room_representation, camera_id)
     if camera is None:
         return False
@@ -258,8 +247,7 @@ def is_xc_yc_radius_in_hidden_zone_all_targets(room_representation, camera_id, x
     if not r == 0:
         line_camera_target = Line(camera.xc, camera.yc, x, y)
         perpendicular_to_line_camera_target = line_camera_target.find_line_perp(x, y)
-        target_limit = perpendicular_to_line_camera_target.find_intersection_btw_line_circle(r + 0.01, x,
-                                                                                             y)  # +0.01 because if we compare to the target it camera it might be a problem in the condition
+        target_limit = perpendicular_to_line_camera_target.find_intersection_btw_line_circle(r + 0.01, x,y)
         cdt_up = is_x_y_in_hidden_zone_all_targets(room_representation,camera.id, target_limit[0], target_limit[1])
         cdt_down = is_x_y_in_hidden_zone_all_targets(room_representation,camera.id, target_limit[2], target_limit[3])
 
@@ -291,29 +279,36 @@ def is_in_hidden_zone_one_target_matrix_x_y(room_representation, camera_id, resu
     if camera is None:
         return False
 
-    (i_tot, j_tot) = result.shape
+    "check to see if the target is in the field of view"
+    if is_x_y_radius_in_field_not_obstructed(camera, xt, yt, r_target):
+        (i_tot, j_tot) = result.shape
 
-    "coordinate transformation"
-    (xctf, yctf) = camera.coordinate_change_from_world_frame_to_camera_frame(xt, yt)
+        "coordinate transformation"
+        (xctf, yctf) = camera.coordinate_change_from_world_frame_to_camera_frame(xt, yt)
 
-    "line between target and camera"
-    line_cam_target = Line(0, 0, xctf, yctf)
-    line_perp_cam_target = line_cam_target.find_line_perp(xctf, yctf)
-    idca = line_perp_cam_target.find_intersection_btw_line_circle(r_target, xctf, yctf)
+        "line between target and camera"
+        line_cam_target = Line(0, 0, xctf, yctf)
+        line_perp_cam_target = line_cam_target.find_line_perp(xctf, yctf)
+        idca = line_perp_cam_target.find_intersection_btw_line_circle(r_target, xctf, yctf)
 
-    "checking if there is an intersection "
-    if not (idca[0] == idca[1] == idca[2] == idca[3] == 0):
-        alpha1 = math.atan2(idca[1], idca[0])
-        alpha2 = math.atan2(idca[3], idca[2])
+        "checking if there is an intersection "
+        if not (idca[0] == idca[1] == idca[2] == idca[3] == 0):
+            alpha1 = math.atan2(idca[1], idca[0])
+            alpha2 = math.atan2(idca[3], idca[2])
 
-        for i in range(i_tot):
-            for j in range(j_tot):
-                (xcf, ycf) = camera.coordinate_change_from_world_frame_to_camera_frame(x[i, j], y[i, j])
-                alphapt = math.atan2(ycf, xcf)
+            alpha_min = min(alpha1,alpha2)
+            alpha_max = max(alpha1,alpha2)
 
-                "condition to be hidden"
-                if (alpha1 > alphapt > alpha2 or alpha1 < alphapt < alpha2) and xcf > xctf:
-                    result[i, j] = 0
+            for i in range(i_tot):
+                for j in range(j_tot):
+                    (xcf, ycf) = camera.coordinate_change_from_world_frame_to_camera_frame(x[i, j], y[i, j])
+                    alphapt = math.atan2(ycf, xcf)
+
+                    "condition to be hidden"
+                    if alpha_min<alphapt<alpha_max and xcf > xctf:
+                        result[i, j] = 0
+        else:
+            print("error")
     return result
 
 
@@ -341,7 +336,7 @@ def is_in_hidden_zone_all_targets_matrix_x_y(room_representation, camera_id, res
         yt = target.yc
         radius = target.radius
 
-        result = is_in_hidden_zone_one_target_matrix_x_y(camera, result, x, y, xt, yt, radius)
+        result = is_in_hidden_zone_one_target_matrix_x_y(room_representation,camera.id, result, x, y, xt, yt, radius)
     return result
 
 
@@ -368,35 +363,7 @@ def is_in_hidden_zone_fix_targets_matrix_x_y(room_representation,camera_id, resu
             xt = target.xc
             yt = target.yc
             radius = target.radius
-            result = is_in_hidden_zone_one_target_matrix_x_y(camera, result, x, y, xt, yt, radius)
-    return result
-
-
-def is_in_hidden_zone_mooving_targets_matrix_x_y(room_representation,camera_id, result, x, y):
-    """
-            :description
-               Extend the function is_in_hidden_zone_one_target_matrix_x_y,
-                1. to every "target" and "obstrcution" in the room
-
-            :param
-                1.  (np.array) result  -- array containing the results for every point
-                2. (np.array) x        -- x coordinates of points in the room frame
-                3. (np.array) y        -- y coordinates of points in the room frame
-
-            :return / modify vector
-                1. (np.array)         -- 0 if (x,y) is between hidden, else 1
-        """
-
-    camera = find_cam_in_camera_representation(room_representation, camera_id)
-    if camera is None:
-        return False
-
-    for target in room_representation.active_Target_list:
-        if target.type == TargetType.MOVING or target.type == TargetType.FIX or target.type == TargetType.UNKNOWN:
-            xt = target.xc
-            yt = target.yc
-            radius = target.radius
-            result = camera.is_in_hidden_zone_one_target_matrix_x_y(result, x, y, xt, yt, radius)
+            result = is_in_hidden_zone_one_target_matrix_x_y(room_representation,camera.id, result, x, y, xt, yt, radius)
     return result
 
 

@@ -56,7 +56,10 @@ def load_room_from_txt(filename, room):
     fichier.close()
 
     for line in lines:
-        if "target:" in line:
-            load_target_txt(line[8:], room)
-        if "camera:" in line:
-            load_agentCam_txt(line, room)
+        if line[0] == "#":
+            pass
+        else:
+            if "target:" in line:
+                load_target_txt(line[8:], room)
+            if "camera:" in line:
+                load_agentCam_txt(line, room)

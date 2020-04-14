@@ -134,8 +134,13 @@ class GUI_room_representation():
             # if not target.variance_on_estimation[0] is None and  target.variance_on_estimation[1] is None and not target.variance_on_estimation == (0,0):
 
             facteur = 1
-            value_to_draw1 = target.variance_on_estimation[0] + target.radius
-            value_to_draw2 = target.variance_on_estimation[1] + target.radius
+            value_to_draw1 = 0
+            value_to_draw2 = 0
+            if not isinstance(target.variance_on_estimation,int):
+                value_to_draw1 = target.variance_on_estimation[0] + target.radius
+                value_to_draw2 = target.variance_on_estimation[1] + target.radius
+
+
 
             pygame.draw.line(self.screen, WHITE, (
             self.x_offset + int(target.xc * self.scale_x), self.y_offset + int(target.yc * self.scale_y)),
@@ -192,6 +197,9 @@ class GUI_room_representation():
                 self.x_offset + int(camera.xc * self.scale_x) + 5, self.y_offset + int(camera.yc * self.scale_y) + 5))
 
             self.draw_one_camera(camera)
+            if isinstance(agent,AgentCam) and not agent.virtual_camera is None :
+                self.draw_one_camera(agent.virtual_camera,True)
+
             # render form
             if not agent.is_active:
                 color = RED
@@ -238,13 +246,16 @@ class GUI_room_representation():
                         pygame.draw.line(self.screen, agent.color, pt1, pt2, 3)
                         pygame.draw.circle(self.screen, WHITE, pt1, 3)
 
-    def draw_one_camera(self, camera):
+    def draw_one_camera(self, camera,virtual = False):
         l = camera.field_depth * math.pow((math.pow(self.scale_x * math.cos(camera.alpha), 2) + math.pow(
             self.scale_y * math.sin(camera.alpha), 2)), 0.5)
 
         color = RED
         if camera.is_active == 1:
             color = GREEN
+
+        if virtual:
+            color = (0,125,125)
 
         pygame.draw.line(self.screen, WHITE, (
             self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),

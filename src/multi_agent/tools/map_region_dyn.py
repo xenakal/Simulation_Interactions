@@ -1,3 +1,4 @@
+from src.multi_agent.elements.camera import is_in_hidden_zone_all_targets_matrix_x_y
 from src.multi_agent.tools.map_region_static import*
 
 
@@ -31,7 +32,7 @@ class MapRegionDynamic(MapRegionStatic):
         (self.minimum_id_in_view, self.minimum_dist_in_view) = self.define_region_covered_by_cams()
         self.coverage = self.define_region_covered_by_numberOfCams()
 
-    def compute_all_map(self,factor = 3):
+    def compute_all_map(self,factor = 3,save = False):
         (self.xv,self.yv) = create_region(self.nx,self.ny,factor)
         self.compute("all")
 
@@ -147,22 +148,7 @@ class MapRegionDynamic(MapRegionStatic):
                    - a array from result's dimension. It gives the camera's field of vision with fix object in the room
 
                   """
-        return cam.is_in_hidden_zone_mooving_targets_matrix_x_y(result, self.xv, self.yv)
+        return is_in_hidden_zone_all_targets_matrix_x_y(self.room,cam.id,result, self.xv, self.yv)
 
-    def find_obstruction(self,cam,result):
-        """"
-               :param
-                   - cam : camera object we want to find the obstructed field of vision
-                   - result : mesh from the field of the camera. (Computed with find_angle of view)
-                            a standart choice could be result = np.ones(self.xv.shape)
-                             -> 1 means point x,y is viewed
-                             -> 0 means point x,y is hidden
-                              the function use the maps and turn 1 in 0 if the point is not in view.
-
-               :return
-                   - a array from result's dimension. It gives the camera's field of vision with fix object in the room
-
-                  """
-        return cam.is_in_hidden_zone_all_targets_matrix_x_y(result, self.xv, self.yv)
 
 

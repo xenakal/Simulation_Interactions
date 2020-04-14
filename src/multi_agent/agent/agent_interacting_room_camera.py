@@ -113,6 +113,7 @@ class AgentCam(AgentInteractingWithRoom):
             t_del = [constants.TIME_STOP]
 
         self.camera = camera
+        self.virtual_camera = None
         super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM, t_add, t_del, camera.color)
         self.camera_controller = None
         self.link_target_agent = None
@@ -342,7 +343,6 @@ class AgentCam(AgentInteractingWithRoom):
         (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes, y_mes,
                                                                                                  alpha_mes, beta_mes)
 
-
         """Apply the command"""
         if constants.get_time() - last_time_move < 0:
             print("problem time < 0 : %.02f s" % constants.get_time())
@@ -362,7 +362,9 @@ class AgentCam(AgentInteractingWithRoom):
             Updates self.untrackable_targets and returns a configuration for the targets the agent is able to track
         :return a configuration for the targets the agent is able to track, or None if he can't track any
         """
-        tracked_targets = self.room_representation.active_Target_list
+        tracked_targets = copy.copy(self.room_representation.active_Target_list)
+        self.targets_to_track = copy.copy(self.room_representation.active_Target_list)
+
         #copy.copy(self.targets_to_track)  # try to find a configuration covering all targets
 
         # do nothing if no targets need tracking
@@ -372,16 +374,13 @@ class AgentCam(AgentInteractingWithRoom):
         number_targets_to_remove = -1
         configuration = None
 
-        configuration = self.find_configuration_for_targets(self.room_representation.active_Target_list)
-        """
-        configuration = self.find_configuration_for_targets(tracked_targets)
-       
-        while configuration is None:  # configuration not found
 
+        while configuration is None:  # configuration not found
             # try to find configuration removing one more element if list not empty
             if tracked_targets:
                 number_targets_to_remove += 1
                 tracked_targets = copy.copy(self.targets_to_track)
+
 
             # if somehow couldn't find a configuration covering any of the elements
             if number_targets_to_remove >= len(tracked_targets):
@@ -395,10 +394,11 @@ class AgentCam(AgentInteractingWithRoom):
 
             # print([target.id for target in tracked_targets])
             configuration = self.find_configuration_for_targets(tracked_targets)
+          
 
         # update the list of untrackable targets
         self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
-        """
+
         return configuration
 
     def find_configuration_for_targets(self, targets):
@@ -421,26 +421,26 @@ class AgentCam(AgentInteractingWithRoom):
         tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
 
         x_target, y_target, alpha_target, beta_target = \
-            get_configuration_based_on_seen_target(self.camera, tracked_targets_room_representation.active_Target_list,0.8,
+            get_configuration_based_on_seen_target(self.camera, tracked_targets_room_representation.active_Target_list,0.9,
                                                    PCA_track_points_possibilites.MEANS_POINTS,
                                                    self.memory_of_objectives, self.memory_of_position_to_reach, True)
 
         # check if this configuration covers all targets
-        new_camera = copy.deepcopy(self.camera)
-        new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target, True)
+        self.virtual_camera = copy.deepcopy(self.camera)
+        self.virtual_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target, True)
 
         for targetRepresentation in tracked_targets_room_representation.active_Target_list:
-
-            in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, targetRepresentation.xc,
+            in_field = cam.is_x_y_radius_in_field_not_obstructed(self.virtual_camera, targetRepresentation.xc,
                                                                  targetRepresentation.yc,
                                                                  targetRepresentation.radius)
 
             hidden = cam.is_x_y_in_hidden_zone_all_targets_based_on_camera(tracked_targets_room_representation,
-                                                                           new_camera,
+                                                                           self.virtual_camera,
                                                                            targetRepresentation.xc,
                                                                            targetRepresentation.yc)
 
             if hidden or not in_field:
+                print("no config")
                 return None
 
         x_target, y_target, alpha_target, beta_target = get_configuration_based_on_seen_target(self.camera,
