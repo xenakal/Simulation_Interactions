@@ -173,7 +173,7 @@ class AgentInteractingWithRoom(Agent):
             self.received_message_heartbeat(rec_mes)
         self.info_message_received.del_message(rec_mes)
 
-    def pick_data(self,choice):
+    def pick_data(self, choice):
         if choice == AgentDataToWorkWith.Data_measured:
             return self.memory.memory_measured_from_target
         if choice == AgentDataToWorkWith.Best_estimation:
@@ -197,8 +197,6 @@ class AgentInteractingWithRoom(Agent):
                    agent_to_suppress.is_active = False
                    self.log_main.info("Agent : " + str(agent_to_suppress.id) + "at:  %.02fs is not connected anymore, last heartbeat : %.02f s" %
                                       (constants.get_time(),heartbeat.heartbeat_list[-1]))
-
-
 
     def send_message_targetEstimator(self, targetEstimator, receivers=None):
         """

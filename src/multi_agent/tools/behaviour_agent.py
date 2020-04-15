@@ -146,7 +146,6 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, c
         print("camera_type not recognize")
 
     beta = define_beta(distance_to_keep_to_target, y_to_compute_beta)
-    print("in behaviour", alpha)
     return xc, yc, alpha, beta
 
 
@@ -181,7 +180,6 @@ def define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room
     else:
         alpha = math.atan2(yt - camera.yc, xt - camera.xc)
 
-    print("in define xc_yc", alpha)
     return xc, yc, alpha
 
 
