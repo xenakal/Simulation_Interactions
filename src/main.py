@@ -9,7 +9,7 @@ set the folder in which those maps are located with constants.MapPath.folder
 by default in maps
 """
 
-map_to_test_name = ["My_new_map", "map1", "map2", "map3", "map4"]
+map_to_test_name = ["My_new_map", "map", "map2", "map3", "map4"]
 
 """ Used to specify whether we want to use arguments passed from user. """
 use_args = False

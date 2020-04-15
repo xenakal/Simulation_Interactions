@@ -38,6 +38,8 @@ class Configuration:
         self.alpha = alpha
         self.beta = beta
 
+    def to_string(self):
+        print("config x: %.02f y: %.02f alpha: %.02f beta: %.02f"%(self.x,self.y,self.alpha,self.beta))
 
 class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
     def __init__(self, id, type):
@@ -111,6 +113,7 @@ class AgentCam(AgentInteractingWithRoom):
             t_del = [constants.TIME_STOP]
 
         self.camera = camera
+        self.virtual_camera = None
         super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM, t_add, t_del, camera.color)
         self.camera_controller = None
         self.link_target_agent = None
@@ -149,7 +152,7 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation, True)
-        self.camera_controller = CameraController(0.2, 0, 0.4, 0, 0.2, 0)
+        self.camera_controller = CameraController(0.4, 0, 0.4, 0, 0.1, 0)
         self.camera_controller.set_targets(self.camera.xc, self.camera.yc, self.camera.alpha, self.camera.beta)
 
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
@@ -199,10 +202,9 @@ class AgentCam(AgentInteractingWithRoom):
 
                 if last_time_move is not None:
                     # find a configuration for the agent
-                    configuration = self.find_configuration_for_tracked_targets()
-                    if configuration is not None:
-                        print("ok1")
-                        last_not_None_configuration = configuration
+                    config = self.find_configuration_for_tracked_targets()
+                    if config is not None:
+                        last_not_None_configuration = config
 
                     # move agent according to configuration found
                     last_time_move = self.move_based_on_config(last_not_None_configuration, last_time_move)
@@ -358,7 +360,8 @@ class AgentCam(AgentInteractingWithRoom):
     def move_based_on_config(self, configuration, last_time_move):
 
         if configuration is None:
-            return
+            self.log_main.debug("no config to move at time %.02f" % constants.get_time())
+            return constants.get_time()
 
         self.camera_controller.set_targets(configuration.x, configuration.y, configuration.alpha, configuration.beta)
 
@@ -396,7 +399,6 @@ class AgentCam(AgentInteractingWithRoom):
             Updates self.untrackable_targets and returns a configuration for the targets the agent is able to track
         :return a configuration for the targets the agent is able to track, or None if he can't track any
         """
-
         # try to find a configuration covering all targets
         tracked_targets = copy.copy(self.targets_to_track)
 
@@ -407,8 +409,8 @@ class AgentCam(AgentInteractingWithRoom):
         number_targets_to_remove = -1
 
         configuration = None
-        while configuration is None:  # configuration not found
 
+        while configuration is None:  # configuration not found
             # try to find configuration removing one more element if list not empty
             if tracked_targets:
                 number_targets_to_remove += 1
@@ -426,11 +428,10 @@ class AgentCam(AgentInteractingWithRoom):
 
             # print([target.id for target in tracked_targets])
             configuration = self.find_configuration_for_targets(tracked_targets)
-
+          
         # update the list of untrackable targets
         self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
-        # print("tracked_targets", [target.id for target in tracked_targets])
-        # print("untrackable_targets", [target.id for target in self.untrackable_targets])
+
         return configuration
 
     def find_configuration_for_targets(self, targets, used_for_movement=True):
@@ -460,21 +461,21 @@ class AgentCam(AgentInteractingWithRoom):
                                                    self.memory_of_objectives, self.memory_of_position_to_reach, True)
 
         # check if this configuration covers all targets
-        new_camera = copy.deepcopy(self.camera)
-        new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target, True)
+        self.virtual_camera = copy.deepcopy(self.camera)
+        self.virtual_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target, True)
 
         for targetRepresentation in tracked_targets_room_representation.active_Target_list:
-
-            in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, targetRepresentation.xc,
+            in_field = cam.is_x_y_radius_in_field_not_obstructed(self.virtual_camera, targetRepresentation.xc,
                                                                  targetRepresentation.yc,
                                                                  targetRepresentation.radius)
 
             hidden = cam.is_x_y_in_hidden_zone_all_targets_based_on_camera(tracked_targets_room_representation,
-                                                                           new_camera,
+                                                                           self.virtual_camera,
                                                                            targetRepresentation.xc,
                                                                            targetRepresentation.yc)
 
             if hidden or not in_field:
+                self.log_main.debug("no config at time %.02f"%constants.get_time())
                 return None
 
         if used_for_movement:

@@ -49,10 +49,10 @@ class Line:
             return Line(x, y, x + 1, y)
         elif math.fabs(self.m) < self.tol:
             """if line is horizontal"""
-            return Line(x, y, x, y)
+            return Line(x, y, x, y+1)
         else:
             """Every other line"""
-            x1 = x - 1
+            x1 = x + 1
             y1 = (-1 / self.m) + y
             return Line(x, y, x1 , y1)
 

@@ -51,8 +51,8 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, c
     distance_to_keep_to_target = camera.field_depth * coeff_distance
     y_to_compute_beta = 0
 
-    point_to_be_close_x = constants.LENGHT_ROOM/2
-    point_to_be_close_y = constants.WIDTH_ROOM/2
+    point_to_be_close_x = camera.xc
+    point_to_be_close_y = camera.yc
 
     placement_choice = None
     number_of_target = len(target_representation_list)
@@ -62,8 +62,6 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, c
         return (xt, yt, alpha, beta)
 
     if number_of_target == 1:
-        distance_to_keep_to_target = camera.field_depth * 0.3
-
         """Orrientation, point to fix => could be modify"""
         # TODO place this in argument to be able to change it
         x_to_fix = constants.WIDTH_ROOM / 2
@@ -138,8 +136,8 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, c
             xc = xc2
             yc = yc2
             alpha = alpha2
-
-        memory_point_to_reach.append([(xc, yc, 0),(point_to_be_close_x,point_to_be_close_y,0)])
+        if not virtual:
+            memory_point_to_reach.append([(xc, yc, 0),(point_to_be_close_x,point_to_be_close_y,0)])
     else:
         xc=-1
         yc=-1
@@ -167,13 +165,13 @@ def define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room
         else:
             xc, yc = camera.trajectory.compute_distance_for_point_x_y(xi, yi, new_index)
         "Save data"
-        memory_point_to_reach.append([(xi, yi, new_index)])
+        if not virtual:
+            memory_point_to_reach.append([(xi, yi, new_index)])
 
     elif camera.camera_type == mobileCam.MobileCameraType.FREE:
         xc = xt + math.cos(angle_in_room_coordinate) * distance_to_keep_to_target
         yc = yt + math.sin(angle_in_room_coordinate) * distance_to_keep_to_target
         xc, yc = born_camera_displacement_in_the_room(xc, yc)
-        memory_point_to_reach.append([(xc, yc, 0)])
 
     if virtual:
         alpha = math.atan2(yt - yc, xt - xc)

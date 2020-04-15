@@ -63,7 +63,7 @@ class GUI_create_map:
         self.GUI_option = GUI_option
         self.GUI_room = GUI_room_representation(self.screen, self.new_room.information_simulation.agentCams_list,
                                  self.new_room.information_simulation.target_list, self.x_offset, self.y_offset, scale_x,
-                                 scale_y)
+                                 scale_y,GUI_option)
 
         self.font = pygame.font.SysFont("monospace", 15)
 
