@@ -41,7 +41,15 @@ class AgentCameraCommunicationBehaviour:
 
 DATA_TO_SEND = AgentCameraCommunicationBehaviour.NONE
 
-AGENT_DATA_TO_PROCESS = 0
+
+class AgentDataToWorkWith:
+    Data_measured = -1
+    Best_estimation = 0
+    Prediction_t_1 = 1
+    Prediction_t_2 = 2
+
+
+AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Best_estimation
 AGENTS_MOVING = True
 
 

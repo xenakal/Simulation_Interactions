@@ -137,7 +137,6 @@ class AgentCam(AgentInteractingWithRoom):
         #                             this list we don't need to check if another agent tracks it)
         self.known_targets = []
 
-
     def init_and_set_room_description(self, room):
         """
             :description
@@ -201,6 +200,7 @@ class AgentCam(AgentInteractingWithRoom):
                 #             the process (nobody able to track it), then it will be in the list of untracked targets.
 
                 if last_time_move is not None:
+                    print("agent ", self.id, " tracks: ", [target.id for target in self.targets_to_track])
                     # find a configuration for the agent
                     config = self.find_configuration_for_tracked_targets()
                     if config is not None:
@@ -271,6 +271,7 @@ class AgentCam(AgentInteractingWithRoom):
 
                         # start tracking the target if untracked by all
                         if target in self.targets_untracked_by_all:
+                            print("agent ", self.id, " saw it !")
                             self.targets_to_track.append(target)
 
                     nextstate = AgentCameraFSM.PROCESS_DATA
@@ -287,6 +288,8 @@ class AgentCam(AgentInteractingWithRoom):
                 # put untracked targets in self.targets_untracked_by_all and remove if an ACK is received
                 [self.targets_untracked_by_all.append(target) for target in self.untrackable_targets if target not in
                  self.targets_untracked_by_all]
+                if len(self.untrackable_targets) > 0:
+                    print("untrackable - agent ", self.id, [target.id for target in self.untrackable_targets])
 
                 # send messages concerning untracked targets
                 self.broadcast_untracked_targets()
@@ -418,8 +421,8 @@ class AgentCam(AgentInteractingWithRoom):
 
             # if somehow couldn't find a configuration covering any of the elements
             if number_targets_to_remove >= len(tracked_targets):
-                self.untrackable_targets = copy.copy(self.targets_to_track)
-                return None
+                tracked_targets = []
+                break
 
             # remove the desired number of targets
             # TODO: maybe try different permutations as well ?
@@ -584,12 +587,17 @@ class AgentCam(AgentInteractingWithRoom):
         super().process_single_message(rec_mes)
         if rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.INFO_DKF:
             self.receive_message_DKF_info(rec_mes)
+            self.info_message_received.del_message(rec_mes)
         elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.AGENT_ESTIMATOR:
             self.received_message_agentEstimator(rec_mes)
+            self.info_message_received.del_message(rec_mes)
         elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET:
+            print(rec_mes.messageType)
             self.receive_message_untrackableTarget(rec_mes)
+            self.info_message_received.del_message(rec_mes)
         elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.ACK_UNTRACKABLE_TARGET:
             self.receive_message_ack_untrackableTarget(rec_mes)
+            self.info_message_received.del_message(rec_mes)
 
     def get_predictions(self, target_id_list):
         """
@@ -646,9 +654,17 @@ class AgentCam(AgentInteractingWithRoom):
             Broadcasts the message to every other known agent.
         :param message: message of type MessageCheckACKNACK()
         """
+        '''
         [message.add_receiver(agent.id, agent.signature) for agent in
-         self.room_representation.agentCams_representation_list
-         if not agent.id == self.id]
+         self.room_representation.agentCams_representation_list if not agent.id == self.id]
+         '''
+        for agent in self.room_representation.agentCams_representation_list:
+            if not agent.id == self.id:
+                message.add_receiver(agent.id, agent.signature)
+
+            cdt1 = self.info_message_to_send.is_message_with_same_message(message)
+            if not cdt1:
+                self.info_message_to_send.add_message(message)
 
     def receive_message_untrackableTarget(self, message):
         """
@@ -659,10 +675,10 @@ class AgentCam(AgentInteractingWithRoom):
         """
         # reconstruct the target
         targetRepresentation = parse_message_untrackableTarget(message)
-        # first check if the target is seen
 
-        # then check if the agent can position himself to track this target as well
-        total_items_to_track = self.targets_to_track.copy().append(targetRepresentation)
+        # check if the agent can position himself to track this target as well
+        total_items_to_track = self.targets_to_track.copy()
+        total_items_to_track.append(targetRepresentation)
         configuration = self.find_configuration_for_targets(total_items_to_track, False)
         # the agent can track the target: start tracking it and broadcast an ACK
         if configuration is not None:
@@ -781,7 +797,7 @@ def make_string(target):
 
 
 def parse_message_untrackableTarget(message):
-    target_id = message.target_reference
+    target_id = message.item_ref
     if target_id == -1:
         warn("got an untrackable target message with target_id set to -1...")
     [target_x, target_y] = message.message.split("&")
