@@ -34,7 +34,7 @@ USE_TIMESTAMP_FOR_ASSIMILATION = True
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 DATA_TO_SEND = "none"#ac.AgentCameraCommunicationBehaviour.NONE
 
-AGENT_DATA_TO_PROCESS = 0
+AGENT_DATA_TO_PROCESS = 2
 AGENTS_MOVING = True
 
 
