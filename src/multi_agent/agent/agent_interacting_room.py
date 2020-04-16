@@ -7,12 +7,6 @@ from src.multi_agent.communication.message import *
 from src import constants
 
 
-class AgentDataToWorkWith:
-    Data_measured = -1
-    Best_estimation = 0
-    Prediction_t_1 = 1
-    Prediction_t_2 = 2
-
 class MessageTypeAgentInteractingWithRoom(MessageType):
     HEARTBEAT = "heartbeat"
     TARGET_ESTIMATOR = "targetEstimator"
@@ -167,20 +161,22 @@ class AgentInteractingWithRoom(Agent):
     def process_single_message(self, rec_mes):
         if rec_mes.messageType == MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATOR:
             self.received_message_targetEstimator(rec_mes)
+            self.info_message_received.del_message(rec_mes)
         elif rec_mes.messageType == MessageType.ACK or rec_mes.messageType == MessageType.NACK:
             self.received_message_ack_nack(rec_mes)
+            self.info_message_received.del_message(rec_mes)
         elif rec_mes.messageType == MessageTypeAgentInteractingWithRoom.HEARTBEAT:
             self.received_message_heartbeat(rec_mes)
-        self.info_message_received.del_message(rec_mes)
+            self.info_message_received.del_message(rec_mes)
 
-    def pick_data(self,choice):
-        if choice == AgentDataToWorkWith.Data_measured:
+    def pick_data(self, choice):
+        if choice == constants.AgentDataToWorkWith.Data_measured:
             return self.memory.memory_measured_from_target
-        if choice == AgentDataToWorkWith.Best_estimation:
+        if choice == constants.AgentDataToWorkWith.Best_estimation:
             return self.memory.memory_best_estimations_from_target
-        elif choice == AgentDataToWorkWith.Prediction_t_1:
+        elif choice == constants.AgentDataToWorkWith.Prediction_t_1:
             return self.memory.memory_predictions_order_1_from_target
-        elif choice == AgentDataToWorkWith.Prediction_t_2:
+        elif choice == constants.AgentDataToWorkWith.Prediction_t_2:
             return self.memory.memory_predictions_order_2_from_target
 
     def handle_hearbeat(self):
@@ -197,8 +193,6 @@ class AgentInteractingWithRoom(Agent):
                    agent_to_suppress.is_active = False
                    self.log_main.info("Agent : " + str(agent_to_suppress.id) + "at:  %.02fs is not connected anymore, last heartbeat : %.02f s" %
                                       (constants.get_time(),heartbeat.heartbeat_list[-1]))
-
-
 
     def send_message_targetEstimator(self, targetEstimator, receivers=None):
         """

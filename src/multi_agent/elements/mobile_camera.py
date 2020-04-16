@@ -13,7 +13,6 @@ class MobileCameraType:
     RAIL = 2
     FREE = 3
 
-
 class MobileCameraRepresentation(CameraRepresentation):
     def __init__(self, room, id, xc, yc, alpha, beta, d_max, type):
         super().__init__(room, id, xc, yc, alpha, beta, d_max)
@@ -37,35 +36,37 @@ class MobileCameraRepresentation(CameraRepresentation):
 
 
 class MobileCamera(Camera):
-    def __init__(self, id, xc, yc, alpha, beta, trajectory, field_depth, color=0, t_add=-1, t_del=-1,
-                 type=None, vx_vy_min=0, vx_vy_max=1, v_alpha_min=0, v_alpha_max=1,
-                 delta_beta=40, v_beta_min=0, v_beta_max=1):
+    def __init__(self, id, xc, yc, alpha, beta, trajectory, field_depth, color=None, t_add=None, t_del=None,
+                 type=None, vx_vy_min=None, vx_vy_max=None, v_alpha_min=None, v_alpha_max=None,
+                 delta_beta=0, v_beta_min=None, v_beta_max=None):
 
         super().__init__(id, xc, yc, alpha, beta, field_depth, color, t_add, t_del)
 
+        self.camera_type = type
+
+        """Default values"""
         self.default_xc = xc
         self.default_yc = yc
         self.default_alpha = born_minus_pi_plus_pi(math.radians(alpha))
         self.default_beta = born_minus_pi_plus_pi(math.radians(beta))
         self.default_field_depth= field_depth
 
-        self.camera_type = type
-        "Limit the variation"
+        """Limit the variation"""
         self.vx_vy_min = vx_vy_min
         self.vx_vy_max = vx_vy_max
         self.v_alpha_min = v_alpha_min
         self.v_alpha_max = v_alpha_max
-        "Zoom"
+        self.v_beta_min = v_beta_min
+        self.v_beta_max = v_beta_max
         self.delta_beta = math.radians(delta_beta)
         self.beta_min = born_minus_pi_plus_pi(self.beta - self.delta_beta)
         self.beta_max = born_minus_pi_plus_pi(self.beta + self.delta_beta)
 
-        self.v_beta_min = v_beta_min
-        self.v_beta_max = v_beta_max
-        self.coeff_field = 2
-        self.coeff_std_position = 0.05 * self.std_measurment_error_position
-        self.coeff_std_speed = 0.01 * self.std_measurment_error_speed
-        self.coeff_std_acc = 0.01 * self.std_measurment_error_acceleration
+        """Zoom"""
+        self.coeff_field = constants.COEFF_VARIATION_FROM_FIELD_DEPTH
+        self.coeff_std_position = constants.COEFF_STD_VARIATION_MEASURMENT_ERROR_POSITION
+        self.coeff_std_speed = constants.COEFF_STD_VARIATION_MEASURMENT_ERROR_SPEED
+        self.coeff_std_acc = constants.COEFF_STD_VARIATION_MEASURMENT_ERROR_ACCELERATION
 
         self.trajectory = TrajectoryPlaner(trajectory)
 
@@ -81,8 +82,8 @@ class MobileCamera(Camera):
                 self.v_alpha_max = 0
 
     def save_target_to_txt(self):
-        s0 = "x:%0.2f y:%0.2f alpha:%0.2f beta:%0.2f field_depth:%0.2f" % (
-            self.xc, self.yc, math.degrees(self.alpha), math.degrees(self.beta), self.field_depth)
+        s0 = "x:%0.2f y:%0.2f alpha:%0.2f beta:%0.2f delta_beta: %.02f field_depth:%0.2f" % (
+            self.xc, self.yc, math.degrees(self.alpha), math.degrees(self.beta),math.degrees(self.delta_beta),self.field_depth)
         s1 = " t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
         s2 = " vx_vy_min:%.02f vx_vy_max:%.02f" % (self.vx_vy_min, self.vx_vy_max)
         s3 = " v_alpha_min:%.02f v_alpha_max:%.02f" % (self.v_alpha_min, self.v_alpha_max)
@@ -95,40 +96,42 @@ class MobileCamera(Camera):
         s = s.replace(" ", "")
 
         attribute = re.split(
-            "x:|y:|alpha:|beta:|field_depth:|t_add:|t_del:|vx_vy_min:|vx_vy_max:|v_alpha_min:|v_alpha_max:|v_beta_min:|v_beta_max:|traj:|type:",
+            "x:|y:|alpha:|beta:|delta_beta:|field_depth:|t_add:|t_del:|vx_vy_min:|vx_vy_max:|v_alpha_min:|v_alpha_max:|v_beta_min:|v_beta_max:|traj:|type:",
             s)
 
         self.xc = float(attribute[1])
         self.yc = float(attribute[2])
         self.alpha = math.radians(float(attribute[3]))
         self.beta = math.radians(float(attribute[4]))
-        self.field_depth = float(attribute[5])
+        self.field_depth = float(attribute[6])
 
         self.default_xc = float(attribute[1])
         self.default_yc = float(attribute[2])
         self.default_alpha = born_minus_pi_plus_pi(math.radians(float(attribute[3])))
         self.default_beta = born_minus_pi_plus_pi(math.radians(float(attribute[4])))
-        self.default_field_depth = float(attribute[5])
+        self.default_field_depth = float(attribute[6])
 
-
-        self.t_add = self.load_tadd_tdel(attribute[6])
-        self.t_del = self.load_tadd_tdel(attribute[7])
-        self.vx_vy_min = float(attribute[8])
-        self.vx_vy_max = float(attribute[9])
-        self.v_alpha_min = float(attribute[10])
-        self.v_alpha_max = float(attribute[11])
-        self.v_beta_min = float(attribute[12])
-        self.v_beta_max = float(attribute[13])
+        self.delta_beta = math.radians(float(attribute[5]))
+        self.t_add = self.load_tadd_tdel(attribute[7])
+        self.t_del = self.load_tadd_tdel(attribute[8])
+        self.vx_vy_min = float(attribute[9])
+        self.vx_vy_max = float(attribute[10])
+        self.v_alpha_min = float(attribute[11])
+        self.v_alpha_max = float(attribute[12])
+        self.v_beta_min = float(attribute[13])
+        self.v_beta_max = float(attribute[14])
         self.trajectory = TrajectoryPlaner([])
-        self.trajectory.load_trajcetory(attribute[14])
-        self.camera_type = int(attribute[15])
+        self.trajectory.load_trajcetory(attribute[15])
+        self.camera_type = int(attribute[16])
         self.beta_min = self.beta - self.delta_beta
         self.beta_max = self.beta + self.delta_beta
 
-    #def compute_field_depth_variation_for_a_new_beta(self,new_beta):
-        #elta = self.beta - beta
-        #self.field_depth -= delta * self.coeff_field
-
+    def compute_field_depth_variation_for_a_new_beta(self,new_beta):
+        delta = new_beta-self.beta
+        field_depth = self.field_depth - delta * self.coeff_field
+        field_depth = self.born(field_depth, constants.AGENT_CAMERA_FIELD_MIN * self.default_field_depth,
+                                constants.AGENT_CAMERA_FIELD_MAX* self.default_field_depth)
+        return field_depth
 
     def zoom(self, speed, dt):
         """
@@ -159,32 +162,25 @@ class MobileCamera(Camera):
                 delta = 0
             else:
                 delta = sign * dt * (self.v_beta_min + math.fabs(speed) * (self.v_beta_max - self.v_beta_min))
-        elif self.beta < self.beta_min:
-            self.beta = self.beta_min
-            delta = 0
-        elif self.beta > self.beta_max:
-            self.beta = self.beta_max
+
+        elif self.beta < self.beta_min or self.beta_max > 0:
+            self.beta = self.born(self.beta,self.beta_min,self.beta_max)
             delta = 0
         else:
             delta = 0
             print("problem in beta target")
 
-
+        self.field_depth = self.compute_field_depth_variation_for_a_new_beta(self.beta+delta)
         self.beta += delta
-        self.field_depth -= delta * self.coeff_field
-        #self.std_measurment_error_position -= delta * self.coeff_std_position
-        #self.std_measurment_error_speed -= delta * self.coeff_std_speed
-        #self.std_measurment_error_acceleration -= delta * self.coeff_std_acc
 
+        if constants.ERROR_VARIATION_ZOOM:
+           self.std_measurment_error_position -= delta * self.coeff_std_position
+           self.std_measurment_error_speed -= delta * self.coeff_std_speed
+           self.std_measurment_error_acceleration -= delta * self.coeff_std_acc
 
-
-
-        self.beta = born_minus_pi_plus_pi(self.beta)
-        self.beta = self.born(self.beta,self.beta_min,self.beta_max)
-        self.field_depth = self.born(self.field_depth, 0.8 * self.default_field_depth, 1.2* self.default_field_depth)
-        #self.born(self.std_measurment_error_position,0,self.std_measurment_error_position*10)
-        #self.born(self.std_measurment_error_speed,0, self.std_measurment_error_speed*10)
-        #self.born(self.std_measurment_error_acceleration,0, self.std_measurment_error_acceleration*10)
+           self.born(self.std_measurment_error_position,0,self.std_measurment_error_position*10)
+           self.born(self.std_measurment_error_speed,0, self.std_measurment_error_speed*10)
+           self.born(self.std_measurment_error_acceleration,0, self.std_measurment_error_acceleration*10)
 
     def rotate(self, speed, dt):
         """
@@ -219,8 +215,16 @@ class MobileCamera(Camera):
 
         sign_x = np.sign(speed_x)
         sign_y = np.sign(speed_y)
-        delta_x = sign_x * dt * (self.vx_vy_min + math.fabs(speed_x) * (self.vx_vy_max - self.vx_vy_min))
-        delta_y = sign_y * dt * (self.vx_vy_min + math.fabs(speed_y) * (self.vx_vy_max - self.vx_vy_min))
+
+        if speed_x == 0:
+            delta_x = 0
+        else:
+            delta_x = sign_x * dt * (self.vx_vy_min + math.fabs(speed_x) * (self.vx_vy_max - self.vx_vy_min))
+
+        if speed_y == 0:
+            delta_y = 0
+        else:
+            delta_y = sign_y * dt * (self.vx_vy_min + math.fabs(speed_y) * (self.vx_vy_max - self.vx_vy_min))
 
         if self.camera_type == MobileCameraType.RAIL:
             "On the rail it is only 1 dimension"

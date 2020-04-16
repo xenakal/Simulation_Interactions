@@ -1,12 +1,9 @@
 import numpy as np
 import src.multi_agent.elements.camera as aCam
 from src import constants
+from src.my_utils.constant_class import BehaviourDetectorType
 
 
-class BehaviourDetectorType:
-    Use_speed_and_position = 0
-    Use_speed_only = 1
-    Use_position_only  = 2
 
 def is_target_stopped(self, target_id, delta_t, n,position_std_thresh,speed_mean_thresh):
     """
@@ -168,10 +165,10 @@ def is_target_fix(memory_list, target_id, t, n, position_std_thresh, speed_mean_
         position_test = False
         speed_test = False
 
-        if x_sdt < position_std_thresh and y_sdt < position_std_thresh :
+        if np.power(np.square(x_sdt)+np.square(y_sdt),0.5) < np.sqrt(2)*position_std_thresh :
             position_test = True
 
-        if vx_mean < speed_mean_thresh and vy_mean < speed_mean_thresh:
+        if np.power(np.square(vx_mean)+np.square(vy_mean),0.5) < np.sqrt(2)*speed_mean_thresh:
             speed_test = True
 
         if  constants.BEHAVIOUR_DETECTION_TYPE == BehaviourDetectorType.Use_speed_and_position:
@@ -241,3 +238,24 @@ def is_target_leaving_cam_field(memory_list, camera, targetID, t, n):
             is_out_field = True
 
     return (is_in_field, is_out_field)
+
+def is_target_changing_direction(memory_list,target_id,t,n,speed_std_thresh ):
+    list_to_check = memory_list.get_item_list(target_id)
+    list_len = len(list_to_check)
+    if n <= list_len:
+        list_to_check = list_to_check[list_len - n - t:list_len - t]
+
+        vx = []
+        vy = []
+
+        for item in list_to_check:
+            vx.append(item.item_speeds[0])
+            vy.append(item.item_speeds[1])
+
+        vx_std = np.std(vx)
+        vy_std = np.std(vy)
+
+        if np.sqrt(np.square(vx_std)+np.square(vy_std)) < np.sqrt(2)*speed_std_thresh:
+            return True
+        else:
+            return False

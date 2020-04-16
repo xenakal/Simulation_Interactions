@@ -18,6 +18,7 @@ def get_camera_agentCam_vs_agentCamRepresentation(agent):
         camera = agent.camera_representation
     return camera
 
+
 def find_cam_in_camera_representation(room_representation, camera_id):
     for agentCam in room_representation.agentCams_representation_list:
         camera = get_camera_agentCam_vs_agentCamRepresentation(agentCam)
@@ -369,7 +370,7 @@ def is_in_hidden_zone_fix_targets_matrix_x_y(room_representation,camera_id, resu
 
 class CameraRepresentation:
 
-    def __init__(self, id, xc, yc, alpha, beta, d_max, color=0):
+    def __init__(self, id, xc, yc, alpha, beta, d_max, color=None):
         self.id = id
         self.signature = self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
 
@@ -390,7 +391,7 @@ class CameraRepresentation:
         self.color = color
 
         "Default values"
-        if color == 0:
+        if color == None:
             r = 25 + 20 * random.randrange(0, 10, 1)
             g = 25 + 20 * random.randrange(0, 10, 1)
             b = 25 + 20 * random.randrange(0, 10, 1)
@@ -491,7 +492,7 @@ class Camera(CameraRepresentation):
 
     """
 
-    def __init__(self, id, xc, yc, alpha, beta, filed_depth, color=0, t_add=-1, t_del=-1):
+    def __init__(self, id, xc, yc, alpha, beta, filed_depth, color=None, t_add=None, t_del=None):
         """Initialisation"""
         super().__init__(id, xc, yc, alpha, beta, filed_depth, color)
 
@@ -507,7 +508,7 @@ class Camera(CameraRepresentation):
 
         "Default values"
 
-        if t_add == -1 or t_del == -1:
+        if t_add == None or t_del == None:
             self.t_add = [0.0]
             self.t_del = [1000.0]
 
