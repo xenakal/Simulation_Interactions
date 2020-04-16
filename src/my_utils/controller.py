@@ -1,5 +1,41 @@
 import math
 import numpy as np
+class ControllerP:
+    def __init__(self, value_target, kp):
+        self.kp = kp
+        self.value_target = value_target
+        self.error = 0
+        self.command_max = 1
+
+    def born_command(self, command):
+        if math.fabs(command) > self.command_max:
+            return np.sign(command) * self.command_max
+        else:
+            return command
+
+    def get_command(self, value):
+        self.error = self.value_target - value
+        command = self.kp * self.error
+        command = self.born_command(command)
+        return command
+
+
+class ControllerPI(ControllerP):
+    def __init__(self, value_target, kp, ki):
+        super().__init__(value_target, kp)
+        self.ki = ki
+        self.sum_error = 0
+
+    def reset(self):
+        self.sum_error = 0
+
+    def get_command(self, value):
+        self.error = self.value_target - value
+        self.sum_error += self.error
+        command = self.kp * self.error + self.ki * self.sum_error
+        command = self.born_command(command)
+        return command
+
 
 class CameraController:
     def __init__(self,kp_pos,ki_pos,kp_alpha,ki_alpha,kp_beta,ki_beta):
@@ -67,38 +103,3 @@ class ZoomController:
     def get_command(self, beta):
         return self.beta_controller.get_command(beta)
 
-class ControllerP:
-    def __init__(self, value_target, kp):
-        self.kp = kp
-        self.value_target = value_target
-        self.error = 0
-        self.command_max = 1
-
-    def born_command(self, command):
-        if math.fabs(command) > self.command_max:
-            return np.sign(command) * self.command_max
-        else:
-            return command
-
-    def get_command(self, value):
-        self.error = self.value_target - value
-        command = self.kp * self.error
-        command = self.born_command(command)
-        return command
-
-
-class ControllerPI(ControllerP):
-    def __init__(self, value_target, kp, ki):
-        super().__init__(value_target, kp)
-        self.ki = ki
-        self.sum_error = 0
-
-    def reset(self):
-        self.sum_error = 0
-
-    def get_command(self, value):
-        self.error = self.value_target - value
-        self.sum_error += self.error
-        command = self.kp * self.error + self.ki * self.sum_error
-        command = self.born_command(command)
-        return command

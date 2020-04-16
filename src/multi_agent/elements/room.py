@@ -190,7 +190,8 @@ class RoomRepresentation:
                     #print(last_TargetEstimator.variance_on_estimation)
                     target.variance_on_estimation = last_TargetEstimator.variance_on_estimation
                     target.type = last_TargetEstimator.item_type
-                    target.alpha = last_TargetEstimator.alpha
+                    if not target.type == TargetType.FIX:
+                        target.alpha =  last_TargetEstimator.alpha
                     target.evaluate_confidence(0.1,constants.get_time()-last_TargetEstimator.time_stamp,1.2)
                     break
 
