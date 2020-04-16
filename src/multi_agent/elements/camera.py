@@ -494,6 +494,12 @@ class Camera(CameraRepresentation):
     def __init__(self, id, xc, yc, alpha, beta, filed_depth, color=0, t_add=-1, t_del=-1):
         """Initialisation"""
         super().__init__(id, xc, yc, alpha, beta, filed_depth, color)
+
+        self.xc_min = 0
+        self.xc_max = constants.LENGHT_ROOM
+        self.yc_min = 0
+        self.yc_max = constants.WIDTH_ROOM
+
         "Attibutes"
         self.t_add = t_add
         self.t_del = t_del

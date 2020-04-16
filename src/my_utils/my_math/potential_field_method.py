@@ -80,7 +80,7 @@ def define_potential_shape(shape, X=None, mean_x=None, var_x=None, Y=None, mean_
 
 def define_potential_type(choix, distances, xi=None, eta=None, rho_0=None):
     if choix == PotentialType.Repulsive_potential:
-        distances = np.where(distances > 0.01 * rho_0, distances, rho_0)
+        distances = np.where(distances > 0.001 * rho_0, distances, rho_0)
         distances = np.where(distances <= rho_0, distances, rho_0)
         return 0.5 * eta * np.square(1 / distances - 1 / rho_0)
     elif choix == PotentialType.Attractive_potential:
@@ -91,7 +91,7 @@ def define_potential_type(choix, distances, xi=None, eta=None, rho_0=None):
 
 def define_grad_potential_type(choix, distances, xi=None, eta=None, rho_0=None):
     if choix == PotentialType.Repulsive_potential:
-        distances = np.where(distances > 0.01 * rho_0, distances, rho_0)
+        distances = np.where(distances > 0.001 * rho_0, distances, rho_0)
         distances = np.where(distances <= rho_0, distances, rho_0)
         return 0.5 * eta * (1 / distances - 1 / rho_0) * np.square(1 / rho_0)
     elif choix == PotentialType.Attractive_potential:
@@ -126,7 +126,6 @@ def compute_grad_potential_for_a_given_list(target_list, X, Y, field_type, barri
         rho_0_None = True
 
     if target_list == []:
-        print("test")
         return force_x, force_y
 
     elif len(target_list) == 1:
@@ -306,72 +305,85 @@ def compute_potential_for_a_given_list(target_list, X, Y, field_type, barrier_ty
         return potential_field
 
 
-def compute_potential(target_list, obstacle_list):
-    X = np.arange(0, 8, 0.01)
-    Y = np.arange(0, 8, 0.01)
-    X_potential_field, Y_potential_field = np.meshgrid(X, Y)
-    X = np.arange(0, 8, 0.1)
-    Y = np.arange(0, 8, 0.1)
-    X_vector_field, Y_vector_field = np.meshgrid(X, Y)
 
-    attractive_potential_field = compute_potential_for_a_given_list(target_list, X_potential_field, Y_potential_field,
-                                                                    PotentialType.Attractive_potential,
-                                                                    constants.BARRIER_TYPE,
-                                                                    xi=constants.XI, eta=constants.ETA,
-                                                                    rho_0=constants.RHO_ATTRACTIVE_POTENTIAL)
-
-    attractive_force_x, attractive_force_y = compute_grad_potential_for_a_given_list(target_list, X_vector_field,
-                                                                                     Y_vector_field,
+def compute_potential_gradient(X,Y,target_list,obstacle_list):
+    attractive_force_x, attractive_force_y = compute_grad_potential_for_a_given_list(target_list, X, Y,
                                                                                      PotentialType.Attractive_potential,
                                                                                      constants.BARRIER_TYPE,
                                                                                      xi=constants.XI, eta=constants.ETA,
-                                                                                     rho_0=constants.RHO_ATTRACTIVE_POTENTIAL)
-
-    repulsive_potential_field = compute_potential_for_a_given_list(obstacle_list, X_potential_field, Y_potential_field,
-                                                                   PotentialType.Repulsive_potential,
-                                                                   constants.BARRIER_TYPE,
-                                                                   xi=constants.XI, eta=constants.ETA, rho_0=None)
-
-    repulsive_force_x, repulsive_force_y = compute_grad_potential_for_a_given_list(obstacle_list, X_vector_field,
-                                                                                   Y_vector_field,
+                                                                                     rho_0=-1)
+    repulsive_force_x, repulsive_force_y = compute_grad_potential_for_a_given_list(obstacle_list, X,Y,
                                                                                    PotentialType.Repulsive_potential,
                                                                                    constants.BARRIER_TYPE,
                                                                                    xi=constants.XI, eta=constants.ETA,
                                                                                    rho_0=None)
 
-    potential_field = attractive_potential_field + repulsive_potential_field
     force_x = attractive_force_x + repulsive_force_x
     force_y = attractive_force_y + repulsive_force_y
 
-    return X_potential_field, Y_potential_field, X_vector_field, Y_vector_field, potential_field, force_x, force_y
+    return force_x, force_y
+
+def compute_potential(X,Y,target_list,obstacle_list):
+    attractive_potential_field = compute_potential_for_a_given_list(target_list, X, Y,
+                                                                    PotentialType.Attractive_potential,
+                                                                    constants.BARRIER_TYPE,
+                                                                    xi=constants.XI, eta=constants.ETA,
+                                                                    rho_0=-1)
+
+    repulsive_potential_field = compute_potential_for_a_given_list(obstacle_list, X, Y,
+                                                                   PotentialType.Repulsive_potential,
+                                                                   constants.BARRIER_TYPE,
+                                                                   xi=constants.XI, eta=constants.ETA, rho_0=None)
+
+    return attractive_potential_field + repulsive_potential_field
+
+def compute_potential_and_potential_gradient(X_potential_field,Y_potential_field,X_vector_field, Y_vector_field,target_list, obstacle_list):
+    potential_field = compute_potential(X_potential_field,Y_potential_field,target_list,obstacle_list)
+    force_x,force_y = compute_potential_gradient(X_vector_field,Y_vector_field,target_list,obstacle_list)
+    return potential_field, force_x, force_y
 
 
 def convert_target_list_to_potential_field_input(target_list):
     input_list = []
     for target in target_list:
-        input_list.append([(target.xc, target.yc, target.radius)])
+        input_list.append((target.xc, target.yc, constants.COEFF_RADIUS*target.radius))
+    return input_list
 
 
 def plot_repulive_field(Xp, Yp, Xf, Yf, potential_field, force_x, force_y):
     # Plot the surface.
-    fig = plt.figure(figsize=(12, 8))
-    fig.suptitle('test', fontsize=17, fontweight='bold', y=0.98)
+    fig = plt.figure(figsize=(18, 8))
+    fig.suptitle('representation of the potential field', fontsize=17, fontweight='bold', y=0.98)
     fig.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
     ax1 = fig.add_subplot(1, 2, 1, projection='3d')
 
     ax2 = fig.add_subplot(1, 2, 2)
 
-    # potential_field = np.minimum(1000,potential_field)
+
+    potential_field = np.minimum(20000,potential_field)
     surf = ax1.plot_surface(Xp, Yp, potential_field, cmap="hot",
                             linewidth=0, antialiased=False)
 
-    ax2.quiver(Xf, Yf, force_x, force_y)
+    M = np.arctan2(force_x, force_y)
+
+    ax2.quiver(Xf, Yf, force_x, force_y, M, units='x', width=0.05, cmap="hsv")
+    #ax2.scatter(Xf[::3, ::3], Yf[::3, ::3], color='b', s=2)
+
+    ax2.axis('equal')
     plt.show()
 
-
-"""Small exemple to what you can get"""
-# target_list = [(1, 1, .1), (1, 7, .1), (7, 1, .1),(7,7,0.1)]
-target_list = [(3, 4, .3 / 2), (4, 5, .3 / 2), (4, 0, .3 / 2)]
-objectives_list = [(0, 0, 1), (0, 8, 1)]
-Xp, Yp, Xf, Yf, potential_field, force_x, force_y = compute_potential(objectives_list, target_list)
-plot_repulive_field(Xp, Yp, Xf, Yf, potential_field, force_x, force_y)
+if __name__ == '__main__':
+    """Small exemple to what you can get"""
+    # target_list = [(1, 1, .1), (1, 7, .1), (7, 1, .1),(7,7,0.1)]
+    target_list = [(3, 4, .3 / 2), (4, 5, .3 / 2), (4, 0, .3 / 2)]
+    target_list = []
+    target_list = [(4, 4, .3*6),(8, 4, .3*6)]
+    objectives_list = [(4, 4, 1)]
+    X = np.arange(0, 8, 0.01)
+    Y = np.arange(0, 8, 0.01)
+    X_potential_field, Y_potential_field = np.meshgrid(X, Y)
+    X = np.arange(0, 8, 0.5)
+    Y = np.arange(0, 8, 0.5)
+    X_vector_field, Y_vector_field = np.meshgrid(X, Y)
+    potential_field, force_x, force_y = compute_potential_and_potential_gradient(X_potential_field,Y_potential_field,X_vector_field, Y_vector_field,objectives_list,target_list)
+    plot_repulive_field(X_potential_field, Y_potential_field, X_vector_field, Y_vector_field, potential_field, force_x, force_y)

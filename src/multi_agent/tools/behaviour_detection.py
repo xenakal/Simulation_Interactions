@@ -1,7 +1,14 @@
 import numpy as np
 import src.multi_agent.elements.camera as aCam
+from src import constants
 
-def is_target_stopped(self, target_id, delta_t, n, thresh):
+
+class BehaviourDetectorType:
+    Use_speed_and_position = 0
+    Use_speed_only = 1
+    Use_position_only  = 2
+
+def is_target_stopped(self, target_id, delta_t, n,position_std_thresh,speed_mean_thresh):
     """
                 :description
                     based on multiple position, we want to detect if the target was moving and stops
@@ -19,11 +26,11 @@ def is_target_stopped(self, target_id, delta_t, n, thresh):
                 :note
                     see self.detect_target_motion(targetID, deltaT, n, thresh)
             """
-    (is_moving, is_stopped) = self.detect_target_motion(target_id, delta_t, n, thresh)
+    (is_moving, is_stopped) = self.detect_target_motion(target_id, delta_t, n,position_std_thresh,speed_mean_thresh)
     return is_stopped
 
 
-def is_target_moving(target_id, delta_t, n, thresh):
+def is_target_moving(target_id, delta_t, n,position_std_thresh,speed_mean_thresh):
     """
                 :description
                     based on multiple position, we want to detect if the target was moving and stops
@@ -41,11 +48,11 @@ def is_target_moving(target_id, delta_t, n, thresh):
                 :note
                     see self.detect_target_motion(targetID, deltaT, n, thresh)
             """
-    (is_moving, is_stopped) = detect_target_motion(target_id, delta_t, n, thresh)
+    (is_moving, is_stopped) = detect_target_motion(target_id, delta_t, n, position_std_thresh,speed_mean_thresh)
     return is_moving
 
 
-def is_target_changing_state(target_id, delta_t, n, thresh):
+def is_target_changing_state(target_id, delta_t, n, position_std_thresh,speed_mean_thresh):
     """
                 :description
                     based on multiple position, we want to detect if the target was moving and stops
@@ -63,11 +70,11 @@ def is_target_changing_state(target_id, delta_t, n, thresh):
                 :note
                     see self.detect_target_motion(targetID, deltaT, n, thresh)
             """
-    (is_moving, is_stopped) = detect_target_motion(target_id, delta_t, n, thresh)
+    (is_moving, is_stopped) = detect_target_motion(target_id, delta_t, n, position_std_thresh,speed_mean_thresh)
     return is_moving and is_stopped
 
 
-def detect_target_motion(memory_list, target_id, delta_t, n, thresh):
+def detect_target_motion(memory_list, target_id, delta_t, n, position_std_thresh,speed_mean_thresh):
     """
          :description
              based on multiple position, we want to detect if the target was moving and stops
@@ -105,7 +112,7 @@ def detect_target_motion(memory_list, target_id, delta_t, n, thresh):
 
     if n + delta_t < list_len:
         for time in range(delta_t):
-            state.append(is_target_fix(memory_list,target_id, time, n, thresh))
+            state.append(is_target_fix(memory_list, target_id, time, n, position_std_thresh,speed_mean_thresh))
             test_stopped.append(True)
             test_mooving.append(False)
 
@@ -120,7 +127,7 @@ def detect_target_motion(memory_list, target_id, delta_t, n, thresh):
     return is_moving, is_stopped
 
 
-def is_target_fix(memory_list,target_id, t, n, thresh):
+def is_target_fix(memory_list, target_id, t, n, position_std_thresh, speed_mean_thresh):
     """
         :description
             based on multiple position, we want to detect if the target is fix
@@ -142,15 +149,41 @@ def is_target_fix(memory_list,target_id, t, n, thresh):
 
         x = []
         y = []
+
+        vx = []
+        vy = []
+
         for item in list_to_check:
             x.append(item.item_position[0])
             y.append(item.item_position[1])
+            vx.append(item.item_speeds[0])
+            vy.append(item.item_speeds[1])
 
         x_sdt = np.std(x)
         y_sdt = np.std(y)
+        vx_mean = np.mean(vx)
+        vy_mean = np.mean(vy)
 
-        if x_sdt < thresh and y_sdt < thresh:
-            return True
+
+        position_test = False
+        speed_test = False
+
+        if x_sdt < position_std_thresh and y_sdt < position_std_thresh :
+            position_test = True
+
+        if vx_mean < speed_mean_thresh and vy_mean < speed_mean_thresh:
+            speed_test = True
+
+        if  constants.BEHAVIOUR_DETECTION_TYPE == BehaviourDetectorType.Use_speed_and_position:
+            return speed_test and position_test
+        elif constants.BEHAVIOUR_DETECTION_TYPE == BehaviourDetectorType.Use_speed_only:
+            return speed_test
+        elif constants.BEHAVIOUR_DETECTION_TYPE == BehaviourDetectorType.Use_position_only:
+            return position_test
+
+
+
+
     return False
 
 

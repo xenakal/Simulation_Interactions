@@ -9,6 +9,7 @@ from src.multi_agent.tools.behaviour_agent import PCA_track_points_possibilites,
 from src.multi_agent.tools.behaviour_detection import *
 from src.multi_agent.tools.link_target_camera import *
 from src.my_utils.controller import CameraController
+from src.my_utils.my_math.potential_field_method import compute_potential_gradient, convert_target_list_to_potential_field_input
 from src import constants
 import math
 import time
@@ -18,6 +19,9 @@ class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithR
     INFO_DKF = "info_DKF"
     AGENT_ESTIMATOR = "agentEstimator"
 
+class AgentCameraController:
+    Controller_PI = "PI"
+    Vector_Field_Method = "VFM"
 
 class AgentCameraCommunicationBehaviour:
     ALL = "all"
@@ -32,16 +36,6 @@ class AgentCameraFSM:
     COMMUNICATION = "Communication"
     BUG = "Bug"
 
-
-class Configuration:
-    def __init__(self, x, y, alpha, beta):
-        self.x = x
-        self.y = y
-        self.alpha = alpha
-        self.beta = beta
-
-    def to_string(self):
-        print("config x: %.02f y: %.02f alpha: %.02f beta: %.02f"%(self.x,self.y,self.alpha,self.beta))
 
 class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
     def __init__(self, id, type):
@@ -147,7 +141,7 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation, True)
-        self.camera_controller = CameraController(0.4, 0, 0.4, 0, 0.1, 0)
+        self.camera_controller = CameraController(constants.AGENT_POS_KP, constants.AGENT_POS_KI, constants.AGENT_ALPHA_KP ,constants.AGENT_ALPHA_KI, constants.AGENT_BETA_KP, constants.AGENT_BETA_KI)
         self.camera_controller.set_targets(self.camera.xc, self.camera.yc, self.camera.alpha, self.camera.beta)
 
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
@@ -187,6 +181,11 @@ class AgentCam(AgentInteractingWithRoom):
                 if constants.AGENTS_MOVING:
                     if last_time_move is not None:
                         configuration = self.find_configuration_for_tracked_targets()
+                        '''
+                        configuration = Configuration(8,4,math.radians(30),math.radians(60))
+                        configuration.track_target_list.append((4,4,1.5))
+                        configuration.track_target_list.append((6,4,1))
+                        '''
                         if configuration is not None:
                             last_not_None_configuration = configuration
 
@@ -330,7 +329,12 @@ class AgentCam(AgentInteractingWithRoom):
             self.log_main.debug("no config to move at time %.02f" % constants.get_time())
             return
 
+        """Computing the vector field"""
+        configuration.compute_vector_field_for_current_position(self.camera.xc,self.camera.yc)
+
+        """Setting values to the PI controller"""
         self.camera_controller.set_targets(configuration.x, configuration.y, configuration.alpha, configuration.beta)
+
 
         """Define the values measured"""
         x_mes = self.camera.xc  # + error si on veut ajouter ici
@@ -346,6 +350,18 @@ class AgentCam(AgentInteractingWithRoom):
         """Find the command to apply"""
         (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes, y_mes,
                                                                                                  alpha_mes, beta_mes)
+
+        if constants.AGENT_MOTION_CONTROLLER == AgentCameraController.Controller_PI:
+            "We keep it has computed above"
+            pass
+        elif constants.AGENT_MOTION_CONTROLLER == AgentCameraController.Vector_Field_Method:
+            "The position command is here adapted with the vector field"
+            x_controller = self.camera_controller.position_controller.x_controller
+            y_controller =  self.camera_controller.position_controller.y_controller
+            x_command = x_controller.born_command(configuration.vector_field_x*x_controller.kp)
+            y_command = y_controller.born_command(configuration.vector_field_y*y_controller.kp)
+        else:
+            print("error in move target, controller type not found")
 
         """Apply the command"""
         if constants.get_time() - last_time_move < 0:
@@ -402,7 +418,7 @@ class AgentCam(AgentInteractingWithRoom):
 
         # update the list of untrackable targets
         self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
-
+        configuration.track_target_list = tracked_targets
         return configuration
 
     def find_configuration_for_targets(self, targets):
@@ -424,14 +440,13 @@ class AgentCam(AgentInteractingWithRoom):
         tracked_targets_room_representation = room.RoomRepresentation()
         tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
 
-        x_target, y_target, alpha_target, beta_target = \
-            get_configuration_based_on_seen_target(self.camera, tracked_targets_room_representation.active_Target_list,0.8,
+        virtual_configuration = get_configuration_based_on_seen_target(self.camera, tracked_targets_room_representation.active_Target_list,
                                                    PCA_track_points_possibilites.MEANS_POINTS,
                                                    self.memory_of_objectives, self.memory_of_position_to_reach, True)
 
         # check if this configuration covers all targets
         self.virtual_camera = copy.deepcopy(self.camera)
-        self.virtual_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target, True)
+        self.virtual_camera.set_configuration(virtual_configuration)
 
         for targetRepresentation in tracked_targets_room_representation.active_Target_list:
             in_field = cam.is_x_y_radius_in_field_not_obstructed(self.virtual_camera, targetRepresentation.xc,
@@ -447,14 +462,13 @@ class AgentCam(AgentInteractingWithRoom):
                 self.log_main.debug("no config at time %.02f"%constants.get_time())
                 return None
 
-        x_target, y_target, alpha_target, beta_target = get_configuration_based_on_seen_target(self.camera,
-                                                                                               tracked_targets_room_representation.active_Target_list,0.8,
+        real_configuration = get_configuration_based_on_seen_target(self.camera,tracked_targets_room_representation.active_Target_list,
                                                                                                PCA_track_points_possibilites.MEANS_POINTS,
                                                                                                self.memory_of_objectives,
                                                                                                self.memory_of_position_to_reach,
                                                                                                False)
 
-        return Configuration(x_target, y_target, alpha_target, beta_target)
+        return real_configuration
 
     def process_information_in_memory(self):
         """
@@ -494,7 +508,9 @@ class AgentCam(AgentInteractingWithRoom):
                 "Check if the target is moving,stopped or changing from one to the other state"
                 (is_moving, is_stopped) = detect_target_motion(self.memory.memory_best_estimations_from_target,
                                                                target.id, 1, 5,
-                                                               constants.STD_MEASURMENT_ERROR_POSITION + 0.01)
+                                                               constants.POSITION_STD_ERROR,
+                                                               constants.SPPED_MEAN_ERROR)
+
                 "Check if the target is leaving the cam angle_of_view"
                 (is_in, is_out) = is_target_leaving_cam_field(self.memory.memory_best_estimations_from_target,
                                                               self.camera, target.id, 0, 3)
