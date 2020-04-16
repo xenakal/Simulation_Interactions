@@ -110,7 +110,7 @@ DATA_TO_SEND = "none"
 Refers to the type of controller we use to bring the target to reference point
 """
 AGENT_MOTION_CONTROLLER = "VFM"
-AGENT_POS_KP = 0.8
+AGENT_POS_KP = 0.2
 AGENT_POS_KI = 0.0
 AGENT_ALPHA_KP = 0.4
 AGENT_ALPHA_KI = 0
@@ -127,7 +127,7 @@ SPPED_MEAN_ERROR = 0.2
 New configuration parameter
 """
 SECURITY_MARGIN_BETA = 2
-DISTANCE_TO_KEEP_FROM_TARGET = 0.7 #relative to field depth
+DISTANCE_TO_KEEP_FROM_TARGET = 0.5#relative to field depth
 
 
 
@@ -139,18 +139,18 @@ If ETA = 0 => Repulsive potentials have no effects
 
 Parameters has to be set to appropriate values by trials and errors    
 """
-XI = 10
-ETA = 100
-COEFF_RADIUS = 5
+XI = 1000
+ETA = 50
+COEFF_RADIUS = 1.5
 """Barrier - "not use","smooth","combine","hard" are the parameters you can use"""
 BARRIER_TYPE = "combine"
 
 """In the smooth mode it defines how circle are deformed to become elliptical shapes"""
-COEFF_VAR_X = 500
+COEFF_VAR_X = 100
 COEFF_VAR_Y = 10
 
 """Combine is a ration beetwen hard and smooth mode"""
-COMBINE_MODE_PROP = 0 # 1 = smooth mode 0 = hard mode (btw 0 and 1)
+COMBINE_MODE_PROP = 0.99 # 1 = smooth mode 0 = hard mode (btw 0 and 1)
 
 
 """---------------------------------------------------------------------------------------------------------------------
