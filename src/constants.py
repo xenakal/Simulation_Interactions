@@ -50,6 +50,7 @@ class AgentDataToWorkWith:
 
 
 AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Best_estimation
+
 AGENTS_MOVING = True
 
 

@@ -41,6 +41,7 @@ class Configuration:
     def to_string(self):
         print("config x: %.02f y: %.02f alpha: %.02f beta: %.02f"%(self.x,self.y,self.alpha,self.beta))
 
+
 class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
     def __init__(self, id, type):
         super().__init__(id, type)
@@ -801,4 +802,4 @@ def parse_message_untrackableTarget(message):
     if target_id == -1:
         warn("got an untrackable target message with target_id set to -1...")
     [target_x, target_y] = message.message.split("&")
-    return cam.TargetRepresentation(target_id, float(target_x), float(target_y))
+    return cam.TargetRepresentation(int(target_id), float(target_x), float(target_y))
