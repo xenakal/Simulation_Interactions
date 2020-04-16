@@ -9,6 +9,7 @@ import src.multi_agent.agent.agent_interacting_room_camera as aCam
 import src.multi_agent.agent.agent_interacting_room_user as aUser
 from src import constants
 
+
 class InformationRoomSimulation:
     """
         Class Example.

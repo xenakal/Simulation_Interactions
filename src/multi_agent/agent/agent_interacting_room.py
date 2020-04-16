@@ -12,7 +12,7 @@ class MessageTypeAgentInteractingWithRoom(MessageType):
     TARGET_ESTIMATOR = "targetEstimator"
 
 
-class  AgentInteractingWithRoomRepresentation(AgentRepresentation):
+class AgentInteractingWithRoomRepresentation(AgentRepresentation):
     def __init__(self, id, type):
         super().__init__(id, type)
 
@@ -79,7 +79,7 @@ class AgentInteractingWithRoom(Agent):
         self.log_main.info("starting initialisation in agent_interacting_room")
         self.room_representation.init_RoomRepresentation(room)
         self.message_statistic.init_message_static(self.room_representation)
-        self.main_thread = threading.Thread(target=self.thread_run,args=[room])
+        self.main_thread = threading.Thread(target=self.thread_run, args=[room])
 
         self.log_main.info("initialisation in agent_interacting_room_done !")
         self.log_main.debug("see below the room representation ")
@@ -96,10 +96,8 @@ class AgentInteractingWithRoom(Agent):
         """
         self.main_thread.start()
 
-
     def thread_run(self, room):
         pass
-
 
     def clear(self):
         """
@@ -131,8 +129,6 @@ class AgentInteractingWithRoom(Agent):
         mbox = mailbox.mbox(constants.NAME_MAILBOX + str(self.id))
         mbox.close()
         self.log_main.info("Agent cleared \n")
-
-
 
     def process_information_in_memory(self):
         """ interface """
@@ -190,9 +186,10 @@ class AgentInteractingWithRoom(Agent):
                         agent_to_suppress = agent
                         break
                 if not agent_to_suppress == -1 and agent_to_suppress.is_active:
-                   agent_to_suppress.is_active = False
-                   self.log_main.info("Agent : " + str(agent_to_suppress.id) + "at:  %.02fs is not connected anymore, last heartbeat : %.02f s" %
-                                      (constants.get_time(),heartbeat.heartbeat_list[-1]))
+                    agent_to_suppress.is_active = False
+                    self.log_main.info("Agent : " + str(
+                        agent_to_suppress.id) + "at:  %.02fs is not connected anymore, last heartbeat : %.02f s" %
+                                       (constants.get_time(), heartbeat.heartbeat_list[-1]))
 
     def send_message_targetEstimator(self, targetEstimator, receivers=None):
         """
@@ -227,7 +224,7 @@ class AgentInteractingWithRoom(Agent):
         if not cdt1:
             self.info_message_to_send.add_message(m)
 
-    def send_message_timed_targetEstimator(self,target_id,receivers= None):
+    def send_message_timed_targetEstimator(self, target_id, receivers=None):
         delta_time = constants.get_time() - self.time_last_message_targetEstimtor_sent
 
         if delta_time > constants.TIME_BTW_TARGET_ESTIMATOR:
@@ -235,9 +232,10 @@ class AgentInteractingWithRoom(Agent):
 
             if len(target_estimator_list) > 0:
                 last_target_estimator = target_estimator_list[-1]
-                cdt_message_not_to_old = ((constants.get_time() - last_target_estimator.time_stamp) <= constants.TRESH_TIME_TO_SEND_MEMORY)
+                cdt_message_not_to_old = ((constants.get_time() - last_target_estimator.time_stamp) <=
+                                          constants.TRESH_TIME_TO_SEND_MEMORY)
                 if cdt_message_not_to_old:
-                    self.send_message_targetEstimator(last_target_estimator,receivers)
+                    self.send_message_targetEstimator(last_target_estimator, receivers)
                     self.time_last_message_targetEstimtor_sent = constants.get_time()
 
     def send_message_ack_nack(self, message, type_message):

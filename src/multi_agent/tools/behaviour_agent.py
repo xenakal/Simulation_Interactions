@@ -41,7 +41,7 @@ class Configuration:
         self.vector_field_x = None
         self.vector_field_y = None
 
-    def compute_vector_field_for_current_position(self, camera_xc, camera_yc, ):
+    def compute_vector_field_for_current_position(self, camera_xc, camera_yc):
         if not self.track_target_list is None:
             list_objectives = [(self.x, self.y, 0)]
             self.vector_field_x, self.vector_field_y = compute_potential_gradient(camera_xc, camera_yc, list_objectives,

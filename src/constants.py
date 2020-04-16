@@ -146,7 +146,7 @@ SPPED_MEAN_ERROR = 0.2
 """
 New configuration parameter
 """
-SECURITY_MARGIN_BETA = 5
+SECURITY_MARGIN_BETA = 9
 DISTANCE_TO_KEEP_FROM_TARGET = 0.7 # relative to field depth
 
 
