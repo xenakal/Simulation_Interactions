@@ -212,7 +212,6 @@ class AgentCam(AgentInteractingWithRoom):
 
                 if last_time_move is not None:
 
-                    print("agent: ", self.id, " tracks: ", self.targets_to_track)
                     # find a configuration for the agent
                     config = self.find_configuration_for_tracked_targets()
                     if config is not None:
@@ -280,7 +279,6 @@ class AgentCam(AgentInteractingWithRoom):
                     nextstate = AgentCameraFSM.PROCESS_DATA
                     self.log_execution.debug("Loop %d : takePicture state completed after : %.02f s" % (
                         execution_loop_number, constants.get_time() - execution_time_start))
-
             elif nextstate == AgentCameraFSM.PROCESS_DATA:
                 self.log_execution.debug("Loop %d : at processData state after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
@@ -444,9 +442,10 @@ class AgentCam(AgentInteractingWithRoom):
 
             # if somehow couldn't find a configuration covering any of the elements
             if number_targets_to_remove >= len(tracked_targets):
-                tracked_targets = []
                 # update the list of untrackable targets
                 self.untrackable_targets = self.targets_to_track.copy()
+                # update the list of tracked targets
+                self.targets_to_track = []
                 # reset priority dict
                 self.priority_dict = {}
                 return None
@@ -634,7 +633,8 @@ class AgentCam(AgentInteractingWithRoom):
 
             # start tracking the target according to the priority levels
             if target.id not in self.targets_to_track and target.confidence_pos > CONFIDENCE_THRESHOLD:
-                print(target.id)
+                print("agent ", self.id, " sees: ", target.id)
+                self.targets_to_track.append(target.id)
                 self.priority_dict[target.id] = InternalPriority.NOT_TRACKED
 
     def process_single_message(self, rec_mes):
@@ -768,7 +768,7 @@ class AgentCam(AgentInteractingWithRoom):
         :param target_list: list of targets (not ids)
         :return: target_list minus the target with the lowest priority
         """
-        print(self.priority_dict)
+        print("agent dic: ", self.priority_dict)
         min_total_priority = 100000
         target_to_remove = -1
         for target_id in target_list:
