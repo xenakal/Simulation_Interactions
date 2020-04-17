@@ -29,6 +29,7 @@ INIT_show_field_cam = True
 DISTRIBUTED_KALMAN = False
 KALMAN_MODEL_MEASUREMENT_DIM = 4
 USE_TIMESTAMP_FOR_ASSIMILATION = True
+KALMAN_VAR_COEFFICIENT = 50
 
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
 WIDTH_ROOM = 8  # [m]
@@ -107,7 +108,7 @@ DATA_TO_SEND = "none"
 """
 Refers to the type of controller we use to bring the target to reference point
 """
-AGENT_MOTION_CONTROLLER = "PI"
+AGENT_MOTION_CONTROLLER = AgentCameraController.Vector_Field_Method
 AGENT_POS_KP = 0.7
 AGENT_POS_KI = 0.0
 AGENT_ALPHA_KP = 0.4
@@ -120,7 +121,7 @@ AGENT_CAMERA_FIELD_MIN = 0.8
 AGENT_CAMERA_FIELD_MAX = 1.2
 
 """Linear coefficient from the inverse relation btw beta and field depth"""
-COEFF_VARIATION_FROM_FIELD_DEPTH = 1
+COEFF_VARIATION_FROM_FIELD_DEPTH = 1.5
 """
 Behavour target estimation
 """

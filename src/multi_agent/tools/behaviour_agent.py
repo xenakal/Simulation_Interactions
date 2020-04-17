@@ -81,11 +81,27 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
     placement_choice = None
     number_of_target = len(target_representation_list)
 
+
+    """
+    TROP BOQUANT POUR LE MOMENT
+    
+    all_fix = True
+    are_target_fix = [target.type == TargetType.FIX for target in target_representation_list]
+    print(are_target_fix)
+    for item in are_target_fix:
+        if item == False:
+            all_fix = False
+
+    if all_fix:
+        print("on les tient ! ")
+        return Configuration(camera.xc, camera.yc, camera.alpha, camera.beta, camera.field_depth, virtual)
+    """
+
     if number_of_target < 0:
         """Should not append"""
         return (xt, yt, alpha, beta)
 
-    if number_of_target == 1:
+    elif number_of_target == 1:
         "In this case PCA is not possible, we chose to focus on the target itself"
         target = target_representation_list[0]
         xt = target.xc
@@ -102,7 +118,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
         y_to_compute_beta = target.radius
         placement_choice = Angle_configuration.PARALLEL_TO_COMPUTED_DIRECTION
 
-    if number_of_target >= 2:
+    elif number_of_target >= 2:
         "Principle Component Analysis"
         xt, yt, angle_in_room_representation, y_to_compute_beta, variance_min_ratio = get_angle_alpha_beta_PCA_method(
             target_representation_list,

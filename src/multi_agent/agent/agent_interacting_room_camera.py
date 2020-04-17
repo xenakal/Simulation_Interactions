@@ -499,6 +499,7 @@ class AgentCam(AgentInteractingWithRoom):
                                                                            targetRepresentation.yc)
 
             if hidden or not in_field:
+                print("pas de config lo")
                 self.log_main.debug("no config at time %.02f"%constants.get_time())
                 return None
 

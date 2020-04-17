@@ -82,3 +82,13 @@ def rectiligne_trajectory(target, dist_min, delta_time):
         """updating position"""
         target.xc = target.xc + v_x * delta_time
         target.yc = target.yc + v_y * delta_time
+
+    else:
+        target.ax = 0
+        target.ay = 0
+        target.vx = 0
+        target.vy = 0
+
+
+
+

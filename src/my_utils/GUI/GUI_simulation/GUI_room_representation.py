@@ -98,7 +98,10 @@ class GUI_room_representation():
 
         color_conf = WHITE
         if target.confidence_pos > 0:
-            color_conf = [math.ceil(255 - 2.5 * target.confidence_pos), math.ceil(target.confidence_pos * 2.5), 0]
+            value1  = max(min(math.ceil(255 - 2.5 * target.confidence_pos),255),0)
+            value2 = max(min(math.ceil(2.5 * target.confidence_pos), 255), 0)
+            color_conf = (value1,value2, 0)
+
 
         pygame.draw.ellipse(self.screen, color_conf, (
             self.x_offset + int(target.xc * self.scale_x) - int(self.scale_x * (target.radius * 1.2)),
@@ -187,8 +190,7 @@ class GUI_room_representation():
                 if target.id == int(id):
                     for position in target.all_position:
                         pygame.draw.circle(self.screen, target.color, (self.x_offset + int(position[0] * self.scale_x),
-                                                                       self.y_offset + int(position[1] * self.scale_y)),
-                                           1)
+                                                                       self.y_offset + int(position[1] * self.scale_y)),1)
 
     def draw_all_agentCam(self, cam_list):
         for agent in cam_list:
