@@ -108,7 +108,7 @@ DATA_TO_SEND = "none"
 """
 Refers to the type of controller we use to bring the target to reference point
 """
-AGENT_MOTION_CONTROLLER = AgentCameraController.Vector_Field_Method
+AGENT_MOTION_CONTROLLER = AgentCameraController.Controller_PI
 AGENT_POS_KP = 0.7
 AGENT_POS_KI = 0.0
 AGENT_ALPHA_KP = 0.4

@@ -9,7 +9,8 @@ from src.multi_agent.tools.behaviour_agent import PCA_track_points_possibilites,
 from src.multi_agent.tools.behaviour_detection import *
 from src.multi_agent.tools.link_target_camera import *
 from src.my_utils.controller import CameraController
-from src.my_utils.my_math.potential_field_method import compute_potential_gradient, convert_target_list_to_potential_field_input
+from src.my_utils.my_math.potential_field_method import compute_potential_gradient, \
+    convert_target_list_to_potential_field_input
 from src import constants
 from src.constants import AgentCameraCommunicationBehaviour
 import time
@@ -40,7 +41,7 @@ class Configuration:
         self.beta = beta
 
     def to_string(self):
-        print("config x: %.02f y: %.02f alpha: %.02f beta: %.02f"%(self.x,self.y,self.alpha,self.beta))
+        print("config x: %.02f y: %.02f alpha: %.02f beta: %.02f" % (self.x, self.y, self.alpha, self.beta))
 
 
 class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
@@ -153,12 +154,14 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation, True)
-        self.camera_controller = CameraController(constants.AGENT_POS_KP, constants.AGENT_POS_KI, constants.AGENT_ALPHA_KP ,constants.AGENT_ALPHA_KI, constants.AGENT_BETA_KP, constants.AGENT_BETA_KI)
+        self.camera_controller = CameraController(constants.AGENT_POS_KP, constants.AGENT_POS_KI,
+                                                  constants.AGENT_ALPHA_KP, constants.AGENT_ALPHA_KI,
+                                                  constants.AGENT_BETA_KP, constants.AGENT_BETA_KI)
         self.camera_controller.set_targets(self.camera.xc, self.camera.yc, self.camera.alpha, self.camera.beta)
 
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
 
-    def init_targets_to_track(self,room):
+    def init_targets_to_track(self, room):
         if constants.INIT_TARGET_LIST == constants.AgentCameraInitializeTargetList.ALL_SEEN:
             """ Initializes the targets to track as all targets seen by the agent at the time of initialization. """
             # initialize targets to track
@@ -175,7 +178,6 @@ class AgentCam(AgentInteractingWithRoom):
 
         else:
             warn("Invalid method for initializing targets to tracks, no target_list to be used.")
-
 
     def thread_run(self, real_room):
         """
@@ -264,6 +266,7 @@ class AgentCam(AgentInteractingWithRoom):
                             if target_representation.id == target.id:
                                 target_type = target_representation.type
 
+
                         # add the new information to the memory
                         self.memory.add_create_target_estimator(constants.get_time(), self.id,
                                                                 self.signature, target.id, target.signature,
@@ -271,6 +274,7 @@ class AgentCam(AgentInteractingWithRoom):
                                                                 target.vx + erreurVX, target.vy + erreurVY,
                                                                 target.ax + erreurAX, target.ay + erreurAY,
                                                                 target_type, target.radius)
+
 
                         # start tracking the target if untracked by all
                         if target in self.targets_untracked_by_all:
@@ -291,8 +295,8 @@ class AgentCam(AgentInteractingWithRoom):
                 # put untracked targets in self.targets_untracked_by_all and remove if an ACK is received
                 [self.targets_untracked_by_all.append(target) for target in self.untrackable_targets if target not in
                  self.targets_untracked_by_all]
-                #if len(self.untrackable_targets) > 0:
-                    # print("untrackable - agent ", self.id, [target.id for target in self.untrackable_targets])
+                # if len(self.untrackable_targets) > 0:
+                # print("untrackable - agent ", self.id, [target.id for target in self.untrackable_targets])
 
                 # send messages concerning untracked targets
                 self.broadcast_untracked_targets()
@@ -370,16 +374,16 @@ class AgentCam(AgentInteractingWithRoom):
             return constants.get_time()
 
         """Computing the vector field"""
-        configuration.compute_vector_field_for_current_position(self.camera.xc,self.camera.yc)
+        configuration.compute_vector_field_for_current_position(self.camera.xc, self.camera.yc)
 
         """Setting values to the PI controller"""
         self.camera_controller.set_targets(configuration.x, configuration.y, configuration.alpha, configuration.beta)
 
-
         """Define the values measured"""
         x_mes = self.camera.xc  # + error si on veut ajouter ici
         y_mes = self.camera.yc
-        alpha_mes = self.camera.alpha
+
+        alpha_mes = self.camera_controller.alpha_controller.bound_alpha_btw_minus_pi_plus_pi(self.camera.alpha)
         beta_mes = self.camera.beta
 
         if self.camera.camera_type == mobCam.MobileCameraType.RAIL:
@@ -391,6 +395,8 @@ class AgentCam(AgentInteractingWithRoom):
         (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes, y_mes,
                                                                                                  alpha_mes, beta_mes)
 
+
+
         if constants.AGENT_MOTION_CONTROLLER == constants.AgentCameraController.Controller_PI:
             "We keep it has computed above"
             pass
@@ -398,10 +404,13 @@ class AgentCam(AgentInteractingWithRoom):
             "The position command is here adapted with the vector field"
             x_controller = self.camera_controller.position_controller.x_controller
             y_controller = self.camera_controller.position_controller.y_controller
-            x_command = x_controller.born_command(configuration.vector_field_x*x_controller.kp)
-            y_command = y_controller.born_command(configuration.vector_field_y*y_controller.kp)
+            x_command = x_controller.born_command(configuration.vector_field_x * x_controller.kp)
+            y_command = y_controller.born_command(configuration.vector_field_y * y_controller.kp)
         else:
             print("error in move target, controller type not found")
+
+        print("alpha_mes %.02f alpha_target %.02f command %.02f dt %.02f" % (
+        math.degrees(alpha_mes), math.degrees(configuration.alpha), alpha_command,constants.get_time() - last_time_move))
 
         """Apply the command"""
         if constants.get_time() - last_time_move < 0:
@@ -409,11 +418,18 @@ class AgentCam(AgentInteractingWithRoom):
             return last_time_move
         else:
             dt = constants.get_time() - last_time_move
-            if dt > 0.5 / constants.SCALE_TIME:
-                dt = 0.5 / constants.SCALE_TIME
-            self.camera.rotate(alpha_command, dt)
-            self.camera.zoom(beta_command, dt)
-            self.camera.move(x_command, y_command, dt)
+            if  dt > 0.2:
+                "If the dt is to large, the controller can not handle it anymore, the solution is to decompose dt in smaller values"
+                self.camera.rotate(alpha_command, 0.2)
+                self.camera.zoom(beta_command, 0.2)
+                self.camera.move(x_command, y_command, 0.2)
+                return self.move_based_on_config(configuration,last_time_move+0.2)
+
+            else:
+                self.camera.rotate(alpha_command, dt)
+                self.camera.zoom(beta_command, dt)
+                self.camera.move(x_command, y_command, dt)
+
             return constants.get_time()
 
     def find_configuration_for_tracked_targets(self):
@@ -423,7 +439,7 @@ class AgentCam(AgentInteractingWithRoom):
         :return a configuration for the targets the agent is able to track, or None if he can't track any
         """
         # try to find a configuration covering all targets
-        #tracked_targets = copy.copy(self.targets_to_track)
+        # tracked_targets = copy.copy(self.targets_to_track)
         tracked_targets = copy.copy(self.room_representation.active_Target_list)
         self.targets_to_track = self.room_representation.active_Target_list
 
@@ -454,7 +470,7 @@ class AgentCam(AgentInteractingWithRoom):
 
             # print([target.id for target in tracked_targets])
             configuration = self.find_configuration_for_targets(tracked_targets)
-          
+
         # update the list of untrackable targets
         self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
         configuration.track_target_list = tracked_targets
@@ -480,9 +496,11 @@ class AgentCam(AgentInteractingWithRoom):
         tracked_targets_room_representation = room.RoomRepresentation()
         tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
 
-        virtual_configuration = get_configuration_based_on_seen_target(self.camera, tracked_targets_room_representation.active_Target_list,
-                                                   PCA_track_points_possibilites.MEANS_POINTS,
-                                                   self.memory_of_objectives, self.memory_of_position_to_reach, True)
+        virtual_configuration = get_configuration_based_on_seen_target(self.camera,
+                                                                       tracked_targets_room_representation.active_Target_list,
+                                                                       PCA_track_points_possibilites.MEANS_POINTS,
+                                                                       self.memory_of_objectives,
+                                                                       self.memory_of_position_to_reach, True)
 
         # check if this configuration covers all targets
         self.virtual_camera = copy.deepcopy(self.camera)
@@ -500,16 +518,17 @@ class AgentCam(AgentInteractingWithRoom):
 
             if hidden or not in_field:
                 print("pas de config lo")
-                self.log_main.debug("no config at time %.02f"%constants.get_time())
+                self.log_main.debug("no config at time %.02f" % constants.get_time())
                 return None
 
         # if the agent actually wants to move
         if used_for_movement:
             real_configuration = get_configuration_based_on_seen_target(self.camera,
-                                                       tracked_targets_room_representation.active_Target_list,
-                                                       PCA_track_points_possibilites.MEANS_POINTS,
-                                                       self.memory_of_objectives, self.memory_of_position_to_reach,
-                                                       False)
+                                                                        tracked_targets_room_representation.active_Target_list,
+                                                                        PCA_track_points_possibilites.MEANS_POINTS,
+                                                                        self.memory_of_objectives,
+                                                                        self.memory_of_position_to_reach,
+                                                                        False)
             return real_configuration
 
         # if the agent doesn't want to move
@@ -562,7 +581,7 @@ class AgentCam(AgentInteractingWithRoom):
 
                 if is_in and is_out:
                     pass
-                    #print("target id: %d possible obstruction !"%target.id)
+                    # print("target id: %d possible obstruction !"%target.id)
 
                 old_target_type = target.type
                 if is_moving:

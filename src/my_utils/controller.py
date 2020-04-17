@@ -102,6 +102,8 @@ class OrientationController(ControllerPI):
         value = self.bound_alpha_btw_minus_pi_plus_pi(value)
 
         self.error = self.value_target - value
+        if math.fabs(self.error) < 0.001:
+            return 0
 
         if self.error > 2*math.pi:
             print("oupsi error get_command orientationController")

@@ -81,7 +81,6 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
     placement_choice = None
     number_of_target = len(target_representation_list)
 
-
     """
     TROP BOQUANT POUR LE MOMENT
     
@@ -96,6 +95,10 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
         print("on les tient ! ")
         return Configuration(camera.xc, camera.yc, camera.alpha, camera.beta, camera.field_depth, virtual)
     """
+
+    """-----------------------------------------------------------------------------------------------------------------
+       IN TERMS OF THE TARGET NUMBER
+    -----------------------------------------------------------------------------------------------------------------"""
 
     if number_of_target < 0:
         """Should not append"""
@@ -142,6 +145,9 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
                     point_to_be_close_x = 2 * xt - math.fabs(target.xc)
                     point_to_be_close_y = 2 * yt - math.fabs(target.yc)
 
+    """-----------------------------------------------------------------------------------------------------------------
+    IN TERMS OF THE CAMERA TYPE
+    -----------------------------------------------------------------------------------------------------------------"""
     angle_in_room_representation = modify_angle(angle_in_room_representation, placement_choice)
 
     """Camera has to moove in a different way"""
@@ -164,8 +170,12 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
 
         distance1 = distance_btw_two_point(xc1, yc1, point_to_be_close_x, point_to_be_close_y)
         distance2 = distance_btw_two_point(xc2, yc2, point_to_be_close_x, point_to_be_close_y)
+        delta_distance = distance1 - distance2
+        chose_pt_1 = True
+        if math.fabs(delta_distance) > 0.1 and delta_distance > 0:
+            chose_pt_1 = False
 
-        if distance1 < distance2:
+        if chose_pt_1:
             xc = xc1
             yc = yc1
             alpha = alpha1
@@ -173,6 +183,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
             xc = xc2
             yc = yc2
             alpha = alpha2
+
         if not virtual:
             memory_point_to_reach.append([(xc, yc, 0), (point_to_be_close_x, point_to_be_close_y, 0)])
     else:
@@ -180,12 +191,12 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
         yc = -1
         print("camera_type not recognize")
 
-    distance_to_target = distance_btw_two_point(camera.xc, camera.yc, xt, yt)
     """Same computation for the beta for every case"""
+    distance_to_target = distance_btw_two_point(camera.xc, camera.yc, xt, yt)
     beta = define_beta(distance_to_target, y_to_compute_beta)
     field_depth = camera.compute_field_depth_variation_for_a_new_beta(beta),
     """Create a new configuration and make it match with the camera limitation"""
-    configuration = Configuration(xc, yc, alpha, beta,field_depth,virtual)
+    configuration = Configuration(xc, yc, alpha, beta, field_depth, virtual)
     configuration.born_to_camera_limitation(camera)
     return configuration
 
