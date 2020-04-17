@@ -36,7 +36,7 @@ WIDTH_ROOM = 8  # [m]
 LENGHT_ROOM = 8  # [m]
 
 """Number of data----------------------------------------------------------------------------------------------------"""
-NUMBER_OF_POINT_SIMULATED_DATA = 20  # per m for a speed of 1 m/s
+NUMBER_OF_POINT_SIMULATED_DATA = 10  # per m for a speed of 1 m/s
 NUMBER_OF_POINT_STATIC_ANALYSIS = 5  # number of point per m
 NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 5 # number of point per m
 
@@ -127,7 +127,7 @@ Behavour target estimation
 """
 BEHAVIOUR_DETECTION_TYPE = BehaviourDetectorType.Use_speed_and_position
 POSITION_STD_ERROR = 0.1
-SPEED_MEAN_ERROR = 0.2
+SPEED_MEAN_ERROR = 0.3
 """
 New configuration parameter
 """
