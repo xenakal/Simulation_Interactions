@@ -5,16 +5,11 @@ from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import numpy as np
 import itertools
-
 from src import constants
+from src.my_utils.constant_class import*
 from src.my_utils.my_math.line import distance_btw_two_point
 
 
-class PotentialBarrier:
-    Not_use = "not_use"
-    Smooth = "smooth"
-    Combine = "combine"
-    Hard = "hard"
 
 
 class PotentialType:

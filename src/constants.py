@@ -1,5 +1,6 @@
 import logging
 import time
+from src.my_utils.constant_class import *
 
 """
 In this file you have the possibility to modify the settings 
@@ -29,13 +30,14 @@ INIT_show_field_cam = True
 DISTRIBUTED_KALMAN = False
 KALMAN_MODEL_MEASUREMENT_DIM = 4
 USE_TIMESTAMP_FOR_ASSIMILATION = True
+KALMAN_VAR_COEFFICIENT = 50
 
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
 WIDTH_ROOM = 8  # [m]
 LENGHT_ROOM = 8  # [m]
 
 """Number of data----------------------------------------------------------------------------------------------------"""
-NUMBER_OF_POINT_SIMULATED_DATA = 20  # per m for a speed of 1 m/s
+NUMBER_OF_POINT_SIMULATED_DATA = 10  # per m for a speed of 1 m/s
 NUMBER_OF_POINT_STATIC_ANALYSIS = 5  # number of point per m
 NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 5  # number of point per m
 
@@ -55,8 +57,8 @@ TIME_BTW_TARGET_ESTIMATOR = 0.5 / SCALE_TIME
 "Agent-Cam"
 TIME_PICTURE = (1.5 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 TIME_SEND_READ_MESSAGE = (0.3 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
-MAX_TIME_MESSAGE_IN_LIST = 3  # s
-TRESH_TIME_TO_SEND_MEMORY = 10  #
+MAX_TIME_MESSAGE_IN_LIST = 3 / SCALE_TIME  # s
+TRESH_TIME_TO_SEND_MEMORY = 100 / SCALE_TIME  #
 "Agent-User"
 TIME_TO_SLOW_DOWN = 0.15 / SCALE_TIME
 
@@ -64,6 +66,11 @@ TIME_TO_SLOW_DOWN = 0.15 / SCALE_TIME
 STD_MEASURMENT_ERROR_POSITION = 0.2
 STD_MEASURMENT_ERROR_SPEED = 0.1
 STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
+
+ERROR_VARIATION_ZOOM = False
+COEFF_STD_VARIATION_MEASURMENT_ERROR_POSITION = 0.05 * STD_MEASURMENT_ERROR_POSITION
+COEFF_STD_VARIATION_MEASURMENT_ERROR_SPEED = 0.01 * STD_MEASURMENT_ERROR_SPEED
+COEFF_STD_VARIATION_MEASURMENT_ERROR_ACCELERATION = 0.001 * STD_MEASURMENT_ERROR_ACCCELERATION
 
 """Communication - message option------------------------------------------------------------------------------------"""
 NAME_MAILBOX = "mailbox/MailBox_Agent"
@@ -82,41 +89,14 @@ Y_SCALE = 60
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 
-
-class AgentDataToWorkWith:
-    Data_measured = -1
-    Best_estimation = 0
-    Prediction_t_1 = 1
-    Prediction_t_2 = 2
-
-
-class AgentCameraCommunicationBehaviour:
-    ALL = "all"
-    DKF = "dkf"
-    NONE = "none"
-
-
-class AgentCameraInitializeTargetList:
-    ALL_SEEN = "all_seen"
-
-
-class AgentCameraController:
-    Controller_PI = "PI"
-    Vector_Field_Method = "VFM"
-
-
 INIT_TARGET_LIST = AgentCameraInitializeTargetList.ALL_SEEN
 """If you want to set all the agent fixed set to false"""
 AGENTS_MOVING = True
 
 """
 Refers to what data agent should use to analyse the room 
--1 = data measured
-0  = data filter by kalman
-1  = data predicted to t+1
-2  = data predicted to t+2   
 """
-AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Best_estimation
+AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Prediction_t_2
 
 """
 Refers to what data should be exchanged between agent
@@ -128,25 +108,31 @@ DATA_TO_SEND = "none"
 """
 Refers to the type of controller we use to bring the target to reference point
 """
-AGENT_MOTION_CONTROLLER = "VFM"
-AGENT_POS_KP = 0.8
+AGENT_MOTION_CONTROLLER = AgentCameraController.Controller_PI
+AGENT_POS_KP = 0.7
 AGENT_POS_KI = 0.0
 AGENT_ALPHA_KP = 0.4
 AGENT_ALPHA_KI = 0
 AGENT_BETA_KP = 0.1
 AGENT_BETA_KI = 0.0
 
+"""Refers to the min and max field in terms of the default field"""
+AGENT_CAMERA_FIELD_MIN = 0.8
+AGENT_CAMERA_FIELD_MAX = 1.2
+
+"""Linear coefficient from the inverse relation btw beta and field depth"""
+COEFF_VARIATION_FROM_FIELD_DEPTH = 1.5
 """
 Behavour target estimation
 """
-BEHAVIOUR_DETECTION_TYPE = 0
-POSITION_STD_ERROR = 0.05
-SPPED_MEAN_ERROR = 0.2
+BEHAVIOUR_DETECTION_TYPE = BehaviourDetectorType.Use_speed_and_position
+POSITION_STD_ERROR = 0.1
+SPEED_MEAN_ERROR = 0.3
 """
 New configuration parameter
 """
-SECURITY_MARGIN_BETA = 9
-DISTANCE_TO_KEEP_FROM_TARGET = 0.7  # relative to field depth
+SECURITY_MARGIN_BETA = 5
+DISTANCE_TO_KEEP_FROM_TARGET = 0.5  # relative to field depth
 
 """Potential Field Camera--------------------------------------------------------------------------------------------"""
 """
@@ -157,29 +143,21 @@ If ETA = 0 => Repulsive potentials have no effects
 Parameters has to be set to appropriate values by trials and errors    
 """
 XI = 10
-ETA = 100
-COEFF_RADIUS = 5
-"""Barrier - "not use","smooth","combine","hard" are the parameters you can use"""
-BARRIER_TYPE = "combine"
+ETA = 50
+COEFF_RADIUS = 1
+"""Barrier"""
+BARRIER_TYPE = PotentialBarrier.Combine
 
 """In the smooth mode it defines how circle are deformed to become elliptical shapes"""
-COEFF_VAR_X = 500
+COEFF_VAR_X = 100
 COEFF_VAR_Y = 10
 
 """Combine is a ration beetwen hard and smooth mode"""
-COMBINE_MODE_PROP = 0  # 1 = smooth mode 0 = hard mode (btw 0 and 1)
+COMBINE_MODE_PROP = 0.99  # 1 = smooth mode 0 = hard mode (btw 0 and 1)
 
 """---------------------------------------------------------------------------------------------------------------------
 If you just want to change simulation's parameter you should not modify constant below this line 
  --------------------------------------------------------------------------------------------------------------------"""
-
-
-class TARGET_PRIORITY:
-    LOW = 0
-    MEDIUM = 1
-    MEDIUM_HIGH = 3
-    HIGH = 5
-    IMPERATIVE = 1000000
 
 
 def get_time():

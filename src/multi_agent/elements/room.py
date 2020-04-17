@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 import random
 from src.multi_agent.agent.agent import AgentType
 from src.multi_agent.elements.mobile_camera import MobileCamera, MobileCameraType
@@ -31,7 +31,7 @@ class InformationRoomSimulation:
         """Initialisation"""
 
         "Room radius"
-        self.coordinate_room = numpy.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])  # x y l h
+        self.coordinate_room = np.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])  # x y l h
 
         "Target with their time of apparition and disparition "
         self.target_list = []
@@ -129,7 +129,7 @@ class RoomRepresentation:
 
     def __init__(self, color=0):
         """Room radius"""
-        self.coordinate_room = numpy.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])  # x y l h
+        self.coordinate_room = np.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])  # x y l h
 
         """Target informations"""
         self.active_Target_list = []
@@ -188,12 +188,20 @@ class RoomRepresentation:
                     is_in_RoomRepresentation = True
                     target.xc = last_TargetEstimator.item_position[0]
                     target.yc = last_TargetEstimator.item_position[1]
-                    #print(last_TargetEstimator.variance_on_estimation)
+
                     target.variance_on_estimation = last_TargetEstimator.variance_on_estimation
                     target.type = last_TargetEstimator.item_type
                     if not target.type == TargetType.FIX:
                         target.alpha =  last_TargetEstimator.alpha
-                    target.evaluate_confidence(0.1,constants.get_time()-last_TargetEstimator.time_stamp,1.2)
+
+                    #print(last_TargetEstimator.variance_on_estimation)
+                    if last_TargetEstimator.variance_on_estimation is not None:
+                        norm_variance_pos = np.sqrt(np.square(last_TargetEstimator.variance_on_estimation[0])+np.square(last_TargetEstimator.variance_on_estimation[1]))
+                    else:
+                        norm_variance_pos = 0.1
+
+
+                    target.evaluate_confidence(norm_variance_pos,constants.get_time()-last_TargetEstimator.time_stamp,0.001)
                     break
 
             if not is_in_RoomRepresentation:
