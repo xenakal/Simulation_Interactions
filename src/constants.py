@@ -37,7 +37,7 @@ LENGHT_ROOM = 8  # [m]
 """Number of data----------------------------------------------------------------------------------------------------"""
 NUMBER_OF_POINT_SIMULATED_DATA = 20  # per m for a speed of 1 m/s
 NUMBER_OF_POINT_STATIC_ANALYSIS = 5  # number of point per m
-NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 5 # number of point per m
+NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 5  # number of point per m
 
 """Time--------------------------------------------------------------------------------------------------------------"""
 """global parameter for the simulation"""
@@ -50,8 +50,8 @@ TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)
 """Agent"""
 TIME_BTW_HEARTBEAT = 3 / SCALE_TIME
 TIME_MAX_BTW_HEARTBEAT = 9 / SCALE_TIME
-TIME_BTW_AGENT_ESTIMATOR = 0.3/ SCALE_TIME
-TIME_BTW_TARGET_ESTIMATOR = 0.5/SCALE_TIME
+TIME_BTW_AGENT_ESTIMATOR = 0.3 / SCALE_TIME
+TIME_BTW_TARGET_ESTIMATOR = 0.5 / SCALE_TIME
 "Agent-Cam"
 TIME_PICTURE = (1.5 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 TIME_SEND_READ_MESSAGE = (0.3 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
@@ -79,7 +79,6 @@ X_OFFSET = 180
 Y_OFFSET = 100
 X_SCALE = 60
 Y_SCALE = 60
-
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 
@@ -147,8 +146,7 @@ SPPED_MEAN_ERROR = 0.2
 New configuration parameter
 """
 SECURITY_MARGIN_BETA = 9
-DISTANCE_TO_KEEP_FROM_TARGET = 0.7 # relative to field depth
-
+DISTANCE_TO_KEEP_FROM_TARGET = 0.7  # relative to field depth
 
 """Potential Field Camera--------------------------------------------------------------------------------------------"""
 """
@@ -169,12 +167,21 @@ COEFF_VAR_X = 500
 COEFF_VAR_Y = 10
 
 """Combine is a ration beetwen hard and smooth mode"""
-COMBINE_MODE_PROP = 0 # 1 = smooth mode 0 = hard mode (btw 0 and 1)
-
+COMBINE_MODE_PROP = 0  # 1 = smooth mode 0 = hard mode (btw 0 and 1)
 
 """---------------------------------------------------------------------------------------------------------------------
 If you just want to change simulation's parameter you should not modify constant below this line 
  --------------------------------------------------------------------------------------------------------------------"""
+
+
+class TARGET_PRIORITY:
+    LOW = 0
+    MEDIUM = 1
+    MEDIUM_HIGH = 3
+    HIGH = 5
+    IMPERATIVE = 1000000
+
+
 def get_time():
     return (time.time() - TIME_START) * SCALE_TIME
 
@@ -188,12 +195,11 @@ if not INCLUDE_ERROR:
     STD_MEASURMENT_ERROR_SPEED = 0.00001
     STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
 
-if STD_MEASURMENT_ERROR_POSITION == 0.0 and STD_MEASURMENT_ERROR_SPEED == 0.0\
-                                        and STD_MEASURMENT_ERROR_ACCCELERATION == 0.0:
+if STD_MEASURMENT_ERROR_POSITION == 0.0 and STD_MEASURMENT_ERROR_SPEED == 0.0 \
+        and STD_MEASURMENT_ERROR_ACCCELERATION == 0.0:
     STD_MEASURMENT_ERROR_POSITION = 0.00001
     STD_MEASURMENT_ERROR_SPEED = 0.00001
     STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
-
 
 if DISTRIBUTED_KALMAN:
     DATA_TO_SEND = "dkf"
@@ -205,11 +211,11 @@ time_when_target_are_moved = 0
 TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp',
                                    'agent_id', 'agent_signature', 'target_id', 'target_signature',
                                    'target_type', 'target_x', 'target_y', 'target_vx', 'target_vy',
-                                   'target_ax', 'target_ay', 'target_radius','target_alpha']
+                                   'target_ax', 'target_ay', 'target_radius', 'target_alpha']
 
-CAMERA_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp','agent_id','agent_signature','camera_id',
-                                   'camera_signature','camera_type','camera_x','camera_y', 'camera_vx', 'camera_vy',
-                                    'camera_ax', 'camera_ay','alpha', 'beta']
+CAMERA_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp', 'agent_id', 'agent_signature', 'camera_id',
+                                   'camera_signature', 'camera_type', 'camera_x', 'camera_y', 'camera_vx', 'camera_vy',
+                                   'camera_ax', 'camera_ay', 'alpha', 'beta']
 
 """Path to save data and create plot"""
 
@@ -410,5 +416,3 @@ class ResultsPath:
     @classproperty
     def SAVE_LOAD_PLOT_MEMORY_ALL_AGENT(cls):
         return ResultsPath.PLOT_MEMORY_ALL_AGENT + "/"
-
-

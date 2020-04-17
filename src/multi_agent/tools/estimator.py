@@ -179,6 +179,7 @@ class TargetEstimator(ItemEstimator):
                   6. (int) target_position      -- [x,y] values of the center of the targetRepresentation
                   7. (int) target_type          -- identification from the Target.type
                   8. (int) target_size          -- radius from the center
+                  9. (int) priority             -- relative priority of target
 
                :notes
                    fells free to write some comments.
@@ -187,7 +188,7 @@ class TargetEstimator(ItemEstimator):
     def __init__(self, time_stamp=None, agent_id=None, agent_signature=None, target_id=None, target_signature=None,
                  target_xc=None, target_yc=None,
                  target_vx=None, target_vy=None, target_ax=None, target_ay=None, target_type=None, target_radius=None,
-                 variance_on_estimation=None):
+                 variance_on_estimation=None, priority=constants.TARGET_PRIORITY.MEDIUM):
 
         super().__init__(time_stamp, agent_id, agent_signature, target_id, target_signature, target_xc, target_yc,
                          target_vx, target_vy, target_ax, target_ay, target_type)
@@ -197,6 +198,9 @@ class TargetEstimator(ItemEstimator):
         else:
             self.alpha = math.atan2(target_vy, target_vx)
         self.variance_on_estimation = variance_on_estimation
+
+        # how important tracking this target is
+        self.priority = priority
 
     def set_from_target(self, time_stamp, agent, target):
         "Time information"

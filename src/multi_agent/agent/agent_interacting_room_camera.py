@@ -43,6 +43,14 @@ class Configuration:
         print("config x: %.02f y: %.02f alpha: %.02f beta: %.02f"%(self.x,self.y,self.alpha,self.beta))
 
 
+class InternalPriority:
+    NOT_TRACKED = 2
+    TRACKED = 5
+
+
+CONFIDENCE_THRESHOLD = 50
+
+
 class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
     def __init__(self, id, type):
         super().__init__(id, type)
@@ -132,9 +140,11 @@ class AgentCam(AgentInteractingWithRoom):
         self.initialized_targets_to_track = False
         # targets in self.targets_to_track for which a configuration wasn't found
         self.untrackable_targets = []
-        # targets not tracked by any agent (used in case a target comes into the agent's field of vision: if the target
-        #                                   is in this list we don't need to check if another agent tracks it)
-        self.targets_untracked_by_all = []
+
+        # dictionnary to hold the internal priority of the targets (different from the target priority in
+        # TargetEstimator). # This priority is used to modelize the fact that a target already tracked should be
+        # prioritized compared to a target that just came into the field of vision.
+        self.priority_dict = {}
 
     def init_and_set_room_description(self, room):
         """
@@ -165,7 +175,10 @@ class AgentCam(AgentInteractingWithRoom):
     def init_targets_to_track_from_seen(self):
         """ Initializes the targets to track as all targets seen by the agent at the time of initialization. """
         # initialize targets to track
-        self.targets_to_track = [target.id for target in self.room_representation.active_Target_list]
+        for target in self.room_representation.active_Target_list:
+            print("agent ", self.id, "init: ", [target.id for target in self.room_representation.active_Target_list])
+            self.targets_to_track.append(target.id)
+            self.priority_dict[target.id] = InternalPriority.TRACKED
 
     def thread_run(self, real_room):
         """
@@ -198,8 +211,7 @@ class AgentCam(AgentInteractingWithRoom):
 
                 if last_time_move is not None:
 
-                    if not (self.id == 0 and self.targets_to_track == [0]) and not (self.id == 1 and self.targets_to_track == [1]):
-                        print("agent: ", self.id, " tracks: ", self.targets_to_track)
+                    print("agent: ", self.id, " tracks: ", self.targets_to_track)
                     # find a configuration for the agent
                     config = self.find_configuration_for_tracked_targets()
                     if config is not None:
@@ -275,12 +287,9 @@ class AgentCam(AgentInteractingWithRoom):
                 self.memory.set_current_time(constants.get_time())
                 self.process_information_in_memory()
 
-                # put untracked targets in self.targets_untracked_by_all and remove if an ACK is received
-                [self.targets_untracked_by_all.append(target) for target in self.untrackable_targets if target not in
-                 self.targets_untracked_by_all]
-
                 # send messages concerning untracked targets
-                self.broadcast_untracked_targets()
+                # TODO: see what to do with messages 
+                #self.broadcast_untracked_targets()
 
                 if not self.is_active:
                     nextstate = AgentCameraFSM.BUG
@@ -428,8 +437,9 @@ class AgentCam(AgentInteractingWithRoom):
             if number_targets_to_remove >= len(tracked_targets):
                 tracked_targets = []
                 # update the list of untrackable targets
-                print("agent ", self.id, "untrackable targets: ", self.untrackable_targets)
                 self.untrackable_targets = self.targets_to_track.copy()
+                # reset priority dict
+                self.priority_dict = {}
                 return None
 
             # remove the desired number of targets
@@ -437,14 +447,19 @@ class AgentCam(AgentInteractingWithRoom):
             for _ in range(number_targets_to_remove):
                 self.remove_target_with_lowest_priority(tracked_targets)
 
-            # print([target.id for target in tracked_targets])
             configuration = self.find_configuration_for_targets(tracked_targets)
           
         # update the list of untrackable targets
         self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
-        if self.untrackable_targets:
-            print("agent ", self.id, "untrackable targets: ", self.untrackable_targets)
+        self.targets_to_track = tracked_targets
         configuration.track_target_list = self.room_representation.get_multiple_target_with_id(tracked_targets)
+
+        # update priority dict if some target was lost
+        if self.untrackable_targets:
+            self.priority_dict = {}
+            for target_id in self.targets_to_track:
+                self.priority_dict[target_id] = InternalPriority.TRACKED
+
         return configuration
 
     def find_configuration_for_targets(self, targets, used_for_movement=True):
@@ -596,13 +611,10 @@ class AgentCam(AgentInteractingWithRoom):
 
                 self.send_message_timed_targetEstimator(target.id, receivers)
 
-            # start tracking the target if untracked by all and send ACK
-            if target.id in self.targets_untracked_by_all and target.id not in self.targets_to_track:
-                # print("agent ", self.id, " saw it !")
-                self.targets_to_track.append(target.id)
-                message = Message(constants.get_time(), self.id, self.signature,
-                                  MessageTypeAgentCameraInteractingWithRoom.ACK_UNTRACKABLE_TARGET, "", target.id)
-                self.broadcast_message(message)
+            # start tracking the target according to the priority levels
+            if target.id not in self.targets_to_track and target.confidence_pos > CONFIDENCE_THRESHOLD:
+                print(target.id)
+                self.priority_dict[target.id] = InternalPriority.NOT_TRACKED
 
     def process_single_message(self, rec_mes):
         super().process_single_message(rec_mes)
@@ -700,9 +712,7 @@ class AgentCam(AgentInteractingWithRoom):
         target_representation = self.room_representation.get_Target_with_id(target_id)
 
         # if the agent doesn't see the target, don't send an ACK
-        if target_representation is None and target_id not in self.targets_untracked_by_all:
-            # add the message to untracked_targets and remove it if we get an ACK from someone else
-            self.targets_untracked_by_all.append(target_id)
+        if target_representation is None:
             return
 
         # check if the agent can position himself to track this target as well
@@ -716,15 +726,10 @@ class AgentCam(AgentInteractingWithRoom):
             ack_message = self.message_from_acked_target(target_id)
             self.broadcast_message(ack_message)
         # the agent can't track the target
-        else:
-            # add the message to untracked_targets and remove it if we get an ACK from someone else
-            if target_id not in self.targets_untracked_by_all:
-                self.targets_untracked_by_all.append(target_id)
 
     def receive_message_ack_untrackableTarget(self, message):
         target_id = int(message.item_ref)
-        if target_id in self.targets_untracked_by_all:
-            self.targets_untracked_by_all.remove(target_id)
+        pass
 
     def receive_message_DKF_info(self, message):
         """
@@ -804,17 +809,18 @@ class AgentCam(AgentInteractingWithRoom):
     def remove_target_with_lowest_priority(self, target_list):
         """
         :description:
-            Removes the target furthests to the agent from target_list
+            Removes the target with the lowest total priority from target_list
         :param target_list: list of targets (not ids)
         :return: target_list minus the target with the lowest priority
         """
-        max_distance = -1
+        print(self.priority_dict)
+        min_total_priority = 100000
         target_to_remove = -1
         for target_id in target_list:
             target = self.room_representation.get_Target_with_id(target_id)
-            target_distance = cam.distance_btw_two_point(self.camera.xc, self.camera.yc, target.xc, target.yc)
-            if target_distance > max_distance:
-                max_distance = target_distance
+            target_total_priority = target.priority_level + self.priority_dict[target.id]
+            if target_total_priority < min_total_priority:
+                min_total_priority = target_total_priority
                 target_to_remove = target.id
 
         target_list.remove(target_to_remove)
