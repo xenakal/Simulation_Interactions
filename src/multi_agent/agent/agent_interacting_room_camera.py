@@ -5,17 +5,16 @@ from warnings import warn
 import src.multi_agent.elements.room as room
 from src.multi_agent.agent.agent_interacting_room import *
 from src.multi_agent.communication.message import *
-from src.multi_agent.tools.behaviour_agent import PCA_track_points_possibilites, get_configuration_based_on_seen_target
-from src.multi_agent.tools.behaviour_detection import *
+from src.multi_agent.behaviour.behaviour_agent import PCA_track_points_possibilites, get_configuration_based_on_seen_target
+from src.multi_agent.behaviour.behaviour_detection import *
 from src.multi_agent.tools.link_target_camera import *
-from src.my_utils.controller import CameraController
-from src.my_utils.my_math.potential_field_method import compute_potential_gradient, \
-    convert_target_list_to_potential_field_input
+from src.multi_agent.tools.controller import CameraController
 from src import constants
 from src.constants import AgentCameraCommunicationBehaviour
 import time
 import src.multi_agent.elements.mobile_camera as mobCam
 import src.multi_agent.elements.camera as cam
+from src.multi_agent.tools.potential_field_method import compute_potential_field_cam, plot_potential_field
 
 
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
@@ -460,7 +459,7 @@ class AgentCam(AgentInteractingWithRoom):
         # update the list of untrackable targets
         self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
         self.targets_to_track = tracked_targets
-        configuration.track_target_list = self.room_representation.get_multiple_target_with_id(tracked_targets)
+        #configuration.track_target_list = self.room_representation.get_multiple_target_with_id(tracked_targets)
 
         # update priority dict if some target was lost
         if self.untrackable_targets:
@@ -495,24 +494,23 @@ class AgentCam(AgentInteractingWithRoom):
                                                    PCA_track_points_possibilites.MEANS_POINTS,
                                                    self.memory_of_objectives, self.memory_of_position_to_reach, True)
 
-        # check if this configuration covers all targets
         self.virtual_camera = copy.deepcopy(self.camera)
         self.virtual_camera.set_configuration(virtual_configuration)
+        virtual_configuration.variation_on_configuration_found(self.virtual_camera)
 
-        for targetRepresentation in tracked_targets_room_representation.active_Target_list:
-            in_field = cam.is_x_y_radius_in_field_not_obstructed(self.virtual_camera, targetRepresentation.xc,
-                                                                 targetRepresentation.yc,
-                                                                 targetRepresentation.radius)
+        if not self.check_configuration(self.virtual_camera,virtual_configuration,tracked_targets_room_representation):
 
-            hidden = cam.is_x_y_in_hidden_zone_all_targets_based_on_camera(tracked_targets_room_representation,
-                                                                           self.virtual_camera,
-                                                                           targetRepresentation.xc,
-                                                                           targetRepresentation.yc)
+            ''' Représentation graphique du champ associé à la caméra
+            X = np.arange(-4, 4, 0.01)
+            Y = np.arange(-4, 4, 0.01)
+            X_potential_field, Y_potential_field = np.meshgrid(X, Y)
+            field = compute_potential_field_cam(X_potential_field, Y_potential_field,self.virtual_camera,len(tracked_targets_room_representation.active_Target_list))
+            plot_potential_field(X_potential_field, Y_potential_field, field)
+            '''
 
-            if hidden or not in_field:
-                #print("pas de config lo")
-                self.log_main.debug("no config at time %.02f" % constants.get_time())
-                return None
+            self.log_main.debug("Configuration not found at time %.02f, starting variation on this config" % constants.get_time())
+
+            return None
 
         # if the agent actually wants to move
         if used_for_movement:
@@ -526,6 +524,26 @@ class AgentCam(AgentInteractingWithRoom):
 
         # if the agent doesn't want to move
         return virtual_configuration
+
+
+    def check_configuration(self,camera, configuration, room_representation):
+        in_field = False
+        hidden = True
+
+        # check if this configuration covers all targets
+        for targetRepresentation in room_representation.active_Target_list:
+            in_field = cam.is_x_y_radius_in_field_not_obstructed(camera, targetRepresentation.xc,
+                                                                 targetRepresentation.yc,
+                                                                 targetRepresentation.radius)
+
+            hidden = cam.is_x_y_in_hidden_zone_all_targets_based_on_camera(room_representation,
+                                                                           camera,
+                                                                           targetRepresentation.xc,
+                                                                           targetRepresentation.yc)
+
+        return (in_field and not hidden)
+
+
 
     def process_information_in_memory(self):
         """
@@ -633,7 +651,7 @@ class AgentCam(AgentInteractingWithRoom):
 
             # start tracking the target according to the priority levels
             if target.id not in self.targets_to_track and target.confidence_pos > CONFIDENCE_THRESHOLD:
-                print("agent ", self.id, " sees: ", target.id)
+                #print("agent ", self.id, " sees: ", target.id)
                 self.targets_to_track.append(target.id)
                 self.priority_dict[target.id] = InternalPriority.NOT_TRACKED
 
@@ -768,7 +786,7 @@ class AgentCam(AgentInteractingWithRoom):
         :param target_list: list of targets (not ids)
         :return: target_list minus the target with the lowest priority
         """
-        print("agent dic: ", self.priority_dict)
+        #print("agent dic: ", self.priority_dict)
         min_total_priority = 100000
         target_to_remove = -1
         for target_id in target_list:

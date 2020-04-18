@@ -1,7 +1,7 @@
 import threading
 # from elements.room import*
 from src.multi_agent.agent.agent import *
-from src.multi_agent.tools.memory import *
+from src.multi_agent.behaviour.memory import *
 from src.multi_agent.communication.message import *
 from src import constants
 

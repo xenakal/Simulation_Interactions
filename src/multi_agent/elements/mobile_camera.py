@@ -254,9 +254,8 @@ class MobileCamera(Camera):
         self.yc = self.born(self.yc,self.yc_min,self.yc_max)
 
     def born(self,val,val_min,val_max):
-        val = min(val,val_max)
-        val = max(val,val_min)
-        return val
+        return max(min(val,val_max),val_min)
+
 
 
 class TrajectoryPlaner:

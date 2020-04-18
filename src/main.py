@@ -36,7 +36,10 @@ t_stop = [500, 500, 500, 500, 500]
 """When many cameras are used, it might be a good idea to slowdown the simulation using a scaling factor < 1"""
 t_scale = [1, 1, 1, 1, 1]
 
+
+
 index = 0
+
 while index < len(map_to_test_name):
 
     print("processing " + str(map_to_test_name[index]))
@@ -53,3 +56,4 @@ while index < len(map_to_test_name):
     else:
         print("exit complietly")
         break
+
