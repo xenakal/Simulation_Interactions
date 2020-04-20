@@ -496,20 +496,10 @@ class AgentCam(AgentInteractingWithRoom):
 
         self.virtual_camera = copy.deepcopy(self.camera)
         self.virtual_camera.set_configuration(virtual_configuration)
-        virtual_configuration.variation_on_configuration_found(self.virtual_camera)
 
         if not self.check_configuration(self.virtual_camera,virtual_configuration,tracked_targets_room_representation):
-
-            ''' Représentation graphique du champ associé à la caméra
-            X = np.arange(-4, 4, 0.01)
-            Y = np.arange(-4, 4, 0.01)
-            X_potential_field, Y_potential_field = np.meshgrid(X, Y)
-            field = compute_potential_field_cam(X_potential_field, Y_potential_field,self.virtual_camera,len(tracked_targets_room_representation.active_Target_list))
-            plot_potential_field(X_potential_field, Y_potential_field, field)
-            '''
-
+            virtual_configuration.variation_on_configuration_found(self.virtual_camera)
             self.log_main.debug("Configuration not found at time %.02f, starting variation on this config" % constants.get_time())
-
             return None
 
         # if the agent actually wants to move

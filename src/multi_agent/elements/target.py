@@ -77,9 +77,11 @@ class TargetRepresentation:
     def evaluate_confidence(self, error, delta_time,time_constant):
         #if constants.TARGET_CONFIDENCE_EVALUATION_METHOD ==
         #self.confidence_pos = (1 / math.pow(error, 2)) * math.exp(-delta_time*time_constant)
+
         if delta_time > 0.5:
-            self.confidence_pos = 0
-        self.confidence_pos = 100
+            self.confidence_pos = 1
+        else:
+            self.confidence_pos = 100
 
     def to_string(self):
         """

@@ -65,17 +65,6 @@ class Configuration:
         self.y = born(self.y, camera.yc_min, camera.yc_max)
         self.beta = born(self.beta, camera.beta_min, camera.beta_max)
 
-
-    def compute_configuration_score(self):
-        score = None
-        if self.track_target_list  is not None:
-            score = 0
-            for target in self.track_target_list:
-                (x_in_cam_frame,y_in_cam_frame) = self.coordinate_change_from_world_frame_to_camera_frame(target.xc,target.yc)
-                X,Y,target_score = compute_potential_field_cam(x_in_cam_frame,y_in_cam_frame,len(self.track_target_list),self.beta,self.field_depth)
-                score += target_score[0][0]
-        self.configuration_score = score
-
     def coordinate_change_from_world_frame_to_camera_frame(self, x_in_room_frame, y_in_room_frame):
         """
             :description
@@ -96,12 +85,22 @@ class Configuration:
         y_in_camera_frame = -math.sin(self.alpha) * x_no_offset + math.cos(self.alpha) * y_no_offset
         return x_in_camera_frame, y_in_camera_frame
 
+    def compute_configuration_score(self):
+        score = None
+        if self.track_target_list  is not None:
+            score = 0
+            for target in self.track_target_list:
+                (x_in_cam_frame,y_in_cam_frame) = self.coordinate_change_from_world_frame_to_camera_frame(target.xc,target.yc)
+                X,Y,target_score = compute_potential_field_cam(x_in_cam_frame,y_in_cam_frame,len(self.track_target_list),self.beta,self.field_depth)
+                score += target_score[0][0]
+        self.configuration_score = score
+
     def variation_on_configuration_found(self, camera , region = VariationOnConfiguration.Small_region):
         new_configurations = []
 
         distance = 0.25
         n =3
-        n_interp = 10
+        n_interp = 5
 
         if region == VariationOnConfiguration.Small_region:
             x = np.linspace(self.x - distance, self.x + distance, n)
@@ -204,6 +203,10 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
 
     if number_of_target < 0:
         """Should not append"""
+        return (xt, yt, alpha, beta)
+
+    elif number_of_target == 0:
+        #TODO  implémenter un swipe ou un truc comme ça
         return (xt, yt, alpha, beta)
 
     elif number_of_target == 1:
