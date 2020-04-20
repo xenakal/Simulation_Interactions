@@ -116,6 +116,8 @@ AGENT_ALPHA_KI = 0
 AGENT_BETA_KP = 0.1
 AGENT_BETA_KI = 0.0
 
+MIN_CONFIGURATION_SCORE = 0.15
+
 """Refers to the min and max field in terms of the default field"""
 AGENT_CAMERA_FIELD_MIN = 0.8
 AGENT_CAMERA_FIELD_MAX = 1.2

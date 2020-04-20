@@ -53,11 +53,11 @@ class Configuration:
         self.vector_field_y = None
 
     def compute_vector_field_for_current_position(self, camera_xc, camera_yc):
-        if not self.track_target_list is None:
+        if self.track_target_list is not None:
             list_objectives = [(self.x, self.y, 0)]
-            self.vector_field_x, self.vector_field_y = compute_potential_gradient(camera_xc, camera_yc, list_objectives,
-                                                                                  convert_target_list_to_potential_field_input(
-                                                                                      self.track_target_list))
+            self.vector_field_x, self.vector_field_y = \
+                compute_potential_gradient(camera_xc, camera_yc, list_objectives,
+                                           convert_target_list_to_potential_field_input(self.track_target_list))
             # self.vector_field_x, self.vector_field_y = compute_potential_gradient(camera_xc, camera_yc, list_objectives,self.track_target_list)
         else:
             print("The target list is none")
@@ -138,17 +138,18 @@ class Configuration:
 
         X_2D_interp, Y_2D_interp = np.meshgrid(x, y)
         # method can be changed to cubic or linear or nearest
-        interpolation = griddata(points, np.array(new_configurations_1D_score), (X_2D_interp, Y_2D_interp), method='cubic')
+        interpolation = griddata(points, np.array(new_configurations_1D_score), (X_2D_interp, Y_2D_interp),
+                                 method='cubic')
 
         plot_potential_field_dynamic(X_2D_interp, Y_2D_interp, interpolation)
 
         # find the configuration associated with the maximal value of the interpolation
         arg_max = np.argmax(interpolation)
-        x_optimal = X_2D_interp[arg_max]
-        y_optimal = Y_2D_interp[arg_max]
+        x_optimal = np.ravel(X_2D_interp)[arg_max]
+        y_optimal = np.ravel(Y_2D_interp)[arg_max]
         alpha_optimal, beta_optimal, field_optimal = self.evaluate_alpha_beta_field_depth(x_optimal, y_optimal, camera)
         optimal_config = Configuration(self.xt, self.yt, x_optimal, y_optimal, alpha_optimal, beta_optimal,
-                                       field_optimal, self.virtual)
+                                       field_optimal, True)
         return optimal_config
 
     def evaluate_alpha_beta_field_depth(self, Xc, Yc, camera):
@@ -162,9 +163,13 @@ class Configuration:
 
         delta = all_beta - self.beta
         all_field_depth = self.field_depth - delta * camera.coeff_field
-        for field_depth in all_field_depth:
-            field_depth = camera.born(field_depth, constants.AGENT_CAMERA_FIELD_MIN * camera.default_field_depth,
+        if isinstance(all_field_depth, float):
+            field_depth = camera.born(all_field_depth, constants.AGENT_CAMERA_FIELD_MIN * camera.default_field_depth,
                                       constants.AGENT_CAMERA_FIELD_MAX * camera.default_field_depth)
+        else:
+            for field_depth in all_field_depth:
+                field_depth = camera.born(field_depth, constants.AGENT_CAMERA_FIELD_MIN * camera.default_field_depth,
+                                          constants.AGENT_CAMERA_FIELD_MAX * camera.default_field_depth)
 
         return all_alpha, all_beta, all_field_depth
 

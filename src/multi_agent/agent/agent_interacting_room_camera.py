@@ -498,15 +498,23 @@ class AgentCam(AgentInteractingWithRoom):
                                                    PCA_track_points_possibilites.MEANS_POINTS,
                                                    self.memory_of_objectives, self.memory_of_position_to_reach, True)
 
+        virtual_configuration.compute_configuration_score()
+
         self.virtual_camera = copy.deepcopy(self.camera)
         self.virtual_camera.set_configuration(virtual_configuration)
 
-        if not self.check_configuration(self.virtual_camera,
-                                        tracked_targets_room_representation):
-            virtual_configuration.variation_on_configuration_found(self.virtual_camera)
+        better_config_found = False
+        # configuration not found
+        if not self.check_configuration(self.virtual_camera, tracked_targets_room_representation):
             self.log_main.debug(
                 "Configuration not found at time %.02f, starting variation on this config" % constants.get_time())
             return None
+        # configuration found, but bad score
+        if virtual_configuration.configuration_score < constants.MIN_CONFIGURATION_SCORE:
+            optimal_configuration = virtual_configuration.variation_on_configuration_found(self.virtual_camera)
+            self.virtual_camera.set_configuration(optimal_configuration)
+            if self.check_configuration(self.virtual_camera, tracked_targets_room_representation):
+                better_config_found = True
 
         # if the agent actually wants to move
         if used_for_movement:
@@ -516,10 +524,17 @@ class AgentCam(AgentInteractingWithRoom):
                                                        PCA_track_points_possibilites.MEANS_POINTS,
                                                        self.memory_of_objectives, self.memory_of_position_to_reach,
                                                        False)
+
+            if better_config_found:
+                real_configuration.x = optimal_configuration.x
+                real_configuration.y = optimal_configuration.y
             return real_configuration
 
         # if the agent doesn't want to move
-        return virtual_configuration
+        if better_config_found:
+            return virtual_configuration.variation_on_configuration_found(self.virtual_camera)
+        else:
+            return virtual_configuration
 
     def check_configuration(self, camera, room_representation):
         in_field = False
