@@ -22,6 +22,7 @@ class VariationOnConfiguration:
     Small_region = 0
     All_map = 1
 
+
 class Angle_configuration:
     PARALLEL_TO_COMPUTED_DIRECTION = 0
     PERPENDICULAR_TO_COMPUTED_DIRECTION = 1
@@ -34,7 +35,7 @@ class PCA_track_points_possibilites:
 
 
 class Configuration:
-    def __init__(self,xt,yt, x, y, alpha, beta, field_depth, virtual):
+    def __init__(self, xt, yt, x, y, alpha, beta, field_depth, virtual):
         self.configuration_score = None
         self.virtual = virtual
         """Parameter fro the target"""
@@ -55,7 +56,8 @@ class Configuration:
         if not self.track_target_list is None:
             list_objectives = [(self.x, self.y, 0)]
             self.vector_field_x, self.vector_field_y = compute_potential_gradient(camera_xc, camera_yc, list_objectives,
-                                                                                  convert_target_list_to_potential_field_input(self.track_target_list))
+                                                                                  convert_target_list_to_potential_field_input(
+                                                                                      self.track_target_list))
             # self.vector_field_x, self.vector_field_y = compute_potential_gradient(camera_xc, camera_yc, list_objectives,self.track_target_list)
         else:
             print("The target list is none")
@@ -87,42 +89,45 @@ class Configuration:
 
     def compute_configuration_score(self):
         score = None
-        if self.track_target_list  is not None:
+        if self.track_target_list is not None:
             score = 0
             for target in self.track_target_list:
-                (x_in_cam_frame,y_in_cam_frame) = self.coordinate_change_from_world_frame_to_camera_frame(target.xc,target.yc)
-                X,Y,target_score = compute_potential_field_cam(x_in_cam_frame,y_in_cam_frame,len(self.track_target_list),self.beta,self.field_depth)
+                (x_in_cam_frame, y_in_cam_frame) = self.coordinate_change_from_world_frame_to_camera_frame(target.xc,
+                                                                                                           target.yc)
+                X, Y, target_score = compute_potential_field_cam(x_in_cam_frame, y_in_cam_frame,
+                                                                 len(self.track_target_list), self.beta,
+                                                                 self.field_depth)
                 score += target_score[0][0]
         self.configuration_score = score
 
-    def variation_on_configuration_found(self, camera , region = VariationOnConfiguration.Small_region):
+    def variation_on_configuration_found(self, camera, region=VariationOnConfiguration.Small_region):
         new_configurations = []
 
         distance = 0.25
-        n =3
+        n = 3
         n_interp = 5
 
         if region == VariationOnConfiguration.Small_region:
             x = np.linspace(self.x - distance, self.x + distance, n)
             y = np.linspace(self.y - distance, self.y + distance, n)
         elif region == VariationOnConfiguration.All_map:
-            x = np.linspace(0,8,n)
-            y = np.linspace(0,8,n)
+            x = np.linspace(0, 8, n)
+            y = np.linspace(0, 8, n)
 
-        X_2D,Y_2D = np.meshgrid(x, y)
+        X_2D, Y_2D = np.meshgrid(x, y)
         X_1D = np.ravel(X_2D)
         Y_1D = np.ravel(Y_2D)
 
-        all_alpha,all_beta,all_field_depth = self.evaluate_alpha_beta_field_depth(X_1D,Y_1D,camera)
-        for x,y,alpha,beta,field_depth in zip(X_1D,Y_1D,all_alpha,all_beta,all_field_depth):
-            new_configuration = Configuration(self.xt,self.yt,x,y,alpha,beta,field_depth,self.virtual)
+        all_alpha, all_beta, all_field_depth = self.evaluate_alpha_beta_field_depth(X_1D, Y_1D, camera)
+        for x, y, alpha, beta, field_depth in zip(X_1D, Y_1D, all_alpha, all_beta, all_field_depth):
+            new_configuration = Configuration(self.xt, self.yt, x, y, alpha, beta, field_depth, self.virtual)
             new_configuration.track_target_list = self.track_target_list
             new_configuration.compute_configuration_score()
             new_configurations.append(new_configuration)
 
-        new_configurations_1D_score = [new_configuration.configuration_score for new_configuration in new_configurations]
-        points = [(new_configuration.x,new_configuration.y) for new_configuration in new_configurations]
-
+        new_configurations_1D_score = [new_configuration.configuration_score for new_configuration in
+                                       new_configurations]
+        points = [(new_configuration.x, new_configuration.y) for new_configuration in new_configurations]
 
         if region == VariationOnConfiguration.Small_region:
             x = np.linspace(self.x - distance, self.x + distance, n_interp)
@@ -131,32 +136,37 @@ class Configuration:
             x = np.linspace(0, 8, n_interp)
             y = np.linspace(0, 8, n_interp)
 
-
         X_2D_interp, Y_2D_interp = np.meshgrid(x, y)
-        #method can be changed to cubic or linear or nearest
-        interpolation = griddata(points,new_configurations_1D_score,(X_2D_interp,Y_2D_interp), method='cubic')
-
+        # method can be changed to cubic or linear or nearest
+        interpolation = griddata(points, np.array(new_configurations_1D_score), (X_2D_interp, Y_2D_interp), method='cubic')
 
         plot_potential_field_dynamic(X_2D_interp, Y_2D_interp, interpolation)
 
+        # find the configuration associated with the maximal value of the interpolation
+        arg_max = np.argmax(interpolation)
+        x_optimal = X_2D_interp[arg_max]
+        y_optimal = Y_2D_interp[arg_max]
+        alpha_optimal, beta_optimal, field_optimal = self.evaluate_alpha_beta_field_depth(x_optimal, y_optimal, camera)
+        optimal_config = Configuration(self.xt, self.yt, x_optimal, y_optimal, alpha_optimal, beta_optimal,
+                                       field_optimal, self.virtual)
+        return optimal_config
 
-    def evaluate_alpha_beta_field_depth(self,Xc,Yc,camera):
-        delta_x = self.xt-Xc
-        delta_y = self.yt-Yc
-        all_alpha = np.arctan2(delta_y,delta_x)
+    def evaluate_alpha_beta_field_depth(self, Xc, Yc, camera):
+        delta_x = self.xt - Xc
+        delta_y = self.yt - Yc
+        all_alpha = np.arctan2(delta_y, delta_x)
 
-        y_radius = self.field_depth*np.tan(self.beta)
-        distance_to_target = np.sqrt(np.square(Xc)+np.square(Yc))
-        all_beta = np.fabs(np.arctan2(y_radius,distance_to_target))
+        y_radius = self.field_depth * np.tan(self.beta)
+        distance_to_target = np.sqrt(np.square(Xc) + np.square(Yc))
+        all_beta = np.fabs(np.arctan2(y_radius, distance_to_target))
 
         delta = all_beta - self.beta
         all_field_depth = self.field_depth - delta * camera.coeff_field
         for field_depth in all_field_depth:
             field_depth = camera.born(field_depth, constants.AGENT_CAMERA_FIELD_MIN * camera.default_field_depth,
-                                    constants.AGENT_CAMERA_FIELD_MAX * camera.default_field_depth)
+                                      constants.AGENT_CAMERA_FIELD_MAX * camera.default_field_depth)
 
-        return all_alpha,all_beta,all_field_depth
-
+        return all_alpha, all_beta, all_field_depth
 
     def to_string(self):
         print("config x: %.02f y: %.02f alpha: %.02f beta: %.02f" % (self.x, self.y, self.alpha, self.beta))
@@ -203,11 +213,11 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
 
     if number_of_target < 0:
         """Should not append"""
-        return (xt, yt, alpha, beta)
+        return xt, yt, alpha, beta
 
     elif number_of_target == 0:
-        #TODO  implémenter un swipe ou un truc comme ça
-        return (xt, yt, alpha, beta)
+        # TODO  implémenter un swipe ou un truc comme ça
+        return xt, yt, alpha, beta
 
     elif number_of_target == 1:
         "In this case PCA is not possible, we chose to focus on the target itself"
@@ -302,7 +312,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
     field_depth = camera.compute_field_depth_variation_for_a_new_beta(beta)
 
     """Create a new configuration and make it match with the camera limitation"""
-    configuration = Configuration(xt,yt,xc, yc, alpha, beta, field_depth, virtual)
+    configuration = Configuration(xt, yt, xc, yc, alpha, beta, field_depth, virtual)
     configuration.born_to_camera_limitation(camera)
     configuration.track_target_list = target_representation_list
     configuration.compute_configuration_score()
@@ -327,7 +337,6 @@ def define_xc_yc_alpha(camera, xt, yt, distance_to_keep_to_target, angle_in_room
             yc = yi
         else:
             xc, yc = camera.trajectory.compute_distance_for_point_x_y(xi, yi, new_index)
-
 
         "Save data"
         if not virtual:

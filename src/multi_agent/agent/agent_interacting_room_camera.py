@@ -207,7 +207,6 @@ class AgentCam(AgentInteractingWithRoom):
             last_not_None_configuration = None
 
             if state == AgentCameraFSM.MOVE_CAMERA:
-                print("agent ", self.id, "untracked by all: ", self.targets_untracked_by_all)
                 # Assumption: at the beggining of the simulation, each target is seen by at least one camera. This could
                 #             be done by putting cameras at the entry/exit point of the room. If some target is lost in
                 #             the process (nobody able to track it), then it will be in the list of untracked targets.

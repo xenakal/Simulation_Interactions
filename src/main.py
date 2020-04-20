@@ -54,6 +54,6 @@ while index < len(map_to_test_name):
     elif is_do_next:
         index += 1
     else:
-        print("exit complietly")
+        print("exit completely")
         break
 
