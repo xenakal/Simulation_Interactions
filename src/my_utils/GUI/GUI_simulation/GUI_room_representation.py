@@ -97,9 +97,9 @@ class GUI_room_representation():
             color = UNKNOWN_COLOR
 
         color_conf = WHITE
-        if target.confidence_pos > 0:
-            value1  = max(min(math.ceil(255 - 2.5 * target.confidence_pos),255),0)
-            value2 = max(min(math.ceil(2.5 * target.confidence_pos), 255), 0)
+        if target.confidence_pos[1] > 0:
+            value1  = max(min(math.ceil(255 - 2.5 * target.confidence_pos[1]),255),0)
+            value2 = max(min(math.ceil(2.5 * target.confidence_pos[1]), 255), 0)
             color_conf = (value1,value2, 0)
 
 

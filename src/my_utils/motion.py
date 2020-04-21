@@ -50,6 +50,7 @@ def rectiligne_trajectory(target, dist_min, delta_time):
                 moove the target according to a predifined path, the motion between two position are linear.
                 it does not avoid obstacle.
     """
+
     if  not target.type == TargetType.SET_FIX and len(target.trajectory)>0:
         (x_goal, y_goal) = target.trajectory[target.number_of_position_reached]
 
@@ -79,7 +80,7 @@ def rectiligne_trajectory(target, dist_min, delta_time):
 
         target.alpha = math.atan2(v_y,v_x)
 
-        """updating position"""
+        '''updating position'''
         target.xc = target.xc + v_x * delta_time
         target.yc = target.yc + v_y * delta_time
 

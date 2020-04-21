@@ -64,7 +64,8 @@ class TargetRepresentation:
         self.type = type
         self.color = color
         self.variance_on_estimation = (0,0)
-        self.confidence_pos = -1
+        self.confidence_pos = [-1,-1]
+
         self.priority_level = 0
 
         "Default values"
@@ -78,10 +79,15 @@ class TargetRepresentation:
         #if constants.TARGET_CONFIDENCE_EVALUATION_METHOD ==
         #self.confidence_pos = (1 / math.pow(error, 2)) * math.exp(-delta_time*time_constant)
 
+
+        self.confidence_pos[0] = self.confidence_pos[1]
         if delta_time > 0.5:
-            self.confidence_pos = 1
+
+            self.confidence_pos[1] = 1
         else:
-            self.confidence_pos = 100
+            self.confidence_pos[1] = 100
+
+
 
     def to_string(self):
         """
