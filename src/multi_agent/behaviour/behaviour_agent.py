@@ -38,6 +38,7 @@ class Configuration:
     def __init__(self, xt, yt, x, y, alpha, beta, field_depth, virtual):
         self.configuration_score = None
         self.virtual = virtual
+        self.is_valid = True
         """Parameter fro the target"""
         self.xt = xt
         self.yt = yt
@@ -100,6 +101,22 @@ class Configuration:
                 score += target_score[0][0]
         self.configuration_score = score
 
+    def compute_target_score(self, target_id):
+        target = self.find_target_by_id(target_id)
+        if target is None:
+            return None
+        (x_in_cam_frame, y_in_cam_frame) = self.coordinate_change_from_world_frame_to_camera_frame(target.xc,
+                                                                                                   target.yc)
+        _, _, target_score = compute_potential_field_cam(x_in_cam_frame, y_in_cam_frame, len(self.track_target_list),
+                                                         self.beta, self.field_depth)
+        return target_score[0][0]
+
+    def find_target_by_id(self, target_id):
+        for target in self.track_target_list:
+            if target.id == target_id:
+                return target
+        return None
+
     def variation_on_configuration_found(self, camera, region=VariationOnConfiguration.Small_region):
         new_configurations = []
 
@@ -150,6 +167,7 @@ class Configuration:
         alpha_optimal, beta_optimal, field_optimal = self.evaluate_alpha_beta_field_depth(x_optimal, y_optimal, camera)
         optimal_config = Configuration(self.xt, self.yt, x_optimal, y_optimal, alpha_optimal, beta_optimal,
                                        field_optimal, True)
+        optimal_config.track_target_list = self.track_target_list
         return optimal_config
 
     def evaluate_alpha_beta_field_depth(self, Xc, Yc, camera):

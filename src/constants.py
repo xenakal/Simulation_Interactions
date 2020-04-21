@@ -136,6 +136,13 @@ New configuration parameter
 SECURITY_MARGIN_BETA = 5
 DISTANCE_TO_KEEP_FROM_TARGET = 0.5  # relative to field depth
 
+"""
+Weights on types of priorities
+"""
+USER_SET_PRIORITY_WEIGHT = 4
+CAMERA_SET_PRIORITY_WEIGHT = 2
+SCORE_WEIGHT = 1
+
 """Potential Field Camera--------------------------------------------------------------------------------------------"""
 """
 Use Xi to set the force of attractive potential and eta the force of repulsive potential
