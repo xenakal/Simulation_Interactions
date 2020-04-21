@@ -630,7 +630,6 @@ class AgentCam(AgentInteractingWithRoom):
                 self.table_all_target_number_times_seen.update_lost(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET, target.id)
 
-
             if constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.ALL:
                 target_estimator_to_send = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
                 if len(target_estimator_to_send.get_item_list(target.id)) > 0:
@@ -775,7 +774,7 @@ class AgentCam(AgentInteractingWithRoom):
         target_representation = self.room_representation.get_Target_with_id(target_id)
 
         # if the agent doesn't see the target, don't send an ACK
-        if target_representation is None or target_representation.confidence_pos < CONFIDENCE_THRESHOLD:
+        if target_representation is None or target_representation.confidence_pos[1] < CONFIDENCE_THRESHOLD:
             # add the target as untracked by all
             if target_id not in self.targets_untracked_by_all:
                 self.targets_untracked_by_all.append(target_id)
@@ -853,22 +852,22 @@ class AllTargetNUmberTimesSeen:
 
     def update_tracked(self, target_id):
         new_tracker = TargetNumberTimesSeen(target_id)
-        try:
+        if new_tracker in self.tracker_list:
             old_tracker_index = self.tracker_list.index(new_tracker)
             old_tracker = self.tracker_list[old_tracker_index]
             old_tracker.update_tracked()
-        except ValueError:
+        else:
             print("new for :" + str(target_id))
             new_tracker.update_tracked()
             self.tracker_list.append(new_tracker)
 
     def update_lost(self, target_id):
         new_tracker = TargetNumberTimesSeen(target_id)
-        try:
+        if new_tracker in self.tracker_list:
             old_tracker_index = self.tracker_list.index(new_tracker)
             old_tracker = self.tracker_list[old_tracker_index]
             old_tracker.update_lost()
-        except ValueError:
+        else:
             print("should not append")
             self.tracker_list.append(new_tracker)
 
