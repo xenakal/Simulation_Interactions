@@ -624,8 +624,7 @@ class AgentCam(AgentInteractingWithRoom):
             "Send message to other agent"
             if target.confidence_pos[0] < CONFIDENCE_THRESHOLD < target.confidence_pos[1]:
                 self.table_all_target_number_times_seen.update_tracked(target.id)
-                self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET,
-                                                     target.id)
+                self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET,target.id)
             elif target.confidence_pos[0] > CONFIDENCE_THRESHOLD > target.confidence_pos[1]:
                 self.table_all_target_number_times_seen.update_lost(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET, target.id)
@@ -775,7 +774,7 @@ class AgentCam(AgentInteractingWithRoom):
         target_representation = self.room_representation.get_Target_with_id(target_id)
 
         # if the agent doesn't see the target, don't send an ACK
-        if target_representation is None or target_representation.confidence_pos < CONFIDENCE_THRESHOLD:
+        if target_representation is None or target_representation.confidence_pos < CONFIDENCE_THRESHOLD[1]:
             # add the target as untracked by all
             if target_id not in self.targets_untracked_by_all:
                 self.targets_untracked_by_all.append(target_id)
@@ -841,6 +840,8 @@ class AgentCam(AgentInteractingWithRoom):
             self.broadcast_message(message)
 
     def receive_message_track_loose_target(self, message):
+        print(constants.get_time())
+
         if message.messageType == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET:
             self.table_all_target_number_times_seen.update_tracked(int(message.item_ref))
         elif message.messageType == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
