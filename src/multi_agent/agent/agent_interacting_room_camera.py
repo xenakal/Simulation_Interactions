@@ -420,34 +420,28 @@ class AgentCam(AgentInteractingWithRoom):
         if not tracked_targets:
             return None
 
-        number_targets_to_remove = -1
-
         configuration = None
-        while configuration is None:  # configuration not found
-            # try to find configuration removing one more element if list not empty
-            if tracked_targets:
-                number_targets_to_remove += 1
-                tracked_targets = copy.copy(self.targets_to_track)
+        while configuration is None or not configuration.is_valid:  # configuration not found
 
-            # if somehow couldn't find a configuration covering any of the elements
-            if number_targets_to_remove >= len(tracked_targets):
-                # update the list of untrackable targets
-                self.untrackable_targets = self.targets_to_track.copy()
-                # update the list of targets untracked by all
-                [self.targets_untracked_by_all.append(target) for target in self.untrackable_targets if target not in
-                 self.targets_untracked_by_all]
-                # update the list of tracked targets
-                self.targets_to_track = []
-                # reset priority dict
-                self.priority_dict = {}
-                return None
-
-            # remove the desired number of targets
-            # TODO: maybe try different permutations as well ?
-            for _ in range(number_targets_to_remove):
-                self.remove_target_with_lowest_priority(tracked_targets)
-
+            # attempt to find a configuration
             configuration = self.find_configuration_for_targets(tracked_targets)
+
+            if configuration is None or not configuration.is_valid:
+                # remove a target
+                self.remove_target_with_lowest_priority(tracked_targets, configuration)
+                # if somehow couldn't find a configuration covering any of the elements
+                if len(tracked_targets) == 0:
+                    # update the list of untrackable targets
+                    self.untrackable_targets = self.targets_to_track.copy()
+                    # update the list of targets untracked by all
+                    [self.targets_untracked_by_all.append(target) for target in self.untrackable_targets if
+                     target not in
+                     self.targets_untracked_by_all]
+                    # update the list of tracked targets
+                    self.targets_to_track = []
+                    # reset priority dict
+                    self.priority_dict = {}
+                    return None
 
         # update the list of untrackable targets
         self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
@@ -499,7 +493,8 @@ class AgentCam(AgentInteractingWithRoom):
         if not self.check_configuration(self.virtual_camera, tracked_targets_room_representation):
             self.log_main.debug(
                 "Configuration not found at time %.02f, starting variation on this config" % constants.get_time())
-            return None
+            virtual_configuration.is_valid = False
+            return virtual_configuration
         # configuration found, but bad score
         if virtual_configuration.configuration_score < constants.MIN_CONFIGURATION_SCORE:
             optimal_configuration = virtual_configuration.variation_on_configuration_found(self.virtual_camera)
@@ -519,12 +514,16 @@ class AgentCam(AgentInteractingWithRoom):
             if better_config_found:
                 real_configuration.x = optimal_configuration.x
                 real_configuration.y = optimal_configuration.y
+                real_configuration.is_valid = True
             return real_configuration
 
         # if the agent doesn't want to move
         if better_config_found:
-            return virtual_configuration.variation_on_configuration_found(self.virtual_camera)
+            better_config = virtual_configuration.variation_on_configuration_found(self.virtual_camera)
+            better_config.is_valid = True
+            return better_config
         else:
+            virtual_configuration.is_valid = True
             return virtual_configuration
 
     def check_configuration(self, camera, room_representation):
@@ -809,19 +808,27 @@ class AgentCam(AgentInteractingWithRoom):
         if info_string:  # if message not empty
             self.memory.process_DKF_info(concerned_target_id, info_string, constants.get_time())
 
-    def remove_target_with_lowest_priority(self, target_list):
+    def remove_target_with_lowest_priority(self, target_list, configuration):
         """
         :description:
             Removes the target with the lowest total priority from target_list
-        :param target_list: list of targets (not ids)
+        :param
+            target_list: list of targets (not ids)
+            configuration: configuration attempt for the targets in target_list
         :return: target_list minus the target with the lowest priority
         """
         # print("agent dic: ", self.priority_dict)
         min_total_priority = 100000
         target_to_remove = -1
         for target_id in target_list:
+            config_target_score = 0
+            if configuration is not None:
+                config_target_score = configuration.compute_target_score(target_id)
             target = self.room_representation.get_Target_with_id(target_id)
-            target_total_priority = target.priority_level + self.priority_dict[target.id]
+            target_total_priority = constants.USER_SET_PRIORITY_WEIGHT * target.priority_level + \
+                                    constants.CAMERA_SET_PRIORITY_WEIGHT * self.priority_dict[target.id] + \
+                                    constants.SCORE_WEIGHT * config_target_score
+
             if target_total_priority < min_total_priority:
                 min_total_priority = target_total_priority
                 target_to_remove = target.id
