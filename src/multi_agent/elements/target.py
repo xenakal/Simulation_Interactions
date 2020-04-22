@@ -79,7 +79,6 @@ class TargetRepresentation:
         #if constants.TARGET_CONFIDENCE_EVALUATION_METHOD ==
         #self.confidence_pos = (1 / math.pow(error, 2)) * math.exp(-delta_time*time_constant)
 
-
         self.confidence_pos[0] = self.confidence_pos[1]
         if delta_time > 0.5:
 
@@ -156,8 +155,8 @@ class Target(TargetRepresentation):
                     time_btw_target_mvt [s], see constants file
     """
 
-    def __init__(self, id=-1, x=-1, y=-1, vx=0, vy=0,ax =0,ay = 0, trajectory_type=TargetMotion.FIX, trajectory= -1, type=TargetType.FIX,
-                 radius=5, t_add=-1, t_del=-1):
+    def __init__(self, id=None, x=None,y=None,vx=0,vy=0,ax =0,ay= 0,trajectory_type=None,trajectory= None,type=None,
+                 radius=5, t_add=None, t_del=None):
         # Initialisation
         super().__init__(id, x, y, radius, type, None)
 
@@ -192,12 +191,35 @@ class Target(TargetRepresentation):
             self.vx_max = self.vx
             self.vy_max = self.vy
 
-        if t_add == -1 or t_del == -1 :
+        if t_add == None or t_del == None :
            self.t_add = [0]
            self.t_del = [1000]
 
-        if trajectory == -1:
+        if trajectory == None:
             self.trajectory = [(x, y)]
+
+    def my_rand(self,bound):
+        return random.uniform(bound[0],bound[1])
+
+    def randomize(self,target_type,r_bound,v_bound,trajectory_number_of_points):
+        self.type = target_type
+        self.xc = self.my_rand((0, constants.LENGHT_ROOM))
+        self.yc = self.my_rand((0, constants.WIDTH_ROOM))
+        self.radius = self.my_rand(r_bound)
+        self.vx_max = self.my_rand(v_bound)
+        self.vy_max = self.my_rand(v_bound)
+
+
+        #TODO voir si on veut changer mais on bouge toujours de la même manière
+        self.trajectory_type = TargetMotion.LINEAR
+        self.trajectory = [(self.xc, self.yc)]
+        for n in range(trajectory_number_of_points):
+            x = random.uniform(0,constants.LENGHT_ROOM)
+            y = random.uniform(0,constants.WIDTH_ROOM)
+            self.trajectory.append((x,y))
+
+        self.t_add = [0]
+        self.t_del = [1000]
 
     def save_position(self):
         """

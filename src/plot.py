@@ -4,7 +4,7 @@ from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
 
-PLOT_VARIATION_ON_REGION = True
+PLOT_VARIATION_ON_REGION = False
 
 if PLOT_VARIATION_ON_REGION:
     fig = plt.figure(figsize=(8, 8))

@@ -1,4 +1,5 @@
 import logging
+import math
 import time
 from src.my_utils.constant_class import *
 
@@ -9,10 +10,11 @@ In this file you have the possibility to modify the settings
 """Options-----------------------------------------------------------------------------------------------------------"""
 SAVE_DATA = False
 GENERATE_PLOT = False
+LOAD_DATA = LoadData.CREATE_RANDOM_DATA
 
 USE_GUI = True
-USE_static_analysis = True
-USE_dynamic_analysis_simulated_room = True
+USE_static_analysis = False
+USE_dynamic_analysis_simulated_room = False
 
 INCLUDE_ERROR = True
 LOG_LEVEL = logging.INFO  #
@@ -37,7 +39,7 @@ WIDTH_ROOM = 8  # [m]
 LENGHT_ROOM = 8  # [m]
 
 """Number of data----------------------------------------------------------------------------------------------------"""
-NUMBER_OF_POINT_SIMULATED_DATA = 10  # per m for a speed of 1 m/s
+NUMBER_OF_POINT_SIMULATED_DATA = 20  # per m for a speed of 1 m/s
 NUMBER_OF_POINT_STATIC_ANALYSIS = 5  # number of point per m
 NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 5  # number of point per m
 
@@ -53,7 +55,7 @@ TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)
 TIME_BTW_HEARTBEAT = 3 / SCALE_TIME
 TIME_MAX_BTW_HEARTBEAT = 9 / SCALE_TIME
 TIME_BTW_AGENT_ESTIMATOR = 0.3 / SCALE_TIME
-TIME_BTW_TARGET_ESTIMATOR = 3 / SCALE_TIME
+TIME_BTW_TARGET_ESTIMATOR = .5 / SCALE_TIME
 "Agent-Cam"
 TIME_PICTURE = (1.5 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 TIME_SEND_READ_MESSAGE = (0.3 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
@@ -88,7 +90,6 @@ X_SCALE = 60
 Y_SCALE = 60
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
-
 INIT_TARGET_LIST = AgentCameraInitializeTargetList.ALL_SEEN
 """If you want to set all the agent fixed set to false"""
 AGENTS_MOVING = True
@@ -96,8 +97,8 @@ AGENTS_MOVING = True
 """
 Refers to what data agent should use to analyse the room 
 """
-AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Prediction_t_2
-
+AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Best_estimation
+AGENT_CHOICE_HOW_TO_FOLLOW_TARGET = ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG
 """
 Refers to what data should be exchanged between agent
 - "none" = agent do not exchange messages about targets
@@ -108,10 +109,10 @@ DATA_TO_SEND = "none"
 """
 Refers to the type of controller we use to bring the target to reference point
 """
-AGENT_MOTION_CONTROLLER = AgentCameraController.Vector_Field_Method
-AGENT_POS_KP = 0.7
+AGENT_MOTION_CONTROLLER = AgentCameraController.Controller_PI
+AGENT_POS_KP = 0.4
 AGENT_POS_KI = 0.0
-AGENT_ALPHA_KP = 0.4
+AGENT_ALPHA_KP = 100
 AGENT_ALPHA_KI = 0
 AGENT_BETA_KP = 0.1
 AGENT_BETA_KI = 0.0
@@ -163,6 +164,29 @@ COEFF_VAR_Y = 10
 
 """Combine is a ration beetwen hard and smooth mode"""
 COMBINE_MODE_PROP = 0.99  # 1 = smooth mode 0 = hard mode (btw 0 and 1)
+
+"""Random map creation-----------------------------------------------------------------------------------------------"""
+TARGET_NUMBER_SET_FIX = 0
+TARGET_NUMBER_UNKOWN = 20
+TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY = 5
+RANDOM_TARGET_RADIUS_BOUND = (0.1,0.3)
+RANDOM_TARGET_V_BOUND = (0.8,1.2)
+
+CAMERA_NUMBER_FIX = 0
+CAMERA_NUMBER_ROTATIVE = 0
+CAMERA_NUMBER_RAIL = 0
+CAMERA_NUMBER_FREE = 2
+
+RANDOM_CAMERA_BETA_BOUND = (math.radians(55),math.radians(65))
+RANDOM_CAMERA_DELTA_BETA_BOUND = (math.radians(20),math.radians(25))
+RANDOM_CAMERA_FIELD_DEPTH_BOUND = (6,8)
+RANDOM_CAMERA_V_XY_MIN_BOUND = (1,1)
+RANDOM_CAMERA_V_XY_MAX_BOUND = (5,5)
+RANDOM_CAMERA_V_BETA_MIN_BOUND = (math.radians(10),math.radians(10))
+RANDOM_CAMERA_V_BETA_MAX_BOUND = (math.radians(15),math.radians(15))
+RANDOM_CAMERA_V_ALPHA_MIN_BOUND = (math.radians(45),math.radians(45))
+RANDOM_CAMERA_V_ALPHA_MAX_BOUND = (math.radians(45),math.radians(45))
+
 
 """---------------------------------------------------------------------------------------------------------------------
 If you just want to change simulation's parameter you should not modify constant below this line 

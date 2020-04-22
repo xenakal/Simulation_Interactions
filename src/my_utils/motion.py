@@ -30,11 +30,9 @@ def move_Target(Target, delta_time):
             :return
                 1. modify the position of the target (xc,yc)
     """
-    type_mvt = 1  #int(float(Target.trajectory_type))
-    # easy solution need to be investeagted
-    if type_mvt == TargetMotion.FIX:
+    if Target.trajectory_type == TargetMotion.FIX:
         pass
-    elif type_mvt == TargetMotion.LINEAR:
+    elif Target.trajectory_type == TargetMotion.LINEAR:
         rectiligne_trajectory(Target, 0.30, delta_time)
     else:
         print("planning method not recognize")
@@ -50,7 +48,6 @@ def rectiligne_trajectory(target, dist_min, delta_time):
                 moove the target according to a predifined path, the motion between two position are linear.
                 it does not avoid obstacle.
     """
-
     if  not target.type == TargetType.SET_FIX and len(target.trajectory)>0:
         (x_goal, y_goal) = target.trajectory[target.number_of_position_reached]
 
@@ -70,7 +67,6 @@ def rectiligne_trajectory(target, dist_min, delta_time):
             v_y = -target.vy_max * (target.yc - y_goal) / math.fabs((target.yc - y_goal))
         else:
             v_y = 0
-
 
         '''Modifying the position in the target object, always in (int)'''
         target.ax = (v_x - target.vx)

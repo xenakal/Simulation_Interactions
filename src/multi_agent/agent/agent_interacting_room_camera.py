@@ -8,6 +8,7 @@ from src.multi_agent.communication.message import *
 from src.multi_agent.behaviour.behaviour_agent import PCA_track_points_possibilites, \
     get_configuration_based_on_seen_target
 from src.multi_agent.behaviour.behaviour_detection import *
+from src.multi_agent.tools.configuration import check_configuration_all_target_are_seen
 from src.multi_agent.tools.link_target_camera import *
 from src.multi_agent.tools.controller import CameraController
 from src import constants
@@ -17,6 +18,7 @@ import src.multi_agent.elements.mobile_camera as mobCam
 import src.multi_agent.elements.camera as cam
 from src.multi_agent.tools.potential_field_method import compute_potential_field_cam, plot_potential_field
 
+CONFIDENCE_THRESHOLD = 50
 
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
     INFO_DKF = "info_DKF"
@@ -25,7 +27,6 @@ class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithR
     TRACKING_TARGET = "tracking_target"
     LOSING_TARGET = "loosing_target"
 
-
 class AgentCameraFSM:
     MOVE_CAMERA = "Move camera"
     TAKE_PICTURE = "Take picture"
@@ -33,14 +34,9 @@ class AgentCameraFSM:
     COMMUNICATION = "Communication"
     BUG = "Bug"
 
-
 class InternalPriority:
     NOT_TRACKED = 2
     TRACKED = 5
-
-
-CONFIDENCE_THRESHOLD = 50
-
 
 class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
     def __init__(self, id, type):
@@ -65,7 +61,6 @@ class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
                                                            agent_estimator.error_speed, agent_estimator.error_acc,
                                                            agent_estimator.color, agent_estimator.is_camera_active,
                                                            agent_estimator.item_type, agent_estimator.trajectory)
-
 
 class AgentCam(AgentInteractingWithRoom):
     """
@@ -122,7 +117,8 @@ class AgentCam(AgentInteractingWithRoom):
         self.memory_of_position_to_reach = []
 
         self.log_execution = create_logger(constants.ResultsPath.LOG_AGENT, "Execution time", self.id)
-        self.log_target_tracked = create_logger(constants.ResultsPath.LOG_AGENT,"Number of time a target is tracked",self.id)
+        self.log_target_tracked = create_logger(constants.ResultsPath.LOG_AGENT, "Number of time a target is tracked",
+                                                self.id)
         AgentCam.number_agentCam_created += 1
 
         # targets to be tracked by this agent
@@ -133,7 +129,7 @@ class AgentCam(AgentInteractingWithRoom):
         # targets untracked by all
         self.targets_untracked_by_all = []
         # count how many times a target is tracked
-        self.table_all_target_number_times_seen = AllTargetNUmberTimesSeen(self.id,self.log_target_tracked)
+        self.table_all_target_number_times_seen = AllTargetNUmberTimesSeen(self.id, self.log_target_tracked)
 
         # dictionnary to hold the internal priority of the targets (different from the target priority in
         # TargetEstimator). # This priority is used to modelize the fact that a target already tracked should be
@@ -205,7 +201,9 @@ class AgentCam(AgentInteractingWithRoom):
                 if last_time_move is not None:
 
                     # find a configuration for the agent
-                    config = self.find_configuration_for_tracked_targets()
+                    # config = self.find_configuration_for_tracked_targets()
+                    config = self.configuration_algorithm_choice(constants.AGENT_CHOICE_HOW_TO_FOLLOW_TARGET)
+
                     if config is not None:
                         last_not_None_configuration = config
 
@@ -407,6 +405,69 @@ class AgentCam(AgentInteractingWithRoom):
 
             return constants.get_time()
 
+    def get_active_targets(self):
+        return [target for target in self.room_representation.active_Target_list if target.confidence_pos[1] >= CONFIDENCE_THRESHOLD]
+
+    def configuration_algorithm_choice(self, choix):
+        target_list = self.get_active_targets()
+        real_configuration,virtual_configuration = self.compute_real_virtual_configuration_and_set_virtual_cam(target_list)
+
+        if choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WIHTOUT_CHECK:
+            return real_configuration
+
+        elif choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WITH_TARGET_CHECK:
+            if check_configuration_all_target_are_seen(camera=self.virtual_camera,room_representation=self.room_representation):
+                return real_configuration
+
+        elif choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WITH_SCORE_CHECK:
+            if virtual_configuration.configuration_score >= constants.MIN_CONFIGURATION_SCORE:
+                return real_configuration
+
+        elif choix == constants.ConfigurationWaysToBeFound.MOVE_ONLY_IF_CONFIGURATION_IS_VALID:
+            if virtual_configuration.is_configuration_valid(camera=self.virtual_camera,room_representation=self.room_representation,score_map_min=constants.MIN_CONFIGURATION_SCORE):
+                return real_configuration
+
+        elif choix == constants.ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG:
+            return self.find_configuration_for_tracked_targets()
+
+        return None
+
+    def compute_virtual_configuration(self, targets):
+        virtual_configuration = \
+            get_configuration_based_on_seen_target(self.camera, targets,
+                                                   PCA_track_points_possibilites.MEANS_POINTS,
+                                                   self.memory_of_objectives, self.memory_of_position_to_reach, True)
+
+        virtual_configuration.compute_configuration_score()
+        return virtual_configuration
+
+    def compute_real_virtual_configuration_and_set_virtual_cam(self,target_list):
+        virtual_configuration = self.compute_virtual_configuration(target_list)
+        self.virtual_camera = copy.deepcopy(self.camera)
+        self.virtual_camera.set_configuration(virtual_configuration)
+
+        real_configuration =  virtual_configuration = get_configuration_based_on_seen_target(self.camera,
+                                                                   target_list,
+                                                                   PCA_track_points_possibilites.MEANS_POINTS,
+                                                                   self.memory_of_objectives,
+                                                                   self.memory_of_position_to_reach,
+                                                                   False)
+        return real_configuration,virtual_configuration
+
+    def construct_room_representation_for_a_given_target_list(self,targets):
+        target_target_estimator = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
+
+        # reconstruct the Target_TargetEstimator by flitering the targets
+        new_target_targetEstimator = Target_TargetEstimator()
+        for (target_id, targetEstimator_list) in target_target_estimator.item_itemEstimator_list:
+            if target_id in targets:
+                new_target_targetEstimator.add_itemEstimator(targetEstimator_list[-1])
+
+        # find a configuration for these targets
+        tracked_targets_room_representation = room.RoomRepresentation()
+        tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
+        return tracked_targets_room_representation
+
     def find_configuration_for_tracked_targets(self):
         """
         :description:
@@ -460,46 +521,31 @@ class AgentCam(AgentInteractingWithRoom):
 
     def find_configuration_for_targets(self, targets, used_for_movement=True):
         """
-        :description:
-            Checks if a configuration can be found where all targets are seen.
-        :param targets: target representations
-        :param used_for_movement: if False, don't do the last non-virtual "get_configuration"
-        :return: Configuration object if exists, None otherwise
+            :description:
+                Checks if a configuration can be found where all targets are seen.
+            :param targets: target representations
+            :param used_for_movement: if False, don't do the last non-virtual "get_configuration"
+            :return: Configuration object if exists, None otherwise
         """
-        target_target_estimator = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
+        tracked_targets_room_representation = self.construct_room_representation_for_a_given_target_list(targets)
+        virtual_configuration = self.compute_virtual_configuration(tracked_targets_room_representation.active_Target_list)
 
-        # reconstruct the Target_TargetEstimator by flitering the targets
-        new_target_targetEstimator = Target_TargetEstimator()
-        for (target_id, targetEstimator_list) in target_target_estimator.item_itemEstimator_list:
-            if target_id in targets:
-                new_target_targetEstimator.add_itemEstimator(targetEstimator_list[-1])
-
-        # find a configuration for these targets
-        tracked_targets_room_representation = room.RoomRepresentation()
-        tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
-
-        virtual_configuration = \
-            get_configuration_based_on_seen_target(self.camera, tracked_targets_room_representation.active_Target_list,
-                                                   PCA_track_points_possibilites.MEANS_POINTS,
-                                                   self.memory_of_objectives, self.memory_of_position_to_reach, True)
-
-        virtual_configuration.compute_configuration_score()
-
+        better_config_found = False
         self.virtual_camera = copy.deepcopy(self.camera)
         self.virtual_camera.set_configuration(virtual_configuration)
 
-        better_config_found = False
-        # configuration not found
-        if not self.check_configuration(self.virtual_camera, tracked_targets_room_representation):
-            self.log_main.debug(
-                "Configuration not found at time %.02f, starting variation on this config" % constants.get_time())
+        if not check_configuration_all_target_are_seen(self.virtual_camera, tracked_targets_room_representation):
+            self.log_main.debug("Configuration not found at time %.02f, starting variation on this config" % constants.get_time())
             virtual_configuration.is_valid = False
             return virtual_configuration
+
         # configuration found, but bad score
         if virtual_configuration.configuration_score < constants.MIN_CONFIGURATION_SCORE:
+            #Check around if there is a better config
             optimal_configuration = virtual_configuration.variation_on_configuration_found(self.virtual_camera)
+
             self.virtual_camera.set_configuration(optimal_configuration)
-            if self.check_configuration(self.virtual_camera, tracked_targets_room_representation):
+            if check_configuration_all_target_are_seen(self.virtual_camera, tracked_targets_room_representation):
                 better_config_found = True
 
         # if the agent actually wants to move
@@ -526,29 +572,11 @@ class AgentCam(AgentInteractingWithRoom):
             virtual_configuration.is_valid = True
             return virtual_configuration
 
-    def check_configuration(self, camera, room_representation):
-        in_field = False
-        hidden = True
-
-        # check if this configuration covers all targets
-        for targetRepresentation in room_representation.active_Target_list:
-            in_field = cam.is_x_y_radius_in_field_not_obstructed(camera, targetRepresentation.xc,
-                                                                 targetRepresentation.yc,
-                                                                 targetRepresentation.radius)
-
-            hidden = cam.is_x_y_in_hidden_zone_all_targets_based_on_camera(room_representation,
-                                                                           camera,
-                                                                           targetRepresentation.xc,
-                                                                           targetRepresentation.yc)
-
-        return in_field and not hidden
-
     def process_information_in_memory(self):
         """
             :description
                 Process all the information obtained
         """
-
 
         '''Combination of data received and data observed'''
         self.memory.combine_data_agentCam()
@@ -567,17 +595,15 @@ class AgentCam(AgentInteractingWithRoom):
             -----------------------------------------------------------------------------------------------
         """
 
-        '''
+
         last_camera_estimation = self.memory.memory_agent_from_agent.get_item_list(self.id)[-1]
         self.send_message_timed_itemEstimator(last_camera_estimation, constants.TIME_BTW_AGENT_ESTIMATOR)
-        '''
 
 
         # send untrackable targets id
         self.broadcast_untracked_targets()
 
-        #self.log_target_tracked.info(self.table_all_target_number_times_seen.to_string(self.id))
-
+        # self.log_target_tracked.info(self.table_all_target_number_times_seen.to_string(self.id))
         for target in self.room_representation.active_Target_list:
             """
                 ---------------------------------------------------------------------------------------------
@@ -626,13 +652,13 @@ class AgentCam(AgentInteractingWithRoom):
             "Send message to other agent"
             if target.confidence_pos[0] < CONFIDENCE_THRESHOLD < target.confidence_pos[1]:
                 self.table_all_target_number_times_seen.update_tracked(target.id)
-                self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET,target.id)
+                self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET,
+                                                     target.id)
 
 
             elif target.confidence_pos[0] > CONFIDENCE_THRESHOLD > target.confidence_pos[1]:
                 self.table_all_target_number_times_seen.update_lost(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET, target.id)
-
 
             if constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.ALL:
                 target_estimator_to_send = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
@@ -679,8 +705,6 @@ class AgentCam(AgentInteractingWithRoom):
 
         [self.broadcast_seen_target(target) for target in self.targets_to_track if target in
          self.targets_untracked_by_all]
-        
-
 
     def process_single_message(self, rec_mes):
         super().process_single_message(rec_mes)
@@ -762,11 +786,11 @@ class AgentCam(AgentInteractingWithRoom):
 
         for agent in self.room_representation.agentCams_representation_list:
             if not agent.id == self.id:
-                    message.add_receiver(agent.id, agent.signature)
+                message.add_receiver(agent.id, agent.signature)
 
             cdt1 = self.info_message_to_send.is_message_with_same_message(message)
             if not cdt1:
-                    self.info_message_to_send.add_message(message)
+                self.info_message_to_send.add_message(message)
 
     def receive_message_untrackableTarget(self, message):
         """
@@ -844,7 +868,8 @@ class AgentCam(AgentInteractingWithRoom):
     def send_message_track_loose_target(self, track_loose_choice, target_id):
 
         if track_loose_choice == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET or track_loose_choice == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
-            message = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, track_loose_choice, "",target_id)
+            message = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, track_loose_choice, "",
+                                          target_id)
             self.log_target_tracked.info(message.to_string())
             self.broadcast_message(message)
 
@@ -856,9 +881,8 @@ class AgentCam(AgentInteractingWithRoom):
         elif message.messageType == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
             self.table_all_target_number_times_seen.update_lost(int(message.item_ref))
 
-
 class AllTargetNUmberTimesSeen:
-    def __init__(self,agent_id,log):
+    def __init__(self, agent_id, log):
         self.id = agent_id
         self.log_target_tracked = log
         self.tracker_list = []
@@ -893,7 +917,6 @@ class AllTargetNUmberTimesSeen:
             s += tracker.to_string()
         return s
 
-
 class TargetNumberTimesSeen():
     def __init__(self, target_id):
         self.target_id = target_id
@@ -905,7 +928,7 @@ class TargetNumberTimesSeen():
     def update_lost(self):
         self.n -= 1
         if self.n < 0:
-            print("error target seen -%d tiems"%self.n)
+            print("error target seen -%d tiems" % self.n)
 
     def to_string(self):
         return "target %d is seen %d \n" % (self.target_id, self.n)

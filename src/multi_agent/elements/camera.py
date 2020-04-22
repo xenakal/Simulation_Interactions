@@ -22,10 +22,12 @@ def get_camera_agentCam_vs_agentCamRepresentation(agent):
 def find_cam_in_camera_representation(room_representation, camera_id):
     for agentCam in room_representation.agentCams_representation_list:
         camera = get_camera_agentCam_vs_agentCamRepresentation(agentCam)
-        if camera.id == camera_id:
+        if int(camera.id) == int(camera_id):
             return camera
 
-    print("camera not found see class camera")
+    '''
+    print(room_representation.agentCams_representation_list)
+    print("camera not found see class camera ")'''
     return None
 
 

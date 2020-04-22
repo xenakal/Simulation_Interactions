@@ -233,10 +233,16 @@ class GUI_room_representation():
             if camera.camera_type == MobileCameraType.RAIL or camera.camera_type == MobileCameraType.FREE and self.GUI_option.show_point_to_reach:
                 if isinstance(agent, AgentCam):
                     if len(agent.memory_of_position_to_reach) > 0:
-                        for mem in agent.memory_of_position_to_reach[-1]:
-                            (x, y, index) = mem
+
+                            mem = agent.memory_of_position_to_reach[-1]
+                            if len(mem) > 2:
+                                print("problem"+str(mem))
+                            (x, y, index) = mem[0]
                             pygame.draw.circle(self.screen, RED, (
-                                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 3)
+                                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 5)
+                            (x, y, index) = mem[1]
+                            pygame.draw.circle(self.screen, GREEN, (
+                                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 5)
 
                     if len(agent.memory_of_objectives) > 0:
                         xt = agent.memory_of_objectives[-1][0]

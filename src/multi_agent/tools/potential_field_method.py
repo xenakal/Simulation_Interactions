@@ -41,17 +41,23 @@ class HeatMaps:
 
     """
 
+    """All cam field"""
     def HEAT_MAP_INSIDE_OF_FIELD():
-        return [(0,0,1,1,1,1000,PotentialType.Camera_potential_steps)]
+        return [(0,0,0,1,1,1,1000,PotentialType.Camera_potential_steps)]
 
+    """For one target"""
     def HEAT_MAP_ONE_TARGET_CENTER(field_depth):
-        return  [(constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth, 0,1,1,1,1,PotentialType.Camera_potential_steps)]
+        return  [(constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth,0, 0,1,1,1,1,PotentialType.Camera_potential_steps)]
 
+    """For two targets"""
     def HEAT_MAP_TWO_TARGET_CENTER(field_depth,beta):
         x = constants.DISTANCE_TO_KEEP_FROM_TARGET*field_depth * math.cos(beta / 4)
         y = 1.5*constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth * math.sin(beta / 4)
-        return [(x, y,1,2, 1, 2,PotentialType.Camera_potential_quadratic), (x,-y,1,2, 1,2,PotentialType.Camera_potential_quadratic)]
+        return [(x, y,0,1,2,1,2,PotentialType.Camera_potential_quadratic), (x,-y,0,1,2,1,2,PotentialType.Camera_potential_quadratic)]
 
+    def HEAT_MAP_TWO_TARGET_FAR(field_depth,beta,side=1):
+        return [(0.8*field_depth*math.cos(beta/ 4),side*0.3*field_depth * math.sin(beta / 4), side*0, 2, 1, 1, 1.5,PotentialType.Camera_potential_quadratic),
+                (0.3*field_depth*math.cos(beta/ 4),side*-0.1*field_depth * math.sin(beta/ 4),side*55, 1, 15, 1, 0.75,PotentialType.Camera_potential_quadratic)]
 
 
 def rotate_vector_field_angle(angle, X, Y):
@@ -412,14 +418,16 @@ def compute_potential_field_cam(X, Y, n_target, beta, field_depth):
         heat_map = HeatMaps.HEAT_MAP_INSIDE_OF_FIELD()
     elif n_target >= 2:
         heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_CENTER(field_depth,beta)
+        heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_FAR(field_depth,beta,-1)
 
 
     for heat_point in heat_map:
-        x, y,var_x,var_y, xi,rho,potential_type = heat_point
+        x, y,angle,var_x,var_y, xi,rho,potential_type = heat_point
+        X, Y = rotate_map_from_angle_alpha(math.radians(angle), X_potential_field, Y_potential_field, x, y)
         potential_field += compute_part_of_potential_field(field_type=potential_type,
                                                            shape=PotentialShape.Circular,
-                                                           X=X_potential_field, mean_x=x, var_x=var_x,
-                                                           Y=Y_potential_field, mean_y=y, var_y=var_y,
+                                                           X=X, mean_x=0, var_x=var_x,
+                                                           Y=Y, mean_y=0, var_y=var_y,
                                                            xi=xi, rho_0=rho)
 
     potential_field = np.where(camera_shape > 0, potential_field, 0)
@@ -506,5 +514,5 @@ if __name__ == '__main__':
 
     X = np.arange(0, 8, 0.01)
     Y = np.arange(-4,4, 0.01)
-    X,Y,Z = compute_potential_field_cam(X,Y,1,math.radians(30),4)
+    X,Y,Z = compute_potential_field_cam(X,Y,2,math.radians(60),8)
     plot_potential_field(X,Y,Z)

@@ -451,14 +451,14 @@ class GUI_create_map:
         "add the cam to the room"
         if pressed:
             if self.button_create_map_3.find_button_state(Button_name.OBJECT_ADD):
-                self.new_room.information_simulation.add_create_AgentCam(x_new, y_new, self.alpha_default, self.beta_default, [],
-                                                  field_depth=self.depth_default, color=0, t_add=-1, t_del=-1, type=label,
-                                                  vx_vy_min=self.vx_min_default,
-                                                  vx_vy_max=self.vx_max_default, v_alpha_min=self.v_alpha_min_default,
-                                                  v_alpha_max=self.v_alpha_max_default,
-                                                  delta_beta=self.beta_range_default,
-                                                  v_beta_min=self.v_beta_min_default,
-                                                  v_beta_max=self.v_beta_max_default)
+                self.new_room.information_simulation.add_AgentCam(x_new, y_new, self.alpha_default, self.beta_default, [],
+                                                                  field_depth=self.depth_default, color=0, t_add=-1, t_del=-1, type=label,
+                                                                  vx_vy_min=self.vx_min_default,
+                                                                  vx_vy_max=self.vx_max_default, v_alpha_min=self.v_alpha_min_default,
+                                                                  v_alpha_max=self.v_alpha_max_default,
+                                                                  delta_beta=self.beta_range_default,
+                                                                  v_beta_min=self.v_beta_min_default,
+                                                                  v_beta_max=self.v_beta_max_default)
 
             elif self.button_create_map_3.find_button_state(Button_name.OBJECT_DEL):
                 for agent in self.new_room.information_simulation.agentCams_list:

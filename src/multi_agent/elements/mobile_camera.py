@@ -1,3 +1,4 @@
+import random
 import re
 import math
 import numpy as np
@@ -86,9 +87,9 @@ class MobileCamera(Camera):
             self.xc, self.yc, math.degrees(self.alpha), math.degrees(self.beta),math.degrees(self.delta_beta),self.field_depth)
         s1 = " t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
         s2 = " vx_vy_min:%.02f vx_vy_max:%.02f" % (self.vx_vy_min, self.vx_vy_max)
-        s3 = " v_alpha_min:%.02f v_alpha_max:%.02f" % (self.v_alpha_min, self.v_alpha_max)
-        s4 = " v_beta_min:%.02f v_beta_max:%.02f" % (self.v_beta_min, self.v_beta_max)
-        s5 = " traj: " + str(self.trajectory.trajectory) + "type: " + str(self.camera_type)
+        s3 = " v_alpha_min:%.02f v_alpha_max:%.02f" % (math.degrees(self.v_alpha_min), math.degrees(self.v_alpha_max))
+        s4 = " v_beta_min:%.02f v_beta_max:%.02f" % (math.degrees(self.v_beta_min), math.degrees(self.v_beta_max))
+        s5 = " traj: " + str(self.trajectory.trajectory) + " type: " + str(self.camera_type)
         return s0 + s1 + s2 + s3 + s4 + s5 + "\n"
 
     def load_from_txt(self, s):
@@ -116,21 +117,58 @@ class MobileCamera(Camera):
         self.t_del = self.load_tadd_tdel(attribute[8])
         self.vx_vy_min = float(attribute[9])
         self.vx_vy_max = float(attribute[10])
-        self.v_alpha_min = float(attribute[11])
-        self.v_alpha_max = float(attribute[12])
-        self.v_beta_min = float(attribute[13])
-        self.v_beta_max = float(attribute[14])
+        self.v_alpha_min = math.radians(float(attribute[11]))
+        self.v_alpha_max = math.radians(float(attribute[12]))
+        self.v_beta_min = math.radians(float(attribute[13]))
+        self.v_beta_max = math.radians(float(attribute[14]))
         self.trajectory = TrajectoryPlaner([])
         self.trajectory.load_trajcetory(attribute[15])
         self.camera_type = int(attribute[16])
         self.beta_min = self.beta - self.delta_beta
         self.beta_max = self.beta + self.delta_beta
 
+
+    def my_rand(self,bound):
+        return random.uniform(bound[0],bound[1])
+
+    def randomize(self,camera_type,beta_bound,delta_beta_bound,field_bound,v_xy_min_bound,v_xy_max_bound,
+                  v_alpha_min_bound,v_alpha_max_bound,v_beta_min_bound,v_beta_max_bound):
+        self.xc = self.my_rand((0,constants.LENGHT_ROOM))
+        self.yc = self.my_rand((0,constants.WIDTH_ROOM))
+        self.alpha = self.my_rand((-math.pi,math.pi))
+        self.beta = self.my_rand(beta_bound)
+        self.delta_beta = self.my_rand(delta_beta_bound)
+        self.field_depth = self.my_rand(field_bound)
+
+        self.t_add = [0]
+        self.t_del = [1000]
+
+        self.vx_vy_min = self.my_rand(v_xy_min_bound)
+        self.vx_vy_max = self.my_rand(v_xy_max_bound)
+
+        self.v_alpha_min = self.my_rand(v_alpha_min_bound)
+        self.v_alpha_max = self.my_rand(v_alpha_max_bound)
+        self.v_beta_min = self.my_rand(v_beta_min_bound)
+        self.v_beta_max = self.my_rand(v_beta_max_bound)
+
+        self.trajectory = TrajectoryPlaner([])
+        self.camera_type = camera_type
+
+        """Default values"""
+        self.default_xc = self.xc
+        self.default_yc = self.yc
+        #TODO-change this maybe
+        self.default_alpha = self.alpha
+        self.default_beta = self.beta
+        self.default_field_depth = self.field_depth
+        self.beta_min = self.beta - self.delta_beta
+        self.beta_max = self.beta + self.delta_beta
+
     def compute_field_depth_variation_for_a_new_beta(self,new_beta):
         delta = new_beta-self.beta
         field_depth = self.field_depth - delta * self.coeff_field
-        field_depth = self.born(field_depth, constants.AGENT_CAMERA_FIELD_MIN * self.default_field_depth,
-                                constants.AGENT_CAMERA_FIELD_MAX* self.default_field_depth)
+        field_depth = self.bound(field_depth, constants.AGENT_CAMERA_FIELD_MIN * self.default_field_depth,
+                                 constants.AGENT_CAMERA_FIELD_MAX * self.default_field_depth)
         return field_depth
 
     def zoom(self, speed, dt):
@@ -164,7 +202,7 @@ class MobileCamera(Camera):
                 delta = sign * dt * (self.v_beta_min + math.fabs(speed) * (self.v_beta_max - self.v_beta_min))
 
         elif self.beta < self.beta_min or self.beta_max > 0:
-            self.beta = self.born(self.beta,self.beta_min,self.beta_max)
+            self.beta = self.bound(self.beta, self.beta_min, self.beta_max)
             delta = 0
         else:
             delta = 0
@@ -178,9 +216,9 @@ class MobileCamera(Camera):
            self.std_measurment_error_speed -= delta * self.coeff_std_speed
            self.std_measurment_error_acceleration -= delta * self.coeff_std_acc
 
-           self.born(self.std_measurment_error_position,0,self.std_measurment_error_position*10)
-           self.born(self.std_measurment_error_speed,0, self.std_measurment_error_speed*10)
-           self.born(self.std_measurment_error_acceleration,0, self.std_measurment_error_acceleration*10)
+           self.bound(self.std_measurment_error_position, 0, self.std_measurment_error_position * 10)
+           self.bound(self.std_measurment_error_speed, 0, self.std_measurment_error_speed * 10)
+           self.bound(self.std_measurment_error_acceleration, 0, self.std_measurment_error_acceleration * 10)
 
     def rotate(self, speed, dt):
         """
@@ -236,7 +274,7 @@ class MobileCamera(Camera):
             self.xc += delta_x
             self.yc += delta_y
 
-        self.born_camera_displacement_in_the_room()
+        self.bound_camera_displacement_in_the_room()
 
 
     def set_configuration(self,configuration):
@@ -249,11 +287,11 @@ class MobileCamera(Camera):
         self.beta = beta_target
 
 
-    def born_camera_displacement_in_the_room(self):
-        self.xc = self.born(self.xc,self.xc_min,self.xc_max)
-        self.yc = self.born(self.yc,self.yc_min,self.yc_max)
+    def bound_camera_displacement_in_the_room(self):
+        self.xc = self.bound(self.xc, self.xc_min, self.xc_max)
+        self.yc = self.bound(self.yc, self.yc_min, self.yc_max)
 
-    def born(self,val,val_min,val_max):
+    def bound(self, val, val_min, val_max):
         return max(min(val,val_max),val_min)
 
 

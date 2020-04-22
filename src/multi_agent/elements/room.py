@@ -1,3 +1,5 @@
+import time
+
 import numpy as np
 import random
 from src.multi_agent.agent.agent import AgentType
@@ -37,6 +39,68 @@ class InformationRoomSimulation:
         self.target_list = []
         self.agentCams_list = []
         self.agentUser_list = []
+
+
+    def generate_n_m_unkown_set_fix_target(self,n,m):
+        for n in range(n):
+            target = Target()
+            target.randomize(target_type=TargetType.UNKNOWN,r_bound = constants.RANDOM_TARGET_RADIUS_BOUND,
+                             v_bound=constants.RANDOM_TARGET_V_BOUND, trajectory_number_of_points=constants.TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY)
+            self.add_Target(target)
+
+        for m in range(m):
+            target = Target()
+            target.randomize( target_type=TargetType.SET_FIX,r_bound = constants.RANDOM_TARGET_RADIUS_BOUND,
+                             v_bound=constants.RANDOM_TARGET_V_BOUND, trajectory_number_of_points=constants.TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY)
+            self.add_Target(target)
+
+    def generate_n_m_p_k_fix_rotative_rail_free_camera(self, n, m, p, k):
+        for n in range(n):
+            camera = MobileCamera(id=-1,xc=0,yc=0,alpha=0,beta=0,trajectory=[],field_depth=0)
+            camera.randomize(camera_type=MobileCameraType.FIX,beta_bound=constants.RANDOM_CAMERA_BETA_BOUND,delta_beta_bound=constants.RANDOM_CAMERA_DELTA_BETA_BOUND,
+                             field_bound = constants.RANDOM_CAMERA_FIELD_DEPTH_BOUND,v_xy_min_bound=constants.RANDOM_CAMERA_V_XY_MIN_BOUND,v_xy_max_bound=constants.RANDOM_CAMERA_V_XY_MAX_BOUND,
+                             v_alpha_min_bound=constants.RANDOM_CAMERA_V_ALPHA_MIN_BOUND,v_alpha_max_bound=constants.RANDOM_CAMERA_V_ALPHA_MAX_BOUND,v_beta_min_bound=constants.RANDOM_CAMERA_V_BETA_MIN_BOUND,
+                             v_beta_max_bound=constants.RANDOM_CAMERA_V_BETA_MAX_BOUND)
+
+            agentCam = aCam.AgentCam(camera, -1, -1)
+            agentCam.camera.id = agentCam.id
+            self.agentCams_list.append(agentCam)
+
+        for m in range(m):
+            camera = MobileCamera(id=-1, xc=0, yc=0, alpha=0, beta=0, trajectory=[], field_depth=0)
+            camera.randomize(camera_type=MobileCameraType.ROTATIVE,beta_bound=constants.RANDOM_CAMERA_BETA_BOUND,delta_beta_bound=constants.RANDOM_CAMERA_DELTA_BETA_BOUND,
+                             field_bound = constants.RANDOM_CAMERA_FIELD_DEPTH_BOUND,v_xy_min_bound=constants.RANDOM_CAMERA_V_XY_MIN_BOUND,v_xy_max_bound=constants.RANDOM_CAMERA_V_XY_MAX_BOUND,
+                             v_alpha_min_bound=constants.RANDOM_CAMERA_V_ALPHA_MIN_BOUND,v_alpha_max_bound=constants.RANDOM_CAMERA_V_ALPHA_MAX_BOUND,v_beta_min_bound=constants.RANDOM_CAMERA_V_BETA_MIN_BOUND,
+                             v_beta_max_bound=constants.RANDOM_CAMERA_V_BETA_MAX_BOUND)
+
+            agentCam = aCam.AgentCam(camera, -1, -1)
+            agentCam.camera.id = agentCam.id
+            self.agentCams_list.append(agentCam)
+
+        for p in range(p):
+            camera = MobileCamera(id=-1,xc=0,yc=0,alpha=0,beta=0,trajectory=[],field_depth=0)
+            camera.randomize(camera_type=MobileCameraType.RAIL,beta_bound=constants.RANDOM_CAMERA_BETA_BOUND,delta_beta_bound=constants.RANDOM_CAMERA_DELTA_BETA_BOUND,
+                             field_bound = constants.RANDOM_CAMERA_FIELD_DEPTH_BOUND,v_xy_min_bound=constants.RANDOM_CAMERA_V_XY_MIN_BOUND,v_xy_max_bound=constants.RANDOM_CAMERA_V_XY_MAX_BOUND,
+                             v_alpha_min_bound=constants.RANDOM_CAMERA_V_ALPHA_MIN_BOUND,v_alpha_max_bound=constants.RANDOM_CAMERA_V_ALPHA_MAX_BOUND,v_beta_min_bound=constants.RANDOM_CAMERA_V_BETA_MIN_BOUND,
+                             v_beta_max_bound=constants.RANDOM_CAMERA_V_BETA_MAX_BOUND)
+
+            agentCam = aCam.AgentCam(camera, -1, -1)
+            agentCam.camera.id = agentCam.id
+            self.agentCams_list.append(agentCam)
+
+
+        for k in range(k):
+            camera = MobileCamera(id=-1,xc=0,yc=0,alpha=0,beta=0,trajectory=[],field_depth=0)
+            camera.randomize(camera_type=MobileCameraType.FREE,beta_bound=constants.RANDOM_CAMERA_BETA_BOUND,delta_beta_bound=constants.RANDOM_CAMERA_DELTA_BETA_BOUND,
+                             field_bound = constants.RANDOM_CAMERA_FIELD_DEPTH_BOUND,v_xy_min_bound=constants.RANDOM_CAMERA_V_XY_MIN_BOUND,v_xy_max_bound=constants.RANDOM_CAMERA_V_XY_MAX_BOUND,
+                             v_alpha_min_bound=constants.RANDOM_CAMERA_V_ALPHA_MIN_BOUND,v_alpha_max_bound=constants.RANDOM_CAMERA_V_ALPHA_MAX_BOUND,v_beta_min_bound=constants.RANDOM_CAMERA_V_BETA_MIN_BOUND,
+                             v_beta_max_bound=constants.RANDOM_CAMERA_V_BETA_MAX_BOUND)
+
+            agentCam = aCam.AgentCam(camera, -1, -1)
+            agentCam.camera.id = agentCam.id
+            self.agentCams_list.append(agentCam)
+
+
 
     def add_create_Target(self, x, y, vx, vy, ax, ay, trajectory_type, trajectory, type, radius, t_add, t_del):
         """"
@@ -194,7 +258,6 @@ class RoomRepresentation:
                     if not target.type == TargetType.FIX:
                         target.alpha =  last_TargetEstimator.alpha
 
-                    #print(last_TargetEstimator.variance_on_estimation)
                     if last_TargetEstimator.variance_on_estimation is not None:
                         norm_variance_pos = np.sqrt(np.square(last_TargetEstimator.variance_on_estimation[0])+np.square(last_TargetEstimator.variance_on_estimation[1]))
                     else:
@@ -340,55 +403,6 @@ class Room(RoomRepresentation):
         self.active_AgentUser_list = []
         self.information_simulation = InformationRoomSimulation()
 
-    def init_room(self, x, y, vx, vy, trajectory_type, trajectory_choice, type, radius, t_add, t_del):
-        """
-            :param
-                1. (int_list) x                               -- x values of the center
-                2. (int_list) y                               -- y values of the center
-                3. (int_list) vx                              -- vx speeds
-                4. (int_list) vy                              -- vy speeds
-                5. (string_list) trajectory_type              -- "fix","linear" choice for the target's way to moove
-                6. (int_list) trajectory_choice               -- will bound the target to the given trajectory in InformationRoomSimulation
-                7. (int_list) radius                            -- radius from the center
-                8. (string_list) type                         -- "fix","target", to make the difference between known and unkown target
-                9. ([[[int],...],...]) t_add                  -- list of all the times where the target should appear in the room
-               10. ([[[int],...],...]) t_del                  -- list of all the times where the target should disappear in the room
-
-            :notes
-                 it will fill the information_simulation
-           """
-
-    def add_AgentCam(self, agent):
-        """
-            :description
-                Create and add AgentCam to the room
-
-            :param
-                1. (int) x                               -- x values of the center
-                2. (int) y                               -- y values of the center
-                3. (int) orientation_alpha               -- alpha, orientation from the camera, -180 to 180 degrees
-                4. (int) field_opening_beta              -- beta, field from the camera, 0 to 180 degrees
-                5. (int) is_fix                          -- 0 = camera can rotate, 1 = cam orientation is fix
-        """
-        agent.camera.id = agent.id
-        self.information_simulation.agentCams_list.append(agent)
-        self.agentCams_representation_list = self.active_AgentCams_list
-
-    def init_AgentUser(self, number=1):
-        """
-            :description
-                Create and add AgentUser to the room
-
-            :param
-                1. (int) number -- number of agent to be created, by default 1
-        """
-        for n in range(number):
-            agent = aUser.AgentUser()
-            self.information_simulation.agentUser_list.append(agent)
-
-        self.active_AgentUser_list = self.information_simulation.agentUser_list
-        self.agentUser_representation_list = self.active_AgentUser_list
-
     def add_del_target_timed(self):
         """
             :description
@@ -412,6 +426,8 @@ class Room(RoomRepresentation):
             :description
                 Add and remove target from active_Target_list for given time
         """
+
+
         for agent in self.information_simulation.agentCams_list:
             camera = agent.camera
             if camera.t_add[camera.number_of_time_passed] <= constants.get_time() <= camera.t_del[
@@ -436,6 +452,7 @@ class Room(RoomRepresentation):
                 agent.number_of_time_passed] and not agent.is_active:
                 agent.is_active = True
                 self.active_AgentCams_list.append(agent)
+                self.agentCams_representation_list = self.active_AgentCams_list
                 agent.log_main.info("Agent %d is activated at %.02f s" % (agent.id, constants.get_time()))
 
             elif constants.get_time() > agent.t_del[agent.number_of_time_passed] and agent.is_active:
@@ -443,7 +460,10 @@ class Room(RoomRepresentation):
                     agent.number_of_time_passed = agent.number_of_time_passed + 1
                 agent.is_active = False
                 self.active_AgentCams_list.remove(agent)
+                self.agentCams_representation_list = self.active_AgentCams_list
                 agent.log_main.info("Agent %d is desactivated at %.02f s" % (agent.id, constants.get_time()))
+
+
 
     def add_create_Target(self, x, y, vx, vy, trajectory_type, trajectory, type, radius, t_add, t_del):
         """"
@@ -469,6 +489,33 @@ class Room(RoomRepresentation):
         self.information_simulation.add_create_Target(x, y, vx, vy, 0, 0, trajectory_type, trajectory, type, radius,
                                                       t_add, t_del)
 
+    def add_AgentCam(self, agent):
+        """
+            :description
+                Create and add AgentCam to the room
+
+            :param
+                1. (int) x                               -- x values of the center
+                2. (int) y                               -- y values of the center
+                3. (int) orientation_alpha               -- alpha, orientation from the camera, -180 to 180 degrees
+                4. (int) field_opening_beta              -- beta, field from the camera, 0 to 180 degrees
+                5. (int) is_fix                          -- 0 = camera can rotate, 1 = cam orientation is fix
+        """
+        self.information_simulation.agentCams_list.append(agent)
+
+    def add_create_AgentUser(self, number=1):
+        """
+            :description
+                Create and add AgentUser to the room
+
+            :param
+                1. (int) number -- number of agent to be created, by default 1
+        """
+        for n in range(number):
+            agent = aUser.AgentUser()
+            self.information_simulation.agentUser_list.append(agent)
+        self.active_AgentUser_list = self.information_simulation.agentUser_list
+        self.agentUser_representation_list = self.active_AgentUser_list
 
 
     def add_Target(self, target):

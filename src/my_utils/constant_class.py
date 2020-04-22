@@ -1,4 +1,9 @@
 """"""
+class LoadData:
+     FROM_TXT_FILE = "from_txt_file"
+     CREATE_RANDOM_DATA = "random_data"
+
+
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 class AgentDataToWorkWith:
@@ -7,6 +12,12 @@ class AgentDataToWorkWith:
     Prediction_t_1 = "Prediction t+1"
     Prediction_t_2 = "Prediction t+2"
 
+class ConfigurationWaysToBeFound:
+    CONFIUGRATION_WIHTOUT_CHECK = "config_wihtout_check"
+    CONFIUGRATION_WITH_TARGET_CHECK = "config_target_check"
+    CONFIUGRATION_WITH_SCORE_CHECK = "config_score_check"
+    MOVE_ONLY_IF_CONFIGURATION_IS_VALID = "change_config_only_if_valid"
+    TRY_TO_FIND_VALID_CONFIG = "try_to_find_valid_config"
 
 class AgentCameraCommunicationBehaviour:
     ALL = "all"
