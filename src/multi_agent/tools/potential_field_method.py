@@ -13,7 +13,8 @@ from src.my_utils.my_math.line import distance_btw_two_point
 class PotentialType:
     Repulsive_potential = "Repulsive_potential"
     Attractive_potential = "Attractive_potential"
-    Camera_potential = "camera_potential"
+    Camera_potential_steps = "camera_potential_steps"
+    Camera_potential_quadratic = "camera_potential_quadratic"
 
 
 class PotentialShape:
@@ -26,14 +27,30 @@ class PotentialShape:
 
 
 class HeatMaps:
+    """
+        Maps are composed of multiple points
+        [(x,y,xi,rho_0,PotentialType),...]
+
+        x and y are the coordinate of the point where we set the potential function
+        xi is a factor between 0 and 1, to give more or less importance to the point
+        rho_0 is the radius in which the potential is determined
+        PotentialType is the function we want to use
+
+        If the potential are set correctly and are not to close from each other than the map gives always
+        a value between 0 and 1.
+
+    """
+
+    def HEAT_MAP_INSIDE_OF_FIELD():
+        return [(0,0,1,1,1,1000,PotentialType.Camera_potential_steps)]
 
     def HEAT_MAP_ONE_TARGET_CENTER(field_depth):
-        return  [(constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth, 0, -1)]
+        return  [(constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth, 0,1,1,1,1,PotentialType.Camera_potential_steps)]
 
     def HEAT_MAP_TWO_TARGET_CENTER(field_depth,beta):
-        x = constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth * math.cos(beta / 4)
-        y = constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth * math.sin(beta / 4)
-        return [(x, y, -1), (x, -y, -1)]
+        x = constants.DISTANCE_TO_KEEP_FROM_TARGET*field_depth * math.cos(beta / 4)
+        y = 1.5*constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth * math.sin(beta / 4)
+        return [(x, y,1,2, 1, 2,PotentialType.Camera_potential_quadratic), (x,-y,1,2, 1,2,PotentialType.Camera_potential_quadratic)]
 
 
 
@@ -101,12 +118,16 @@ def define_potential_type(field_type, distances, xi=None, eta=None, rho_0=None):
         distances = np.where(distances <= rho_0, distances, rho_0)
         return 0.5 * eta * np.square(1 / distances - 1 / rho_0)
     elif field_type == PotentialType.Attractive_potential and xi is not None:
-
         distances = np.where(distances > -1, distances, 0)
         return 0.5 * xi * np.square(distances)
-    elif field_type == PotentialType.Camera_potential and xi is not None:
-        distances = np.where(distances > -1, distances, rho_0)
-        return np.maximum(0.5 * xi * np.square(rho_0) - np.square(distances), 0)
+    elif field_type == PotentialType.Camera_potential_steps and xi is not None:
+        function = np.zeros(np.shape(distances))
+        function = np.where(distances > rho_0, function, xi)
+        return function
+    elif field_type == PotentialType.Camera_potential_quadratic and xi is not None:
+        function = np.zeros(np.shape(distances))
+        function = np.where(distances > rho_0,function,(xi*(np.square(rho_0)-np.square(distances))/np.square(rho_0)))
+        return function
     else:
         print("error potential type note found")
 
@@ -388,21 +409,23 @@ def compute_potential_field_cam(X, Y, n_target, beta, field_depth):
     heat_map = []
     if n_target == 1:
         heat_map = HeatMaps.HEAT_MAP_ONE_TARGET_CENTER(field_depth)
+        heat_map = HeatMaps.HEAT_MAP_INSIDE_OF_FIELD()
     elif n_target >= 2:
         heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_CENTER(field_depth,beta)
 
 
     for heat_point in heat_map:
-        x, y, radius = heat_point
-        potential_field += compute_part_of_potential_field(field_type=PotentialType.Camera_potential,
+        x, y,var_x,var_y, xi,rho,potential_type = heat_point
+        potential_field += compute_part_of_potential_field(field_type=potential_type,
                                                            shape=PotentialShape.Circular,
-                                                           X=X_potential_field, mean_x=x, var_x=1,
-                                                           Y=Y_potential_field, mean_y=y, var_y=1,
-                                                           xi=1, rho_0=1)
+                                                           X=X_potential_field, mean_x=x, var_x=var_x,
+                                                           Y=Y_potential_field, mean_y=y, var_y=var_y,
+                                                           xi=xi, rho_0=rho)
 
     potential_field = np.where(camera_shape > 0, potential_field, 0)
     potential_field = np.where(camera_shape < field_depth, potential_field, 0)
-    return X_potential_field, Y_potential_field, potential_field
+
+    return X_potential_field, Y_potential_field, np.minimum(potential_field,1.2)/n_target
 
 
 def convert_target_list_to_potential_field_input(target_list):
@@ -430,6 +453,7 @@ def plot_potential_field(Xp, Yp, potential_field):
     fig.suptitle('representation of the potential field', fontsize=17, fontweight='bold', y=0.98)
     fig.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
     ax1 = fig.add_subplot(1, 1, 1, projection='3d')
+
 
     surf = ax1.plot_surface(Xp, Yp, potential_field, cmap="hot",
                                  linewidth=0, antialiased=False)
@@ -481,6 +505,6 @@ if __name__ == '__main__':
     '''
 
     X = np.arange(0, 8, 0.01)
-    Y = np.arange(-8, 8, 0.01)
-    X,Y,Z = compute_potential_field_cam(X,Y,1,math.radians(60),8)
+    Y = np.arange(-4,4, 0.01)
+    X,Y,Z = compute_potential_field_cam(X,Y,1,math.radians(30),4)
     plot_potential_field(X,Y,Z)

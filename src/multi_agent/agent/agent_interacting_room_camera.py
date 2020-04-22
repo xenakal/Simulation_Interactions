@@ -133,7 +133,7 @@ class AgentCam(AgentInteractingWithRoom):
         # targets untracked by all
         self.targets_untracked_by_all = []
         # count how many times a target is tracked
-        self.table_all_target_number_times_seen = AllTargetNUmberTimesSeen()
+        self.table_all_target_number_times_seen = AllTargetNUmberTimesSeen(self.id,self.log_target_tracked)
 
         # dictionnary to hold the internal priority of the targets (different from the target priority in
         # TargetEstimator). # This priority is used to modelize the fact that a target already tracked should be
@@ -567,15 +567,16 @@ class AgentCam(AgentInteractingWithRoom):
             -----------------------------------------------------------------------------------------------
         """
 
-
+        '''
         last_camera_estimation = self.memory.memory_agent_from_agent.get_item_list(self.id)[-1]
         self.send_message_timed_itemEstimator(last_camera_estimation, constants.TIME_BTW_AGENT_ESTIMATOR)
+        '''
 
 
         # send untrackable targets id
         self.broadcast_untracked_targets()
 
-        self.log_target_tracked.info(self.table_all_target_number_times_seen.to_string(self.id))
+        #self.log_target_tracked.info(self.table_all_target_number_times_seen.to_string(self.id))
 
         for target in self.room_representation.active_Target_list:
             """
@@ -621,13 +622,17 @@ class AgentCam(AgentInteractingWithRoom):
                 Data to send other cam's agent:
                 -----------------------------------------------------------------------------------------------
             """
+
             "Send message to other agent"
             if target.confidence_pos[0] < CONFIDENCE_THRESHOLD < target.confidence_pos[1]:
                 self.table_all_target_number_times_seen.update_tracked(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET,target.id)
+
+
             elif target.confidence_pos[0] > CONFIDENCE_THRESHOLD > target.confidence_pos[1]:
                 self.table_all_target_number_times_seen.update_lost(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET, target.id)
+
 
             if constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.ALL:
                 target_estimator_to_send = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
@@ -674,6 +679,8 @@ class AgentCam(AgentInteractingWithRoom):
 
         [self.broadcast_seen_target(target) for target in self.targets_to_track if target in
          self.targets_untracked_by_all]
+        
+
 
     def process_single_message(self, rec_mes):
         super().process_single_message(rec_mes)
@@ -835,12 +842,14 @@ class AgentCam(AgentInteractingWithRoom):
         target_list.remove(target_to_remove)
 
     def send_message_track_loose_target(self, track_loose_choice, target_id):
+
         if track_loose_choice == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET or track_loose_choice == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
             message = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, track_loose_choice, "",target_id)
+            self.log_target_tracked.info(message.to_string())
             self.broadcast_message(message)
 
     def receive_message_track_loose_target(self, message):
-        print(constants.get_time())
+        self.log_target_tracked.info(message.to_string())
 
         if message.messageType == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET:
             self.table_all_target_number_times_seen.update_tracked(int(message.item_ref))
@@ -849,7 +858,9 @@ class AgentCam(AgentInteractingWithRoom):
 
 
 class AllTargetNUmberTimesSeen:
-    def __init__(self):
+    def __init__(self,agent_id,log):
+        self.id = agent_id
+        self.log_target_tracked = log
         self.tracker_list = []
 
     def update_tracked(self, target_id):
@@ -859,9 +870,10 @@ class AllTargetNUmberTimesSeen:
             old_tracker = self.tracker_list[old_tracker_index]
             old_tracker.update_tracked()
         else:
-            print("new for :" + str(target_id))
             new_tracker.update_tracked()
             self.tracker_list.append(new_tracker)
+
+        self.log_target_tracked.info(self.to_string(self.id))
 
     def update_lost(self, target_id):
         new_tracker = TargetNumberTimesSeen(target_id)
@@ -872,6 +884,8 @@ class AllTargetNUmberTimesSeen:
         else:
             print("should not append")
             self.tracker_list.append(new_tracker)
+
+        self.log_target_tracked.info(self.to_string(self.id))
 
     def to_string(self, agent_id):
         s = "agent %d time %.02f \n" % (agent_id, constants.get_time())
@@ -887,11 +901,11 @@ class TargetNumberTimesSeen():
 
     def update_tracked(self):
         self.n += 1
-        print("add " + str(self.n))
 
     def update_lost(self):
         self.n -= 1
-        print("del " + str(self.n))
+        if self.n < 0:
+            print("error target seen -%d tiems"%self.n)
 
     def to_string(self):
         return "target %d is seen %d \n" % (self.target_id, self.n)
