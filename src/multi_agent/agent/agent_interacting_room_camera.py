@@ -20,12 +20,14 @@ from src.multi_agent.tools.potential_field_method import compute_potential_field
 
 CONFIDENCE_THRESHOLD = 50
 
+
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
     INFO_DKF = "info_DKF"
     UNTRACKABLE_TARGET = "untrackable"
     SEEN_TARGET = "seen_untrackable"
     TRACKING_TARGET = "tracking_target"
     LOSING_TARGET = "loosing_target"
+
 
 class AgentCameraFSM:
     MOVE_CAMERA = "Move camera"
@@ -34,9 +36,11 @@ class AgentCameraFSM:
     COMMUNICATION = "Communication"
     BUG = "Bug"
 
+
 class InternalPriority:
     NOT_TRACKED = 2
     TRACKED = 5
+
 
 class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
     def __init__(self, id, type):
@@ -61,6 +65,7 @@ class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
                                                            agent_estimator.error_speed, agent_estimator.error_acc,
                                                            agent_estimator.color, agent_estimator.is_camera_active,
                                                            agent_estimator.item_type, agent_estimator.trajectory)
+
 
 class AgentCam(AgentInteractingWithRoom):
     """
@@ -406,17 +411,20 @@ class AgentCam(AgentInteractingWithRoom):
             return constants.get_time()
 
     def get_active_targets(self):
-        return [target for target in self.room_representation.active_Target_list if target.confidence_pos[1] >= CONFIDENCE_THRESHOLD]
+        return [target for target in self.room_representation.active_Target_list if
+                target.confidence_pos[1] >= CONFIDENCE_THRESHOLD]
 
     def configuration_algorithm_choice(self, choix):
         target_list = self.get_active_targets()
-        real_configuration,virtual_configuration = self.compute_real_virtual_configuration_and_set_virtual_cam(target_list)
+        real_configuration, virtual_configuration = self.compute_real_virtual_configuration_and_set_virtual_cam(
+            target_list)
 
         if choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WIHTOUT_CHECK:
             return real_configuration
 
         elif choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WITH_TARGET_CHECK:
-            if check_configuration_all_target_are_seen(camera=self.virtual_camera,room_representation=self.room_representation):
+            if check_configuration_all_target_are_seen(camera=self.virtual_camera,
+                                                       room_representation=self.room_representation):
                 return real_configuration
 
         elif choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WITH_SCORE_CHECK:
@@ -424,7 +432,9 @@ class AgentCam(AgentInteractingWithRoom):
                 return real_configuration
 
         elif choix == constants.ConfigurationWaysToBeFound.MOVE_ONLY_IF_CONFIGURATION_IS_VALID:
-            if virtual_configuration.is_configuration_valid(camera=self.virtual_camera,room_representation=self.room_representation,score_map_min=constants.MIN_CONFIGURATION_SCORE):
+            if virtual_configuration.is_configuration_valid(camera=self.virtual_camera,
+                                                            room_representation=self.room_representation,
+                                                            score_map_min=constants.MIN_CONFIGURATION_SCORE):
                 return real_configuration
 
         elif choix == constants.ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG:
@@ -441,20 +451,18 @@ class AgentCam(AgentInteractingWithRoom):
         virtual_configuration.compute_configuration_score()
         return virtual_configuration
 
-    def compute_real_virtual_configuration_and_set_virtual_cam(self,target_list):
+    def compute_real_virtual_configuration_and_set_virtual_cam(self, target_list):
         virtual_configuration = self.compute_virtual_configuration(target_list)
         self.virtual_camera = copy.deepcopy(self.camera)
         self.virtual_camera.set_configuration(virtual_configuration)
 
-        real_configuration =  virtual_configuration = get_configuration_based_on_seen_target(self.camera,
-                                                                   target_list,
-                                                                   PCA_track_points_possibilites.MEANS_POINTS,
-                                                                   self.memory_of_objectives,
-                                                                   self.memory_of_position_to_reach,
-                                                                   False)
-        return real_configuration,virtual_configuration
+        real_configuration = virtual_configuration = \
+            get_configuration_based_on_seen_target(self.camera, target_list, PCA_track_points_possibilites.MEANS_POINTS,
+                                                   self.memory_of_objectives, self.memory_of_position_to_reach, False)
 
-    def construct_room_representation_for_a_given_target_list(self,targets):
+        return real_configuration, virtual_configuration
+
+    def construct_room_representation_for_a_given_target_list(self, targets):
         target_target_estimator = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
 
         # reconstruct the Target_TargetEstimator by flitering the targets
@@ -528,20 +536,22 @@ class AgentCam(AgentInteractingWithRoom):
             :return: Configuration object if exists, None otherwise
         """
         tracked_targets_room_representation = self.construct_room_representation_for_a_given_target_list(targets)
-        virtual_configuration = self.compute_virtual_configuration(tracked_targets_room_representation.active_Target_list)
+        virtual_configuration = self.compute_virtual_configuration(
+            tracked_targets_room_representation.active_Target_list)
 
         better_config_found = False
         self.virtual_camera = copy.deepcopy(self.camera)
         self.virtual_camera.set_configuration(virtual_configuration)
 
         if not check_configuration_all_target_are_seen(self.virtual_camera, tracked_targets_room_representation):
-            self.log_main.debug("Configuration not found at time %.02f, starting variation on this config" % constants.get_time())
+            self.log_main.debug(
+                "Configuration not found at time %.02f, starting variation on this config" % constants.get_time())
             virtual_configuration.is_valid = False
             return virtual_configuration
 
         # configuration found, but bad score
         if virtual_configuration.configuration_score < constants.MIN_CONFIGURATION_SCORE:
-            #Check around if there is a better config
+            # Check around if there is a better config
             optimal_configuration = virtual_configuration.variation_on_configuration_found(self.virtual_camera)
 
             self.virtual_camera.set_configuration(optimal_configuration)
@@ -595,10 +605,8 @@ class AgentCam(AgentInteractingWithRoom):
             -----------------------------------------------------------------------------------------------
         """
 
-
         last_camera_estimation = self.memory.memory_agent_from_agent.get_item_list(self.id)[-1]
         self.send_message_timed_itemEstimator(last_camera_estimation, constants.TIME_BTW_AGENT_ESTIMATOR)
-
 
         # send untrackable targets id
         self.broadcast_untracked_targets()
@@ -654,7 +662,6 @@ class AgentCam(AgentInteractingWithRoom):
                 self.table_all_target_number_times_seen.update_tracked(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET,
                                                      target.id)
-
 
             elif target.confidence_pos[0] > CONFIDENCE_THRESHOLD > target.confidence_pos[1]:
                 self.table_all_target_number_times_seen.update_lost(target.id)
@@ -712,7 +719,7 @@ class AgentCam(AgentInteractingWithRoom):
             self.receive_message_DKF_info(rec_mes)
             self.info_message_received.del_message(rec_mes)
         elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET:
-            self.receive_message_untrackableTarget(rec_mes)
+            # self.receive_message_untrackableTarget(rec_mes)
             self.info_message_received.del_message(rec_mes)
         elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.SEEN_TARGET:
             self.receive_message_seen_target(rec_mes)
@@ -755,7 +762,8 @@ class AgentCam(AgentInteractingWithRoom):
         """
         # inform the other agent of all targets this agent is not able to track
         for target_id in self.untrackable_targets:
-            message = self.message_from_untrackable_target(target_id)
+            message = Message(constants.get_time(), self.id, self.signature,
+                              MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET, "", target_id)
 
             # broadcast message
             self.broadcast_message(message)
@@ -764,18 +772,9 @@ class AgentCam(AgentInteractingWithRoom):
         self.untrackable_targets = []
 
     def broadcast_seen_target(self, target_id):
-        ack_message = self.message_from_seen_target(target_id)
+        ack_message = Message(constants.get_time(), self.id, self.signature,
+                              MessageTypeAgentCameraInteractingWithRoom.SEEN_TARGET, "", target_id)
         self.broadcast_message(ack_message)
-
-    def message_from_untrackable_target(self, target_id):
-        message = Message(constants.get_time(), self.id, self.signature,
-                          MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET, "", target_id)
-        return message
-
-    def message_from_seen_target(self, target_id):
-        message = Message(constants.get_time(), self.id, self.signature,
-                          MessageTypeAgentCameraInteractingWithRoom.SEEN_TARGET, "", target_id)
-        return message
 
     def broadcast_message(self, message):
         """
@@ -791,35 +790,6 @@ class AgentCam(AgentInteractingWithRoom):
             cdt1 = self.info_message_to_send.is_message_with_same_message(message)
             if not cdt1:
                 self.info_message_to_send.add_message(message)
-
-    def receive_message_untrackableTarget(self, message):
-        """
-        :description
-            Checks if the target concerned can be covered by this agent. If so, sends an ACK to all other agents in the
-            next loop.
-        :param message: of type UNTRACKABLE_TARGET
-        """
-        # target the message is refering to
-        target_id = int(message.item_ref)
-        target_representation = self.room_representation.get_Target_with_id(target_id)
-
-        # if the agent doesn't see the target, don't send an ACK
-
-        if target_representation is None or target_representation.confidence_pos[1] < CONFIDENCE_THRESHOLD:
-            # add the target as untracked by all
-            if target_id not in self.targets_untracked_by_all:
-                self.targets_untracked_by_all.append(target_id)
-            return
-
-        # check if the agent can position himself to track this target as well
-        total_items_to_track = self.targets_to_track.copy()
-        total_items_to_track.append(target_id)
-        configuration = self.find_configuration_for_targets(total_items_to_track, False)
-        # the agent can track the target: start tracking it and broadcast an ACK
-        if configuration is not None:
-            if target_id not in self.targets_to_track:
-                self.targets_to_track.append(target_id)
-            self.broadcast_seen_target(target_id)
 
     def receive_message_seen_target(self, message):
         target_id = int(message.item_ref)
@@ -881,6 +851,7 @@ class AgentCam(AgentInteractingWithRoom):
         elif message.messageType == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
             self.table_all_target_number_times_seen.update_lost(int(message.item_ref))
 
+
 class AllTargetNUmberTimesSeen:
     def __init__(self, agent_id, log):
         self.id = agent_id
@@ -917,7 +888,8 @@ class AllTargetNUmberTimesSeen:
             s += tracker.to_string()
         return s
 
-class TargetNumberTimesSeen():
+
+class TargetNumberTimesSeen:
     def __init__(self, target_id):
         self.target_id = target_id
         self.n = 0
