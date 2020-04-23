@@ -95,7 +95,6 @@ class OrientationController(ControllerPI):
     def bound_alpha_btw_minus_pi_plus_pi(self,angle):
         if math.fabs(angle) > math.pi:
             return -np.sign(angle)*(math.pi - np.sign(angle)*math.fmod(angle,math.pi))
-
         return angle
 
     def get_command(self, value):

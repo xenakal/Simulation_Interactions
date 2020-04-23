@@ -102,14 +102,14 @@ class MobileCamera(Camera):
 
         self.xc = float(attribute[1])
         self.yc = float(attribute[2])
-        self.alpha = math.radians(float(attribute[3]))
+        self.alpha = self.bound_alpha_btw_minus_pi_plus_pi(math.radians(float(attribute[3])))
         self.beta = math.radians(float(attribute[4]))
         self.field_depth = float(attribute[6])
 
         self.default_xc = float(attribute[1])
         self.default_yc = float(attribute[2])
-        self.default_alpha = born_minus_pi_plus_pi(math.radians(float(attribute[3])))
-        self.default_beta = born_minus_pi_plus_pi(math.radians(float(attribute[4])))
+        self.default_alpha = self.bound_alpha_btw_minus_pi_plus_pi(math.radians(float(attribute[3])))
+        self.default_beta = self.bound_alpha_btw_minus_pi_plus_pi(math.radians(float(attribute[4])))
         self.default_field_depth = float(attribute[6])
 
         self.delta_beta = math.radians(float(attribute[5]))
@@ -135,7 +135,7 @@ class MobileCamera(Camera):
                   v_alpha_min_bound,v_alpha_max_bound,v_beta_min_bound,v_beta_max_bound):
         self.xc = self.my_rand((0,constants.LENGHT_ROOM))
         self.yc = self.my_rand((0,constants.WIDTH_ROOM))
-        self.alpha = self.my_rand((-math.pi,math.pi))
+        self.alpha = self.bound_alpha_btw_minus_pi_plus_pi(self.my_rand((-math.pi,math.pi)))
         self.beta = self.my_rand(beta_bound)
         self.delta_beta = self.my_rand(delta_beta_bound)
         self.field_depth = self.my_rand(field_bound)
@@ -238,7 +238,7 @@ class MobileCamera(Camera):
                 delta = sign * dt * (self.v_alpha_min + math.fabs(speed) * (self.v_alpha_max - self.v_alpha_min))
 
             self.alpha += delta
-            born_minus_pi_plus_pi(self.alpha)
+            self.alpha = self.bound_alpha_btw_minus_pi_plus_pi(self.alpha)
 
     def move(self, speed_x, speed_y, dt):
         """
@@ -286,6 +286,10 @@ class MobileCamera(Camera):
         self.alpha = alpha_target
         self.beta = beta_target
 
+    def bound_alpha_btw_minus_pi_plus_pi(self,angle):
+        if math.fabs(angle) > math.pi:
+            return -np.sign(angle)*(math.pi - np.sign(angle)*math.fmod(angle,math.pi))
+        return angle
 
     def bound_camera_displacement_in_the_room(self):
         self.xc = self.bound(self.xc, self.xc_min, self.xc_max)

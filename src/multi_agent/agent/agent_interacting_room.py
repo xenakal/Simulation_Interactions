@@ -129,6 +129,9 @@ class AgentInteractingWithRoom(Agent):
             save_in_csv_file_dictionnary(
                 constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS2 + str(self.id),
                 self.memory.memory_predictions_order_2_from_target.to_csv())
+            save_in_csv_file_dictionnary(
+                constants.ResultsPath.SAVE_LOAD_DATA_AGENT_ESTIMATOR+str(self.id),
+                self.memory.memory_agent_from_agent.to_csv())
             self.log_main.info("Data saved !")
 
         "Clear"

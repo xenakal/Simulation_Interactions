@@ -3,9 +3,7 @@ import numpy as np
 import re
 from src import constants
 
-def load_message_file(map_name,agent_id):
-        constants.ResultsPath.folder = "../../results"
-        constants.ResultsPath.name_simulation = map_name
+def load_message_file(agent_id):
         fichier = open(constants.ResultsPath.DATA_MESSAGES+"/message-agent-" + str(agent_id)+".txt", "r")
 
 
@@ -50,31 +48,50 @@ def filter_send_received(data):
     return filtered_send,filtered_received,len(filtered_send)+len(filtered_received)
 
 
-def filter_and_plot(data,filters_names,colors,ax1,ax2):
+def filter_and_plot(id,data,filters_names,colors):
+    try:
+        fig = plt.figure(figsize=(12, 8))
+        fig.suptitle('Exchange messages', fontsize=17, fontweight='bold', y=0.98)
+        fig.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
+        ax1 = fig.add_subplot(2, 2, 1)
+        ax2 = fig.add_subplot(2, 2, 2)
+        ax3 = fig.add_subplot(2, 2, 3)
+        ax4 = fig.add_subplot(2, 2, 4)
 
-    all_data_send,all_data_received,n_all_data = filter_send_received(data)
+        all_data_send,all_data_received,n_all_data = filter_send_received(data)
 
-    sizes_sent = []
-    sizes_rec = []
+        sizes_sent = []
+        sizes_rec = []
 
 
-    for name,color in zip(filters_names,colors):
-        data_send, data_rec, n_mes = filter_send_received(filter_message_type(data, name))
-        sizes_sent.append(len(data_send)/len(all_data_send)*100)
-        sizes_rec.append(len(data_rec)/len(all_data_received)*100)
-        plot_message_time(ax1, data_send,color)
-        plot_message_time(ax2, data_rec,color)
+        for name,color in zip(filters_names,colors):
+            data_send, data_rec, n_mes = filter_send_received(filter_message_type(data, name))
+            if len(all_data_send)>0:
+                sizes_sent.append(len(data_send)/len(all_data_send)*100)
+            else:
+                sizes_sent.append(len(data_send))
 
-    ax1.legend(loc=4)
-    ax1.legend(filters_names)
-    ax1.set_title("Sent messages summary", fontsize=15, fontweight='bold')
+            if len(all_data_received)>0:
+                sizes_rec.append(len(data_rec)/len(all_data_received)*100)
+            else:
+                sizes_sent.append(len(all_data_received))
 
-    ax2.legend(loc=4)
-    ax2.legend(filters_names)
-    ax2.set_title("Received messages summary", fontsize=15, fontweight='bold')
+            plot_message_time(ax1, data_send,color)
+            plot_message_time(ax2, data_rec,color)
 
-    plot_message_bar(ax3, sizes_sent, filters_names, colors)
-    plot_message_bar(ax4, sizes_rec, filters_names, colors)
+        ax1.legend(loc=4)
+        ax1.legend(filters_names)
+        ax1.set_title("Sent messages summary", fontsize=15, fontweight='bold')
+
+        ax2.legend(loc=4)
+        ax2.legend(filters_names)
+        ax2.set_title("Received messages summary", fontsize=15, fontweight='bold')
+
+        plot_message_bar(ax3, sizes_sent, filters_names, colors)
+        plot_message_bar(ax4, sizes_rec, filters_names, colors)
+        fig.savefig(constants.ResultsPath.PLOT_MESSAGE + "/message_agent_" + str(id))
+    except:
+        print("error in message plot creation")
 
 def plot_message_time(ax, data,color):
     times = []
@@ -104,22 +121,21 @@ def plot_message_pie(ax, sizes, labels, colors):
            autopct='%1.1f%%', shadow=False, startangle=90)
 
 
+class MessagePlot:
+    def __init__(self,agent_id):
+        self.data = load_message_file(agent_id)
+        self.id = agent_id
+        self.colors = ['g', 'b', 'r', 'c', 'k']
+        self.names = ["heartbeat", "agentEstimator", "targetEstimator", "loosing_target", "tracking_target"]
+
+    def plot(self):
+        filter_and_plot(self.id,self.data,self.names,self.colors)
+
+
 if __name__ == '__main__':
-    data = load_message_file("My_new_map",100)
-    fig = plt.figure(figsize=(12, 8))
-    fig.suptitle('Exchange messages', fontsize=17, fontweight='bold', y=0.98)
-    fig.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
-    ax1 = fig.add_subplot(2, 2, 1)
-    ax2 = fig.add_subplot(2, 2, 2)
-    ax3 = fig.add_subplot(2, 2, 3)
-    ax4 = fig.add_subplot(2, 2, 4)
-
-    colors = ['g', 'b', 'r', 'c','k']
-    names = ["heartbeat","agentEstimator","targetEstimator","loosing_target","tracking_target"]
-    filter_and_plot(data,names,colors,ax1,ax2)
-
-
-    plt.show()
-
+    constants.ResultsPath.folder = "../../results"
+    constants.ResultsPath.name_simulation = "My_new_map"
+    plot_creator = MessagePlot(1)
+    plot_creator.plot()
 
 

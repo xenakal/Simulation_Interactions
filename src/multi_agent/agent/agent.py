@@ -138,7 +138,8 @@ class Agent(AgentRepresentation):
             self.log_message.info(
                 'RECEIVED : at %.02f' % rec_mes.timestamp + " s " + str(rec_mes.messageType) + " item : " + str(
                     rec_mes.item_ref) + " from :" + str(rec_mes.sender_id))
-            self.log_save_message.info(str(rec_mes.timestamp) +",received,"+str(rec_mes.messageType)+",item:"+str(
+            if constants.SAVE_DATA:
+                self.log_save_message.info(str(rec_mes.timestamp) +",received,"+str(rec_mes.messageType)+",item:"+str(
                     rec_mes.item_ref)+",from:"+ str(rec_mes.sender_id))
 
     def receive_messages(self):
@@ -214,7 +215,8 @@ class Agent(AgentRepresentation):
                             'SENT : at %.02f' % m.timestamp + " s " + str(m.messageType) + " target : " + str(
                                 m.item_ref) + " to :" + str(m.receiver_id_and_signature))
                         self.log_message.debug('SENT     : \n' + m.to_string())
-                        self.log_save_message.info(str(m.timestamp)+",sent,"+str(m.messageType)+",item:"+
+                        if constants.SAVE_DATA:
+                            self.log_save_message.info(str(m.timestamp)+",sent,"+str(m.messageType)+",item:"+
                             str(m.item_ref)+",from:"+str(m.sender_id))
                         succes = 0
                     else:
