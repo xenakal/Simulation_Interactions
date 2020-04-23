@@ -263,8 +263,6 @@ class AgentInteractingWithRoom(Agent):
                                                               tell to whom to send the message.
 
               """
-        if receivers is None:
-            receivers = []
 
         s = itemEstimator.to_string()
         s = s.replace("\n", "")
@@ -283,6 +281,10 @@ class AgentInteractingWithRoom(Agent):
 
         m = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, message_type, s, reference_to_target)
 
+        if receivers is None:
+            receivers = []
+
+        #TODO replace with broadcast
         if len(receivers) == 0:
             for agent in self.room_representation.agentCams_representation_list:
                 if agent.id != self.id:
@@ -312,7 +314,6 @@ class AgentInteractingWithRoom(Agent):
             if len(receivers) == 0:
                 for agent in self.room_representation.agentCams_representation_list:
                     if agent.id != self.id:
-
                         if table_time_sent.should_sent_item_to_agent(item_estimator.item_id, agent.id, delta_time):
                             table_time_sent.sent_to_at_time(item_estimator.item_id, agent.id)
                             send_message_to_agent.append((agent.id, agent.signature))
@@ -322,7 +323,8 @@ class AgentInteractingWithRoom(Agent):
                         table_time_sent.sent_to_at_time(item_estimator.item_id, receiver[0])
                         send_message_to_agent.append((receiver[0], receiver[1]))
 
-            self.send_message_itemEstimator(item_estimator, send_message_to_agent)
+            if len(send_message_to_agent) > 0:
+                self.send_message_itemEstimator(item_estimator, send_message_to_agent)
 
     def received_message_itemEstimator(self, message):
         """

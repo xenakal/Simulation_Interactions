@@ -28,7 +28,7 @@ def check_heat_maps(n_target,camera):
     elif n_target == 2:
         return [HeatMaps.HEAT_MAP_TWO_TARGET_CENTER(camera.field_depth,camera.beta),
                 HeatMaps.HEAT_MAP_TWO_TARGET_FAR(camera.field_depth,camera.field_depth,1),
-                HeatMaps.HEAT_MAP_TWO_TARGET_FAR(camera.field_depth, camera.field_depth, 2)]
+                HeatMaps.HEAT_MAP_TWO_TARGET_FAR(camera.field_depth, camera.field_depth, -1)]
 
 def get_configuration_based_on_seen_target(camera, target_representation_list,
                                            point_to_track_choice=PCA_track_points_possibilites.MEDIAN_POINTS,
@@ -94,6 +94,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
         xt, yt, angle_in_room_representation, y_to_compute_beta, variance_min_ratio = get_angle_alpha_beta_PCA_method(
             target_representation_list,
             point_to_track_choice)
+
         placement_choice = Angle_configuration.PERPENDICULAR_TO_COMPUTED_DIRECTION
 
         if number_of_target ==2:

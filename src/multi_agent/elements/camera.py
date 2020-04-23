@@ -532,7 +532,7 @@ class Camera(CameraRepresentation):
         """
 
         if self.is_active:  # we can take only picture in the real world
-            self.take_picture(room, 400)
+            self.take_picture(room, 200)
             return self.targetCameraDistance_list
         else:
             return []
@@ -633,7 +633,7 @@ class Camera(CameraRepresentation):
         target_camera_distance_list.sort()
         return target_camera_distance_list
 
-    def compute_projection(self, targetCameraDistance_list, length_projection=200):
+    def compute_projection(self, targetCameraDistance_list, length_projection=100):
         """
             :description
                Create the lost of information when using a camera.

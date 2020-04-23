@@ -654,11 +654,10 @@ class AgentCam(AgentInteractingWithRoom):
                 self.table_all_target_number_times_seen.update_tracked(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET,
                                                      target.id)
-
-
             elif target.confidence_pos[0] > CONFIDENCE_THRESHOLD > target.confidence_pos[1]:
                 self.table_all_target_number_times_seen.update_lost(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET, target.id)
+
 
             if constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.ALL:
                 target_estimator_to_send = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
