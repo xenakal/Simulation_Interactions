@@ -509,7 +509,7 @@ class AgentCam(AgentInteractingWithRoom):
             self.log_main.debug("no config to move at time %.02f" % constants.get_time())
             return constants.get_time()
 
-        if configuration.no_targets:
+        if not configuration.track_target_list:
             dt = constants.get_time() - last_time_move
             self.camera.behaviour_no_targets_seen(dt)
 
@@ -630,8 +630,8 @@ class AgentCam(AgentInteractingWithRoom):
             :return: Configuration object if exists, None otherwise
         """
         tracked_targets_room_representation = self.construct_room_representation_for_a_given_target_list(targets)
-        virtual_configuration = self.compute_virtual_configuration(
-            tracked_targets_room_representation.active_Target_list)
+        virtual_configuration = \
+            self.compute_virtual_configuration(tracked_targets_room_representation.active_Target_list)
 
         better_config_found = False
         self.virtual_camera = copy.deepcopy(self.camera)

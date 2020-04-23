@@ -242,8 +242,7 @@ class MobileCamera(Camera):
             else:
                 delta = sign * dt * (self.v_alpha_min + math.fabs(speed) * (self.v_alpha_max - self.v_alpha_min))
 
-            self.alpha += delta
-            born_minus_pi_plus_pi(self.alpha)
+            self.alpha = born_minus_pi_plus_pi(self.alpha+delta)
 
     def move(self, speed_x, speed_y, dt):
         """
@@ -303,8 +302,7 @@ class MobileCamera(Camera):
             pass
 
     def rotative_cam_swipe(self, dt):
-        print("okok")
-        self.rotate(self.swipe_anlge_direction*self.v_alpha_max, dt)
+        self.rotate(self.swipe_anlge_direction*1, dt)
 
     def set_x_y_alpha_beta(self, x_target, y_target, alpha_target, beta_target):
         self.xc = x_target

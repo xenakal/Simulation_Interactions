@@ -14,8 +14,6 @@ def bound(val, val_min, val_max):
 
 
 def check_configuration_all_target_are_seen(camera, room_representation):
-    in_field = False
-    hidden = True
 
     # check if this configuration covers all targets
     for targetRepresentation in room_representation.active_Target_list:
@@ -27,8 +25,10 @@ def check_configuration_all_target_are_seen(camera, room_representation):
                                                                        camera,
                                                                        targetRepresentation.xc,
                                                                        targetRepresentation.yc)
+        if hidden or not in_field:
+            return False
 
-    return in_field and not hidden
+    return True
 
 
 class VariationOnConfiguration:

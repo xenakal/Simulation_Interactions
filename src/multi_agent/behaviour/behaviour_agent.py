@@ -55,6 +55,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
     placement_choice = None
     number_of_target = len(target_representation_list)
 
+    """
     all_fix = True
     are_target_fix = [target.type == TargetType.FIX for target in target_representation_list]
     for item in are_target_fix:
@@ -63,6 +64,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
 
     if all_fix:
         return Configuration(xt, yt, camera.xc, camera.yc, camera.alpha, camera.beta, camera.field_depth, virtual)
+    """
 
     """-----------------------------------------------------------------------------------------------------------------
        IN TERMS OF THE TARGET NUMBER
@@ -72,10 +74,9 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
         warnings.warn("Agent ", camera.id, "sees a negative number of targets...")
 
     if number_of_target == 0:
-        print("ok")
         configuration = Configuration(-1, -1, -1, -1, -1, -1, -1, 0)
         configuration.is_valid = True
-        configuration.no_targets = True
+        configuration.track_target_list = []
         return configuration
 
     elif number_of_target == 1:
