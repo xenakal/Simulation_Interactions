@@ -8,8 +8,8 @@ In this file you have the possibility to modify the settings
 """
 
 """Options-----------------------------------------------------------------------------------------------------------"""
-SAVE_DATA = False
-GENERATE_PLOT = False
+SAVE_DATA = True
+GENERATE_PLOT = True
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
 USE_GUI = True
@@ -231,9 +231,9 @@ TARGET_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp',
                                    'target_type', 'target_x', 'target_y', 'target_vx', 'target_vy',
                                    'target_ax', 'target_ay', 'target_radius', 'target_alpha']
 
-CAMERA_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp', 'agent_id', 'agent_signature', 'camera_id',
+AGENT_ESTIMATOR_CSV_FIELDNAMES = ['time_to_compare', 'time_stamp', 'agent_id', 'agent_signature', 'camera_id',
                                    'camera_signature', 'camera_type', 'camera_x', 'camera_y', 'camera_vx', 'camera_vy',
-                                   'camera_ax', 'camera_ay', 'alpha', 'beta']
+                                   'camera_ax', 'camera_ay', 'alpha', 'beta','field_depth','is_agent_active','is_camera_active']
 
 """Path to save data and create plot"""
 
@@ -296,23 +296,31 @@ class ResultsPath:
 
     @classproperty
     def DATA_IDEAL(cls):
-        return ResultsPath.DATA_FOLDER + "/ideal"
+        return ResultsPath.DATA_FOLDER + "/Data-ideal"
+
+    @classproperty
+    def DATA_MEMORY_RELATED_TO_TARGET(cls):
+        return ResultsPath.DATA_FOLDER + "/Data-related-to-target"
+
+    @classproperty
+    def DATA_MEMORY_RELATED_TO_AGENT(cls):
+        return ResultsPath.DATA_FOLDER + "/Data-related-to-agent"
 
     @classproperty
     def DATA_STATIC_REGION(cls):
         return ResultsPath.DATA_IDEAL + "/static_region"
 
     @classproperty
-    def DATA_MEMORY_AGENT(cls):
-        return ResultsPath.DATA_FOLDER + "/memory_agent"
+    def DATA_MEMORY_AGENT_TARGET(cls):
+        return ResultsPath.DATA_MEMORY_RELATED_TO_TARGET + "/memory_agent"
 
     @classproperty
-    def DATA_MEMORY_ALL_AGENT(cls):
-        return ResultsPath.DATA_FOLDER + "/memory_all_agent"
+    def DATA_MEMORY_ALL_AGENT_TARGET(cls):
+        return ResultsPath.DATA_MEMORY_RELATED_TO_TARGET + "/memory_all_agent"
 
     @classproperty
     def DATA_KALMAN(cls):
-        return ResultsPath.DATA_FOLDER + "/kalman"
+        return ResultsPath.DATA_MEMORY_RELATED_TO_TARGET + "/kalman"
 
     @classproperty
     def DATA_KALMAN_GLOBAL(cls):
@@ -339,6 +347,10 @@ class ResultsPath:
         return ResultsPath.DATA_KALMAN + "/kalman_distribue"
 
     @classproperty
+    def SAVE_LOAD_DATA_AGENT_ESTIMATOR(cls):
+        return ResultsPath.DATA_MEMORY_RELATED_TO_AGENT + "/"
+
+    @classproperty
     def SAVE_LOAD_DATA_STATIC_REGION(cls):
         return ResultsPath.DATA_STATIC_REGION + "/static-cut-"
 
@@ -352,11 +364,11 @@ class ResultsPath:
 
     @classproperty
     def SAVE_LOAD_DATA_MEMORY_AGENT(cls):
-        return ResultsPath.DATA_MEMORY_AGENT + "/agent-"
+        return ResultsPath.DATA_MEMORY_AGENT_TARGET + "/agent-"
 
     @classproperty
     def SAVE_LOAD_DATA_MEMORY_ALL_AGENT(cls):
-        return ResultsPath.DATA_MEMORY_ALL_AGENT + "/agent-"
+        return ResultsPath.DATA_MEMORY_ALL_AGENT_TARGET + "/agent-"
 
     @classproperty
     def SAVE_LOAD_DATA_KALMAN_GLOBAL_FILTER(cls):
@@ -373,6 +385,10 @@ class ResultsPath:
     @classproperty
     def PLOT_FOLDER(cls):
         return ResultsPath.MAIN_FOLDER + "/plot"
+
+    @classproperty
+    def PLOT_AGENT_ESTIMATOR(cls):
+        return ResultsPath.PLOT_FOLDER +"/agent_estimator"
 
     @classproperty
     def PLOT_MEMORY_AGENT(cls):
@@ -411,6 +427,10 @@ class ResultsPath:
         return ResultsPath.PLOT_KALMAN + "/kalman_distribue"
 
     @classproperty
+    def PLOT_MESSAGE(cls):
+        return ResultsPath.PLOT_FOLDER + "/messages"
+
+    @classproperty
     def SAVE_LAOD_PLOT_FOLDER(cls):
         return ResultsPath.PLOT_FOLDER + "/"
 
@@ -433,6 +453,7 @@ class ResultsPath:
     @classproperty
     def SAVE_LOAD_PLOT_MEMORY_AGENT(cls):
         return ResultsPath.PLOT_MEMORY_AGENT + "/"
+
 
     @classproperty
     def SAVE_LOAD_PLOT_MEMORY_ALL_AGENT(cls):
