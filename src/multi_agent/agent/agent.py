@@ -91,6 +91,7 @@ class Agent(AgentRepresentation):
         "Logger to keep track of every send and received messages"
         self.log_main = create_logger(constants.ResultsPath.LOG_AGENT, "Main informations", self.id)
         self.log_message = create_logger(constants.ResultsPath.LOG_AGENT, "Message", self.id)
+        self.log_save_message = create_logger_save_data(constants.ResultsPath.DATA_MESSAGES+"/","message",self.id)
 
     def save_agent_to_txt(self):
         s0 = "t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
@@ -136,6 +137,8 @@ class Agent(AgentRepresentation):
             self.log_message.info(
                 'RECEIVED : at %.02f' % rec_mes.timestamp + " s " + str(rec_mes.messageType) + " item : " + str(
                     rec_mes.item_ref) + " from :" + str(rec_mes.sender_id))
+            self.log_save_message.info(str(rec_mes.timestamp) +",received,"+str(rec_mes.messageType)+",item:"+str(
+                    rec_mes.item_ref)+",from:"+ str(rec_mes.sender_id))
 
     def receive_messages(self):
         """
@@ -210,6 +213,8 @@ class Agent(AgentRepresentation):
                             'SENT : at %.02f' % m.timestamp + " s " + str(m.messageType) + " target : " + str(
                                 m.item_ref) + " to :" + str(m.receiver_id_and_signature))
                         self.log_message.debug('SENT     : \n' + m.to_string())
+                        self.log_save_message.info(str(m.timestamp)+",sent,"+str(m.messageType)+",item:"+
+                            str(m.item_ref)+",from:"+str(m.sender_id))
                         succes = 0
                     else:
                         succes = 1

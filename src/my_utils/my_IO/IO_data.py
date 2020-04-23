@@ -37,6 +37,7 @@ def create_structur_to_save_data():
         "create ideal folder and it subfolder"
         os.mkdir(constants.ResultsPath.DATA_IDEAL)
         os.mkdir(constants.ResultsPath.DATA_STATIC_REGION)
+        os.mkdir(constants.ResultsPath.DATA_MESSAGES)
 
         """Create folder Kalman and it subfolder"""
         os.mkdir(constants.ResultsPath.DATA_KALMAN)
@@ -86,6 +87,26 @@ def create_logger(path, name, agent_id):
     logger.addHandler(fh)
     logger.addHandler(ch)
     return logger
+
+def create_logger_save_data(path, name, agent_id):
+    # log_room
+    logger = logging.getLogger(name + str(agent_id))
+    logger.setLevel(constants.LOG_LEVEL)
+
+    # create file handler which log_messages even debug messages
+    fh = logging.FileHandler(path + name + "-agent-"+str(agent_id)+".txt", "w+")
+    # create console handler with a higher log_message level
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.ERROR)
+    # create formatter and add it to the handlers
+    formatter = logging.Formatter('%(message)s')
+    fh.setFormatter(formatter)
+    ch.setFormatter(formatter)
+    # add the handlers to the logger_message
+    logger.addHandler(fh)
+    logger.addHandler(ch)
+    return logger
+
 
 
 def save_in_csv_file(name, data_to_save):

@@ -347,241 +347,6 @@ class AgentCam(AgentInteractingWithRoom):
 
         self.log_execution.info("Execution mean time : %.02f s", execution_mean_time / execution_loop_number)
 
-    def move_based_on_config(self, configuration, last_time_move):
-
-        if configuration is None:
-            self.log_main.debug("no config to move at time %.02f" % constants.get_time())
-            return constants.get_time()
-
-        """Computing the vector field"""
-        configuration.compute_vector_field_for_current_position(self.camera.xc, self.camera.yc)
-
-        """Setting values to the PI controller"""
-        self.camera_controller.set_targets(configuration.x, configuration.y, configuration.alpha, configuration.beta)
-
-        """Define the values measured"""
-        x_mes = self.camera.xc  # + error si on veut ajouter ici
-        y_mes = self.camera.yc
-
-        alpha_mes = self.camera_controller.alpha_controller.bound_alpha_btw_minus_pi_plus_pi(self.camera.alpha)
-        beta_mes = self.camera.beta
-
-        if self.camera.camera_type == mobCam.MobileCameraType.RAIL:
-            "1 D"
-            x_mes = self.camera.trajectory.sum_delta
-            y_mes = 0
-
-        """Find the command to apply"""
-        (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes, y_mes,
-                                                                                                 alpha_mes, beta_mes)
-
-        if constants.AGENT_MOTION_CONTROLLER == constants.AgentCameraController.Controller_PI:
-            "We keep it has computed above"
-            pass
-        elif constants.AGENT_MOTION_CONTROLLER == constants.AgentCameraController.Vector_Field_Method:
-            "The position command is here adapted with the vector field"
-            x_controller = self.camera_controller.position_controller.x_controller
-            y_controller = self.camera_controller.position_controller.y_controller
-            x_command = x_controller.born_command(configuration.vector_field_x * x_controller.kp)
-            y_command = y_controller.born_command(configuration.vector_field_y * y_controller.kp)
-        else:
-            print("error in move target, controller type not found")
-
-        # print("alpha_mes %.02f alpha_target %.02f command %.02f dt %.02f" % (
-        # math.degrees(alpha_mes), math.degrees(configuration.alpha), alpha_command,constants.get_time() - last_time_move))
-
-        """Apply the command"""
-        if constants.get_time() - last_time_move < 0:
-            print("problem time < 0 : %.02f s" % constants.get_time())
-            return last_time_move
-        else:
-            dt = constants.get_time() - last_time_move
-            if dt > 0.2:
-                "If the dt is to large, the controller can not handle it anymore, the solution is to decompose dt in smaller values"
-                self.camera.rotate(alpha_command, 0.2)
-                self.camera.zoom(beta_command, 0.2)
-                self.camera.move(x_command, y_command, 0.2)
-                return self.move_based_on_config(configuration, last_time_move + 0.2)
-
-            else:
-                self.camera.rotate(alpha_command, dt)
-                self.camera.zoom(beta_command, dt)
-                self.camera.move(x_command, y_command, dt)
-
-            return constants.get_time()
-
-    def get_active_targets(self):
-        return [target for target in self.room_representation.active_Target_list if
-                target.confidence_pos[1] >= CONFIDENCE_THRESHOLD]
-
-    def configuration_algorithm_choice(self, choix):
-        target_list = self.get_active_targets()
-        real_configuration, virtual_configuration = self.compute_real_virtual_configuration_and_set_virtual_cam(
-            target_list)
-
-        if choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WIHTOUT_CHECK:
-            return real_configuration
-
-        elif choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WITH_TARGET_CHECK:
-            if check_configuration_all_target_are_seen(camera=self.virtual_camera,
-                                                       room_representation=self.room_representation):
-                return real_configuration
-
-        elif choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WITH_SCORE_CHECK:
-            if virtual_configuration.configuration_score >= constants.MIN_CONFIGURATION_SCORE:
-                return real_configuration
-
-        elif choix == constants.ConfigurationWaysToBeFound.MOVE_ONLY_IF_CONFIGURATION_IS_VALID:
-            if virtual_configuration.is_configuration_valid(camera=self.virtual_camera,
-                                                            room_representation=self.room_representation,
-                                                            score_map_min=constants.MIN_CONFIGURATION_SCORE):
-                return real_configuration
-
-        elif choix == constants.ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG:
-            return self.find_configuration_for_tracked_targets()
-
-        return None
-
-    def compute_virtual_configuration(self, targets):
-        virtual_configuration = \
-            get_configuration_based_on_seen_target(self.camera, targets,
-                                                   PCA_track_points_possibilites.MEANS_POINTS,
-                                                   self.memory_of_objectives, self.memory_of_position_to_reach, True)
-
-        virtual_configuration.compute_configuration_score()
-        return virtual_configuration
-
-    def compute_real_virtual_configuration_and_set_virtual_cam(self, target_list):
-        virtual_configuration = self.compute_virtual_configuration(target_list)
-        self.virtual_camera = copy.deepcopy(self.camera)
-        self.virtual_camera.set_configuration(virtual_configuration)
-
-        real_configuration = virtual_configuration = \
-            get_configuration_based_on_seen_target(self.camera, target_list, PCA_track_points_possibilites.MEANS_POINTS,
-                                                   self.memory_of_objectives, self.memory_of_position_to_reach, False)
-
-        return real_configuration, virtual_configuration
-
-    def construct_room_representation_for_a_given_target_list(self, targets):
-        target_target_estimator = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
-
-        # reconstruct the Target_TargetEstimator by flitering the targets
-        new_target_targetEstimator = Target_TargetEstimator()
-        for (target_id, targetEstimator_list) in target_target_estimator.item_itemEstimator_list:
-            if target_id in targets:
-                new_target_targetEstimator.add_itemEstimator(targetEstimator_list[-1])
-
-        # find a configuration for these targets
-        tracked_targets_room_representation = room.RoomRepresentation()
-        tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
-        return tracked_targets_room_representation
-
-    def find_configuration_for_tracked_targets(self):
-        """
-        :description:
-            Updates self.untrackable_targets and returns a configuration for the targets the agent is able to track
-        :return a configuration for the targets the agent is able to track, or None if he can't track any
-        """
-        # try to find a configuration covering all targets
-        tracked_targets = copy.copy(self.targets_to_track)
-
-        # do nothing if no targets need tracking
-        if not tracked_targets:
-            return None
-
-        configuration = None
-        while configuration is None or not configuration.is_valid:  # configuration not found
-
-            # attempt to find a configuration
-            configuration = self.find_configuration_for_targets(tracked_targets)
-
-            if configuration is None or not configuration.is_valid:
-                # remove a target
-                self.remove_target_with_lowest_priority(tracked_targets, configuration)
-                # if somehow couldn't find a configuration covering any of the elements
-                if len(tracked_targets) == 0:
-                    # update the list of untrackable targets
-                    self.untrackable_targets = self.targets_to_track.copy()
-                    # update the list of targets untracked by all
-                    [self.targets_untracked_by_all.append(target) for target in self.untrackable_targets if
-                     target not in
-                     self.targets_untracked_by_all]
-                    # update the list of tracked targets
-                    self.targets_to_track = []
-                    # reset priority dict
-                    self.priority_dict = {}
-                    return None
-
-        # update the list of untrackable targets
-        self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
-        self.targets_to_track = tracked_targets
-        # update list of targets untracked by all
-        [self.targets_untracked_by_all.append(target) for target in self.untrackable_targets if target not in
-         self.targets_untracked_by_all]
-
-        # update priority dict if some target was lost
-        if self.untrackable_targets:
-            self.priority_dict = {}
-            for target_id in self.targets_to_track:
-                self.priority_dict[target_id] = InternalPriority.TRACKED
-
-        return configuration
-
-    def find_configuration_for_targets(self, targets, used_for_movement=True):
-        """
-            :description:
-                Checks if a configuration can be found where all targets are seen.
-            :param targets: target representations
-            :param used_for_movement: if False, don't do the last non-virtual "get_configuration"
-            :return: Configuration object if exists, None otherwise
-        """
-        tracked_targets_room_representation = self.construct_room_representation_for_a_given_target_list(targets)
-        virtual_configuration = self.compute_virtual_configuration(
-            tracked_targets_room_representation.active_Target_list)
-
-        better_config_found = False
-        self.virtual_camera = copy.deepcopy(self.camera)
-        self.virtual_camera.set_configuration(virtual_configuration)
-
-        if not check_configuration_all_target_are_seen(self.virtual_camera, tracked_targets_room_representation):
-            self.log_main.debug(
-                "Configuration not found at time %.02f, starting variation on this config" % constants.get_time())
-            virtual_configuration.is_valid = False
-            return virtual_configuration
-
-        # configuration found, but bad score
-        if virtual_configuration.configuration_score < constants.MIN_CONFIGURATION_SCORE:
-            # Check around if there is a better config
-            optimal_configuration = virtual_configuration.variation_on_configuration_found(self.virtual_camera)
-
-            self.virtual_camera.set_configuration(optimal_configuration)
-            if check_configuration_all_target_are_seen(self.virtual_camera, tracked_targets_room_representation):
-                better_config_found = True
-
-        # if the agent actually wants to move
-        if used_for_movement:
-            real_configuration = \
-                get_configuration_based_on_seen_target(self.camera,
-                                                       tracked_targets_room_representation.active_Target_list,
-                                                       PCA_track_points_possibilites.MEANS_POINTS,
-                                                       self.memory_of_objectives, self.memory_of_position_to_reach,
-                                                       False)
-
-            if better_config_found:
-                real_configuration.x = optimal_configuration.x
-                real_configuration.y = optimal_configuration.y
-                real_configuration.is_valid = True
-            return real_configuration
-
-        # if the agent doesn't want to move
-        if better_config_found:
-            better_config = virtual_configuration.variation_on_configuration_found(self.virtual_camera)
-            better_config.is_valid = True
-            return better_config
-        else:
-            virtual_configuration.is_valid = True
-            return virtual_configuration
-
     def process_information_in_memory(self):
         """
             :description
@@ -713,100 +478,202 @@ class AgentCam(AgentInteractingWithRoom):
         [self.broadcast_seen_target(target) for target in self.targets_to_track if target in
          self.targets_untracked_by_all]
 
-    def process_single_message(self, rec_mes):
-        super().process_single_message(rec_mes)
-        if rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.INFO_DKF:
-            self.receive_message_DKF_info(rec_mes)
-            self.info_message_received.del_message(rec_mes)
-        elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET:
-            # self.receive_message_untrackableTarget(rec_mes)
-            self.info_message_received.del_message(rec_mes)
-        elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.SEEN_TARGET:
-            self.receive_message_seen_target(rec_mes)
-            self.info_message_received.del_message(rec_mes)
-        elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET \
-                or rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
-            self.receive_message_track_loose_target(rec_mes)
-            self.info_message_received.del_message(rec_mes)
+    def configuration_algorithm_choice(self, choix):
+        target_list = self.get_active_targets()
+        real_configuration, virtual_configuration = self.compute_real_virtual_configuration_and_set_virtual_cam(
+            target_list)
 
-    def get_predictions(self, target_id_list):
-        """
-        :return: a list [[targetId, [predicted_position1, ...]], ...]
-        """
-        return self.memory.get_predictions(target_id_list)
+        if choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WIHTOUT_CHECK:
+            return real_configuration
 
-    def send_message_DKF_info(self, target_id):
-        """
-        :description
-            Send a message containing the information needed for the distribution of the Kalman Filter.
-        :param (int) target_id  -- id of tracked target for which we're sending the info
-        """
+        elif choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WITH_TARGET_CHECK:
+            if check_configuration_all_target_are_seen(camera=self.virtual_camera,
+                                                       room_representation=self.room_representation):
+                return real_configuration
 
-        dkf_info_string = self.memory.get_DKF_info_string(target_id)
-        # message containing the DKF information to send
-        message = MessageCheckACKNACK(constants.get_time(), self.id, self.signature,
-                                      MessageTypeAgentCameraInteractingWithRoom.INFO_DKF, dkf_info_string, target_id)
+        elif choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WITH_SCORE_CHECK:
+            if virtual_configuration.configuration_score >= constants.MIN_CONFIGURATION_SCORE:
+                return real_configuration
 
-        # send the message to every other agent
-        self.broadcast_message(message)
+        elif choix == constants.ConfigurationWaysToBeFound.MOVE_ONLY_IF_CONFIGURATION_IS_VALID:
+            if virtual_configuration.is_configuration_valid(camera=self.virtual_camera,
+                                                            room_representation=self.room_representation,
+                                                            score_map_min=constants.MIN_CONFIGURATION_SCORE):
+                return real_configuration
 
-        # add message to the list if not already inside
-        cdt = self.info_message_to_send.is_message_with_same_message(message)
-        if not cdt:
-            self.info_message_to_send.add_message(message)
+        elif choix == constants.ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG:
+            return self.find_configuration_for_tracked_targets()
 
-    def broadcast_untracked_targets(self):
-        """
-        :description
-            Broadcast a message to notify other agents that a certain target can't be tracked by this agent anymore.
-        """
-        # inform the other agent of all targets this agent is not able to track
-        for target_id in self.untrackable_targets:
-            message = Message(constants.get_time(), self.id, self.signature,
-                              MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET, "", target_id)
+        return None
 
-            # broadcast message
-            self.broadcast_message(message)
+    def move_based_on_config(self, configuration, last_time_move):
 
-        # empty the untrackable_targets list
-        self.untrackable_targets = []
+        if configuration is None:
+            self.log_main.debug("no config to move at time %.02f" % constants.get_time())
+            return constants.get_time()
 
-    def broadcast_seen_target(self, target_id):
-        ack_message = Message(constants.get_time(), self.id, self.signature,
-                              MessageTypeAgentCameraInteractingWithRoom.SEEN_TARGET, "", target_id)
-        self.broadcast_message(ack_message)
+        """Computing the vector field"""
+        configuration.compute_vector_field_for_current_position(self.camera.xc, self.camera.yc)
 
-    def broadcast_message(self, message):
+        """Setting values to the PI controller"""
+        self.camera_controller.set_targets(configuration.x, configuration.y, configuration.alpha, configuration.beta)
+
+        """Define the values measured"""
+        x_mes = self.camera.xc  # + error si on veut ajouter ici
+        y_mes = self.camera.yc
+
+        alpha_mes = self.camera_controller.alpha_controller.bound_alpha_btw_minus_pi_plus_pi(self.camera.alpha)
+        beta_mes = self.camera.beta
+
+        if self.camera.camera_type == mobCam.MobileCameraType.RAIL:
+            "1 D"
+            x_mes = self.camera.trajectory.sum_delta
+            y_mes = 0
+
+        """Find the command to apply"""
+        (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes, y_mes,
+                                                                                                 alpha_mes, beta_mes)
+
+        if constants.AGENT_MOTION_CONTROLLER == constants.AgentCameraController.Controller_PI:
+            "We keep it has computed above"
+            pass
+        elif constants.AGENT_MOTION_CONTROLLER == constants.AgentCameraController.Vector_Field_Method:
+            "The position command is here adapted with the vector field"
+            x_controller = self.camera_controller.position_controller.x_controller
+            y_controller = self.camera_controller.position_controller.y_controller
+            x_command = x_controller.born_command(configuration.vector_field_x * x_controller.kp)
+            y_command = y_controller.born_command(configuration.vector_field_y * y_controller.kp)
+        else:
+            print("error in move target, controller type not found")
+
+        # print("alpha_mes %.02f alpha_target %.02f command %.02f dt %.02f" % (
+        # math.degrees(alpha_mes), math.degrees(configuration.alpha), alpha_command,constants.get_time() - last_time_move))
+
+        """Apply the command"""
+        if constants.get_time() - last_time_move < 0:
+            print("problem time < 0 : %.02f s" % constants.get_time())
+            return last_time_move
+        else:
+            dt = constants.get_time() - last_time_move
+            if dt > 0.2:
+                "If the dt is to large, the controller can not handle it anymore, the solution is to decompose dt in smaller values"
+                self.camera.rotate(alpha_command, 0.2)
+                self.camera.zoom(beta_command, 0.2)
+                self.camera.move(x_command, y_command, 0.2)
+                return self.move_based_on_config(configuration, last_time_move + 0.2)
+
+            else:
+                self.camera.rotate(alpha_command, dt)
+                self.camera.zoom(beta_command, dt)
+                self.camera.move(x_command, y_command, dt)
+
+            return constants.get_time()
+
+    def find_configuration_for_tracked_targets(self):
         """
         :description:
-            Broadcasts the message to every other known agent.
-        :param message: message of type MessageCheckACKNACK()
+            Updates self.untrackable_targets and returns a configuration for the targets the agent is able to track
+        :return a configuration for the targets the agent is able to track, or None if he can't track any
         """
+        # try to find a configuration covering all targets
+        tracked_targets = copy.copy(self.targets_to_track)
 
-        for agent in self.room_representation.agentCams_representation_list:
-            if not agent.id == self.id:
-                message.add_receiver(agent.id, agent.signature)
+        # do nothing if no targets need tracking
+        if not tracked_targets:
+            return None
 
-            cdt1 = self.info_message_to_send.is_message_with_same_message(message)
-            if not cdt1:
-                self.info_message_to_send.add_message(message)
+        configuration = None
+        while configuration is None or not configuration.is_valid:  # configuration not found
 
-    def receive_message_seen_target(self, message):
-        target_id = int(message.item_ref)
-        if target_id in self.targets_untracked_by_all:
-            self.targets_untracked_by_all.remove(target_id)
+            # attempt to find a configuration
+            configuration = self.find_configuration_for_targets(tracked_targets)
 
-    def receive_message_DKF_info(self, message):
+            if configuration is None or not configuration.is_valid:
+                # remove a target
+                self.remove_target_with_lowest_priority(tracked_targets, configuration)
+                # if somehow couldn't find a configuration covering any of the elements
+                if len(tracked_targets) == 0:
+                    # update the list of untrackable targets
+                    self.untrackable_targets = self.targets_to_track.copy()
+                    # update the list of targets untracked by all
+                    [self.targets_untracked_by_all.append(target) for target in self.untrackable_targets if
+                     target not in
+                     self.targets_untracked_by_all]
+                    # update the list of tracked targets
+                    self.targets_to_track = []
+                    # reset priority dict
+                    self.priority_dict = {}
+                    return None
+
+        # update the list of untrackable targets
+        self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
+        self.targets_to_track = tracked_targets
+        # update list of targets untracked by all
+        [self.targets_untracked_by_all.append(target) for target in self.untrackable_targets if target not in
+         self.targets_untracked_by_all]
+
+        # update priority dict if some target was lost
+        if self.untrackable_targets:
+            self.priority_dict = {}
+            for target_id in self.targets_to_track:
+                self.priority_dict[target_id] = InternalPriority.TRACKED
+
+        return configuration
+
+    def find_configuration_for_targets(self, targets, used_for_movement=True):
         """
-        :description
-            Receive a message contaning the information needed for the distribtion of the Kalman Filter.
-            When received, the filter associated with the tracked target is informed and can assimilate the new data.
-        :param message: instance of Message class.
+            :description:
+                Checks if a configuration can be found where all targets are seen.
+            :param targets: target representations
+            :param used_for_movement: if False, don't do the last non-virtual "get_configuration"
+            :return: Configuration object if exists, None otherwise
         """
-        info_string = message.message
-        concerned_target_id = int(message.item_ref)
-        if info_string:  # if message not empty
-            self.memory.process_DKF_info(concerned_target_id, info_string, constants.get_time())
+        tracked_targets_room_representation = self.construct_room_representation_for_a_given_target_list(targets)
+        virtual_configuration = self.compute_virtual_configuration(
+            tracked_targets_room_representation.active_Target_list)
+
+        better_config_found = False
+        self.virtual_camera = copy.deepcopy(self.camera)
+        self.virtual_camera.set_configuration(virtual_configuration)
+
+        if not check_configuration_all_target_are_seen(self.virtual_camera, tracked_targets_room_representation):
+            self.log_main.debug(
+                "Configuration not found at time %.02f, starting variation on this config" % constants.get_time())
+            virtual_configuration.is_valid = False
+            return virtual_configuration
+
+        # configuration found, but bad score
+        if virtual_configuration.configuration_score < constants.MIN_CONFIGURATION_SCORE:
+            # Check around if there is a better config
+            optimal_configuration = virtual_configuration.variation_on_configuration_found(self.virtual_camera)
+
+            self.virtual_camera.set_configuration(optimal_configuration)
+            if check_configuration_all_target_are_seen(self.virtual_camera, tracked_targets_room_representation):
+                better_config_found = True
+
+        # if the agent actually wants to move
+        if used_for_movement:
+            real_configuration = \
+                get_configuration_based_on_seen_target(self.camera,
+                                                       tracked_targets_room_representation.active_Target_list,
+                                                       PCA_track_points_possibilites.MEANS_POINTS,
+                                                       self.memory_of_objectives, self.memory_of_position_to_reach,
+                                                       False)
+
+            if better_config_found:
+                real_configuration.x = optimal_configuration.x
+                real_configuration.y = optimal_configuration.y
+                real_configuration.is_valid = True
+            return real_configuration
+
+        # if the agent doesn't want to move
+        if better_config_found:
+            better_config = virtual_configuration.variation_on_configuration_found(self.virtual_camera)
+            better_config.is_valid = True
+            return better_config
+        else:
+            virtual_configuration.is_valid = True
+            return virtual_configuration
 
     def remove_target_with_lowest_priority(self, target_list, configuration):
         """
@@ -835,13 +702,131 @@ class AgentCam(AgentInteractingWithRoom):
 
         target_list.remove(target_to_remove)
 
+    def get_active_targets(self):
+        return [target for target in self.room_representation.active_Target_list if
+                target.confidence_pos[1] >= CONFIDENCE_THRESHOLD]
+
+    def get_predictions(self, target_id_list):
+        """
+        :return: a list [[targetId, [predicted_position1, ...]], ...]
+        """
+        return self.memory.get_predictions(target_id_list)
+
+    def compute_virtual_configuration(self, targets):
+        virtual_configuration = \
+            get_configuration_based_on_seen_target(self.camera, targets,
+                                                   PCA_track_points_possibilites.MEANS_POINTS,
+                                                   self.memory_of_objectives, self.memory_of_position_to_reach, True)
+
+        virtual_configuration.compute_configuration_score()
+        return virtual_configuration
+
+    def compute_real_virtual_configuration_and_set_virtual_cam(self, target_list):
+        virtual_configuration = self.compute_virtual_configuration(target_list)
+        self.virtual_camera = copy.deepcopy(self.camera)
+        self.virtual_camera.set_configuration(virtual_configuration)
+
+        real_configuration = virtual_configuration = \
+            get_configuration_based_on_seen_target(self.camera, target_list, PCA_track_points_possibilites.MEANS_POINTS,
+                                                   self.memory_of_objectives, self.memory_of_position_to_reach, False)
+
+        return real_configuration, virtual_configuration
+
+    def construct_room_representation_for_a_given_target_list(self, targets):
+        target_target_estimator = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
+
+        # reconstruct the Target_TargetEstimator by flitering the targets
+        new_target_targetEstimator = Target_TargetEstimator()
+        for (target_id, targetEstimator_list) in target_target_estimator.item_itemEstimator_list:
+            if target_id in targets:
+                new_target_targetEstimator.add_itemEstimator(targetEstimator_list[-1])
+
+        # find a configuration for these targets
+        tracked_targets_room_representation = room.RoomRepresentation()
+        tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
+        return tracked_targets_room_representation
+
+    def process_single_message(self, rec_mes):
+        super().process_single_message(rec_mes)
+        if rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.INFO_DKF:
+            self.receive_message_DKF_info(rec_mes)
+            self.info_message_received.del_message(rec_mes)
+        elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET:
+            # self.receive_message_untrackableTarget(rec_mes)
+            self.info_message_received.del_message(rec_mes)
+        elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.SEEN_TARGET:
+            self.receive_message_seen_target(rec_mes)
+            self.info_message_received.del_message(rec_mes)
+        elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET \
+                or rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
+            self.receive_message_track_loose_target(rec_mes)
+            self.info_message_received.del_message(rec_mes)
+
+    def broadcast_untracked_targets(self):
+        """
+        :description
+            Broadcast a message to notify other agents that a certain target can't be tracked by this agent anymore.
+        """
+        # inform the other agent of all targets this agent is not able to track
+        for target_id in self.untrackable_targets:
+            message = Message(constants.get_time(), self.id, self.signature,
+                              MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET, "", target_id)
+
+            # broadcast message
+            self.broadcast_message(message, BroadcastTypes.AGENT_CAM)
+
+        # empty the untrackable_targets list
+        self.untrackable_targets = []
+
+    def broadcast_seen_target(self, target_id):
+        ack_message = Message(constants.get_time(), self.id, self.signature,
+                              MessageTypeAgentCameraInteractingWithRoom.SEEN_TARGET, "", target_id)
+        self.broadcast_message(ack_message, BroadcastTypes.AGENT_CAM)
+
+    def receive_message_seen_target(self, message):
+        target_id = int(message.item_ref)
+        if target_id in self.targets_untracked_by_all:
+            self.targets_untracked_by_all.remove(target_id)
+
+    def send_message_DKF_info(self, target_id):
+        """
+        :description
+            Send a message containing the information needed for the distribution of the Kalman Filter.
+        :param (int) target_id  -- id of tracked target for which we're sending the info
+        """
+
+        dkf_info_string = self.memory.get_DKF_info_string(target_id)
+        # message containing the DKF information to send
+        message = MessageCheckACKNACK(constants.get_time(), self.id, self.signature,
+                                      MessageTypeAgentCameraInteractingWithRoom.INFO_DKF, dkf_info_string, target_id)
+
+        # send the message to every other agent
+        self.broadcast_message(message, BroadcastTypes.AGENT_CAM)
+
+        # add message to the list if not already inside
+        cdt = self.info_message_to_send.is_message_with_same_message(message)
+        if not cdt:
+            self.info_message_to_send.add_message(message)
+
+    def receive_message_DKF_info(self, message):
+        """
+        :description
+            Receive a message contaning the information needed for the distribtion of the Kalman Filter.
+            When received, the filter associated with the tracked target is informed and can assimilate the new data.
+        :param message: instance of Message class.
+        """
+        info_string = message.message
+        concerned_target_id = int(message.item_ref)
+        if info_string:  # if message not empty
+            self.memory.process_DKF_info(concerned_target_id, info_string, constants.get_time())
+
     def send_message_track_loose_target(self, track_loose_choice, target_id):
 
         if track_loose_choice == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET or track_loose_choice == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
             message = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, track_loose_choice, "",
                                           target_id)
             self.log_target_tracked.info(message.to_string())
-            self.broadcast_message(message)
+            self.broadcast_message(message, BroadcastTypes.AGENT_CAM)
 
     def receive_message_track_loose_target(self, message):
         self.log_target_tracked.info(message.to_string())

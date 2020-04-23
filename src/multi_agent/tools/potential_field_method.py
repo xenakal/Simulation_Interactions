@@ -59,6 +59,14 @@ class HeatMaps:
         return [(0.8*field_depth*math.cos(beta/ 4),side*0.3*field_depth * math.sin(beta / 4), side*0, 2, 1, 1, 1.5,PotentialType.Camera_potential_quadratic),
                 (0.3*field_depth*math.cos(beta/ 4),side*-0.1*field_depth * math.sin(beta/ 4),side*55, 1, 15, 1, 0.75,PotentialType.Camera_potential_quadratic)]
 
+    """For three targets"""
+    def HEAT_MAP_THREE_TARGET(field_depth,beta):
+        x = constants.DISTANCE_TO_KEEP_FROM_TARGET*field_depth * math.cos(beta / 4)
+        y = 1.5*constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth * math.sin(beta / 4)
+        return [(x, y,0,1,1,1,0.5,PotentialType.Camera_potential_steps),
+                (x,-y,0,1,1,1,0.5,PotentialType.Camera_potential_steps),
+                (x+2, 0, 0, 1, 1, 1, 0.5, PotentialType.Camera_potential_steps)]
+
 
 def rotate_vector_field_angle(angle, X, Y):
     norm = np.float_power(np.square(X) + np.square(Y), 0.5)
@@ -419,6 +427,7 @@ def compute_potential_field_cam(X, Y, n_target, beta, field_depth):
     elif n_target >= 2:
         heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_CENTER(field_depth,beta)
         heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_FAR(field_depth,beta,-1)
+        #heat_map = HeatMaps.HEAT_MAP_THREE_TARGET(field_depth,beta)
 
 
     for heat_point in heat_map:
@@ -514,5 +523,5 @@ if __name__ == '__main__':
 
     X = np.arange(0, 8, 0.01)
     Y = np.arange(-4,4, 0.01)
-    X,Y,Z = compute_potential_field_cam(X,Y,2,math.radians(60),8)
+    X,Y,Z = compute_potential_field_cam(X,Y,3,math.radians(60),8)
     plot_potential_field(X,Y,Z)

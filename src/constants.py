@@ -114,7 +114,7 @@ AGENT_POS_KP = 0.4
 AGENT_POS_KI = 0.0
 AGENT_ALPHA_KP = 100
 AGENT_ALPHA_KI = 0
-AGENT_BETA_KP = 0.1
+AGENT_BETA_KP = 100
 AGENT_BETA_KI = 0.0
 
 MIN_CONFIGURATION_SCORE = 0.15
@@ -167,7 +167,7 @@ COMBINE_MODE_PROP = 0.99  # 1 = smooth mode 0 = hard mode (btw 0 and 1)
 
 """Random map creation-----------------------------------------------------------------------------------------------"""
 TARGET_NUMBER_SET_FIX = 0
-TARGET_NUMBER_UNKOWN = 20
+TARGET_NUMBER_UNKOWN = 5
 TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY = 5
 RANDOM_TARGET_RADIUS_BOUND = (0.1,0.3)
 RANDOM_TARGET_V_BOUND = (0.8,1.2)
@@ -283,6 +283,9 @@ class ResultsPath:
     @classproperty
     def DATA_FOLDER(cls):
         return ResultsPath.MAIN_FOLDER + "/data"
+    @classproperty
+    def DATA_MESSAGES(cls):
+        return ResultsPath.DATA_FOLDER +"/messages"
 
     @classproperty
     def DATA_IDEAL(cls):
