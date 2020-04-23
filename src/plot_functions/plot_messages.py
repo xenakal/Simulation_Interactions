@@ -50,13 +50,13 @@ def filter_send_received(data):
     return filtered_send,filtered_received,len(filtered_send)+len(filtered_received)
 
 
-def filter_and_plot(data,filters_names,ax1,ax2):
+def filter_and_plot(data,filters_names,colors,ax1,ax2):
 
     all_data_send,all_data_received,n_all_data = filter_send_received(data)
 
     sizes_sent = []
     sizes_rec = []
-    colors = ['g', 'b', 'r', 'c','k']
+
 
     for name,color in zip(filters_names,colors):
         data_send, data_rec, n_mes = filter_send_received(filter_message_type(data, name))
@@ -75,9 +75,6 @@ def filter_and_plot(data,filters_names,ax1,ax2):
 
     plot_message_bar(ax3, sizes_sent, filters_names, colors)
     plot_message_bar(ax4, sizes_rec, filters_names, colors)
-
-
-
 
 def plot_message_time(ax, data,color):
     times = []
@@ -108,7 +105,7 @@ def plot_message_pie(ax, sizes, labels, colors):
 
 
 if __name__ == '__main__':
-    data = load_message_file("My_new_map",0)
+    data = load_message_file("My_new_map",100)
     fig = plt.figure(figsize=(12, 8))
     fig.suptitle('Exchange messages', fontsize=17, fontweight='bold', y=0.98)
     fig.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
@@ -117,7 +114,10 @@ if __name__ == '__main__':
     ax3 = fig.add_subplot(2, 2, 3)
     ax4 = fig.add_subplot(2, 2, 4)
 
-    filter_and_plot(data,["heartbeat","agentEstimator","targetEstimator","loosing_target","tracking_target"],ax1,ax2)
+    colors = ['g', 'b', 'r', 'c','k']
+    names = ["heartbeat","agentEstimator","targetEstimator","loosing_target","tracking_target"]
+    filter_and_plot(data,names,colors,ax1,ax2)
+
 
     plt.show()
 
