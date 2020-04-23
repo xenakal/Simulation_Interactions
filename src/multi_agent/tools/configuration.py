@@ -46,6 +46,7 @@ class Configuration:
         self.configuration_score = None
         self.virtual = virtual
         self.is_valid = True
+        self.no_targets = False
         """Parameter fro the target"""
         self.xt = xt
         self.yt = yt
@@ -70,7 +71,6 @@ class Configuration:
         if ValidConfigurationCriterion.MAP_SCORE:
             score_map = (self.configuration_score >= score_map_min)
         return target_all_seen and score_map
-
 
     def compute_configuration_score(self):
         score = None

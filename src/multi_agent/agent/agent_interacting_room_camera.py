@@ -1,4 +1,3 @@
-# from elements.room import*
 import copy
 from warnings import warn
 
@@ -209,11 +208,9 @@ class AgentCam(AgentInteractingWithRoom):
                     # config = self.find_configuration_for_tracked_targets()
                     config = self.configuration_algorithm_choice(constants.AGENT_CHOICE_HOW_TO_FOLLOW_TARGET)
 
-                    if config is not None:
-                        last_not_None_configuration = config
-
                     # move agent according to configuration found
-                    last_time_move = self.move_based_on_config(last_not_None_configuration, last_time_move)
+                    last_time_move = self.move_based_on_config(config, last_time_move)
+
                 else:
                     last_time_move = constants.get_time()
 
@@ -512,6 +509,10 @@ class AgentCam(AgentInteractingWithRoom):
             self.log_main.debug("no config to move at time %.02f" % constants.get_time())
             return constants.get_time()
 
+        if configuration.no_targets:
+            dt = constants.get_time() - last_time_move
+            self.camera.behaviour_no_targets_seen(dt)
+
         """Computing the vector field"""
         configuration.compute_vector_field_for_current_position(self.camera.xc, self.camera.yc)
 
@@ -556,7 +557,8 @@ class AgentCam(AgentInteractingWithRoom):
         else:
             dt = constants.get_time() - last_time_move
             if dt > 0.2:
-                "If the dt is to large, the controller can not handle it anymore, the solution is to decompose dt in smaller values"
+                # If the dt is to large, the controller can not handle it anymore, the solution is to decompose dt in
+                # smaller values
                 self.camera.rotate(alpha_command, 0.2)
                 self.camera.zoom(beta_command, 0.2)
                 self.camera.move(x_command, y_command, 0.2)
@@ -578,10 +580,6 @@ class AgentCam(AgentInteractingWithRoom):
         # try to find a configuration covering all targets
         tracked_targets = copy.copy(self.targets_to_track)
 
-        # do nothing if no targets need tracking
-        if not tracked_targets:
-            return None
-
         configuration = None
         while configuration is None or not configuration.is_valid:  # configuration not found
 
@@ -592,6 +590,8 @@ class AgentCam(AgentInteractingWithRoom):
                 # remove a target
                 self.remove_target_with_lowest_priority(tracked_targets, configuration)
                 # if somehow couldn't find a configuration covering any of the elements
+
+                """
                 if len(tracked_targets) == 0:
                     # update the list of untrackable targets
                     self.untrackable_targets = self.targets_to_track.copy()
@@ -604,6 +604,7 @@ class AgentCam(AgentInteractingWithRoom):
                     # reset priority dict
                     self.priority_dict = {}
                     return None
+                """
 
         # update the list of untrackable targets
         self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
@@ -684,7 +685,9 @@ class AgentCam(AgentInteractingWithRoom):
             configuration: configuration attempt for the targets in target_list
         :return: target_list minus the target with the lowest priority
         """
-        # print("agent dic: ", self.priority_dict)
+        if not target_list:
+            return
+
         min_total_priority = 100000
         target_to_remove = -1
         for target_id in target_list:

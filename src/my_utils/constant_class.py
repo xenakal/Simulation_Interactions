@@ -48,6 +48,11 @@ class TARGET_PRIORITY:
     IMPERATIVE = 1000000
 
 
+class BEHAVIOUR_NO_TARGETS_SEEN:
+    SWIPE = "swipe"
+    RANDOM_MOVEMENT = "random_moves"
+
+
 """Potential field --------------------------------------------------------------------------------------------------"""
 
 

@@ -51,6 +51,7 @@ def load_agentCam_txt(s, room):
 
 
 def load_room_from_txt(filename, room):
+    print(filename)
     fichier = open(constants.MapPath.MAIN_FOLDER + filename, "r")
     lines = fichier.readlines()
     fichier.close()

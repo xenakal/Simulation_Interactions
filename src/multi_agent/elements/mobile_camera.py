@@ -5,6 +5,7 @@ import numpy as np
 
 from src import constants
 from src.multi_agent.elements.camera import Camera, CameraRepresentation, born_minus_pi_plus_pi
+from src.my_utils import constant_class
 from src.my_utils.my_math.line import distance_btw_two_point, Line
 
 
@@ -13,6 +14,7 @@ class MobileCameraType:
     ROTATIVE = 1
     RAIL = 2
     FREE = 3
+
 
 class MobileCameraRepresentation(CameraRepresentation):
     def __init__(self, room, id, xc, yc, alpha, beta, d_max, type):
@@ -50,7 +52,7 @@ class MobileCamera(Camera):
         self.default_yc = yc
         self.default_alpha = born_minus_pi_plus_pi(math.radians(alpha))
         self.default_beta = born_minus_pi_plus_pi(math.radians(beta))
-        self.default_field_depth= field_depth
+        self.default_field_depth = field_depth
 
         """Limit the variation"""
         self.vx_vy_min = vx_vy_min
@@ -82,9 +84,13 @@ class MobileCamera(Camera):
                 self.v_alpha_min = 0
                 self.v_alpha_max = 0
 
+        """Variables for the swipe"""
+        self.swipe_anlge_direction = 1
+
     def save_target_to_txt(self):
         s0 = "x:%0.2f y:%0.2f alpha:%0.2f beta:%0.2f delta_beta: %.02f field_depth:%0.2f" % (
-            self.xc, self.yc, math.degrees(self.alpha), math.degrees(self.beta),math.degrees(self.delta_beta),self.field_depth)
+            self.xc, self.yc, math.degrees(self.alpha), math.degrees(self.beta), math.degrees(self.delta_beta),
+            self.field_depth)
         s1 = " t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
         s2 = " vx_vy_min:%.02f vx_vy_max:%.02f" % (self.vx_vy_min, self.vx_vy_max)
         s3 = " v_alpha_min:%.02f v_alpha_max:%.02f" % (math.degrees(self.v_alpha_min), math.degrees(self.v_alpha_max))
@@ -127,15 +133,14 @@ class MobileCamera(Camera):
         self.beta_min = self.beta - self.delta_beta
         self.beta_max = self.beta + self.delta_beta
 
+    def my_rand(self, bound):
+        return random.uniform(bound[0], bound[1])
 
-    def my_rand(self,bound):
-        return random.uniform(bound[0],bound[1])
-
-    def randomize(self,camera_type,beta_bound,delta_beta_bound,field_bound,v_xy_min_bound,v_xy_max_bound,
-                  v_alpha_min_bound,v_alpha_max_bound,v_beta_min_bound,v_beta_max_bound):
-        self.xc = self.my_rand((0,constants.LENGHT_ROOM))
-        self.yc = self.my_rand((0,constants.WIDTH_ROOM))
-        self.alpha = self.my_rand((-math.pi,math.pi))
+    def randomize(self, camera_type, beta_bound, delta_beta_bound, field_bound, v_xy_min_bound, v_xy_max_bound,
+                  v_alpha_min_bound, v_alpha_max_bound, v_beta_min_bound, v_beta_max_bound):
+        self.xc = self.my_rand((0, constants.LENGHT_ROOM))
+        self.yc = self.my_rand((0, constants.WIDTH_ROOM))
+        self.alpha = self.my_rand((-math.pi, math.pi))
         self.beta = self.my_rand(beta_bound)
         self.delta_beta = self.my_rand(delta_beta_bound)
         self.field_depth = self.my_rand(field_bound)
@@ -157,15 +162,15 @@ class MobileCamera(Camera):
         """Default values"""
         self.default_xc = self.xc
         self.default_yc = self.yc
-        #TODO-change this maybe
+        # TODO-change this maybe
         self.default_alpha = self.alpha
         self.default_beta = self.beta
         self.default_field_depth = self.field_depth
         self.beta_min = self.beta - self.delta_beta
         self.beta_max = self.beta + self.delta_beta
 
-    def compute_field_depth_variation_for_a_new_beta(self,new_beta):
-        delta = new_beta-self.beta
+    def compute_field_depth_variation_for_a_new_beta(self, new_beta):
+        delta = new_beta - self.beta
         field_depth = self.field_depth - delta * self.coeff_field
         field_depth = self.bound(field_depth, constants.AGENT_CAMERA_FIELD_MIN * self.default_field_depth,
                                  constants.AGENT_CAMERA_FIELD_MAX * self.default_field_depth)
@@ -208,17 +213,17 @@ class MobileCamera(Camera):
             delta = 0
             print("problem in beta target")
 
-        self.field_depth = self.compute_field_depth_variation_for_a_new_beta(self.beta+delta)
+        self.field_depth = self.compute_field_depth_variation_for_a_new_beta(self.beta + delta)
         self.beta += delta
 
         if constants.ERROR_VARIATION_ZOOM:
-           self.std_measurment_error_position -= delta * self.coeff_std_position
-           self.std_measurment_error_speed -= delta * self.coeff_std_speed
-           self.std_measurment_error_acceleration -= delta * self.coeff_std_acc
+            self.std_measurment_error_position -= delta * self.coeff_std_position
+            self.std_measurment_error_speed -= delta * self.coeff_std_speed
+            self.std_measurment_error_acceleration -= delta * self.coeff_std_acc
 
-           self.bound(self.std_measurment_error_position, 0, self.std_measurment_error_position * 10)
-           self.bound(self.std_measurment_error_speed, 0, self.std_measurment_error_speed * 10)
-           self.bound(self.std_measurment_error_acceleration, 0, self.std_measurment_error_acceleration * 10)
+            self.bound(self.std_measurment_error_position, 0, self.std_measurment_error_position * 10)
+            self.bound(self.std_measurment_error_speed, 0, self.std_measurment_error_speed * 10)
+            self.bound(self.std_measurment_error_acceleration, 0, self.std_measurment_error_acceleration * 10)
 
     def rotate(self, speed, dt):
         """
@@ -276,9 +281,30 @@ class MobileCamera(Camera):
 
         self.bound_camera_displacement_in_the_room()
 
+    def set_configuration(self, configuration):
+        self.set_x_y_alpha_beta(configuration.x, configuration.y, configuration.alpha, configuration.beta)
 
-    def set_configuration(self,configuration):
-        self.set_x_y_alpha_beta(configuration.x,configuration.y,configuration.alpha,configuration.beta)
+    def behaviour_no_targets_seen(self, dt):
+        if constants.BEHAVIOUR_NO_TARGETS_SEEN == constant_class.BEHAVIOUR_NO_TARGETS_SEEN.SWIPE:
+            self.swipe_room(dt)
+        elif constants.BEHAVIOUR_NO_TARGETS_SEEN == constant_class.BEHAVIOUR_NO_TARGETS_SEEN.RANDOM_MOVEMENT:
+            pass
+
+    def swipe_room(self, dt):
+        """
+        :description
+            Behaviour when the camera sees no target.
+        """
+        if self.camera_type == MobileCameraType.ROTATIVE:
+            self.rotative_cam_swipe(dt)
+        elif self.camera_type == MobileCameraType.RAIL:
+            pass
+        elif self.camera_type == MobileCameraType.FREE:
+            pass
+
+    def rotative_cam_swipe(self, dt):
+        print("okok")
+        self.rotate(self.swipe_anlge_direction*self.v_alpha_max, dt)
 
     def set_x_y_alpha_beta(self, x_target, y_target, alpha_target, beta_target):
         self.xc = x_target
@@ -286,14 +312,12 @@ class MobileCamera(Camera):
         self.alpha = alpha_target
         self.beta = beta_target
 
-
     def bound_camera_displacement_in_the_room(self):
         self.xc = self.bound(self.xc, self.xc_min, self.xc_max)
         self.yc = self.bound(self.yc, self.yc_min, self.yc_max)
 
     def bound(self, val, val_min, val_max):
-        return max(min(val,val_max),val_min)
-
+        return max(min(val, val_max), val_min)
 
 
 class TrajectoryPlaner:
@@ -337,8 +361,8 @@ class TrajectoryPlaner:
                     return self.move_on_trajectory(xf, yf, delta_new)
                 else:
                     "Reaching the end point"
-                    (self.sum_delta,y) = self.compute_distance_for_point_x_y(xf,yf,self.trajectory_index)
-                    return (xf,yf)
+                    (self.sum_delta, y) = self.compute_distance_for_point_x_y(xf, yf, self.trajectory_index)
+                    return (xf, yf)
 
             elif x_trajectory_frame < 0:
                 "On the previous segment"
@@ -350,7 +374,7 @@ class TrajectoryPlaner:
                 else:
                     "Reaching start point"
                     self.sum_delta = 0
-                    return (xi,yi)
+                    return (xi, yi)
 
             else:
                 return self.from_trajectory_frame_to_world_frame(x_trajectory_frame, y_trajectory_frame)
@@ -359,51 +383,52 @@ class TrajectoryPlaner:
 
     def find_all_intersection(self, line):
         all_possible_intersection = []
-        for index in range(len(self.trajectory)-1):
+        for index in range(len(self.trajectory) - 1):
             (xi, yi) = self.trajectory[index]
             (xf, yf) = self.trajectory[index + 1]
 
             segment = Line(xi, yi, xf, yf)
             x_intersection, y_intersection = segment.find_intersection_btw_two_line(line)
 
-            x_intersection_in_trajecotry_frame, y_intersection_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(x_intersection, y_intersection, index)
-            xf_in_trajectory_frame, yf_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(xf, yf, index)
+            x_intersection_in_trajecotry_frame, y_intersection_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(
+                x_intersection, y_intersection, index)
+            xf_in_trajectory_frame, yf_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(
+                xf, yf, index)
 
             if y_intersection_in_trajectory_frame > 0.001:
                 print(y_intersection)
                 print("problème")
 
             elif 0 < x_intersection_in_trajecotry_frame < xf_in_trajectory_frame:
-                all_possible_intersection.append((x_intersection,y_intersection,index))
+                all_possible_intersection.append((x_intersection, y_intersection, index))
 
         return all_possible_intersection
 
-    def find_closest_intersection(self,line,index):
+    def find_closest_intersection(self, line, index):
         if index < 0:
-            return  (0,0,0)
-        elif index >= len(self.trajectory)-1:
-            return (self.trajectory[-1][0],self.trajectory[-1][1],len(self.trajectory)-1)
+            return (0, 0, 0)
+        elif index >= len(self.trajectory) - 1:
+            return (self.trajectory[-1][0], self.trajectory[-1][1], len(self.trajectory) - 1)
         else:
             (xi, yi) = self.trajectory[index]
-            (xf, yf) = self.trajectory[index+1]
+            (xf, yf) = self.trajectory[index + 1]
             segment = Line(xi, yi, xf, yf)
-            x_intersection,y_intersection = segment.find_intersection_btw_two_line(line)
+            x_intersection, y_intersection = segment.find_intersection_btw_two_line(line)
 
-            x_intersection_in_trajecotry_frame,y_intersection_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(x_intersection,y_intersection,index)
-            xf_in_trajectory_frame,yf_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(xf,yf,index)
+            x_intersection_in_trajecotry_frame, y_intersection_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(
+                x_intersection, y_intersection, index)
+            xf_in_trajectory_frame, yf_in_trajectory_frame = self.from_world_frame_to_trajectory_frame_for_a_given_segment(
+                xf, yf, index)
 
             if y_intersection_in_trajectory_frame > 0.001:
                 print("problème  in find closest intersection")
-                return(None,None,None)
-            elif x_intersection_in_trajecotry_frame > xf_in_trajectory_frame or x_intersection  is None:
-                return self.find_closest_intersection(line,index+1)
+                return (None, None, None)
+            elif x_intersection_in_trajecotry_frame > xf_in_trajectory_frame or x_intersection is None:
+                return self.find_closest_intersection(line, index + 1)
             elif x_intersection_in_trajecotry_frame < xi:
-                return self.find_closest_intersection(line,index-1)
+                return self.find_closest_intersection(line, index - 1)
             else:
-                return (x_intersection,y_intersection,index)
-
-
-
+                return (x_intersection, y_intersection, index)
 
     def get_angle(self):
         (xi, yi) = self.trajectory[self.trajectory_index]
@@ -426,16 +451,16 @@ class TrajectoryPlaner:
         sum = 0
         for n in range(i_index):
             (xi, yi) = self.trajectory[n]
-            (xf, yf) = self.trajectory[n+1]
-            d = distance_btw_two_point(xi,yi,xf,yf)
+            (xf, yf) = self.trajectory[n + 1]
+            d = distance_btw_two_point(xi, yi, xf, yf)
             sum += d
 
         (xi, yi) = self.trajectory[i_index]
         d = distance_btw_two_point(xi, yi, x, y)
         sum += d
-        return sum,0
+        return sum, 0
 
-    def from_world_frame_to_trajectory_frame_for_a_given_segment(self, x, y,index):
+    def from_world_frame_to_trajectory_frame_for_a_given_segment(self, x, y, index):
         (xi, yi) = self.trajectory[index]
         (xf, yf) = self.trajectory[self.trajectory_index + 1]
         angle = math.atan2(yf - yi, xf - xi)
@@ -448,4 +473,3 @@ class TrajectoryPlaner:
         angle = self.get_angle()
         (x_rotate, y_rotate) = self.rotate_angle(-angle, x, y)
         return (x_rotate + xi, y_rotate + yi)
-

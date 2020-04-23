@@ -1,5 +1,7 @@
 import itertools
 import math
+import warnings
+
 import numpy as np
 from scipy.interpolate import griddata
 from sklearn.decomposition import PCA
@@ -67,8 +69,14 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
     -----------------------------------------------------------------------------------------------------------------"""
 
     if number_of_target < 0:
-        """Should not append"""
-        placement_choice = Angle_configuration.PARALLEL_TO_COMPUTED_DIRECTION
+        warnings.warn("Agent ", camera.id, "sees a negative number of targets...")
+
+    if number_of_target == 0:
+        print("ok")
+        configuration = Configuration(-1, -1, -1, -1, -1, -1, -1, 0)
+        configuration.is_valid = True
+        configuration.no_targets = True
+        return configuration
 
     elif number_of_target == 1:
         "In this case PCA is not possible, we chose to focus on the target itself"

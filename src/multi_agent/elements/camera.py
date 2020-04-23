@@ -1,9 +1,7 @@
-import src.multi_agent.agent.agent_interacting_room_camera as aCam
 from src.multi_agent.elements.target import *
 import random
 import math
 from src.my_utils.my_math.line import Line, distance_btw_two_point
-import src.multi_agent.elements.room as rm
 
 
 def born_minus_pi_plus_pi(angle):
@@ -11,6 +9,8 @@ def born_minus_pi_plus_pi(angle):
 
 
 def get_camera_agentCam_vs_agentCamRepresentation(agent):
+    import src.multi_agent.agent.agent_interacting_room_camera as aCam
+
     camera = None
     if isinstance(agent, aCam.AgentCam):
         camera = agent.camera

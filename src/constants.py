@@ -99,6 +99,7 @@ Refers to what data agent should use to analyse the room
 """
 AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Best_estimation
 AGENT_CHOICE_HOW_TO_FOLLOW_TARGET = ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG
+
 """
 Refers to what data should be exchanged between agent
 - "none" = agent do not exchange messages about targets
@@ -126,7 +127,7 @@ AGENT_CAMERA_FIELD_MAX = 1.2
 """Linear coefficient from the inverse relation btw beta and field depth"""
 COEFF_VARIATION_FROM_FIELD_DEPTH = 1.5
 """
-Behavour target estimation
+Behaviour target estimation
 """
 BEHAVIOUR_DETECTION_TYPE = BehaviourDetectorType.Use_speed_and_position
 POSITION_STD_ERROR = 0.1
@@ -143,6 +144,12 @@ Weights on types of priorities
 USER_SET_PRIORITY_WEIGHT = 4
 CAMERA_SET_PRIORITY_WEIGHT = 2
 SCORE_WEIGHT = 1
+
+"""
+Behaviour of mobile cameras when no targets are seen
+"""
+BEHAVIOUR_NO_TARGETS_SEEN = BEHAVIOUR_NO_TARGETS_SEEN.SWIPE
+
 
 """Potential Field Camera--------------------------------------------------------------------------------------------"""
 """
