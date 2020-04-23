@@ -17,18 +17,21 @@ class Angle_configuration:
     PARALLEL_TO_COMPUTED_DIRECTION = 0
     PERPENDICULAR_TO_COMPUTED_DIRECTION = 1
 
+
 class PCA_track_points_possibilites:
     MEANS_POINTS = "mean points"
     MEDIAN_POINTS = "median points"
 
-def check_heat_maps(n_target,camera):
+
+def check_heat_maps(n_target, camera):
     if n_target == 1:
         return [HeatMaps.HEAT_MAP_ONE_TARGET_CENTER(camera.field_depth)]
 
     elif n_target == 2:
-        return [HeatMaps.HEAT_MAP_TWO_TARGET_CENTER(camera.field_depth,camera.beta),
-                HeatMaps.HEAT_MAP_TWO_TARGET_FAR(camera.field_depth,camera.field_depth,1),
+        return [HeatMaps.HEAT_MAP_TWO_TARGET_CENTER(camera.field_depth, camera.beta),
+                HeatMaps.HEAT_MAP_TWO_TARGET_FAR(camera.field_depth, camera.field_depth, 1),
                 HeatMaps.HEAT_MAP_TWO_TARGET_FAR(camera.field_depth, camera.field_depth, 2)]
+
 
 def get_configuration_based_on_seen_target(camera, target_representation_list,
                                            point_to_track_choice=PCA_track_points_possibilites.MEDIAN_POINTS,
@@ -57,8 +60,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
             all_fix = False
 
     if all_fix:
-        return Configuration(xt,yt,camera.xc, camera.yc, camera.alpha, camera.beta, camera.field_depth, virtual)
-
+        return Configuration(xt, yt, camera.xc, camera.yc, camera.alpha, camera.beta, camera.field_depth, virtual)
 
     """-----------------------------------------------------------------------------------------------------------------
        IN TERMS OF THE TARGET NUMBER
@@ -66,10 +68,6 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
 
     if number_of_target < 0:
         """Should not append"""
-        return xt, yt, alpha, beta
-
-    elif number_of_target == 0:
-        # TODO  implémenter un swipe ou un truc comme ça
         placement_choice = Angle_configuration.PARALLEL_TO_COMPUTED_DIRECTION
 
     elif number_of_target == 1:
@@ -96,11 +94,11 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
             point_to_track_choice)
         placement_choice = Angle_configuration.PERPENDICULAR_TO_COMPUTED_DIRECTION
 
-        if number_of_target ==2:
+        if number_of_target == 2:
             target1 = target_representation_list[0]
             target2 = target_representation_list[1]
-            distance = distance_btw_two_point(target1.xc,target1.yc,target2.xc,target2.yc)
-            if distance > 2*distance_to_keep_to_target*camera.field_depth*math.tan(beta/2):
+            distance = distance_btw_two_point(target1.xc, target1.yc, target2.xc, target2.yc)
+            if distance > 2 * distance_to_keep_to_target * camera.field_depth * math.tan(beta / 2):
                 placement_choice = Angle_configuration.PARALLEL_TO_COMPUTED_DIRECTION
 
         elif number_of_target == 3:
@@ -233,6 +231,7 @@ def modify_angle(angle_in_room_coordinate, alignement_choice=Angle_configuration
         angle_in_room_coordinate = 0
 
     return angle_in_room_coordinate
+
 
 def get_angle_alpha_beta_PCA_method(target_representation_list,
                                     point_to_track_choice=PCA_track_points_possibilites.MEDIAN_POINTS):

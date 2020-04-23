@@ -32,9 +32,8 @@ class AgentRepresentation:
 
         self.confidence = -1
 
-    def evaluate_confidence(self,error, delta_time,time_constants):
-        self.confidence = math.pow((1 / error), 2) * math.exp(-delta_time*time_constants)
-
+    def evaluate_confidence(self, error, delta_time, time_constants):
+        self.confidence = math.pow((1 / error), 2) * math.exp(-delta_time * time_constants)
 
 
 class Agent(AgentRepresentation):

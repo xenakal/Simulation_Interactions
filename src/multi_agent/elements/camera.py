@@ -50,18 +50,18 @@ def is_x_y_radius_in_field_not_obstructed(camera, x, y, r_target=0):
             :return / modify vector
                 1. (bool)         -- True if (x,y) or circle limit point is between the limits
         """
-    (x_target_in_camera_frame, y_target_in_camera_frame) = camera.coordinate_change_from_world_frame_to_camera_frame(x, y)
+    (x_target_in_camera_frame, y_target_in_camera_frame) = camera.coordinate_change_from_world_frame_to_camera_frame(x,
+                                                                                                                     y)
     if x_target_in_camera_frame >= 0:
 
         line_camera_target = Line(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
         perpendicular_to_line_camera_target = line_camera_target.find_line_perp(x_target_in_camera_frame,
                                                                                 y_target_in_camera_frame)
-        
 
         target_limit_in_camera_frame = perpendicular_to_line_camera_target.find_intersection_btw_line_circle(r_target,
                                                                                                              x_target_in_camera_frame,
                                                                                                              y_target_in_camera_frame)
-    
+
         y_min = min(target_limit_in_camera_frame[1], target_limit_in_camera_frame[3])
         y_max = max(target_limit_in_camera_frame[1], target_limit_in_camera_frame[3])
 
@@ -72,7 +72,6 @@ def is_x_y_radius_in_field_not_obstructed(camera, x, y, r_target=0):
         margin_high = beta_target_min <= math.fabs(camera.beta / 2)
         distance = distance_btw_two_point(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
         distance_test = camera.field_depth > distance
-
 
         """
         angle = math.atan2(y_target_in_camera_frame,x_target_in_camera_frame)
@@ -165,6 +164,7 @@ def is_x_y_in_hidden_zone_all_targets(room_representation, camera_id, x, y):
 
     return False
 
+
 def is_x_y_in_hidden_zone_all_targets_based_on_camera(room_representation, camera, x, y):
     """
             :description
@@ -218,7 +218,7 @@ def is_x_y_in_hidden_zone_fix_targets(room_representation, camera_id, x, y):
     return False
 
 
-def is_xc_yc_radius_in_hidden_zone_all_targets(room_representation, camera_id, x, y,r =0):
+def is_xc_yc_radius_in_hidden_zone_all_targets(room_representation, camera_id, x, y, r=0):
     """
             :description
                 Extend the function is_x_y_in_hidden_zone_one_target,
@@ -243,16 +243,16 @@ def is_xc_yc_radius_in_hidden_zone_all_targets(room_representation, camera_id, x
     if camera is None:
         return False
 
-    cdt_middle = is_x_y_in_hidden_zone_all_targets(room_representation,camera.id,x, y)
+    cdt_middle = is_x_y_in_hidden_zone_all_targets(room_representation, camera.id, x, y)
     cdt_up = True
     cdt_down = True
 
     if not r == 0:
         line_camera_target = Line(camera.xc, camera.yc, x, y)
         perpendicular_to_line_camera_target = line_camera_target.find_line_perp(x, y)
-        target_limit = perpendicular_to_line_camera_target.find_intersection_btw_line_circle(r + 0.01, x,y)
-        cdt_up = is_x_y_in_hidden_zone_all_targets(room_representation,camera.id, target_limit[0], target_limit[1])
-        cdt_down = is_x_y_in_hidden_zone_all_targets(room_representation,camera.id, target_limit[2], target_limit[3])
+        target_limit = perpendicular_to_line_camera_target.find_intersection_btw_line_circle(r + 0.01, x, y)
+        cdt_up = is_x_y_in_hidden_zone_all_targets(room_representation, camera.id, target_limit[0], target_limit[1])
+        cdt_down = is_x_y_in_hidden_zone_all_targets(room_representation, camera.id, target_limit[2], target_limit[3])
 
     if cdt_middle and cdt_down and cdt_up:
         return True
@@ -299,8 +299,8 @@ def is_in_hidden_zone_one_target_matrix_x_y(room_representation, camera_id, resu
             alpha1 = math.atan2(idca[1], idca[0])
             alpha2 = math.atan2(idca[3], idca[2])
 
-            alpha_min = min(alpha1,alpha2)
-            alpha_max = max(alpha1,alpha2)
+            alpha_min = min(alpha1, alpha2)
+            alpha_max = max(alpha1, alpha2)
 
             for i in range(i_tot):
                 for j in range(j_tot):
@@ -308,7 +308,7 @@ def is_in_hidden_zone_one_target_matrix_x_y(room_representation, camera_id, resu
                     alphapt = math.atan2(ycf, xcf)
 
                     "condition to be hidden"
-                    if alpha_min<alphapt<alpha_max and xcf > xctf:
+                    if alpha_min < alphapt < alpha_max and xcf > xctf:
                         result[i, j] = 0
         else:
             print("error")
@@ -339,11 +339,11 @@ def is_in_hidden_zone_all_targets_matrix_x_y(room_representation, camera_id, res
         yt = target.yc
         radius = target.radius
 
-        result = is_in_hidden_zone_one_target_matrix_x_y(room_representation,camera.id, result, x, y, xt, yt, radius)
+        result = is_in_hidden_zone_one_target_matrix_x_y(room_representation, camera.id, result, x, y, xt, yt, radius)
     return result
 
 
-def is_in_hidden_zone_fix_targets_matrix_x_y(room_representation,camera_id, result, x, y):
+def is_in_hidden_zone_fix_targets_matrix_x_y(room_representation, camera_id, result, x, y):
     """
             :description
                Extend the function is_in_hidden_zone_one_target_matrix_x_y,
@@ -366,7 +366,8 @@ def is_in_hidden_zone_fix_targets_matrix_x_y(room_representation,camera_id, resu
             xt = target.xc
             yt = target.yc
             radius = target.radius
-            result = is_in_hidden_zone_one_target_matrix_x_y(room_representation,camera.id, result, x, y, xt, yt, radius)
+            result = is_in_hidden_zone_one_target_matrix_x_y(room_representation, camera.id, result, x, y, xt, yt,
+                                                             radius)
     return result
 
 
@@ -414,7 +415,7 @@ class CameraRepresentation:
         self.is_active = camera.is_active
 
     def init_from_values(self, id, signature, xc, yc, alpha, beta, field_depth, error_pos, error_speed, error_acc,
-                         color,is_active):
+                         color, is_active):
         self.id = id
         self.signature = signature
         self.xc = xc
@@ -520,7 +521,7 @@ class Camera(CameraRepresentation):
         self.targetCameraDistance_list = []
         self.target_projection = []
 
-    def run(self,room):
+    def run(self, room):
         """
             :description
                function to call to get a picture of the room in the simulation
@@ -580,7 +581,7 @@ class Camera(CameraRepresentation):
         """
         self.isActive = False
 
-    def take_picture(self,room, length_projection):
+    def take_picture(self, room, length_projection):
         """
             :description
                 Function to call in order to fill 11,12,13 in the class description.
@@ -596,7 +597,6 @@ class Camera(CameraRepresentation):
                 2. (int) > 0 length_projection   -- distance in camera frame to which we want to build the projection
         """
 
-
         self.target_in_field_list = []
         self.targetCameraDistance_list = []
 
@@ -604,8 +604,9 @@ class Camera(CameraRepresentation):
 
         "1. Detection of all the target viewed by the cam"
         for target in target_list:
-            cdt_in_field = is_x_y_radius_in_field_not_obstructed(self,target.xc, target.yc, target.radius)
-            cdt_not_hidden = not is_xc_yc_radius_in_hidden_zone_all_targets(room,self.id,target.xc, target.yc, target.radius)
+            cdt_in_field = is_x_y_radius_in_field_not_obstructed(self, target.xc, target.yc, target.radius)
+            cdt_not_hidden = not is_xc_yc_radius_in_hidden_zone_all_targets(room, self.id, target.xc, target.yc,
+                                                                            target.radius)
 
             if cdt_in_field and cdt_not_hidden:
                 self.target_in_field_list.append(target)
