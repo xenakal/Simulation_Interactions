@@ -108,7 +108,7 @@ def plot_message_pie(ax, sizes, labels, colors):
 
 
 if __name__ == '__main__':
-    data = load_message_file("Random_map_6414",1)
+    data = load_message_file("My_new_map",0)
     fig = plt.figure(figsize=(12, 8))
     fig.suptitle('Exchange messages', fontsize=17, fontweight='bold', y=0.98)
     fig.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
