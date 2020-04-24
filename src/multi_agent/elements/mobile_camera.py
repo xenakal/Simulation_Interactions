@@ -87,7 +87,8 @@ class MobileCamera(Camera):
         """Variables for the swipe"""
         self.swipe_angle_direction = 1
         self.last_swipe_direction_change = constants.get_time()
-        self.last_swipe_position_change = constants.get_time()
+        self.last_swipe_position_change = -10
+        self.last_swipe_configuration = None
 
     def save_target_to_txt(self):
         s0 = "x:%0.2f y:%0.2f alpha:%0.2f beta:%0.2f delta_beta: %.02f field_depth:%0.2f" % (

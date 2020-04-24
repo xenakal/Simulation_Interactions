@@ -70,7 +70,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
     all_fix = True
     are_target_fix = [target.type == TargetType.FIX for target in target_representation_list]
     for item in are_target_fix:
-        if not item :
+        if not item:
             all_fix = False
 
     if all_fix and target_representation_list:
@@ -84,6 +84,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
         warnings.warn("Agent ", camera.id, "sees a negative number of targets...")
 
     if number_of_target == 0:
+
         configuration = Configuration(camera.xc, camera.yc, camera.xc, camera.yc, camera.alpha,
                                       camera.beta, camera.field_depth, virtual)
         # all types rotate
@@ -99,18 +100,22 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
                 camera.last_swipe_direction_change = constants.get_time()
 
             configuration.alpha += camera.swipe_angle_direction*0.51
+
         # rails and free cameras actually move
-        if camera.camera_type != mobileCam.MobileCameraType.FIX or \
-                camera.camera_type != mobileCam.MobileCameraType.ROTATIVE:
+        if camera.camera_type == mobileCam.MobileCameraType.RAIL or \
+                camera.camera_type == mobileCam.MobileCameraType.FREE:
             dt = constants.get_time() - camera.last_swipe_position_change
-            if dt > 3:
+            if dt > 5:
                 print("ok")
                 configuration.x = random.uniform(0, constants.LENGHT_ROOM)
-                print(configuration.x)
-                configuration.y = random.uniform(0, constants.WIDTH_ROOM)
+                if camera.camera_type == mobileCam.MobileCameraType.FREE:
+                    configuration.y = random.uniform(0, constants.WIDTH_ROOM)
                 camera.last_swipe_position_change = constants.get_time()
-        if camera.camera_type == mobileCam.MobileCameraType.FREE:
-            pass
+                camera.last_swipe_configuration = configuration
+            else:
+                configuration.x = camera.last_swipe_configuration.x
+                if camera.camera_type == mobileCam.MobileCameraType.FREE:
+                    configuration.y = camera.last_swipe_configuration.y
 
         return configuration
 

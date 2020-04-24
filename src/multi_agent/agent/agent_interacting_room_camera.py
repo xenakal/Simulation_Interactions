@@ -577,30 +577,11 @@ class AgentCam(AgentInteractingWithRoom):
         tracked_targets = copy.copy(self.targets_to_track)
 
         configuration = None
-        while configuration is None or not configuration.is_valid:  # configuration not found
+        while configuration is None or not configuration.is_valid:
 
-            # attempt to find a configuration
             configuration = self.find_configuration_for_targets(tracked_targets)
-
             if configuration is None or not configuration.is_valid:
-                # remove a target
                 self.remove_target_with_lowest_priority(tracked_targets, configuration)
-                # if somehow couldn't find a configuration covering any of the elements
-
-                """
-                if len(tracked_targets) == 0:
-                    # update the list of untrackable targets
-                    self.untrackable_targets = self.targets_to_track.copy()
-                    # update the list of targets untracked by all
-                    [self.targets_untracked_by_all.append(target) for target in self.untrackable_targets if
-                     target not in
-                     self.targets_untracked_by_all]
-                    # update the list of tracked targets
-                    self.targets_to_track = []
-                    # reset priority dict
-                    self.priority_dict = {}
-                    return None
-                """
 
         # update the list of untrackable targets
         self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
