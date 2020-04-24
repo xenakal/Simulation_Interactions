@@ -87,6 +87,7 @@ class MobileCamera(Camera):
         """Variables for the swipe"""
         self.swipe_angle_direction = 1
         self.last_swipe_direction_change = constants.get_time()
+        self.next_swipe_direction_change = constants.get_time()
         self.last_swipe_position_change = -10
         from src.multi_agent.tools.configuration import Configuration
         self.last_swipe_configuration = Configuration(None, None, random.uniform(0, constants.LENGHT_ROOM),

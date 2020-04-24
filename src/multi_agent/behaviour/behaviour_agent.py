@@ -337,8 +337,7 @@ def pca_methode_2D_plan(target_representation_list, point_to_track_choice=PCA_tr
 
 
 def are_all_points_in_room(points_list):
-    # TODO: return the biggest distance to edge of room (to be used in calculation of dt)
-    return all([is_point_in_room(point) for point in points_list]), 1
+    return all([is_point_in_room(point) for point in points_list])
 
 
 def is_point_in_room(point):
@@ -347,18 +346,44 @@ def is_point_in_room(point):
     return x_in_length and y_in_width
 
 
+def intersection_fov_room(camera):
+    """Finds the intersectino between the field of view of a camera with the edges of the room."""
+    # define the 4 Lines of the room
+    # define the circle constructed from the field depth and the center of the camera
+    # return all intersections (if more than 2, there is a problem... sort of...)
+    return []
+
+
 def no_targets_rotation_behaviour(configuration, camera):
+    # points located at the intersection of the arc defining the end of the field of view and the
+    # two lines at +- beta/2 defining the width of the field of view
     field_edge_points = camera.get_edge_points_world_frame()
     # time constraint to give time for the camera to move back in the room
     dt = constants.get_time() - camera.last_swipe_direction_change
-    in_room, biggest_difference = are_all_points_in_room(field_edge_points)
 
-    if dt > .5 and not in_room:
+    in_room = are_all_points_in_room(field_edge_points)
+    if in_room:
+        configuration.alpha += camera.swipe_angle_direction * 0.5
+        return
+
+    if dt > camera.next_swipe_direction_change:
         # change direction
         camera.swipe_angle_direction *= -1
         camera.last_swipe_direction_change = constants.get_time()
 
-    configuration.alpha += camera.swipe_angle_direction * 0.5
+        # if edges not in room: find amount of time to turn before both edges get back in the room
+        intersection_fov_with_room = intersection_fov_room(camera)
+        # last point to touch a wall when rotating
+        if camera.last_swipe_direction_change == -1:
+            furthest_edge = field_edge_points[1]
+        else:
+            furthest_edge = field_edge_points[0]
+        # chose the correct point of intersection: TODO: how ??
+        point_of_intersection = 1  # TODO here
+        # calculate the lenght of the arc between furthest point and point of intersection
+        arc_len = 1  # TODO here
+        camera.newt_swipe_direction_change = arc_len/camera.v_alpha_max
+
 
 
 def no_target_movement_behaviour(configuration, camera):
