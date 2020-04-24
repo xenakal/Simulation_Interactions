@@ -449,6 +449,18 @@ class CameraRepresentation:
         y_in_camera_frame = -math.sin(self.alpha) * x_no_offset + math.cos(self.alpha) * y_no_offset
         return x_in_camera_frame, y_in_camera_frame
 
+    def coordinate_change_from_camera_frame_to_world_frame(self, x_in_cam_frame, y_in_cam_frame):
+        # inverse rotation
+        x_world_frame_no_offset = math.cos(-self.alpha) * x_in_cam_frame+ math.sin(-self.alpha) * y_in_cam_frame
+        y_world_frame_no_offset = -math.sin(-self.alpha) * x_in_cam_frame + math.cos(-self.alpha) * y_in_cam_frame
+
+        # include the offset of camera relative to room origin
+        x_with_offset = x_world_frame_no_offset + self.xc
+        y_with_offset = y_world_frame_no_offset + self.yc
+
+        return x_with_offset, y_with_offset
+
+
 
 class Camera(CameraRepresentation):
     """

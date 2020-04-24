@@ -85,7 +85,9 @@ class MobileCamera(Camera):
                 self.v_alpha_max = 0
 
         """Variables for the swipe"""
-        self.swipe_anlge_direction = 1
+        self.swipe_angle_direction = 1
+        self.last_swipe_direction_change = constants.get_time()
+        self.last_swipe_position_change = constants.get_time()
 
     def save_target_to_txt(self):
         s0 = "x:%0.2f y:%0.2f alpha:%0.2f beta:%0.2f delta_beta: %.02f field_depth:%0.2f" % (
@@ -284,27 +286,6 @@ class MobileCamera(Camera):
     def set_configuration(self, configuration):
         self.set_x_y_alpha_beta(configuration.x, configuration.y, configuration.alpha, configuration.beta)
 
-    def behaviour_no_targets_seen(self, dt):
-        if constants.BEHAVIOUR_NO_TARGETS_SEEN == constant_class.BEHAVIOUR_NO_TARGETS_SEEN.SWIPE:
-            self.swipe_room(dt)
-        elif constants.BEHAVIOUR_NO_TARGETS_SEEN == constant_class.BEHAVIOUR_NO_TARGETS_SEEN.RANDOM_MOVEMENT:
-            pass
-
-    def swipe_room(self, dt):
-        """
-        :description
-            Behaviour when the camera sees no target.
-        """
-        if self.camera_type == MobileCameraType.ROTATIVE:
-            self.rotative_cam_swipe(dt)
-        elif self.camera_type == MobileCameraType.RAIL:
-            pass
-        elif self.camera_type == MobileCameraType.FREE:
-            pass
-
-    def rotative_cam_swipe(self, dt):
-        self.rotate(self.swipe_anlge_direction * 1, dt)
-
     def set_x_y_alpha_beta(self, x_target, y_target, alpha_target, beta_target):
         self.xc = x_target
         self.yc = y_target
@@ -322,6 +303,16 @@ class MobileCamera(Camera):
 
     def bound(self, val, val_min, val_max):
         return max(min(val, val_max), val_min)
+
+    def get_edge_points_world_frame(self):
+        # angles of edge of field of view in cam frame
+        angle_min, angle_max = -self.beta / 2, self.beta / 2
+        # distance of depth field along these angles
+        min_edge = (self.field_depth * math.cos(angle_min), self.field_depth * math.sin(angle_min))
+        max_edge = (self.field_depth * math.sin(angle_max), self.field_depth * math.sin(angle_max))
+        min_edge_world_frame = self.coordinate_change_from_camera_frame_to_world_frame(min_edge[0], min_edge[1])
+        max_edge_world_frame = self.coordinate_change_from_camera_frame_to_world_frame(max_edge[0], max_edge[1])
+        return min_edge_world_frame, max_edge_world_frame
 
 
 class TrajectoryPlaner:

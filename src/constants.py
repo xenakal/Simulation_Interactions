@@ -8,8 +8,8 @@ In this file you have the possibility to modify the settings
 """
 
 """Options-----------------------------------------------------------------------------------------------------------"""
-SAVE_DATA = True
-GENERATE_PLOT = True
+SAVE_DATA = False
+GENERATE_PLOT = False
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
 USE_GUI = True

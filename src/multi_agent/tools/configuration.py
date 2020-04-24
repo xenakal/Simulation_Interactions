@@ -46,7 +46,6 @@ class Configuration:
         self.configuration_score = None
         self.virtual = virtual
         self.is_valid = True
-        self.no_targets = False
         """Parameter fro the target"""
         self.xt = xt
         self.yt = yt
@@ -105,6 +104,10 @@ class Configuration:
             print("The target list is none")
 
     def variation_on_configuration_found(self, camera, region=VariationOnConfiguration.Small_region):
+
+        if self.track_target_list == []:
+            return self
+
         new_configurations = []
 
         distance = 0.25

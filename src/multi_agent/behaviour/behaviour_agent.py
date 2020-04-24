@@ -1,5 +1,6 @@
 import itertools
 import math
+import random
 import warnings
 
 import numpy as np
@@ -35,7 +36,18 @@ def check_heat_maps(n_target, camera):
                 HeatMaps.HEAT_MAP_TWO_TARGET_FAR(camera.field_depth, camera.field_depth, 2)]
 
 
-def get_configuration_based_on_seen_target(camera, target_representation_list,
+def are_all_points_in_room(points_list):
+    # TODO: return the biggest distance to edge of room (to be used in calculation of dt)
+    return all([is_point_in_room(point) for point in points_list]), 1
+
+
+def is_point_in_room(point):
+    x_in_length = 0 <= point[0] <= constants.LENGHT_ROOM
+    y_in_width = 0 <= point[1] <= constants.WIDTH_ROOM
+    return x_in_length and y_in_width
+
+
+def get_configuration_based_on_seen_target(camera, target_representation_list, room,
                                            point_to_track_choice=PCA_track_points_possibilites.MEDIAN_POINTS,
                                            memory_objectives=None,
                                            memory_point_to_reach=None, virtual=False):
@@ -55,16 +67,14 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
     placement_choice = None
     number_of_target = len(target_representation_list)
 
-    """
     all_fix = True
     are_target_fix = [target.type == TargetType.FIX for target in target_representation_list]
     for item in are_target_fix:
-        if item == False:
+        if not item :
             all_fix = False
 
-    if all_fix:
+    if all_fix and target_representation_list:
         return Configuration(xt, yt, camera.xc, camera.yc, camera.alpha, camera.beta, camera.field_depth, virtual)
-    """
 
     """-----------------------------------------------------------------------------------------------------------------
        IN TERMS OF THE TARGET NUMBER
@@ -74,9 +84,34 @@ def get_configuration_based_on_seen_target(camera, target_representation_list,
         warnings.warn("Agent ", camera.id, "sees a negative number of targets...")
 
     if number_of_target == 0:
-        configuration = Configuration(-1, -1, -1, -1, -1, -1, -1, 0)
-        configuration.is_valid = True
-        configuration.track_target_list = []
+        configuration = Configuration(camera.xc, camera.yc, camera.xc, camera.yc, camera.alpha,
+                                      camera.beta, camera.field_depth, virtual)
+        # all types rotate
+        if camera.camera_type != mobileCam.MobileCameraType.FIX:
+            field_edge_points = camera.get_edge_points_world_frame()
+            # time constraint to give time for the camera to move back in the room
+            dt = constants.get_time() - camera.last_swipe_direction_change
+            in_room, biggest_difference = are_all_points_in_room(field_edge_points)
+
+            if dt > .5 and not in_room:
+                # change direction
+                camera.swipe_angle_direction *= -1
+                camera.last_swipe_direction_change = constants.get_time()
+
+            configuration.alpha += camera.swipe_angle_direction*0.51
+        # rails and free cameras actually move
+        if camera.camera_type != mobileCam.MobileCameraType.FIX or \
+                camera.camera_type != mobileCam.MobileCameraType.ROTATIVE:
+            dt = constants.get_time() - camera.last_swipe_position_change
+            if dt > 3:
+                print("ok")
+                configuration.x = random.uniform(0, constants.LENGHT_ROOM)
+                print(configuration.x)
+                configuration.y = random.uniform(0, constants.WIDTH_ROOM)
+                camera.last_swipe_position_change = constants.get_time()
+        if camera.camera_type == mobileCam.MobileCameraType.FREE:
+            pass
+
         return configuration
 
     elif number_of_target == 1:

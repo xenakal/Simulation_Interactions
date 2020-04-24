@@ -509,10 +509,6 @@ class AgentCam(AgentInteractingWithRoom):
             self.log_main.debug("no config to move at time %.02f" % constants.get_time())
             return constants.get_time()
 
-        if not configuration.track_target_list:
-            dt = constants.get_time() - last_time_move
-            self.camera.behaviour_no_targets_seen(dt)
-
         """Computing the vector field"""
         configuration.compute_vector_field_for_current_position(self.camera.xc, self.camera.yc)
 
@@ -655,11 +651,10 @@ class AgentCam(AgentInteractingWithRoom):
         # if the agent actually wants to move
         if used_for_movement:
             real_configuration = \
-                get_configuration_based_on_seen_target(self.camera,
-                                                       tracked_targets_room_representation.active_Target_list,
-                                                       PCA_track_points_possibilites.MEANS_POINTS,
-                                                       self.memory_of_objectives, self.memory_of_position_to_reach,
-                                                       False)
+            get_configuration_based_on_seen_target(self.camera,
+                                                   tracked_targets_room_representation.active_Target_list,
+                                                   self.room_representation, PCA_track_points_possibilites.MEANS_POINTS,
+                                                   self.memory_of_objectives, self.memory_of_position_to_reach, False)
 
             if better_config_found:
                 real_configuration.x = optimal_configuration.x
@@ -717,7 +712,7 @@ class AgentCam(AgentInteractingWithRoom):
 
     def compute_virtual_configuration(self, targets):
         virtual_configuration = \
-            get_configuration_based_on_seen_target(self.camera, targets,
+            get_configuration_based_on_seen_target(self.camera, targets, self.room_representation,
                                                    PCA_track_points_possibilites.MEANS_POINTS,
                                                    self.memory_of_objectives, self.memory_of_position_to_reach, True)
 
@@ -730,7 +725,8 @@ class AgentCam(AgentInteractingWithRoom):
         self.virtual_camera.set_configuration(virtual_configuration)
 
         real_configuration = virtual_configuration = \
-            get_configuration_based_on_seen_target(self.camera, target_list, PCA_track_points_possibilites.MEANS_POINTS,
+            get_configuration_based_on_seen_target(self.camera, target_list, self.room_representation,
+                                                   PCA_track_points_possibilites.MEANS_POINTS,
                                                    self.memory_of_objectives, self.memory_of_position_to_reach, False)
 
         return real_configuration, virtual_configuration
