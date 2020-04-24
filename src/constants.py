@@ -148,7 +148,10 @@ SCORE_WEIGHT = 1
 """
 Behaviour of mobile cameras when no targets are seen
 """
-BEHAVIOUR_NO_TARGETS_SEEN = BEHAVIOUR_NO_TARGETS_SEEN.SWIPE
+BEHAVIOUR_NO_TARGETS_SEEN = BEHAVIOUR_NO_TARGETS_SEEN.RANDOM_MOVEMENT_POSITION
+
+DELTA_TIME_CHANGE_POSITION_RANDOM_MOVEMENT = 3
+DELTA_POS_CHANGE_POSITION_RANDOM_MOVEMENT = 0.3
 
 
 """Potential Field Camera--------------------------------------------------------------------------------------------"""

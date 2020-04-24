@@ -49,8 +49,9 @@ class TARGET_PRIORITY:
 
 
 class BEHAVIOUR_NO_TARGETS_SEEN:
-    SWIPE = "swipe"
-    RANDOM_MOVEMENT = "random_moves"
+    AVOID_SEEN_REGIONS = "avoid_seen_regions"
+    RANDOM_MOVEMENT_TIME = "random_moves_based_on_time"
+    RANDOM_MOVEMENT_POSITION = "random_moves_based_on_position"
 
 
 """Potential field --------------------------------------------------------------------------------------------------"""

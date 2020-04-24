@@ -11,6 +11,7 @@ import src.multi_agent.elements.mobile_camera as mobileCam
 from src import constants
 from src.multi_agent.elements.target import TargetType
 from src.multi_agent.tools.configuration import Configuration, bound
+from src.my_utils import constant_class
 from src.my_utils.my_math.line import Line, distance_btw_two_point
 from src.multi_agent.tools.potential_field_method import compute_potential_gradient, \
     convert_target_list_to_potential_field_input, compute_potential_field_cam, plot_potential_field_dynamic, HeatMaps
@@ -34,17 +35,6 @@ def check_heat_maps(n_target, camera):
         return [HeatMaps.HEAT_MAP_TWO_TARGET_CENTER(camera.field_depth,camera.beta),
                 HeatMaps.HEAT_MAP_TWO_TARGET_FAR(camera.field_depth,camera.field_depth,1),
                 HeatMaps.HEAT_MAP_TWO_TARGET_FAR(camera.field_depth, camera.field_depth, 2)]
-
-
-def are_all_points_in_room(points_list):
-    # TODO: return the biggest distance to edge of room (to be used in calculation of dt)
-    return all([is_point_in_room(point) for point in points_list]), 1
-
-
-def is_point_in_room(point):
-    x_in_length = 0 <= point[0] <= constants.LENGHT_ROOM
-    y_in_width = 0 <= point[1] <= constants.WIDTH_ROOM
-    return x_in_length and y_in_width
 
 
 def get_configuration_based_on_seen_target(camera, target_representation_list, room,
@@ -89,33 +79,12 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
                                       camera.beta, camera.field_depth, virtual)
         # all types rotate
         if camera.camera_type != mobileCam.MobileCameraType.FIX:
-            field_edge_points = camera.get_edge_points_world_frame()
-            # time constraint to give time for the camera to move back in the room
-            dt = constants.get_time() - camera.last_swipe_direction_change
-            in_room, biggest_difference = are_all_points_in_room(field_edge_points)
-
-            if dt > .5 and not in_room:
-                # change direction
-                camera.swipe_angle_direction *= -1
-                camera.last_swipe_direction_change = constants.get_time()
-
-            configuration.alpha += camera.swipe_angle_direction*0.51
+            no_targets_rotation_behaviour(configuration, camera)
 
         # rails and free cameras actually move
         if camera.camera_type == mobileCam.MobileCameraType.RAIL or \
                 camera.camera_type == mobileCam.MobileCameraType.FREE:
-            dt = constants.get_time() - camera.last_swipe_position_change
-            if dt > 5:
-                print("ok")
-                configuration.x = random.uniform(0, constants.LENGHT_ROOM)
-                if camera.camera_type == mobileCam.MobileCameraType.FREE:
-                    configuration.y = random.uniform(0, constants.WIDTH_ROOM)
-                camera.last_swipe_position_change = constants.get_time()
-                camera.last_swipe_configuration = configuration
-            else:
-                configuration.x = camera.last_swipe_configuration.x
-                if camera.camera_type == mobileCam.MobileCameraType.FREE:
-                    configuration.y = camera.last_swipe_configuration.y
+            no_target_movement_behaviour(configuration, camera)
 
         return configuration
 
@@ -359,9 +328,81 @@ def pca_methode_2D_plan(target_representation_list, point_to_track_choice=PCA_tr
             yt = np.median(all_y)
         else:
             print("pca method not defined")
-            return (None, None, None, None)
+            return None, None, None, None
 
-        return (xt, yt, pca.mean_, pca.explained_variance_, pca.explained_variance_ratio_, pca.components_)
+        return xt, yt, pca.mean_, pca.explained_variance_, pca.explained_variance_ratio_, pca.components_
     else:
         print("no samples")
-        return (None, None, None, None)
+        return None, None, None, None
+
+
+def are_all_points_in_room(points_list):
+    # TODO: return the biggest distance to edge of room (to be used in calculation of dt)
+    return all([is_point_in_room(point) for point in points_list]), 1
+
+
+def is_point_in_room(point):
+    x_in_length = 0 <= point[0] <= constants.LENGHT_ROOM
+    y_in_width = 0 <= point[1] <= constants.WIDTH_ROOM
+    return x_in_length and y_in_width
+
+
+def no_targets_rotation_behaviour(configuration, camera):
+    field_edge_points = camera.get_edge_points_world_frame()
+    # time constraint to give time for the camera to move back in the room
+    dt = constants.get_time() - camera.last_swipe_direction_change
+    in_room, biggest_difference = are_all_points_in_room(field_edge_points)
+
+    if dt > .5 and not in_room:
+        # change direction
+        camera.swipe_angle_direction *= -1
+        camera.last_swipe_direction_change = constants.get_time()
+
+    configuration.alpha += camera.swipe_angle_direction * 0.5
+
+
+def no_target_movement_behaviour(configuration, camera):
+    if constants.BEHAVIOUR_NO_TARGETS_SEEN == constant_class.BEHAVIOUR_NO_TARGETS_SEEN.RANDOM_MOVEMENT_TIME:
+        random_movement_behaviour_based_on_time(configuration, camera)
+    elif constants.BEHAVIOUR_NO_TARGETS_SEEN == constant_class.BEHAVIOUR_NO_TARGETS_SEEN.RANDOM_MOVEMENT_POSITION:
+        random_movement_behaviour_based_on_position(configuration, camera)
+    elif constants.BEHAVIOUR_NO_TARGETS_SEEN == constant_class.BEHAVIOUR_NO_TARGETS_SEEN.AVOID_SEEN_REGIONS:
+        avoid_seen_regions_behaviour(configuration, camera)
+
+
+def random_movement_behaviour_based_on_time(configuration, camera):
+    # if enough time has passed, randomly generate a new position
+    delta_time = constants.get_time() - camera.last_swipe_position_change
+    if delta_time > constants.DELTA_TIME_CHANGE_POSITION_RANDOM_MOVEMENT:
+        configuration.x = random.uniform(0, constants.LENGHT_ROOM)
+        if camera.camera_type == mobileCam.MobileCameraType.FREE:
+            configuration.y = random.uniform(0, constants.WIDTH_ROOM)
+        camera.last_swipe_position_change = constants.get_time()
+        camera.last_swipe_configuration = configuration
+    else:
+        configuration.x = camera.last_swipe_configuration.x
+        if camera.camera_type == mobileCam.MobileCameraType.FREE:
+            configuration.y = camera.last_swipe_configuration.y
+
+
+def random_movement_behaviour_based_on_position(configuration, camera):
+    # if the camera is close to the randomly generated position, generate a new one
+    delta_x_square = math.pow(camera.xc - camera.last_swipe_configuration.x, 2)
+    delta_y_square = math.pow(camera.yc - camera.last_swipe_configuration.y, 2)
+    delta_position = math.pow(delta_x_square + delta_y_square, .5)
+    if delta_position < constants.DELTA_POS_CHANGE_POSITION_RANDOM_MOVEMENT:
+        configuration.x = random.uniform(0, constants.LENGHT_ROOM)
+        if camera.camera_type == mobileCam.MobileCameraType.FREE:
+            configuration.y = random.uniform(0, constants.WIDTH_ROOM)
+        camera.last_swipe_position_change = constants.get_time()
+        camera.last_swipe_configuration = configuration
+    else:
+        configuration.x = camera.last_swipe_configuration.x
+        if camera.camera_type == mobileCam.MobileCameraType.FREE:
+            configuration.y = camera.last_swipe_configuration.y
+
+
+def avoid_seen_regions_behaviour(configuration, camera):
+    pass
+
+

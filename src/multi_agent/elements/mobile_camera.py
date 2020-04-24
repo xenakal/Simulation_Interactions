@@ -88,7 +88,8 @@ class MobileCamera(Camera):
         self.swipe_angle_direction = 1
         self.last_swipe_direction_change = constants.get_time()
         self.last_swipe_position_change = -10
-        self.last_swipe_configuration = None
+        from src.multi_agent.tools.configuration import Configuration
+        self.last_swipe_configuration = Configuration(None, None, 1, 1, 1, 1, self.field_depth, False)
 
     def save_target_to_txt(self):
         s0 = "x:%0.2f y:%0.2f alpha:%0.2f beta:%0.2f delta_beta: %.02f field_depth:%0.2f" % (
