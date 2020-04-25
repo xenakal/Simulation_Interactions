@@ -358,7 +358,10 @@ def intersection_fov_room(camera):
                          corners_of_room[idx + 1][0], corners_of_room[idx + 1][1])
         # define the circle constructed from the field depth and the center of the camera & find intersections
         fov_intersection = room_edge.find_intersection_btw_line_circle(camera.field_depth, camera.xc, camera.yc)
-        [points_of_intersection.append(intersection) for intersection in fov_intersection]
+        if fov_intersection is not None:
+            x1, y1, x2, y2 = fov_intersection
+            points_of_intersection.append((x1, y1))
+            points_of_intersection.append((x2, y2))
 
     # return all intersections (if more than 2, there is a problem... sort of...)
     return points_of_intersection
@@ -392,27 +395,26 @@ def no_targets_rotation_behaviour(configuration, camera):
     if in_room:
         configuration.alpha += camera.swipe_angle_direction * 0.5
         return
-
+    print("not in room !", constants.get_time())
     if dt > camera.dt_next_swipe_direction_change:
         # change direction
         camera.swipe_angle_direction *= -1
         camera.last_swipe_direction_change = constants.get_time()
 
         # find amount of time to turn before both edges get back in the room
-        intersection_fov_with_room = intersection_fov_room(camera)
-        # last point to touch a wall when rotating
-        if camera.swipe_angle_direction == -1:
-            furthest_edge = field_edge_points[1]
-        else:
-            furthest_edge = field_edge_points[0]
+        
+        intersections_fov_with_room = intersection_fov_room(camera)
         # chose the correct point of intersection
-        point_of_intersection = chose_point_of_intersection(intersection_fov_with_room, camera.swipe_angle_direction)
+        point_of_intersection = chose_point_of_intersection(intersections_fov_with_room, camera.swipe_angle_direction)
         # get angle from camera current position to intersection point found
-        angle_intersection_point = math.atan2(point_of_intersection[1] - camera.yc,
+        angle_intersection_point = -math.atan2(point_of_intersection[1] - camera.yc,
                                               point_of_intersection[0] - camera.xc)
         # calculate the lenght of the arc between furthest point and point of intersection
-        angle_edge_intersection = angle_intersection_point - (camera.alpha - camera.beta / 2)
-        camera.dt_next_swipe_direction_change = angle_edge_intersection / camera.v_alpha_max
+        angle_edge_intersection_len = math.fabs(angle_intersection_point - (camera.alpha - (camera.beta / 2)))
+        camera.dt_next_swipe_direction_change = angle_edge_intersection_len / camera.v_alpha_max + 1
+        print(camera.dt_next_swipe_direction_change)
+    else:
+        configuration.alpha += camera.swipe_angle_direction * 0.5
 
 
 def no_target_movement_behaviour(configuration, camera):

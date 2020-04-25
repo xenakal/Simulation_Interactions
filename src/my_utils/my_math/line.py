@@ -101,7 +101,7 @@ class Line:
             x2 = xc
             y2 = yc
 
-        elif self.m is None:
+        elif self.m is None:  # horizontal line
             try:
                 x1 = self.xa
                 y1 = math.pow((r * r - (self.xa - xc) * (self.xa - xc)), 0.5) + yc
@@ -109,7 +109,7 @@ class Line:
                 y2 = -math.pow((r * r - (self.xa - xc) * (self.xa - xc)), 0.5) + yc
             except ValueError:
                 # no points of intersection
-                return numpy.array([])
+                return None
         else:
             m = self.m
             xd = self.xa
@@ -126,10 +126,7 @@ class Line:
                 y1 = m * (x1 - self.xa) + self.ya
                 y2 = m * (x2 - self.xa) + self.ya
             except ValueError:
-                x1 = 0
-                x2 = 0
-                y1 = 0
-                y2 = 0
-                print("Class Line Error")
+                # no points of intersection
+                return None
 
         return numpy.array([x1, y1, x2, y2])
