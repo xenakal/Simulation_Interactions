@@ -159,8 +159,8 @@ TIME_STOP_INIT_BEHAVIOUR = 1
 """
 Margins for initiating swipe when two agents are too close
 """
-MIN_DISTANCE_AGENTS = 0.5
-MIN_ANGLE_DIFF_AGENTS = 0.5
+MIN_DISTANCE_AGENTS = 0.3
+MIN_ANGLE_DIFF_AGENTS = 0.2
 
 
 """Potential Field Camera--------------------------------------------------------------------------------------------"""

@@ -479,7 +479,7 @@ class AgentCam(AgentInteractingWithRoom):
             self.init_no_target_behaviour = False
 
         for agent in self.room_representation.agentCams_representation_list:
-            if agent.id != self.id and math.fabs(agent.camera_representation.xc - self.camera.xc) < constants.MIN_DISTANCE_AGENTS and \
+            if agent.id < self.id and math.fabs(agent.camera_representation.xc - self.camera.xc) < constants.MIN_DISTANCE_AGENTS and \
                math.fabs(agent.camera_representation.yc - self.camera.yc) < constants.MIN_DISTANCE_AGENTS and \
                math.fabs(agent.camera_representation.alpha - self.camera.alpha) < constants.MIN_ANGLE_DIFF_AGENTS:
                 self.init_no_target_behaviour = True
