@@ -38,9 +38,10 @@ def get_agent_to_draw(room, agents_to_display, agentType, allAgents=False):
 
 
 class GUI_room_representation():
-    def __init__(self, screen, agent, target, x_off, y_off, scale_x, scale_y):
+    def __init__(self, screen, agent, target, x_off, y_off, scale_x, scale_y,GUI_option):
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 15)
+        self.GUI_option = GUI_option
 
         self.agent_to_display = agent
         self.target_to_display = target
@@ -96,8 +97,11 @@ class GUI_room_representation():
             color = UNKNOWN_COLOR
 
         color_conf = WHITE
-        if target.confidence_pos > 0:
-            color_conf = [math.ceil(255 - 2.5 * target.confidence_pos), math.ceil(target.confidence_pos * 2.5), 0]
+        if target.confidence_pos[1] > 0:
+            value1  = max(min(math.ceil(255 - 2.5 * target.confidence_pos[1]),255),0)
+            value2 = max(min(math.ceil(2.5 * target.confidence_pos[1]), 255), 0)
+            color_conf = (value1,value2, 0)
+
 
         pygame.draw.ellipse(self.screen, color_conf, (
             self.x_offset + int(target.xc * self.scale_x) - int(self.scale_x * (target.radius * 1.2)),
@@ -134,8 +138,13 @@ class GUI_room_representation():
             # if not target.variance_on_estimation[0] is None and  target.variance_on_estimation[1] is None and not target.variance_on_estimation == (0,0):
 
             facteur = 1
-            value_to_draw1 = target.variance_on_estimation[0] + target.radius
-            value_to_draw2 = target.variance_on_estimation[1] + target.radius
+            value_to_draw1 = 0
+            value_to_draw2 = 0
+            if not isinstance(target.variance_on_estimation,int):
+                value_to_draw1 = target.variance_on_estimation[0] + target.radius
+                value_to_draw2 = target.variance_on_estimation[1] + target.radius
+
+
 
             pygame.draw.line(self.screen, WHITE, (
             self.x_offset + int(target.xc * self.scale_x), self.y_offset + int(target.yc * self.scale_y)),
@@ -181,8 +190,7 @@ class GUI_room_representation():
                 if target.id == int(id):
                     for position in target.all_position:
                         pygame.draw.circle(self.screen, target.color, (self.x_offset + int(position[0] * self.scale_x),
-                                                                       self.y_offset + int(position[1] * self.scale_y)),
-                                           1)
+                                                                       self.y_offset + int(position[1] * self.scale_y)),1)
 
     def draw_all_agentCam(self, cam_list):
         for agent in cam_list:
@@ -192,6 +200,9 @@ class GUI_room_representation():
                 self.x_offset + int(camera.xc * self.scale_x) + 5, self.y_offset + int(camera.yc * self.scale_y) + 5))
 
             self.draw_one_camera(camera)
+            if isinstance(agent,AgentCam) and  self.GUI_option.show_virtual_cam and not agent.virtual_camera is None :
+                self.draw_one_camera(agent.virtual_camera,True)
+
             # render form
             if not agent.is_active:
                 color = RED
@@ -219,13 +230,19 @@ class GUI_room_representation():
             pygame.draw.circle(self.screen, camera.color, (
                 self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 5)
 
-            if camera.camera_type == MobileCameraType.RAIL or camera.camera_type == MobileCameraType.FREE:
+            if camera.camera_type == MobileCameraType.RAIL or camera.camera_type == MobileCameraType.FREE and self.GUI_option.show_point_to_reach:
                 if isinstance(agent, AgentCam):
                     if len(agent.memory_of_position_to_reach) > 0:
-                        for mem in agent.memory_of_position_to_reach[-1]:
-                            (x, y, index) = mem
+
+                            mem = agent.memory_of_position_to_reach[-1]
+                            if len(mem) > 2:
+                                print("problem"+str(mem))
+                            (x, y, index) = mem[0]
                             pygame.draw.circle(self.screen, RED, (
-                                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 3)
+                                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 5)
+                            (x, y, index) = mem[1]
+                            pygame.draw.circle(self.screen, GREEN, (
+                                self.x_offset + int(x * self.scale_x), self.y_offset + int(y * self.scale_y)), 5)
 
                     if len(agent.memory_of_objectives) > 0:
                         xt = agent.memory_of_objectives[-1][0]
@@ -238,7 +255,7 @@ class GUI_room_representation():
                         pygame.draw.line(self.screen, agent.color, pt1, pt2, 3)
                         pygame.draw.circle(self.screen, WHITE, pt1, 3)
 
-    def draw_one_camera(self, camera):
+    def draw_one_camera(self, camera,virtual = False):
         l = camera.field_depth * math.pow((math.pow(self.scale_x * math.cos(camera.alpha), 2) + math.pow(
             self.scale_y * math.sin(camera.alpha), 2)), 0.5)
 
@@ -246,42 +263,35 @@ class GUI_room_representation():
         if camera.is_active == 1:
             color = GREEN
 
-        pygame.draw.line(self.screen, WHITE, (
-            self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
-                         (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(camera.alpha),
-                          self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(camera.alpha)), 2)
-        pygame.draw.line(self.screen, color, (
-            self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
-                         (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
-                             camera.alpha - (camera.beta / 2)),
-                          self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
-                              camera.alpha - (camera.beta / 2))), 2)
-        pygame.draw.line(self.screen, color, (
-            self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
-                         (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
-                             camera.alpha + (camera.beta / 2)),
-                          self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
-                              camera.alpha + (camera.beta / 2))), 2)
-        """
-            pt1 =  (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
-                            camera.alpha - (camera.beta / 2)),
-                         self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
-                             camera.alpha - (camera.beta / 2)))
+        if virtual:
+            color = (0,125,125)
 
-            pt2 =  (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
+        if self.GUI_option.show_field_cam:
+            pygame.draw.line(self.screen, WHITE, (
+                self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
+                             (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(camera.alpha),
+                              self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(camera.alpha)), 2)
+            pygame.draw.line(self.screen, color, (
+                self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
+                             (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
+                                 camera.alpha - (camera.beta / 2)),
+                              self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
+                                  camera.alpha - (camera.beta / 2))), 2)
+            pygame.draw.line(self.screen, color, (
+                self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)),
+                             (self.x_offset + int(camera.xc * self.scale_x) + l * math.cos(
                                  camera.alpha + (camera.beta / 2)),
                               self.y_offset + int(camera.yc * self.scale_y) + l * math.sin(
-                                  camera.alpha + (camera.beta / 2)))
-            pygame.draw.line(self.screen, color, pt1, pt2, 2)
-            """
-        try:
-            pygame.draw.arc(self.screen, color, [self.x_offset + int(camera.xc * self.scale_x) - int(l),
-                                                 self.y_offset + int(camera.yc * self.scale_y) - int(l), 2 * l, 2 * l],
-                            -camera.alpha - (camera.beta / 2), -camera.alpha + (camera.beta / 2), 2)
-        except ValueError:
-            print("Error draw cam")
+                                  camera.alpha + (camera.beta / 2))), 2)
 
-        self.draw_a_trajectory(camera.trajectory.trajectory, camera.color)
+            try:
+                pygame.draw.arc(self.screen, color, [self.x_offset + int(camera.xc * self.scale_x) - int(l),
+                                                     self.y_offset + int(camera.yc * self.scale_y) - int(l), 2 * l, 2 * l],
+                                -camera.alpha - (camera.beta / 2), -camera.alpha + (camera.beta / 2), 2)
+            except ValueError:
+                print("Error draw cam")
+
+            self.draw_a_trajectory(camera.trajectory.trajectory, camera.color)
 
     def draw_a_trajectory(self, traj, color):
         for n in range(len(traj) - 1):

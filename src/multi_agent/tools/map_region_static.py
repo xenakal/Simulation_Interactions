@@ -1,6 +1,8 @@
 import numpy as np
 
 from src import constants
+from src.multi_agent.elements.camera import is_x_y_radius_in_field_not_obstructed, \
+    is_in_hidden_zone_fix_targets_matrix_x_y
 
 
 def create_region(nx, ny, factor=10, x0=0, y0=0):
@@ -233,7 +235,7 @@ class MapRegionStatic:
         (i_tot, j_tot) = result.shape
         for i in range(i_tot):
             for j in range(j_tot):
-                if cam.is_x_y_radius_in_field_not_obstructed(self.xv[i, j], self.yv[i, j]):
+                if is_x_y_radius_in_field_not_obstructed(cam,self.xv[i, j], self.yv[i, j]):
                     """"Turn the matrix to one when the camera sees the point (x,y)"""
                     result[i, j] = 1
         return result
@@ -267,5 +269,5 @@ class MapRegionStatic:
             - a array from result's dimension. It gives the camera's field of vision with fix object in the room
 
            """
-        return cam.is_in_hidden_zone_fix_targets_matrix_x_y(result, self.xv, self.yv)
+        return is_in_hidden_zone_fix_targets_matrix_x_y(self.room,cam.id,result, self.xv, self.yv)
 

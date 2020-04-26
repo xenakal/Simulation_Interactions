@@ -179,6 +179,7 @@ class TargetEstimator(ItemEstimator):
                   6. (int) target_position      -- [x,y] values of the center of the targetRepresentation
                   7. (int) target_type          -- identification from the Target.type
                   8. (int) target_size          -- radius from the center
+                  9. (int) priority             -- relative priority of target
 
                :notes
                    fells free to write some comments.
@@ -187,7 +188,7 @@ class TargetEstimator(ItemEstimator):
     def __init__(self, time_stamp=None, agent_id=None, agent_signature=None, target_id=None, target_signature=None,
                  target_xc=None, target_yc=None,
                  target_vx=None, target_vy=None, target_ax=None, target_ay=None, target_type=None, target_radius=None,
-                 variance_on_estimation=None):
+                 variance_on_estimation=None, priority=constants.TARGET_PRIORITY.MEDIUM):
 
         super().__init__(time_stamp, agent_id, agent_signature, target_id, target_signature, target_xc, target_yc,
                          target_vx, target_vy, target_ax, target_ay, target_type)
@@ -197,6 +198,9 @@ class TargetEstimator(ItemEstimator):
         else:
             self.alpha = math.atan2(target_vy, target_vx)
         self.variance_on_estimation = variance_on_estimation
+
+        # how important tracking this target is
+        self.priority = priority
 
     def set_from_target(self, time_stamp, agent, target):
         "Time information"
@@ -433,7 +437,8 @@ class AgentEstimator(ItemEstimator):
                       'camera_x': self.item_position[0], 'camera_y': self.item_position[1],
                       'camera_vx': self.item_speeds[0], 'camera_vy': self.item_speeds[1],
                       'camera_ax': self.item_acceleration[0], 'camera_ay': self.item_acceleration[1],
-                      'alpha': self.alpha, 'beta': self.beta}
+                      'alpha': self.alpha, 'beta': self.beta,'field_depth':self.field_depth,
+                      'is_agent_active': self.is_agent_active,'is_camera_active':self.is_camera_active}
         return csv_format
 
 
@@ -723,9 +728,9 @@ class Agent_Agent_AgentEstimator(Agent_item_itemEstimator):
         csv_fieldnames = constants.TARGET_ESTIMATOR_CSV_FIELDNAMES
 
         data_to_save = []
-        for combination_agent_target in self.Agent_item_itemEstimator_list:
-            for targetEstimator in combination_agent_target[2]:
-                data_to_save.append(targetEstimator.to_csv())
+        for combination_agent_agent in self.Agent_item_itemEstimator_list:
+            for agentEstimator in combination_agent_agent[2]:
+                data_to_save.append(agentEstimator.to_csv())
 
         return [csv_fieldnames, data_to_save]
 
@@ -959,3 +964,13 @@ class Agent_AgentEstimator(Item_ItemEstimator):
         new_agentEstimator = AgentEstimator()
         new_agentEstimator.set_agent_agent_obeserved(time_from_estimation, agent, agent_observed)
         self.add_itemEstimator(new_agentEstimator)
+
+    def to_csv(self):
+        csv_fieldnames = constants.AGENT_ESTIMATOR_CSV_FIELDNAMES
+        data_to_save = []
+        self.item_itemEstimator_list.sort()
+        for combination_agent_agent in self.item_itemEstimator_list:
+            for agentEstimator in combination_agent_agent[1]:
+                data_to_save.append(agentEstimator.to_csv())
+
+        return [csv_fieldnames, data_to_save]

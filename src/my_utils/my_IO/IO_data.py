@@ -13,29 +13,34 @@ def create_structur_to_save_data():
         """Create the main folder to save the result after folder"""
         os.mkdir(constants.ResultsPath.MAIN_FOLDER)
 
-        "Screen shot"
+        """Screen shot"""
         """---------------------------------------"""
         os.mkdir(constants.ResultsPath.DATA_SCREENSHOT)
 
-        """Create data and it subfolder"""
-        """----------------------------"""
+        """LOG folder"""
+        """---------------------------------------"""
         os.mkdir(constants.ResultsPath.LOG_FOLDER)
         os.mkdir(constants.ResultsPath.LOG_AGENT)
         os.mkdir(constants.ResultsPath.LOG_MEMORY)
         os.mkdir(constants.ResultsPath.LOG_KALMAN)
 
+
         """Create data and it subfolder"""
         """----------------------------"""
         os.mkdir(constants.ResultsPath.DATA_FOLDER)
 
-        """Create memory agent and it subfolder"""
-        os.mkdir(constants.ResultsPath.DATA_MEMORY_AGENT)
-
-        """Create memory all agent and it subfolder"""
-        os.mkdir(constants.ResultsPath.DATA_MEMORY_ALL_AGENT)
-
         "create ideal folder and it subfolder"
         os.mkdir(constants.ResultsPath.DATA_IDEAL)
+        os.mkdir(constants.ResultsPath.DATA_MEMORY_RELATED_TO_TARGET)
+        os.mkdir(constants.ResultsPath.DATA_MEMORY_RELATED_TO_AGENT)
+        os.mkdir(constants.ResultsPath.DATA_MESSAGES)
+
+        """Create memory agent and it subfolder"""
+        os.mkdir(constants.ResultsPath.DATA_MEMORY_AGENT_TARGET)
+        """Create memory all agent and it subfolder"""
+        os.mkdir(constants.ResultsPath.DATA_MEMORY_ALL_AGENT_TARGET)
+
+        """Create subfolder in data ideal"""
         os.mkdir(constants.ResultsPath.DATA_STATIC_REGION)
 
         """Create folder Kalman and it subfolder"""
@@ -54,6 +59,8 @@ def create_structur_to_save_data():
         os.mkdir(constants.ResultsPath.PLOT_FOLDER)
         os.mkdir(constants.ResultsPath.PLOT_MEMORY_AGENT)
         os.mkdir(constants.ResultsPath.PLOT_MEMORY_ALL_AGENT)
+        os.mkdir(constants.ResultsPath.PLOT_MESSAGE)
+        os.mkdir(constants.ResultsPath.PLOT_AGENT_ESTIMATOR)
 
         os.mkdir(constants.ResultsPath.PLOT_KALMAN)
         os.mkdir(constants.ResultsPath.PLOT_KALMAN_GLOBAL)
@@ -86,6 +93,26 @@ def create_logger(path, name, agent_id):
     logger.addHandler(fh)
     logger.addHandler(ch)
     return logger
+
+def create_logger_save_data(path, name, agent_id):
+    # log_room
+    logger = logging.getLogger(name + str(agent_id))
+    logger.setLevel(constants.LOG_LEVEL)
+
+    # create file handler which log_messages even debug messages
+    fh = logging.FileHandler(path + name + "-agent-"+str(agent_id)+".txt", "w+")
+    # create console handler with a higher log_message level
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.ERROR)
+    # create formatter and add it to the handlers
+    formatter = logging.Formatter('%(message)s')
+    fh.setFormatter(formatter)
+    ch.setFormatter(formatter)
+    # add the handlers to the logger_message
+    logger.addHandler(fh)
+    logger.addHandler(ch)
+    return logger
+
 
 
 def save_in_csv_file(name, data_to_save):

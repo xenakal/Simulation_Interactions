@@ -24,7 +24,7 @@ class Line:
         else:
             return ((y - self.ya) / self.m) + self.xa
 
-    def compute_y(self,x,line):
+    def compute_y(self, x, line):
         """
             :param
                 - x
@@ -34,7 +34,7 @@ class Line:
         if line.m is None:
             return line.ya
         else:
-            return(x-self.xa)*self.m+ self.ya
+            return (x - self.xa) * self.m + self.ya
 
     def find_line_perp(self, x, y):
         """
@@ -49,12 +49,12 @@ class Line:
             return Line(x, y, x + 1, y)
         elif math.fabs(self.m) < self.tol:
             """if line is horizontal"""
-            return Line(x, y, x, y)
+            return Line(x, y, x, y + 1)
         else:
             """Every other line"""
-            x1 = x - 1
+            x1 = x + 1
             y1 = (-1 / self.m) + y
-            return Line(x, y, x1 , y1)
+            return Line(x, y, x1, y1)
 
     def find_intersection_btw_two_line(self, line):
         """
@@ -71,12 +71,12 @@ class Line:
         elif self.m is None:
             "self is vertical"
             xi = self.xa
-            yi = line.compute_y(xi,line)
+            yi = line.compute_y(xi, line)
 
         elif line.m is None:
             "line is vertical"
             xi = line.xa
-            yi = self.compute_y(xi,self)
+            yi = self.compute_y(xi, self)
 
         else:
             """Every other line"""
@@ -84,7 +84,6 @@ class Line:
             yi = self.m * (xi - self.xa) + self.ya
 
         return xi, yi
-
 
     def find_intersection_btw_line_circle(self, r, xc, yc):
         """
@@ -102,11 +101,15 @@ class Line:
             x2 = xc
             y2 = yc
 
-        elif self.m is None:
-            x1 = self.xa
-            y1 = math.pow((r * r - (self.xa - xc) * (self.xa - xc)), 0.5) + yc
-            x2 = self.xa
-            y2 = -math.pow((r * r - (self.xa - xc) * (self.xa - xc)), 0.5) + yc
+        elif self.m is None:  # horizontal line
+            try:
+                x1 = self.xa
+                y1 = math.pow((r * r - (self.xa - xc) * (self.xa - xc)), 0.5) + yc
+                x2 = self.xa
+                y2 = -math.pow((r * r - (self.xa - xc) * (self.xa - xc)), 0.5) + yc
+            except ValueError:
+                # no points of intersection
+                return None
         else:
             m = self.m
             xd = self.xa
@@ -123,10 +126,7 @@ class Line:
                 y1 = m * (x1 - self.xa) + self.ya
                 y2 = m * (x2 - self.xa) + self.ya
             except ValueError:
-                x1 = 0
-                x2 = 0
-                y1 = 0
-                y2 = 0
-                print("Class Line Error")
+                # no points of intersection
+                return None
 
         return numpy.array([x1, y1, x2, y2])

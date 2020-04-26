@@ -12,7 +12,7 @@ by default in maps
 map_to_test_name = ["My_new_map", "map1", "map2", "map3", "map4"]
 
 """ Used to specify whether we want to use arguments passed from user. """
-use_args = True
+use_args = False
 
 """
 Variable here are use to set the desired parameter during the simulation.
@@ -36,7 +36,10 @@ t_stop = [500, 500, 500, 500, 500]
 """When many cameras are used, it might be a good idea to slowdown the simulation using a scaling factor < 1"""
 t_scale = [1, 1, 1, 1, 1]
 
+
+
 index = 0
+
 while index < len(map_to_test_name):
 
     print("processing " + str(map_to_test_name[index]))
@@ -51,5 +54,6 @@ while index < len(map_to_test_name):
     elif is_do_next:
         index += 1
     else:
-        print("exit complietly")
+        print("exit completely")
         break
+

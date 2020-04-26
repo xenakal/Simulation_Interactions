@@ -1,3 +1,4 @@
+import random
 import threading
 import sys
 
@@ -32,6 +33,10 @@ class App:
             Modification from the constant file to get the desired parameter once runing from main
             By default set to NONE, in this case the value taken is the one set by the constants.py file itself
         """
+
+        if constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA:
+           file_name = "Random_map_" + str(random.randint(1,10000))
+
         if not (file_name is None):
             constants.ResultsPath.name_simulation = file_name
         if not (is_kalman_distributed is None):
@@ -50,7 +55,6 @@ class App:
         """
         clean_mailbox()
         create_structur_to_save_data()
-        shutil.copy(constants.MapPath.MAIN_FOLDER + file_name + ".txt", constants.ResultsPath.MAIN_FOLDER)
 
 
         """
@@ -103,9 +107,19 @@ class App:
 
         """Create a new room and load it from it representation in .txt file"""
         self.room = Room()
-        load_room_from_txt(self.filename + ".txt", self.room)
+        if constants.LOAD_DATA == LoadData.FROM_TXT_FILE:
+            load_room_from_txt(self.filename + ".txt", self.room)
+
+        elif constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA:
+            self.room.information_simulation.generate_n_m_unkown_set_fix_target(constants.TARGET_NUMBER_UNKOWN,constants.TARGET_NUMBER_SET_FIX)
+            self.room.information_simulation.generate_n_m_p_k_fix_rotative_rail_free_camera(constants.CAMERA_NUMBER_FIX,constants.CAMERA_NUMBER_ROTATIVE,
+                                                                                            constants.CAMERA_NUMBER_RAIL,constants.CAMERA_NUMBER_FREE)
+            save_room_to_txt(self.filename + ".txt", self.room)
+
+        shutil.copy(constants.MapPath.MAIN_FOLDER + self.filename+".txt", constants.ResultsPath.MAIN_FOLDER)
+
         "Add one agent user to this room"
-        self.room.init_AgentUser(1)
+        self.room.add_create_AgentUser(1)
 
         """Set the room representation for every agent based the information given in the room,
          only agent position and set_fix target are here taken into account """
@@ -136,7 +150,7 @@ class App:
 
         """Agents start to run"""
         for agent in self.room.information_simulation.agentCams_list:
-            agent.run()
+           agent.run()
 
         for agent in self.room.information_simulation.agentUser_list:
            agent.run()

@@ -46,7 +46,7 @@ class GUI_memories:
                     for pos in predictor.kalman_memory:
                         pygame.draw.circle(self.screen, (204, 0, 0),
                                            (self.x_offset + int(pos[0] * self.scale_x),
-                                            self.y_offset + int(pos[1] * self.scale_y)), 2)                        
+                                            self.y_offset + int(pos[1] * self.sscale_y)), 2)                        
                 """
 
     def draw_mesure_and_receiveMessages(self, room):
@@ -59,5 +59,5 @@ class GUI_memories:
                 for allAgent in room.active_AgentCams_list:
                     for targetEstimator in agentMemory.getPreviousPositions_allMessages(targetID, allAgent.id):
                         pygame.draw.circle(self.screen, agent.camera.color,
-                                           (self.x_offset + int(targetEstimator.target_position[0] * self.scale_x),
-                                            self.y_offset + int(targetEstimator.target_position[1] * self.scale_y)), 2)
+                                           (self.x_offset + int(targetEstimator.item_position[0] * self.scale_x),
+                                            self.y_offset + int(targetEstimator.item_position[1] * self.scale_y)), 2)

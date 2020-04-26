@@ -1,24 +1,31 @@
-# from elements.room import*
 import copy
 from warnings import warn
 
 import src.multi_agent.elements.room as room
 from src.multi_agent.agent.agent_interacting_room import *
 from src.multi_agent.communication.message import *
-from src.multi_agent.tools.behaviour_agent import PCA_track_points_possibilites, get_configuration_based_on_seen_target
-from src.multi_agent.tools.behaviour_detection import *
+from src.multi_agent.behaviour.behaviour_agent import PCA_track_points_possibilites, \
+    get_configuration_based_on_seen_target
+from src.multi_agent.behaviour.behaviour_detection import *
+from src.multi_agent.tools.configuration import check_configuration_all_target_are_seen
 from src.multi_agent.tools.link_target_camera import *
-from src.my_utils.controller import CameraController
+from src.multi_agent.tools.controller import CameraController
 from src import constants
 from src.constants import AgentCameraCommunicationBehaviour
-import math
 import time
 import src.multi_agent.elements.mobile_camera as mobCam
+import src.multi_agent.elements.camera as cam
+from src.multi_agent.tools.potential_field_method import compute_potential_field_cam, plot_potential_field
+
+CONFIDENCE_THRESHOLD = 50
 
 
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
     INFO_DKF = "info_DKF"
-    AGENT_ESTIMATOR = "agentEstimator"
+    UNTRACKABLE_TARGET = "untrackable"
+    SEEN_TARGET = "seen_untrackable"
+    TRACKING_TARGET = "tracking_target"
+    LOSING_TARGET = "loosing_target"
 
 
 class AgentCameraFSM:
@@ -29,12 +36,9 @@ class AgentCameraFSM:
     BUG = "Bug"
 
 
-class Configuration:
-    def __init__(self, x, y, alpha, beta):
-        self.x = x
-        self.y = y
-        self.alpha = alpha
-        self.beta = beta
+class InternalPriority:
+    NOT_TRACKED = 2
+    TRACKED = 5
 
 
 class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
@@ -109,15 +113,16 @@ class AgentCam(AgentInteractingWithRoom):
             t_del = [constants.TIME_STOP]
 
         self.camera = camera
+        self.virtual_camera = None
         super().__init__(AgentCam.number_agentCam_created, AgentType.AGENT_CAM, t_add, t_del, camera.color)
         self.camera_controller = None
         self.link_target_agent = None
         self.memory_of_objectives = []
         self.memory_of_position_to_reach = []
 
-        self.time_last_message_agentEstimtor_sent = constants.get_time()
-
         self.log_execution = create_logger(constants.ResultsPath.LOG_AGENT, "Execution time", self.id)
+        self.log_target_tracked = create_logger(constants.ResultsPath.LOG_AGENT, "Number of time a target is tracked",
+                                                self.id)
         AgentCam.number_agentCam_created += 1
 
         # targets to be tracked by this agent
@@ -125,6 +130,18 @@ class AgentCam(AgentInteractingWithRoom):
         self.initialized_targets_to_track = False
         # targets in self.targets_to_track for which a configuration wasn't found
         self.untrackable_targets = []
+        # targets untracked by all
+        self.targets_untracked_by_all = []
+        # count how many times a target is tracked
+        self.table_all_target_number_times_seen = AllTargetNUmberTimesSeen(self.id, self.log_target_tracked)
+
+        # dictionnary to hold the internal priority of the targets (different from the target priority in
+        # TargetEstimator). # This priority is used to modelize the fact that a target already tracked should be
+        # prioritized compared to a target that just came into the field of vision.
+        self.priority_dict = {}
+
+        self.init_no_target_behaviour = False
+        self.last_time_no_target_behaviour_init = constants.get_time()
 
     def init_and_set_room_description(self, room):
         """
@@ -140,21 +157,25 @@ class AgentCam(AgentInteractingWithRoom):
         self.log_main.info("starting initialisation in agent_interacting_room_agent_cam")
         super().init_and_set_room_description(room)
         self.link_target_agent = LinkTargetCamera(self.room_representation, True)
-        self.camera_controller = CameraController(1.2, 0, 0.4, 0, 0.8, 0.1)
+        self.camera_controller = CameraController(constants.AGENT_POS_KP, constants.AGENT_POS_KI,
+                                                  constants.AGENT_ALPHA_KP, constants.AGENT_ALPHA_KI,
+                                                  constants.AGENT_BETA_KP, constants.AGENT_BETA_KI)
         self.camera_controller.set_targets(self.camera.xc, self.camera.yc, self.camera.alpha, self.camera.beta)
 
         self.log_main.info("initialisation in agent_interacting_room__cam_done !")
 
-    def init_targets_to_track(self):
+    def init_targets_to_track(self, room):
         if constants.INIT_TARGET_LIST == constants.AgentCameraInitializeTargetList.ALL_SEEN:
-            self.init_targets_to_track_from_seen()
+            """ Initializes the targets to track as all targets seen by the agent at the time of initialization. """
+            # initialize targets to track
+            for target in self.room_representation.active_Target_list:
+                self.targets_to_track.append(target.id)
+                self.priority_dict[target.id] = InternalPriority.TRACKED
+        elif constants.INIT_TARGET_LIST == constants.AgentCameraInitializeTargetList.ALL_IN_ROOM:
+            # initialize targets to track
+            self.targets_to_track = copy.copy(room.information_simulation.active_Target_list)
         else:
-            warn("Invalid method for initializing targets to tracks, default will be used.")
-            self.init_targets_to_track_from_seen()
-
-    def init_targets_to_track_from_seen(self):
-        """ Initializes the targets to track as all targets seen by the agent at the time of initialization. """
-        self.targets_to_track = copy.copy(self.room_representation.active_Target_list)
+            warn("Invalid method for initializing targets to tracks, no target_list to be used.")
 
     def thread_run(self, real_room):
         """
@@ -162,7 +183,11 @@ class AgentCam(AgentInteractingWithRoom):
                 FSM defining the agent's behaviour
         """
 
-        state = AgentCameraFSM.MOVE_CAMERA
+        if constants.AGENTS_MOVING:
+            state = AgentCameraFSM.MOVE_CAMERA
+        else:
+            state = AgentCameraFSM.TAKE_PICTURE
+
         nextstate = state
 
         execution_loop_number = 1
@@ -176,24 +201,27 @@ class AgentCam(AgentInteractingWithRoom):
             last_not_None_configuration = None
 
             if state == AgentCameraFSM.MOVE_CAMERA:
+                # Assumption: at the beggining of the simulation, each target is seen by at least one camera. This could
+                #             be done by putting cameras at the entry/exit point of the room. If some target is lost in
+                #             the process (nobody able to track it), then it will be in the list of untracked targets.
 
-                if constants.AGENTS_MOVING:
-                    if last_time_move is not None:
-                        configuration = self.find_configuration_for_tracked_targets()
-                        if configuration is not None:
-                            last_not_None_configuration = configuration
+                if last_time_move is not None:
 
-                        last_time_move = self.move_based_on_config(last_not_None_configuration, last_time_move)
-                    else:
-                        last_time_move = constants.get_time()
+                    # find a configuration for the agent
+                    # config = self.find_configuration_for_tracked_targets()
+                    config = self.configuration_algorithm_choice(constants.AGENT_CHOICE_HOW_TO_FOLLOW_TARGET)
 
-                    """Create a new memory to save the """
-                    self.memory.add_create_agent_estimator_from_agent(constants.get_time(), self, self)
+                    # move agent according to configuration found
+                    last_time_move = self.move_based_on_config(config, last_time_move)
 
-                    if not self.camera.is_active or not self.is_active:
-                        nextstate = AgentCameraFSM.BUG
-                    else:
-                        nextstate = AgentCameraFSM.TAKE_PICTURE
+                else:
+                    last_time_move = constants.get_time()
+
+                """Create a new memory to save the """
+                self.memory.add_create_agent_estimator_from_agent(constants.get_time(), self, self)
+
+                if not self.camera.is_active or not self.is_active:
+                    nextstate = AgentCameraFSM.BUG
                 else:
                     nextstate = AgentCameraFSM.TAKE_PICTURE
 
@@ -235,16 +263,17 @@ class AgentCam(AgentInteractingWithRoom):
                             if target_representation.id == target.id:
                                 target_type = target_representation.type
 
+                        # add the new information to the memory
                         self.memory.add_create_target_estimator(constants.get_time(), self.id,
                                                                 self.signature, target.id, target.signature,
                                                                 target.xc + erreurPX, target.yc + erreurPY,
                                                                 target.vx + erreurVX, target.vy + erreurVY,
                                                                 target.ax + erreurAX, target.ay + erreurAY,
                                                                 target_type, target.radius)
+
                     nextstate = AgentCameraFSM.PROCESS_DATA
                     self.log_execution.debug("Loop %d : takePicture state completed after : %.02f s" % (
                         execution_loop_number, constants.get_time() - execution_time_start))
-
             elif nextstate == AgentCameraFSM.PROCESS_DATA:
                 self.log_execution.debug("Loop %d : at processData state after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
@@ -259,7 +288,6 @@ class AgentCam(AgentInteractingWithRoom):
                 self.log_execution.debug("Loop %d : processData state completed after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
 
-            # TODO: pas mieux de mettre ca avant "processData" ?
             elif state == AgentCameraFSM.COMMUNICATION:
                 self.log_execution.debug("Loop %d : at communication state after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
@@ -288,13 +316,16 @@ class AgentCam(AgentInteractingWithRoom):
                 self.log_room.info(self.memory.statistic_to_string() + self.message_statistic.to_string())
 
                 if not self.initialized_targets_to_track:
-                    self.init_targets_to_track()
+                    self.init_targets_to_track(real_room)
                     self.initialized_targets_to_track = True
 
                 if not self.is_active:
                     nextstate = AgentCameraFSM.BUG
                 else:
-                    nextstate = AgentCameraFSM.MOVE_CAMERA
+                    if constants.AGENTS_MOVING:
+                        nextstate = AgentCameraFSM.MOVE_CAMERA
+                    else:
+                        nextstate = AgentCameraFSM.TAKE_PICTURE
 
                 self.log_execution.debug("Loop %d :communication state  executed after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
@@ -316,146 +347,20 @@ class AgentCam(AgentInteractingWithRoom):
 
         self.log_execution.info("Execution mean time : %.02f s", execution_mean_time / execution_loop_number)
 
-    def move_based_on_config(self, configuration, last_time_move):
-
-        if configuration is None:
-            return
-
-        self.camera_controller.set_targets(configuration.x, configuration.y, configuration.alpha, configuration.beta)
-
-        """Define the values measured"""
-        x_mes = self.camera.xc  # + error si on veut ajouter ici
-        y_mes = self.camera.yc
-        alpha_mes = self.camera.alpha
-        beta_mes = self.camera.beta
-
-        if self.camera.camera_type == mobCam.MobileCameraType.RAIL:
-            "1 D"
-            x_mes = self.camera.trajectory.sum_delta
-            y_mes = 0
-
-        """Find the command to apply"""
-        (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes, y_mes,
-                                                                                                 alpha_mes, beta_mes)
-
-        """Apply the command"""
-        if constants.get_time() - last_time_move < 0:
-            print("problem time < 0 : %.02f s" % constants.get_time())
-            return last_time_move
-        else:
-            dt = constants.get_time() - last_time_move
-            if dt > 0.5 / constants.SCALE_TIME:
-                dt = 0.5 / constants.SCALE_TIME
-            self.camera.rotate(alpha_command, dt)
-            self.camera.zoom(beta_command, dt)
-            self.camera.move(x_command, y_command, dt)
-            return constants.get_time()
-
-    def find_configuration_for_tracked_targets(self):
-        """
-        :description:
-            Updates self.untrackable_targets and returns a configuration for the targets the agent is able to track
-        :return a configuration for the targets the agent is able to track, or None if he can't track any
-        """
-        tracked_targets = copy.copy(self.targets_to_track)  # try to find a configuration covering all targets
-
-        # do nothing if no targets need tracking
-        if not tracked_targets:
-            return None
-
-        number_targets_to_remove = -1
-        configuration = None
-        while configuration is None:  # configuration not found
-
-            # try to find configuration removing one more element if list not empty
-            if tracked_targets:
-                number_targets_to_remove += 1
-                tracked_targets = copy.copy(self.targets_to_track)
-
-            # if somehow couldn't find a configuration covering any of the elements
-            if number_targets_to_remove >= len(tracked_targets):
-                self.untrackable_targets = copy.copy(self.targets_to_track)
-                return None
-
-            # remove the desired number of targets
-            # TODO: maybe try different permutations as well ?
-            for _ in range(number_targets_to_remove):
-                tracked_targets = remove_target_with_lowest_priority(tracked_targets)
-
-            # print([target.id for target in tracked_targets])
-            configuration = self.find_configuration_for_targets(tracked_targets)
-
-        # update the list of untrackable targets
-        self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
-
-        return configuration
-
-    def find_configuration_for_targets(self, targets):
-        """
-        :description:
-            Checks if a configuration can be found where all targets are seen.
-        :param targets: target representations
-        :return: Configuration object if exists, None otherwise
-        """
-
-        target_target_estimator = self.memory.memory_predictions_order_2_from_target
-
-        # reconstruct the Target_TargetEstimator by flitering the targets
-        new_target_targetEstimator = Target_TargetEstimator()
-        for (target_id, targetEstimator_list) in target_target_estimator.item_itemEstimator_list:
-            if target_id in [target.id for target in targets]:
-                new_target_targetEstimator.add_itemEstimator(targetEstimator_list[-1])
-
-        # find a configuration for these targets
-        tracked_targets_room_representation = room.RoomRepresentation()
-        tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
-
-        x_target, y_target, alpha_target, beta_target = \
-            get_configuration_based_on_seen_target(self.camera, tracked_targets_room_representation.active_Target_list,
-                                                   PCA_track_points_possibilites.MEANS_POINTS,
-                                                   self.memory_of_objectives, self.memory_of_position_to_reach, True)
-
-        # check if this configuration covers all targets
-        new_camera = copy.deepcopy(self.camera)
-        new_camera.set_x_y_alpha_beta(x_target, y_target, alpha_target, beta_target, True)
-
-        for targetRepresentation in tracked_targets_room_representation.active_Target_list:
-
-            in_field = cam.is_x_y_radius_in_field_not_obstructed(new_camera, targetRepresentation.xc,
-                                                                 targetRepresentation.yc,
-                                                                 targetRepresentation.radius)
-
-            hidden = cam.is_x_y_in_hidden_zone_all_targets_based_on_camera(tracked_targets_room_representation,
-                                                                           new_camera,
-                                                                           targetRepresentation.xc,
-                                                                           targetRepresentation.yc)
-
-            if hidden or not in_field:
-                return None
-
-        x_target, y_target, alpha_target, beta_target = get_configuration_based_on_seen_target(self.camera,
-                                                                                               tracked_targets_room_representation.active_Target_list,
-                                                                                               PCA_track_points_possibilites.MEANS_POINTS,
-                                                                                               self.memory_of_objectives,
-                                                                                               self.memory_of_position_to_reach,
-                                                                                               False)
-        beta_target = self.camera.beta
-        return Configuration(x_target, y_target, alpha_target, beta_target)
-
     def process_information_in_memory(self):
         """
             :description
-                Process all the information obtain
+                Process all the information obtained
         """
 
-        "Combination of data received and data observed"
+        '''Combination of data received and data observed'''
         self.memory.combine_data_agentCam()
 
-        "Modification from the room description"
-        self.room_representation.update_target_based_on_memory(self.memory.memory_predictions_order_2_from_target)
+        '''Modification from the room description'''
+        self.room_representation.update_target_based_on_memory(self.pick_data(constants.AGENT_DATA_TO_PROCESS))
         self.room_representation.update_agent_based_on_memory(self.memory.memory_agent_from_agent)
 
-        "Computation of the camera that should give the best view, according to maps algorithm"
+        '''Computation of the camera that should give the best view, according to maps algorithm'''
         self.link_target_agent.update_link_camera_target()
         self.link_target_agent.compute_link_camera_target()
 
@@ -464,8 +369,14 @@ class AgentCam(AgentInteractingWithRoom):
             Data to send other cam's agent, regarding this agent state
             -----------------------------------------------------------------------------------------------
         """
-        self.send_message_timed_agentEstimator()
 
+        last_camera_estimation = self.memory.memory_agent_from_agent.get_item_list(self.id)[-1]
+        self.send_message_timed_itemEstimator(last_camera_estimation, constants.TIME_BTW_AGENT_ESTIMATOR)
+
+        # send untrackable targets id
+        self.broadcast_untracked_targets()
+
+        # self.log_target_tracked.info(self.table_all_target_number_times_seen.to_string(self.id))
         for target in self.room_representation.active_Target_list:
             """
                 ---------------------------------------------------------------------------------------------
@@ -478,12 +389,18 @@ class AgentCam(AgentInteractingWithRoom):
             is_target_changing_state = False
             if not target.type == TargetType.SET_FIX:
                 "Check if the target is moving,stopped or changing from one to the other state"
-                (is_moving, is_stopped) = detect_target_motion(self.memory.memory_best_estimations_from_target,
+                (is_moving, is_stopped) = detect_target_motion(self.pick_data(constants.AGENT_DATA_TO_PROCESS),
                                                                target.id, 1, 5,
-                                                               constants.STD_MEASURMENT_ERROR_POSITION + 0.01)
+                                                               constants.POSITION_STD_ERROR,
+                                                               constants.SPEED_MEAN_ERROR)
+
                 "Check if the target is leaving the cam angle_of_view"
-                (is_in, is_out) = is_target_leaving_cam_field(self.memory.memory_best_estimations_from_target,
+                (is_in, is_out) = is_target_leaving_cam_field(self.memory.memory_predictions_order_2_from_target,
                                                               self.camera, target.id, 0, 3)
+
+                if is_in and is_out:
+                    pass
+                    # print("target id: %d possible obstruction !"%target.id)
 
                 old_target_type = target.type
                 if is_moving:
@@ -504,9 +421,22 @@ class AgentCam(AgentInteractingWithRoom):
                 Data to send other cam's agent:
                 -----------------------------------------------------------------------------------------------
             """
+
             "Send message to other agent"
+            if target.confidence_pos[0] < CONFIDENCE_THRESHOLD < target.confidence_pos[1]:
+                self.table_all_target_number_times_seen.update_tracked(target.id)
+                self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET,
+                                                     target.id)
+
+            elif target.confidence_pos[0] > CONFIDENCE_THRESHOLD > target.confidence_pos[1]:
+                self.table_all_target_number_times_seen.update_lost(target.id)
+                self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET, target.id)
+
             if constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.ALL:
-                self.send_message_timed_targetEstimator(target.id)
+                target_estimator_to_send = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
+                if len(target_estimator_to_send.get_item_list(target.id)) > 0:
+                    self.send_message_timed_itemEstimator(target_estimator_to_send.get_item_list(target.id)[-1],
+                                                          constants.TIME_BTW_TARGET_ESTIMATOR)
 
             elif constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.DKF:
                 self.send_message_DKF_info(target.id)
@@ -521,7 +451,7 @@ class AgentCam(AgentInteractingWithRoom):
                Data to send user's agent:
                -----------------------------------------------------------------------------------------------
             """
-            "If the target is link to this agent then we send the message to the user"
+            """If the target is link to this agent then we send the message to the user"""
             cdt_target_type_1 = not (target.type == TargetType.SET_FIX)
             cdt_target_type_2 = True  # not(target.type == TargetType.FIX) or is_target_changing_state #to decrease the number of messages sent
             cdt_agent_is_in_charge = self.link_target_agent.is_in_charge(target.id, self.id)
@@ -531,20 +461,327 @@ class AgentCam(AgentInteractingWithRoom):
                 for agent in self.room_representation.agentUser_representation_list:
                     receivers.append([agent.id, agent.signature])
 
-                self.send_message_timed_targetEstimator(target.id, receivers)
+                target_estimator_to_send = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
+                if len(target_estimator_to_send.get_item_list(target.id)) > 0:
+                    self.send_message_timed_itemEstimator(target_estimator_to_send.get_item_list(target.id)[-1],
+                                                          constants.TIME_BTW_TARGET_ESTIMATOR, receivers)
 
-    def process_single_message(self, rec_mes):
-        super().process_single_message(rec_mes)
-        if rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.INFO_DKF:
-            self.receive_message_DKF_info(rec_mes)
-        elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.AGENT_ESTIMATOR:
-            self.received_message_agentEstimator(rec_mes)
+            # start tracking the target according to the priority levels
+            if target.id not in self.targets_to_track and target.confidence_pos[1] > CONFIDENCE_THRESHOLD:
+                # print("agent ", self.id, " sees: ", target.id)
+                self.targets_to_track.append(target.id)
+                self.priority_dict[target.id] = InternalPriority.NOT_TRACKED
+                if target.id in self.targets_untracked_by_all:
+                    self.targets_untracked_by_all.remove(target.id)
+                    self.broadcast_seen_target(target.id)
+
+        if constants.get_time() - self.last_time_no_target_behaviour_init > constants.TIME_STOP_INIT_BEHAVIOUR:
+            self.init_no_target_behaviour = False
+
+        for agent in self.room_representation.agentCams_representation_list:
+            if agent.id < self.id and math.fabs(agent.camera_representation.xc - self.camera.xc) < constants.MIN_DISTANCE_AGENTS and \
+               math.fabs(agent.camera_representation.yc - self.camera.yc) < constants.MIN_DISTANCE_AGENTS and \
+               math.fabs(agent.camera_representation.alpha - self.camera.alpha) < constants.MIN_ANGLE_DIFF_AGENTS:
+                self.init_no_target_behaviour = True
+                self.last_time_no_target_behaviour_init = constants.get_time()
+
+        [self.broadcast_seen_target(target) for target in self.targets_to_track if target in
+         self.targets_untracked_by_all]
+
+    def configuration_algorithm_choice(self, choix):
+        target_list = self.get_active_targets()
+        real_configuration, virtual_configuration = self.compute_real_virtual_configuration_and_set_virtual_cam(
+            target_list)
+
+        if choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WIHTOUT_CHECK:
+            return real_configuration
+
+        elif choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WITH_TARGET_CHECK:
+            if check_configuration_all_target_are_seen(camera=self.virtual_camera,
+                                                       room_representation=self.room_representation):
+                return real_configuration
+
+        elif choix == constants.ConfigurationWaysToBeFound.CONFIUGRATION_WITH_SCORE_CHECK:
+            if virtual_configuration.configuration_score >= constants.MIN_CONFIGURATION_SCORE:
+                return real_configuration
+
+        elif choix == constants.ConfigurationWaysToBeFound.MOVE_ONLY_IF_CONFIGURATION_IS_VALID:
+            if virtual_configuration.is_configuration_valid(camera=self.virtual_camera,
+                                                            room_representation=self.room_representation,
+                                                            score_map_min=constants.MIN_CONFIGURATION_SCORE):
+                return real_configuration
+
+        elif choix == constants.ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG:
+            return self.find_configuration_for_tracked_targets()
+
+        return None
+
+    def move_based_on_config(self, configuration, last_time_move):
+
+        if configuration is None:
+            self.log_main.debug("no config to move at time %.02f" % constants.get_time())
+            return constants.get_time()
+
+        """Computing the vector field"""
+        configuration.compute_vector_field_for_current_position(self.camera.xc, self.camera.yc)
+
+        """Setting values to the PI controller"""
+        self.camera_controller.set_targets(configuration.x, configuration.y, configuration.alpha, configuration.beta)
+
+        """Define the values measured"""
+        x_mes = self.camera.xc  # + error si on veut ajouter ici
+        y_mes = self.camera.yc
+
+        alpha_mes = self.camera_controller.alpha_controller.bound_alpha_btw_minus_pi_plus_pi(self.camera.alpha)
+        beta_mes = self.camera.beta
+
+        if self.camera.camera_type == mobCam.MobileCameraType.RAIL:
+            "1 D"
+            x_mes = self.camera.trajectory.sum_delta
+            y_mes = 0
+
+        """Find the command to apply"""
+        (x_command, y_command, alpha_command, beta_command) = self.camera_controller.get_command(x_mes, y_mes,
+                                                                                                 alpha_mes, beta_mes)
+
+        if constants.AGENT_MOTION_CONTROLLER == constants.AgentCameraController.Controller_PI:
+            "We keep it has computed above"
+            pass
+        elif constants.AGENT_MOTION_CONTROLLER == constants.AgentCameraController.Vector_Field_Method:
+            "The position command is here adapted with the vector field"
+            x_controller = self.camera_controller.position_controller.x_controller
+            y_controller = self.camera_controller.position_controller.y_controller
+            x_command = x_controller.born_command(configuration.vector_field_x * x_controller.kp)
+            y_command = y_controller.born_command(configuration.vector_field_y * y_controller.kp)
+        else:
+            print("error in move target, controller type not found")
+
+        # print("alpha_mes %.02f alpha_target %.02f command %.02f dt %.02f" % (
+        # math.degrees(alpha_mes), math.degrees(configuration.alpha), alpha_command,constants.get_time() - last_time_move))
+
+        """Apply the command"""
+        if constants.get_time() - last_time_move < 0:
+            print("problem time < 0 : %.02f s" % constants.get_time())
+            return last_time_move
+        else:
+            dt = constants.get_time() - last_time_move
+            if dt > 0.2:
+                # If the dt is to large, the controller can not handle it anymore, the solution is to decompose dt in
+                # smaller values
+                self.camera.rotate(alpha_command, 0.2)
+                self.camera.zoom(beta_command, 0.2)
+                self.camera.move(x_command, y_command, 0.2)
+                return self.move_based_on_config(configuration, last_time_move + 0.2)
+
+            else:
+                self.camera.rotate(alpha_command, dt)
+                self.camera.zoom(beta_command, dt)
+                self.camera.move(x_command, y_command, dt)
+
+            return constants.get_time()
+
+    def find_configuration_for_tracked_targets(self):
+        """
+        :description:
+            Updates self.untrackable_targets and returns a configuration for the targets the agent is able to track
+        :return a configuration for the targets the agent is able to track, or None if he can't track any
+        """
+        # try to find a configuration covering all targets
+        tracked_targets = copy.copy(self.targets_to_track)
+
+        configuration = None
+        while configuration is None or not configuration.is_valid:
+
+            configuration = self.find_configuration_for_targets(tracked_targets)
+            if configuration is None or not configuration.is_valid:
+                self.remove_target_with_lowest_priority(tracked_targets, configuration)
+
+        # update the list of untrackable targets
+        self.untrackable_targets = [target for target in self.targets_to_track if target not in tracked_targets]
+        self.targets_to_track = tracked_targets
+        # update list of targets untracked by all
+        [self.targets_untracked_by_all.append(target) for target in self.untrackable_targets if target not in
+         self.targets_untracked_by_all]
+
+        # update priority dict if some target was lost
+        if self.untrackable_targets:
+            self.priority_dict = {}
+            for target_id in self.targets_to_track:
+                self.priority_dict[target_id] = InternalPriority.TRACKED
+
+        return configuration
+
+    def find_configuration_for_targets(self, targets, used_for_movement=True):
+        """
+            :description:
+                Checks if a configuration can be found where all targets are seen.
+            :param targets: target representations
+            :param used_for_movement: if False, don't do the last non-virtual "get_configuration"
+            :return: Configuration object if exists, None otherwise
+        """
+        tracked_targets_room_representation = self.construct_room_representation_for_a_given_target_list(targets)
+        virtual_configuration = \
+            self.compute_virtual_configuration(tracked_targets_room_representation.active_Target_list)
+
+        better_config_found = False
+        self.virtual_camera = copy.deepcopy(self.camera)
+        self.virtual_camera.set_configuration(virtual_configuration)
+
+        if not check_configuration_all_target_are_seen(self.virtual_camera, tracked_targets_room_representation):
+            self.log_main.debug(
+                "Configuration not found at time %.02f, starting variation on this config" % constants.get_time())
+            virtual_configuration.is_valid = False
+            return virtual_configuration
+
+        # configuration found, but bad score
+        if virtual_configuration.configuration_score < constants.MIN_CONFIGURATION_SCORE:
+            # Check around if there is a better config
+            optimal_configuration = virtual_configuration.variation_on_configuration_found(self.virtual_camera)
+
+            self.virtual_camera.set_configuration(optimal_configuration)
+            if check_configuration_all_target_are_seen(self.virtual_camera, tracked_targets_room_representation):
+                better_config_found = True
+
+        # if the agent actually wants to move
+        if used_for_movement:
+            real_configuration = \
+            get_configuration_based_on_seen_target(self.camera,
+                                                   tracked_targets_room_representation.active_Target_list,
+                                                   self.room_representation, PCA_track_points_possibilites.MEANS_POINTS,
+                                                   self.memory_of_objectives, self.memory_of_position_to_reach, False)
+
+            if better_config_found:
+                real_configuration.x = optimal_configuration.x
+                real_configuration.y = optimal_configuration.y
+                real_configuration.is_valid = True
+            return real_configuration
+
+        # if the agent doesn't want to move
+        if better_config_found:
+            better_config = virtual_configuration.variation_on_configuration_found(self.virtual_camera)
+            better_config.is_valid = True
+            return better_config
+        else:
+            virtual_configuration.is_valid = True
+            return virtual_configuration
+
+    def remove_target_with_lowest_priority(self, target_list, configuration):
+        """
+        :description:
+            Removes the target with the lowest total priority from target_list
+        :param
+            target_list: list of targets (not ids)
+            configuration: configuration attempt for the targets in target_list
+        :return: target_list minus the target with the lowest priority
+        """
+        if not target_list:
+            return
+
+        min_total_priority = 100000
+        target_to_remove = -1
+        for target_id in target_list:
+            config_target_score = 0
+            if configuration is not None:
+                config_target_score = configuration.compute_target_score(target_id)
+            target = self.room_representation.get_Target_with_id(target_id)
+            target_total_priority = constants.USER_SET_PRIORITY_WEIGHT * target.priority_level + \
+                                    constants.CAMERA_SET_PRIORITY_WEIGHT * self.priority_dict[target.id] + \
+                                    constants.SCORE_WEIGHT * config_target_score
+
+            if target_total_priority < min_total_priority:
+                min_total_priority = target_total_priority
+                target_to_remove = target.id
+
+        target_list.remove(target_to_remove)
+
+    def get_active_targets(self):
+        return [target for target in self.room_representation.active_Target_list if
+                target.confidence_pos[1] >= CONFIDENCE_THRESHOLD]
 
     def get_predictions(self, target_id_list):
         """
         :return: a list [[targetId, [predicted_position1, ...]], ...]
         """
         return self.memory.get_predictions(target_id_list)
+
+    def compute_virtual_configuration(self, targets):
+        virtual_configuration = \
+            get_configuration_based_on_seen_target(self.camera, targets, self.room_representation,
+                                                   PCA_track_points_possibilites.MEANS_POINTS,
+                                                   self.memory_of_objectives, self.memory_of_position_to_reach,
+                                                   True, self.init_no_target_behaviour)
+
+        virtual_configuration.compute_configuration_score()
+        return virtual_configuration
+
+    def compute_real_virtual_configuration_and_set_virtual_cam(self, target_list):
+        virtual_configuration = self.compute_virtual_configuration(target_list)
+        self.virtual_camera = copy.deepcopy(self.camera)
+        self.virtual_camera.set_configuration(virtual_configuration)
+
+        real_configuration = virtual_configuration = \
+            get_configuration_based_on_seen_target(self.camera, target_list, self.room_representation,
+                                                   PCA_track_points_possibilites.MEANS_POINTS,
+                                                   self.memory_of_objectives, self.memory_of_position_to_reach,
+                                                   False, self.init_no_target_behaviour)
+
+        return real_configuration, virtual_configuration
+
+    def construct_room_representation_for_a_given_target_list(self, targets):
+        target_target_estimator = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
+
+        # reconstruct the Target_TargetEstimator by flitering the targets
+        new_target_targetEstimator = Target_TargetEstimator()
+        for (target_id, targetEstimator_list) in target_target_estimator.item_itemEstimator_list:
+            if target_id in targets:
+                new_target_targetEstimator.add_itemEstimator(targetEstimator_list[-1])
+
+        # find a configuration for these targets
+        tracked_targets_room_representation = room.RoomRepresentation()
+        tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
+        return tracked_targets_room_representation
+
+    def process_single_message(self, rec_mes):
+        super().process_single_message(rec_mes)
+        if rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.INFO_DKF:
+            self.receive_message_DKF_info(rec_mes)
+            self.info_message_received.del_message(rec_mes)
+        elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET:
+            # self.receive_message_untrackableTarget(rec_mes)
+            self.info_message_received.del_message(rec_mes)
+        elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.SEEN_TARGET:
+            self.receive_message_seen_target(rec_mes)
+            self.info_message_received.del_message(rec_mes)
+        elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET \
+                or rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
+            self.receive_message_track_loose_target(rec_mes)
+            self.info_message_received.del_message(rec_mes)
+
+    def broadcast_untracked_targets(self):
+        """
+        :description
+            Broadcast a message to notify other agents that a certain target can't be tracked by this agent anymore.
+        """
+        # inform the other agent of all targets this agent is not able to track
+        for target_id in self.untrackable_targets:
+            message = Message(constants.get_time(), self.id, self.signature,
+                              MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET, "", target_id)
+
+            # broadcast message
+            self.broadcast_message(message, BroadcastTypes.AGENT_CAM)
+
+        # empty the untrackable_targets list
+        self.untrackable_targets = []
+
+    def broadcast_seen_target(self, target_id):
+        ack_message = Message(constants.get_time(), self.id, self.signature,
+                              MessageTypeAgentCameraInteractingWithRoom.SEEN_TARGET, "", target_id)
+        self.broadcast_message(ack_message, BroadcastTypes.AGENT_CAM)
+
+    def receive_message_seen_target(self, message):
+        target_id = int(message.item_ref)
+        if target_id in self.targets_untracked_by_all:
+            self.targets_untracked_by_all.remove(target_id)
 
     def send_message_DKF_info(self, target_id):
         """
@@ -559,9 +796,7 @@ class AgentCam(AgentInteractingWithRoom):
                                       MessageTypeAgentCameraInteractingWithRoom.INFO_DKF, dkf_info_string, target_id)
 
         # send the message to every other agent
-        [message.add_receiver(agent.id, agent.signature) for agent in
-         self.room_representation.agentCams_representation_list
-         if not agent.id == self.id]
+        self.broadcast_message(message, BroadcastTypes.AGENT_CAM)
 
         # add message to the list if not already inside
         cdt = self.info_message_to_send.is_message_with_same_message(message)
@@ -580,74 +815,75 @@ class AgentCam(AgentInteractingWithRoom):
         if info_string:  # if message not empty
             self.memory.process_DKF_info(concerned_target_id, info_string, constants.get_time())
 
-    def send_message_agentEstimator(self, agentEstimator, receivers=None):
-        """
-                  :description
-                      1. Create a message based on a TargetEstimator
-                      2. Place it in the list message_to_send
+    def send_message_track_loose_target(self, track_loose_choice, target_id):
 
-                  :param
-                      1. (TargetEstimator) targetEstimator -- TargetEstimator, see the class
-                      2. (list) receivers                  -- [[receiver_id,receiver_signature], ... ], data to
-                                                              tell to whom to send the message.
+        if track_loose_choice == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET or track_loose_choice == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
+            message = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, track_loose_choice, "",
+                                          target_id)
+            self.log_target_tracked.info(message.to_string())
+            self.broadcast_message(message, BroadcastTypes.AGENT_CAM)
 
-              """
-        if receivers is None:
-            receivers = []
+    def receive_message_track_loose_target(self, message):
+        self.log_target_tracked.info(message.to_string())
 
-        s = agentEstimator.to_string()
-        s = s.replace("\n", "")
-        s = s.replace(" ", "")
+        if message.messageType == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET:
+            self.table_all_target_number_times_seen.update_tracked(int(message.item_ref))
+        elif message.messageType == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
+            self.table_all_target_number_times_seen.update_lost(int(message.item_ref))
 
-        m = MessageCheckACKNACK(constants.get_time(), self.id, self.signature,
-                                MessageTypeAgentCameraInteractingWithRoom.AGENT_ESTIMATOR, s,
-                                agentEstimator.item_id)
-        if len(receivers) == 0:
-            for agent in self.room_representation.agentCams_representation_list:
-                if agent.id != self.id:
-                    m.add_receiver(agent.id, agent.signature)
+
+class AllTargetNUmberTimesSeen:
+    def __init__(self, agent_id, log):
+        self.id = agent_id
+        self.log_target_tracked = log
+        self.tracker_list = []
+
+    def update_tracked(self, target_id):
+        new_tracker = TargetNumberTimesSeen(target_id)
+        if new_tracker in self.tracker_list:
+            old_tracker_index = self.tracker_list.index(new_tracker)
+            old_tracker = self.tracker_list[old_tracker_index]
+            old_tracker.update_tracked()
         else:
-            for receiver in receivers:
-                m.add_receiver(receiver[0], receiver[1])
+            new_tracker.update_tracked()
+            self.tracker_list.append(new_tracker)
 
-        cdt1 = self.info_message_to_send.is_message_with_same_message(m)
-        if not cdt1:
-            self.info_message_to_send.add_message(m)
+        self.log_target_tracked.info(self.to_string(self.id))
 
-    def received_message_agentEstimator(self, message):
-        """
-            :description
-                1. Create a new TargetEstimator from the string description received
-                2. Add the new TargetEstimator in the memory
+    def update_lost(self, target_id):
+        new_tracker = TargetNumberTimesSeen(target_id)
+        if new_tracker in self.tracker_list:
+            old_tracker_index = self.tracker_list.index(new_tracker)
+            old_tracker = self.tracker_list[old_tracker_index]
+            old_tracker.update_lost()
+        else:
+            print("should not append")
+            self.tracker_list.append(new_tracker)
 
-            :param
-                1. (Message) message  -- Message received
+        self.log_target_tracked.info(self.to_string(self.id))
 
-        """
-        s = message.message
-        if not (s == ""):
-            estimator = AgentEstimator()
-            estimator.parse_string(s)
-            self.memory.add_agent_estimator(estimator)
-
-            # self.send_message_ack_nack(message, "ack")
-
-    def send_message_timed_agentEstimator(self):
-
-        delta_time = constants.get_time() - self.time_last_message_agentEstimtor_sent
-        if delta_time > constants.TIME_BTW_AGENT_ESTIMATOR:
-            agent_estimator_list = self.memory.memory_agent_from_agent.get_item_list(self.id)
-
-            if len(agent_estimator_list) > 0:
-                last_agent_estimator = agent_estimator_list[-1]
-                self.send_message_agentEstimator(last_agent_estimator)
-                self.time_last_message_agentEstimtor_sent = constants.get_time()
+    def to_string(self, agent_id):
+        s = "agent %d time %.02f \n" % (agent_id, constants.get_time())
+        for tracker in self.tracker_list:
+            s += tracker.to_string()
+        return s
 
 
-def remove_target_with_lowest_priority(target_list):
-    """
-    :param target_list: list of targets (not ids)
-    :return: target_list minus the target with the lowest priority
-    """
-    # TODO: define a better method
-    return target_list[:-1]
+class TargetNumberTimesSeen:
+    def __init__(self, target_id):
+        self.target_id = target_id
+        self.n = 0
+
+    def update_tracked(self):
+        self.n += 1
+
+    def update_lost(self):
+        self.n -= 1
+        if self.n < 0:
+            print("error target seen -%d tiems" % self.n)
+
+    def to_string(self):
+        return "target %d is seen %d \n" % (self.target_id, self.n)
+
+    def __eq__(self, other):
+        return self.target_id == other.target_id

@@ -36,6 +36,10 @@ class GUI_option:
         self.agent_to_display = []
         self.target_to_display = []
 
+        self.show_point_to_reach = constants.INIT_show_point_to_reach
+        self.show_virtual_cam = constants.INIT_show_virtual_cam
+        self.show_field_cam = constants.INIT_show_field_cam
+
 
     def reset_mouse_list(self):
         self.position_mouse_all = []
@@ -119,6 +123,12 @@ class GUI_option:
                     return False, False,True,False
                 if event.key == K_p:
                     return False, False, False,True
+                if event.key == K_v:
+                    self.show_virtual_cam = not self.show_virtual_cam
+                if event.key == K_o:
+                    self.show_point_to_reach = not self.show_point_to_reach
+                if event.key == K_f:
+                    self.show_field_cam = not self.show_field_cam
 
             elif type_event == MOUSEMOTION and event.buttons[0] == 1:  # déplacement + boutton enfoncer
                 pass
