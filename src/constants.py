@@ -153,6 +153,15 @@ BEHAVIOUR_NO_TARGETS_SEEN = BEHAVIOUR_NO_TARGETS_SEEN.RANDOM_MOVEMENT_POSITION
 DELTA_TIME_CHANGE_POSITION_RANDOM_MOVEMENT = 3
 DELTA_POS_CHANGE_POSITION_RANDOM_MOVEMENT = 0.3
 
+# used when two agents are too close
+TIME_STOP_INIT_BEHAVIOUR = 1
+
+"""
+Margins for initiating swipe when two agents are too close
+"""
+MIN_DISTANCE_AGENTS = 0.5
+MIN_ANGLE_DIFF_AGENTS = 0.5
+
 
 """Potential Field Camera--------------------------------------------------------------------------------------------"""
 """

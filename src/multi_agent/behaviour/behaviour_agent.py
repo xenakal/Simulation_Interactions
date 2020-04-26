@@ -40,7 +40,7 @@ def check_heat_maps(n_target, camera):
 def get_configuration_based_on_seen_target(camera, target_representation_list, room,
                                            point_to_track_choice=PCA_track_points_possibilites.MEDIAN_POINTS,
                                            memory_objectives=None,
-                                           memory_point_to_reach=None, virtual=False):
+                                           memory_point_to_reach=None, virtual=False, no_target_behaviour=False):
     """Default values"""
     xt = camera.xc
     yt = camera.yc
@@ -73,7 +73,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
     if number_of_target < 0:
         warnings.warn("Agent ", camera.id, "sees a negative number of targets...")
 
-    if number_of_target == 0:
+    if number_of_target == 0 or no_target_behaviour:
 
         configuration = Configuration(camera.xc, camera.yc, camera.xc, camera.yc, camera.alpha,
                                       camera.beta, camera.field_depth, virtual)
@@ -394,9 +394,12 @@ def no_targets_rotation_behaviour(configuration, camera):
     in_room = are_all_points_in_room(field_edge_points)
     if in_room:
         configuration.alpha += camera.swipe_angle_direction * 0.5
+        if (camera.id == 0):
+            print("in room")
         return
-    print("not in room !", constants.get_time())
     if dt > camera.dt_next_swipe_direction_change:
+        if (camera.id == 0):
+            print("changed long ago")
         # change direction
         camera.swipe_angle_direction *= -1
         camera.last_swipe_direction_change = constants.get_time()
@@ -410,10 +413,13 @@ def no_targets_rotation_behaviour(configuration, camera):
         angle_intersection_point = -math.atan2(point_of_intersection[1] - camera.yc,
                                               point_of_intersection[0] - camera.xc)
         # calculate the lenght of the arc between furthest point and point of intersection
-        angle_edge_intersection_len = math.fabs(angle_intersection_point - (camera.alpha - (camera.beta / 2)))
-        camera.dt_next_swipe_direction_change = angle_edge_intersection_len / camera.v_alpha_max + 1
-        print(camera.dt_next_swipe_direction_change)
+        angle_edge_intersection_len = math.fabs(angle_intersection_point - (math.degrees(camera.alpha) - (math.degrees(camera.beta) / 2)))
+        camera.dt_next_swipe_direction_change = angle_edge_intersection_len / math.degrees(camera.v_alpha_max)
+        if camera.id==0:
+            print("dt = ", camera.dt_next_swipe_direction_change, "angle = ", angle_edge_intersection_len)
     else:
+        if (camera.id == 0):
+            print("changed just before")
         configuration.alpha += camera.swipe_angle_direction * 0.5
 
 

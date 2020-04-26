@@ -140,6 +140,9 @@ class AgentCam(AgentInteractingWithRoom):
         # prioritized compared to a target that just came into the field of vision.
         self.priority_dict = {}
 
+        self.init_no_target_behaviour = False
+        self.last_time_no_target_behaviour_init = constants.get_time()
+
     def init_and_set_room_description(self, room):
         """
             :description
@@ -472,6 +475,16 @@ class AgentCam(AgentInteractingWithRoom):
                     self.targets_untracked_by_all.remove(target.id)
                     self.broadcast_seen_target(target.id)
 
+        if constants.get_time() - self.last_time_no_target_behaviour_init > constants.TIME_STOP_INIT_BEHAVIOUR:
+            self.init_no_target_behaviour = False
+
+        for agent in self.room_representation.agentCams_representation_list:
+            if agent.id != self.id and math.fabs(agent.camera_representation.xc - self.camera.xc) < constants.MIN_DISTANCE_AGENTS and \
+               math.fabs(agent.camera_representation.yc - self.camera.yc) < constants.MIN_DISTANCE_AGENTS and \
+               math.fabs(agent.camera_representation.alpha - self.camera.alpha) < constants.MIN_ANGLE_DIFF_AGENTS:
+                self.init_no_target_behaviour = True
+                self.last_time_no_target_behaviour_init = constants.get_time()
+
         [self.broadcast_seen_target(target) for target in self.targets_to_track if target in
          self.targets_untracked_by_all]
 
@@ -695,7 +708,8 @@ class AgentCam(AgentInteractingWithRoom):
         virtual_configuration = \
             get_configuration_based_on_seen_target(self.camera, targets, self.room_representation,
                                                    PCA_track_points_possibilites.MEANS_POINTS,
-                                                   self.memory_of_objectives, self.memory_of_position_to_reach, True)
+                                                   self.memory_of_objectives, self.memory_of_position_to_reach,
+                                                   True, self.init_no_target_behaviour)
 
         virtual_configuration.compute_configuration_score()
         return virtual_configuration
@@ -708,7 +722,8 @@ class AgentCam(AgentInteractingWithRoom):
         real_configuration = virtual_configuration = \
             get_configuration_based_on_seen_target(self.camera, target_list, self.room_representation,
                                                    PCA_track_points_possibilites.MEANS_POINTS,
-                                                   self.memory_of_objectives, self.memory_of_position_to_reach, False)
+                                                   self.memory_of_objectives, self.memory_of_position_to_reach,
+                                                   False, self.init_no_target_behaviour)
 
         return real_configuration, virtual_configuration
 
