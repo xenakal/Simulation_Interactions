@@ -18,6 +18,10 @@ YELLOW = (255, 255, 0)
 
 CAMERA = (200, 0, 0)
 PREDICTION = (100, 100, 100)
+CAMERA_FIX = (255, 0, 0)
+CAMERA_ROTATIVE = (0, 0, 125)
+CAMERA_RAIL = (0, 255, 0)
+CAMERA_FREE = (255, 255, 0)
 
 SET_FIX_COLOR = (0, 100, 200)
 MOVING_COLOR = (0, 250, 0)
@@ -218,6 +222,9 @@ class GUI_room_representation():
             else:
                 color_conf = RED
 
+
+
+
             pygame.draw.circle(self.screen, color_conf, (
                 self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 11)
 
@@ -258,6 +265,21 @@ class GUI_room_representation():
     def draw_one_camera(self, camera,virtual = False):
         l = camera.field_depth * math.pow((math.pow(self.scale_x * math.cos(camera.alpha), 2) + math.pow(
             self.scale_y * math.sin(camera.alpha), 2)), 0.5)
+
+
+        if camera.camera_type == MobileCameraType.FIX:
+            color_type = CAMERA_FIX
+        elif camera.camera_type == MobileCameraType.ROTATIVE:
+            color_type = CAMERA_ROTATIVE
+        elif camera.camera_type == MobileCameraType.RAIL:
+            color_type = CAMERA_RAIL
+        elif camera.camera_type == MobileCameraType.FREE:
+            color_type = CAMERA_FREE
+
+        if not virtual:
+            pygame.draw.circle(self.screen, color_type, (
+            self.x_offset + int(camera.xc * self.scale_x), self.y_offset + int(camera.yc * self.scale_y)), 13)
+
 
         color = RED
         if camera.is_active == 1:
