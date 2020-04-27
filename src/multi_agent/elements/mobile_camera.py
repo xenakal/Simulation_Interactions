@@ -86,12 +86,13 @@ class MobileCamera(Camera):
 
         """Variables for the swipe"""
         self.swipe_angle_direction = 1
+        self.swipe_delta_alpha = 0.2
         self.last_swipe_direction_change = constants.get_time()
         self.dt_next_swipe_direction_change = -10
         self.last_swipe_position_change = -10
         from src.multi_agent.tools.configuration import Configuration
-        self.last_swipe_configuration = Configuration(None, None, random.uniform(0, constants.LENGHT_ROOM),
-                                                      random.uniform(0, constants.WIDTH_ROOM), 1, 1, self.field_depth,
+        self.last_swipe_configuration = Configuration(None, None, random.uniform(0, constants.ROOM_DIMENSION_X),
+                                                      random.uniform(0, constants.ROOM_DIMENSION_Y), 1, 1, self.field_depth,
                                                       False)
 
     def save_target_to_txt(self):
@@ -145,8 +146,8 @@ class MobileCamera(Camera):
 
     def randomize(self, camera_type, beta_bound, delta_beta_bound, field_bound, v_xy_min_bound, v_xy_max_bound,
                   v_alpha_min_bound, v_alpha_max_bound, v_beta_min_bound, v_beta_max_bound):
-        self.xc = self.my_rand((0, constants.LENGHT_ROOM))
-        self.yc = self.my_rand((0, constants.WIDTH_ROOM))
+        self.xc = self.my_rand((0, constants.ROOM_DIMENSION_X))
+        self.yc = self.my_rand((0, constants.ROOM_DIMENSION_Y))
         self.alpha = self.bound_alpha_btw_minus_pi_plus_pi(self.my_rand((-math.pi, math.pi)))
         self.beta = self.my_rand(beta_bound)
         self.delta_beta = self.my_rand(delta_beta_bound)

@@ -10,11 +10,11 @@ In this file you have the possibility to modify the settings
 """Options-----------------------------------------------------------------------------------------------------------"""
 SAVE_DATA = False
 GENERATE_PLOT = False
-LOAD_DATA = LoadData.FROM_TXT_FILE
+LOAD_DATA = LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET
 
 USE_GUI = True
 USE_static_analysis = False
-USE_dynamic_analysis_simulated_room = False
+USE_dynamic_analysis_simulated_room = True
 
 INCLUDE_ERROR = False
 LOG_LEVEL = logging.INFO  #
@@ -22,11 +22,13 @@ LOG_LEVEL = logging.INFO  #
 """Option GUI--------------------------------------------------------------------------------------------------------"""
 
 "Push o to show or hide"
-INIT_show_point_to_reach = True
+INIT_show_point_to_reach = False
 "Push v to show or hide"
-INIT_show_virtual_cam = True
+INIT_show_virtual_cam = False
 "Push f to show or hide"
 INIT_show_field_cam = True
+"Push G to show or hide the grid"
+INIT_show_grid = True
 
 """Options for Kalman Filter-----------------------------------------------------------------------------------------"""
 DISTRIBUTED_KALMAN = False
@@ -35,8 +37,9 @@ USE_TIMESTAMP_FOR_ASSIMILATION = True
 KALMAN_VAR_COEFFICIENT = 50
 
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
-WIDTH_ROOM = 8  # [m]
-LENGHT_ROOM = 8  # [m]
+ROOM_DIMENSION_X = 8  # [m]
+ROOM_DIMENSION_Y = 8  # [m]
+
 
 """Number of data----------------------------------------------------------------------------------------------------"""
 NUMBER_OF_POINT_SIMULATED_DATA = 20  # per m for a speed of 1 m/s
@@ -110,12 +113,12 @@ DATA_TO_SEND = "none"
 """
 Refers to the type of controller we use to bring the target to reference point
 """
-AGENT_MOTION_CONTROLLER = AgentCameraController.Controller_PI
+AGENT_MOTION_CONTROLLER = AgentCameraController.Vector_Field_Method
 AGENT_POS_KP = 0.4
 AGENT_POS_KI = 0.0
-AGENT_ALPHA_KP = 100
+AGENT_ALPHA_KP = 50
 AGENT_ALPHA_KI = 0
-AGENT_BETA_KP = 100
+AGENT_BETA_KP = 50
 AGENT_BETA_KI = 0.0
 
 MIN_CONFIGURATION_SCORE = 0.15
@@ -171,8 +174,8 @@ If ETA = 0 => Repulsive potentials have no effects
 
 Parameters has to be set to appropriate values by trials and errors    
 """
-XI = 10
-ETA = 50
+XI = 0.5
+ETA = 5
 COEFF_RADIUS = 1
 """Barrier"""
 BARRIER_TYPE = PotentialBarrier.Combine
@@ -198,13 +201,13 @@ CAMERA_NUMBER_FREE = 2
 
 RANDOM_CAMERA_BETA_BOUND = (math.radians(55),math.radians(65))
 RANDOM_CAMERA_DELTA_BETA_BOUND = (math.radians(20),math.radians(25))
-RANDOM_CAMERA_FIELD_DEPTH_BOUND = (6,8)
-RANDOM_CAMERA_V_XY_MIN_BOUND = (1,1)
-RANDOM_CAMERA_V_XY_MAX_BOUND = (5,5)
-RANDOM_CAMERA_V_BETA_MIN_BOUND = (math.radians(10),math.radians(10))
+RANDOM_CAMERA_FIELD_DEPTH_BOUND = (4,4)
+RANDOM_CAMERA_V_XY_MIN_BOUND = (0,0)
+RANDOM_CAMERA_V_XY_MAX_BOUND = (1,1)
+RANDOM_CAMERA_V_BETA_MIN_BOUND = (math.radians(0),math.radians(0))
 RANDOM_CAMERA_V_BETA_MAX_BOUND = (math.radians(15),math.radians(15))
-RANDOM_CAMERA_V_ALPHA_MIN_BOUND = (math.radians(45),math.radians(45))
-RANDOM_CAMERA_V_ALPHA_MAX_BOUND = (math.radians(45),math.radians(45))
+RANDOM_CAMERA_V_ALPHA_MIN_BOUND = (math.radians(0),math.radians(0))
+RANDOM_CAMERA_V_ALPHA_MAX_BOUND = (math.radians(35),math.radians(35))
 
 
 """---------------------------------------------------------------------------------------------------------------------

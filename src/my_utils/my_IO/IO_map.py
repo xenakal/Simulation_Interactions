@@ -50,8 +50,31 @@ def load_agentCam_txt(s, room):
     room.add_AgentCam(agent)
 
 
+def load_camera_from_txt(filename, room):
+    fichier = open(constants.MapPath.MAIN_FOLDER + filename, "r")
+    lines = fichier.readlines()
+    fichier.close()
+
+    for line in lines:
+        if line[0] == "#":
+            pass
+        else:
+            if "camera:" in line:
+                load_agentCam_txt(line, room)
+
+def load_target_from_txt(filename, room):
+    fichier = open(constants.MapPath.MAIN_FOLDER + filename, "r")
+    lines = fichier.readlines()
+    fichier.close()
+
+    for line in lines:
+        if line[0] == "#":
+            pass
+        else:
+            if "target:" in line:
+                load_target_txt(line[8:], room)
+
 def load_room_from_txt(filename, room):
-    print(filename)
     fichier = open(constants.MapPath.MAIN_FOLDER + filename, "r")
     lines = fichier.readlines()
     fichier.close()

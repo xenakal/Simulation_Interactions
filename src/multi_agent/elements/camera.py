@@ -512,9 +512,9 @@ class Camera(CameraRepresentation):
         super().__init__(id, xc, yc, alpha, beta, filed_depth, color)
 
         self.xc_min = 0
-        self.xc_max = constants.LENGHT_ROOM
+        self.xc_max = constants.ROOM_DIMENSION_X
         self.yc_min = 0
-        self.yc_max = constants.WIDTH_ROOM
+        self.yc_max = constants.ROOM_DIMENSION_Y
 
         "Attibutes"
         self.t_add = t_add

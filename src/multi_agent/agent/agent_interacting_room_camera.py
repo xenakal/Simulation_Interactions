@@ -551,8 +551,8 @@ class AgentCam(AgentInteractingWithRoom):
             "The position command is here adapted with the vector field"
             x_controller = self.camera_controller.position_controller.x_controller
             y_controller = self.camera_controller.position_controller.y_controller
-            x_command = x_controller.born_command(configuration.vector_field_x * x_controller.kp)
-            y_command = y_controller.born_command(configuration.vector_field_y * y_controller.kp)
+            x_command = x_controller.born_command(configuration.vector_field_x)
+            y_command = y_controller.born_command(configuration.vector_field_y)
         else:
             print("error in move target, controller type not found")
 

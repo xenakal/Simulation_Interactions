@@ -1,6 +1,6 @@
 import pygame
 from src.multi_agent.agent.agent import AgentType
-
+from src import constants
 
 class GUI_memories:
 
@@ -31,13 +31,13 @@ class GUI_memories:
                 for targetEstimator in agentMemory.get_previous_positions(targetID):
                     pygame.draw.circle(self.screen, agent.camera.color,
                                        (self.x_offset + int(targetEstimator.item_position[0] * self.scale_x),
-                                        self.y_offset + int(targetEstimator.item_position[1] * self.scale_y)), 2)
+                                        self.y_offset + int((constants.ROOM_DIMENSION_Y-targetEstimator.item_position[1])* self.scale_y)), 2)
 
                 # draw positions with noise "removed" as estimated by the Kalman Filter
                 for targetEstimator in agentMemory.get_noiseless_estimations(targetID):
                     pygame.draw.circle(self.screen, (255, 51, 255),
                                        (self.x_offset + int(targetEstimator.item_position[0] * self.scale_x),
-                                        self.y_offset + int(targetEstimator.item_position[1] * self.scale_y)), 2)
+                                        self.y_offset + int((constants.ROOM_DIMENSION_Y-targetEstimator.item_position[1])* self.scale_y)), 2)
                
                 # draw internal memory of positions used for the Kalman Filtering
                 """
@@ -60,4 +60,4 @@ class GUI_memories:
                     for targetEstimator in agentMemory.getPreviousPositions_allMessages(targetID, allAgent.id):
                         pygame.draw.circle(self.screen, agent.camera.color,
                                            (self.x_offset + int(targetEstimator.item_position[0] * self.scale_x),
-                                            self.y_offset + int(targetEstimator.item_position[1] * self.scale_y)), 2)
+                                            self.y_offset + int((constants.ROOM_DIMENSION_Y-targetEstimator.item_position[1]) * self.scale_y)), 2)

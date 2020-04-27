@@ -15,7 +15,7 @@ RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
-
+GRAY = (128,128,128)
 BACKGROUND = RED
 
 
@@ -198,8 +198,10 @@ class GUI_create_map:
 
     def get_xy(self):
         (x, y, pressed, on) = self.GUI_option.check_button_get_pos(self.my_room_button)
+
         x_new = (x - self.x_offset) / self.scale_x
-        y_new = (y - self.y_offset) / self.scale_y
+        y_new = constants.ROOM_DIMENSION_Y-((y - self.y_offset) / self.scale_y)
+
 
         if self.button_round.pressed:
             x_new = int(x_new * 10) / 10
@@ -452,7 +454,7 @@ class GUI_create_map:
         if pressed:
             if self.button_create_map_3.find_button_state(Button_name.OBJECT_ADD):
                 self.new_room.information_simulation.add_create_AgentCam(x_new, y_new, self.alpha_default, self.beta_default, [],
-                                                                  field_depth=self.depth_default, color=0, t_add=-1, t_del=-1, type=label,
+                                                                  field_depth=self.depth_default, color=0, t_add=[0], t_del=[1000], type=label,
                                                                   vx_vy_min=self.vx_min_default,
                                                                   vx_vy_max=self.vx_max_default, v_alpha_min=self.v_alpha_min_default,
                                                                   v_alpha_max=self.v_alpha_max_default,
@@ -498,7 +500,7 @@ class GUI_create_map:
 
         elif not self.create_trajectory_camera:
             x = self.trajectory_for_target.xc * self.scale_x + self.x_offset
-            y = self.trajectory_for_target.yc * self.scale_y + self.y_offset
+            y = (constants.ROOM_DIMENSION_Y- self.trajectory_for_target.yc) * self.scale_y + self.y_offset
             pygame.draw.circle(self.screen, [0, 0, 255], (int(x), int(y)), 10)
             if self.button_create_map_trajectoire.find_button_state(Button_name.TRAJECTORY_ADD_POINT):
                 if pressed:
@@ -544,7 +546,8 @@ class GUI_create_map:
 
         elif not self.create_trajectory_target:
             x = self.trajectory_for_camera.xc * self.scale_x + self.x_offset
-            y = self.trajectory_for_camera.yc * self.scale_y + self.y_offset
+            y = (constants.ROOM_DIMENSION_Y- self.trajectory_for_camera.yc) * self.scale_y + self.y_offset
+
             pygame.draw.circle(self.screen, [0, 0, 255], (int(x), int(y)), 10)
 
             if self.button_create_map_trajectoire.find_button_state(Button_name.TRAJECTORY_ADD_POINT):

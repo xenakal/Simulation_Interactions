@@ -39,6 +39,7 @@ class GUI_option:
         self.show_point_to_reach = constants.INIT_show_point_to_reach
         self.show_virtual_cam = constants.INIT_show_virtual_cam
         self.show_field_cam = constants.INIT_show_field_cam
+        self.show_grid = constants.INIT_show_grid
 
 
     def reset_mouse_list(self):
@@ -129,6 +130,9 @@ class GUI_option:
                     self.show_point_to_reach = not self.show_point_to_reach
                 if event.key == K_f:
                     self.show_field_cam = not self.show_field_cam
+                if event.key == K_g:
+                    self.show_grid = not self.show_grid
+
 
             elif type_event == MOUSEMOTION and event.buttons[0] == 1:  # déplacement + boutton enfoncer
                 pass

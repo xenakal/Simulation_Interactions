@@ -4,6 +4,8 @@
 class LoadData:
     FROM_TXT_FILE = "from_txt_file"
     CREATE_RANDOM_DATA = "random_data"
+    CAMERA_FROM_TXT_CREATE_RANDOM_TARGET = "camera_txt_random_target"
+    TARGET_FROM_TXT_CREATE_RANDOM_CAMERA = "target_txt_random_camera"
 
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""

@@ -341,8 +341,8 @@ def are_all_points_in_room(points_list):
 
 
 def is_point_in_room(point):
-    x_in_length = 0 <= point[0] <= constants.LENGHT_ROOM
-    y_in_width = 0 <= point[1] <= constants.WIDTH_ROOM
+    x_in_length = 0 <= point[0] <= constants.ROOM_DIMENSION_X
+    y_in_width = 0 <= point[1] <= constants.ROOM_DIMENSION_Y
     return x_in_length and y_in_width
 
 
@@ -350,8 +350,8 @@ def intersection_fov_room(camera):
     """Finds the intersectino between the field of view of a camera with the edges of the room."""
     from src.my_utils.my_math.line import Line
     points_of_intersection = []
-    corners_of_room = [(0, 0), (0, constants.WIDTH_ROOM), (constants.LENGHT_ROOM, constants.WIDTH_ROOM),
-                       (constants.LENGHT_ROOM, 0), (0, 0)]
+    corners_of_room = [(0, 0), (0, constants.ROOM_DIMENSION_Y), (constants.ROOM_DIMENSION_X, constants.ROOM_DIMENSION_Y),
+                       (constants.ROOM_DIMENSION_X, 0), (0, 0)]
     for idx in range(len(corners_of_room) - 1):
         # define the 4 Lines of the room
         room_edge = Line(corners_of_room[idx][0], corners_of_room[idx][1],
@@ -377,7 +377,7 @@ def chose_point_of_intersection(intersection_points, rotation_direction):
             return intersection_points[0]
         else:
             return intersection_points[1]
-    elif intersection_points[0][1] == constants.WIDTH_ROOM or intersection_points[0][0] == constants.LENGHT_ROOM:
+    elif intersection_points[0][1] == constants.ROOM_DIMENSION_Y or intersection_points[0][0] == constants.ROOM_DIMENSION_X:
         if rotation_direction > 0:
             return intersection_points[1]
         else:
@@ -393,8 +393,9 @@ def no_targets_rotation_behaviour(configuration, camera):
 
     in_room = are_all_points_in_room(field_edge_points)
     if in_room:
-        configuration.alpha += camera.swipe_angle_direction * 0.5
+        configuration.alpha += camera.swipe_angle_direction * camera.swipe_delta_alpha
         return
+
     if dt > camera.dt_next_swipe_direction_change:
         # change direction
         camera.swipe_angle_direction *= -1
@@ -408,11 +409,12 @@ def no_targets_rotation_behaviour(configuration, camera):
         # get angle from camera current position to intersection point found
         angle_intersection_point = -math.atan2(point_of_intersection[1] - camera.yc,
                                                point_of_intersection[0] - camera.xc)
-        # calculate the lenght of the arc between furthest point and point of intersection
-        angle_edge_intersection_len = math.fabs(angle_intersection_point - (math.degrees(camera.alpha) - (math.degrees(camera.beta) / 2)))
-        camera.dt_next_swipe_direction_change = angle_edge_intersection_len / math.degrees(camera.v_alpha_max)
+        # calculate the lenght of the arc between furthest point and point of intersectionff
+        angle_edge_intersection_len = math.fabs(angle_intersection_point - (camera.alpha - camera.beta / 2))
+        camera.dt_next_swipe_direction_change = angle_edge_intersection_len / camera.v_alpha_max
     else:
-        configuration.alpha += camera.swipe_angle_direction * 0.5
+
+        configuration.alpha += camera.swipe_angle_direction * camera.swipe_delta_alpha
 
 
 def no_target_movement_behaviour(configuration, camera):
@@ -428,9 +430,9 @@ def random_movement_behaviour_based_on_time(configuration, camera):
     # if enough time has passed, randomly generate a new position
     delta_time = constants.get_time() - camera.last_swipe_position_change
     if delta_time > constants.DELTA_TIME_CHANGE_POSITION_RANDOM_MOVEMENT:
-        configuration.x = random.uniform(0, constants.LENGHT_ROOM)
+        configuration.x = random.uniform(0, constants.ROOM_DIMENSION_X)
         if camera.camera_type == mobileCam.MobileCameraType.FREE:
-            configuration.y = random.uniform(0, constants.WIDTH_ROOM)
+            configuration.y = random.uniform(0, constants.ROOM_DIMENSION_Y)
         camera.last_swipe_position_change = constants.get_time()
         camera.last_swipe_configuration = configuration
     else:
@@ -445,9 +447,9 @@ def random_movement_behaviour_based_on_position(configuration, camera):
     delta_y_square = math.pow(camera.yc - camera.last_swipe_configuration.y, 2)
     delta_position = math.pow(delta_x_square + delta_y_square, .5)
     if delta_position < constants.DELTA_POS_CHANGE_POSITION_RANDOM_MOVEMENT:
-        configuration.x = random.uniform(0, constants.LENGHT_ROOM)
+        configuration.x = random.uniform(0, constants.ROOM_DIMENSION_X)
         if camera.camera_type == mobileCam.MobileCameraType.FREE:
-            configuration.y = random.uniform(0, constants.WIDTH_ROOM)
+            configuration.y = random.uniform(0, constants.ROOM_DIMENSION_Y)
         camera.last_swipe_position_change = constants.get_time()
         camera.last_swipe_configuration = configuration
     else:

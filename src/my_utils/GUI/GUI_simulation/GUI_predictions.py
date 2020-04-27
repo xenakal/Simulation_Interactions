@@ -1,6 +1,6 @@
 import pygame
 from src.multi_agent.agent.agent import AgentType
-
+from src import constants
 
 class GUI_predictions:
     """
@@ -29,4 +29,4 @@ class GUI_predictions:
                 for (point, variance) in prediction[1]:
                     pygame.draw.circle(self.screen, agent.color,
                                        (self.xOffset + int(point[0] * self.scaleX),
-                                        self.yOffset + int(point[1] * self.scaleY)), 2)
+                                        self.yOffset + int((constants.ROOM_DIMENSION_Y-point[1]) * self.scaleY)), 2)

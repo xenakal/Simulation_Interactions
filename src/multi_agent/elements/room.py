@@ -33,7 +33,7 @@ class InformationRoomSimulation:
         """Initialisation"""
 
         "Room radius"
-        self.coordinate_room = np.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])  # x y l h
+        self.coordinate_room = np.array([0, 0, constants.ROOM_DIMENSION_X, constants.ROOM_DIMENSION_Y])  # x y l h
 
         "Target with their time of apparition and disparition "
         self.target_list = []
@@ -211,7 +211,7 @@ class RoomRepresentation:
 
     def __init__(self, color=0):
         """Room radius"""
-        self.coordinate_room = np.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])  # x y l h
+        self.coordinate_room = np.array([0, 0, constants.ROOM_DIMENSION_X, constants.ROOM_DIMENSION_Y])  # x y l h
 
         """Target informations"""
         self.active_Target_list = []

@@ -203,8 +203,8 @@ class Target(TargetRepresentation):
 
     def randomize(self,target_type,r_bound,v_bound,trajectory_number_of_points):
         self.type = target_type
-        self.xc = self.my_rand((0, constants.LENGHT_ROOM))
-        self.yc = self.my_rand((0, constants.WIDTH_ROOM))
+        self.xc = self.my_rand((0, constants.ROOM_DIMENSION_X))
+        self.yc = self.my_rand((0, constants.ROOM_DIMENSION_Y))
         self.radius = self.my_rand(r_bound)
         self.vx_max = self.my_rand(v_bound)
         self.vy_max = self.my_rand(v_bound)
@@ -214,8 +214,8 @@ class Target(TargetRepresentation):
         self.trajectory_type = TargetMotion.LINEAR
         self.trajectory = [(self.xc, self.yc)]
         for n in range(trajectory_number_of_points):
-            x = random.uniform(0,constants.LENGHT_ROOM)
-            y = random.uniform(0,constants.WIDTH_ROOM)
+            x = random.uniform(0, constants.ROOM_DIMENSION_X)
+            y = random.uniform(0, constants.ROOM_DIMENSION_Y)
             self.trajectory.append((x,y))
 
         self.t_add = [0]

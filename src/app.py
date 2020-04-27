@@ -33,9 +33,12 @@ class App:
             Modification from the constant file to get the desired parameter once runing from main
             By default set to NONE, in this case the value taken is the one set by the constants.py file itself
         """
+        self.file_load = file_name
 
-        if constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA:
+        if  constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA:
            file_name = "Random_map_" + str(random.randint(1,10000))
+        elif constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET or constants.LOAD_DATA == LoadData.TARGET_FROM_TXT_CREATE_RANDOM_CAMERA:
+           file_name += "-Random_map_" + str(random.randint(1, 10000))
 
         if not (file_name is None):
             constants.ResultsPath.name_simulation = file_name
@@ -78,6 +81,7 @@ class App:
         """
         self.filename = file_name
 
+
         """
             All required object needed to create data, analyse ideal solutions 
         """
@@ -108,7 +112,22 @@ class App:
         """Create a new room and load it from it representation in .txt file"""
         self.room = Room()
         if constants.LOAD_DATA == LoadData.FROM_TXT_FILE:
-            load_room_from_txt(self.filename + ".txt", self.room)
+            load_room_from_txt(self.file_load + ".txt", self.room)
+
+        elif constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET:
+            load_camera_from_txt(self.file_load+".txt",self.room)
+            self.room.information_simulation.generate_n_m_unkown_set_fix_target(constants.TARGET_NUMBER_UNKOWN,
+                                                                                constants.TARGET_NUMBER_SET_FIX)
+            save_room_to_txt(self.filename + ".txt", self.room)
+
+
+        elif constants.LOAD_DATA == LoadData.TARGET_FROM_TXT_CREATE_RANDOM_CAMERA:
+            load_target_from_txt(self.file_load + ".txt", self.room)
+            self.room.information_simulation.generate_n_m_p_k_fix_rotative_rail_free_camera(constants.CAMERA_NUMBER_FIX,
+                                                                                            constants.CAMERA_NUMBER_ROTATIVE,
+                                                                                            constants.CAMERA_NUMBER_RAIL,
+                                                                                            constants.CAMERA_NUMBER_FREE)
+            save_room_to_txt(self.filename + ".txt", self.room)
 
         elif constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA:
             self.room.information_simulation.generate_n_m_unkown_set_fix_target(constants.TARGET_NUMBER_UNKOWN,constants.TARGET_NUMBER_SET_FIX)
