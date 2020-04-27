@@ -130,10 +130,12 @@ class DistributedKalmanFilter(KalmanFilter):
         :param (int) ti                              -- time of arrival of the other arguments to this
                                                         node. In practice, we have to put the time
         """
-
         if tj < self.curr_ti:
             print("probleeeem")
             return
+
+        self.prev_ti = self.curr_ti
+        self.curr_ti = tj
 
         [state_error_info, variance_error_info] = parse_errors_info_string(dkf_info_string)
 
@@ -173,9 +175,6 @@ class DistributedKalmanFilter(KalmanFilter):
         self.x = self.x_global.copy()
         self.PI = self.PI_global.copy()
         self.P = self.P_global.copy()
-
-        self.prev_ti = self.curr_ti
-        self.curr_ti = tj
 
     def state_error_info(self):
         RI = self.inv(self.R)
@@ -249,12 +248,13 @@ def var_error_info_string_to_array(rows):
         row = row.split(" ")
         column_index = 0
         for elem in row:
-            if elem not in ["", "[", " "]:
+            if elem not in ["", "[", " ", None]:
                 if elem[-1] == "]":
                     elem = elem[:-1]
-                if elem[0] == "[":
+                if elem and elem[0] == "[":
                     elem = elem[1:]
-                ret_arr[row_index, column_index] = float(elem)
+                if elem:
+                    ret_arr[row_index, column_index] = float(elem)
                 column_index += 1
         row_index += 1
 
