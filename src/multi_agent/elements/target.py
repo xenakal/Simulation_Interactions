@@ -4,6 +4,7 @@ import re
 import math
 from src import constants
 from src.my_utils.constant_class import ConfidenceFunction
+from src.my_utils.my_math.line import Line
 
 
 class TargetMotion:
@@ -78,32 +79,54 @@ class TargetRepresentation:
             self.color = (r, g, b)
 
     def evaluate_confidence(self, error, delta_time):
-        """Méthod to modify the value of the confidence based on severals parameters"""
+        """Method to modify the value of the confidence based on severals parameters"""
 
         self.confidence_pos[0] = self.confidence_pos[1]
+
+        """Kalman dependency"""
+        amplitude =  (1 / math.pow(error, 2))
+
+
+
+        if amplitude > constants.CONFIDENCE_MAX_VALUE:
+            amplitude = constants.CONFIDENCE_MAX_VALUE
+        t_thresh = constants.CONFIDENCE_TIME_TO_REACH_MIN_VALUE
+        pt1 = (0, constants.CONFIDENCE_MAX_VALUE)
+        pt2 = (t_thresh, constants.CONFIDENCE_MIN_VALUE)
+        if pt1[1] < pt2[1]:
+            self.confidence_pos[1] = 0
+            return
+
+        """Time dependency"""
         if ConfidenceFunction.EXPONENTIAL_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
-           """Exp function"""
-           if error < constants.CONFIDENCE_ERROR_MIN:
-               error = 0.1
+            if constants.CONFIDENCE_MIN_VALUE >= 1:
+                time_constant = -t_thresh/math.log(pt2[1]/pt1[1])
+            else:
+                time_constant = t_thresh/5
 
-           self.confidence_pos[1] = (1 / math.pow(error, 2)) * math.exp(-delta_time *1)
+            delta_t_due_to_amplitude = -time_constant*math.log(amplitude/pt1[1])
+            delta_time += delta_t_due_to_amplitude
+            self.confidence_pos[1] = pt1[1]*math.exp(-delta_time/time_constant)
 
-        elif ConfidenceFunction.EXPONENTIAL_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
-           """Exp function"""
-           error = 0.1
-           if delta_time < 5:
-               self.confidence_pos[1] = (1 / math.pow(error, 2)) * (5-delta_time *1)
+        elif ConfidenceFunction.EXPONENTIAL_REVERSE_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
+            pass
+
+        elif ConfidenceFunction.LINEAR_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
+           if pt1[1] > pt2[1]:
+                line = Line(pt1[0],pt1[1],pt2[0],pt2[1])
+                delta_t_due_to_amplitude =  line.compute_x(amplitude)
+                delta_time += delta_t_due_to_amplitude
+                self.confidence_pos[1] = line.compute_y(delta_time,line)
            else:
-               self.confidence_pos[1] = 0
+               self.confidence_pos[1] = constants.CONFIDENCE_MIN_VALUE
 
         elif ConfidenceFunction.STEP == constants.CONFIDENCE_FUNCTION_CHOICE:
-           """Step function"""
-           if delta_time < 0.7:
-                self.confidence_pos[1] = 100
+           if delta_time < t_thresh:
+                self.confidence_pos[1] = amplitude
            else:
-                self.confidence_pos[1] = 0
+                self.confidence_pos[1] = constants.CONFIDENCE_MIN_VALUE
 
-
+        self.confidence_pos[1] = min(max(self.confidence_pos[1],constants.CONFIDENCE_MIN_VALUE),constants.CONFIDENCE_MAX_VALUE)
 
     def to_string(self):
         """
@@ -249,7 +272,7 @@ class Target(TargetRepresentation):
         self.all_position.append([self.xc, self.yc])
 
     def save_target_to_txt(self):
-        s0 = "x:%0.2f y:%0.2f vx:%0.2f vy:%0.2f r:%0.2f"%(self.xc,self.yc,self.vx,self.vy,self.radius)
+        s0 = "x:%0.2f y:%0.2f vx:%0.2f vy:%0.2f r:%0.2f"%(self.xc,self.yc,self.vx_max,self.vy_max,self.radius)
         s1 = " target_type:%d tj_type:%d"%(self.type,1)
         s2 =" t_add:"+str(self.t_add)+" t_del:"+str(self.t_del)
         s3 =" trajectory:"+str(self.trajectory)

@@ -4,6 +4,8 @@
 class LoadData:
     FROM_TXT_FILE = "from_txt_file"
     CREATE_RANDOM_DATA = "random_data"
+    CREATE_RANDOM_DATA_ONCE = "random_data_once"
+    CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE = "camera_txt_random_target_once"
     CAMERA_FROM_TXT_CREATE_RANDOM_TARGET = "camera_txt_random_target"
     TARGET_FROM_TXT_CREATE_RANDOM_CAMERA = "target_txt_random_camera"
 
@@ -74,3 +76,5 @@ class BehaviourDetectorType:
 class ConfidenceFunction:
     STEP = "step"
     EXPONENTIAL_DECAY = "exponential_decay"
+    EXPONENTIAL_REVERSE_DECAY ="exponential_reverse_decay"
+    LINEAR_DECAY = "linear_decay"

@@ -8,9 +8,9 @@ In this file you have the possibility to modify the settings
 """
 
 """Options-----------------------------------------------------------------------------------------------------------"""
-SAVE_DATA = True
-GENERATE_PLOT = True
-LOAD_DATA = LoadData.FROM_TXT_FILE
+SAVE_DATA = False
+GENERATE_PLOT = False
+LOAD_DATA = LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE
 
 USE_GUI = True
 USE_static_analysis = False
@@ -165,8 +165,11 @@ Margins for initiating swipe when two agents are too close
 MIN_DISTANCE_AGENTS = 1.5
 MIN_ANGLE_DIFF_AGENTS = 0.2
 """Target_representation--------------------------------------------------------------------------------------------"""
+CONFIDENCE_MAX_VALUE = 100
+CONFIDENCE_MIN_VALUE = 0
+CONFIDENCE_TIME_TO_REACH_MIN_VALUE = 5
 CONFIDENCE_THRESHOLD = 50
-CONFIDENCE_FUNCTION_CHOICE  = ConfidenceFunction.STEP
+CONFIDENCE_FUNCTION_CHOICE  = ConfidenceFunction.LINEAR_DECAY
 CONFIDENCE_ERROR_MIN = 0.1
 
 

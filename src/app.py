@@ -35,9 +35,9 @@ class App:
         """
         self.file_load = file_name
 
-        if  constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA:
+        if  constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA or constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA_ONCE:
            file_name = "Random_map_" + str(random.randint(1,10000))
-        elif constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET or constants.LOAD_DATA == LoadData.TARGET_FROM_TXT_CREATE_RANDOM_CAMERA:
+        elif constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET or constants.LOAD_DATA == LoadData.TARGET_FROM_TXT_CREATE_RANDOM_CAMERA or constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE:
            file_name += "-Random_map_" + str(random.randint(1, 10000))
 
         if not (file_name is None):
@@ -114,7 +114,7 @@ class App:
         if constants.LOAD_DATA == LoadData.FROM_TXT_FILE:
             load_room_from_txt(self.file_load + ".txt", self.room)
 
-        elif constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET:
+        elif constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET or constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE:
             load_camera_from_txt(self.file_load+".txt",self.room)
             self.room.information_simulation.generate_n_m_unkown_set_fix_target(constants.TARGET_NUMBER_UNKOWN,
                                                                                 constants.TARGET_NUMBER_SET_FIX)
@@ -129,7 +129,7 @@ class App:
                                                                                             constants.CAMERA_NUMBER_FREE)
             save_room_to_txt(self.filename + ".txt", self.room)
 
-        elif constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA:
+        elif constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA or constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA_ONCE:
             self.room.information_simulation.generate_n_m_unkown_set_fix_target(constants.TARGET_NUMBER_UNKOWN,constants.TARGET_NUMBER_SET_FIX)
             self.room.information_simulation.generate_n_m_p_k_fix_rotative_rail_free_camera(constants.CAMERA_NUMBER_FIX,constants.CAMERA_NUMBER_ROTATIVE,
                                                                                             constants.CAMERA_NUMBER_RAIL,constants.CAMERA_NUMBER_FREE)
@@ -219,6 +219,10 @@ class App:
     def reset(self):
         self.log_app.info("Reset ...")
         self.clear()
+        if constants.LoadData.CREATE_RANDOM_DATA_ONCE or constants.LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE:
+            constants.LOAD_DATA = LoadData.FROM_TXT_FILE
+            self.file_load = self.filename
+
         self.init()
         self.log_app.info("Reset done !")
 

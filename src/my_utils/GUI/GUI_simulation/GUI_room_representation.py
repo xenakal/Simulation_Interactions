@@ -149,10 +149,12 @@ class GUI_room_representation():
         elif target.confidence_pos[1] <= constants.CONFIDENCE_THRESHOLD:
             color_conf = RED
         elif target.confidence_pos[1] >= 0:
-            new_scale = (255 / (255 - constants.CONFIDENCE_THRESHOLD)) * 2.5
-            R  = max(min(math.ceil(255 - new_scale * target.confidence_pos[1]),255),0)
-            G = max(min(math.ceil(2.5 * new_scale* target.confidence_pos[1]), 255), 0)
-            color_conf = (R,G, 0)
+            new_delta = target.confidence_pos[1] - constants.CONFIDENCE_THRESHOLD
+            new_scale = (255 / (constants.CONFIDENCE_MAX_VALUE - constants.CONFIDENCE_THRESHOLD))
+            value =new_scale*new_delta
+            R  = max(min(255-value,255),0)
+            G = max(min(value, 255), 0)
+            color_conf = (int(R),int(G), 0)
 
 
         pt_center = (self.x_offset + int(target.xc * self.scale_x),self.y_offset + int((constants.ROOM_DIMENSION_Y-target.yc) * self.scale_y))
