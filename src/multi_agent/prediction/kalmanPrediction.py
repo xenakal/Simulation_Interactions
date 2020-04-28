@@ -146,7 +146,6 @@ class KalmanPrediction:
                 return True
         return False
 
-
     def get_predictions(self):
         """
         :description

@@ -8,13 +8,13 @@ In this file you have the possibility to modify the settings
 """
 
 """Options-----------------------------------------------------------------------------------------------------------"""
-SAVE_DATA = False
-GENERATE_PLOT = False
-LOAD_DATA = LoadData.CREATE_RANDOM_DATA
+SAVE_DATA = True
+GENERATE_PLOT = True
+LOAD_DATA = LoadData.FROM_TXT_FILE
 
 USE_GUI = True
 USE_static_analysis = False
-USE_dynamic_analysis_simulated_room = True
+USE_dynamic_analysis_simulated_room = False
 
 INCLUDE_ERROR = True
 LOG_LEVEL = logging.INFO  #
@@ -26,9 +26,9 @@ INIT_show_point_to_reach = False
 "Push v to show or hide"
 INIT_show_virtual_cam = False
 "Push f to show or hide"
-INIT_show_field_cam = True
+INIT_show_field_cam = False
 "Push G to show or hide the grid"
-INIT_show_grid = True
+INIT_show_grid = False
 
 """Options for Kalman Filter-----------------------------------------------------------------------------------------"""
 DISTRIBUTED_KALMAN = False
@@ -52,7 +52,7 @@ SCALE_TIME = 1
 TIME_START = time.time()
 TIME_STOP = 10  # s
 """when mooving a target"""
-TIME_BTW_FRAME = .1
+TIME_BTW_FRAME = .05
 TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)
 """Agent"""
 TIME_BTW_HEARTBEAT = 3 / SCALE_TIME
