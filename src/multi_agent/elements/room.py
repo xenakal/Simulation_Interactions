@@ -284,7 +284,7 @@ class RoomRepresentation:
                         norm_variance_pos = 0.1
 
                     target.evaluate_confidence(norm_variance_pos,
-                                               constants.get_time() - last_TargetEstimator.time_stamp, 0.001)
+                                               constants.get_time() - last_TargetEstimator.time_stamp)
                     break
 
             if not is_in_RoomRepresentation:

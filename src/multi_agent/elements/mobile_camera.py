@@ -74,6 +74,15 @@ class MobileCamera(Camera):
         self.trajectory = TrajectoryPlaner(trajectory)
 
         """Default option"""
+        if self.v_alpha_min is not None:
+            self.v_alpha_min = math.radians(v_alpha_min)
+        if self.v_alpha_max is not None:
+            self.v_alpha_max = math.radians(v_alpha_max)
+        if self.v_beta_min is not None:
+            self.v_beta_min = math.radians(v_beta_min)
+        if self.v_beta_max is not None:
+            self.v_beta_max = math.radians(v_beta_max)
+
         if not self.camera_type == MobileCameraType.RAIL:
             self.trajectory = TrajectoryPlaner([])
 

@@ -17,9 +17,6 @@ import src.multi_agent.elements.mobile_camera as mobCam
 import src.multi_agent.elements.camera as cam
 from src.multi_agent.tools.potential_field_method import compute_potential_field_cam, plot_potential_field
 
-CONFIDENCE_THRESHOLD = 50
-
-
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
     INFO_DKF = "info_DKF"
     UNTRACKABLE_TARGET = "untrackable"
@@ -359,6 +356,7 @@ class AgentCam(AgentInteractingWithRoom):
         '''Modification from the room description'''
         self.room_representation.update_target_based_on_memory(self.pick_data(constants.AGENT_DATA_TO_PROCESS))
         self.room_representation.update_agent_based_on_memory(self.memory.memory_agent_from_agent)
+        self.targets_to_track = []
 
         '''Computation of the camera that should give the best view, according to maps algorithm'''
         self.link_target_agent.update_link_camera_target()
@@ -423,12 +421,12 @@ class AgentCam(AgentInteractingWithRoom):
             """
 
             "Send message to other agent"
-            if target.confidence_pos[0] < CONFIDENCE_THRESHOLD < target.confidence_pos[1]:
+            if target.confidence_pos[0] < constants.CONFIDENCE_THRESHOLD < target.confidence_pos[1]:
                 self.table_all_target_number_times_seen.update_tracked(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET,
                                                      target.id)
 
-            elif target.confidence_pos[0] > CONFIDENCE_THRESHOLD > target.confidence_pos[1]:
+            elif target.confidence_pos[0] > constants.CONFIDENCE_THRESHOLD > target.confidence_pos[1]:
                 self.table_all_target_number_times_seen.update_lost(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET, target.id)
 
@@ -467,7 +465,7 @@ class AgentCam(AgentInteractingWithRoom):
                                                           constants.TIME_BTW_TARGET_ESTIMATOR, receivers)
 
             # start tracking the target according to the priority levels
-            if target.id not in self.targets_to_track and target.confidence_pos[1] > CONFIDENCE_THRESHOLD:
+            if target.confidence_pos[1] > constants.CONFIDENCE_THRESHOLD:
                 # print("agent ", self.id, " sees: ", target.id)
                 self.targets_to_track.append(target.id)
                 self.priority_dict[target.id] = InternalPriority.NOT_TRACKED
@@ -696,7 +694,7 @@ class AgentCam(AgentInteractingWithRoom):
 
     def get_active_targets(self):
         return [target for target in self.room_representation.active_Target_list if
-                target.confidence_pos[1] >= CONFIDENCE_THRESHOLD]
+                target.confidence_pos[1] >= constants.CONFIDENCE_THRESHOLD]
 
     def get_predictions(self, target_id_list):
         """

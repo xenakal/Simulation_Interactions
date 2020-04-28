@@ -57,8 +57,6 @@ class BEHAVIOUR_NO_TARGETS_SEEN:
 
 
 """Potential field --------------------------------------------------------------------------------------------------"""
-
-
 class PotentialBarrier:
     Not_use = "not_use"
     Smooth = "smooth"
@@ -67,9 +65,12 @@ class PotentialBarrier:
 
 
 """Behaviour détector------------------------------------------------------------------------------------------------"""
-
-
 class BehaviourDetectorType:
     Use_speed_and_position = "Speed and position"
     Use_speed_only = "Speed"
     Use_position_only = "Position"
+
+"""Target representation---------------------------------------------------------------------------------------------"""
+class ConfidenceFunction:
+    STEP = "step"
+    EXPONENTIAL_DECAY = "exponential_decay"

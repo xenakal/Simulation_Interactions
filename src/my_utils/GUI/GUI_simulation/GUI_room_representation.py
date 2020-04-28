@@ -144,68 +144,71 @@ class GUI_room_representation():
         elif target.type == TargetType.UNKNOWN:
             color = UNKNOWN_COLOR
 
-        color_conf = WHITE
-        if target.confidence_pos[1] > 0:
-            value1  = max(min(math.ceil(255 - 2.5 * target.confidence_pos[1]),255),0)
-            value2 = max(min(math.ceil(2.5 * target.confidence_pos[1]), 255), 0)
-            color_conf = (value1,value2, 0)
+        if target.confidence_pos == [-1,-1]:
+            color_conf = WHITE
+        elif target.confidence_pos[1] <= constants.CONFIDENCE_THRESHOLD:
+            color_conf = RED
+        elif target.confidence_pos[1] >= 0:
+            new_scale = (255 / (255 - constants.CONFIDENCE_THRESHOLD)) * 2.5
+            R  = max(min(math.ceil(255 - new_scale * target.confidence_pos[1]),255),0)
+            G = max(min(math.ceil(2.5 * new_scale* target.confidence_pos[1]), 255), 0)
+            color_conf = (R,G, 0)
 
 
         pt_center = (self.x_offset + int(target.xc * self.scale_x),self.y_offset + int((constants.ROOM_DIMENSION_Y-target.yc) * self.scale_y))
         # so that it is only target.yc drawn in the squarer
-        if (tab[0] <= target.xc + target.radius <= tab[0] + tab[
-            2] and tab[1] <= target.yc + target.radius <= tab[1] + tab[3]):  # target inside room
-            # render the target.xct
-            label = self.font.render(str(target.id), 10, color)
-            self.screen.blit(label,(pt_center[0] + int(self.scale_x * target.radius / 2*1.5),
-                              pt_center[1]+ int(self.scale_y * target.radius/2*1.5)))
-            # render form
 
-            pygame.draw.ellipse(self.screen, color_conf, (
+        # render the target.xct
+        label = self.font.render(str(target.id), 10, color)
+        self.screen.blit(label,(pt_center[0] + int(self.scale_x * target.radius / 2*1.5),
+                              pt_center[1]+ int(self.scale_y * target.radius/2*1.5)))
+        # render form
+
+        pygame.draw.ellipse(self.screen, color_conf, (
                 pt_center[0] - int(self.scale_x * (target.radius * 1.2)),
                 pt_center[1] - int(self.scale_y * (target.radius * 1.2)),
                 int(self.scale_x * (target.radius * 1.2) * 2),
                 int(self.scale_y * (target.radius * 1.2) * 2)))
 
-            pygame.draw.ellipse(self.screen, color, (
+        pygame.draw.ellipse(self.screen, color, (
                 pt_center[0] - int(self.scale_x * target.radius),
                 pt_center[1] - int(self.scale_y * target.radius),
                 int(self.scale_x * target.radius * 2),
                 int(self.scale_y * target.radius * 2)))
 
-            if target.radius >= 0.05:
-                pygame.draw.ellipse(self.screen, target.color,
+        if target.radius >= 0.05:
+               pygame.draw.ellipse(self.screen, target.color,
                                     (pt_center[0] - int(self.scale_x * target.radius / 2),
                                      pt_center[1]- int(self.scale_y * target.radius / 2),
                                      int(self.scale_x * target.radius),
                                      int(self.scale_y * target.radius)))
 
         if not target.variance_on_estimation is None:
-            # if not target.variance_on_estimation[0] is None and  target.variance_on_estimation[1] is None and not target.variance_on_estimation == (0,0):
             facteur = 1
             value_to_draw1 = 0
             value_to_draw2 = 0
-            if not isinstance(target.variance_on_estimation,int):
-                value_to_draw1 = target.variance_on_estimation[0] + target.radius
-                value_to_draw2 = target.variance_on_estimation[1] + target.radius
 
-            pt_1 =   (pt_center[0]+ int(facteur * value_to_draw1 * math.cos(target.alpha)) * self.scale_x,
-            pt_center[1]+ int(facteur * value_to_draw1 * math.sin(target.alpha)) * self.scale_y)
+            if not isinstance(target.variance_on_estimation,(int,int)):
+                value_to_draw1 = target.variance_on_estimation[0] #+ target.radius
+                value_to_draw2 = target.variance_on_estimation[1] #+ target.radius
 
-            pt_2 = (pt_center[0]+ int(facteur * value_to_draw1 * math.cos(target.alpha+ math.pi)) * self.scale_x,
-            pt_center[1]+ int(facteur * value_to_draw1 * math.sin(target.alpha+ math.pi)) * self.scale_y)
+                pt_1 =   (pt_center[0]+ int(facteur * value_to_draw1 * math.cos(target.alpha) * self.scale_x),
+                pt_center[1]+ int(facteur * value_to_draw1 * math.sin(target.alpha) * self.scale_y))
 
-            pt_3 = (pt_center[0]+ int(facteur * value_to_draw1 * math.cos(target.alpha+ math.pi/2)) * self.scale_x,
-            pt_center[1]+ int(facteur * value_to_draw1 * math.sin(target.alpha+ math.pi/2)) * self.scale_y)
+                pt_2 = (pt_center[0]+ int(facteur * value_to_draw1 * math.cos(target.alpha+ math.pi)* self.scale_x) ,
+                pt_center[1]+ int(facteur * value_to_draw1 * math.sin(target.alpha+ math.pi)* self.scale_y) )
 
-            pt_4 = (pt_center[0]+ int(facteur * value_to_draw1 * math.cos(target.alpha- math.pi/2)) * self.scale_x,
-            pt_center[1]+ int(facteur * value_to_draw1 * math.sin(target.alpha- math.pi/2)) * self.scale_y)
+                pt_3 = (pt_center[0]+ int(facteur * value_to_draw1 * math.cos(target.alpha+ math.pi/2)* self.scale_x) ,
+                pt_center[1]+ int(facteur * value_to_draw2 * math.sin(target.alpha+ math.pi/2)* self.scale_y))
+
+                pt_4 = (pt_center[0]+ int(facteur * value_to_draw1 * math.cos(target.alpha- math.pi/2)* self.scale_x) ,
+                pt_center[1]+ int(facteur * value_to_draw2 * math.sin(target.alpha- math.pi/2)* self.scale_y))
 
 
-            pygame.draw.line(self.screen, WHITE, pt_center,pt_1, 3)
-            pygame.draw.line(self.screen, WHITE, pt_center, pt_2, 3)
-            pygame.draw.line(self.screen, WHITE, pt_center, pt_3, 3)
-            pygame.draw.line(self.screen, WHITE, pt_center, pt_4, 3)
+                pygame.draw.line(self.screen, WHITE, pt_center,pt_1, 3)
+                pygame.draw.line(self.screen, WHITE, pt_center, pt_2, 3)
+                pygame.draw.line(self.screen, WHITE, pt_center, pt_3, 3)
+                pygame.draw.line(self.screen, WHITE, pt_center, pt_4, 3)
 
         pygame.draw.circle(self.screen, RED, (pt_center[0] + int(target.radius*self.scale_x*math.cos(target.alpha)),
                                               pt_center[1] + int(target.radius*self.scale_y*math.sin(target.alpha))), 3)

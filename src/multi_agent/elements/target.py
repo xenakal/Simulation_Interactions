@@ -3,6 +3,8 @@ import random
 import re
 import math
 from src import constants
+from src.my_utils.constant_class import ConfidenceFunction
+
 
 class TargetMotion:
     FIX = 0
@@ -75,16 +77,31 @@ class TargetRepresentation:
             b = random.randrange(20, 255, 1)
             self.color = (r, g, b)
 
-    def evaluate_confidence(self, error, delta_time,time_constant):
-        #if constants.TARGET_CONFIDENCE_EVALUATION_METHOD ==
-        #self.confidence_pos = (1 / math.pow(error, 2)) * math.exp(-delta_time*time_constant)
+    def evaluate_confidence(self, error, delta_time):
+        """Méthod to modify the value of the confidence based on severals parameters"""
 
         self.confidence_pos[0] = self.confidence_pos[1]
-        if delta_time > 0.5:
+        if ConfidenceFunction.EXPONENTIAL_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
+           """Exp function"""
+           if error < constants.CONFIDENCE_ERROR_MIN:
+               error = 0.1
 
-            self.confidence_pos[1] = 1
-        else:
-            self.confidence_pos[1] = 100
+           self.confidence_pos[1] = (1 / math.pow(error, 2)) * math.exp(-delta_time *1)
+
+        elif ConfidenceFunction.EXPONENTIAL_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
+           """Exp function"""
+           error = 0.1
+           if delta_time < 5:
+               self.confidence_pos[1] = (1 / math.pow(error, 2)) * (5-delta_time *1)
+           else:
+               self.confidence_pos[1] = 0
+
+        elif ConfidenceFunction.STEP == constants.CONFIDENCE_FUNCTION_CHOICE:
+           """Step function"""
+           if delta_time < 0.7:
+                self.confidence_pos[1] = 100
+           else:
+                self.confidence_pos[1] = 0
 
 
 

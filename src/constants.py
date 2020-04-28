@@ -10,13 +10,13 @@ In this file you have the possibility to modify the settings
 """Options-----------------------------------------------------------------------------------------------------------"""
 SAVE_DATA = False
 GENERATE_PLOT = False
-LOAD_DATA = LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET
+LOAD_DATA = LoadData.CREATE_RANDOM_DATA
 
 USE_GUI = True
 USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = True
 
-INCLUDE_ERROR = False
+INCLUDE_ERROR = True
 LOG_LEVEL = logging.INFO  #
 
 """Option GUI--------------------------------------------------------------------------------------------------------"""
@@ -34,7 +34,7 @@ INIT_show_grid = True
 DISTRIBUTED_KALMAN = False
 KALMAN_MODEL_MEASUREMENT_DIM = 4
 USE_TIMESTAMP_FOR_ASSIMILATION = True
-KALMAN_VAR_COEFFICIENT = 50
+KALMAN_VAR_COEFFICIENT = 5
 
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
 ROOM_DIMENSION_X = 8  # [m]
@@ -65,7 +65,7 @@ TIME_SEND_READ_MESSAGE = (0.3 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 MAX_TIME_MESSAGE_IN_LIST = 3 / SCALE_TIME  # s
 TRESH_TIME_TO_SEND_MEMORY = 100 / SCALE_TIME  #
 "Agent-User"
-TIME_TO_SLOW_DOWN = 0.15 / SCALE_TIME
+TIME_TO_SLOW_DOWN = 0.5 / SCALE_TIME
 
 """Error on mesure---------------------------------------------------------------------------------------------------"""
 STD_MEASURMENT_ERROR_POSITION = 0.2
@@ -100,7 +100,7 @@ AGENTS_MOVING = True
 """
 Refers to what data agent should use to analyse the room 
 """
-AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Best_estimation
+AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Prediction_t_2
 AGENT_CHOICE_HOW_TO_FOLLOW_TARGET = ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG
 
 """
@@ -162,8 +162,12 @@ TIME_STOP_INIT_BEHAVIOUR = 1
 """
 Margins for initiating swipe when two agents are too close
 """
-MIN_DISTANCE_AGENTS = 0.3
+MIN_DISTANCE_AGENTS = 1.5
 MIN_ANGLE_DIFF_AGENTS = 0.2
+"""Target_representation--------------------------------------------------------------------------------------------"""
+CONFIDENCE_THRESHOLD = 50
+CONFIDENCE_FUNCTION_CHOICE  = ConfidenceFunction.STEP
+CONFIDENCE_ERROR_MIN = 0.1
 
 
 """Potential Field Camera--------------------------------------------------------------------------------------------"""
@@ -190,14 +194,14 @@ COMBINE_MODE_PROP = 0.99  # 1 = smooth mode 0 = hard mode (btw 0 and 1)
 """Random map creation-----------------------------------------------------------------------------------------------"""
 TARGET_NUMBER_SET_FIX = 0
 TARGET_NUMBER_UNKOWN = 5
-TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY = 5
+TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY = 25
 RANDOM_TARGET_RADIUS_BOUND = (0.1,0.3)
 RANDOM_TARGET_V_BOUND = (0.8,1.2)
 
 CAMERA_NUMBER_FIX = 0
 CAMERA_NUMBER_ROTATIVE = 0
 CAMERA_NUMBER_RAIL = 0
-CAMERA_NUMBER_FREE = 2
+CAMERA_NUMBER_FREE = 4
 
 RANDOM_CAMERA_BETA_BOUND = (math.radians(55),math.radians(65))
 RANDOM_CAMERA_DELTA_BETA_BOUND = (math.radians(20),math.radians(25))

@@ -1,5 +1,7 @@
 import numpy as np
 import src.multi_agent.elements.camera as cam
+import src.multi_agent.agent.agent_interacting_room_camera as agentCam
+from src import constants
 from src.multi_agent.elements.target import TargetType
 
 
@@ -110,11 +112,11 @@ class LinkTargetCamera():
                             if isinstance(target.radius,float):
                                 cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(camera,target.xc, target.yc,target.radius)
                                 cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(self.room, camera.id, target.xc, target.yc)
-
+                                cdt_condifdence_high_enough = target.confidence_pos[1] > constants.CONFIDENCE_THRESHOLD
 
                                 "Check is the camera can see the target for a given room geometry"
 
-                                if cdt_in_field and cdt_not_hidden and camera.is_active:
+                                if cdt_in_field and cdt_not_hidden and camera.is_active and cdt_condifdence_high_enough:
                                     "Distance computation"
                                     distance_to_target = np.power(np.power((camera.xc - target.xc), 2)
                                                                   + np.power((camera.yc - target.yc), 2), 0.5)
