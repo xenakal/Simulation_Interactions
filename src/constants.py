@@ -170,7 +170,6 @@ CONFIDENCE_MIN_VALUE = 0
 CONFIDENCE_TIME_TO_REACH_MIN_VALUE = 5
 CONFIDENCE_THRESHOLD = 50
 CONFIDENCE_FUNCTION_CHOICE  = ConfidenceFunction.LINEAR_DECAY
-CONFIDENCE_ERROR_MIN = 0.1
 
 
 """Potential Field Camera--------------------------------------------------------------------------------------------"""

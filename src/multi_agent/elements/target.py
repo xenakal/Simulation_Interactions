@@ -86,8 +86,6 @@ class TargetRepresentation:
         """Kalman dependency"""
         amplitude =  (1 / math.pow(error, 2))
 
-
-
         if amplitude > constants.CONFIDENCE_MAX_VALUE:
             amplitude = constants.CONFIDENCE_MAX_VALUE
         t_thresh = constants.CONFIDENCE_TIME_TO_REACH_MIN_VALUE
@@ -109,6 +107,7 @@ class TargetRepresentation:
             self.confidence_pos[1] = pt1[1]*math.exp(-delta_time/time_constant)
 
         elif ConfidenceFunction.EXPONENTIAL_REVERSE_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
+
             pass
 
         elif ConfidenceFunction.LINEAR_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
