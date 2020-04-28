@@ -8,9 +8,9 @@ In this file you have the possibility to modify the settings
 """
 
 """Options-----------------------------------------------------------------------------------------------------------"""
-SAVE_DATA = True
-GENERATE_PLOT = True
-LOAD_DATA = LoadData.FROM_TXT_FILE
+SAVE_DATA = False
+GENERATE_PLOT = False
+LOAD_DATA = LoadData.CREATE_RANDOM_DATA
 
 USE_GUI = True
 USE_static_analysis = False
