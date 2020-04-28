@@ -19,8 +19,6 @@ from src.multi_agent.tools.potential_field_method import compute_potential_field
 
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
     INFO_DKF = "info_DKF"
-    UNTRACKABLE_TARGET = "untrackable"
-    SEEN_TARGET = "seen_untrackable"
     TRACKING_TARGET = "tracking_target"
     LOSING_TARGET = "loosing_target"
 
