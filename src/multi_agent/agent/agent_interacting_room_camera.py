@@ -17,6 +17,7 @@ import src.multi_agent.elements.mobile_camera as mobCam
 import src.multi_agent.elements.camera as cam
 from src.multi_agent.tools.potential_field_method import compute_potential_field_cam, plot_potential_field
 
+
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
     INFO_DKF = "info_DKF"
     TRACKING_TARGET = "tracking_target"
