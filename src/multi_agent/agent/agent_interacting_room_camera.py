@@ -124,8 +124,6 @@ class AgentCam(AgentInteractingWithRoom):
 
         # targets to be tracked by this agent
         self.targets_to_track = []
-        # targets untracked by all
-        self.targets_untracked_by_all = []
         # count how many times a target is tracked
         self.table_all_target_number_times_seen = AllTargetNUmberTimesSeen(self.id, self.log_target_tracked)
 
@@ -437,14 +435,10 @@ class AgentCam(AgentInteractingWithRoom):
             if target.id not in self.targets_to_track and target.confidence_pos[1] > constants.CONFIDENCE_THRESHOLD:
                 self.targets_to_track.append(target.id)
                 self.priority_dict[target.id] = InternalPriority.NOT_TRACKED
-                if target.id in self.targets_untracked_by_all:
-                    self.targets_untracked_by_all.remove(target.id)
-                    self.broadcast_seen_target(target.id)
 
             if target.id in self.targets_to_track and target.confidence_pos[1] < constants.CONFIDENCE_THRESHOLD:
                 self.targets_to_track.remove(target.id)
                 self.priority_dict[target.id] = None
-                self.broadcast_untracked_target(target.id)
 
         if constants.get_time() - self.last_time_no_target_behaviour_init > constants.TIME_STOP_INIT_BEHAVIOUR:
             self.init_no_target_behaviour = False
@@ -455,9 +449,6 @@ class AgentCam(AgentInteractingWithRoom):
                math.fabs(agent.camera_representation.alpha - self.camera.alpha) < constants.MIN_ANGLE_DIFF_AGENTS:
                 self.init_no_target_behaviour = True
                 self.last_time_no_target_behaviour_init = constants.get_time()
-
-        [self.broadcast_seen_target(target) for target in self.targets_to_track if target in
-         self.targets_untracked_by_all]
 
     def configuration_algorithm_choice(self, choix):
         target_list = self.get_active_targets()
@@ -564,16 +555,10 @@ class AgentCam(AgentInteractingWithRoom):
             if configuration is None or not configuration.is_valid:
                 self.remove_target_with_lowest_priority(tracked_targets, configuration)
 
-        # update list of targets untracked by all
-        [self.targets_untracked_by_all.append(target) for target in self.targets_to_track
-         if target not in tracked_targets and target not in self.targets_untracked_by_all]
-
         for target in self.targets_to_track:
             if target not in tracked_targets:
                 # broadcast lost target
-                self.broadcast_untracked_target(target)
                 self.priority_dict[target] = None
-                self.targets_untracked_by_all.append(target)
 
         for target in self.targets_to_track:
             self.priority_dict[target] = InternalPriority.TRACKED
@@ -715,41 +700,10 @@ class AgentCam(AgentInteractingWithRoom):
         if rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.INFO_DKF:
             self.receive_message_DKF_info(rec_mes)
             self.info_message_received.del_message(rec_mes)
-        elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET:
-            self.receive_message_untrackableTarget(rec_mes)
-            self.info_message_received.del_message(rec_mes)
-        elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.SEEN_TARGET:
-            self.receive_message_seen_target(rec_mes)
-            self.info_message_received.del_message(rec_mes)
         elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET \
                 or rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
             self.receive_message_track_loose_target(rec_mes)
             self.info_message_received.del_message(rec_mes)
-
-    def broadcast_untracked_target(self, target_id):
-        """
-        :description
-            Broadcast a message to notify other agents that a certain target can't be tracked by this agent anymore.
-        """
-        message = Message(constants.get_time(), self.id, self.signature,
-                          MessageTypeAgentCameraInteractingWithRoom.UNTRACKABLE_TARGET, "", target_id)
-
-        self.broadcast_message(message, BroadcastTypes.AGENT_CAM)
-
-    def receive_message_untrackableTarget(self, message):
-        target_id = int(message.item_ref)
-        if target_id in self.targets_to_track:
-            self.broadcast_seen_target(target_id)
-
-    def broadcast_seen_target(self, target_id):
-        ack_message = Message(constants.get_time(), self.id, self.signature,
-                              MessageTypeAgentCameraInteractingWithRoom.SEEN_TARGET, "", target_id)
-        self.broadcast_message(ack_message, BroadcastTypes.AGENT_CAM)
-
-    def receive_message_seen_target(self, message):
-        target_id = int(message.item_ref)
-        if target_id in self.targets_untracked_by_all:
-            self.targets_untracked_by_all.remove(target_id)
 
     def send_message_DKF_info(self, target_id):
         """
