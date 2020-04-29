@@ -108,13 +108,13 @@ class AgentInteractingWithRoom(Agent):
     def thread_run(self, room):
         pass
 
-    def clear(self):
+    def clear(self,reset=False):
         """
             :description
                 1. Function to call to stop the agent
         """
         "Save data"
-        if constants.SAVE_DATA:
+        if constants.SAVE_DATA and not reset:
             print("Saving data: agent " + str(self.id))
             self.log_main.info("Saving data ...: agent " + str(self.id))
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT + str(self.id),

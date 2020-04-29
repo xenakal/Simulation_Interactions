@@ -430,6 +430,12 @@ class AgentCam(AgentInteractingWithRoom):
                     self.send_message_timed_itemEstimator(target_estimator_to_send.get_item_list(target.id)[-1],
                                                           constants.TIME_BTW_TARGET_ESTIMATOR, receivers)
 
+            """
+                ----------------------------------------------------------------------------------------------
+                update of target to tracklist:
+                -----------------------------------------------------------------------------------------------
+            """
+
             # start tracking targets that came into field of vision
             if target.id not in self.targets_to_track and target.confidence_pos[1] > constants.CONFIDENCE_THRESHOLD:
                 self.targets_to_track.append(target.id)
@@ -439,13 +445,19 @@ class AgentCam(AgentInteractingWithRoom):
                 self.targets_to_track.remove(target.id)
                 self.priority_dict[target.id] = None
 
+        """
+           ----------------------------------------------------------------------------------------------
+           Check if to cameras are to close:
+           -----------------------------------------------------------------------------------------------
+        """
         if constants.get_time() - self.last_time_no_target_behaviour_init > constants.TIME_STOP_INIT_BEHAVIOUR:
             self.init_no_target_behaviour = False
 
         for agent in self.room_representation.agentCams_representation_list:
-            if agent.id < self.id and math.fabs(agent.camera_representation.xc - self.camera.xc) < constants.MIN_DISTANCE_AGENTS and \
-               math.fabs(agent.camera_representation.yc - self.camera.yc) < constants.MIN_DISTANCE_AGENTS and \
-               math.fabs(agent.camera_representation.alpha - self.camera.alpha) < constants.MIN_ANGLE_DIFF_AGENTS:
+            if agent.id < self.id and math.fabs(
+                    agent.camera_representation.xc - self.camera.xc) < constants.MIN_DISTANCE_AGENTS and \
+                    math.fabs(agent.camera_representation.yc - self.camera.yc) < constants.MIN_DISTANCE_AGENTS and \
+                    math.fabs(agent.camera_representation.alpha - self.camera.alpha) < constants.MIN_ANGLE_DIFF_AGENTS:
                 self.init_no_target_behaviour = True
                 self.last_time_no_target_behaviour_init = constants.get_time()
 
@@ -598,10 +610,12 @@ class AgentCam(AgentInteractingWithRoom):
         # if the agent actually wants to move
         if used_for_movement:
             real_configuration = \
-            get_configuration_based_on_seen_target(self.camera,
-                                                   tracked_targets_room_representation.active_Target_list,
-                                                   self.room_representation, PCA_track_points_possibilites.MEANS_POINTS,
-                                                   self.memory_of_objectives, self.memory_of_position_to_reach, False)
+                get_configuration_based_on_seen_target(self.camera,
+                                                       tracked_targets_room_representation.active_Target_list,
+                                                       self.room_representation,
+                                                       PCA_track_points_possibilites.MEANS_POINTS,
+                                                       self.memory_of_objectives, self.memory_of_position_to_reach,
+                                                       False)
 
             if better_config_found:
                 real_configuration.x = optimal_configuration.x
@@ -701,7 +715,7 @@ class AgentCam(AgentInteractingWithRoom):
             self.info_message_received.del_message(rec_mes)
         elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET \
                 or rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
-            self.receive_message_track_loose_target(rec_mes)
+            #self.receive_message_track_loose_target(rec_mes)
             self.info_message_received.del_message(rec_mes)
 
     def send_message_DKF_info(self, target_id):
@@ -746,7 +760,6 @@ class AgentCam(AgentInteractingWithRoom):
 
     def receive_message_track_loose_target(self, message):
         self.log_target_tracked.info(message.to_string())
-
         if message.messageType == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET:
             self.table_all_target_number_times_seen.update_tracked(int(message.item_ref))
         elif message.messageType == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:

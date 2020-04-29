@@ -196,7 +196,7 @@ class TargetSortedTargetEstimator:
 
                 self.data_list[i].append(float(data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]]))
             except ValueError:
-                print("problème")
+                print("problème pas grave mais c'est bien que ça print pour pas oublier")
                 self.data_list[i].append(data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]])
 
     def __eq__(self, other):

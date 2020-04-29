@@ -8,9 +8,9 @@ In this file you have the possibility to modify the settings
 """
 
 """Options-----------------------------------------------------------------------------------------------------------"""
-SAVE_DATA = False
-GENERATE_PLOT = False
-LOAD_DATA = LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE
+SAVE_DATA = True
+GENERATE_PLOT = True
+LOAD_DATA = LoadData.CREATE_RANDOM_DATA
 
 USE_GUI = True
 USE_static_analysis = False
@@ -37,8 +37,8 @@ USE_TIMESTAMP_FOR_ASSIMILATION = True
 KALMAN_VAR_COEFFICIENT = 5
 
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
-ROOM_DIMENSION_X = 8  # [m]
-ROOM_DIMENSION_Y = 8  # [m]
+ROOM_DIMENSION_X = 30 # [m]
+ROOM_DIMENSION_Y = 10  # [m]
 
 
 """Number of data----------------------------------------------------------------------------------------------------"""
@@ -57,15 +57,15 @@ TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)
 """Agent"""
 TIME_BTW_HEARTBEAT = 3 / SCALE_TIME
 TIME_MAX_BTW_HEARTBEAT = 9 / SCALE_TIME
-TIME_BTW_AGENT_ESTIMATOR = 0.3 / SCALE_TIME
-TIME_BTW_TARGET_ESTIMATOR = .5 / SCALE_TIME
+TIME_BTW_AGENT_ESTIMATOR = 0.5 / SCALE_TIME
+TIME_BTW_TARGET_ESTIMATOR = 0.3 / SCALE_TIME
 "Agent-Cam"
 TIME_PICTURE = (1.5 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 TIME_SEND_READ_MESSAGE = (0.3 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 MAX_TIME_MESSAGE_IN_LIST = 3 / SCALE_TIME  # s
 TRESH_TIME_TO_SEND_MEMORY = 100 / SCALE_TIME  #
 "Agent-User"
-TIME_TO_SLOW_DOWN = 0.5 / SCALE_TIME
+TIME_TO_SLOW_DOWN = 0.2 / SCALE_TIME
 
 """Error on mesure---------------------------------------------------------------------------------------------------"""
 STD_MEASURMENT_ERROR_POSITION = 0.2
@@ -89,18 +89,18 @@ PREVIOUS_POSITIONS_USED = 3  # number of previous positions used to make the pre
 """Option for GUI----------------------------------------------------------------------------------------------------"""
 X_OFFSET = 180
 Y_OFFSET = 100
-X_SCALE = 60
-Y_SCALE = 60
+X_SCALE = 15
+Y_SCALE = 15
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 INIT_TARGET_LIST = AgentCameraInitializeTargetList.ALL_SEEN
 """If you want to set all the agent fixed set to false"""
 AGENTS_MOVING = True
-
+TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 3
 """
 Refers to what data agent should use to analyse the room 
 """
-AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Prediction_t_2
+AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Best_estimation
 AGENT_CHOICE_HOW_TO_FOLLOW_TARGET = ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG
 
 """
@@ -196,14 +196,14 @@ COMBINE_MODE_PROP = 0.99  # 1 = smooth mode 0 = hard mode (btw 0 and 1)
 """Random map creation-----------------------------------------------------------------------------------------------"""
 TARGET_NUMBER_SET_FIX = 0
 TARGET_NUMBER_UNKOWN = 5
-TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY = 25
+TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY = 3
 RANDOM_TARGET_RADIUS_BOUND = (0.1,0.3)
 RANDOM_TARGET_V_BOUND = (0.8,1.2)
 
 CAMERA_NUMBER_FIX = 0
 CAMERA_NUMBER_ROTATIVE = 0
 CAMERA_NUMBER_RAIL = 0
-CAMERA_NUMBER_FREE = 4
+CAMERA_NUMBER_FREE = 2
 
 RANDOM_CAMERA_BETA_BOUND = (math.radians(55),math.radians(65))
 RANDOM_CAMERA_DELTA_BETA_BOUND = (math.radians(20),math.radians(25))

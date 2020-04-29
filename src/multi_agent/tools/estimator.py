@@ -33,7 +33,6 @@ def is_in_list_TargetEstimator(list_TargetEstimator, targetEstimator):
             return True
     return False
 
-
 class ItemEstimator:
     """
            Class TargetEstimator.
@@ -138,6 +137,9 @@ class ItemEstimator:
                       'target_ax': self.item_acceleration[0], 'target_ay': self.item_acceleration[1]}
         return csv_format
 
+    def check_if_same_time(self,other):
+        return self.time_stamp == other.time_stamp
+
     def __eq__(self, other):
         cdt1 = self.time_stamp == other.time_stamp
         cdt2 = self.agent_id == other.agent_id
@@ -236,8 +238,9 @@ class TargetEstimator(ItemEstimator):
         s6 = "vx: %.02f  vy: %.02f" % (self.item_speeds[0], self.item_speeds[1]) + "\n"
         s7 = "ax: %.02f  ay: %.02f" % (self.item_acceleration[0], self.item_acceleration[1]) + "\n"
         s8 = "#Radius: " + str(self.target_radius) + "#alpha: " + str(self.alpha) + "\n"
+        s9 = "#Var_pos: " + str(self.variance_on_estimation) + " #priority :" + str(self.priority)+"\n"
 
-        return str("\n" + s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8)
+        return str("\n" + s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8 + s9)
 
     def parse_string(self, s):
         """
@@ -253,7 +256,7 @@ class TargetEstimator(ItemEstimator):
         s = s.replace(" ", "")
 
         attribute = re.split(
-            "#Timestamp#|#From#|#Sig_agent#|#Target_ID#|#Sig_target#|#Target_type#|x:|y:|vx:|vy:|ax:|ay:|#Radius:|#alpha:",
+            "#Timestamp#|#From#|#Sig_agent#|#Target_ID#|#Sig_target#|#Target_type#|x:|y:|vx:|vy:|ax:|ay:|#Radius:|#alpha:|#Var_pos:|#priority:",
             s)
 
         self.time_stamp = float(attribute[1])
@@ -267,6 +270,9 @@ class TargetEstimator(ItemEstimator):
         self.item_acceleration = [float(attribute[11]), float(attribute[12])]
         self.target_radius = float(attribute[13])
         self.alpha = float(attribute[14])
+        variance_tab = re.split(",",attribute[15][1:-1])
+        self.variance_on_estimation = (float(variance_tab[0]),float(variance_tab[1]))
+        self.priority = float(attribute[16])
 
     def to_csv(self):
         """

@@ -169,7 +169,7 @@ class App:
 
         """Agents start to run"""
         for agent in self.room.information_simulation.agentCams_list:
-           agent.run()
+            agent.run()
 
         for agent in self.room.information_simulation.agentUser_list:
            agent.run()
@@ -182,7 +182,7 @@ class App:
 
         self.log_app.info("Init done")
 
-    def clear(self):
+    def clear(self,reset=False):
 
         self.log_app.info("Clear ...")
 
@@ -192,15 +192,15 @@ class App:
 
         "Stopping each agent"
         for agent in self.room.information_simulation.agentCams_list:
-            agent.clear()
+            agent.clear(reset=reset)
         for agent in self.room.information_simulation.agentUser_list:
-            agent.clear()
+            agent.clear(reset=reset)
 
         "Clean mailbox"
         clean_mailbox()
 
         "Saving data"
-        if constants.SAVE_DATA:
+        if constants.SAVE_DATA and not reset:
             self.log_app.info("Saving data : generated")
             print("Saving data : generated")
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,self.exact_data_target.to_csv())
@@ -218,7 +218,7 @@ class App:
 
     def reset(self):
         self.log_app.info("Reset ...")
-        self.clear()
+        self.clear(reset=True)
         if constants.LoadData.CREATE_RANDOM_DATA_ONCE or constants.LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE:
             constants.LOAD_DATA = LoadData.FROM_TXT_FILE
             self.file_load = self.filename

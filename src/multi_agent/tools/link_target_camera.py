@@ -45,7 +45,7 @@ class LinkTargetCamera():
     def get_agent_in_charge(self, target_id):
         for targetAgentLink in self.link_camera_target:
             if targetAgentLink.target_id == target_id:
-                return targetAgentLink.agent_id
+                return targetAgentLink.agentDistance_list
         return -1
 
     def reset_agent_and_distance(self):
@@ -100,7 +100,6 @@ class LinkTargetCamera():
                     is_in_list = True
 
                     "Computing what agent has the best view for this target"
-                    (agent_id_dist_min, distance_min) = (-1, 100000)
                     for agent in self.room.agentCams_representation_list:
                         # TODO "calcul avec les prédictions au lieu des positions actuelles"
                             if not self.is_room_representation:
@@ -112,22 +111,17 @@ class LinkTargetCamera():
                             if isinstance(target.radius,float):
                                 cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(camera,target.xc, target.yc,target.radius)
                                 cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(self.room, camera.id, target.xc, target.yc)
-                                cdt_condifdence_high_enough = target.confidence_pos[1] > constants.CONFIDENCE_THRESHOLD
+                                cdt_condifdence_high_enough = target.confidence_pos[1] > constants.CONFIDENCE_THRESHOLD or target.confidence_pos == [-1,-1]
 
                                 "Check is the camera can see the target for a given room geometry"
-
                                 if cdt_in_field and cdt_not_hidden and camera.is_active and cdt_condifdence_high_enough:
                                     "Distance computation"
                                     distance_to_target = np.power(np.power((camera.xc - target.xc), 2)
                                                                   + np.power((camera.yc - target.yc), 2), 0.5)
 
-                                    if distance_to_target < distance_min:
-                                        (agent_id_dist_min, distance_min) = (agent.id, distance_to_target)
-                            else:
-                                pass
-                                #print(target.radius)
 
-                            targetAgentLink.set(agent_id_dist_min, distance_min)
+                                    targetAgentLink.set(agent.id, distance_to_target)
+
 
                 "If the target has no targetAgentLink, creation of a new object"
                 if not is_in_list:
@@ -140,8 +134,9 @@ class LinkTargetCamera():
                 2.  return True if the given agent is in charge for the given target.
         """
         for targetAgentLink in self.link_camera_target:
-            if targetAgentLink.target_id == target_id and targetAgentLink.agent_id == agent_id:
-                return True
+            for elem in targetAgentLink.agentDistance_list:
+                if targetAgentLink.target_id == target_id and elem.agent_id == agent_id:
+                    return True
         return False
 
 
@@ -168,8 +163,8 @@ class TargetAgentLink():
 
     def __init__(self, target_id):
         self.target_id = target_id
-        self.agent_id = -1
-        self.distance = 10000000000
+        self.agentDistance_list = []
+        self.number_agent_max = constants.TARGET_NUMBER_OF_AGENT_SHOULD_TRACK
         self.is_lock = False
 
     def reset(self):
@@ -178,8 +173,7 @@ class TargetAgentLink():
                 set to default values, if unlock
         """
         if not self.is_lock:
-            self.agent_id = -1
-            self.distance = 10000000000
+            self.agentDistance_list = []
 
     def set(self, agent_id, distance):
         """
@@ -191,8 +185,26 @@ class TargetAgentLink():
                 2. (int) agent_id  -- to identify the agents
         """
         if not self.is_lock:
-            self.agent_id = agent_id
-            self.distance = distance
+            is_in_list = False
+            for elem in self.agentDistance_list:
+                is_in_list =  elem.agent_id == agent_id
+                if is_in_list:
+                    elem.distance = distance
+                    list.sort(self.agentDistance_list)
+                    break
+
+            if not is_in_list:
+                if len(self.agentDistance_list) < self.number_agent_max:
+                    self.agentDistance_list.append(AgentDistance(agent_id, distance))
+                    list.sort(self.agentDistance_list)
+
+                elif len(self.agentDistance_list) >= self.number_agent_max and self.agentDistance_list[-1].distance > distance:
+                        target_to_remove = self.agentDistance_list[-1]
+                        self.agentDistance_list.remove(target_to_remove)
+                        self.agentDistance_list.append(AgentDistance(agent_id, distance))
+                        list.sort(self.agentDistance_list)
+
+
 
     def lock(self):
         """
@@ -213,4 +225,19 @@ class TargetAgentLink():
             :description
                 string description
         """
-        return "target " + str(self.target_id) + "linked to " + str(self.agent_id) + ", locked = " + str(self.is_lock)
+        return "target " + str(self.target_id) + "linked to " + str(self.agentDistance_list) + ", locked = " + str(self.is_lock)
+
+
+class AgentDistance:
+    def __init__(self,agent_id,distance):
+        self.agent_id = agent_id
+        self.distance = distance
+
+    def __eq__(self, other):
+        return self.distance == other.distance
+
+    def __lt__(self, other):
+        return self.distance < other.distance
+
+    def __gt__(self, other):
+        return self.distance > other.distance
