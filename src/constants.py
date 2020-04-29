@@ -8,9 +8,11 @@ In this file you have the possibility to modify the settings
 """
 
 """Options-----------------------------------------------------------------------------------------------------------"""
-SAVE_DATA = True
-GENERATE_PLOT = True
-LOAD_DATA = LoadData.CREATE_RANDOM_DATA
+
+SAVE_DATA = False
+GENERATE_PLOT = False
+LOAD_DATA = LoadData.FROM_TXT_FILE
+
 
 USE_GUI = True
 USE_static_analysis = False
@@ -157,13 +159,13 @@ DELTA_TIME_CHANGE_POSITION_RANDOM_MOVEMENT = 3
 DELTA_POS_CHANGE_POSITION_RANDOM_MOVEMENT = 0.3
 
 # used when two agents are too close
-TIME_STOP_INIT_BEHAVIOUR = 1
+TIME_STOP_INIT_BEHAVIOUR = 3
 
 """
 Margins for initiating swipe when two agents are too close
 """
 MIN_DISTANCE_AGENTS = 1.5
-MIN_ANGLE_DIFF_AGENTS = 0.2
+MIN_ANGLE_DIFF_AGENTS = 0.4
 """Target_representation--------------------------------------------------------------------------------------------"""
 CONFIDENCE_MAX_VALUE = 100
 CONFIDENCE_MIN_VALUE = 0

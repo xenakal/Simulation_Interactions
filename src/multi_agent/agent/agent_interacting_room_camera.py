@@ -238,32 +238,9 @@ class AgentCam(AgentInteractingWithRoom):
                     nextstate = AgentCameraFSM.BUG
                 else:
                     if constants.AGENTS_MOVING:
-                        nextstate = AgentCameraFSM.MOVE_CAMERA
-                    else:
                         nextstate = AgentCameraFSM.COMMUNICATION
                 self.log_execution.debug("Loop %d : processData state completed after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
-
-            elif state == AgentCameraFSM.MOVE_CAMERA:
-                if last_time_move is not None:
-
-                    # find a configuration for the agent
-                    # config = self.find_configuration_for_tracked_targets()
-                    config = self.configuration_algorithm_choice(constants.AGENT_CHOICE_HOW_TO_FOLLOW_TARGET)
-
-                    # move agent according to configuration found
-                    last_time_move = self.move_based_on_config(config, last_time_move)
-
-                else:
-                    last_time_move = constants.get_time()
-
-                """Create a new memory to save the """
-                self.memory.add_create_agent_estimator_from_agent(constants.get_time(), self, self)
-
-                if not self.camera.is_active or not self.is_active:
-                    nextstate = AgentCameraFSM.BUG
-                else:
-                    nextstate = AgentCameraFSM.COMMUNICATION
 
             elif state == AgentCameraFSM.COMMUNICATION:
                 self.log_execution.debug("Loop %d : at communication state after : %.02f s" % (
@@ -295,7 +272,10 @@ class AgentCam(AgentInteractingWithRoom):
                 if not self.is_active:
                     nextstate = AgentCameraFSM.BUG
                 else:
-                    nextstate = AgentCameraFSM.TAKE_PICTURE
+                    if constants.AGENTS_MOVING:
+                        nextstate = AgentCameraFSM.MOVE_CAMERA
+                    else:
+                        nextstate = AgentCameraFSM.TAKE_PICTURE
 
                 self.log_execution.debug("Loop %d :communication state  executed after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
@@ -303,6 +283,27 @@ class AgentCam(AgentInteractingWithRoom):
                     constants.get_time(), execution_loop_number, constants.get_time() - execution_time_start))
                 execution_loop_number += 1
                 execution_mean_time += constants.get_time() - execution_time_start
+
+            elif state == AgentCameraFSM.MOVE_CAMERA:
+                if last_time_move is not None:
+
+                    # find a configuration for the agent
+                    # config = self.find_configuration_for_tracked_targets()
+                    config = self.configuration_algorithm_choice(constants.AGENT_CHOICE_HOW_TO_FOLLOW_TARGET)
+
+                    # move agent according to configuration found
+                    last_time_move = self.move_based_on_config(config, last_time_move)
+
+                else:
+                    last_time_move = constants.get_time()
+
+                """Create a new memory to save the """
+                self.memory.add_create_agent_estimator_from_agent(constants.get_time(), self, self)
+
+                if not self.camera.is_active or not self.is_active:
+                    nextstate = AgentCameraFSM.BUG
+                else:
+                    nextstate = AgentCameraFSM.TAKE_PICTURE
 
             elif state == AgentCameraFSM.BUG:
                 time.sleep(3)
