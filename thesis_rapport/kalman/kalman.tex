@@ -1,0 +1,38 @@
+\newpage
+\section{State estimation from noisy measurments}
+\label{Noise_removal}
+
+Assuming the measurements collected from the sensors of the agents are noisy, the noise removal strategy has to be considered. We chose to implement the well established Kalman Filter.
+% TODO: décrir d'autres possibilités que le KF et expliquer pourquoi on a choisi KF. 
+At first, a local Kalman filter was implemented: each agent estimates the position of the targets he tracks using only the information he has collected. Then, as the agent belongs to a network of agents where several of them possibly track common targets, information is exchanged between the agents in order to improve the estimates. In that sense, a Distributed Kalman Filter was implemented. 
+
+\subsection{Local Kalman Filter}
+
+As previously stated, each agent starts by implementing a Kalman Filter on the data he has collected from his sensors. A different filter is created for each one of the tracked targets. Thus, it is assumed that each target can be correctly identified and distinguished from the others.% TODO: expliquer si c'est raisonable (ou bien expliquer ca à la subsection en dessous).
+
+Lets begin with a brief remainder of the Kalman Filter statement, assuming the reader is already familiar with it. 
+We consider a system represented by a state vector $ \boldsymbol{x}(t)$ at time $t$. It's dynamics are represented by the transition equation
+\begin{equation} 
+\boldsymbol{x}(t) = \boldsymbol{F}(t)\boldsymbol{x}(t-\tau) + \boldsymbol{G}(t)\boldsymbol{w}(t),
+\end{equation}
+where $\boldsymbol{F}(t)$ is the transition matrix of the model, $\boldsymbol{G}(t)$ is the noise model and $\boldsymbol{w}(t)$ is the process noise. $\tau$ is the time at which the last measurement was taken (ie. the measurement before time $t$). Furthermore, the agent tracking the target takes observations $\boldsymbol{z}(t)$ according to the equation
+\begin{equation} 
+\boldsymbol{z}(t) = \boldsymbol{H}(t)\boldsymbol{x}(t) + \boldsymbol{v}(t),
+\end{equation}
+where $\boldsymbol{H}(t)$ is the observation model and $\boldsymbol{v}(t)$ is the observation noise.
+It is assumed that $ \mathbb{E}[\boldsymbol{w}(t)] = \mathbb{E}[\boldsymbol{v}(t)] = 0 $, where $\mathbb{E}$ is the expectation symbol.
+
+In our case, $ \boldsymbol{x}(t) = [x\; y\; v_x\; v_y]^T$
+
+We begin by noting that in the case of tracking, the position and velocity of the tracked targets have to be estimated in a two-dimensional plane. The targets are assumed to move with constant speed and their acceleration is assumed to be negligible. This type of movement can 
+
+
+
+\subsection{Distributed Kalman Filer}
+
+First idea: exchange all info and make a centralized KF.
+Then, used Rao's paper for DKF. Mathematically equivalent and less messages exchanged. And done asynchronously. 
+
+\subsection{Discussion on assumptions made}
+% MUR
+% 1 filter by target: assumes we can differentiate the targets
