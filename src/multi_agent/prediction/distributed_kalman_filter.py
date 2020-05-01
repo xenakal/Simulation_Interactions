@@ -8,6 +8,7 @@ import warnings
 
 DEFAULT_TIME_INCREMENT = TIME_PICTURE + TIME_SEND_READ_MESSAGE
 INTERNODAL_VALIDATION_BOUND = 2
+GAMA = 10
 
 
 class DistributedKalmanFilter(KalmanFilter):
@@ -42,12 +43,12 @@ class DistributedKalmanFilter(KalmanFilter):
                                  [0., 1., 0., dt_arg],
                                  [0., 0., 1., 0.],
                                  [0., 0., 0., 1.]])
+
             self.model_F = default_F  # default if nothing is given
         else:
             self.model_F = model_F  # function to get the transition matrix ( use: F = self.model_F(dt) )
 
         # creation of log file
-        #self.logger_kalman = log.create_logger(constants.ResultsPath.LOG_KALMAN, "kalman_info_" + str(target_id), agent_id)
         self.logger_kalman = logger
         self.logger_kalman.info("new distributed kalman at time %.02f s" % constants.get_time())
 
@@ -70,6 +71,14 @@ class DistributedKalmanFilter(KalmanFilter):
             self.prev_ti = self.curr_ti
             self.curr_ti = timestamp
             self.dt = timestamp - self.curr_ti
+
+        # data validation
+        v = z - dot(self.H, self.x_prior)
+        S = self.R + dot(self.H, dot(self.P_prior, self.H.T))
+        validation_region = dot(v.T, dot(self.inv(S), v))
+        if validation_region >= GAMA:
+            print(validation_region)
+            return
 
         # set to None to force recompute
         self._log_likelihood = None
@@ -140,11 +149,11 @@ class DistributedKalmanFilter(KalmanFilter):
 
         delta_t = tj - self.prev_ti  # δt = tj - τi ≃ ti - τi
 
-        ## Pj_prior: PI(tj|τi) = F(δt)*P(τi|τi)FT(δt) + Q
+        # Pj_prior: PI(tj|τi) = F(δt)*P(τi|τi)FT(δt) + Q
         Pj_prior = dot(dot(self.model_F(delta_t), self.P_post), self.model_F(delta_t).T) + self.Q
         PIj_prior = self.inv(Pj_prior)
 
-        ## xj_prior: x(tj|τi) = F(δt)x(τi|τi)
+        # xj_prior: x(tj|τi) = F(δt)x(τi|τi)
         xj_prior = dot(self.model_F(delta_t), self.x_post)
 
         # Internodal Validation
@@ -230,7 +239,7 @@ def npString_to_array(string):
 
 def state_error_info_string_to_array(row):
     row = row.split(" ")
-    ret_arr = np.empty(4,)
+    ret_arr = np.empty(4, )
     index = 0
     for elem in row:
         if elem not in ["", "[", " "]:
@@ -280,4 +289,3 @@ def parse_errors_info_string(string):
         import sys
         print(sys.exc_info())
         exit(1)
-
