@@ -108,7 +108,7 @@ Refers to what data should be exchanged between agent
 - "none" = agent do not exchange messages about targets
 - "dkf" = message exchange only message for distributed kalman
 """
-DATA_TO_SEND = "none"
+DATA_TO_SEND = "dkf"
 
 """
 Refers to the type of controller we use to bring the target to reference point
@@ -169,7 +169,7 @@ CONFIDENCE_MAX_VALUE = 100
 CONFIDENCE_MIN_VALUE = 0
 CONFIDENCE_TIME_TO_REACH_MIN_VALUE = 5
 CONFIDENCE_THRESHOLD = 50
-CONFIDENCE_FUNCTION_CHOICE  = ConfidenceFunction.LINEAR_DECAY
+CONFIDENCE_FUNCTION_CHOICE = ConfidenceFunction.LINEAR_DECAY
 
 
 """Potential Field Camera--------------------------------------------------------------------------------------------"""

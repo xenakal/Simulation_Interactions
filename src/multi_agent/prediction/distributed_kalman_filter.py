@@ -57,7 +57,6 @@ class DistributedKalmanFilter(KalmanFilter):
         self.PI_prior = self.PI.copy()
 
     def update(self, z, R=None, H=None, timestamp=-1):
-
         if timestamp == -1:
             warnings.warn("timestamp not specified: default time increment will be used")
 
