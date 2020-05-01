@@ -1,6 +1,7 @@
 from src.multi_agent.tools.estimator import *
 from src.multi_agent.prediction.kalmanPrediction import KalmanPrediction
 from src.my_utils.my_IO.IO_data import *
+import numpy as np
 
 
 class CombineDataChoice:
@@ -184,13 +185,25 @@ class Memory:
 
     def combine_data_userCam(self, choice=1):
         if choice == 1:
+            best_estimator = (-1,1000000000,10000000)
+            target_id_list = []
             for (agent_id, target_id) in self.memory_all_agent_from_target.Agent_item_already_discovered_list:
-                for estimateur in self.memory_all_agent_from_target.get_Agent_item_list(target_id, agent_id):
-                    if not is_in_list_TargetEstimator(self.memory_measured_from_target.get_item_list(target_id),
-                                                      estimateur):
-                        self.log_memory.info(
-                            "Combine data, from agent : " + str(agent_id) + " - target " + str(target_id))
-                        self.memory_measured_from_target.add_itemEstimator(estimateur)
+                if target_id not in target_id_list:
+
+                    target_id_list.append(target_id)
+                    for (agent_id_to_check, target_id_to_check) in self.memory_all_agent_from_target.Agent_item_already_discovered_list:
+                        if target_id == target_id_to_check:
+                            estimator = self.memory_all_agent_from_target.get_Agent_item_list(target_id, agent_id)[-1]
+                            norm_variance = np.sqrt(np.square(estimator.variance_on_estimation[0]) + np.square(estimator.variance_on_estimation[1]))
+                            delta_t  = constants.get_time() - estimator.time_stamp
+                            if (not isinstance(best_estimator[0],TargetEstimator ) or norm_variance < best_estimator[1]) and delta_t < best_estimator[2]:
+                                best_estimator = (estimator,norm_variance,delta_t)
+
+
+                    if isinstance(best_estimator[0],TargetEstimator ) and not is_in_list_TargetEstimator(self.memory_measured_from_target.get_item_list(target_id),best_estimator[0]):
+                        #self.log_memory.info("Combine data, from agent : " + str(agent_id) + " - target " + str(target_id))
+                         self.memory_measured_from_target.add_itemEstimator(best_estimator[0])
+
 
     def get_previous_positions(self, targetID):
         return self.memory_measured_from_target.get_item_list(targetID)
