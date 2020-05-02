@@ -63,6 +63,7 @@ class KalmanPrediction:
         pivot_detected = False
         # a pivot is defined as a change of direction (in our case equivalent to change in speed in either axis)
         if self.pivot_point_detected_speed():
+            # print("pivot: ", self.agent_id, constants.get_time())
             # filter reset to "forget" the previous information
             self.reset_filter(*z)
             # memory reset as well
