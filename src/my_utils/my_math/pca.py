@@ -8,7 +8,7 @@ from sklearn.decomposition import PCA
 
 
 n_data = 1
-target = [(0,0),(10,0),(5,10)]
+target = [(0,0),(10,0),(10,10),(0,10)]
 #target = [(4,3)]
 sample = []
 all_x  =[]

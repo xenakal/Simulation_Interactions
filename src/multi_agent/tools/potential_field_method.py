@@ -67,6 +67,12 @@ class HeatMaps:
                 (x,-y,0,1,1,1,0.5,PotentialType.Camera_potential_steps),
                 (x+2, 0, 0, 1, 1, 1, 0.5, PotentialType.Camera_potential_steps)]
 
+    def HEAT_MAP_TWO_TARGET_OVERLAP(field_depth, beta):
+        x = constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth * math.cos(beta / 4)
+        y = 1.5 * constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth * math.sin(beta / 4)
+        return [(x, y, 0, 1, 2, 1, 2.5, PotentialType.Camera_potential_quadratic),
+                (x, -y, 0, 1, 2, 1, 2.5, PotentialType.Camera_potential_quadratic)]
+
 
 def rotate_vector_field_angle(angle, X, Y):
     norm = np.float_power(np.square(X) + np.square(Y), 0.5)
@@ -427,17 +433,21 @@ def compute_potential_field_cam(X, Y, n_target, beta, field_depth):
     elif n_target >= 2:
         heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_CENTER(field_depth,beta)
         heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_FAR(field_depth,beta,-1)
+        heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_OVERLAP(field_depth, beta)
         #heat_map = HeatMaps.HEAT_MAP_THREE_TARGET(field_depth,beta)
 
 
     for heat_point in heat_map:
         x, y,angle,var_x,var_y, xi,rho,potential_type = heat_point
         X, Y = rotate_map_from_angle_alpha(math.radians(angle), X_potential_field, Y_potential_field, x, y)
-        potential_field += compute_part_of_potential_field(field_type=potential_type,
+
+        potential_basis = compute_part_of_potential_field(field_type=potential_type,
                                                            shape=PotentialShape.Circular,
                                                            X=X, mean_x=0, var_x=var_x,
                                                            Y=Y, mean_y=0, var_y=var_y,
                                                            xi=xi, rho_0=rho)
+        #potential_field += potential_basis
+        potential_field = np.maximum(potential_field,potential_basis)
 
     potential_field = np.where(camera_shape > 0, potential_field, 0)
     potential_field = np.where(camera_shape < field_depth, potential_field, 0)
@@ -477,51 +487,87 @@ def plot_potential_field(Xp, Yp, potential_field):
 
     plt.show()
 
-def plot_potential_field_and_grad(Xp, Yp, Xf, Yf, potential_field, force_x, force_y):
+def plot_potential_field_and_grad(Xp, Yp, Xf, Yf, potential_field, force_x, force_y,objectives_list,obstacle_list):
     # Plot the surface.
-    fig = plt.figure(figsize=(18, 8))
-    fig.suptitle('representation of the potential field', fontsize=17, fontweight='bold', y=0.98)
-    fig.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
-    ax1 = fig.add_subplot(1, 2, 1, projection='3d')
+    fig = plt.figure(figsize=(15, 10))
 
-    ax2 = fig.add_subplot(1, 2, 2)
+    ax0 = fig.add_subplot(2, 3, 1)
+    ax2 = fig.add_subplot(2, 3, 4)
+    ax1 = fig.add_subplot(2, 3, (2,6), projection='3d')
 
-    potential_field = np.minimum(20000, potential_field)
+
+    x = []
+    y = []
+    for target in objectives_list:
+       (x_o,y_o,r) = target
+       x.append(x_o)
+       y.append(y_o)
+    ax0.scatter(x,y,color="green")
+
+    x = []
+    y = []
+    for target in obstacle_list:
+       (x_o, y_o, r) = target
+       x.append(x_o)
+       y.append(y_o)
+    ax0.scatter(x, y, color="red")
+    ax0.set_xbound([0, 8])
+    ax0.set_ybound([0, 8])
+    ax0.grid("on")
+    ax0.set_xlabel("x [m]",fontsize = 12)
+    ax0.set_ylabel("y [m]",fontsize = 12)
+    ax0.set_title("Objectives and obstacles positions",fontsize=17, fontweight='bold')
+    ax0.legend(["Objectives","Obstacles"])
+
+    potential_field = np.minimum(10000, potential_field)
     surf = ax1.plot_surface(Xp, Yp, potential_field, cmap="hot",
                             linewidth=0, antialiased=False)
 
-    M = np.arctan2(force_x, force_y)
+    ax1.set_xlabel("x [m]",fontsize = 12)
+    ax1.set_ylabel("y [m]",fontsize = 12)
+    ax1.set_zlabel("Potential value [-]",fontsize=12)
+    ax1.set_title("Potential graphical representation", fontsize=17, fontweight='bold')
 
-    ax2.quiver(Xf, Yf, force_x, force_y, M, units='x', width=0.05, cmap="hsv")
+    M = np.arctan2(force_x, force_y)
+    ax2.quiver(Xf, Yf, force_x, force_y, M,scale_units ="x", cmap="hsv")
     # ax2.scatter(Xf[::3, ::3], Yf[::3, ::3], color='b', s=2)
 
-    ax2.axis('equal')
-    plt.show()
+    ax2.set_xbound([0,8])
+    ax2.set_ybound([0,8])
+    ax2.grid("on")
+    ax2.set_xlabel("x [m]", fontsize=12)
+    ax2.set_ylabel("y [m]", fontsize=12)
+    ax2.set_title("Forces deriving from the potential", fontsize=17, fontweight='bold')
 
+
+
+    plt.savefig("tools_graphs/test.png")
 
 if __name__ == '__main__':
     """Small exemple to what you can get"""
 
     '''
     # target_list = [(1, 1, .1), (1, 7, .1), (7, 1, .1),(7,7,0.1)]
-    target_list = [(3, 4, .3 / 2), (4, 5, .3 / 2), (4, 0, .3 / 2)]
-    target_list = []
-    target_list = [(4, 4, .3 * 6), (8, 4, .3 * 6)]
-    objectives_list = [(4, 4, 1)]
+    target_list = [(3, 7, .3), (6, 2,.3)]
+    #target_list = []
+    #target_list = [(4, 4, .3 * 6), (8, 4, .3 * 6)]
+    #objectives_list = [(4, 4, 1)]
+    objectives_list = []
     X = np.arange(0, 8, 0.01)
     Y = np.arange(0, 8, 0.01)
     X_potential_field, Y_potential_field = np.meshgrid(X, Y)
-    X = np.arange(0, 8, 0.5)
-    Y = np.arange(0, 8, 0.5)
+    X = np.arange(0, 8, 0.1)
+    Y = np.arange(0, 8, 0.1)
     X_vector_field, Y_vector_field = np.meshgrid(X, Y)
     potential_field, force_x, force_y = compute_potential_and_potential_gradient(X_potential_field, Y_potential_field,
                                                                                  X_vector_field, Y_vector_field,
                                                                                  objectives_list, target_list)
     plot_potential_field_and_grad(X_potential_field, Y_potential_field, X_vector_field, Y_vector_field, potential_field, force_x,
-                        force_y)
-    '''
+                        force_y,objectives_list,target_list)
 
+    '''
     X = np.arange(0, 8, 0.01)
     Y = np.arange(-4,4, 0.01)
     X,Y,Z = compute_potential_field_cam(X,Y,3,math.radians(60),8)
     plot_potential_field(X,Y,Z)
+    plt.show()

@@ -25,10 +25,10 @@ class GUI:
         self.w_window = 800
         self.h_window = 600
 
-        x_offset = app.X_OFFSET
-        y_offset = app.Y_OFFSET
-        scale_x = app.X_SCALE
-        scale_y = app.Y_SCALE
+        x_offset = constants.X_OFFSET
+        y_offset = constants.Y_OFFSET
+        scale_x = constants.X_SCALE
+        scale_y = constants.Y_SCALE
 
         self.screen = pygame.display.set_mode((self.w_window, self.h_window), pygame.RESIZABLE)
 

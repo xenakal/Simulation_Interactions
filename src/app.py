@@ -92,8 +92,7 @@ class App:
         self.targets_moving_thread = None
 
         self.init()
-        if USE_GUI:
-            self.myGUI = GUI()
+
 
     def init(self):
         """"""
@@ -112,28 +111,30 @@ class App:
         """Create a new room and load it from it representation in .txt file"""
         self.room = Room()
         if constants.LOAD_DATA == LoadData.FROM_TXT_FILE:
-            load_room_from_txt(self.file_load + ".txt", self.room)
+            load_room_target_camera_from_txt(self.file_load + ".txt", self.room)
 
         elif constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET or constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE:
+            load_room_from_txt(self.file_load+".txt",self.room)
             load_camera_from_txt(self.file_load+".txt",self.room)
             self.room.information_simulation.generate_n_m_unkown_set_fix_target(constants.TARGET_NUMBER_UNKOWN,
                                                                                 constants.TARGET_NUMBER_SET_FIX)
-            save_room_to_txt(self.filename + ".txt", self.room)
+            save_room_target_camera_to_txt(self.filename + ".txt", self.room)
 
 
         elif constants.LOAD_DATA == LoadData.TARGET_FROM_TXT_CREATE_RANDOM_CAMERA:
+            load_room_from_txt(self.file_load + ".txt", self.room)
             load_target_from_txt(self.file_load + ".txt", self.room)
             self.room.information_simulation.generate_n_m_p_k_fix_rotative_rail_free_camera(constants.CAMERA_NUMBER_FIX,
                                                                                             constants.CAMERA_NUMBER_ROTATIVE,
                                                                                             constants.CAMERA_NUMBER_RAIL,
                                                                                             constants.CAMERA_NUMBER_FREE)
-            save_room_to_txt(self.filename + ".txt", self.room)
+            save_room_target_camera_to_txt(self.filename + ".txt", self.room)
 
         elif constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA or constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA_ONCE:
             self.room.information_simulation.generate_n_m_unkown_set_fix_target(constants.TARGET_NUMBER_UNKOWN,constants.TARGET_NUMBER_SET_FIX)
             self.room.information_simulation.generate_n_m_p_k_fix_rotative_rail_free_camera(constants.CAMERA_NUMBER_FIX,constants.CAMERA_NUMBER_ROTATIVE,
                                                                                             constants.CAMERA_NUMBER_RAIL,constants.CAMERA_NUMBER_FREE)
-            save_room_to_txt(self.filename + ".txt", self.room)
+            save_room_target_camera_to_txt(self.filename + ".txt", self.room)
 
         shutil.copy(constants.MapPath.MAIN_FOLDER + self.filename+".txt", constants.ResultsPath.MAIN_FOLDER)
 
@@ -151,6 +152,9 @@ class App:
         self.room.add_del_target_timed()
         self.room.des_activate_agentCam_timed()
         self.room.des_activate_camera_agentCam_timed()
+
+        if USE_GUI:
+            self.myGUI = GUI()
 
         """Creating tools to analyse the situation based on the created data  => it means the best solution we could have"""
         self.static_region = MapRegionStatic(self.room)

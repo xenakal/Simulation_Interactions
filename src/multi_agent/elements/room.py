@@ -1,3 +1,4 @@
+import re
 import time
 
 import numpy as np
@@ -229,6 +230,28 @@ class RoomRepresentation:
             g = random.randrange(20, 230, 1)
             b = random.randrange(20, 255, 1)
             self.color = (r, g, b)
+
+    def save_to_txt(self):
+        s = "dim_in_x: %0.2f dim_in_y: %0.2f"%(self.coordinate_room[2],self.coordinate_room[3])
+        s1 = " x_offset:%0.2f y_offset:%0.2f scale_x:%0.2f scale_y:%0.2f"%(constants.X_OFFSET,constants.Y_OFFSET,constants.X_SCALE,constants.Y_SCALE)
+
+        return s + s1 + "\n"
+
+    def load_from_txt(self,s):
+        s = s.replace("\n", "")
+        s = s.replace(" ", "")
+        attribute = re.split("dim_in_x:|dim_in_y:|x_offset:|y_offset:|scale_x:|scale_y:",s)
+        self.coordinate_room = np.array([0, 0, float(attribute[1]),float(attribute[2])])
+        constants.ROOM_DIMENSION_X = int(float(attribute[1]))
+        constants.ROOM_DIMENSION_Y = int(float(attribute[2]))
+        print(constants.ROOM_DIMENSION_X)
+        print(constants.ROOM_DIMENSION_Y)
+        constants.X_OFFSET = int(float(attribute[3]))
+        constants.Y_OFFSET = int(float(attribute[4]))
+        constants.X_SCALE = int(float(attribute[5]))
+        constants.Y_SCALE = int(float(attribute[6]))
+        print(constants.X_SCALE)
+        print(constants.Y_SCALE)
 
     def init_RoomRepresentation(self, room):
         """

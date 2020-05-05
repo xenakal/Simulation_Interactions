@@ -19,15 +19,21 @@ def save_agent_cam(fichier, room):
         fichier.write("camera: " + agent.camera.save_target_to_txt()[:-1] + " agent: " + agent.save_agent_to_txt())
 
 
-def save_room_to_txt(filename, room):
+def save_room_target_camera_to_txt(filename, room):
     fichier = open(constants.MapPath.MAIN_FOLDER + filename, "w")
     fichier.write("New Map, but you can change the name \n \n")
     fichier.write("This file is the representation to initialise a room description \n")
     fichier.write("__________________________________________________________________ \n\n")
     fichier.write("!! You can modify the file, but pay attention to spaces and sign such as , -  !! \n")
     fichier.write("\n")
+    fichier.write("room: " + room.save_to_txt())
     save_target_txt(fichier, room)
     save_agent_cam(fichier, room)
+
+
+def load_room_txt(s, room):
+    attribute = re.split("room:", s)
+    room.load_from_txt(attribute[1])
 
 
 def load_target_txt(s, room):
@@ -41,7 +47,7 @@ def load_agentCam_txt(s, room):
     s = s.replace(" ", "")
     camera_agent = re.split("camera:|agent:", s)
 
-    camera = MobileCamera(-1, -1, -1, -1, -1,[],-1)
+    camera = MobileCamera(-1, -1, -1, -1, -1, [], -1)
     camera.load_from_txt(camera_agent[1])
     agent = src.multi_agent.agent.agent_interacting_room_camera.AgentCam(camera)
 
@@ -62,6 +68,7 @@ def load_camera_from_txt(filename, room):
             if "camera:" in line:
                 load_agentCam_txt(line, room)
 
+
 def load_target_from_txt(filename, room):
     fichier = open(constants.MapPath.MAIN_FOLDER + filename, "r")
     lines = fichier.readlines()
@@ -74,10 +81,25 @@ def load_target_from_txt(filename, room):
             if "target:" in line:
                 load_target_txt(line[8:], room)
 
-def load_room_from_txt(filename, room):
+def load_room_from_txt(filename,room):
     fichier = open(constants.MapPath.MAIN_FOLDER + filename, "r")
     lines = fichier.readlines()
     fichier.close()
+
+    for line in lines:
+        if line[0] == "#":
+            pass
+        else:
+            if "room:" in line:
+               load_room_txt(line,room)
+
+
+def load_room_target_camera_from_txt(filename, room):
+    fichier = open(constants.MapPath.MAIN_FOLDER + filename, "r")
+    lines = fichier.readlines()
+    fichier.close()
+
+
 
     for line in lines:
         if line[0] == "#":
@@ -87,3 +109,5 @@ def load_room_from_txt(filename, room):
                 load_target_txt(line[8:], room)
             if "camera:" in line:
                 load_agentCam_txt(line, room)
+            if "room:" in line:
+                load_room_txt(line, room)

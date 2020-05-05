@@ -1,4 +1,4 @@
-from src.my_utils.my_IO.IO_map import save_room_to_txt
+from src.my_utils.my_IO.IO_map import save_room_target_camera_to_txt
 from src.my_utils.GUI.button import ButtonList
 from src.my_utils.GUI.GUI_simulation.GUI_memories import GUI_memories
 from src.my_utils.GUI.GUI_simulation.GUI_room_representation import GUI_room_representation
@@ -52,7 +52,7 @@ class GUI_simulation:
             self.GUI_memories.draw_mesure_and_receiveMessages(room)
 
         if self.button_simulation_4.find_button_state("save to txt"):
-            save_room_to_txt("Current_map.txt",room)
+            save_room_target_camera_to_txt("Current_map.txt", room)
             self.button_simulation_4.find_button("save to txt").set_button(False)
 
         self.GUI_room.draw_all_target(room.active_Target_list, room.coordinate_room)

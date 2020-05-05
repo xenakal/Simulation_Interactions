@@ -10,7 +10,7 @@ In this file you have the possibility to modify the settings
 """Options-----------------------------------------------------------------------------------------------------------"""
 
 SAVE_DATA = False
-GENERATE_PLOT = False
+GENERATE_PLOT =False
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
 
@@ -193,7 +193,7 @@ COEFF_VAR_X = 100
 COEFF_VAR_Y = 10
 
 """Combine is a ration beetwen hard and smooth mode"""
-COMBINE_MODE_PROP = 0.99  # 1 = smooth mode 0 = hard mode (btw 0 and 1)
+COMBINE_MODE_PROP = 0.99 # 1 = smooth mode 0 = hard mode (btw 0 and 1)
 
 """Random map creation-----------------------------------------------------------------------------------------------"""
 TARGET_NUMBER_SET_FIX = 0

@@ -237,12 +237,12 @@ class GUI_create_map:
             self.button_create_map_1.find_button(Button_name.MAIN_CLEAN).set_button(False)
 
         elif self.button_create_map_1.find_button_state(Button_name.MAIN_SAVE):
-            save_room_to_txt("Created_map.txt", self.new_room)
+            save_room_target_camera_to_txt("Created_map.txt", self.new_room)
             self.button_create_map_1.find_button(Button_name.MAIN_SAVE).set_button(False)
 
         elif self.button_create_map_1.find_button_state(Button_name.MAIN_LOAD):
             self.new_room = Room()
-            load_room_from_txt("Created_map.txt", self.new_room)
+            load_room_target_camera_from_txt("Created_map.txt", self.new_room)
             self.button_create_map_1.find_button(Button_name.MAIN_LOAD).set_button(False)
 
     def check_plus_or_minus_button(self, button, button_name_list, value_to_change, change, max=1000, min=0):
