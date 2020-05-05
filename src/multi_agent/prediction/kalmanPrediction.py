@@ -63,6 +63,7 @@ class KalmanPrediction:
         pivot_detected = False
         # a pivot is defined as a change of direction (in our case equivalent to change in speed in either axis)
         if self.pivot_point_detected_speed():
+            # print("pivot: ", self.agent_id, constants.get_time())
             # filter reset to "forget" the previous information
             self.reset_filter(*z)
             # memory reset as well
@@ -74,10 +75,7 @@ class KalmanPrediction:
         F = self.filter_model.model_F(dt)
         self.filter.predict(F=F)
 
-        if constants.DISTRIBUTED_KALMAN:
-            self.filter.update(np.array(z[:KALMAN_MODEL_MEASUREMENT_DIM]), timestamp=timestamp)
-        else:
-            self.filter.update(np.array(z[:KALMAN_MODEL_MEASUREMENT_DIM]))
+        self.filter.update(np.array(z[:KALMAN_MODEL_MEASUREMENT_DIM]), timestamp=timestamp)
 
         return pivot_detected
 
@@ -89,21 +87,7 @@ class KalmanPrediction:
         :return:
             True if a pivot point is detected, False otherwise.
         """
-
-
-        """
-        n = 5
-        list_to_check = self.kalman_memory
-        list_len = len(list_to_check)
-
-        if n <= list_len:
-           
-            if vx_std > 1.2*constants.STD_MEASURMENT_ERROR_SPEED  and vy_std > 1.2*constants.STD_MEASURMENT_ERROR_SPEED:
-                return True
-        return False
-        """
-
-        n = 3
+        n = 4
         list_to_check = self.kalman_memory
         list_len = len(list_to_check)
         if list_len > n:
@@ -114,31 +98,6 @@ class KalmanPrediction:
 
             vx_std = np.std(vx)
             vy_std = np.std(vy)
-
-            """ OTHER CONDITIONS BUT NOT WORKING AS GOOD AS THE LAST ONE
-            
-            #Je les gardes au cas ou ça bug encore pour avoir des idées 
-            vx_mean_new = np.mean(vx[-n:-1])
-            vy_mean_new = np.mean(vy[-n:-1])
-            v_mean_new = np.power(np.square(vx_mean_new)+np.square(vy_mean_new),0.5)
-
-            vx_mean_old = np.mean(vx[-1-n:-2])
-            vy_mean_old = np.mean(vy[-1-n:-2])
-            v_mean_old = np.power(np.square(vx_mean_old) + np.square(vy_mean_old), 0.5)
-
-            alpha_mean_old = np.arctan2(vy_mean_new,vx_mean_new)
-            alpha_mean_new =np.arctan2(vy_mean_old,vx_mean_old)
-
-
-            cdt_starting = v_mean_old < np.sqrt(2)*constants.SPEED_MEAN_ERROR and v_mean_new > np.sqrt(2)*constants.SPEED_MEAN_ERROR
-            cdt_stopping = v_mean_old > np.sqrt(2)*constants.SPEED_MEAN_ERROR and v_mean_new < np.sqrt(2)*constants.SPEED_MEAN_ERROR
-
-            cdt_stopped =  v_mean_old < np.sqrt(2)*constants.SPEED_MEAN_ERROR and v_mean_new < np.sqrt(2)*constants.SPEED_MEAN_ERROR
-            cdt_changing_state = cdt_starting or cdt_stopping
-            cdt_changing_orrientation = np.abs(alpha_mean_old - alpha_mean_new > 2*np.pi/3)
-            
-            if cdt_changing_state or (cdt_changing_orrientation and not cdt_stopped):
-            """
 
             #TODO ici checker pour voir les limites atteignables
             cdt_speed = np.power(np.square(vx_std)+np.square(vy_std),0.5) > 1.5*np.sqrt(2)*constants.STD_MEASURMENT_ERROR_SPEED

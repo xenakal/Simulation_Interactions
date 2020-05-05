@@ -9,6 +9,7 @@ In this file you have the possibility to modify the settings
 
 """Options-----------------------------------------------------------------------------------------------------------"""
 
+
 SAVE_DATA = False
 GENERATE_PLOT =False
 LOAD_DATA = LoadData.FROM_TXT_FILE
@@ -39,8 +40,8 @@ USE_TIMESTAMP_FOR_ASSIMILATION = True
 KALMAN_VAR_COEFFICIENT = 5
 
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
-ROOM_DIMENSION_X = 30 # [m]
-ROOM_DIMENSION_Y = 10  # [m]
+ROOM_DIMENSION_X = 8 # [m]
+ROOM_DIMENSION_Y = 8  # [m]
 
 
 """Number of data----------------------------------------------------------------------------------------------------"""
@@ -91,8 +92,8 @@ PREVIOUS_POSITIONS_USED = 3  # number of previous positions used to make the pre
 """Option for GUI----------------------------------------------------------------------------------------------------"""
 X_OFFSET = 180
 Y_OFFSET = 100
-X_SCALE = 15
-Y_SCALE = 15
+X_SCALE = 60
+Y_SCALE = 60
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 INIT_TARGET_LIST = AgentCameraInitializeTargetList.ALL_SEEN
@@ -110,7 +111,7 @@ Refers to what data should be exchanged between agent
 - "none" = agent do not exchange messages about targets
 - "dkf" = message exchange only message for distributed kalman
 """
-DATA_TO_SEND = "none"
+DATA_TO_SEND = "dkf"
 
 """
 Refers to the type of controller we use to bring the target to reference point
@@ -171,7 +172,7 @@ CONFIDENCE_MAX_VALUE = 100
 CONFIDENCE_MIN_VALUE = 0
 CONFIDENCE_TIME_TO_REACH_MIN_VALUE = 5
 CONFIDENCE_THRESHOLD = 50
-CONFIDENCE_FUNCTION_CHOICE  = ConfidenceFunction.LINEAR_DECAY
+CONFIDENCE_FUNCTION_CHOICE = ConfidenceFunction.LINEAR_DECAY
 
 
 """Potential Field Camera--------------------------------------------------------------------------------------------"""

@@ -244,14 +244,10 @@ class RoomRepresentation:
         self.coordinate_room = np.array([0, 0, float(attribute[1]),float(attribute[2])])
         constants.ROOM_DIMENSION_X = int(float(attribute[1]))
         constants.ROOM_DIMENSION_Y = int(float(attribute[2]))
-        print(constants.ROOM_DIMENSION_X)
-        print(constants.ROOM_DIMENSION_Y)
         constants.X_OFFSET = int(float(attribute[3]))
         constants.Y_OFFSET = int(float(attribute[4]))
         constants.X_SCALE = int(float(attribute[5]))
         constants.Y_SCALE = int(float(attribute[6]))
-        print(constants.X_SCALE)
-        print(constants.Y_SCALE)
 
     def init_RoomRepresentation(self, room):
         """

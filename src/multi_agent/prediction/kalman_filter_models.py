@@ -70,11 +70,7 @@ class KalmanFilterModel:
 
         self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
 
-        if constants.DISTRIBUTED_KALMAN:
-            f = DistributedKalmanFilter(dim_x=2, dim_z=2, model_F=F_func, logger=self.kalman_logger)
-        else:
-            f = KalmanFilter(dim_x=2,
-                             dim_z=2)  # as we have a 4d state space and measurements on only the positions (x,y)
+        f = DistributedKalmanFilter(dim_x=2, dim_z=2, model_F=F_func, logger=self.kalman_logger)
 
         # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
         f.x = np.array([x_init, y_init])
@@ -86,7 +82,7 @@ class KalmanFilterModel:
         f.H = np.array([[1., 0.],
                         [0., 1.]])
         f.P *= 2.
-        f.R = np.eye(2) *constants.KALMAN_VAR_COEFFICIENT* STD_MEASURMENT_ERROR_POSITION ** 2
+        f.R = np.eye(2) * constants.KALMAN_VAR_COEFFICIENT * STD_MEASURMENT_ERROR_POSITION ** 2
         f.B = 0
 
         dt = TIME_PICTURE + TIME_SEND_READ_MESSAGE
@@ -116,11 +112,7 @@ class KalmanFilterModel:
 
         self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
 
-        if constants.DISTRIBUTED_KALMAN:
-            f = DistributedKalmanFilter(dim_x=4, dim_z=4, model_F=F_func, logger=self.kalman_logger)
-        else:
-            f = KalmanFilter(dim_x=4,
-                             dim_z=4)  # as we have a 4d state space and measurements on only the positions (x,y)
+        f = DistributedKalmanFilter(dim_x=4, dim_z=4, model_F=F_func, logger=self.kalman_logger)
 
         # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
         dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
@@ -138,15 +130,15 @@ class KalmanFilterModel:
         v_error_p = STD_MEASURMENT_ERROR_POSITION ** 2
         v_error_v = STD_MEASURMENT_ERROR_SPEED ** 2
 
-
-        f.R = np.array([[constants.KALMAN_VAR_COEFFICIENT*v_error_p, 0., 0., 0.],
-                        [0., constants.KALMAN_VAR_COEFFICIENT*v_error_p, 0., 0.],
-                        [0., 0., constants.KALMAN_VAR_COEFFICIENT*v_error_v, 0.],
-                        [0., 0., 0., constants.KALMAN_VAR_COEFFICIENT*v_error_v]])
+        f.R = np.array([[constants.KALMAN_VAR_COEFFICIENT * v_error_p, 0., 0., 0.],
+                        [0., constants.KALMAN_VAR_COEFFICIENT * v_error_p, 0., 0.],
+                        [0., 0., constants.KALMAN_VAR_COEFFICIENT * v_error_v, 0.],
+                        [0., 0., 0., constants.KALMAN_VAR_COEFFICIENT * v_error_v]])
 
         f.B = np.array([0, 0, 1, 1])
         q = Q_discrete_white_noise(dim=2, dt=dt, var=0.00001)  # var => how precise the model is
         f.Q = block_diag(q, q)
+        f.Q *= 0
         return f
 
     def kalman_filter_acceleration(self, x_init, y_init, vx_init, vy_init, ax_init, ay_init):
@@ -160,6 +152,7 @@ class KalmanFilterModel:
         :return
             The Kalman Filter object (from pyKalman library) with the model corresponding to our scenario.
         """
+
         def F_func(dt=TIME_SEND_READ_MESSAGE + TIME_PICTURE):
             return np.array([[1., 0., dt, 0., 0., 0.],
                              [0., 1., 0., dt, 0., 0.],
@@ -170,11 +163,7 @@ class KalmanFilterModel:
 
         self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
 
-        if constants.DISTRIBUTED_KALMAN:
-            f = DistributedKalmanFilter(dim_x=6, dim_z=6, model_F=F_func, logger=self.kalman_logger)
-        else:
-            f = KalmanFilter(dim_x=6,
-                             dim_z=6)  # as we have a 4d state space and measurements on only the positions (x,y)
+        f = DistributedKalmanFilter(dim_x=6, dim_z=6, model_F=F_func, logger=self.kalman_logger)
 
         # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
         dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
@@ -188,12 +177,12 @@ class KalmanFilterModel:
         v_error_v = STD_MEASURMENT_ERROR_SPEED ** 2
         v_error_a = STD_MEASURMENT_ERROR_ACCCELERATION ** 2
 
-        f.R = np.array([[constants.KALMAN_VAR_COEFFICIENT*v_error_p, 0., 0., 0., 0., 0.],
-                        [0., constants.KALMAN_VAR_COEFFICIENT*v_error_p, 0., 0., 0., 0.],
-                        [0., 0., constants.KALMAN_VAR_COEFFICIENT*v_error_v, 0., 0., 0.],
-                        [0., 0., 0., constants.KALMAN_VAR_COEFFICIENT*v_error_v, 0., 0.],
-                        [0., 0., 0., 0., constants.KALMAN_VAR_COEFFICIENT*v_error_a, 0.],
-                        [0., 0., 0., 0., 0., constants.KALMAN_VAR_COEFFICIENT*v_error_a]])
+        f.R = np.array([[constants.KALMAN_VAR_COEFFICIENT * v_error_p, 0., 0., 0., 0., 0.],
+                        [0., constants.KALMAN_VAR_COEFFICIENT * v_error_p, 0., 0., 0., 0.],
+                        [0., 0., constants.KALMAN_VAR_COEFFICIENT * v_error_v, 0., 0., 0.],
+                        [0., 0., 0., constants.KALMAN_VAR_COEFFICIENT * v_error_v, 0., 0.],
+                        [0., 0., 0., 0., constants.KALMAN_VAR_COEFFICIENT * v_error_a, 0.],
+                        [0., 0., 0., 0., 0., constants.KALMAN_VAR_COEFFICIENT * v_error_a]])
 
         f.B = np.array([0, 0, 0, 0, 0., 0.])
         q = Q_discrete_white_noise(dim=3, dt=dt, var=0.00000001)  # var => how precise the model is
@@ -224,10 +213,7 @@ class KalmanFilterModel:
         self.model_F = F_func  # !! Carefull with pycharm warning: this is actually the method model F, not an attribute
 
         # we have a 4d state space and measurements on only the positions (x,y)
-        if constants.DISTRIBUTED_KALMAN:
-            f = DistributedKalmanFilter(dim_x=4, dim_z=2, model_F=F_func, logger=self.kalman_logger)
-        else:
-            f = KalmanFilter(dim_x=4, dim_z=2)
+        f = DistributedKalmanFilter(dim_x=4, dim_z=2, model_F=F_func, logger=self.kalman_logger)
 
         # initial guess on state variables (velocity initiated to 0 arbitrarily => high )
         f.x = np.array([x_init, y_init, vx_init, vy_init])
@@ -239,7 +225,7 @@ class KalmanFilterModel:
         f.H = np.array([[1., 0., 0., 0.],
                         [0., 1., 0., 0.]])
         f.P *= 2.
-        f.R = np.eye(2) *constants.KALMAN_VAR_COEFFICIENT* STD_MEASURMENT_ERROR_POSITION ** 2
+        f.R = np.eye(2) * constants.KALMAN_VAR_COEFFICIENT * STD_MEASURMENT_ERROR_POSITION ** 2
         f.B = 0
 
         dt = TIME_SEND_READ_MESSAGE + TIME_PICTURE
