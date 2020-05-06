@@ -3,6 +3,7 @@ import random
 import re
 import math
 from src import constants
+from src.multi_agent.elements.item import Item
 from src.my_utils.constant_class import ConfidenceFunction
 from src.my_utils.my_math.line import Line
 
@@ -18,7 +19,7 @@ class TargetType:
     MOVING = 3
 
 
-class TargetRepresentation:
+class TargetRepresentation(Item):
     """
                 Class TargetRepresentation.
 
@@ -49,17 +50,20 @@ class TargetRepresentation:
                         fells free to write some comments.
     """
 
-    def __init__(self, id=None, x=None, y=None, radius=None, type=None, color=None):
+    def __init__(self, id=None, x=None, y=None, vx=0, vy=0, ax=0, ay=0, radius=None, type=None, color=None):
         """Initialisation"""
 
         " Identification name (id) + number "
-        self.id = id
-        self.signature = self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
+        super().__init__(id, int(random.random() * 10000000000000000) + 100)
 
         "TargetRepresentation description on the maps"
         "Position and Speeds"""
         self.xc = x
         self.yc = y
+        self.vx = vx
+        self.vy = vy
+        self.ax = ax
+        self.ay = ay
         self.alpha = 0
 
         "TargetRepresentation attributes"
@@ -77,6 +81,7 @@ class TargetRepresentation:
             g = random.randrange(20, 230, 1)
             b = random.randrange(20, 255, 1)
             self.color = (r, g, b)
+
 
     def evaluate_confidence(self, error, delta_time):
         """Method to modify the value of the confidence based on severals parameters"""
@@ -194,21 +199,15 @@ class Target(TargetRepresentation):
                     time_btw_target_mvt [s], see constants file
     """
 
-    def __init__(self, id=None, x=None,y=None,vx=0,vy=0,ax =0,ay= 0,trajectory_type=None,trajectory= None,type=None,
+    def __init__(self, id=None, x=None,y=None,trajectory_type=None,trajectory= None,type=None,
                  radius=5, t_add=None, t_del=None):
         # Initialisation
         super().__init__(id, x, y, radius, type, None)
 
         # Target description on the maps
         """!! Attention you responsability to get coherent speed and acceleration"""
-        self.vx_max = vx * constants.SCALE_TIME
-        self.vy_max = vy * constants.SCALE_TIME
-
-        self.vx = vx
-        self.vy = vy
-
-        self.ax = ax
-        self.ay = ay
+        self.vx_max = self.vx
+        self.vy_max = self.vy
 
         self.trajectory = trajectory
         self.all_position = []

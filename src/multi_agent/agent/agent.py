@@ -19,7 +19,7 @@ class AgentRepresentation:
         self.type = type
         self.is_active = False
         self.color = None
-        self.confidence = None
+        self.confidence = -1
 
     def update_from_agent(self, agent):
         self.id = agent.id
@@ -28,7 +28,7 @@ class AgentRepresentation:
         self.type = agent.type
         self.is_active = agent.is_active
         self.color = agent.color
-        self.confidence = None
+        self.confidence = -1
 
 
 class Agent(AgentRepresentation):

@@ -150,11 +150,11 @@ def is_target_fix(memory_list, target_id, t, n, position_std_thresh, speed_mean_
         vx = []
         vy = []
 
-        for item in list_to_check:
-            x.append(item.item_position[0])
-            y.append(item.item_position[1])
-            vx.append(item.item_speeds[0])
-            vy.append(item.item_speeds[1])
+        for elem in list_to_check:
+            x.append(elem.item.xc)
+            y.append(elem.item.yc)
+            vx.append(elem.item.vx)
+            vy.append(elem.item.vy)
 
         x_sdt = np.std(x)
         y_sdt = np.std(y)

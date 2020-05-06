@@ -134,6 +134,7 @@ class AgentInteractingWithRoom(Agent):
                 self.memory.memory_agent_from_agent.to_csv())
             self.log_main.info("Data saved !")
 
+
         "Clear"
         self.thread_is_running = 0
         while self.main_thread.is_alive():
@@ -281,7 +282,7 @@ class AgentInteractingWithRoom(Agent):
         """Add heartbeart"""
         self.hearbeat_tracker.add_heartbeat(message, self.log_main)
 
-    def send_message_itemEstimator(self, itemEstimator, receivers=None):
+    def send_message_itemEstimator(self, itemEstimation, receivers=None):
         """
                   :description
                       1. Create a message based on a TargetEstimator
@@ -294,32 +295,26 @@ class AgentInteractingWithRoom(Agent):
 
               """
 
-        s = itemEstimator.to_string()
+        s = itemEstimation.to_string()
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
-        message_type = None
-        reference_to_target = None
-        if isinstance(itemEstimator, TargetEstimation):
-            message_type = MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATOR
-            reference_to_target = itemEstimator.item_id
-        elif isinstance(itemEstimator, AgentEstimation):
-            message_type = MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATOR
-            reference_to_target = -1
-        else:
-            print("error can't send such a message type")
+        message_type = itemEstimation.item_type
+        reference_to_target = itemEstimation.item.id
 
         m = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, message_type, s, reference_to_target)
         self.broadcast_message(m,BroadcastTypes.AGENT_CAM,receivers)
 
     def send_message_timed_itemEstimator(self, item_estimator, delta_time, receivers=None):
+
+
         cdt_message_not_to_old = ((constants.get_time() - item_estimator.time_stamp) <= constants.TRESH_TIME_TO_SEND_MEMORY)
         if cdt_message_not_to_old:
 
             table_time_sent = None
-            if isinstance(item_estimator, TargetEstimation):
+            if item_estimator.item_type == ItemEstimationType.TargetEstimation:
                 table_time_sent = self.table_target_agent_lastTimeSent
-            elif isinstance(item_estimator, AgentEstimation):
+            elif item_estimator.item_type == ItemEstimationType.AgentEstimation:
                 table_time_sent = self.table_agent_agent_lastTimeSent
 
             send_message_to_agent = []
@@ -353,12 +348,12 @@ class AgentInteractingWithRoom(Agent):
         """
         s = message.message
         if not (s == ""):
-            if message.messageType == MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATOR:
-                estimator = TargetEstimation()
+            if message.messageType == ItemEstimationType.TargetEstimation:
+                estimator =ItemEstimation()
                 estimator.parse_string(s)
                 self.memory.add_target_estimator(estimator)
-            elif message.messageType == MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATOR:
-                estimator = AgentEstimation()
+            elif message.messageType == ItemEstimationType.AgentEstimation:
+                estimator = ItemEstimation()
                 estimator.parse_string(s)
                 self.memory.add_agent_estimator(estimator)
 

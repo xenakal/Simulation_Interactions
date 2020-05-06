@@ -68,4 +68,5 @@ class Item:
 if __name__ == "__main__":
     item = Item("test", [[88184.555, 33333], [2225]])
     item2 = Item()
-    item2.fill_and_parse_attributes(str(item))
+    item2.fill_and_parse_attributes(item.attributes_to_string())
+    print(item2.attributes_to_string())

@@ -225,7 +225,7 @@ class TargetAgentLink():
             :description
                 string description
         """
-        return "target " + str(self.target_id) + "linked to " + str(self.agentDistance_list) + ", locked = " + str(self.is_lock)
+        return "target " + str(self.target_id) + "linked to " + str([str(elem) for elem in self.agentDistance_list]) + ", locked = " + str(self.is_lock)
 
 
 class AgentDistance:
@@ -241,3 +241,6 @@ class AgentDistance:
 
     def __gt__(self, other):
         return self.distance > other.distance
+
+    def __str__(self):
+        return str(self.agent_id)

@@ -287,29 +287,32 @@ class RoomRepresentation:
             for target in self.active_Target_list:
                 if target.id == target_detected_id:
                     is_in_RoomRepresentation = True
-                    target.xc = last_TargetEstimator.item_position[0]
-                    target.yc = last_TargetEstimator.item_position[1]
+                    target.xc = last_TargetEstimator.item.xc
+                    target.yc = last_TargetEstimator.item.yc
 
-                    target.variance_on_estimation = last_TargetEstimator.variance_on_estimation
-                    target.type = last_TargetEstimator.item_type
+
+                    target.type = last_TargetEstimator.item.type
                     if not target.type == TargetType.FIX:
-                        target.alpha = last_TargetEstimator.alpha
+                        target.alpha = last_TargetEstimator.item.alpha
 
+                    # TODO - replace variance on estimation
+                    '''
+                    target.variance_on_estimation = last_TargetEstimator.variance_on_estimation
                     if last_TargetEstimator.variance_on_estimation is not None:
                         norm_variance_pos = np.sqrt(
                             np.square(last_TargetEstimator.variance_on_estimation[0]) + np.square(
                                 last_TargetEstimator.variance_on_estimation[1]))
                     else:
                         norm_variance_pos = 0.1
-
-                    target.evaluate_confidence(norm_variance_pos,
+                    '''
+                    target.evaluate_confidence(0.1,
                                                constants.get_time() - last_TargetEstimator.time_stamp)
                     break
 
             if not is_in_RoomRepresentation:
-                self.add_targetRepresentation(last_TargetEstimator.item_id, last_TargetEstimator.item_position[0],
-                                              last_TargetEstimator.item_position[1],
-                                              last_TargetEstimator.target_radius, last_TargetEstimator.item_type)
+                self.add_targetRepresentation(last_TargetEstimator.item.id, last_TargetEstimator.item.xc,
+                                              last_TargetEstimator.item.yc,
+                                              last_TargetEstimator.item.radius, last_TargetEstimator.item.type)
 
     def update_agent_based_on_memory(self, Agent_AgentEstimator):
         """
@@ -368,7 +371,7 @@ class RoomRepresentation:
                   4. (int) radius                -- radius from the center
                   5. (string) type             -- "fix","target", to make the difference between known and unkown target
         """
-        self.active_Target_list.append(TargetRepresentation(id, x, y, radius, label, self.color))
+        self.active_Target_list.append(TargetRepresentation(id, x, y,0,0,0,0, radius, label, self.color))
 
     def add_agentCamRepresentation(self, agentEstimator):
         """

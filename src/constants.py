@@ -10,8 +10,8 @@ In this file you have the possibility to modify the settings
 """Options-----------------------------------------------------------------------------------------------------------"""
 
 
-SAVE_DATA = True
-GENERATE_PLOT = True
+SAVE_DATA = False
+GENERATE_PLOT = False
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
 
@@ -103,7 +103,7 @@ TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 3
 """
 Refers to what data agent should use to analyse the room 
 """
-AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Best_estimation
+AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Data_measured
 AGENT_CHOICE_HOW_TO_FOLLOW_TARGET = ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG
 
 """
@@ -199,7 +199,7 @@ COMBINE_MODE_PROP = 0.99 # 1 = smooth mode 0 = hard mode (btw 0 and 1)
 """Random map creation-----------------------------------------------------------------------------------------------"""
 TARGET_NUMBER_SET_FIX = 0
 TARGET_NUMBER_UNKOWN = 5
-TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY = 3
+TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY = 1
 RANDOM_TARGET_RADIUS_BOUND = (0.1,0.3)
 RANDOM_TARGET_V_BOUND = (0.8,1.2)
 

@@ -2,6 +2,7 @@ import math
 import re
 from src import constants
 from src.multi_agent.agent.agent import AgentRepresentation
+from src.multi_agent.elements.item import Item
 from src.multi_agent.elements.target import TargetRepresentation
 
 
@@ -38,8 +39,12 @@ def is_in_list_TargetEstimator(list_TargetEstimator, targetEstimator):
 
 
 class ItemEstimationType:
-    keys_string_names = ["target_estimation", "agent_estimation"]
-    values_class_names = [TargetRepresentation, AgentRepresentation]
+    ItemEstimation = "item_estimation"
+    AgentEstimation = "agent_estimation"
+    TargetEstimation = "target_estimation"
+
+    keys_string_names = [ItemEstimation,TargetEstimation, AgentEstimation]
+    values_class_names = [Item,TargetRepresentation, AgentRepresentation]
     dictionary_item_types = dict(zip(keys_string_names, values_class_names))
 
 
@@ -65,16 +70,17 @@ class ItemEstimation:
                    fells free to write some comments.
     """
 
-    def __init__(self, time_stamp=None, agent_id=None, owner_agent_signature=None, item = None):
+    def __init__(self, time_stamp=None, owner_id=None, owner_agent_signature=None, item = None):
         "Time information"
         self.time_stamp = time_stamp
         self.time_to_compare_to_simulated_data = constants.time_when_target_are_moved
 
         "Agent - Target link"
-        self.owner_id = agent_id
+        self.owner_id = owner_id
         self.owner_signature = owner_agent_signature
 
         self.item = item
+        self.item_type = None
         for key,value in ItemEstimationType.dictionary_item_types.items():
             if isinstance(self.item,value):
                 self.item_type = key
@@ -170,9 +176,11 @@ class ItemEstimation:
 
     def __eq__(self, other):
         cdt1 = self.time_stamp == other.time_stamp
-        cdt2 = self.owner_id == other.agent_id
-        cdt3 = self.owner_signature == other.agent_signature
-        return cdt1 and cdt2 and cdt3
+        cdt2 = self.owner_id == other.owner_id
+        cdt3 = self.owner_signature == other.owner_signature
+        cdt4 = self.item.id == other.item.id
+        cdt5 = self.item.signature == other.item.signature
+        return cdt1 and cdt2 and cdt3 and cdt4 and cdt5
 
     def __lt__(self, other):
         return self.time_stamp < other.time_stamp
@@ -227,7 +235,13 @@ class MultipleOwnerMemories:
             self.Agent_item_already_discovered_list.append((agent_id, item_id))
             self.Agent_item_itemEstimator_list.append([agent_id, item_id, []])
 
-    def add_itemEstimator(self, itemEstimator_to_add):
+    def add_create_itemEstimation(self, time_stamp,owner_id, owner_signature, item):
+
+        new_ItemEstimation = ItemEstimation(time_stamp=time_stamp,owner_id=owner_id,
+                                           owner_agent_signature=owner_signature,item=item)
+        self.add_itemEstimation(new_ItemEstimation)
+
+    def add_itemEstimation(self, itemEstimation_to_add):
         """
             :description
                 Adds it to the list if doesn't exist yet.
@@ -239,13 +253,13 @@ class MultipleOwnerMemories:
                 fills the list  Agent_Target_TargetEstimator_list with a new TargetEstimator for the Target and Agent given
         """
 
-        self.update_estimator_list(itemEstimator_to_add.agent_id, itemEstimator_to_add.item_id)
+        self.update_estimator_list(itemEstimation_to_add.owner_id, itemEstimation_to_add.item.id)
 
         for element in self.Agent_item_itemEstimator_list:
-            if is_corresponding_TargetEstimator(itemEstimator_to_add.agent_id, itemEstimator_to_add.item_id,
+            if is_corresponding_TargetEstimator(itemEstimation_to_add.owner_id, itemEstimation_to_add.item.id,
                                                 element):
-                if itemEstimator_to_add not in element[2]:
-                    element[2].append(itemEstimator_to_add)
+                if itemEstimation_to_add not in element[2]:
+                    element[2].append(itemEstimation_to_add)
 
     def sort_itemEstimator(self):
         """
@@ -414,7 +428,13 @@ class SingleOwnerMemories:
             self.item_already_discovered_list.append(item_id)
             self.item_itemEstimator_list.append([item_id, []])
 
-    def add_itemEstimator(self, itemEstimator):
+    def add_create_itemEstimation(self, time_stamp,owner_id, owner_signature, item):
+
+        new_ItemEstimation = ItemEstimation(time_stamp=time_stamp,owner_id=owner_id,
+                                           owner_agent_signature=owner_signature,item=item)
+        self.add_itemEstimation(new_ItemEstimation)
+
+    def add_itemEstimation(self, itemEstimation):
         """
             :description
                Adds it to the list if doesn't exist yet.
@@ -426,12 +446,12 @@ class SingleOwnerMemories:
                   if    already in the list no action
                  else  add TargetEstimator in Target_TargetEstimator_list
         """
-        self.update_ItemEstimator_list(itemEstimator.item_id)
+        self.update_ItemEstimator_list(itemEstimation.item.id)
 
         for element in self.item_itemEstimator_list:
-            if element[0] == itemEstimator.item_id:
-                if not is_in_list_TargetEstimator(element[1], itemEstimator):
-                    element[1].append(itemEstimator)
+            if element[0] == itemEstimation.item.id:
+                if not is_in_list_TargetEstimator(element[1], itemEstimation):
+                    element[1].append(itemEstimation)
 
     def sort(self):
         """

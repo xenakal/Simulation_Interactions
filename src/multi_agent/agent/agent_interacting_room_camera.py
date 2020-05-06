@@ -216,12 +216,14 @@ class AgentCam(AgentInteractingWithRoom):
                                 target_type = target_representation.type
 
                         # add the new information to the memory
-                        self.memory.add_create_target_estimator(constants.get_time(), self.id,
-                                                                self.signature, target.id, target.signature,
-                                                                target.xc + erreurPX, target.yc + erreurPY,
+                        target_representation = TargetRepresentation(target.id, target.xc + erreurPX, target.yc + erreurPY,
                                                                 target.vx + erreurVX, target.vy + erreurVY,
                                                                 target.ax + erreurAX, target.ay + erreurAY,
-                                                                target_type, target.radius)
+                                                                target.radius, target_type,target.color)
+
+                        self.memory.add_create_target_estimator(constants.get_time(), self.id,
+                                                                self.signature, target_representation)
+
 
                     nextstate = AgentCameraFSM.PROCESS_DATA
                     self.log_execution.debug("Loop %d : takePicture state completed after : %.02f s" % (
@@ -298,7 +300,7 @@ class AgentCam(AgentInteractingWithRoom):
                     last_time_move = constants.get_time()
 
                 """Create a new memory to save the """
-                self.memory.add_create_agent_estimator_from_agent(constants.get_time(), self, self)
+                #self.memory.add_create_agent_estimator_from_agent(constants.get_time(), self, self)
 
                 if not self.camera.is_active or not self.is_active:
                     nextstate = AgentCameraFSM.BUG
@@ -330,7 +332,7 @@ class AgentCam(AgentInteractingWithRoom):
 
         '''Modification from the room description'''
         self.room_representation.update_target_based_on_memory(self.pick_data(constants.AGENT_DATA_TO_PROCESS))
-        self.room_representation.update_agent_based_on_memory(self.memory.memory_agent_from_agent)
+        #self.room_representation.update_agent_based_on_memory(self.memory.memory_agent_from_agent)
 
         '''Computation of the camera that should give the best view, according to maps algorithm'''
         self.link_target_agent.update_link_camera_target()
@@ -342,10 +344,12 @@ class AgentCam(AgentInteractingWithRoom):
             -----------------------------------------------------------------------------------------------
         """
 
-        last_camera_estimation = self.memory.memory_agent_from_agent.get_item_list(self.id)[-1]
-        self.send_message_timed_itemEstimator(last_camera_estimation, constants.TIME_BTW_AGENT_ESTIMATOR)
+        if len(self.memory.memory_agent_from_agent.get_item_list(self.id)) > 0:
+            last_camera_estimation = self.memory.memory_agent_from_agent.get_item_list(self.id)[-1]
+            self.send_message_timed_itemEstimator(last_camera_estimation, constants.TIME_BTW_AGENT_ESTIMATOR)
 
         # self.log_target_tracked.info(self.table_all_target_number_times_seen.to_string(self.id))
+
         for target in self.room_representation.active_Target_list:
             """
                 ---------------------------------------------------------------------------------------------
@@ -419,14 +423,18 @@ class AgentCam(AgentInteractingWithRoom):
             """If the target is link to this agent then we send the message to the user"""
             cdt_target_type_1 = not (target.type == TargetType.SET_FIX)
             cdt_target_type_2 = True  # not(target.type == TargetType.FIX) or is_target_changing_state #to decrease the number of messages sent
+            print(target.id)
+            print(self.link_target_agent.link_camera_target[0].to_string())
             cdt_agent_is_in_charge = self.link_target_agent.is_in_charge(target.id, self.id)
 
+            print(cdt_agent_is_in_charge)
             if cdt_agent_is_in_charge and cdt_target_type_1 and cdt_target_type_2:
                 receivers = []
                 for agent in self.room_representation.agentUser_representation_list:
                     receivers.append([agent.id, agent.signature])
 
                 target_estimator_to_send = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
+                print(target_estimator_to_send)
                 if len(target_estimator_to_send.get_item_list(target.id)) > 0:
                     self.send_message_timed_itemEstimator(target_estimator_to_send.get_item_list(target.id)[-1],
                                                           constants.TIME_BTW_TARGET_ESTIMATOR, receivers)
@@ -699,10 +707,10 @@ class AgentCam(AgentInteractingWithRoom):
         target_target_estimator = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
 
         # reconstruct the Target_TargetEstimator by flitering the targets
-        new_target_targetEstimator = Target_TargetEstimator()
+        new_target_targetEstimator = SingleOwnerMemories()
         for (target_id, targetEstimator_list) in target_target_estimator.item_itemEstimator_list:
             if target_id in targets:
-                new_target_targetEstimator.add_itemEstimator(targetEstimator_list[-1])
+                new_target_targetEstimator.add_itemEstimation(targetEstimator_list[-1])
 
         # find a configuration for these targets
         tracked_targets_room_representation = room.RoomRepresentation()

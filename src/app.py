@@ -74,7 +74,7 @@ class App:
         """
             Create a structure to save the generated data
         """
-        self.exact_data_target = Target_TargetEstimator()  # utilisé comme une simple liste, raison pour laquelle c'est une targetEstimator ?
+        self.exact_data_target = SingleOwnerMemories()  # utilisé comme une simple liste, raison pour laquelle c'est une targetEstimator ?
 
         """
             Create app variables
@@ -243,15 +243,10 @@ class App:
             for target in self.room.active_Target_list:
                 target.save_position()
                 constants.time_when_target_are_moved = constants.get_time()
-                self.exact_data_target.add_create_target_estimator(constants.time_when_target_are_moved,
+                self.exact_data_target.add_create_itemEstimation(constants.time_when_target_are_moved,
                                                                    self.link_agent_target.get_agent_in_charge(
-                                                                       target.id), -1, target.id, target.signature,
-                                                                   target.xc, target.yc, target.vx, target.vy,
-                                                                   target.ax, target.ay,
-                                                                   target.radius, target.type,-1)
+                                                                       target.id), -1,target)
                 move_Target(target, delta_time)
-
-
                 # theoritical calculation
             time_old = time.time()
 
