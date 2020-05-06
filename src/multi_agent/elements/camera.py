@@ -1,3 +1,4 @@
+from src.multi_agent.elements.item import Item, parse_list
 from src.multi_agent.elements.target import *
 import random
 import math
@@ -371,11 +372,10 @@ def is_in_hidden_zone_fix_targets_matrix_x_y(room_representation, camera_id, res
     return result
 
 
-class CameraRepresentation:
+class CameraRepresentation(Item):
 
     def __init__(self, id, xc, yc, alpha, beta, d_max, color=None):
-        self.id = id
-        self.signature = self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
+        super().__init__(id,int(random.random() * 10000000000000000) + 100 )
 
         "Camera description on the maps"
         self.xc = xc
@@ -567,31 +567,9 @@ class Camera(CameraRepresentation):
         self.alpha = math.radians(float(attribute[3]))
         self.beta = math.radians(float(attribute[4]))
         self.field_depth = float(attribute[5])
-        self.t_add = self.load_tadd_tdel(attribute[6])
-        self.t_del = self.load_tadd_tdel(attribute[7])
+        self.t_add = parse_list(attribute[6])
+        self.t_del = parse_list(attribute[7])
 
-    def load_tadd_tdel(self, s):
-        list = []
-        s = s[1:-1]
-        all_times = re.split(",", s)
-        for time in all_times:
-            if not time == "":
-                list.append(float(time))
-        return list
-
-    def activate_camera(self):
-        """
-            :description
-                 modifies the state of the camera
-        """
-        self.isActive = True
-
-    def desactivate_camera(self):
-        """
-            :description
-                 modifies the state of the camera
-        """
-        self.isActive = False
 
     def take_picture(self, room, length_projection):
         """

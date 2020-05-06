@@ -87,7 +87,7 @@ class ItemEstimation:
         """
         s1 = "#Timestamp: " + str(self.time_stamp) + " #Time_to_compare: " + str(self.time_to_compare_to_simulated_data) + "\n"
         s2 = "#Owner_id: " + str(self.owner_id) + " #Owner_signature: " + str(self.owner_signature) + "\n"
-        s3 = "#Item_type: " +  str(self.item_type) + " #Item: " + str(self.item)
+        s3 = "#Item_type: " +  str(self.item_type) + " #Item: " + str(self.item.attributes_to_string())
         return str("\n" + s1 + s2 + s3 + "\n")
 
 
@@ -112,7 +112,7 @@ class ItemEstimation:
         self.item_type = attribute[5]
 
         new_item = ItemEstimationType.dictionary_item_types[self.item_type]()
-        new_item.parse_string(attribute[6])
+        new_item.fill_and_parse_attributes(attribute[6])
         self.item = new_item
 
 

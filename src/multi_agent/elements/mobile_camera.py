@@ -5,6 +5,7 @@ import numpy as np
 
 from src import constants
 from src.multi_agent.elements.camera import Camera, CameraRepresentation, born_minus_pi_plus_pi
+from src.multi_agent.elements.item import parse_list
 from src.my_utils import constant_class
 from src.my_utils.my_math.line import distance_btw_two_point, Line
 
@@ -136,8 +137,8 @@ class MobileCamera(Camera):
         self.default_field_depth = float(attribute[6])
 
         self.delta_beta = math.radians(float(attribute[5]))
-        self.t_add = self.load_tadd_tdel(attribute[7])
-        self.t_del = self.load_tadd_tdel(attribute[8])
+        self.t_add = parse_list(attribute[7])
+        self.t_del = parse_list(attribute[8])
         self.vx_vy_min = float(attribute[9])
         self.vx_vy_max = float(attribute[10])
         self.v_alpha_min = math.radians(float(attribute[11]))
