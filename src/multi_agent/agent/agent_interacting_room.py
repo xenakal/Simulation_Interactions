@@ -300,10 +300,10 @@ class AgentInteractingWithRoom(Agent):
 
         message_type = None
         reference_to_target = None
-        if isinstance(itemEstimator, TargetEstimator):
+        if isinstance(itemEstimator, TargetEstimation):
             message_type = MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATOR
             reference_to_target = itemEstimator.item_id
-        elif isinstance(itemEstimator, AgentEstimator):
+        elif isinstance(itemEstimator, AgentEstimation):
             message_type = MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATOR
             reference_to_target = -1
         else:
@@ -317,9 +317,9 @@ class AgentInteractingWithRoom(Agent):
         if cdt_message_not_to_old:
 
             table_time_sent = None
-            if isinstance(item_estimator, TargetEstimator):
+            if isinstance(item_estimator, TargetEstimation):
                 table_time_sent = self.table_target_agent_lastTimeSent
-            elif isinstance(item_estimator, AgentEstimator):
+            elif isinstance(item_estimator, AgentEstimation):
                 table_time_sent = self.table_agent_agent_lastTimeSent
 
             send_message_to_agent = []
@@ -354,11 +354,11 @@ class AgentInteractingWithRoom(Agent):
         s = message.message
         if not (s == ""):
             if message.messageType == MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATOR:
-                estimator = TargetEstimator()
+                estimator = TargetEstimation()
                 estimator.parse_string(s)
                 self.memory.add_target_estimator(estimator)
             elif message.messageType == MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATOR:
-                estimator = AgentEstimator()
+                estimator = AgentEstimation()
                 estimator.parse_string(s)
                 self.memory.add_agent_estimator(estimator)
 

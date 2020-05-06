@@ -196,11 +196,11 @@ class Memory:
                             estimator = self.memory_all_agent_from_target.get_Agent_item_list(target_id, agent_id)[-1]
                             norm_variance = np.sqrt(np.square(estimator.variance_on_estimation[0]) + np.square(estimator.variance_on_estimation[1]))
                             delta_t  = constants.get_time() - estimator.time_stamp
-                            if (not isinstance(best_estimator[0],TargetEstimator ) or norm_variance < best_estimator[1]) and delta_t < best_estimator[2]:
+                            if (not isinstance(best_estimator[0], TargetEstimation) or norm_variance < best_estimator[1]) and delta_t < best_estimator[2]:
                                 best_estimator = (estimator,norm_variance,delta_t)
 
 
-                    if isinstance(best_estimator[0],TargetEstimator ) and not is_in_list_TargetEstimator(self.memory_measured_from_target.get_item_list(target_id),best_estimator[0]):
+                    if isinstance(best_estimator[0], TargetEstimation) and not is_in_list_TargetEstimator(self.memory_measured_from_target.get_item_list(target_id), best_estimator[0]):
                         #self.log_memory.info("Combine data, from agent : " + str(agent_id) + " - target " + str(target_id))
                          self.memory_measured_from_target.add_itemEstimator(best_estimator[0])
 
