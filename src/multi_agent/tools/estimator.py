@@ -73,6 +73,8 @@ class ItemEstimator:
         "Agent - Target link"
         self.agent_id = agent_id
         self.agent_signature = agent_signature
+
+
         self.item_id = item_id
         self.item_signature = item_signature
 
