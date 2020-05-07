@@ -120,7 +120,7 @@ class Item:
         s = s.replace(" ", "")
 
         s = s[len("ITEM_START:"),:]
-        s = s[:,len("ITEM_END:")]
+        s = s[:,-len("ITEM_END:")]
 
         string_to_parse = ""
         for key, value in self.__dict__.items():
