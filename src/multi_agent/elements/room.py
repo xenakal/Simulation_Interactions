@@ -262,12 +262,12 @@ class RoomRepresentation:
                 self.add_targetRepresentation_from_target(target)
 
         for agent in room.information_simulation.agentCams_list:
-            agentCam_representation = aCam.AgentCamRepresentation(0, 0)
+            agentCam_representation = aCam.AgentCamRepresentation(0)
             agentCam_representation.update_from_agent(agent)
             self.agentCams_representation_list.append(agentCam_representation)
 
         for agent in room.information_simulation.agentUser_list:
-            agentUser_representation = aUser.AgentUserRepresentation(0, 0)
+            agentUser_representation = aUser.AgentUserRepresentation(0)
             agentUser_representation.update_from_agent(agent)
             self.agentUser_representation_list.append(agentUser_representation)
 
@@ -334,15 +334,15 @@ class RoomRepresentation:
                     is_in_RoomRepresentation = True
                     agent.is_active = last_AgentEstimator.item.is_active
                     agent.evaluate_agent_confidence(0.001, constants.get_time() - last_AgentEstimator.time_stamp)
-                    camera.xc = last_AgentEstimator.item.camera.xc
-                    camera.yc = last_AgentEstimator.item.camera.yc
+                    camera.xc = last_AgentEstimator.item.camera_representation.xc
+                    camera.yc = last_AgentEstimator.item.camera_representation.yc
                     # self.item_speeds = [0, 0]  # [ camera.vx,  camera.vy]
                     # self.item_acceleration = [0, 0]  # [ camera.ax,  camera.ay]
-                    camera.type = last_AgentEstimator.item.camera.camera_type
-                    camera.alpha = last_AgentEstimator.item.camera.alpha
-                    camera.beta = last_AgentEstimator.item.camera.beta
-                    camera.field_depth = last_AgentEstimator.item.camera.field_depth
-                    camera.is_active = last_AgentEstimator.item.camera.is_active
+                    camera.type = last_AgentEstimator.item.camera_representation.camera_type
+                    camera.alpha = last_AgentEstimator.item.camera_representation.alpha
+                    camera.beta = last_AgentEstimator.item.camera_representation.beta
+                    camera.field_depth = last_AgentEstimator.item.camera_representation.field_depth
+                    camera.is_active = last_AgentEstimator.item.camera_representation.is_active
                     break
 
             if not is_in_RoomRepresentation:

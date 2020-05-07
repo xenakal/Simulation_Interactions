@@ -18,7 +18,7 @@ class MobileCameraType:
 
 
 class MobileCameraRepresentation(CameraRepresentation):
-    def __init__(self, room, id, xc, yc, alpha, beta, d_max, type):
+    def __init__(self, room = None, id = None, xc = None, yc = None, alpha = None, beta = None, d_max = None, type = None):
         super().__init__(room, id, xc, yc, alpha, beta, d_max)
         super().__init__(room, id, xc, yc, alpha, beta, d_max)
         self.camera_type = type
@@ -40,7 +40,7 @@ class MobileCameraRepresentation(CameraRepresentation):
 
 
 class MobileCamera(Camera):
-    def __init__(self, id, xc, yc, alpha, beta, trajectory, field_depth, color=None, t_add=None, t_del=None,
+    def __init__(self, id=None, xc = None, yc = None, alpha = None, beta = None, trajectory = None, field_depth = None, color=None, t_add=None, t_del=None,
                  type=None, vx_vy_min=None, vx_vy_max=None, v_alpha_min=None, v_alpha_max=None,
                  delta_beta=0, v_beta_min=None, v_beta_max=None):
 

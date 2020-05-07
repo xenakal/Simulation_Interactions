@@ -374,14 +374,14 @@ def is_in_hidden_zone_fix_targets_matrix_x_y(room_representation, camera_id, res
 
 class CameraRepresentation(Item):
 
-    def __init__(self, id, xc, yc, alpha, beta, d_max, color=None):
-        super().__init__(id,int(random.random() * 10000000000000000) + 100 )
+    def __init__(self, id, xc, yc, alpha=None, beta = None, d_max = None, color=None):
+        super().__init__(id)
 
         "Camera description on the maps"
         self.xc = xc
         self.yc = yc
-        self.alpha = born_minus_pi_plus_pi(math.radians(alpha))  # deg rotation
-        self.beta = born_minus_pi_plus_pi(math.radians(beta))  # deg view angle
+        self.alpha = alpha
+        self.beta = beta
         self.field_depth = d_max
 
         "Error"
@@ -394,6 +394,10 @@ class CameraRepresentation(Item):
         self.color = color
 
         "Default values"
+        if self.alpha is not None:
+            self.alpha = born_minus_pi_plus_pi(math.radians(alpha))  # deg rotation
+        if self.beta is not None:
+            self.beta = born_minus_pi_plus_pi(math.radians(beta))  # deg view angle
         if color == None:
             r = 25 + 20 * random.randrange(0, 10, 1)
             g = 25 + 20 * random.randrange(0, 10, 1)

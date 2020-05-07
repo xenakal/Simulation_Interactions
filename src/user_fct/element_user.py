@@ -1,6 +1,4 @@
-import random
-
-from src.multi_agent.elements.item import Item
+from src.multi_agent.elements.item import Item, create_item_from_string
 
 
 class ItemUser(Item):
@@ -18,11 +16,11 @@ class ItemUser(Item):
         self.user_variable1 = 1000
         self.user_variable2 = 2000
         self.user_variable3 = None
+        self.user_item = Item(1)
 
         self.user_not_sent_variable = 10
         self.user_attributes_not_send=['user_not_sent_variable']
 
-        self.item = Item(1)
 
         """Do not modify below this line"""
         self.user_attributes_not_send += ['user_attributes_not_send']
@@ -37,6 +35,5 @@ class ItemUser(Item):
 if __name__ == "__main__":
     item1 = ItemUser(0)
     print(item1.attributes_to_string())
-    item2 = ItemUser()
-    item2.fill_and_parse_attributes(item1.attributes_to_string())
+    item2 = create_item_from_string(item1.attributes_to_string())
     print(item2.attributes_to_string())

@@ -5,8 +5,8 @@ import time
 
 
 class AgentUserRepresentation(AgentInteractingWithRoomRepresentation):
-    def __init__(self, id, type):
-        super().__init__(id, type)
+    def __init__(self, id):
+        super().__init__(id, AgentType.AGENT_USER)
 
     def update_from_agent(self, agent):
         super().update_from_agent(agent)

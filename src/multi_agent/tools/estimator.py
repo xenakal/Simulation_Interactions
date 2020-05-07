@@ -2,7 +2,7 @@ import math
 import re
 from src import constants
 from src.multi_agent.agent.agent import AgentRepresentation
-from src.multi_agent.elements.item import Item
+from src.multi_agent.elements.item import Item, create_item_from_string
 from src.multi_agent.elements.target import TargetRepresentation
 
 
@@ -37,7 +37,6 @@ def is_in_list_TargetEstimator(list_TargetEstimator, targetEstimator):
     return False
 
 
-
 class ItemEstimationType:
     ItemEstimation = "item_estimation"
     AgentEstimation = "agent_estimation"
@@ -46,7 +45,6 @@ class ItemEstimationType:
     keys_string_names = [ItemEstimation,TargetEstimation, AgentEstimation]
     values_class_names = [Item,TargetRepresentation, AgentRepresentation]
     dictionary_item_types = dict(zip(keys_string_names, values_class_names))
-
 
 
 class ItemEstimation:
@@ -116,10 +114,7 @@ class ItemEstimation:
         self.owner_id = int(attribute[3])
         self.owner_signature = int(attribute[4])
         self.item_type = attribute[5]
-
-        new_item = ItemEstimationType.dictionary_item_types[self.item_type]()
-        new_item.fill_and_parse_attributes(attribute[6])
-        self.item = new_item
+        self.item = create_item_from_string(attribute[6])
 
 
     #TODO - REFAIRE CA PLUS TARD

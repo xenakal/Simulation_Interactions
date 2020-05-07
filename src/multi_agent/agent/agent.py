@@ -14,7 +14,10 @@ class AgentType:
 
 class AgentRepresentation(Item):
     def __init__(self, id, type):
-        super().__init__(id,int(random.random() * 10000000000000000) + 100)
+        if id is None:
+            super().__init__(id)
+        else:
+            super().__init__(id+type)
 
         self.type = type
         self.is_active = False

@@ -38,8 +38,8 @@ class InternalPriority:
 
 
 class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
-    def __init__(self, id, type):
-        super().__init__(id, type)
+    def __init__(self, id=None):
+        super().__init__(id, AgentType.AGENT_CAM)
         self.camera_representation = mobCam.MobileCameraRepresentation(0, 0, 0, 0, 0, 0, 0, 0)
 
     def update_from_agent(self, agent):
@@ -60,6 +60,7 @@ class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
                                                            agent_estimator.error_speed, agent_estimator.error_acc,
                                                            agent_estimator.color, agent_estimator.is_camera_active,
                                                            agent_estimator.item_type, agent_estimator.trajectory)
+
 
 
 class AgentCam(AgentInteractingWithRoom):
@@ -300,7 +301,9 @@ class AgentCam(AgentInteractingWithRoom):
                     last_time_move = constants.get_time()
 
                 """Create a new memory to save the """
-                self.memory.add_create_agent_estimator_from_agent(constants.get_time(), self, self)
+                agent_representation = AgentCamRepresentation(self.id)
+                agent_representation.update_from_agent(self)
+                self.memory.add_create_agent_estimator_from_agent(constants.get_time(), self, agent_representation)
                 if not self.camera.is_active or not self.is_active:
                     nextstate = AgentCameraFSM.BUG
                 else:

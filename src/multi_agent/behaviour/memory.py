@@ -72,24 +72,26 @@ class Memory:
         self.memory_all_agent_from_target.add_create_itemEstimation(time_from_estimation, agent_id, agent_signature,item)
 
         # add predictor if doesn't exist yet
-        '''
-        if not self.exists_predictor_for_target(target_id):
-            self.create_predictor_for_target(agent_id, target_id, target_xc, target_yc, target_vx, target_vy, target_ax,
-                                             target_ay, time_from_estimation)
+
+        if not self.exists_predictor_for_target(item.id):
+            self.create_predictor_for_target(agent_id, item.id, item.xc, item.yc, item.vx, item.vy, item.ax,
+                                             item.ay, time_from_estimation)
         # inform predictor of new measurement
-        target_predictor = self.get_target_predictor(target_id)
-        state = [target_xc, target_yc, target_vx, target_vy, target_ax, target_ay]
+        target_predictor = self.get_target_predictor(item.id)
+        state = [item.xc, item.yc, item.vx, item.vy, item.ax, item.ay]
         target_predictor.add_measurement(state, time_from_estimation)
 
         (new_estimate_current_pos, new_var) = target_predictor.get_current_position()
-        self.update_best_estimation(time_from_estimation, agent_id, agent_signature, target_id,
-                                    target_signature, new_estimate_current_pos[0], new_estimate_current_pos[1],
-                                    target_vx, target_vy, target_ax, target_ay, target_size, target_type,
-                                    (new_var[0][0], new_var[1][1]))
 
-        self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, target_id,
-                                      target_signature, target_size, target_type)
-        '''
+        kalman_target_representation = TargetRepresentation(item.id, new_estimate_current_pos[0] ,
+                                                            new_estimate_current_pos[1],new_estimate_current_pos[2],
+                                                            new_estimate_current_pos[3],0,0,
+                                                            item.radius, item.type, item.color)
+
+        self.update_best_estimation(time_from_estimation, agent_id, agent_signature, kalman_target_representation)
+
+        self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, item)
+
 
     def add_target_estimator(self, estimator):
         self.log_memory.info("Add memory, from agent : " + str(estimator.owner_id) + " - target " + str(estimator.item.id))
@@ -109,7 +111,7 @@ class Memory:
 
     def add_agent_estimator(self, estimator):
         self.log_memory.info(
-            "Add memory, from agent : " + str(estimator.agent_id) + " - agent " + str(estimator.item_id))
+            "Add memory, from agent : " + str(estimator.owner_id) + " - agent " + str(estimator.item.id))
         self.memory_all_agent_from_agent.add_itemEstimation(estimator)
 
     def set_current_time(self, current_time):
@@ -137,6 +139,7 @@ class Memory:
                         self.log_memory.info(
                             "Combine data from agent : " + str(agent_id) + " - target " + str(target_id))
                         self.memory_measured_from_target.add_itemEstimation(estimateur)
+
 
         "Combine data related to agentCam"
         if True:
@@ -285,11 +288,10 @@ class Memory:
         """
         return self.memory_best_estimations_from_target.get_item_list(seeked_target_id)
 
-    def update_predictions_lists(self, time_from_estimation, agent_id, agent_signature, target_id, target_signature,
-                                 target_size, target_type):
+    def update_predictions_lists(self, time_from_estimation, agent_id, agent_signature, item):
 
         # predictions_for_target = self.get_target_predictor(target_id).get_predictions()
-        predictions_for_target = self.get_target_predictions(target_id)
+        predictions_for_target = self.get_target_predictions(item.id)
         if len(predictions_for_target) < 2:  # No predictions made
             return
 
@@ -303,18 +305,8 @@ class Memory:
         predict_vy = 0
         predict_ax = 0
         predict_ay = 0
-        self.memory_predictions_order_1_from_target.add_create_target_estimator(time_from_estimation, agent_id,
-                                                                                agent_signature, target_id,
-                                                                                target_signature, prediction_1[0],
-                                                                                prediction_1[1], predict_vx, predict_vy,
-                                                                                predict_ax,
-                                                                                predict_ay, target_size, target_type,
-                                                                                (variance1[0][0], variance1[1][1]))
+        self.memory_predictions_order_1_from_target.add_create_itemEstimation(time_from_estimation, agent_id,
+                                                                             agent_signature,item)
 
-        self.memory_predictions_order_2_from_target.add_create_target_estimator(time_from_estimation, agent_id,
-                                                                                agent_signature, target_id,
-                                                                                target_signature, prediction_2[0],
-                                                                                prediction_2[1], predict_vx, predict_vy,
-                                                                                predict_ax,
-                                                                                predict_ay, target_size, target_type,
-                                                                                (variance2[0][0], variance2[1][1]))
+        self.memory_predictions_order_2_from_target.add_create_itemEstimation(time_from_estimation, agent_id,
+                                                                             agent_signature,item)

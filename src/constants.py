@@ -20,7 +20,7 @@ USE_static_analysis = False
 USE_dynamic_analysis_simulated_room =False
 
 INCLUDE_ERROR = True
-LOG_LEVEL = logging.DEBUG  #
+LOG_LEVEL = logging.INFO  #
 
 """Option GUI--------------------------------------------------------------------------------------------------------"""
 
@@ -68,7 +68,7 @@ TIME_SEND_READ_MESSAGE = (0.3 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 MAX_TIME_MESSAGE_IN_LIST = 3 / SCALE_TIME  # s
 TRESH_TIME_TO_SEND_MEMORY = 100 / SCALE_TIME  #
 "Agent-User"
-TIME_TO_SLOW_DOWN = 0.2 / SCALE_TIME
+TIME_TO_SLOW_DOWN = 0.05 / SCALE_TIME
 
 """Error on mesure---------------------------------------------------------------------------------------------------"""
 STD_MEASURMENT_ERROR_POSITION = 0.2
@@ -84,6 +84,9 @@ COEFF_STD_VARIATION_MEASURMENT_ERROR_ACCELERATION = 0.001 * STD_MEASURMENT_ERROR
 NAME_MAILBOX = "mailbox/MailBox_Agent"
 STD_RECEIVED = 0
 SEUIL_RECEIVED = 10
+
+ITEM_START_MARKER = "ITEM_START-"
+ITEM_END_MARKER = "-ITEM_END"
 
 """Option for class predication--------------------------------------------------------------------------------------"""
 NUMBER_PREDICTIONS = 3
@@ -103,7 +106,7 @@ TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 3
 """
 Refers to what data agent should use to analyse the room 
 """
-AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Data_measured
+AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Best_estimation
 AGENT_CHOICE_HOW_TO_FOLLOW_TARGET = ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG
 
 """

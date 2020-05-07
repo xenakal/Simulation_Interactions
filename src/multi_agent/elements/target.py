@@ -54,7 +54,7 @@ class TargetRepresentation(Item):
         """Initialisation"""
 
         " Identification name (id) + number "
-        super().__init__(id, int(random.random() * 10000000000000000) + 100)
+        super().__init__(id)
 
         "TargetRepresentation description on the maps"
         "Position and Speeds"""
