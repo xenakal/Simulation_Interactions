@@ -91,9 +91,9 @@ class ItemEstimation:
                 1. (string) s0+s1 -- description of the targetRepresentation
 
         """
-        s1 = "#Timestamp: " + str(self.time_stamp) + " #Time_to_compare: " + str(self.time_to_compare_to_simulated_data) + "\n"
-        s2 = "#Owner_id: " + str(self.owner_id) + " #Owner_signature: " + str(self.owner_signature) + "\n"
-        s3 = "#Item_type: " +  str(self.item_type) + " #Item: " + str(self.item.attributes_to_string())
+        s1 = "#ITEM_Timestamp: " + str(self.time_stamp) + " #ITEM_Time_to_compare: " + str(self.time_to_compare_to_simulated_data) + "\n"
+        s2 = "#ITEM_Owner_id: " + str(self.owner_id) + " #ITEM_Owner_signature: " + str(self.owner_signature) + "\n"
+        s3 = "#ITEM_Item_type: " +  str(self.item_type)  + " #ITEM_Item: " + str(self.item.attributes_to_string())
         return str("\n" + s1 + s2 + s3 + "\n")
 
 
@@ -109,7 +109,7 @@ class ItemEstimation:
         """
         s = s.replace("\n", "")
         s = s.replace(" ", "")
-        attribute = re.split("#Timestamp:|#Time_to_compare:|#Owner_id:|#Owner_signature:|#Item_type:|#Item:",s)
+        attribute = re.split("#ITEM_Timestamp:|#ITEM_Time_to_compare:|#ITEM_Owner_id:|#ITEM_Owner_signature:|#ITEM_Item_type:|#ITEM_Item:",s)
 
         self.time_stamp = float(attribute[1])
         self.time_to_compare_to_simulated_data = float(attribute[2])
@@ -236,9 +236,7 @@ class MultipleOwnerMemories:
             self.Agent_item_itemEstimator_list.append([agent_id, item_id, []])
 
     def add_create_itemEstimation(self, time_stamp,owner_id, owner_signature, item):
-
-        new_ItemEstimation = ItemEstimation(time_stamp=time_stamp,owner_id=owner_id,
-                                           owner_agent_signature=owner_signature,item=item)
+        new_ItemEstimation = ItemEstimation(time_stamp,owner_id,owner_signature,item)
         self.add_itemEstimation(new_ItemEstimation)
 
     def add_itemEstimation(self, itemEstimation_to_add):
@@ -252,9 +250,7 @@ class MultipleOwnerMemories:
             :return / modify vector
                 fills the list  Agent_Target_TargetEstimator_list with a new TargetEstimator for the Target and Agent given
         """
-
         self.update_estimator_list(itemEstimation_to_add.owner_id, itemEstimation_to_add.item.id)
-
         for element in self.Agent_item_itemEstimator_list:
             if is_corresponding_TargetEstimator(itemEstimation_to_add.owner_id, itemEstimation_to_add.item.id,
                                                 element):

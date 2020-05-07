@@ -140,16 +140,16 @@ class Message:
             s = s.replace("\n", "")
             s = s.replace(" ", "")
 
-            attribut = re.split("Timestamp:|message#:|From:|sender#|Receiverlist:|Type:|item:|Message:", s)
+            attribut = re.split("MESSAGE_Timestamp:|MESSAGE_message#:|MESSAGE_From:|MESSAGE_sender#|MESSAGE_Receiverlist:|MESSAGE_Type:|MESSAGE_item:|MESSAGE_Message:", s)
             self.timestamp = float(attribut[1])
             self.signature = int(attribut[2])
             self.sender_id = int(attribut[3])
             self.sender_signature = int(attribut[4])
-            receivers = re.split("To:", attribut[5])
+            receivers = re.split("MESSAGE_To:", attribut[5])
             for receiver in receivers:
                 if not receiver == "":
                     try:
-                        info = receiver.split("receiver#")
+                        info = receiver.split("MESSAGE_receiver#")
                         self.add_receiver(info[0], info[1])
                     except IndexError:
                         print("error message class in parse_string()")
@@ -166,13 +166,13 @@ class Message:
                :return / modify vector
                       1. (string)   -- description of the targetRepresentation
         """
-        s1 = "Timestamp: " + str(self.timestamp) + ' message#:' + str(self.signature) + "\n"
-        s2 = "From: " + str(self.sender_id) + " sender#" + str(self.sender_signature) + "\nReceiver list : \n"
+        s1 = "MESSAGE_Timestamp: " + str(self.timestamp) + ' MESSAGE_message#:' + str(self.signature) + "\n"
+        s2 = "MESSAGE_From: " + str(self.sender_id) + " MESSAGE_sender#" + str(self.sender_signature) + "\nMESSAGE_Receiver list : \n"
         s3 = ""
         for receiver in self.receiver_id_and_signature:
-            s3 = s3 + "To: " + str(receiver[0]) + " receiver#" + str(receiver[1]) + "\n"
+            s3 = s3 + "MESSAGE_To: " + str(receiver[0]) + " MESSAGE_receiver#" + str(receiver[1]) + "\n"
 
-        s4 = 'Type: ' + str(self.messageType) + " item: " + str(self.item_ref) + " Message: "
+        s4 = 'MESSAGE_Type: ' + str(self.messageType) + " MESSAGE_item: " + str(self.item_ref) + " MESSAGE_Message: "
         base = s1 + s2 + s3 + s4
         return base + str(self.message) + "\n"
 

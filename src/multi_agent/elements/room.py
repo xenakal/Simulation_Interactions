@@ -305,8 +305,8 @@ class RoomRepresentation:
                     else:
                         norm_variance_pos = 0.1
                     '''
-                    target.evaluate_confidence(0.1,
-                                               constants.get_time() - last_TargetEstimator.time_stamp)
+                    target.evaluate_target_confidence(0.1,
+                                                      constants.get_time() - last_TargetEstimator.time_stamp)
                     break
 
             if not is_in_RoomRepresentation:
@@ -332,17 +332,17 @@ class RoomRepresentation:
                 camera = agent.camera_representation
                 if agent.id == agent_detected_id:
                     is_in_RoomRepresentation = True
-                    agent.is_active = last_AgentEstimator.is_agent_active
-                    agent.evaluate_confidence(0.001, constants.get_time() - last_AgentEstimator.time_stamp, 2)
-                    camera.xc = last_AgentEstimator.item_position[0]
-                    camera.yc = last_AgentEstimator.item_position[1]
+                    agent.is_active = last_AgentEstimator.item.is_active
+                    agent.evaluate_agent_confidence(0.001, constants.get_time() - last_AgentEstimator.time_stamp)
+                    camera.xc = last_AgentEstimator.item.camera.xc
+                    camera.yc = last_AgentEstimator.item.camera.yc
                     # self.item_speeds = [0, 0]  # [ camera.vx,  camera.vy]
                     # self.item_acceleration = [0, 0]  # [ camera.ax,  camera.ay]
-                    camera.type = last_AgentEstimator.item_type
-                    camera.alpha = last_AgentEstimator.alpha
-                    camera.beta = last_AgentEstimator.beta
-                    camera.field_depth = last_AgentEstimator.field_depth
-                    camera.is_active = last_AgentEstimator.is_camera_active
+                    camera.type = last_AgentEstimator.item.camera.camera_type
+                    camera.alpha = last_AgentEstimator.item.camera.alpha
+                    camera.beta = last_AgentEstimator.item.camera.beta
+                    camera.field_depth = last_AgentEstimator.item.camera.field_depth
+                    camera.is_active = last_AgentEstimator.item.camera.is_active
                     break
 
             if not is_in_RoomRepresentation:

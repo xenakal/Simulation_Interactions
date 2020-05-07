@@ -1,6 +1,7 @@
 import mailbox
 import math
 from src.multi_agent.communication.message import *
+from src.multi_agent.elements.item import Item, evaluate_confidence
 from src.my_utils.my_IO.IO_data import *
 from src import constants
 import io
@@ -11,10 +12,9 @@ class AgentType:
     AGENT_USER = 100
 
 
-class AgentRepresentation:
+class AgentRepresentation(Item):
     def __init__(self, id, type):
-        self.id = id + int(type)
-        self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
+        super().__init__(id,int(random.random() * 10000000000000000) + 100)
 
         self.type = type
         self.is_active = False
@@ -29,6 +29,11 @@ class AgentRepresentation:
         self.is_active = agent.is_active
         self.color = agent.color
         self.confidence = -1
+
+    def evaluate_agent_confidence(self,error,delta_time):
+        self.confidence = evaluate_confidence(error,delta_time)
+
+
 
 
 class Agent(AgentRepresentation):

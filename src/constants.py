@@ -20,7 +20,7 @@ USE_static_analysis = False
 USE_dynamic_analysis_simulated_room =False
 
 INCLUDE_ERROR = True
-LOG_LEVEL = logging.INFO  #
+LOG_LEVEL = logging.DEBUG  #
 
 """Option GUI--------------------------------------------------------------------------------------------------------"""
 

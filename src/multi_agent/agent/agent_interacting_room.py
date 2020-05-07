@@ -14,8 +14,9 @@ class BroadcastTypes:
 
 class MessageTypeAgentInteractingWithRoom(MessageType):
     HEARTBEAT = "heartbeat"
-    AGENT_ESTIMATOR = "agentEstimator"
-    TARGET_ESTIMATOR = "targetEstimator"
+    AGENT_ESTIMATION = "agentEstimation"
+    TARGET_ESTIMATION = "targetEstimation"
+    ITEM_ESTIMATION = "itemEstimation"
 
 
 class AgentInteractingWithRoomRepresentation(AgentRepresentation):
@@ -178,7 +179,7 @@ class AgentInteractingWithRoom(Agent):
             self.process_single_message(rec_mes)
 
     def process_single_message(self, rec_mes):
-        if rec_mes.messageType == MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATOR or rec_mes.messageType == MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATOR:
+        if rec_mes.messageType == MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATION or rec_mes.messageType == MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATION:
             self.received_message_itemEstimator(rec_mes)
             self.info_message_received.del_message(rec_mes)
         elif rec_mes.messageType == MessageType.ACK or rec_mes.messageType == MessageType.NACK:
@@ -299,15 +300,18 @@ class AgentInteractingWithRoom(Agent):
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
-        message_type = itemEstimation.item_type
+        message_type = MessageTypeAgentInteractingWithRoom.ITEM_ESTIMATION
+        if itemEstimation.item_type == ItemEstimationType.AgentEstimation:
+            message_type = MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATION
+        if itemEstimation.item_type == ItemEstimationType.TargetEstimation:
+            message_type = MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATION
+
         reference_to_target = itemEstimation.item.id
 
         m = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, message_type, s, reference_to_target)
         self.broadcast_message(m,BroadcastTypes.AGENT_CAM,receivers)
 
     def send_message_timed_itemEstimator(self, item_estimator, delta_time, receivers=None):
-
-
         cdt_message_not_to_old = ((constants.get_time() - item_estimator.time_stamp) <= constants.TRESH_TIME_TO_SEND_MEMORY)
         if cdt_message_not_to_old:
 
@@ -324,13 +328,13 @@ class AgentInteractingWithRoom(Agent):
             if len(receivers) == 0:
                 for agent in self.room_representation.agentCams_representation_list:
                     if agent.id != self.id:
-                        if table_time_sent.should_sent_item_to_agent(item_estimator.item_id, agent.id, delta_time):
-                            table_time_sent.sent_to_at_time(item_estimator.item_id, agent.id)
+                        if table_time_sent.should_sent_item_to_agent(item_estimator.item.id, agent.id, delta_time):
+                            table_time_sent.sent_to_at_time(item_estimator.item.id, agent.id)
                             send_message_to_agent.append((agent.id, agent.signature))
             else:
                 for receiver in receivers:
-                    if table_time_sent.should_sent_item_to_agent(item_estimator.item_id, receiver[0], delta_time):
-                        table_time_sent.sent_to_at_time(item_estimator.item_id, receiver[0])
+                    if table_time_sent.should_sent_item_to_agent(item_estimator.item.id, receiver[0], delta_time):
+                        table_time_sent.sent_to_at_time(item_estimator.item.id, receiver[0])
                         send_message_to_agent.append((receiver[0], receiver[1]))
 
             if len(send_message_to_agent) > 0:
@@ -348,11 +352,11 @@ class AgentInteractingWithRoom(Agent):
         """
         s = message.message
         if not (s == ""):
-            if message.messageType == ItemEstimationType.TargetEstimation:
+            if message.messageType == MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATION:
                 estimator =ItemEstimation()
                 estimator.parse_string(s)
                 self.memory.add_target_estimator(estimator)
-            elif message.messageType == ItemEstimationType.AgentEstimation:
+            elif message.messageType == MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATION:
                 estimator = ItemEstimation()
                 estimator.parse_string(s)
                 self.memory.add_agent_estimator(estimator)

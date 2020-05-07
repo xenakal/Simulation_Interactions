@@ -92,8 +92,7 @@ class Memory:
         '''
 
     def add_target_estimator(self, estimator):
-        self.log_memory.info(
-            "Add memory, from agent : " + str(estimator.agent_id) + " - target " + str(estimator.item_id))
+        self.log_memory.info("Add memory, from agent : " + str(estimator.owner_id) + " - target " + str(estimator.item.id))
         self.memory_all_agent_from_target.add_itemEstimation(estimator)
 
     def add_create_agent_estimator_from_agent(self, time_from_estimation, agent, item):
@@ -154,7 +153,6 @@ class Memory:
 
 
     def combine_data_userCam(self, choice=1):
-
         if choice == 1:
             for (agent_id, target_id) in self.memory_all_agent_from_target.Agent_item_already_discovered_list:
                 for estimateur in self.memory_all_agent_from_target.get_Agent_item_list(target_id, agent_id):

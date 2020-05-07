@@ -89,9 +89,6 @@ class AgentUser(AgentInteractingWithRoom):
                 self.info_message_sent.remove_message_after_given_time(constants.get_time(), constants.MAX_TIME_MESSAGE_IN_LIST)
                 self.info_message_received.remove_message_after_given_time(constants.get_time(), constants.MAX_TIME_MESSAGE_IN_LIST)
 
-                "Send heart_beat to other agent"
-                time_last_heartbeat_sent = self.handle_hearbeat()
-
                 '''Message are send (Mailbox)'''
                 self.send_messages()
                 '''Read messages received'''
@@ -102,7 +99,6 @@ class AgentUser(AgentInteractingWithRoom):
                 self.process_message_sent()
 
                 self.log_room.info(self.memory.statistic_to_string() + self.message_statistic.to_string())
-
                 time.sleep(constants.TIME_SEND_READ_MESSAGE)
                 nextstate = "processData"
 

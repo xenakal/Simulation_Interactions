@@ -300,8 +300,7 @@ class AgentCam(AgentInteractingWithRoom):
                     last_time_move = constants.get_time()
 
                 """Create a new memory to save the """
-                #self.memory.add_create_agent_estimator_from_agent(constants.get_time(), self, self)
-
+                self.memory.add_create_agent_estimator_from_agent(constants.get_time(), self, self)
                 if not self.camera.is_active or not self.is_active:
                     nextstate = AgentCameraFSM.BUG
                 else:
@@ -332,7 +331,7 @@ class AgentCam(AgentInteractingWithRoom):
 
         '''Modification from the room description'''
         self.room_representation.update_target_based_on_memory(self.pick_data(constants.AGENT_DATA_TO_PROCESS))
-        #self.room_representation.update_agent_based_on_memory(self.memory.memory_agent_from_agent)
+        self.room_representation.update_agent_based_on_memory(self.memory.memory_agent_from_agent)
 
         '''Computation of the camera that should give the best view, according to maps algorithm'''
         self.link_target_agent.update_link_camera_target()
@@ -346,7 +345,7 @@ class AgentCam(AgentInteractingWithRoom):
 
         if len(self.memory.memory_agent_from_agent.get_item_list(self.id)) > 0:
             last_camera_estimation = self.memory.memory_agent_from_agent.get_item_list(self.id)[-1]
-            self.send_message_timed_itemEstimator(last_camera_estimation, constants.TIME_BTW_AGENT_ESTIMATOR)
+            #self.send_message_timed_itemEstimator(last_camera_estimation, constants.TIME_BTW_AGENT_ESTIMATOR)
 
         # self.log_target_tracked.info(self.table_all_target_number_times_seen.to_string(self.id))
 
@@ -401,13 +400,8 @@ class AgentCam(AgentInteractingWithRoom):
                 self.table_all_target_number_times_seen.update_lost(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET, target.id)
 
-            if constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.ALL:
-                target_estimator_to_send = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
-                if len(target_estimator_to_send.get_item_list(target.id)) > 0:
-                    self.send_message_timed_itemEstimator(target_estimator_to_send.get_item_list(target.id)[-1],
-                                                          constants.TIME_BTW_TARGET_ESTIMATOR)
 
-            elif constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.DKF:
+            if constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.DKF:
                 self.send_message_DKF_info(target.id)
 
             elif constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.NONE:
@@ -423,18 +417,14 @@ class AgentCam(AgentInteractingWithRoom):
             """If the target is link to this agent then we send the message to the user"""
             cdt_target_type_1 = not (target.type == TargetType.SET_FIX)
             cdt_target_type_2 = True  # not(target.type == TargetType.FIX) or is_target_changing_state #to decrease the number of messages sent
-            print(target.id)
-            print(self.link_target_agent.link_camera_target[0].to_string())
             cdt_agent_is_in_charge = self.link_target_agent.is_in_charge(target.id, self.id)
 
-            print(cdt_agent_is_in_charge)
             if cdt_agent_is_in_charge and cdt_target_type_1 and cdt_target_type_2:
                 receivers = []
                 for agent in self.room_representation.agentUser_representation_list:
                     receivers.append([agent.id, agent.signature])
 
                 target_estimator_to_send = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
-                print(target_estimator_to_send)
                 if len(target_estimator_to_send.get_item_list(target.id)) > 0:
                     self.send_message_timed_itemEstimator(target_estimator_to_send.get_item_list(target.id)[-1],
                                                           constants.TIME_BTW_TARGET_ESTIMATOR, receivers)

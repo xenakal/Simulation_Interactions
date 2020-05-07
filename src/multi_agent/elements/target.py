@@ -3,7 +3,7 @@ import random
 import re
 import math
 from src import constants
-from src.multi_agent.elements.item import Item
+from src.multi_agent.elements.item import Item, evaluate_confidence
 from src.my_utils.constant_class import ConfidenceFunction
 from src.my_utils.my_math.line import Line
 
@@ -70,7 +70,7 @@ class TargetRepresentation(Item):
         self.radius = radius
         self.type = type
         self.color = color
-        self.variance_on_estimation = (0,0)
+        self.variance_on_estimation = [0,0]
         self.confidence_pos = [-1,-1]
 
         self.priority_level = 0
@@ -83,54 +83,11 @@ class TargetRepresentation(Item):
             self.color = (r, g, b)
 
 
-    def evaluate_confidence(self, error, delta_time):
+    def evaluate_target_confidence(self, error, delta_time):
         """Method to modify the value of the confidence based on severals parameters"""
-
         self.confidence_pos[0] = self.confidence_pos[1]
+        self.confidence_pos[1] =  evaluate_confidence(error,delta_time)
 
-        """Kalman dependency"""
-        amplitude =  (1 / math.pow(error, 2))
-
-        if amplitude > constants.CONFIDENCE_MAX_VALUE:
-            amplitude = constants.CONFIDENCE_MAX_VALUE
-        t_thresh = constants.CONFIDENCE_TIME_TO_REACH_MIN_VALUE
-        pt1 = (0, constants.CONFIDENCE_MAX_VALUE)
-        pt2 = (t_thresh, constants.CONFIDENCE_MIN_VALUE)
-        if pt1[1] < pt2[1]:
-            self.confidence_pos[1] = 0
-            return
-
-        """Time dependency"""
-        if ConfidenceFunction.EXPONENTIAL_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
-            if constants.CONFIDENCE_MIN_VALUE >= 1:
-                time_constant = -t_thresh/math.log(pt2[1]/pt1[1])
-            else:
-                time_constant = t_thresh/5
-
-            delta_t_due_to_amplitude = -time_constant*math.log(amplitude/pt1[1])
-            delta_time += delta_t_due_to_amplitude
-            self.confidence_pos[1] = pt1[1]*math.exp(-delta_time/time_constant)
-
-        elif ConfidenceFunction.EXPONENTIAL_REVERSE_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
-
-            pass
-
-        elif ConfidenceFunction.LINEAR_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
-           if pt1[1] > pt2[1]:
-                line = Line(pt1[0],pt1[1],pt2[0],pt2[1])
-                delta_t_due_to_amplitude =  line.compute_x(amplitude)
-                delta_time += delta_t_due_to_amplitude
-                self.confidence_pos[1] = line.compute_y(delta_time,line)
-           else:
-               self.confidence_pos[1] = constants.CONFIDENCE_MIN_VALUE
-
-        elif ConfidenceFunction.STEP == constants.CONFIDENCE_FUNCTION_CHOICE:
-           if delta_time < t_thresh:
-                self.confidence_pos[1] = amplitude
-           else:
-                self.confidence_pos[1] = constants.CONFIDENCE_MIN_VALUE
-
-        self.confidence_pos[1] = min(max(self.confidence_pos[1],constants.CONFIDENCE_MIN_VALUE),constants.CONFIDENCE_MAX_VALUE)
 
     def to_string(self):
         """
@@ -246,7 +203,6 @@ class Target(TargetRepresentation):
         self.radius = self.my_rand(r_bound)
         self.vx_max = self.my_rand(v_bound)
         self.vy_max = self.my_rand(v_bound)
-
 
         #TODO voir si on veut changer mais on bouge toujours de la même manière
         self.trajectory_type = TargetMotion.LINEAR
