@@ -37,7 +37,6 @@ def is_in_list_TargetEstimator(list_TargetEstimator, targetEstimator):
     return False
 
 
-
 class ItemEstimationType:
     ItemEstimation = "item_estimation"
     AgentEstimation = "agent_estimation"
@@ -46,7 +45,6 @@ class ItemEstimationType:
     keys_string_names = [ItemEstimation,TargetEstimation, AgentEstimation]
     values_class_names = [Item,TargetRepresentation, AgentRepresentation]
     dictionary_item_types = dict(zip(keys_string_names, values_class_names))
-
 
 
 class ItemEstimation:

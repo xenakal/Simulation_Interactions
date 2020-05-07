@@ -20,7 +20,7 @@ def evaluate_confidence(error, delta_time):
     pt1 = (0, constants.CONFIDENCE_MAX_VALUE)
     pt2 = (t_thresh, constants.CONFIDENCE_MIN_VALUE)
     if pt1[1] < pt2[1]:
-         return ret_confidence
+        return ret_confidence
 
     """Time dependency"""
     if ConfidenceFunction.EXPONENTIAL_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
@@ -53,8 +53,7 @@ def evaluate_confidence(error, delta_time):
             ret_confidence = constants.CONFIDENCE_MIN_VALUE
 
     return min(max(ret_confidence, constants.CONFIDENCE_MIN_VALUE),
-                                 constants.CONFIDENCE_MAX_VALUE)
-
+               constants.CONFIDENCE_MAX_VALUE)
 
 
 def parse_list(s):
@@ -70,7 +69,7 @@ def parse_list(s):
         lists = re.split("],\[", s)
         for element in lists:
             ret_list.append(parse_element("[" + str(element) + "]"))
-    if "(" in s :
+    if "(" in s:
         s = s[1:-1]
         lists = re.split("\),\(", s)
         for element in lists:
@@ -87,64 +86,89 @@ def parse_list(s):
 
 
 def parse_element(s):
-    if isinstance(s,str) and len(s) > 0:
+    if isinstance(s, str) and len(s) > 0:
         try:
             if s.isdigit():
                 return int(s)
             else:
                 return float(s)
         except:
-                if (s[0] == "[" and s[-1] == "]")or(s[0] == "(" and s[-1] == ")"):
-                    return parse_list(s)
+            if (s[0] == "[" and s[-1] == "]") or (s[0] == "(" and s[-1] == ")"):
+                return parse_list(s)
 
     return s
 
 
+def create_item_from_string(s):
+
+    s = s.replace("\n", "")
+    s = s.replace(" ", "")
+
+    s = s[len(constants.ITEM_START_MARKER):]
+    s = s[:-len(constants.ITEM_END_MARKER)]
+
+    item_tag = s[:5]
+    s = s[5:]
+
+    class_string = re.search(str(item_tag) + 'item_type:(.*)' + str(item_tag) + 'id', s).group(1)
+    item = object_from_string(class_string)
+
+    string_to_parse = ""
+    for key, value in item.__dict__.items():
+        string_to_parse += item_tag + key + ":|"
+    string_to_parse = string_to_parse[:-1]
+
+    attributes_parse = re.split(string_to_parse, s)
+    attributes_parse = attributes_parse[1:]
+
+    item_dictionnary = [(key, value) for key, value in item.__dict__.items() if
+                        key not in item.attributes_not_to_send]
+    for (key, value), value_parse in zip(item_dictionnary, attributes_parse):
+        if constants.ITEM_START_MARKER in value_parse:
+            item.__dict__[key] = create_item_from_string(value_parse)
+        else:
+            item.__dict__[key] = parse_element(value_parse)
+
+    return item
+
+
+def object_from_string(class_string):
+    class_substring = re.split("\.", class_string)
+    class_substring = class_substring[-1]
+    index_end = class_substring.index("'")
+    class_substring = class_substring[:index_end]
+    import importlib.util
+
+    return eval(class_substring)()
+
+
 class Item:
     def __init__(self, id=None):
+        self.item_type = type(self)
         self.id = id
         self.signature = int(random.random() * 10000000000000000) + 100
-        self.attributes_not_to_send=["attributes_not_to_send"]
-
-    def fill_and_parse_attributes(self, s):
-        self.fill_attributes_from_str(s)
-        self.parse_attributes()
-
-    def parse_attributes(self):
-        for key, value in self.__dict__.items():
-            if key not in self.attributes_not_to_send:
-                self.__dict__[key] = parse_element(value)
-
-    def fill_attributes_from_str(self, s):
-        s = s.replace("\n", "")
-        s = s.replace(" ", "")
-
-        s = s[len("ITEM_START:"),:]
-        s = s[:,len("ITEM_END:")]
-
-        string_to_parse = ""
-        for key, value in self.__dict__.items():
-            string_to_parse += key + ":|"
-        string_to_parse = string_to_parse[:-1]
-
-        attributes_parse = re.split(string_to_parse, s)
-        attributes_parse = attributes_parse[1:]
-
-        item_dictionnary = [(key,value) for key,value in self.__dict__.items() if key not in self.attributes_not_to_send]
-        for (key, value), value_parse in zip(item_dictionnary, attributes_parse):
-            self.__dict__[key] = value_parse
+        self.attributes_not_to_send = ["attributes_not_to_send"]
 
     def attributes_to_string(self):
-        s = "ITEM_START: "
+        s = constants.ITEM_START_MARKER + str(self.signature)[:5] + " "
         for key, value in self.__dict__.items():
             if key not in self.attributes_not_to_send:
-                s += str(key)+":"+str(value)+" "
-        return s +"ITEM_END"
+                if isinstance(value, Item):
+                    s += str(self.signature)[:5] + str(key) + ":" + value.attributes_to_string() + " "
+                else:
+                    s += str(self.signature)[:5] + str(key) + ":" + str(value) + " "
+        return s + " " + constants.ITEM_END_MARKER
+
+
+'''
+class ItemTypes:
+    keys = ["item", "camera", "agent"]
+    values = [Item, MobileCamera, AgentRepresentation]
+'''
 
 
 if __name__ == "__main__":
     item = Item("test")
     print(item.attributes_to_string())
-    item2 = Item()
-    item2.fill_and_parse_attributes(item.attributes_to_string())
+    item2 = create_item_from_string(item.attributes_to_string())
     print(item2.attributes_to_string())

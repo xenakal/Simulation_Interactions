@@ -85,6 +85,9 @@ NAME_MAILBOX = "mailbox/MailBox_Agent"
 STD_RECEIVED = 0
 SEUIL_RECEIVED = 10
 
+ITEM_START_MARKER = "ITEM_START-"
+ITEM_END_MARKER = "-ITEM_END"
+
 """Option for class predication--------------------------------------------------------------------------------------"""
 NUMBER_PREDICTIONS = 3
 PREVIOUS_POSITIONS_USED = 3  # number of previous positions used to make the prediction of the next positions

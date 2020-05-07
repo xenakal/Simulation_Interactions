@@ -1,6 +1,4 @@
-import random
-
-from src.multi_agent.elements.item import Item
+from src.multi_agent.elements.item import Item, create_item_from_string
 
 
 class ItemUser(Item):
@@ -37,6 +35,5 @@ class ItemUser(Item):
 if __name__ == "__main__":
     item1 = ItemUser(0)
     print(item1.attributes_to_string())
-    item2 = ItemUser()
-    item2.fill_and_parse_attributes(item1.attributes_to_string())
+    item2 = create_item_from_string(item1.attributes_to_string())
     print(item2.attributes_to_string())
