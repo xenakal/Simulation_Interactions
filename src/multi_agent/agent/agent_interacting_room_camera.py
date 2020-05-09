@@ -63,7 +63,6 @@ class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
                                                            agent_estimator.item_type, agent_estimator.trajectory)
 
 
-
 class AgentCam(AgentInteractingWithRoom):
     """
         Class AgentCam extend AgentInteractingWithRoom.

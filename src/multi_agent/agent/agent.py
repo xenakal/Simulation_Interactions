@@ -37,8 +37,6 @@ class AgentRepresentation(Item):
         self.confidence = evaluate_confidence(error,delta_time)
 
 
-
-
 class Agent(AgentRepresentation):
     """
         Class Agent.
@@ -375,7 +373,3 @@ class AgentStatistic:
                 s = s + "Receiver agent: " + str(self.id) + " sender agent: " + str(
                     element[0]) + ", # messages = " + str(element[1]) + "\n"
         return s
-
-
-if __name__ == "__constants__":
-    pass
