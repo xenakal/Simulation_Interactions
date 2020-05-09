@@ -46,15 +46,15 @@ class Memory:
         self.nTime = nTime
 
         self.memory_all_agent_from_agent = MultipleOwnerMemories()
-        self.memory_agent_from_agent = SingleOwnerMemories()
+        self.memory_agent_from_agent = SingleOwnerMemories(agent_id)
 
         self.memory_all_agent_from_target = MultipleOwnerMemories()
-        self.memory_agent_from_target = SingleOwnerMemories()
+        self.memory_agent_from_target = SingleOwnerMemories(agent_id)
 
-        self.memory_measured_from_target = SingleOwnerMemories()
-        self.memory_best_estimations_from_target = SingleOwnerMemories()
-        self.memory_predictions_order_1_from_target = SingleOwnerMemories()
-        self.memory_predictions_order_2_from_target = SingleOwnerMemories()
+        self.memory_measured_from_target = SingleOwnerMemories(agent_id)
+        self.memory_best_estimations_from_target = SingleOwnerMemories(agent_id)
+        self.memory_predictions_order_1_from_target = SingleOwnerMemories(agent_id)
+        self.memory_predictions_order_2_from_target = SingleOwnerMemories(agent_id)
 
         self.predictors = []
 
@@ -131,9 +131,9 @@ class Memory:
             In the future, a different method could be added, where the information from all agents is combined (for
             example using some kind of mean) to create the memory_agent list.
         """
-        for (agent_id, target_id) in self.memory_all_agent_from_target.Agent_item_already_discovered_list:
+        for (agent_id, target_id) in self.memory_all_agent_from_target.agents_and_items_discovered:
             if agent_id == self.id:
-                for estimateur in self.memory_all_agent_from_target.get_Agent_item_list(target_id, self.id):
+                for estimateur in self.memory_all_agent_from_target.get_agent_item_list(target_id, self.id):
                     if not is_in_list_TargetEstimator(self.memory_measured_from_target.get_item_list(target_id),
                                                       estimateur):
                         self.log_memory.info(
@@ -143,9 +143,9 @@ class Memory:
 
         "Combine data related to agentCam"
         if True:
-            for (agent_id, agent_observed_id) in self.memory_all_agent_from_agent.Agent_item_already_discovered_list:
+            for (agent_id, agent_observed_id) in self.memory_all_agent_from_agent.agents_and_items_discovered:
                 if agent_id == agent_observed_id:
-                    for estimateur in self.memory_all_agent_from_agent.get_Agent_item_list(agent_id, agent_id):
+                    for estimateur in self.memory_all_agent_from_agent.get_agent_item_list(agent_id, agent_id):
                         self.log_memory.info(
                             "Combine data from agent : " + str(agent_id) + " - agent " + str(agent_observed_id))
                         if not is_in_list_TargetEstimator(self.memory_agent_from_agent.get_item_list(agent_id),
@@ -157,8 +157,8 @@ class Memory:
 
     def combine_data_userCam(self, choice=1):
         if choice == 1:
-            for (agent_id, target_id) in self.memory_all_agent_from_target.Agent_item_already_discovered_list:
-                for estimateur in self.memory_all_agent_from_target.get_Agent_item_list(target_id, agent_id):
+            for (agent_id, target_id) in self.memory_all_agent_from_target.agents_and_items_discovered:
+                for estimateur in self.memory_all_agent_from_target.get_agent_item_list(target_id, agent_id):
                     if not is_in_list_TargetEstimator(self.memory_measured_from_target.get_item_list(target_id),estimateur):
                         self.log_memory.info(
                             "Combine data, from agent : " + str(agent_id) + " - target " + str(target_id))
@@ -194,7 +194,7 @@ class Memory:
         return self.memory_measured_from_target.get_item_list(targetID)
 
     def getPreviousPositions_allMessages(self, targetID, agentID):
-        return self.memory_all_agent_from_target.get_Agent_item_list(targetID, agentID)
+        return self.memory_all_agent_from_target.get_agent_item_list(targetID, agentID)
 
     def to_string_memory_all(self):
         return self.memory_all_agent_from_target.to_string() + "\n" + self.memory_all_agent_from_agent.to_string()

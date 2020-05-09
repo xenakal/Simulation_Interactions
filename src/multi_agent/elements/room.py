@@ -279,7 +279,7 @@ class RoomRepresentation:
               :param
                   1. (list) Target_TargetEstimator -- see file memory, class Target_TargetEstimator
          """
-        for target_detected_id in Target_TargetEstimator.item_already_discovered_list:
+        for target_detected_id in Target_TargetEstimator.items_discovered:
             is_in_RoomRepresentation = False
             all_TargetEstimator_for_target_id = Target_TargetEstimator.get_item_list(target_detected_id)
             last_TargetEstimator = all_TargetEstimator_for_target_id[-1]
@@ -323,7 +323,7 @@ class RoomRepresentation:
                   1. (list) Target_TargetEstimator -- see file memory, class Target_TargetEstimator
          """
 
-        for agent_detected_id in Agent_AgentEstimator.item_already_discovered_list:
+        for agent_detected_id in Agent_AgentEstimator.items_discovered:
             is_in_RoomRepresentation = False
             all_TargetEstimator_for_target_id = Agent_AgentEstimator.get_item_list(agent_detected_id)
             last_AgentEstimator = all_TargetEstimator_for_target_id[-1]

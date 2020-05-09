@@ -700,14 +700,14 @@ class AgentCam(AgentInteractingWithRoom):
         target_target_estimator = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
 
         # reconstruct the Target_TargetEstimator by flitering the targets
-        new_target_targetEstimator = SingleOwnerMemories()
-        for (target_id, targetEstimator_list) in target_target_estimator.item_itemEstimator_list:
-            if target_id in targets:
-                new_target_targetEstimator.add_itemEstimation(targetEstimator_list[-1])
+        new_target_targetEstimation = SingleOwnerMemories(self.id)
+        for itemEstimationsList in target_target_estimator.items_estimations_lists:
+            if itemEstimationsList.item_id in targets:
+                new_target_targetEstimation.add_itemEstimationsList(itemEstimationsList)
 
         # find a configuration for these targets
         tracked_targets_room_representation = room.RoomRepresentation()
-        tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimator)
+        tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimation)
         return tracked_targets_room_representation
 
     def process_single_message(self, rec_mes):
