@@ -58,7 +58,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
     number_of_target = len(target_representation_list)
 
     all_fix = True
-    are_target_fix = [target.type == TargetType.FIX for target in target_representation_list]
+    are_target_fix = [target.target_type == TargetType.FIX for target in target_representation_list]
     for item in are_target_fix:
         if not item:
             all_fix = False
@@ -97,7 +97,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
         delta_x = camera.xc - xt
         delta_y = camera.yc - yt
 
-        if target.type == TargetType.FIX or target.type == TargetType.SET_FIX:
+        if target.target_type == TargetType.FIX or target.target_type == TargetType.SET_FIX:
             angle_in_room_representation = camera.alpha
         else:
             angle_in_room_representation = math.atan(delta_y / delta_x)

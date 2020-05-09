@@ -6,6 +6,7 @@ import numpy as np
 from src import constants
 from src.multi_agent.elements.camera import Camera, CameraRepresentation
 from src.my_utils import constant_class
+from src.my_utils.my_math.bound import bound_angle_btw_minus_pi_plus_pi
 from src.my_utils.my_math.line import distance_btw_two_point, Line
 from src.my_utils.string_operations import parse_list
 
@@ -18,9 +19,9 @@ class MobileCameraType:
 
 
 class MobileCameraRepresentation(CameraRepresentation):
-    def __init__(self, room = None, id = None, xc = None, yc = None, alpha = None, beta = None, d_max = None, type = None):
-        super().__init__(room, id, xc, yc, alpha, beta, d_max)
-        super().__init__(room, id, xc, yc, alpha, beta, d_max)
+    def __init__(self, room = None, id = None, xc = None, yc = None, alpha = None, beta = None, field_depth = None, type = None):
+        super().__init__(room, id, xc, yc, alpha, beta, field_depth)
+        super().__init__(room, id, xc, yc, alpha, beta, field_depth)
         self.camera_type = type
         self.trajectory = TrajectoryPlaner([])
 
@@ -51,8 +52,8 @@ class MobileCamera(Camera):
         """Default values"""
         self.default_xc = xc
         self.default_yc = yc
-        self.default_alpha = born_minus_pi_plus_pi(math.radians(alpha))
-        self.default_beta = born_minus_pi_plus_pi(math.radians(beta))
+        self.default_alpha = bound_angle_btw_minus_pi_plus_pi(math.radians(alpha))
+        self.default_beta = bound_angle_btw_minus_pi_plus_pi(math.radians(beta))
         self.default_field_depth = field_depth
 
         """Limit the variation"""
@@ -63,8 +64,8 @@ class MobileCamera(Camera):
         self.v_beta_min = v_beta_min
         self.v_beta_max = v_beta_max
         self.delta_beta = math.radians(delta_beta)
-        self.beta_min = born_minus_pi_plus_pi(self.beta - self.delta_beta)
-        self.beta_max = born_minus_pi_plus_pi(self.beta + self.delta_beta)
+        self.beta_min = bound_angle_btw_minus_pi_plus_pi(self.beta - self.delta_beta)
+        self.beta_max = bound_angle_btw_minus_pi_plus_pi(self.beta + self.delta_beta)
 
         """Zoom"""
         self.coeff_field = constants.COEFF_VARIATION_FROM_FIELD_DEPTH
@@ -106,7 +107,7 @@ class MobileCamera(Camera):
                                                       False)
 
     def save_target_to_txt(self):
-        s0 = "x:%0.2f y:%0.2f alpha:%0.2f beta:%0.2f delta_beta: %.02f field_depth:%0.2f" % (
+        s0 = "xc:%0.2f yc:%0.2f alpha:%0.2f beta:%0.2f delta_beta: %.02f field_depth:%0.2f" % (
             self.xc, self.yc, math.degrees(self.alpha), math.degrees(self.beta), math.degrees(self.delta_beta),
             self.field_depth)
         s1 = " t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
@@ -120,9 +121,12 @@ class MobileCamera(Camera):
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
+
+
         attribute = re.split(
-            "x:|y:|alpha:|beta:|delta_beta:|field_depth:|t_add:|t_del:|vx_vy_min:|vx_vy_max:|v_alpha_min:|v_alpha_max:|v_beta_min:|v_beta_max:|traj:|type:",
+            "xc:|yc:|alpha:|beta:|delta_beta:|field_depth:|t_add:|t_del:|vx_vy_min:|vx_vy_max:|v_alpha_min:|v_alpha_max:|v_beta_min:|v_beta_max:|traj:|type:",
             s)
+
 
         self.xc = float(attribute[1])
         self.yc = float(attribute[2])

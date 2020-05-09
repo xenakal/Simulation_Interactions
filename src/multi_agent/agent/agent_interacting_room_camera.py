@@ -196,7 +196,7 @@ class AgentCam(AgentInteractingWithRoom):
                     for targetCameraDistance in picture:
                         target = targetCameraDistance.target
                         "Simulation from noise on the target's position "
-                        if constants.INCLUDE_ERROR and not target.type == TargetType.SET_FIX:
+                        if constants.INCLUDE_ERROR and not target.target_type == TargetType.SET_FIX:
                             erreurPX = np.random.normal(scale=self.camera.std_measurment_error_position, size=1)[0]
                             erreurPY = np.random.normal(scale=self.camera.std_measurment_error_position, size=1)[0]
                             erreurVX = np.random.normal(scale=self.camera.std_measurment_error_speed, size=1)[0]
@@ -362,7 +362,7 @@ class AgentCam(AgentInteractingWithRoom):
                 ---------------------------------------------------------------------------------------------
             """
             is_target_changing_state = False
-            if not target.type == TargetType.SET_FIX:
+            if not target.target_type == TargetType.SET_FIX:
                 "Check if the target is moving,stopped or changing from one to the other state"
                 (is_moving, is_stopped) = detect_target_motion(self.pick_data(constants.AGENT_DATA_TO_PROCESS),
                                                                target.id, 1, 5,
@@ -373,7 +373,7 @@ class AgentCam(AgentInteractingWithRoom):
                 (is_in, is_out) = is_target_leaving_cam_field(self.memory.memory_predictions_order_2_from_target,
                                                               self.camera, target.id, 0, 3)
 
-                old_target_type = target.type
+                old_target_type = target.target_type
                 if is_moving:
                     target.type = TargetType.MOVING
                 elif is_stopped:
@@ -394,12 +394,12 @@ class AgentCam(AgentInteractingWithRoom):
             """
 
             "Send message to other agent"
-            if target.confidence_pos[0] < constants.CONFIDENCE_THRESHOLD < target.confidence_pos[1]:
+            if target.confidence[0] < constants.CONFIDENCE_THRESHOLD < target.confidence[1]:
                 self.table_all_target_number_times_seen.update_tracked(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET,
                                                      target.id)
 
-            elif target.confidence_pos[0] > constants.CONFIDENCE_THRESHOLD > target.confidence_pos[1]:
+            elif target.confidence[0] > constants.CONFIDENCE_THRESHOLD > target.confidence[1]:
                 self.table_all_target_number_times_seen.update_lost(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET, target.id)
 
@@ -439,11 +439,11 @@ class AgentCam(AgentInteractingWithRoom):
             """
 
             # start tracking targets that came into field of vision
-            if target.id not in self.targets_to_track and target.confidence_pos[1] > constants.CONFIDENCE_THRESHOLD:
+            if target.id not in self.targets_to_track and target.confidence[1] > constants.CONFIDENCE_THRESHOLD:
                 self.targets_to_track.append(target.id)
                 self.priority_dict[target.id] = InternalPriority.NOT_TRACKED
 
-            if target.id in self.targets_to_track and target.confidence_pos[1] < constants.CONFIDENCE_THRESHOLD:
+            if target.id in self.targets_to_track and target.confidence[1] < constants.CONFIDENCE_THRESHOLD:
                 self.targets_to_track.remove(target.id)
                 self.priority_dict[target.id] = None
 
@@ -665,7 +665,7 @@ class AgentCam(AgentInteractingWithRoom):
 
     def get_active_targets(self):
         return [target for target in self.room_representation.active_Target_list if
-                target.confidence_pos[1] >= constants.CONFIDENCE_THRESHOLD]
+                target.confidence[1] >= constants.CONFIDENCE_THRESHOLD]
 
     def get_predictions(self, target_id_list):
         """

@@ -135,21 +135,21 @@ class GUI_room_representation():
 
     def draw_one_target(self, target, tab):
         color = WHITE
-        if target.type == TargetType.SET_FIX:
+        if target.target_type == TargetType.SET_FIX:
             color = SET_FIX_COLOR
-        elif target.type == TargetType.FIX:
+        elif target.target_type  == TargetType.FIX:
             color = FIX_COLOR
-        elif target.type == TargetType.MOVING:
+        elif target.target_type  == TargetType.MOVING:
             color = MOVING_COLOR
-        elif target.type == TargetType.UNKNOWN:
+        elif target.target_type  == TargetType.UNKNOWN:
             color = UNKNOWN_COLOR
 
-        if target.confidence_pos == [-1,-1]:
+        if target.confidence == [-1,-1]:
             color_conf = WHITE
-        elif target.confidence_pos[1] <= constants.CONFIDENCE_THRESHOLD:
+        elif target.confidence[1] <= constants.CONFIDENCE_THRESHOLD:
             color_conf = RED
-        elif target.confidence_pos[1] >= 0:
-            new_delta = target.confidence_pos[1] - constants.CONFIDENCE_THRESHOLD
+        elif target.confidence[1] >= 0:
+            new_delta = target.confidence[1] - constants.CONFIDENCE_THRESHOLD
             new_scale = (255 / (constants.CONFIDENCE_MAX_VALUE - constants.CONFIDENCE_THRESHOLD))
             value =new_scale*new_delta
             R  = max(min(255-value,255),0)

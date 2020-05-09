@@ -2,7 +2,7 @@ import math
 import re
 from src import constants
 from src.multi_agent.agent.agent import AgentRepresentation
-from src.multi_agent.elements.item import Item, create_item_from_string
+from src.multi_agent.elements.item import Item
 from src.multi_agent.elements.target import TargetRepresentation
 
 
@@ -114,7 +114,13 @@ class ItemEstimation:
         self.owner_id = int(attribute[3])
         self.owner_signature = int(attribute[4])
         self.item_type = attribute[5]
-        self.item = create_item_from_string(attribute[6])
+
+        if self.item is None:
+            for key, value in ItemEstimationType.dictionary_item_types.items():
+                if self.item_type == key:
+                    self.item = value()
+
+        self.item.load_from_attributes_to_string(attribute[6])
 
 
     #TODO - REFAIRE CA PLUS TARD

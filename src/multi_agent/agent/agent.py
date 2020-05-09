@@ -2,6 +2,7 @@ import mailbox
 import math
 from src.multi_agent.communication.message import *
 from src.multi_agent.elements.item import Item
+from src.my_utils.confidence import evaluate_confidence
 from src.my_utils.my_IO.IO_data import *
 from src import constants
 import io

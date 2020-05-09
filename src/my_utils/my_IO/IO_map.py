@@ -33,7 +33,7 @@ def save_room_target_camera_to_txt(filename, room):
 
 def load_room_txt(s, room):
     attribute = re.split("room:", s)
-    room.load_from_save_to_txt(attribute[1])
+    room.load_from_txt(attribute[1])
 
 
 def load_target_txt(s, room):

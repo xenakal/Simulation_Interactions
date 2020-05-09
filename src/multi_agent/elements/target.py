@@ -3,7 +3,7 @@ import re
 import time
 
 from src import constants
-from src.multi_agent.elements.item import Item, create_item_from_string
+from src.multi_agent.elements.item import Item
 from src.my_utils.confidence import evaluate_confidence
 from src.my_utils.string_operations import parse_element
 

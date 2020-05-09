@@ -88,7 +88,7 @@ class LinkTargetCamera():
 
         "For every target ... Not usefull to set link with object that are fix"
 
-        targets = [target for target in self.room.active_Target_list if not target.type == TargetType.SET_FIX]
+        targets = [target for target in self.room.active_Target_list if not target.target_type == TargetType.SET_FIX]
         for target in targets:
                 "check if we already saw it"
                 is_in_list = False
@@ -111,7 +111,7 @@ class LinkTargetCamera():
                             if isinstance(target.radius,float):
                                 cdt_in_field = cam.is_x_y_radius_in_field_not_obstructed(camera,target.xc, target.yc,target.radius)
                                 cdt_not_hidden = not cam.is_x_y_in_hidden_zone_all_targets(self.room, camera.id, target.xc, target.yc)
-                                cdt_condifdence_high_enough = target.confidence_pos[1] > constants.CONFIDENCE_THRESHOLD or target.confidence_pos == [-1,-1]
+                                cdt_condifdence_high_enough = target.confidence[1] > constants.CONFIDENCE_THRESHOLD or target.confidence == [-1,-1]
 
                                 "Check is the camera can see the target for a given room geometry"
                                 if cdt_in_field and cdt_not_hidden and camera.is_active and cdt_condifdence_high_enough:

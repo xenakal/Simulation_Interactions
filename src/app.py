@@ -178,9 +178,6 @@ class App:
         for agent in self.room.information_simulation.agentUser_list:
            agent.run()
 
-
-        print(self.room.agentUser_representation_list[0].id)
-
         """Target start to move"""
         self.targets_moving = True
         self.targets_moving_thread = threading.Thread(target=self.move_all_targets_thread)

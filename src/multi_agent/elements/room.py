@@ -258,7 +258,7 @@ class RoomRepresentation:
                 1. (Room) room -- object
         """
         for target in room.information_simulation.target_list:
-            if target.type == TargetType.SET_FIX:
+            if target.target_type == TargetType.SET_FIX:
                 self.add_targetRepresentation_from_target(target)
 
         for agent in room.information_simulation.agentCams_list:
@@ -291,7 +291,7 @@ class RoomRepresentation:
                     target.yc = last_TargetEstimator.item.yc
 
 
-                    target.type = last_TargetEstimator.item.type
+                    target.type = last_TargetEstimator.item.target_type
                     if not target.type == TargetType.FIX:
                         target.alpha = last_TargetEstimator.item.alpha
 
@@ -312,7 +312,7 @@ class RoomRepresentation:
             if not is_in_RoomRepresentation:
                 self.add_targetRepresentation(last_TargetEstimator.item.id, last_TargetEstimator.item.xc,
                                               last_TargetEstimator.item.yc,
-                                              last_TargetEstimator.item.radius, last_TargetEstimator.item.type)
+                                              last_TargetEstimator.item.radius, last_TargetEstimator.item.target_type)
 
     def update_agent_based_on_memory(self, Agent_AgentEstimator):
         """

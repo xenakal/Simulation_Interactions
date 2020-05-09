@@ -86,7 +86,7 @@ class Memory:
         kalman_target_representation = TargetRepresentation(item.id, new_estimate_current_pos[0] ,
                                                             new_estimate_current_pos[1],new_estimate_current_pos[2],
                                                             new_estimate_current_pos[3],0,0,
-                                                            item.radius, item.type, item.color)
+                                                            item.radius, item.target_type, item.color)
 
         self.update_best_estimation(time_from_estimation, agent_id, agent_signature, kalman_target_representation)
 
