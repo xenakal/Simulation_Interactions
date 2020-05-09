@@ -32,7 +32,7 @@ class LinkTargetCamera():
             :description
                 Create a new AgentTargetLink for every target in the RoomRepresentation
         """
-        for target in self.room.active_Target_list:
+        for target in self.room.target_representation_list:
             is_in_list = False
             for targetAgentLink in self.link_camera_target:
                 if targetAgentLink.target_id == target.id:
@@ -88,7 +88,7 @@ class LinkTargetCamera():
 
         "For every target ... Not usefull to set link with object that are fix"
 
-        targets = [target for target in self.room.active_Target_list if not target.target_type == TargetType.SET_FIX]
+        targets = [target for target in self.room.target_representation_list if not target.target_type == TargetType.SET_FIX]
         for target in targets:
                 "check if we already saw it"
                 is_in_list = False

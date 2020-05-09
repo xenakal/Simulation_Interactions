@@ -7,7 +7,7 @@ import pygame
 from src.multi_agent.elements.room import Room
 from src.multi_agent.tools.link_target_camera import *
 from src.multi_agent.tools.map_region_dyn import *
-from src.multi_agent.tools.estimator import *
+from src.multi_agent.tools.estimation import *
 from src.multi_agent.agent.agent_interacting_room_camera import AgentCameraCommunicationBehaviour
 from src.my_utils.GUI.GUI import GUI
 from src.my_utils.motion import move_Target
@@ -239,7 +239,7 @@ class App:
             self.link_agent_target.update_link_camera_target()
             self.link_agent_target.compute_link_camera_target()
 
-            for target in self.room.active_Target_list:
+            for target in self.room.target_representation_list:
                 target.save_position()
                 constants.time_when_target_are_moved = constants.get_time()
                 self.exact_data_target.add_create_itemEstimation(constants.time_when_target_are_moved,

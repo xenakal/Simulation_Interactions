@@ -97,7 +97,7 @@ class AgentInteractingWithRoom(Agent):
         self.log_main.debug("active_agentCams :" + str(self.room_representation.agentCams_representation_list))
         self.log_main.debug("agentUser :" + str(self.room_representation.agentUser_representation_list))
         self.log_main.debug("active_agentUser :" + str(self.room_representation.agentUser_representation_list))
-        self.log_main.debug("target :" + str(self.room_representation.active_Target_list))
+        self.log_main.debug("target :" + str(self.room_representation.target_representation_list))
 
     def run(self):
         """

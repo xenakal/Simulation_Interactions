@@ -1,4 +1,5 @@
 import copy
+import math
 from warnings import warn
 
 import src.multi_agent.elements.room as room
@@ -212,7 +213,7 @@ class AgentCam(AgentInteractingWithRoom):
                             erreurAY = 0
 
                         target_type = TargetType.UNKNOWN
-                        for target_representation in self.room_representation.active_Target_list:
+                        for target_representation in self.room_representation.target_representation_list:
                             if target_representation.id == target.id:
                                 target_type = target_representation.type
 
@@ -352,7 +353,7 @@ class AgentCam(AgentInteractingWithRoom):
 
         # self.log_target_tracked.info(self.table_all_target_number_times_seen.to_string(self.id))
 
-        for target in self.room_representation.active_Target_list:
+        for target in self.room_representation.target_representation_list:
             """
                 ---------------------------------------------------------------------------------------------
                 Memory analysis: 
@@ -588,7 +589,7 @@ class AgentCam(AgentInteractingWithRoom):
         """
         tracked_targets_room_representation = self.construct_room_representation_for_a_given_target_list(targets)
         virtual_configuration = \
-            self.compute_virtual_configuration(tracked_targets_room_representation.active_Target_list)
+            self.compute_virtual_configuration(tracked_targets_room_representation.target_representation_list)
 
         better_config_found = False
         self.virtual_camera = copy.deepcopy(self.camera)
@@ -613,7 +614,7 @@ class AgentCam(AgentInteractingWithRoom):
         if used_for_movement:
             real_configuration = \
                 get_configuration_based_on_seen_target(self.camera,
-                                                       tracked_targets_room_representation.active_Target_list,
+                                                       tracked_targets_room_representation.target_representation_list,
                                                        self.room_representation,
                                                        PCA_track_points_possibilites.MEANS_POINTS,
                                                        self.memory_of_objectives, self.memory_of_position_to_reach,
@@ -664,7 +665,7 @@ class AgentCam(AgentInteractingWithRoom):
         target_list.remove(target_to_remove)
 
     def get_active_targets(self):
-        return [target for target in self.room_representation.active_Target_list if
+        return [target for target in self.room_representation.target_representation_list if
                 target.confidence[1] >= constants.CONFIDENCE_THRESHOLD]
 
     def get_predictions(self, target_id_list):

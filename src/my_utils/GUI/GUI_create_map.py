@@ -192,7 +192,7 @@ class GUI_create_map:
     def run(self):
         self.GUI_room.draw_room(self.new_room.coordinate_room)
         self.GUI_room.draw_all_target(self.new_room.information_simulation.target_list, self.new_room.coordinate_room)
-        self.GUI_room.draw_all_target(self.new_room.active_Target_list, self.new_room.coordinate_room)
+        self.GUI_room.draw_all_target(self.new_room.target_representation_list, self.new_room.coordinate_room)
         self.GUI_room.draw_all_agentCam(self.new_room.information_simulation.agentCams_list)
         self.display_create_map_button()
 
@@ -313,8 +313,9 @@ class GUI_create_map:
         "draw the target on the screen"
 
         if on and self.button_create_map_2.find_button_state(Button_name.OBJECT_ADD):
-            target = Target(-1, x_new, y_new, self.vx_default, self.vy_default, 0, 0, TargetMotion.LINEAR, [(0, 0)],
-                            label, self.size_default, [0], [1000])
+            target = Target(id=-1, xc = x_new, yc=y_new, vx =self.vx_default, vy = self.vy_default, ax = 0, ay= 0,
+                            radius = self.size_default,type=label, color = None, trajectory_type=TargetMotion.LINEAR, trajectory= [(0, 0)],
+                            t_add=[0],t_del=[1000])
             self.GUI_room.draw_one_target(target, self.new_room.coordinate_room)
 
         "Add the target in the room"
@@ -446,14 +447,14 @@ class GUI_create_map:
 
         "draw the cam"
         if on and self.button_create_map_3.find_button_state(Button_name.OBJECT_ADD):
-            cam = MobileCamera(0, x_new, y_new, self.alpha_default, self.beta_default, [],
+            cam = MobileCamera(0, x_new, y_new, math.radians(self.alpha_default), math.radians(self.beta_default), [],
                                self.depth_default,type=label)
             self.GUI_room.draw_one_camera(cam)
 
         "add the cam to the room"
         if pressed:
             if self.button_create_map_3.find_button_state(Button_name.OBJECT_ADD):
-                self.new_room.information_simulation.add_create_AgentCam(x_new, y_new, self.alpha_default, self.beta_default, [],
+                self.new_room.information_simulation.add_create_AgentCam(x_new, y_new, math.radians(self.alpha_default), math.radians(self.beta_default), [],
                                                                   field_depth=self.depth_default, color=0, t_add=[0], t_del=[1000], type=label,
                                                                   vx_vy_min=self.vx_min_default,
                                                                   vx_vy_max=self.vx_max_default, v_alpha_min=self.v_alpha_min_default,
@@ -483,7 +484,7 @@ class GUI_create_map:
             self.button_create_map_trajectoire.set_buttons_state(Button_name.TRAJECTORY_SAVE, False)
 
             for target in self.new_room.information_simulation.target_list:
-                if TargetType.UNKNOWN == target.type:
+                if TargetType.UNKNOWN == target.target_type:
                     if math.fabs(x_new - target.xc) < 0.2 and math.fabs(y_new - target.yc) < 0.2:
                         if self.button_create_map_trajectoire.find_button_state(Button_name.TRAJECTORY_SHOW):
                             self.trajectory_target = target.trajectory

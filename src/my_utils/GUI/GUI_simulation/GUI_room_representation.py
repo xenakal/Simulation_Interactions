@@ -97,7 +97,7 @@ class GUI_room_representation():
 
     def draw_all_target_room_description(self, room, agents_to_display, agentType, allAgents=False):
         for agent in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
-            self.draw_all_target(agent.room_representation.active_Target_list, room.coordinate_room)
+            self.draw_all_target(agent.room_representation.target_representation_list, room.coordinate_room)
 
     def draw_agentCam_room_description(self, room, agents_to_display, agentType, allAgents=False):
         for agent in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
@@ -340,7 +340,7 @@ class GUI_room_representation():
                 camera = cam.get_camera_agentCam_vs_agentCamRepresentation(agent)
                 for elem in targetAgentLink.agentDistance_list:
                     if agent.id == elem.agent_id:
-                        for target in room.active_Target_list:
+                        for target in room.target_representation_list:
                             if target.id == targetAgentLink.target_id:
                                 pygame.draw.line(self.screen, agent.color, (
                                     self.x_offset + int(camera.xc * self.scale_x),

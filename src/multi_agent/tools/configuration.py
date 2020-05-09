@@ -16,7 +16,7 @@ def bound(val, val_min, val_max):
 def check_configuration_all_target_are_seen(camera, room_representation):
 
     # check if this configuration covers all targets
-    for targetRepresentation in room_representation.active_Target_list:
+    for targetRepresentation in room_representation.target_representation_list:
         in_field = cam.is_x_y_radius_in_field_not_obstructed(camera, targetRepresentation.xc,
                                                              targetRepresentation.yc,
                                                              targetRepresentation.radius)

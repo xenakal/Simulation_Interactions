@@ -1,4 +1,4 @@
-from src.multi_agent.elements.item import Item, create_item_from_string
+from src.my_utils.item import Item
 
 
 class ItemUser(Item):

@@ -51,7 +51,8 @@ class Item:
                 else:
                     s += constants.ITEM_CONSTANT_TAG_MARKER + str(self.signature)[:5] + str(key) + ":" + str(
                         value) + " "
-        return s + constants.ITEM_END_MARKER
+        return s + constants.ITEM_END_MARKER + "\n"
+
 
     def load_from_attributes_to_string(self, s):
         """
@@ -107,7 +108,7 @@ class Item:
                 else:
                     s += str(key) + ":" + str(value) + " "
 
-        return s
+        return s + "\n"
 
     def load_from_save_to_txt(self, s):
         """

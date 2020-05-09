@@ -11,7 +11,7 @@ import src.multi_agent.agent.agent_interacting_room_camera
 
 def save_target_txt(fichier, room):
     for target in room.information_simulation.target_list:
-        fichier.write("target: " + target.save_target_to_txt())
+        fichier.write("target: " + target.save_to_txt())
 
 
 def save_agent_cam(fichier, room):

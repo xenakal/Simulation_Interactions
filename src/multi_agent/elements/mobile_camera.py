@@ -12,6 +12,14 @@ from src.my_utils.string_operations import parse_list
 
 
 class MobileCameraType:
+    """
+        Camera types
+        dof = degree of freedom
+        1) FIX         -- 1 dof  beta
+        2) ROTATIVE    -- 2 dof  beta,alpha
+        3) RAIL        -- 3 dof  beta,alpha,(x,y)=f(s)
+        4) FREE        -- 4 dof beta,alpha,x,y
+    """
     FIX = 0
     ROTATIVE = 1
     RAIL = 2
@@ -19,9 +27,22 @@ class MobileCameraType:
 
 
 class MobileCameraRepresentation(CameraRepresentation):
-    def __init__(self, room = None, id = None, xc = None, yc = None, alpha = None, beta = None, field_depth = None, type = None):
-        super().__init__(room, id, xc, yc, alpha, beta, field_depth)
-        super().__init__(room, id, xc, yc, alpha, beta, field_depth)
+    """
+        Class MobileCameraRepresentation.
+
+        Description :
+        :param
+            8. (MobileCameraType) camera_type           -- describe what feature the camera has
+            9. (Trajectory) trajectory                  -- only used for RAIL camera
+
+        :attibutes
+            8. (MobileCameraType) camera_type           -- describe what feature the camera has
+            9. (Trajectory) trajectory                  -- only used for RAIL camera
+
+     """
+
+    def __init__(self, id=None, xc=None, yc=None, alpha=None, beta=None, field_depth=None, type=None, color=None):
+        CameraRepresentation.__init__(self, id, xc, yc, alpha, beta, field_depth, color)
         self.camera_type = type
         self.trajectory = TrajectoryPlaner([])
 
@@ -32,29 +53,31 @@ class MobileCameraRepresentation(CameraRepresentation):
         new_trajectory.trajectory = camera.trajectory.trajectory
         self.trajectory = new_trajectory
 
-    def init_from_values_extend(self, id, signature, xc, yc, alpha, beta, field_depth, error_pos, error_speed,
-                                error_acc, color, is_active, camera_type, trajectory):
-        super().init_from_values(id, signature, xc, yc, alpha, beta, field_depth, error_pos, error_speed, error_acc,
-                                 color, is_active)
-        self.camera_type = camera_type
-        self.trajectory = trajectory
 
+class MobileCamera(Camera, MobileCameraRepresentation):
+    """
+            Class MobileCameraRepresentation.
 
-class MobileCamera(Camera):
-    def __init__(self, id=None, xc = None, yc = None, alpha = None, beta = None, trajectory = None, field_depth = None, color=None, t_add=None, t_del=None,
-                 type=None, vx_vy_min=None, vx_vy_max=None, v_alpha_min=None, v_alpha_max=None,
-                 delta_beta=0, v_beta_min=None, v_beta_max=None):
+            Description :
+            :param
+                8. (MobileCameraType) camera_type           -- describe what feature the camera has
+                9. (Trajectory) trajectory                  -- only used for RAIL camera
 
-        super().__init__(id, xc, yc, alpha, beta, field_depth, color, t_add, t_del)
+            :attibutes
+                8. (MobileCameraType) camera_type           -- describe what feature the camera has
+                9. (Trajectory) trajectory                  -- only used for RAIL camera
 
-        self.camera_type = type
+    """
 
-        """Default values"""
-        self.default_xc = xc
-        self.default_yc = yc
-        self.default_alpha = bound_angle_btw_minus_pi_plus_pi(math.radians(alpha))
-        self.default_beta = bound_angle_btw_minus_pi_plus_pi(math.radians(beta))
-        self.default_field_depth = field_depth
+    def __init__(self, id=None, xc=None, yc=None, alpha=None, beta=None, trajectory=None, field_depth=None, color=None,
+                 t_add=None, t_del=None, type=None, vx_vy_min=None, vx_vy_max=None, v_alpha_min=None, v_alpha_max=None,
+                 delta_beta=None, v_beta_min=None, v_beta_max=None):
+
+        Camera.__init__(self, id, xc, yc, alpha, beta, field_depth, color, t_add, t_del)
+        camera_attributes_not_to_txt = self.attributes_not_to_txt
+        MobileCameraRepresentation.__init__(self, id, xc, yc, alpha, beta, field_depth, type, color)
+        #self.attributes_not_to_txt += [elem for elem in camera_attributes_not_to_txt]
+
 
         """Limit the variation"""
         self.vx_vy_min = vx_vy_min
@@ -63,9 +86,11 @@ class MobileCamera(Camera):
         self.v_alpha_max = v_alpha_max
         self.v_beta_min = v_beta_min
         self.v_beta_max = v_beta_max
-        self.delta_beta = math.radians(delta_beta)
-        self.beta_min = bound_angle_btw_minus_pi_plus_pi(self.beta - self.delta_beta)
-        self.beta_max = bound_angle_btw_minus_pi_plus_pi(self.beta + self.delta_beta)
+        self.delta_beta = delta_beta
+
+        if self.delta_beta is not None and self.beta is not None:
+            self.beta_min = bound_angle_btw_minus_pi_plus_pi(self.beta - self.delta_beta)
+            self.beta_max = bound_angle_btw_minus_pi_plus_pi(self.beta + self.delta_beta)
 
         """Zoom"""
         self.coeff_field = constants.COEFF_VARIATION_FROM_FIELD_DEPTH
@@ -74,6 +99,17 @@ class MobileCamera(Camera):
         self.coeff_std_acc = constants.COEFF_STD_VARIATION_MEASURMENT_ERROR_ACCELERATION
 
         self.trajectory = TrajectoryPlaner(trajectory)
+
+
+        print(self.attributes_not_to_txt)
+
+
+        """Default values"""
+        self.default_xc = xc
+        self.default_yc = yc
+        self.default_alpha = bound_angle_btw_minus_pi_plus_pi(alpha)
+        self.default_beta = bound_angle_btw_minus_pi_plus_pi(beta)
+        self.default_field_depth = field_depth
 
         """Default option"""
         if self.v_alpha_min is not None:
@@ -103,7 +139,8 @@ class MobileCamera(Camera):
         self.last_swipe_position_change = -10
         from src.multi_agent.tools.configuration import Configuration
         self.last_swipe_configuration = Configuration(None, None, random.uniform(0, constants.ROOM_DIMENSION_X),
-                                                      random.uniform(0, constants.ROOM_DIMENSION_Y), 1, 1, self.field_depth,
+                                                      random.uniform(0, constants.ROOM_DIMENSION_Y), 1, 1,
+                                                      self.field_depth,
                                                       False)
 
     def save_target_to_txt(self):
@@ -121,12 +158,9 @@ class MobileCamera(Camera):
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
-
-
         attribute = re.split(
             "xc:|yc:|alpha:|beta:|delta_beta:|field_depth:|t_add:|t_del:|vx_vy_min:|vx_vy_max:|v_alpha_min:|v_alpha_max:|v_beta_min:|v_beta_max:|traj:|type:",
             s)
-
 
         self.xc = float(attribute[1])
         self.yc = float(attribute[2])
@@ -239,13 +273,13 @@ class MobileCamera(Camera):
         self.beta += delta
 
         if constants.ERROR_VARIATION_ZOOM:
-            self.std_measurment_error_position -= delta * self.coeff_std_position
-            self.std_measurment_error_speed -= delta * self.coeff_std_speed
-            self.std_measurment_error_acceleration -= delta * self.coeff_std_acc
+            self.std_measurement_error_position -= delta * self.coeff_std_position
+            self.std_measurement_error_speed -= delta * self.coeff_std_speed
+            self.std_measurement_error_acceleration -= delta * self.coeff_std_acc
 
-            self.bound(self.std_measurment_error_position, 0, self.std_measurment_error_position * 10)
-            self.bound(self.std_measurment_error_speed, 0, self.std_measurment_error_speed * 10)
-            self.bound(self.std_measurment_error_acceleration, 0, self.std_measurment_error_acceleration * 10)
+            self.bound(self.std_measurement_error_position, 0, self.std_measurement_error_position * 10)
+            self.bound(self.std_measurement_error_speed, 0, self.std_measurement_error_speed * 10)
+            self.bound(self.std_measurement_error_acceleration, 0, self.std_measurement_error_acceleration * 10)
 
     def rotate(self, speed, dt):
         """
@@ -488,3 +522,17 @@ class TrajectoryPlaner:
         angle = self.get_angle()
         (x_rotate, y_rotate) = self.rotate_angle(-angle, x, y)
         return (x_rotate + xi, y_rotate + yi)
+
+    def __str__(self):
+        return str(self.trajectory)
+
+
+if __name__ == "__main__":
+    camera = MobileCameraRepresentation(0, 1, 1, 1, 1, 5, MobileCameraType.FIX, TrajectoryPlaner([]))
+    print(camera.attributes_to_string())
+    print(camera.save_to_txt())
+
+    camera = MobileCamera()
+    print(camera.attributes_to_string())
+    print(camera.save_to_txt())
+

@@ -3,7 +3,7 @@ import re
 import time
 
 from src import constants
-from src.multi_agent.elements.item import Item
+from src.my_utils.item import Item
 from src.my_utils.confidence import evaluate_confidence
 from src.my_utils.string_operations import parse_element
 
@@ -86,6 +86,9 @@ class TargetRepresentation(Item):
 
         """Attributes used for GUI"""
         self.color = color
+
+        self.attributes_not_to_txt += ["item_type","signature","alpha","vx","vy","ax","ay","variance_on_estimation",
+                                       "confidence","priority_level","color"]
 
         "Default values"
         if type == TargetType.SET_FIX:
@@ -175,6 +178,9 @@ class Target(TargetRepresentation):
         """Save each positon --> draw on the GUI"""
         self.all_position = []
 
+        self.attributes_not_to_txt += ["number_of_position_reached","number_of_time_passed","is_on_the_map","all_position"]
+
+
         """Default values"""
         if type == TargetType.SET_FIX:
             self.vx_max = self.vx
@@ -229,50 +235,19 @@ class Target(TargetRepresentation):
         self.t_add = [0]
         self.t_del = [constants.TIME_STOP]
 
+
     def save_position(self):
         """Add the current position to a list"""
         self.all_position.append([self.xc, self.yc])
 
-    def save_target_to_txt(self):
-        """Return a string description from the target"""
-        s0 = "xc:%0.2f yc:%0.2f vx:%0.2f vy:%0.2f r:%0.2f" % (self.xc, self.yc, self.vx_max, self.vy_max, self.radius)
-        s1 = " target_type:%d tj_type:%d" % (self.target_type, 1)
-        s2 = " t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
-        s3 = " trajectory:" + str(self.trajectory)
-        return s0 + s1 + s2 + s3 + "\n"
 
-    def load_from_save_to_txt(self, s):
-        """Load a target from based on a string description s, s is created by the function save_target_to_txt"""
-
-        s = s.replace("\n", "")
-        s = s.replace(" ", "")
-        attribute = re.split("xc:|yc:|vx:|vy:|r:|target_type:|tj_type:|t_add:|t_del:|trajectory:", s)
-
-        self.xc = float(attribute[1])
-        self.yc = float(attribute[2])
-        self.vx = float(attribute[3])
-        self.vy = float(attribute[4])
-        self.vx_max = self.vx * constants.SCALE_TIME
-        self.vy_max = self.vy * constants.SCALE_TIME
-        self.radius = float(attribute[5])
-        self.target_type = float(attribute[6])
-        self.trajectory_type = float(attribute[7])
-        self.t_add = parse_element(attribute[8])
-        self.t_del = parse_element(attribute[9])
-        self.trajectory = parse_element(attribute[10])
 
 
 if __name__ == "__main__":
     target = Target(0,1,2,0,0,0,0,0.3,TargetType.UNKNOWN,None,TargetMotion.LINEAR,[(0,0)],None,None)
     t_start  = time.time()
-    '''
     print(target.attributes_to_string())
-    print(target.save_target_to_txt())
-    target2 = Target()
-    target2.load_from_txt(target.save_target_to_txt())
-    print(target2.save_target_to_txt())
-    '''
-    target3 = create_item_from_string(target.attributes_to_string())
-    print("%.10f" % (time.time() - t_start))
-    #print(target3.save_target_to_txt())
-    #print(target3.attributes_to_string())
+    print(target.save_to_txt())
+    target2 = target.load_from_save_to_txt(target.save_to_txt())
+    print(target2.save_to_txt())
+

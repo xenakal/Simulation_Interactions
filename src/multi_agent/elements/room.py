@@ -142,7 +142,8 @@ class InformationRoomSimulation:
                 :notes
                         fells free to write some comments.
         """
-        target = Target(-1, x, y, vx, vy, ax, ay, trajectory_type, trajectory, type, radius, t_add, t_del)
+        target = Target(id=-1, xc=x, yc=y, vx=vx, vy=vy, ax=ax, ay = ay, radius= radius, type=type, color=None,
+                        trajectory_type=trajectory_type, trajectory= trajectory, t_add=t_add, t_del=t_del)
         self.add_Target(target)
 
     def add_create_AgentCam(self, x, y, alpha, beta, trajectory, field_depth=None, color=0,
@@ -200,7 +201,7 @@ class RoomRepresentation:
             :attibutes
                 1. (numpy.array) coordinate_room  -- numpy.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])
                                                      give the corner in the room (0,0),...
-                2. (list) active_Target_list      -- targets active in the room
+                2. (list) target_representation_list      -- targets active in the room
                 3. (list) active_AgentCams_list   -- agentCams active in the room
                 4. (list) active_AgentUser_list   -- agentUsers active in the room
                 5. (int) time                     -- actuall time
@@ -215,7 +216,7 @@ class RoomRepresentation:
         self.coordinate_room = np.array([0, 0, constants.ROOM_DIMENSION_X, constants.ROOM_DIMENSION_Y])  # x y l h
 
         """Target informations"""
-        self.active_Target_list = []
+        self.target_representation_list = []
 
         """Agent informations"""
         self.agentCams_representation_list = []
@@ -284,7 +285,7 @@ class RoomRepresentation:
             all_TargetEstimator_for_target_id = Target_TargetEstimator.get_item_list(target_detected_id)
             last_TargetEstimator = all_TargetEstimator_for_target_id[-1]
 
-            for target in self.active_Target_list:
+            for target in self.target_representation_list:
                 if target.id == target_detected_id:
                     is_in_RoomRepresentation = True
                     target.xc = last_TargetEstimator.item.xc
@@ -371,7 +372,7 @@ class RoomRepresentation:
                   4. (int) radius                -- radius from the center
                   5. (string) type             -- "fix","target", to make the difference between known and unkown target
         """
-        self.active_Target_list.append(TargetRepresentation(id, x, y,0,0,0,0, radius, label, self.color))
+        self.target_representation_list.append(TargetRepresentation(id, x, y, 0, 0, 0, 0, radius, label, self.color))
 
     def add_agentCamRepresentation(self, agentEstimator):
         """
@@ -397,7 +398,7 @@ class RoomRepresentation:
                 1. list of targets with ids in the list provided in the argument
 
         """
-        return [target for target in self.active_Target_list if target.id in id_list]
+        return [target for target in self.target_representation_list if target.id in id_list]
 
     def get_Target_with_id(self, target_id):
         """
@@ -408,7 +409,7 @@ class RoomRepresentation:
                 2. Target else
 
         """
-        for target in self.active_Target_list:
+        for target in self.target_representation_list:
             if target.id == target_id:
                 return target
         return None
@@ -423,7 +424,7 @@ class Room(RoomRepresentation):
             :attibutes
                 1. (numpy.array) coordinate_room     -- numpy.array([0, 0, constants.LENGHT_ROOM, constants.WIDTH_ROOM])
                                                         give the corner in the room (0,0),...
-                2. (list) active_Target_list                           -- targets active in the room
+                2. (list) target_representation_list                           -- targets active in the room
                 3. (list) active_AgentCams_list                        -- agentCams active in the room
                 4. (list) active_AgentUser_list                        -- agentUsers active in the room
                 5. (int) time                                          -- actual time
@@ -444,25 +445,25 @@ class Room(RoomRepresentation):
     def add_del_target_timed(self):
         """
             :description
-                Add and remove target from active_Target_list for given time
+                Add and remove target from target_representation_list for given time
         """
 
         for target in self.information_simulation.target_list:
             if target.t_add[target.number_of_time_passed] <= constants.get_time() <= \
                     target.t_del[target.number_of_time_passed] and not target.is_on_the_map:
                 target.is_on_the_map = True
-                self.active_Target_list.append(target)
+                self.target_representation_list.append(target)
 
             elif constants.get_time() > target.t_del[target.number_of_time_passed] and target.is_on_the_map:
                 if target.number_of_time_passed < len(target.t_add) - 1:
                     target.number_of_time_passed = target.number_of_time_passed + 1
                 target.is_on_the_map = False
-                self.active_Target_list.remove(target)
+                self.target_representation_list.remove(target)
 
     def des_activate_camera_agentCam_timed(self):
         """
             :description
-                Add and remove target from active_Target_list for given time
+                Add and remove target from target_representation_list for given time
         """
 
         for agent in self.information_simulation.agentCams_list:
@@ -482,7 +483,7 @@ class Room(RoomRepresentation):
     def des_activate_agentCam_timed(self):
         """
             :description
-                Add and remove target from active_Target_list for given time
+                Add and remove target from target_representation_list for given time
         """
         for agent in self.information_simulation.agentCams_list:
             if agent.t_add[agent.number_of_time_passed] <= constants.get_time() <= \
@@ -519,7 +520,7 @@ class Room(RoomRepresentation):
                                                                disappear in the room
 
                 :notes
-                    !!! No effect on active_Target_list
+                    !!! No effect on target_representation_list
         """
         self.information_simulation.add_create_Target(x, y, vx, vy, 0, 0, trajectory_type, trajectory, type, radius,
                                                       t_add, t_del)
@@ -571,7 +572,7 @@ class Room(RoomRepresentation):
                                                                disappear in the room
 
                 :notes
-                    !!! No effect on active_Target_list
+                    !!! No effect on target_representation_list
         """
         self.information_simulation.add_Target(target)
 

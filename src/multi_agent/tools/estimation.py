@@ -1,10 +1,9 @@
-import math
 import re
 import warnings
 
 from src import constants
 from src.multi_agent.agent.agent import AgentRepresentation
-from src.multi_agent.elements.item import Item
+from src.my_utils.item import Item
 from src.multi_agent.elements.target import TargetRepresentation
 
 
