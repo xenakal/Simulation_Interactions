@@ -74,7 +74,7 @@ class App:
         """
             Create a structure to save the generated data
         """
-        self.exact_data_target = SingleOwnerMemories()  # utilisé comme une simple liste, raison pour laquelle c'est une targetEstimator ?
+        self.exact_data_target = SingleOwnerMemories(-1)
 
         """
             Create app variables
