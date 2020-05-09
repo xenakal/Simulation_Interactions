@@ -193,6 +193,9 @@ class ItemEstimationsList:
         # TODO: check if item_estimation already inside (use is_in_list_Target_estimator or whatnot)
         self.item_estimations.append(item_estimation)
 
+    def update_last_estimation(self, item_estimation):
+        self.item_estimations[-1] = item_estimation
+
     def sort(self):
         self.item_estimations.sort(key=lambda x: x.time_stamp, reverse=True)
 
@@ -266,6 +269,12 @@ class SingleOwnerMemories:
         for item_estimation_list in self.items_estimations_lists:
             if item_estimation_list.item_id == item_estimation.item.id:
                 item_estimation_list.add_estimation(item_estimation)
+
+    def update_last_itemEstimation(self, item_estimation):
+        print("okok")
+        for item_estimation_list in self.items_estimations_lists:
+            if item_estimation_list.item_id == item_estimation.item.id:
+                item_estimation_list.update_last_estimation(item_estimation)
 
     def add_itemEstimationsList(self, itemEstimationsList):
         if itemEstimationsList.item_id in self.items_discovered:

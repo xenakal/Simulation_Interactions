@@ -69,7 +69,8 @@ class Memory:
         self.log_memory.info("Add memory, from agent : " + str(agent_id) + " - target " + str(item.id))
 
         # update "global info" list
-        self.memory_all_agent_from_target.add_create_itemEstimation(time_from_estimation, agent_id, agent_signature,item)
+        self.memory_all_agent_from_target.add_create_itemEstimation(time_from_estimation, agent_id, agent_signature,
+                                                                    item)
 
         # add predictor if doesn't exist yet
 
@@ -83,18 +84,18 @@ class Memory:
 
         (new_estimate_current_pos, new_var) = target_predictor.get_current_position()
 
-        kalman_target_representation = TargetRepresentation(item.id, new_estimate_current_pos[0] ,
-                                                            new_estimate_current_pos[1],new_estimate_current_pos[2],
-                                                            new_estimate_current_pos[3],0,0,
+        kalman_target_representation = TargetRepresentation(item.id, new_estimate_current_pos[0],
+                                                            new_estimate_current_pos[1], new_estimate_current_pos[2],
+                                                            new_estimate_current_pos[3], 0, 0,
                                                             item.radius, item.type, item.color)
 
         self.update_best_estimation(time_from_estimation, agent_id, agent_signature, kalman_target_representation)
 
         self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, item)
 
-
     def add_target_estimator(self, estimator):
-        self.log_memory.info("Add memory, from agent : " + str(estimator.owner_id) + " - target " + str(estimator.item.id))
+        self.log_memory.info(
+            "Add memory, from agent : " + str(estimator.owner_id) + " - target " + str(estimator.item.id))
         self.memory_all_agent_from_target.add_itemEstimation(estimator)
 
     def add_create_agent_estimator_from_agent(self, time_from_estimation, agent, item):
@@ -106,8 +107,7 @@ class Memory:
 
         # update "global info" list
         self.memory_all_agent_from_agent.add_create_itemEstimation(time_from_estimation, agent.id,
-                                                                               agent.signature,item)
-
+                                                                   agent.signature, item)
 
     def add_agent_estimator(self, estimator):
         self.log_memory.info(
@@ -140,7 +140,6 @@ class Memory:
                             "Combine data from agent : " + str(agent_id) + " - target " + str(target_id))
                         self.memory_measured_from_target.add_itemEstimation(estimateur)
 
-
         "Combine data related to agentCam"
         if True:
             for (agent_id, agent_observed_id) in self.memory_all_agent_from_agent.agents_and_items_discovered:
@@ -154,16 +153,15 @@ class Memory:
                                 "Combine data from agent : " + str(agent_id) + " - target " + str(agent_id))
                             self.memory_agent_from_agent.add_itemEstimation(estimateur)
 
-
     def combine_data_userCam(self, choice=1):
         if choice == 1:
             for (agent_id, target_id) in self.memory_all_agent_from_target.agents_and_items_discovered:
                 for estimateur in self.memory_all_agent_from_target.get_agent_item_list(target_id, agent_id):
-                    if not is_in_list_TargetEstimator(self.memory_measured_from_target.get_item_list(target_id),estimateur):
+                    if not is_in_list_TargetEstimator(self.memory_measured_from_target.get_item_list(target_id),
+                                                      estimateur):
                         self.log_memory.info(
                             "Combine data, from agent : " + str(agent_id) + " - target " + str(target_id))
                         self.memory_measured_from_target.add_itemEstimation(estimateur)
-
 
         '''
             best_estimator = (-1,1000000000,10000000)
@@ -188,7 +186,6 @@ class Memory:
                         #self.log_memory.info("Combine data, from agent : " + str(agent_id) + " - target " + str(target_id))
                          self.memory_measured_from_target.add_itemEstimation(best_estimator[0])
             '''
-
 
     def get_previous_positions(self, targetID):
         return self.memory_measured_from_target.get_item_list(targetID)
@@ -248,6 +245,11 @@ class Memory:
         predictor = self.get_target_predictor(seeked_target_id)
         if predictor is not None:
             predictor.assimilate(dfk_info_string, timestamp)
+            (x, var) = predictor.get_current_position()
+            kalman_target_representation = TargetRepresentation(seeked_target_id, x[0], x[1], x[2], x[3], 0, 0, 0, 0, 0)
+            new_ItemEstimation = ItemEstimation(time_stamp=constants.get_time(), owner_id=self.id,
+                                                owner_agent_signature=-1, item=kalman_target_representation)
+            self.memory_best_estimations_from_target.update_last_itemEstimation(new_ItemEstimation)
 
     def get_target_predictor(self, seeked_target_id):
         """ :return the Kalman Predictor associated with this target """
@@ -278,7 +280,7 @@ class Memory:
 
         """
         self.memory_best_estimations_from_target.add_create_itemEstimation(time_from_estimation, agent_id,
-                                                                             agent_signature,item)
+                                                                           agent_signature, item)
 
     def get_noiseless_estimations(self, seeked_target_id):
         """
@@ -306,7 +308,7 @@ class Memory:
         predict_ax = 0
         predict_ay = 0
         self.memory_predictions_order_1_from_target.add_create_itemEstimation(time_from_estimation, agent_id,
-                                                                             agent_signature,item)
+                                                                              agent_signature, item)
 
         self.memory_predictions_order_2_from_target.add_create_itemEstimation(time_from_estimation, agent_id,
-                                                                             agent_signature,item)
+                                                                              agent_signature, item)
