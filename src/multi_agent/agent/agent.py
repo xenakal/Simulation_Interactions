@@ -1,7 +1,7 @@
 import mailbox
 import math
 from src.multi_agent.communication.message import *
-from src.multi_agent.elements.item import Item, evaluate_confidence
+from src.multi_agent.elements.item import Item
 from src.my_utils.my_IO.IO_data import *
 from src import constants
 import io
@@ -100,7 +100,7 @@ class Agent(AgentRepresentation):
         s0 = "t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
         return s0 + "\n"
 
-    def load_from_txt(self, s):
+    def load_from_save_to_txt(self, s):
         s = s.replace("\n", "")
         s = s.replace(" ", "")
         attribute = re.split("t_add:|t_del:", s)

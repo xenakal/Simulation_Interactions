@@ -1,17 +1,23 @@
-from src.multi_agent.elements.item import Item, parse_list
+from src.multi_agent.elements.item import Item
 from src.multi_agent.elements.target import *
 import random
 import math
 from src.my_utils.my_math.line import Line, distance_btw_two_point
 
 
-def born_minus_pi_plus_pi(angle):
-    return math.fmod(angle, (2 * math.pi))
-
-
 def get_camera_agentCam_vs_agentCamRepresentation(agent):
-    import src.multi_agent.agent.agent_interacting_room_camera as aCam
+    """
+            :description
+                   AgentCam and AgentCamRepresentation use Camera and Camera_representation
+                   This function dectect what type the camera.
 
+            :param
+                   1. (AgentCam or AgentCamRepresentation) agent        -- An agent or its representation
+
+            :return / modify vector
+                   1. (Camera or CameraRepresentation)                 -- Return the appropriate camera.
+    """
+    import src.multi_agent.agent.agent_interacting_room_camera as aCam
     camera = None
     if isinstance(agent, aCam.AgentCam):
         camera = agent.camera
@@ -21,14 +27,21 @@ def get_camera_agentCam_vs_agentCamRepresentation(agent):
 
 
 def find_cam_in_camera_representation(room_representation, camera_id):
+    """
+            :description
+                 Return a camera associated to a given ID
+
+            :param
+                   1. (Room/Room_representation) agent        --   An agent or its representation
+                   2 (int) camera_id                          --  id referring to a camera
+
+            :return
+                   1. (Camera or CameraRepresentation)        --   Return the appropriate camera.
+    """
     for agentCam in room_representation.agentCams_representation_list:
         camera = get_camera_agentCam_vs_agentCamRepresentation(agentCam)
         if int(camera.id) == int(camera_id):
             return camera
-
-    '''
-    print(room_representation.agentCams_representation_list)
-    print("camera not found see class camera ")'''
     return None
 
 
@@ -44,9 +57,10 @@ def is_x_y_radius_in_field_not_obstructed(camera, x, y, r_target=0):
                     -> set r to zero to consider only the center
 
             :param
-                1. (int) x        -- x coordinate of a point in the room frame
-                2. (int) y        -- y coordinate of a point in the room frame
-                3. (int) r_target -- radius of a circle/Target
+                1  (CameraRepresentation)  -- Camera / CameraRepresentation containing information related to the cam
+                2. (int) x                 -- x coordinate of a point in the room frame
+                3. (int) y                 -- y coordinate of a point in the room frame
+                4. (int) r_target          -- radius of a circle/Target
 
             :return / modify vector
                 1. (bool)         -- True if (x,y) or circle limit point is between the limits
@@ -71,19 +85,10 @@ def is_x_y_radius_in_field_not_obstructed(camera, x, y, r_target=0):
 
         margin_low = beta_target_max >= -(math.fabs(camera.beta / 2))
         margin_high = beta_target_min <= math.fabs(camera.beta / 2)
+
         distance = distance_btw_two_point(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
         distance_test = camera.field_depth > distance
 
-        """
-        angle = math.atan2(y_target_in_camera_frame,x_target_in_camera_frame)
-        margin_low = angle > -(math.fabs(camera.beta / 2))
-        margin_high = angle < math.fabs(camera.beta / 2)
-        distance = distance_btw_two_point(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
-        distance_test = camera.field_depth > distance
-        print(margin_high)
-        print(margin_low)
-        print(distance_test)
-        """
 
         if margin_low and margin_high and distance_test:
             return True
@@ -374,7 +379,7 @@ def is_in_hidden_zone_fix_targets_matrix_x_y(room_representation, camera_id, res
 
 class CameraRepresentation(Item):
 
-    def __init__(self, id, xc, yc, alpha=None, beta = None, d_max = None, color=None):
+    def __init__(self, id, xc, yc, alpha=None, beta=None, d_max=None, color=None):
         super().__init__(id)
 
         "Camera description on the maps"
@@ -455,7 +460,7 @@ class CameraRepresentation(Item):
 
     def coordinate_change_from_camera_frame_to_world_frame(self, x_in_cam_frame, y_in_cam_frame):
         # inverse rotation
-        x_world_frame_no_offset = math.cos(-self.alpha) * x_in_cam_frame+ math.sin(-self.alpha) * y_in_cam_frame
+        x_world_frame_no_offset = math.cos(-self.alpha) * x_in_cam_frame + math.sin(-self.alpha) * y_in_cam_frame
         y_world_frame_no_offset = -math.sin(-self.alpha) * x_in_cam_frame + math.cos(-self.alpha) * y_in_cam_frame
 
         # include the offset of camera relative to room origin
@@ -463,7 +468,6 @@ class CameraRepresentation(Item):
         y_with_offset = y_world_frame_no_offset + self.yc
 
         return x_with_offset, y_with_offset
-
 
 
 class Camera(CameraRepresentation):
@@ -560,7 +564,7 @@ class Camera(CameraRepresentation):
         s1 = " t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
         return s0 + s1 + "\n"
 
-    def load_from_txt(self, s):
+    def load_from_save_to_txt(self, s):
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
@@ -573,7 +577,6 @@ class Camera(CameraRepresentation):
         self.field_depth = float(attribute[5])
         self.t_add = parse_list(attribute[6])
         self.t_del = parse_list(attribute[7])
-
 
     def take_picture(self, room, length_projection):
         """

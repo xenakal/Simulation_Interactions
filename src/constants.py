@@ -87,6 +87,7 @@ SEUIL_RECEIVED = 10
 
 ITEM_START_MARKER = "ITEM_START-"
 ITEM_END_MARKER = "-ITEM_END"
+ITEM_CONSTANT_TAG_MARKER = "tag#"
 
 """Option for class predication--------------------------------------------------------------------------------------"""
 NUMBER_PREDICTIONS = 3

@@ -4,10 +4,10 @@ import math
 import numpy as np
 
 from src import constants
-from src.multi_agent.elements.camera import Camera, CameraRepresentation, born_minus_pi_plus_pi
-from src.multi_agent.elements.item import parse_list
+from src.multi_agent.elements.camera import Camera, CameraRepresentation
 from src.my_utils import constant_class
 from src.my_utils.my_math.line import distance_btw_two_point, Line
+from src.my_utils.string_operations import parse_list
 
 
 class MobileCameraType:
@@ -116,7 +116,7 @@ class MobileCamera(Camera):
         s5 = " traj: " + str(self.trajectory.trajectory) + " type: " + str(self.camera_type)
         return s0 + s1 + s2 + s3 + s4 + s5 + "\n"
 
-    def load_from_txt(self, s):
+    def load_from_save_to_txt(self, s):
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 

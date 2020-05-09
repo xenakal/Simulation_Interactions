@@ -35,5 +35,7 @@ class ItemUser(Item):
 if __name__ == "__main__":
     item1 = ItemUser(0)
     print(item1.attributes_to_string())
-    item2 = create_item_from_string(item1.attributes_to_string())
+    item2 = item1.load_from_attributes_to_string(item1.attributes_to_string())
+    print(type(item2))
+    print(item2.user_variable1)
     print(item2.attributes_to_string())
