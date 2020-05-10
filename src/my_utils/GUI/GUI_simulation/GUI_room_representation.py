@@ -2,10 +2,10 @@ import pygame
 import math
 from src import constants
 from src.multi_agent.agent.agent_interacting_room_camera import AgentCam
+from src.multi_agent.agent.agent_representation import AgentType
 from src.multi_agent.elements.mobile_camera import MobileCameraType
-from src.multi_agent.elements.room import Room
 from src.multi_agent.elements.target import TargetType
-from src.multi_agent.agent.agent import AgentType
+
 import src.multi_agent.elements.camera as cam
 
 WHITE = (255, 255, 255)

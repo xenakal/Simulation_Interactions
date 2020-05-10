@@ -2,7 +2,7 @@ from src.my_utils.GUI.button import ButtonList
 from src.my_utils.GUI.GUI_simulation.GUI_predictions import *
 from src.my_utils.GUI.GUI_simulation.GUI_room_representation import GUI_room_representation
 from src.my_utils.GUI.GUI_simulation.GUI_agent_region import *
-from src.multi_agent.agent.agent import AgentType
+from src.multi_agent.agent.agent_representation import AgentType
 
 
 class GUI_user_output:

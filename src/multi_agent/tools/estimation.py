@@ -1,11 +1,8 @@
 import re
 import warnings
-import src.multi_agent.agent.agent_interacting_room_camera as agentCam
-
 from src import constants
-from src.my_utils.item import Item
-from src.multi_agent.elements.target import TargetRepresentation
-#from src.multi_agent.agent.agent_interacting_room_camera import AgentCamRepresentation
+from src.my_utils.item_types import ItemType, create_item_from_string
+
 
 def is_in_list_TargetEstimator(list_TargetEstimator, targetEstimator):
     """
@@ -21,16 +18,6 @@ def is_in_list_TargetEstimator(list_TargetEstimator, targetEstimator):
         if estimator == targetEstimator:
             return True
     return False
-
-
-class ItemEstimationType:
-    ItemEstimation = "item_estimation"
-    AgentEstimation = "agent_estimation"
-    TargetEstimation = "target_estimation"
-
-    keys_string_names = [ItemEstimation, TargetEstimation, AgentEstimation]
-    values_class_names = [Item, TargetRepresentation, agentCam.AgentCam]
-    dictionary_item_types = dict(zip(keys_string_names, values_class_names))
 
 # TODO: to_csv in ItemEstimation
 # TODO: dans add_estimation de ItemEstimationsList
@@ -65,8 +52,8 @@ class ItemEstimation:
 
         self.item = item
         self.item_type = None
-        for key, value in ItemEstimationType.dictionary_item_types.items():
-            if isinstance(self.item, value):
+        for key, value in ItemType.dictionary_item_types.items():
+            if isinstance(self.item, type(value())):
                 self.item_type = key
 
     def to_string(self):
@@ -93,21 +80,15 @@ class ItemEstimation:
         s = s.replace("\n", "")
         s = s.replace(" ", "")
         attribute = re.split(
-            "#ITEM_Timestamp:|#ITEM_Time_to_compare:|#ITEM_Owner_id:|#ITEM_Owner_signature:|#ITEM_Item_type:|#ITEM_Item:",
-            s)
+            "#ITEM_Timestamp:|#ITEM_Time_to_compare:|#ITEM_Owner_id:|#ITEM_Owner_signature:|#ITEM_Item_type:|#ITEM_Item:", s)
 
         self.time_stamp = float(attribute[1])
         self.time_to_compare_to_simulated_data = float(attribute[2])
         self.owner_id = int(attribute[3])
         self.owner_signature = int(attribute[4])
         self.item_type = attribute[5]
+        self.item = create_item_from_string(attribute[6])
 
-        if self.item is None:
-            for key, value in ItemEstimationType.dictionary_item_types.items():
-                if self.item_type == key:
-                    self.item = value()
-
-        self.item.load_from_attributes_to_string(attribute[6])
 
     # TODO - REFAIRE CA PLUS TARD
     '''
@@ -332,6 +313,7 @@ class SingleOwnerMemories:
                 return len(item_estimations_list.item_estimations)
         return -1
 
+
 class MultipleOwnerMemories:
     """
           Stores previous estimations for a number of agents and a number of targets.
@@ -354,7 +336,7 @@ class MultipleOwnerMemories:
 
     def __init__(self, current_time=0):
         self.current_time = current_time
-        self.agents_and_items_discovered = [] # TODO: voir si on a besoin de ca
+        self.agents_and_items_discovered = []  # TODO: voir si on a besoin de ca
         self.single_owners_list = []
 
     def update_estimator_list(self, agent_id, item_id):
@@ -499,4 +481,3 @@ class MultipleOwnerMemories:
             for estimation_list in single_owner.items_estimations_lists:
                 s += "Item: " + str(estimation_list.item_id) + "#memories" + str(len(estimation_list))
         return s
-

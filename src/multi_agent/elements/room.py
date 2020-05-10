@@ -1,13 +1,12 @@
 import re
-import time
-
 import numpy as np
 import random
-from src.multi_agent.agent.agent import AgentType
+
+from src.multi_agent.agent.agent_interacting_room_camera_representation import AgentCamRepresentation
+from src.multi_agent.agent.agent_interacting_room_user_representation import AgentUserRepresentation
+from src.multi_agent.agent.agent_representation import AgentType
 from src.multi_agent.elements.mobile_camera import MobileCamera, MobileCameraType
 from src.multi_agent.elements.target import TargetType, TargetRepresentation, Target
-# from multi_agent.agent_camera import *
-# from multi_agent.agent_user import *
 import src.multi_agent.agent.agent_interacting_room_camera as aCam
 import src.multi_agent.agent.agent_interacting_room_user as aUser
 from src import constants
@@ -263,12 +262,12 @@ class RoomRepresentation:
                 self.add_targetRepresentation_from_target(target)
 
         for agent in room.information_simulation.agentCams_list:
-            agentCam_representation = aCam.AgentCamRepresentation(0)
+            agentCam_representation = AgentCamRepresentation(0)
             agentCam_representation.update_from_agent(agent)
             self.agentCams_representation_list.append(agentCam_representation)
 
         for agent in room.information_simulation.agentUser_list:
-            agentUser_representation = aUser.AgentUserRepresentation(0)
+            agentUser_representation = AgentUserRepresentation(0)
             agentUser_representation.update_from_agent(agent)
             self.agentUser_representation_list.append(agentUser_representation)
 
@@ -331,6 +330,7 @@ class RoomRepresentation:
 
             for agent in self.agentCams_representation_list:
                 camera = agent.camera_representation
+
                 if agent.id == agent_detected_id:
                     is_in_RoomRepresentation = True
                     agent.is_active = last_AgentEstimator.item.is_active

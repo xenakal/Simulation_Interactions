@@ -1,15 +1,10 @@
-from src.multi_agent.elements.target import *
-from src.multi_agent.agent.agent_interacting_room import *
+from src.multi_agent.agent.agent_representation import AgentType
+from src.multi_agent.agent.agent_interacting_room import AgentInteractingWithRoom
 from src import constants
 import time
 
+from src.my_utils.my_IO.IO_data import create_logger
 
-class AgentUserRepresentation(AgentInteractingWithRoomRepresentation):
-    def __init__(self, id):
-        super().__init__(id, AgentType.AGENT_USER)
-
-    def update_from_agent(self, agent):
-        super().update_from_agent(agent)
 
 class AgentUser(AgentInteractingWithRoom):
     """

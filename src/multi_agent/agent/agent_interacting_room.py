@@ -1,31 +1,15 @@
+import mailbox
 import threading
-# from elements.room import*
-from src.multi_agent.agent.agent import *
-from src.multi_agent.behaviour.memory import Memory
-from src.multi_agent.communication.message import *
+import src.multi_agent.elements.room as room
 from src import constants
-
-import src.multi_agent.elements.room
-from src.multi_agent.tools.estimation import ItemEstimation, ItemEstimationType
-
-
-
-class BroadcastTypes:
-    ALL = "all"
-    AGENT_CAM = "agentCams"
-    AGENT_USER = "agentUser"
-
-
-class MessageTypeAgentInteractingWithRoom(MessageType):
-    HEARTBEAT = "heartbeat"
-    AGENT_ESTIMATION = "agentEstimation"
-    TARGET_ESTIMATION = "targetEstimation"
-    ITEM_ESTIMATION = "itemEstimation"
-
-
-class AgentInteractingWithRoomRepresentation(AgentRepresentation):
-    def __init__(self, id, type):
-        super().__init__(id, type)
+from src.multi_agent.agent.agent import Agent
+from src.multi_agent.agent.agent_interacting_room_camera_representation import AgentCamRepresentation
+from src.multi_agent.agent.agent_interacting_room_representation import MessageTypeAgentInteractingWithRoom,BroadcastTypes
+from src.multi_agent.agent.agent_interacting_room_user_representation import AgentUserRepresentation
+from src.multi_agent.behaviour.memory import Memory
+from src.multi_agent.communication.message import MessageType, MessageCheckACKNACK
+from src.multi_agent.tools.estimation import ItemEstimation, ItemType
+from src.my_utils.my_IO.IO_data import save_in_csv_file_dictionnary, create_logger
 
 
 class AgentInteractingWithRoom(Agent):
@@ -67,7 +51,7 @@ class AgentInteractingWithRoom(Agent):
 
         "Attibutes"
         self.memory = Memory(self.id)
-        self.room_representation = src.multi_agent.elements.room.RoomRepresentation(self.color)
+        self.room_representation =room.RoomRepresentation(self.color)
         self.hearbeat_tracker = HeartbeatCounterAllAgent(self.id, self.signature, self.log_main)
 
         "Create his own thread"
@@ -272,10 +256,10 @@ class AgentInteractingWithRoom(Agent):
 
                     import src.multi_agent.agent.agent_interacting_room_camera as agentCamRep
                     import src.multi_agent.agent.agent_interacting_room_user as agentUserRep
-                    if isinstance(agent, agentCamRep.AgentCamRepresentation):
+                    if isinstance(agent, AgentCamRepresentation):
                         self.log_main.info("Found someone ! agent cam :" + str(agent.id))
                         agent.camera_representation.is_active = True
-                    elif isinstance(agent, agentUserRep.AgentUserRepresentation):
+                    elif isinstance(agent, AgentUserRepresentation):
                         self.log_main.info("Found someone ! agent user :" + str(agent.id))
 
                     self.log_main.debug(self.room_representation.agentCams_representation_list)
@@ -302,9 +286,9 @@ class AgentInteractingWithRoom(Agent):
         s = s.replace(" ", "")
 
         message_type = MessageTypeAgentInteractingWithRoom.ITEM_ESTIMATION
-        if itemEstimation.item_type == ItemEstimationType.AgentEstimation:
+        if itemEstimation.item_type == ItemType.AgentEstimation:
             message_type = MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATION
-        if itemEstimation.item_type == ItemEstimationType.TargetEstimation:
+        if itemEstimation.item_type == ItemType.TargetEstimation:
             message_type = MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATION
 
         reference_to_target = itemEstimation.item.id
@@ -318,9 +302,9 @@ class AgentInteractingWithRoom(Agent):
         if cdt_message_not_to_old:
 
             table_time_sent = None
-            if item_estimator.item_type == ItemEstimationType.TargetEstimation:
+            if item_estimator.item_type == ItemType.TargetEstimation:
                 table_time_sent = self.table_target_agent_lastTimeSent
-            elif item_estimator.item_type == ItemEstimationType.AgentEstimation:
+            elif item_estimator.item_type == ItemType.AgentEstimation:
                 table_time_sent = self.table_agent_agent_lastTimeSent
 
             send_message_to_agent = []

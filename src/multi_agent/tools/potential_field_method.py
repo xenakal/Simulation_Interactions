@@ -290,7 +290,6 @@ def compute_potential_for_a_given_list(target_list, X, Y, field_type, barrier_ty
         rho_0_None = True
 
     if target_list == []:
-        print("test")
         return potential_field
 
     elif len(target_list) == 1:

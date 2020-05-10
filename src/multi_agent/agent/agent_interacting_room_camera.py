@@ -1,63 +1,26 @@
 import copy
 import math
-
 import time
+import numpy as np
 import src.multi_agent.elements.mobile_camera as mobCam
 import src.multi_agent.elements.room as room
-
-from src.multi_agent.agent.agent_interacting_room import *
-from src.multi_agent.communication.message import *
+from src import constants
+from src.multi_agent.agent.agent_interacting_room import AgentInteractingWithRoom
+from src.multi_agent.agent.agent_interacting_room_camera_representation import AgentCameraFSM, AgentCamRepresentation, \
+    MessageTypeAgentCameraInteractingWithRoom, InternalPriority
+from src.multi_agent.agent.agent_interacting_room_representation import BroadcastTypes
+from src.multi_agent.agent.agent_representation import AgentType
+from src.multi_agent.communication.message import MessageCheckACKNACK
 from src.multi_agent.behaviour.behaviour_agent import PCA_track_points_possibilites, \
     get_configuration_based_on_seen_target
-from src.multi_agent.behaviour.behaviour_detection import *
+from src.multi_agent.behaviour.behaviour_detection import detect_target_motion, is_target_leaving_cam_field
+from src.multi_agent.elements.target import TargetRepresentation, TargetType
 from src.multi_agent.tools.configuration import check_configuration_all_target_are_seen
-from src.multi_agent.tools.link_target_camera import *
+from src.multi_agent.tools.estimation import SingleOwnerMemories
+from src.multi_agent.tools.link_target_camera import LinkTargetCamera
 from src.multi_agent.tools.controller import CameraController
 from src.constants import AgentCameraCommunicationBehaviour
-
-
-class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
-    INFO_DKF = "info_DKF"
-    TRACKING_TARGET = "tracking_target"
-    LOSING_TARGET = "loosing_target"
-
-
-class AgentCameraFSM:
-    MOVE_CAMERA = "Move camera"
-    TAKE_PICTURE = "Take picture"
-    PROCESS_DATA = "Process Data"
-    COMMUNICATION = "Communication"
-    BUG = "Bug"
-
-
-class InternalPriority:
-    NOT_TRACKED = 2
-    TRACKED = 5
-
-
-class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
-    def __init__(self, id=None):
-        super().__init__(id, AgentType.AGENT_CAM)
-        self.camera_representation = mobCam.MobileCameraRepresentation(0, 0, 0, 0, 0, 0, 0, 0)
-
-    def update_from_agent(self, agent):
-        super().update_from_agent(agent)
-        self.camera_representation.init_from_camera(agent.camera)
-
-    def update_from_agent_estimator(self, agent_estimator):
-        self.id = agent_estimator.agent_id
-        self.signature = agent_estimator.agent_signature  # always higher than 100
-        self.type = agent_estimator.item_type
-        self.is_active = agent_estimator.is_agent_active
-        self.color = agent_estimator.color
-        self.camera_representation.init_from_values_extend(agent_estimator.item_id, agent_estimator.item_signature,
-                                                           agent_estimator.item_position[0],
-                                                           agent_estimator.item_position[1],
-                                                           agent_estimator.alpha, agent_estimator.beta,
-                                                           agent_estimator.field_depth, agent_estimator.error_pos,
-                                                           agent_estimator.error_speed, agent_estimator.error_acc,
-                                                           agent_estimator.color, agent_estimator.is_camera_active,
-                                                           agent_estimator.item_type, agent_estimator.trajectory)
+from src.my_utils.my_IO.IO_data import create_logger
 
 
 class AgentCam(AgentInteractingWithRoom):
@@ -434,6 +397,7 @@ class AgentCam(AgentInteractingWithRoom):
                 -----------------------------------------------------------------------------------------------
             """
 
+
             # start tracking targets that came into field of vision
             if target.id not in self.targets_to_track and target.confidence[1] > constants.CONFIDENCE_THRESHOLD:
                 self.targets_to_track.append(target.id)
@@ -443,6 +407,7 @@ class AgentCam(AgentInteractingWithRoom):
                 self.targets_to_track.remove(target.id)
                 self.priority_dict[target.id] = None
 
+           
         """
            ----------------------------------------------------------------------------------------------
            Check if to cameras are to close:

@@ -278,7 +278,6 @@ class Memory:
         :param
 
         """
-        print(constants.get_time())
         self.memory_best_estimations_from_target.add_create_itemEstimation(time_from_estimation, agent_id,
                                                                              agent_signature,item)
 

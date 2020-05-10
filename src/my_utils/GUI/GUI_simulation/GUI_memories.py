@@ -1,6 +1,8 @@
 import pygame
-from src.multi_agent.agent.agent import AgentType
+
 from src import constants
+from src.multi_agent.agent.agent_representation import AgentType
+
 
 class GUI_memories:
 
