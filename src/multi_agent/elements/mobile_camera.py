@@ -46,10 +46,12 @@ class MobileCameraRepresentation(CameraRepresentation):
         self.camera_type = type
         self.trajectory = TrajectoryPlaner([])
 
-    def init_from_camera(self, camera):
-        super().init_from_camera(camera)
+    def update_from_camera(self, camera):
+        super().update_from_camera(camera)
         self.camera_type = camera.camera_type
         self.trajectory = TrajectoryPlaner(camera.trajectory.trajectory)
+
+
 
 class MobileCamera(Camera, MobileCameraRepresentation):
     """

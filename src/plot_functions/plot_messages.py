@@ -126,7 +126,7 @@ class MessagePlot:
         self.data = load_message_file(agent_id)
         self.id = agent_id
         self.colors = ['g', 'b', 'r', 'c', 'k']
-        self.names = ["heartbeat", "agentEstimator", "targetEstimator", "loosing_target", "tracking_target"]
+        self.names = ["heartbeat", "agentEstimation", "targetEstimation", "loosing_target", "tracking_target"]
 
     def plot(self):
         filter_and_plot(self.id,self.data,self.names,self.colors)

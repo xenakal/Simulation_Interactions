@@ -1,3 +1,5 @@
+import copy
+
 from src.multi_agent.agent.agent_interacting_room_representation import AgentInteractingWithRoomRepresentation, \
     MessageTypeAgentInteractingWithRoom
 from src.multi_agent.agent.agent_representation import AgentType
@@ -30,5 +32,7 @@ class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
 
     def update_from_agent(self, agent):
         super().update_from_agent(agent)
-        self.camera_representation.init_from_camera(agent.camera)
+        self.camera_representation.update_from_camera(agent.camera)
+
+
 

@@ -113,6 +113,7 @@ class LinkTargetCamera():
                                 cdt_condifdence_high_enough = target.confidence[1] > constants.CONFIDENCE_THRESHOLD or target.confidence == [-1,-1]
 
                                 "Check is the camera can see the target for a given room geometry"
+
                                 if cdt_in_field and cdt_not_hidden and camera.is_active and cdt_condifdence_high_enough:
                                     "Distance computation"
                                     distance_to_target = np.power(np.power((camera.xc - target.xc), 2)

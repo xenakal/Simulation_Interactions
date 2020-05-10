@@ -74,7 +74,6 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
         warnings.warn("Agent ", camera.id, "sees a negative number of targets...")
 
     elif number_of_target == 0 or no_target_behaviour:
-
         configuration = Configuration(camera.xc, camera.yc, camera.xc, camera.yc, camera.alpha,
                                       camera.beta, camera.field_depth, virtual)
         # all types rotate

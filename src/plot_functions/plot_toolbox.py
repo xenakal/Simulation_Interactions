@@ -3,9 +3,9 @@ import math
 from src import constants
 
 X_MIN = 0
-X_MAX = constants.ROOM_DIMENSION_X + 1
+X_MAX = 10 + 1
 Y_MIN = 0
-Y_MAX = constants.ROOM_DIMENSION_Y
+Y_MAX = 10
 T_MIN = 0
 T_MAX = 20
 

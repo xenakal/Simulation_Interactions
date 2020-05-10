@@ -300,7 +300,7 @@ class GUI_room_representation():
             color_type = CAMERA_FREE
 
         color = RED
-        if camera.is_active == 1:
+        if camera.is_active:
             color = GREEN
         if virtual:
             color = (0, 125, 125)

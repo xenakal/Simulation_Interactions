@@ -326,28 +326,29 @@ class RoomRepresentation:
         for agent_detected_id in Agent_AgentEstimator.items_discovered:
             is_in_RoomRepresentation = False
             all_TargetEstimator_for_target_id = Agent_AgentEstimator.get_item_list(agent_detected_id)
-            last_AgentEstimator = all_TargetEstimator_for_target_id[-1]
+            itemEstimation = all_TargetEstimator_for_target_id[-1]
 
             for agent in self.agentCams_representation_list:
                 camera = agent.camera_representation
 
                 if agent.id == agent_detected_id:
-                    is_in_RoomRepresentation = True
-                    agent.is_active = last_AgentEstimator.item.is_active
-                    agent.evaluate_agent_confidence(0.001, constants.get_time() - last_AgentEstimator.time_stamp)
-                    camera.xc = last_AgentEstimator.item.camera_representation.xc
-                    camera.yc = last_AgentEstimator.item.camera_representation.yc
+                    is_in_RoomRepresentation = True                
+                    agent.is_active = itemEstimation.item.is_active
+                    agent.evaluate_agent_confidence(0.001, constants.get_time() - itemEstimation.time_stamp)
+                    camera.xc = itemEstimation.item.camera_representation.xc
+                    camera.yc = itemEstimation.item.camera_representation.yc
                     # self.item_speeds = [0, 0]  # [ camera.vx,  camera.vy]
                     # self.item_acceleration = [0, 0]  # [ camera.ax,  camera.ay]
-                    camera.type = last_AgentEstimator.item.camera_representation.camera_type
-                    camera.alpha = last_AgentEstimator.item.camera_representation.alpha
-                    camera.beta = last_AgentEstimator.item.camera_representation.beta
-                    camera.field_depth = last_AgentEstimator.item.camera_representation.field_depth
-                    camera.is_active = last_AgentEstimator.item.camera_representation.is_active
+                    camera.type = itemEstimation.item.camera_representation.camera_type
+                    camera.alpha = itemEstimation.item.camera_representation.alpha
+                    camera.beta = itemEstimation.item.camera_representation.beta
+                    camera.field_depth = itemEstimation.item.camera_representation.field_depth
+                    camera.is_active = itemEstimation.item.camera_representation.is_active
+
                     break
 
             if not is_in_RoomRepresentation:
-                self.add_agentCamRepresentation(last_AgentEstimator)
+                self.agentCams_representation_list.append(itemEstimation.item)
 
     def add_targetRepresentation_from_target(self, target):
         """
@@ -374,21 +375,6 @@ class RoomRepresentation:
         """
         self.target_representation_list.append(TargetRepresentation(id, x, y, 0, 0, 0, 0, radius, label, self.color))
 
-    def add_agentCamRepresentation(self, agentEstimator):
-        """
-            :description
-                 create and add a TargetRepresentation to the RoomRepresentation
-
-            :param
-                  1. (int) id                  -- numerical value to recognize the target easily
-                  2. (int) x                   -- x value of the center of the targetRepresentation
-                  3. (int) y                   -- y value of the center of the targetRepresentation
-                  4. (int) radius                -- radius from the center
-                  5. (string) type             -- "fix","target", to make the difference between known and unkown target
-        """
-        agentCam_representation = aCam.AgentCamRepresentation(0, 0)
-        agentCam_representation.update_from_agent_estimator(agentEstimator)
-        self.agentCams_representation_list.append(agentCam_representation)
 
     def get_multiple_target_with_id(self, id_list):
         """

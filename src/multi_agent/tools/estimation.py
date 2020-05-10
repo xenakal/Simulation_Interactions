@@ -182,6 +182,7 @@ class ItemEstimationsList:
         csv_list = []
         item_type = None
         csv_fieldnames = None
+
         for item in self.item_estimations:
             item_csv,item_type = item.to_csv()
             csv_list.append(item_csv)
@@ -256,6 +257,8 @@ class SingleOwnerMemories:
         """
         self.update_ItemEstimations_list(item_estimation.item.id)
 
+
+
         for item_estimation_list in self.items_estimations_lists:
             if item_estimation_list.item_id == item_estimation.item.id:
                 item_estimation_list.add_estimation(item_estimation)
@@ -283,7 +286,7 @@ class SingleOwnerMemories:
 
     def get_estimation_at_time_for_target(self, time, target_id):
         for estimation_list in self.items_estimations_lists:
-            if estimation_list.owner_id == target_id or target_id == -1:
+            if estimation_list.owner_id == target_id:
                 return estimation_list.get_itemEstimation_at_time(time)
 
     def get_item_list(self, item_id):
@@ -453,7 +456,7 @@ class MultipleOwnerMemories:
         """
         ret_estimations_list = []
         for single_owner_list in self.single_owners_list:
-            if agent_id == -1 or agent_id == single_owner_list.owner_id:
+            if agent_id == single_owner_list.owner_id:
                 ret_estimations_list += single_owner_list.get_estimations_at_time_for_target(time, target_id)
         return ret_estimations_list
 

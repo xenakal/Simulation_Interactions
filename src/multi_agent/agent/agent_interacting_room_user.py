@@ -53,7 +53,6 @@ class AgentUser(AgentInteractingWithRoom):
 
         state = "processData"
         nextstate = state
-        time_last_heartbeat_sent = constants.get_time()
         execution_loop_number = 0
         execution_time_start = 0
         execution_mean_time = 0
@@ -83,6 +82,9 @@ class AgentUser(AgentInteractingWithRoom):
                 '''Suppression of unusefull messages in the list'''
                 self.info_message_sent.remove_message_after_given_time(constants.get_time(), constants.MAX_TIME_MESSAGE_IN_LIST)
                 self.info_message_received.remove_message_after_given_time(constants.get_time(), constants.MAX_TIME_MESSAGE_IN_LIST)
+
+                "Send heart_beat to other agent"
+                self.handle_hearbeat()
 
                 '''Message are send (Mailbox)'''
                 self.send_messages()

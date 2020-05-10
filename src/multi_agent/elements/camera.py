@@ -485,7 +485,7 @@ class CameraRepresentation(Item):
             b = 25 + 20 * random.randrange(0, 10, 1)
             self.color = (r, g, b)
 
-    def init_from_camera(self, camera):
+    def update_from_camera(self, camera):
         """"""
         self.id = camera.id
         self.signature = camera.signature

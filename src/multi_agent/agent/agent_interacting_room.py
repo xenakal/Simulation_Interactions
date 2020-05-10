@@ -248,14 +248,13 @@ class AgentInteractingWithRoom(Agent):
 
         for agent in list_to_check:
             if agent.id != self.id:
-                cdt1 = message.sender_id == agent.id and message.sender_signature == agent.signature
+
+                cdt1 = message.sender_id == agent.id  #and message.sender_signature == agent.signature
                 cdt2 = (agent.is_active == False)
 
                 if cdt1 and cdt2:
                     agent.is_active = True
 
-                    import src.multi_agent.agent.agent_interacting_room_camera as agentCamRep
-                    import src.multi_agent.agent.agent_interacting_room_user as agentUserRep
                     if isinstance(agent, AgentCamRepresentation):
                         self.log_main.info("Found someone ! agent cam :" + str(agent.id))
                         agent.camera_representation.is_active = True
@@ -264,7 +263,6 @@ class AgentInteractingWithRoom(Agent):
 
                     self.log_main.debug(self.room_representation.agentCams_representation_list)
                     break
-
         """Add heartbeart"""
         self.hearbeat_tracker.add_heartbeat(message, self.log_main)
 
