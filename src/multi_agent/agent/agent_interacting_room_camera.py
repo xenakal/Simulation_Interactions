@@ -452,7 +452,6 @@ class AgentCam(AgentInteractingWithRoom):
         return None
 
     def move_based_on_config(self, configuration, last_time_move):
-
         if configuration is None:
             self.log_main.debug("no config to move at time %.02f" % constants.get_time())
             return constants.get_time()
@@ -523,10 +522,10 @@ class AgentCam(AgentInteractingWithRoom):
 
         configuration = None
         while configuration is None or not configuration.is_valid:
-
             configuration = self.find_configuration_for_targets(tracked_targets)
             if configuration is None or not configuration.is_valid:
                 self.remove_target_with_lowest_priority(tracked_targets, configuration)
+
 
         for target in self.targets_to_track:
             if target not in tracked_targets:
@@ -536,6 +535,8 @@ class AgentCam(AgentInteractingWithRoom):
         for target in self.targets_to_track:
             self.priority_dict[target] = InternalPriority.TRACKED
 
+
+        print(configuration.track_target_list,tracked_targets)
         return configuration
 
     def find_configuration_for_targets(self, targets, used_for_movement=True):
@@ -546,9 +547,15 @@ class AgentCam(AgentInteractingWithRoom):
             :param used_for_movement: if False, don't do the last non-virtual "get_configuration"
             :return: Configuration object if exists, None otherwise
         """
+
+
         tracked_targets_room_representation = self.construct_room_representation_for_a_given_target_list(targets)
+
+
         virtual_configuration = \
             self.compute_virtual_configuration(tracked_targets_room_representation.target_representation_list)
+
+
 
         better_config_found = False
         self.virtual_camera = copy.deepcopy(self.camera)
@@ -657,11 +664,13 @@ class AgentCam(AgentInteractingWithRoom):
         return real_configuration, virtual_configuration
 
     def construct_room_representation_for_a_given_target_list(self, targets):
-        target_target_estimator = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
+        list_in_memory = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
+
 
         # reconstruct the Target_TargetEstimator by flitering the targets
         new_target_targetEstimation = SingleOwnerMemories(self.id)
-        for itemEstimationsList in target_target_estimator.items_estimations_lists:
+
+        for itemEstimationsList in list_in_memory.items_estimations_lists:
             if itemEstimationsList.item_id in targets:
                 new_target_targetEstimation.add_itemEstimationsList(itemEstimationsList)
 

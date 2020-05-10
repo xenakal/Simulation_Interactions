@@ -242,9 +242,7 @@ class App:
             for target in self.room.target_representation_list:
                 target.save_position()
                 constants.time_when_target_are_moved = constants.get_time()
-                self.exact_data_target.add_create_itemEstimation(constants.time_when_target_are_moved,
-                                                                   self.link_agent_target.get_agent_in_charge(
-                                                                       target.id), -1,target)
+                self.exact_data_target.add_create_itemEstimation(constants.time_when_target_are_moved,-1, -1,target)
                 move_Target(target, delta_time)
                 # theoritical calculation
             time_old = time.time()

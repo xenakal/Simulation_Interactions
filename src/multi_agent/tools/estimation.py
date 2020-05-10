@@ -89,55 +89,45 @@ class ItemEstimation:
         self.item_type = attribute[5]
         self.item = create_item_from_string(attribute[6])
 
-
-    # TODO - REFAIRE CA PLUS TARD
-    '''
     def to_csv(self):
+        if self.item_type == ItemType.AgentRepresentationEstimation:
+            return  self.to_csv_agentRepresentation(),self.item_type
+        elif self.item_type == ItemType.TargetEstimation or self.item_type == ItemType.TargetRepresentationEstimation:
+            return self.to_csv_targetRepresentation(),self.item_type
+        else:
+            return None,self.item_type
+
+    def to_csv_targetRepresentation(self):
         """
             :return / modify vector
                 1. easy representation to save data in cvs file
         """
         csv_format = {'time_to_compare': self.time_to_compare_to_simulated_data, 'time_stamp': self.time_stamp,
                       'agent_id': self.owner_id, 'agent_signature': self.owner_signature,
-                      'target_id': self.item_id, 'target_signature': self.item_signature,
-                      'target_type': self.item_type,
-                      'target_x': self.item_position[0], 'target_y': self.item_position[1],
-                      'target_vx': self.item_speeds[0], 'target_vy': self.item_speeds[1],
-                      'target_ax': self.item_acceleration[0], 'target_ay': self.item_acceleration[1]}
+                      'target_id': self.item.id, 'target_signature': self.item.signature,
+                      'target_type': self.item.target_type,
+                      'target_x': self.item.xc, 'target_y': self.item.yc,
+                      'target_vx': self.item.vx, 'target_vy': self.item.vy,
+                      'target_ax': self.item.ax, 'target_ay': self.item.ax,
+                      'target_radius': self.item.radius, 'target_alpha': self.item.alpha}
         return csv_format
         
-          def to_csv(self):
+    def to_csv_agentRepresentation(self):
         """
             :return / modify vector
                 1. easy representation to save data in cvs file
         """
+        camera = self.item.camera_representation
         csv_format = {'time_to_compare': self.time_to_compare_to_simulated_data, 'time_stamp': self.time_stamp,
-                      'agent_id': self.agent_id, 'agent_signature': self.agent_signature,
-                      'target_id': self.item_id, 'target_signature': self.item_signature,
-                      'target_type': self.item_type,
-                      'target_x': self.item_position[0], 'target_y': self.item_position[1],
-                      'target_vx': self.item_speeds[0], 'target_vy': self.item_speeds[1],
-                      'target_ax': self.item_acceleration[0], 'target_ay': self.item_acceleration[1],
-                      'target_radius': self.target_radius, 'target_alpha': self.alpha}
+                      'agent_id': self.owner_id, 'agent_signature': self.owner_signature,
+                      'camera_id': self.item.id, 'camera_signature': self.item.signature,
+                      'camera_type': camera.camera_type,
+                      'camera_x': camera.xc, 'camera_y': camera.yc,
+                      'camera_vx': 0, 'camera_vy': 0,
+                      'camera_ax': 0, 'camera_ay': 0,
+                      'alpha': camera.alpha, 'beta': camera.beta,'field_depth':camera.field_depth,
+                      'is_agent_active': self.item.is_active,'is_camera_active':camera.is_active}
         return csv_format
-        
-            def to_csv(self):
-        """
-            :return / modify vector
-                1. easy representation to save data in cvs file
-        """
-        csv_format = {'time_to_compare': self.time_to_compare_to_simulated_data, 'time_stamp': self.time_stamp,
-                      'agent_id': self.agent_id, 'agent_signature': self.agent_signature,
-                      'camera_id': self.item_id, 'camera_signature': self.item_signature,
-                      'camera_type': self.item_type,
-                      'camera_x': self.item_position[0], 'camera_y': self.item_position[1],
-                      'camera_vx': self.item_speeds[0], 'camera_vy': self.item_speeds[1],
-                      'camera_ax': self.item_acceleration[0], 'camera_ay': self.item_acceleration[1],
-                      'alpha': self.alpha, 'beta': self.beta,'field_depth':self.field_depth,
-                      'is_agent_active': self.is_agent_active,'is_camera_active':self.is_camera_active}
-        return csv_format
-
-    '''
 
     def check_if_same_time(self, other):
         return self.time_stamp == other.time_stamp
@@ -187,6 +177,23 @@ class ItemEstimationsList:
             if estimation.timeStamp == time:
                 return estimation
         return None
+
+    def to_csv(self):
+        csv_list = []
+        item_type = None
+        csv_fieldnames = None
+        for item in self.item_estimations:
+            item_csv,item_type = item.to_csv()
+            csv_list.append(item_csv)
+
+        if item_type == ItemType.TargetEstimation or item_type == ItemType.TargetRepresentationEstimation:
+            csv_fieldnames = constants.TARGET_ESTIMATOR_CSV_FIELDNAMES
+        elif item_type == ItemType.AgentRepresentationEstimation:
+            csv_fieldnames = constants.AGENT_ESTIMATOR_CSV_FIELDNAMES
+        else:
+            pass
+
+        return csv_fieldnames,csv_list
 
     def __len__(self):
         return len(self.item_estimations)
@@ -312,6 +319,15 @@ class SingleOwnerMemories:
             if item_estimations_list.owner_id == item_id:
                 return len(item_estimations_list.item_estimations)
         return -1
+
+    def to_csv(self):
+        csv_list = []
+        csv_fieldnames = []
+        for item_list in self.items_estimations_lists:
+            (csv_fieldnames, list) = item_list.to_csv()
+            csv_list += list
+        return  [csv_fieldnames,csv_list]
+
 
 
 class MultipleOwnerMemories:
@@ -481,3 +497,13 @@ class MultipleOwnerMemories:
             for estimation_list in single_owner.items_estimations_lists:
                 s += "Item: " + str(estimation_list.item_id) + "#memories" + str(len(estimation_list))
         return s
+
+
+    def to_csv(self):
+        csv_list = []
+        csv_fieldnames = []
+        for item_list in self.single_owners_list:
+            (csv_fieldnames,list) = item_list.to_csv()
+            csv_list += list
+
+        return [csv_fieldnames,csv_list]

@@ -3,7 +3,7 @@ from src import constants
 from src.my_utils.string_operations import parse_element
 from src.my_utils.item import Item
 from src.multi_agent.elements.mobile_camera import MobileCameraRepresentation
-from src.multi_agent.elements.target import TargetRepresentation
+from src.multi_agent.elements.target import TargetRepresentation, Target
 from src.multi_agent.agent.agent_interacting_room_camera_representation import AgentCamRepresentation
 
 
@@ -65,10 +65,11 @@ def create_item_from_string(s):
 
 class ItemType:
     ItemEstimation = "item_estimation"
-    AgentEstimation = "agent_estimation"
+    AgentRepresentationEstimation = "agent_representation_estimation"
     TargetEstimation = "target_estimation"
     CameraEstimation = "camera_estimation"
+    TargetRepresentationEstimation = "target_representation_estimation"
 
-    keys_string_names = [ItemEstimation, TargetEstimation, AgentEstimation, CameraEstimation]
-    values_class_names = [Item,TargetRepresentation, AgentCamRepresentation, MobileCameraRepresentation]
+    keys_string_names = [ItemEstimation, TargetEstimation, AgentRepresentationEstimation, CameraEstimation,TargetRepresentationEstimation]
+    values_class_names = [Item,Target, AgentCamRepresentation, MobileCameraRepresentation,TargetRepresentation]
     dictionary_item_types = dict(zip(keys_string_names, values_class_names))

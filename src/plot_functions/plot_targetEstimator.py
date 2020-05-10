@@ -118,7 +118,7 @@ def init_analyse_memory_agent(list_init, list_sort):
     for data_element in list_init:
         is_in_list = False
         for element in list_sort:
-            if int(data_element['target_signature']) == element.target_signature:
+            if int(data_element['target_id']) == element.target_id:
                 # element.add_itemEstimator(data_element)
                 element.add_target_estimator(data_element)
                 is_in_list = True
@@ -140,10 +140,10 @@ def init_analyse_memory_all_agent(list_init, list_sort):
         is_in_list_target = False
 
         for agent_element in list_sort:
-            if agent_element.agent_signature == int(data_element['agent_signature']):
+            if agent_element.agent_id == int(data_element['agent_id']):
                 is_in_list_agent = True
                 for target_element in agent_element.data_list:
-                    if target_element.target_signature == int(data_element['target_signature']):
+                    if target_element.target_id == int(data_element['target_id']):
                         is_in_list_target = True
 
                         "Add Data"
@@ -216,13 +216,13 @@ class AgentSortedTargetEstimator:
         self.data_list = []
 
     def __eq__(self, other):
-        return self.agent_signature == other.agent_signature
+        return self.agent_id == other.agent_id
 
     def __lt__(self, other):
-        return self.agent_signature < other.agent_signature
+        return self.agent_id < other.agent_id
 
     def __gt__(self, other):
-        return self.agent_signature > other.agent_signature
+        return self.agent_id > other.agent_id
 
 
 class Analyser_Target_TargetEstimator_FormatCSV:
@@ -272,7 +272,6 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             print("plot error : plot_MSE_prediction_1_target_id ")
 
     def plot_MSE_prediction_2_target_id(self, target_id):
-
         try:
             data_ref = []
             data_mes = []

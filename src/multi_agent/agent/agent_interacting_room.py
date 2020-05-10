@@ -286,9 +286,9 @@ class AgentInteractingWithRoom(Agent):
         s = s.replace(" ", "")
 
         message_type = MessageTypeAgentInteractingWithRoom.ITEM_ESTIMATION
-        if itemEstimation.item_type == ItemType.AgentEstimation:
+        if itemEstimation.item_type == ItemType.AgentRepresentationEstimation:
             message_type = MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATION
-        if itemEstimation.item_type == ItemType.TargetEstimation:
+        if itemEstimation.item_type == ItemType.TargetRepresentationEstimation:
             message_type = MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATION
 
         reference_to_target = itemEstimation.item.id
@@ -302,9 +302,9 @@ class AgentInteractingWithRoom(Agent):
         if cdt_message_not_to_old:
 
             table_time_sent = None
-            if item_estimator.item_type == ItemType.TargetEstimation:
+            if item_estimator.item_type == ItemType.TargetRepresentationEstimation:
                 table_time_sent = self.table_target_agent_lastTimeSent
-            elif item_estimator.item_type == ItemType.AgentEstimation:
+            elif item_estimator.item_type == ItemType.AgentRepresentationEstimation:
                 table_time_sent = self.table_agent_agent_lastTimeSent
 
             send_message_to_agent = []
