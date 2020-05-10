@@ -10,8 +10,8 @@ In this file you have the possibility to modify the settings
 """Options-----------------------------------------------------------------------------------------------------------"""
 
 
-SAVE_DATA = True
-GENERATE_PLOT = True
+SAVE_DATA = False
+GENERATE_PLOT = False
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
 
@@ -128,7 +128,7 @@ AGENT_ALPHA_KI = 0
 AGENT_BETA_KP = 50
 AGENT_BETA_KI = 0.0
 
-MIN_CONFIGURATION_SCORE = 0.15
+MIN_CONFIGURATION_SCORE = 0.05
 
 """Refers to the min and max field in terms of the default field"""
 AGENT_CAMERA_FIELD_MIN = 0.8

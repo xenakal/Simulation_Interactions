@@ -397,7 +397,6 @@ class AgentCam(AgentInteractingWithRoom):
                 -----------------------------------------------------------------------------------------------
             """
 
-
             # start tracking targets that came into field of vision
             if target.id not in self.targets_to_track and target.confidence[1] > constants.CONFIDENCE_THRESHOLD:
                 self.targets_to_track.append(target.id)
@@ -406,7 +405,6 @@ class AgentCam(AgentInteractingWithRoom):
             if target.id in self.targets_to_track and target.confidence[1] < constants.CONFIDENCE_THRESHOLD:
                 self.targets_to_track.remove(target.id)
                 self.priority_dict[target.id] = None
-
 
         """
            ----------------------------------------------------------------------------------------------
@@ -526,7 +524,6 @@ class AgentCam(AgentInteractingWithRoom):
             if configuration is None or not configuration.is_valid:
                 self.remove_target_with_lowest_priority(tracked_targets, configuration)
 
-
         for target in self.targets_to_track:
             if target not in tracked_targets:
                 self.priority_dict[target] = None
@@ -534,8 +531,6 @@ class AgentCam(AgentInteractingWithRoom):
         for target in self.targets_to_track:
             self.priority_dict[target] = InternalPriority.TRACKED
 
-
-        print(configuration.track_target_list,tracked_targets)
         return configuration
 
     def find_configuration_for_targets(self, targets, used_for_movement=True):
@@ -547,14 +542,10 @@ class AgentCam(AgentInteractingWithRoom):
             :return: Configuration object if exists, None otherwise
         """
 
-
         tracked_targets_room_representation = self.construct_room_representation_for_a_given_target_list(targets)
-
 
         virtual_configuration = \
             self.compute_virtual_configuration(tracked_targets_room_representation.target_representation_list)
-
-
 
         better_config_found = False
         self.virtual_camera = copy.deepcopy(self.camera)
@@ -654,7 +645,7 @@ class AgentCam(AgentInteractingWithRoom):
         self.virtual_camera = copy.deepcopy(self.camera)
         self.virtual_camera.set_configuration(virtual_configuration)
 
-        real_configuration = virtual_configuration = \
+        real_configuration = \
             get_configuration_based_on_seen_target(self.camera, target_list, self.room_representation,
                                                    PCA_track_points_possibilites.MEANS_POINTS,
                                                    self.memory_of_objectives, self.memory_of_position_to_reach,

@@ -19,6 +19,7 @@ def is_in_list_TargetEstimator(list_TargetEstimator, targetEstimator):
             return True
     return False
 
+
 # TODO: to_csv in ItemEstimation
 # TODO: dans add_estimation de ItemEstimationsList
 # TODO: mettre des timestamp dans Item
@@ -80,7 +81,8 @@ class ItemEstimation:
         s = s.replace("\n", "")
         s = s.replace(" ", "")
         attribute = re.split(
-            "#ITEM_Timestamp:|#ITEM_Time_to_compare:|#ITEM_Owner_id:|#ITEM_Owner_signature:|#ITEM_Item_type:|#ITEM_Item:", s)
+            "#ITEM_Timestamp:|#ITEM_Time_to_compare:|#ITEM_Owner_id:|#ITEM_Owner_signature:|#ITEM_Item_type:|#ITEM_Item:",
+            s)
 
         self.time_stamp = float(attribute[1])
         self.time_to_compare_to_simulated_data = float(attribute[2])
@@ -91,11 +93,11 @@ class ItemEstimation:
 
     def to_csv(self):
         if self.item_type == ItemType.AgentRepresentationEstimation:
-            return  self.to_csv_agentRepresentation(),self.item_type
+            return self.to_csv_agentRepresentation(), self.item_type
         elif self.item_type == ItemType.TargetEstimation or self.item_type == ItemType.TargetRepresentationEstimation:
-            return self.to_csv_targetRepresentation(),self.item_type
+            return self.to_csv_targetRepresentation(), self.item_type
         else:
-            return None,self.item_type
+            return None, self.item_type
 
     def to_csv_targetRepresentation(self):
         """
@@ -111,7 +113,7 @@ class ItemEstimation:
                       'target_ax': self.item.ax, 'target_ay': self.item.ax,
                       'target_radius': self.item.radius, 'target_alpha': self.item.alpha}
         return csv_format
-        
+
     def to_csv_agentRepresentation(self):
         """
             :return / modify vector
@@ -125,8 +127,8 @@ class ItemEstimation:
                       'camera_x': camera.xc, 'camera_y': camera.yc,
                       'camera_vx': 0, 'camera_vy': 0,
                       'camera_ax': 0, 'camera_ay': 0,
-                      'alpha': camera.alpha, 'beta': camera.beta,'field_depth':camera.field_depth,
-                      'is_agent_active': self.item.is_active,'is_camera_active':camera.is_active}
+                      'alpha': camera.alpha, 'beta': camera.beta, 'field_depth': camera.field_depth,
+                      'is_agent_active': self.item.is_active, 'is_camera_active': camera.is_active}
         return csv_format
 
     def check_if_same_time(self, other):
@@ -166,8 +168,8 @@ class ItemEstimationsList:
         self.item_id = item_id
 
     def add_estimation(self, item_estimation):
-        # TODO: check if item_estimation already inside (use is_in_list_Target_estimator or whatnot)
-        self.item_estimations.append(item_estimation)
+        if not is_in_list_TargetEstimator(self.item_estimations, item_estimation):
+            self.item_estimations.append(item_estimation)
 
     def sort(self):
         self.item_estimations.sort(key=lambda x: x.time_stamp, reverse=True)
@@ -183,7 +185,7 @@ class ItemEstimationsList:
         item_type = None
         csv_fieldnames = None
         for item in self.item_estimations:
-            item_csv,item_type = item.to_csv()
+            item_csv, item_type = item.to_csv()
             csv_list.append(item_csv)
 
         if item_type == ItemType.TargetEstimation or item_type == ItemType.TargetRepresentationEstimation:
@@ -193,7 +195,7 @@ class ItemEstimationsList:
         else:
             pass
 
-        return csv_fieldnames,csv_list
+        return csv_fieldnames, csv_list
 
     def __len__(self):
         return len(self.item_estimations)
@@ -240,6 +242,7 @@ class SingleOwnerMemories:
     def add_create_itemEstimation(self, time_stamp, owner_id, owner_signature, item):
         new_ItemEstimation = ItemEstimation(time_stamp=time_stamp, owner_id=owner_id,
                                             owner_agent_signature=owner_signature, item=item)
+
         self.add_itemEstimation(new_ItemEstimation)
 
     def add_itemEstimation(self, item_estimation):
@@ -327,8 +330,7 @@ class SingleOwnerMemories:
         for item_list in self.items_estimations_lists:
             (csv_fieldnames, list) = item_list.to_csv()
             csv_list += list
-        return  [csv_fieldnames,csv_list]
-
+        return [csv_fieldnames, csv_list]
 
 
 class MultipleOwnerMemories:
@@ -499,12 +501,11 @@ class MultipleOwnerMemories:
                 s += "Item: " + str(estimation_list.item_id) + "#memories" + str(len(estimation_list))
         return s
 
-
     def to_csv(self):
         csv_list = []
         csv_fieldnames = []
         for item_list in self.single_owners_list:
-            (csv_fieldnames,list) = item_list.to_csv()
+            (csv_fieldnames, list) = item_list.to_csv()
             csv_list += list
 
-        return [csv_fieldnames,csv_list]
+        return [csv_fieldnames, csv_list]

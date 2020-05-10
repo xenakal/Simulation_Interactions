@@ -33,7 +33,7 @@ class VariationOnConfiguration:
 
 class ValidConfigurationCriterion:
     ALL_TARGET_SEEN = True
-    MAP_SCORE = True
+    MAP_SCORE = False
 
 
 class Configuration:
@@ -64,6 +64,7 @@ class Configuration:
 
         if ValidConfigurationCriterion.MAP_SCORE:
             score_map = (self.configuration_score >= score_map_min)
+
         return target_all_seen and score_map
 
     def compute_configuration_score(self):
