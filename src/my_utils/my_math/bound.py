@@ -2,6 +2,10 @@ import math
 import numpy as np
 
 
+def bound(val, val_min, val_max):
+    return max(min(val, val_max), val_min)
+
+
 def bound_angle_btw_minus_pi_plus_pi(angle):
     if angle is None:
         return None

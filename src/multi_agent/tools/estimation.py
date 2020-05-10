@@ -1,11 +1,11 @@
 import re
 import warnings
+import src.multi_agent.agent.agent_interacting_room_camera as agentCam
 
 from src import constants
-from src.multi_agent.agent.agent import AgentRepresentation
 from src.my_utils.item import Item
 from src.multi_agent.elements.target import TargetRepresentation
-
+#from src.multi_agent.agent.agent_interacting_room_camera import AgentCamRepresentation
 
 def is_in_list_TargetEstimator(list_TargetEstimator, targetEstimator):
     """
@@ -29,7 +29,7 @@ class ItemEstimationType:
     TargetEstimation = "target_estimation"
 
     keys_string_names = [ItemEstimation, TargetEstimation, AgentEstimation]
-    values_class_names = [Item, TargetRepresentation, AgentRepresentation]
+    values_class_names = [Item, TargetRepresentation, agentCam.AgentCam]
     dictionary_item_types = dict(zip(keys_string_names, values_class_names))
 
 # TODO: to_csv in ItemEstimation
@@ -375,7 +375,7 @@ class MultipleOwnerMemories:
             self.agents_and_items_discovered.append((agent_id, item_id))
             for single_owner_list in self.single_owners_list:
                 if single_owner_list.owner_id == agent_id:
-                    single_owner_list.update_estimations_list(item_id)
+                    single_owner_list.update_ItemEstimations_list(item_id)
                     return
 
             new_single_owner = SingleOwnerMemories(agent_id)

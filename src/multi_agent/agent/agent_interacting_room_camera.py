@@ -1,8 +1,10 @@
 import copy
 import math
-from warnings import warn
 
+import time
+import src.multi_agent.elements.mobile_camera as mobCam
 import src.multi_agent.elements.room as room
+
 from src.multi_agent.agent.agent_interacting_room import *
 from src.multi_agent.communication.message import *
 from src.multi_agent.behaviour.behaviour_agent import PCA_track_points_possibilites, \
@@ -11,12 +13,7 @@ from src.multi_agent.behaviour.behaviour_detection import *
 from src.multi_agent.tools.configuration import check_configuration_all_target_are_seen
 from src.multi_agent.tools.link_target_camera import *
 from src.multi_agent.tools.controller import CameraController
-from src import constants
 from src.constants import AgentCameraCommunicationBehaviour
-import time
-import src.multi_agent.elements.mobile_camera as mobCam
-import src.multi_agent.elements.camera as cam
-from src.multi_agent.tools.potential_field_method import compute_potential_field_cam, plot_potential_field
 
 
 class MessageTypeAgentCameraInteractingWithRoom(MessageTypeAgentInteractingWithRoom):
@@ -61,7 +58,6 @@ class AgentCamRepresentation(AgentInteractingWithRoomRepresentation):
                                                            agent_estimator.error_speed, agent_estimator.error_acc,
                                                            agent_estimator.color, agent_estimator.is_camera_active,
                                                            agent_estimator.item_type, agent_estimator.trajectory)
-
 
 
 class AgentCam(AgentInteractingWithRoom):
@@ -198,12 +194,12 @@ class AgentCam(AgentInteractingWithRoom):
                         target = targetCameraDistance.target
                         "Simulation from noise on the target's position "
                         if constants.INCLUDE_ERROR and not target.target_type == TargetType.SET_FIX:
-                            erreurPX = np.random.normal(scale=self.camera.std_measurment_error_position, size=1)[0]
-                            erreurPY = np.random.normal(scale=self.camera.std_measurment_error_position, size=1)[0]
-                            erreurVX = np.random.normal(scale=self.camera.std_measurment_error_speed, size=1)[0]
-                            erreurVY = np.random.normal(scale=self.camera.std_measurment_error_speed, size=1)[0]
-                            erreurAX = np.random.normal(scale=self.camera.std_measurment_error_acceleration, size=1)[0]
-                            erreurAY = np.random.normal(scale=self.camera.std_measurment_error_acceleration, size=1)[0]
+                            erreurPX = np.random.normal(scale=self.camera.std_measurement_error_position, size=1)[0]
+                            erreurPY = np.random.normal(scale=self.camera.std_measurement_error_position, size=1)[0]
+                            erreurVX = np.random.normal(scale=self.camera.std_measurement_error_speed, size=1)[0]
+                            erreurVY = np.random.normal(scale=self.camera.std_measurement_error_speed, size=1)[0]
+                            erreurAX = np.random.normal(scale=self.camera.std_measurement_error_acceleration, size=1)[0]
+                            erreurAY = np.random.normal(scale=self.camera.std_measurement_error_acceleration, size=1)[0]
                         else:
                             erreurPX = 0
                             erreurPY = 0
@@ -218,14 +214,14 @@ class AgentCam(AgentInteractingWithRoom):
                                 target_type = target_representation.type
 
                         # add the new information to the memory
-                        target_representation = TargetRepresentation(target.id, target.xc + erreurPX, target.yc + erreurPY,
-                                                                target.vx + erreurVX, target.vy + erreurVY,
-                                                                target.ax + erreurAX, target.ay + erreurAY,
-                                                                target.radius, target_type,target.color)
+                        target_representation = TargetRepresentation(target.id, target.xc + erreurPX,
+                                                                     target.yc + erreurPY,
+                                                                     target.vx + erreurVX, target.vy + erreurVY,
+                                                                     target.ax + erreurAX, target.ay + erreurAY,
+                                                                     target.radius, target_type, target.color)
 
                         self.memory.add_create_target_estimator(constants.get_time(), self.id,
                                                                 self.signature, target_representation)
-
 
                     nextstate = AgentCameraFSM.PROCESS_DATA
                     self.log_execution.debug("Loop %d : takePicture state completed after : %.02f s" % (
@@ -349,7 +345,7 @@ class AgentCam(AgentInteractingWithRoom):
 
         if len(self.memory.memory_agent_from_agent.get_item_list(self.id)) > 0:
             last_camera_estimation = self.memory.memory_agent_from_agent.get_item_list(self.id)[-1]
-            #self.send_message_timed_itemEstimator(last_camera_estimation, constants.TIME_BTW_AGENT_ESTIMATOR)
+            self.send_message_timed_itemEstimator(last_camera_estimation, constants.TIME_BTW_AGENT_ESTIMATOR)
 
         # self.log_target_tracked.info(self.table_all_target_number_times_seen.to_string(self.id))
 
@@ -403,7 +399,6 @@ class AgentCam(AgentInteractingWithRoom):
             elif target.confidence[0] > constants.CONFIDENCE_THRESHOLD > target.confidence[1]:
                 self.table_all_target_number_times_seen.update_lost(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET, target.id)
-
 
             if constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.DKF:
                 self.send_message_DKF_info(target.id)
@@ -718,7 +713,7 @@ class AgentCam(AgentInteractingWithRoom):
             self.info_message_received.del_message(rec_mes)
         elif rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET \
                 or rec_mes.messageType == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
-            #self.receive_message_track_loose_target(rec_mes)
+            # self.receive_message_track_loose_target(rec_mes)
             self.info_message_received.del_message(rec_mes)
 
     def send_message_DKF_info(self, target_id):

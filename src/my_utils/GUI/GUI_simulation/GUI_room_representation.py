@@ -316,6 +316,7 @@ class GUI_room_representation():
                 pygame.draw.arc(self.screen, color, [pt_center[0] - int(l),pt_center[1]- int(l), 2 * l, 2 * l],camera.alpha - (camera.beta / 2), camera.alpha + (camera.beta / 2), 2)
             except ValueError:
                 print("Error draw cam")
+
             self.draw_a_trajectory(camera.trajectory.trajectory, camera.color)
 
     def draw_a_trajectory(self, traj, color):

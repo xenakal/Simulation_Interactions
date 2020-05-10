@@ -1,11 +1,13 @@
 import threading
 # from elements.room import*
 from src.multi_agent.agent.agent import *
-from src.multi_agent.behaviour.memory import *
+from src.multi_agent.behaviour.memory import Memory
 from src.multi_agent.communication.message import *
 from src import constants
 
 import src.multi_agent.elements.room
+from src.multi_agent.tools.estimation import ItemEstimation, ItemEstimationType
+
 
 class BroadcastTypes:
     ALL = "all"

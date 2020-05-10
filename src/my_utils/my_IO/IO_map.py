@@ -16,7 +16,7 @@ def save_target_txt(fichier, room):
 
 def save_agent_cam(fichier, room):
     for agent in room.information_simulation.agentCams_list:
-        fichier.write("camera: " + agent.camera.save_target_to_txt()[:-1] + " agent: " + agent.save_agent_to_txt())
+        fichier.write("camera: " + agent.camera.save_to_txt()[:-1] + " agent: " + agent.save_agent_to_txt())
 
 
 def save_room_target_camera_to_txt(filename, room):

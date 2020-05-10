@@ -1,6 +1,5 @@
 import numpy as np
 import src.multi_agent.elements.camera as cam
-import src.multi_agent.agent.agent_interacting_room_camera as agentCam
 from src import constants
 from src.multi_agent.elements.target import TargetType
 

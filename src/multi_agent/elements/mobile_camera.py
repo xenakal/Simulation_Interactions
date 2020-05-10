@@ -6,7 +6,7 @@ import numpy as np
 from src import constants
 from src.multi_agent.elements.camera import Camera, CameraRepresentation
 from src.my_utils import constant_class
-from src.my_utils.my_math.bound import bound_angle_btw_minus_pi_plus_pi
+from src.my_utils.my_math.bound import bound_angle_btw_minus_pi_plus_pi, bound
 from src.my_utils.my_math.line import distance_btw_two_point, Line
 from src.my_utils.string_operations import parse_list
 
@@ -49,10 +49,7 @@ class MobileCameraRepresentation(CameraRepresentation):
     def init_from_camera(self, camera):
         super().init_from_camera(camera)
         self.camera_type = camera.camera_type
-        new_trajectory = TrajectoryPlaner([])
-        new_trajectory.trajectory = camera.trajectory.trajectory
-        self.trajectory = new_trajectory
-
+        self.trajectory = TrajectoryPlaner(camera.trajectory.trajectory)
 
 class MobileCamera(Camera, MobileCameraRepresentation):
     """
@@ -60,12 +57,9 @@ class MobileCamera(Camera, MobileCameraRepresentation):
 
             Description :
             :param
-                8. (MobileCameraType) camera_type           -- describe what feature the camera has
-                9. (Trajectory) trajectory                  -- only used for RAIL camera
+
 
             :attibutes
-                8. (MobileCameraType) camera_type           -- describe what feature the camera has
-                9. (Trajectory) trajectory                  -- only used for RAIL camera
 
     """
 
@@ -76,8 +70,12 @@ class MobileCamera(Camera, MobileCameraRepresentation):
         Camera.__init__(self, id, xc, yc, alpha, beta, field_depth, color, t_add, t_del)
         camera_attributes_not_to_txt = self.attributes_not_to_txt
         MobileCameraRepresentation.__init__(self, id, xc, yc, alpha, beta, field_depth, type, color)
-        #self.attributes_not_to_txt += [elem for elem in camera_attributes_not_to_txt]
-
+        self.attributes_not_to_txt += [elem for elem in camera_attributes_not_to_txt if
+                                       elem not in self.attributes_not_to_txt]
+        self.attributes_not_to_txt += ["coeff_field", "coeff_std_position", "coeff_std_speed", "coeff_std_acc",
+                                       "swipe_angle_direction", "swipe_delta_alpha", "last_swipe_direction_change",
+                                       "dt_next_swipe_direction_change", "last_swipe_configuration",
+                                       "last_swipe_position_change","beta_min","beta_max"]
 
         """Limit the variation"""
         self.vx_vy_min = vx_vy_min
@@ -88,9 +86,6 @@ class MobileCamera(Camera, MobileCameraRepresentation):
         self.v_beta_max = v_beta_max
         self.delta_beta = delta_beta
 
-        if self.delta_beta is not None and self.beta is not None:
-            self.beta_min = bound_angle_btw_minus_pi_plus_pi(self.beta - self.delta_beta)
-            self.beta_max = bound_angle_btw_minus_pi_plus_pi(self.beta + self.delta_beta)
 
         """Zoom"""
         self.coeff_field = constants.COEFF_VARIATION_FROM_FIELD_DEPTH
@@ -98,38 +93,8 @@ class MobileCamera(Camera, MobileCameraRepresentation):
         self.coeff_std_speed = constants.COEFF_STD_VARIATION_MEASURMENT_ERROR_SPEED
         self.coeff_std_acc = constants.COEFF_STD_VARIATION_MEASURMENT_ERROR_ACCELERATION
 
+        """Trajectory"""
         self.trajectory = TrajectoryPlaner(trajectory)
-
-
-        print(self.attributes_not_to_txt)
-
-
-        """Default values"""
-        self.default_xc = xc
-        self.default_yc = yc
-        self.default_alpha = bound_angle_btw_minus_pi_plus_pi(alpha)
-        self.default_beta = bound_angle_btw_minus_pi_plus_pi(beta)
-        self.default_field_depth = field_depth
-
-        """Default option"""
-        if self.v_alpha_min is not None:
-            self.v_alpha_min = math.radians(v_alpha_min)
-        if self.v_alpha_max is not None:
-            self.v_alpha_max = math.radians(v_alpha_max)
-        if self.v_beta_min is not None:
-            self.v_beta_min = math.radians(v_beta_min)
-        if self.v_beta_max is not None:
-            self.v_beta_max = math.radians(v_beta_max)
-
-        if not self.camera_type == MobileCameraType.RAIL:
-            self.trajectory = TrajectoryPlaner([])
-
-        if self.camera_type == MobileCameraType.FIX or self.camera_type == MobileCameraType.ROTATIVE:
-            self.vx_vy_min = 0
-            self.vx_vy_max = 0
-            if self.camera_type == MobileCameraType.FIX:
-                self.v_alpha_min = 0
-                self.v_alpha_max = 0
 
         """Variables for the swipe"""
         self.swipe_angle_direction = 1
@@ -143,60 +108,114 @@ class MobileCamera(Camera, MobileCameraRepresentation):
                                                       self.field_depth,
                                                       False)
 
-    def save_target_to_txt(self):
-        s0 = "xc:%0.2f yc:%0.2f alpha:%0.2f beta:%0.2f delta_beta: %.02f field_depth:%0.2f" % (
-            self.xc, self.yc, math.degrees(self.alpha), math.degrees(self.beta), math.degrees(self.delta_beta),
-            self.field_depth)
-        s1 = " t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
-        s2 = " vx_vy_min:%.02f vx_vy_max:%.02f" % (self.vx_vy_min, self.vx_vy_max)
-        s3 = " v_alpha_min:%.02f v_alpha_max:%.02f" % (math.degrees(self.v_alpha_min), math.degrees(self.v_alpha_max))
-        s4 = " v_beta_min:%.02f v_beta_max:%.02f" % (math.degrees(self.v_beta_min), math.degrees(self.v_beta_max))
-        s5 = " traj: " + str(self.trajectory.trajectory) + " type: " + str(self.camera_type)
-        return s0 + s1 + s2 + s3 + s4 + s5 + "\n"
+        self.default_parameters()
+
+    def default_parameters(self):
+        """Default option"""
+        if not self.camera_type == MobileCameraType.RAIL:
+            self.trajectory = TrajectoryPlaner([])
+
+        if self.camera_type == MobileCameraType.FIX or self.camera_type == MobileCameraType.ROTATIVE:
+            self.vx_vy_min = 0
+            self.vx_vy_max = 0
+            if self.camera_type == MobileCameraType.FIX:
+                self.v_alpha_min = 0
+                self.v_alpha_max = 0
+
+        if self.delta_beta is not None and self.beta is not None:
+            self.beta_min = bound_angle_btw_minus_pi_plus_pi(self.beta - self.delta_beta)
+            self.beta_max = bound_angle_btw_minus_pi_plus_pi(self.beta + self.delta_beta)
+        else:
+            self.beta_min = None
+            self.beta_max = None
+
+
+    def angle_degToRad(self):
+        """
+             :description
+                  Transforms angle attribues to radians supposing it is in degree
+        """
+        super().angle_degToRad()
+        if self.delta_beta is not None:
+            self.delta_beta = math.radians(self.delta_beta)
+        if self.beta_min is not None:
+            self.beta_min = math.radians(self.beta_min)
+        if self.beta_max is not None:
+            self.beta_max = math.radians(self.beta_max)
+
+        self.v_alpha_min = math.radians(self.v_alpha_min)
+        self.v_alpha_max = math.radians(self.v_alpha_max)
+        self.v_beta_min = math.radians(self.v_beta_min)
+        self.v_beta_max = math.radians(self.v_beta_max)
+
+    def angle_radToDeg(self):
+        """
+             :description
+                   Transforms angle attribues to degrees supposing it is in radians
+        """
+        super().angle_radToDeg()
+        if self.delta_beta is not None:
+            self.delta_beta = math.degrees(self.delta_beta)
+        if self.beta_min is not None:
+            self.beta_min = math.degrees(self.beta_min)
+        if self.beta_max is not None:
+            self.beta_max = math.degrees(self.beta_max)
+
+        self.v_alpha_min = math.degrees(self.v_alpha_min)
+        self.v_alpha_max = math.degrees(self.v_alpha_max)
+        self.v_beta_min = math.degrees(self.v_beta_min)
+        self.v_beta_max = math.degrees(self.v_beta_max)
 
     def load_from_save_to_txt(self, s):
-        s = s.replace("\n", "")
-        s = s.replace(" ", "")
+        """
+            :description
+                Load attributes for a txt string representation
 
-        attribute = re.split(
-            "xc:|yc:|alpha:|beta:|delta_beta:|field_depth:|t_add:|t_del:|vx_vy_min:|vx_vy_max:|v_alpha_min:|v_alpha_max:|v_beta_min:|v_beta_max:|traj:|type:",
-            s)
+            :param
+                1. (string) s -- string description of the object, method save_to_txt.
+        """
+        super().load_from_save_to_txt(s)
+        self.trajectory = TrajectoryPlaner(self.trajectory)
+        self.default_parameters()
 
-        self.xc = float(attribute[1])
-        self.yc = float(attribute[2])
-        self.alpha = self.bound_alpha_btw_minus_pi_plus_pi(math.radians(float(attribute[3])))
-        self.beta = math.radians(float(attribute[4]))
-        self.field_depth = float(attribute[6])
 
-        self.default_xc = float(attribute[1])
-        self.default_yc = float(attribute[2])
-        self.default_alpha = self.bound_alpha_btw_minus_pi_plus_pi(math.radians(float(attribute[3])))
-        self.default_beta = self.bound_alpha_btw_minus_pi_plus_pi(math.radians(float(attribute[4])))
-        self.default_field_depth = float(attribute[6])
-
-        self.delta_beta = math.radians(float(attribute[5]))
-        self.t_add = parse_list(attribute[7])
-        self.t_del = parse_list(attribute[8])
-        self.vx_vy_min = float(attribute[9])
-        self.vx_vy_max = float(attribute[10])
-        self.v_alpha_min = math.radians(float(attribute[11]))
-        self.v_alpha_max = math.radians(float(attribute[12]))
-        self.v_beta_min = math.radians(float(attribute[13]))
-        self.v_beta_max = math.radians(float(attribute[14]))
-        self.trajectory = TrajectoryPlaner([])
-        self.trajectory.load_trajcetory(attribute[15])
-        self.camera_type = int(attribute[16])
-        self.beta_min = self.beta - self.delta_beta
-        self.beta_max = self.beta + self.delta_beta
 
     def my_rand(self, bound):
+        """
+           :description
+                Random function used in randomize
+
+            :param
+                1. ((int,int)) bound -- limit of the random variable that is created.
+            :return
+                1. (float) random value btw bound[0] and bound[1]
+        """
         return random.uniform(bound[0], bound[1])
 
     def randomize(self, camera_type, beta_bound, delta_beta_bound, field_bound, v_xy_min_bound, v_xy_max_bound,
                   v_alpha_min_bound, v_alpha_max_bound, v_beta_min_bound, v_beta_max_bound):
+        """
+                   :description
+                        Create a mobile camera  with random
+
+                    :param
+                        1.(MobileCameraType) camera_type               -- Camera type
+                        2.((int,int))beta_bound - [degree]             -- random bound of beta
+                        3.((int,int))delta_beta_bound - [degree]       -- random bound of delta_beta
+                        4.((int,int))field_bound - [m]                 -- random bound of field_detph
+                        5.((int,int))v_xx_min_bound -[m/s]             -- random bound of v_min in x and y axis
+                        6.((int,int))v_xy_max_bound -[m/s]             -- random bound of v_max in x and y axis
+                        7.((int,int))v_alpha_min_bound - [degree/s]    -- random bound of alpha min
+                        8.((int,int))v_alpha_max_bound - [degree/s]    -- random bound of alpha max
+                        9.((int,int))v_beta_min_bound - [degree/s]     -- random bound of beta min
+                        10((int,int))v_beta_ùax_bound - [degree/s]     -- random bound of beta max
+
+                    :return
+                        set severals attributes to random values bounded btw parameters
+        """
         self.xc = self.my_rand((0, constants.ROOM_DIMENSION_X))
         self.yc = self.my_rand((0, constants.ROOM_DIMENSION_Y))
-        self.alpha = self.bound_alpha_btw_minus_pi_plus_pi(self.my_rand((-math.pi, math.pi)))
+        self.alpha = bound_angle_btw_minus_pi_plus_pi(self.my_rand((-math.pi, math.pi)))
         self.beta = self.my_rand(beta_bound)
         self.delta_beta = self.my_rand(delta_beta_bound)
         self.field_depth = self.my_rand(field_bound)
@@ -216,26 +235,32 @@ class MobileCamera(Camera, MobileCameraRepresentation):
         self.camera_type = camera_type
 
         """Default values"""
-        self.default_xc = self.xc
-        self.default_yc = self.yc
-        # TODO-change this maybe
-        self.default_alpha = self.alpha
-        self.default_beta = self.beta
-        self.default_field_depth = self.field_depth
+        self.set_default_values(xc=self.xc, yc=self.yc, alpha=self.alpha, beta=self.beta, field_depth=self.field_depth)
         self.beta_min = self.beta - self.delta_beta
         self.beta_max = self.beta + self.delta_beta
+        self.angle_degToRad()
 
     def compute_field_depth_variation_for_a_new_beta(self, new_beta):
+        """
+            :description
+                the field depth is inversaly propotional to beta
+
+            :param
+               1. (float) new_beta - [radians]        -- new angle from the camera
+
+            :return
+                1. (float) field_depth - [m]          -- field depth corresponding to the new beta
+        """
         delta = new_beta - self.beta
         field_depth = self.field_depth - delta * self.coeff_field
-        field_depth = self.bound(field_depth, constants.AGENT_CAMERA_FIELD_MIN * self.default_field_depth,
-                                 constants.AGENT_CAMERA_FIELD_MAX * self.default_field_depth)
+        field_depth = bound(field_depth, constants.AGENT_CAMERA_FIELD_MIN * self.default_field_depth,
+                            constants.AGENT_CAMERA_FIELD_MAX * self.default_field_depth)
         return field_depth
 
     def zoom(self, speed, dt):
         """
            :description
-                Modelize the zoom of a camera
+                Modelize the zoom of a camera (modifies beta and field_depth)
 
                 effects :
                     zoom in / zoom out
@@ -263,7 +288,7 @@ class MobileCamera(Camera, MobileCameraRepresentation):
                 delta = sign * dt * (self.v_beta_min + math.fabs(speed) * (self.v_beta_max - self.v_beta_min))
 
         elif self.beta < self.beta_min or self.beta_max > 0:
-            self.beta = self.bound(self.beta, self.beta_min, self.beta_max)
+            self.beta = bound(self.beta, self.beta_min, self.beta_max)
             delta = 0
         else:
             delta = 0
@@ -277,14 +302,17 @@ class MobileCamera(Camera, MobileCameraRepresentation):
             self.std_measurement_error_speed -= delta * self.coeff_std_speed
             self.std_measurement_error_acceleration -= delta * self.coeff_std_acc
 
-            self.bound(self.std_measurement_error_position, 0, self.std_measurement_error_position * 10)
-            self.bound(self.std_measurement_error_speed, 0, self.std_measurement_error_speed * 10)
-            self.bound(self.std_measurement_error_acceleration, 0, self.std_measurement_error_acceleration * 10)
+            self.std_measurement_error_position = bound(self.std_measurement_error_position, 0,
+                                                        self.std_measurement_error_position * 10)
+            self.std_measurement_error_speed = bound(self.std_measurement_error_speed, 0,
+                                                     self.std_measurement_error_speed * 10)
+            self.std_measurement_error_acceleration = bound(self.std_measurement_error_acceleration, 0,
+                                                            self.std_measurement_error_acceleration * 10)
 
     def rotate(self, speed, dt):
         """
            :description
-               Rotate the camera in the room
+               Rotate the camera in the room '(modifies angle alpha)
 
            :param
                1. (float) speed        -- going from -1 to 1
@@ -299,12 +327,12 @@ class MobileCamera(Camera, MobileCameraRepresentation):
                 delta = sign * dt * (self.v_alpha_min + math.fabs(speed) * (self.v_alpha_max - self.v_alpha_min))
 
             self.alpha += delta
-            self.alpha = self.bound_alpha_btw_minus_pi_plus_pi(self.alpha)
+            self.alpha = bound_angle_btw_minus_pi_plus_pi(self.alpha)
 
     def move(self, speed_x, speed_y, dt):
         """
              :description
-                 Rotate the camera in the room
+                 Move the camera in the room (modifies xc and yc)
 
              :param
                  1. (float) speed_x        -- going from -1 to 1
@@ -335,30 +363,29 @@ class MobileCamera(Camera, MobileCameraRepresentation):
             self.xc += delta_x
             self.yc += delta_y
 
-        self.bound_camera_displacement_in_the_room()
+        self.xc = bound(self.xc, self.xc_min, self.xc_max)
+        self.yc = bound(self.yc, self.yc_min, self.yc_max)
 
     def set_configuration(self, configuration):
-        self.set_x_y_alpha_beta(configuration.x, configuration.y, configuration.alpha, configuration.beta)
+        """
+            :description
+               Set the parameters thanks to a configuration
+            :param
+                1. (Configuration) configuration       --  group several parameters
 
-    def set_x_y_alpha_beta(self, x_target, y_target, alpha_target, beta_target):
-        self.xc = x_target
-        self.yc = y_target
-        self.alpha = alpha_target
-        self.beta = beta_target
-
-    def bound_alpha_btw_minus_pi_plus_pi(self, angle):
-        if math.fabs(angle) > math.pi:
-            return -np.sign(angle) * (math.pi - np.sign(angle) * math.fmod(angle, math.pi))
-        return angle
-
-    def bound_camera_displacement_in_the_room(self):
-        self.xc = self.bound(self.xc, self.xc_min, self.xc_max)
-        self.yc = self.bound(self.yc, self.yc_min, self.yc_max)
-
-    def bound(self, val, val_min, val_max):
-        return max(min(val, val_max), val_min)
+        """
+        self.xc = configuration.x
+        self.yc = configuration.y
+        self.alpha = configuration.alpha
+        self.beta = configuration.beta
+        self.field_depth = configuration.field_depth
 
     def get_edge_points_world_frame(self):
+        """
+              :description
+                 #TODO - petite description
+
+        """
         # angles of edge of field of view in cam frame
         angle_min, angle_max = -self.beta / 2, self.beta / 2
         # distance of depth field along these angles
@@ -370,24 +397,44 @@ class MobileCamera(Camera, MobileCameraRepresentation):
 
 
 class TrajectoryPlaner:
+    """
+           Class TrajectoryPlaner.
+
+           Description :
+                This class modelize the displacement from a camrea on a rail.
+
+           :param
+               1. (list[(float,float)]) trajectory - [m]       --  List that contains the via points
+
+           :attibutes
+               1. (list[(float,float)]) trajectory - [m]       -- List that contains the via points
+               2. (int) trajectory_index                       -- Current segment of the trajectory
+               3. (float) distance - [m]                       -- Distance travelled by the camera on the rail
+                                                                  (going forward increase the distance, going
+                                                                    backwards decrease the distance => [0,length])
+
+    """
+
     def __init__(self, trajectory):
         self.trajectory = trajectory
         self.trajectory_index = 0
-        self.sum_delta = 0
-
-    def load_trajcetory(self, s):
-        list = []
-        s = s[2:-2]
-        if not s == "":
-            all_trajectories = re.split("\),\(", s)
-            for trajectory in all_trajectories:
-                xy = re.split(",", trajectory)
-                if not xy == "":
-                    list.append((float(xy[0]), float(xy[1])))
-
-        self.trajectory = list
+        self.distance = 0
 
     def move_on_trajectory(self, x, y, delta):
+        """
+                 :description
+                     x,y belong to the trajectory !!
+
+                 :param
+                     1. (float) x - [m]         -- x coordinate of the point in world frame
+                     2. (float) y - [m]         -- y coordinate of the point in world frame
+                     3. (float) delta - [m]     -- distance to travel
+
+                :return
+                    1. (float) x - [m]         -- x moved new coordinate of the point in world frame
+                    2. (float) y - [m]         -- y moved new coordinate of the point in world frame
+        """
+
         if len(self.trajectory) > 1:
             (xi, yi) = self.trajectory[self.trajectory_index]
             (xf, yf) = self.trajectory[self.trajectory_index + 1]
@@ -395,11 +442,13 @@ class TrajectoryPlaner:
             (x_trajectory_frame, y_trajectory_frame) = self.from_world_frame_to_trajectory_frame(x, y)
             (xf_trajectory_frame, yf_trajectory_frame) = self.from_world_frame_to_trajectory_frame(xf, yf)
 
-            "Variation"
-            self.sum_delta += delta
-            x_trajectory_frame += delta
+            """Check to make the transformatio is ok, y shoud be 0 a the frame is place on the x axis"""
             if y_trajectory_frame > 0.0001:
                 print("problème in move_on_trajectory y = %.2f", y_trajectory_frame)
+
+            "Variation"
+            self.distance += delta
+            x_trajectory_frame += delta
 
             if x_trajectory_frame > xf_trajectory_frame:
                 "On the next segment"
@@ -410,7 +459,7 @@ class TrajectoryPlaner:
                     return self.move_on_trajectory(xf, yf, delta_new)
                 else:
                     "Reaching the end point"
-                    (self.sum_delta, y) = self.compute_distance_for_point_x_y(xf, yf, self.trajectory_index)
+                    (self.distance, y) = self.compute_distance_for_point_x_y(xf, yf, self.trajectory_index)
                     return (xf, yf)
 
             elif x_trajectory_frame < 0:
@@ -422,10 +471,10 @@ class TrajectoryPlaner:
                     return self.move_on_trajectory(xi, yi, delta_new)
                 else:
                     "Reaching start point"
-                    self.sum_delta = 0
+                    self.distance = 0
                     return (xi, yi)
-
             else:
+                "The delta is on the same segment"
                 return self.from_trajectory_frame_to_world_frame(x_trajectory_frame, y_trajectory_frame)
         else:
             return x, y
@@ -532,7 +581,7 @@ if __name__ == "__main__":
     print(camera.attributes_to_string())
     print(camera.save_to_txt())
 
-    camera = MobileCamera()
+    camera = MobileCamera(delta_beta=20)
     print(camera.attributes_to_string())
-    print(camera.save_to_txt())
-
+    s = camera.save_to_txt()
+    print(s)

@@ -434,6 +434,12 @@ class CameraRepresentation(Item):
            12. ((int),(int),(int)) color                    -- color to represent the camera
            13. (list) attributes_not_to_txt                 -- to enable a choice of the attributes to save
 
+           14. (float) default_xc                           -- value to reach if camera lost for example
+           15. (float) default_yc                           -- value to reach if camera lost for example
+           16. (float) default_alpha                        -- value to reach if camera lost for example
+           17. (float) default_beta                         -- value to reach if camera lost for example
+           18. (float) default_field_depth                  -- value to reach if camera lost for example
+
         :notes
             attributes 1., 2. and 13. are from coming from Item class
        """
@@ -457,11 +463,18 @@ class CameraRepresentation(Item):
         self.is_active = False
         self.color = color
 
-        self.attributes_not_to_txt += ["item_type", "signature", "std_measurment_error_position",
-                                       "std_measurment_error_speed", "std_measurment_error_acceleration",
-                                       "is_active", "color"]
+        self.attributes_not_to_txt += ["item_type", "signature", "std_measurement_error_position",
+                                       "std_measurement_error_speed", "std_measurement_error_acceleration",
+                                       "is_active", "color","default_xc","default_yc", "default_alpha",
+                                       "default_beta", "default_field_depth",]
 
         "Default values"
+        self.default_xc = xc
+        self.default_yc = yc
+        self.default_alpha = bound_angle_btw_minus_pi_plus_pi(alpha)
+        self.default_beta = bound_angle_btw_minus_pi_plus_pi(beta)
+        self.default_field_depth = field_depth
+
         if self.alpha is not None:
             self.alpha = bound_angle_btw_minus_pi_plus_pi(alpha)  # deg rotation
         if self.beta is not None:
@@ -473,6 +486,7 @@ class CameraRepresentation(Item):
             self.color = (r, g, b)
 
     def init_from_camera(self, camera):
+        """"""
         self.id = camera.id
         self.signature = camera.signature
         self.xc = camera.xc
@@ -485,33 +499,76 @@ class CameraRepresentation(Item):
         self.std_measurement_error_acceleration = camera.std_measurement_error_acceleration
         self.color = camera.color
         self.is_active = camera.is_active
+        self.set_default_values(xc=self.xc, yc=self.yc, alpha=self.alpha, beta=self.beta, field_depth=self.field_depth)
+
 
     def angle_degToRad(self):
-        "Transforms angle attribues to radians supposing it is in degree"
+        """
+           :description
+                Transforms angle attribues to radians supposing it is in degrees
+        """
         if self.alpha is not None:
             self.alpha = math.radians(self.alpha)
+            self.default_alpha = math.radians(self.default_alpha)
         if self.beta is not None:
             self.beta = math.radians(self.beta)
+            self.default_alpha = math.radians(self.default_beta)
 
     def angle_radToDeg(self):
-        "Transforms angle attribues to degree supposing it is in radian"
+        """
+           :description
+                Transforms angle attribues to degrees supposing it is in radians
+        """
         if self.alpha is not None:
             self.alpha = math.degrees(self.alpha)
+            self.default_alpha = math.degrees(self.default_alpha)
 
         if self.beta is not None:
             self.beta = math.degrees(self.beta)
+            self.default_beta = math.degrees(self.default_beta)
 
     def save_to_txt(self):
-        "Save the attributes that are not in self.attributes_not_to_txt, angles are saved in degrees"
+        """
+           :description
+                Save the attributes that are not in self.attributes_not_to_txt, angles are saved in degrees
+        """
         self.angle_radToDeg()
         s = super().save_to_txt()
         self.angle_degToRad()
         return s
 
     def load_from_save_to_txt(self, s):
-        "Load attributes for a txt string representation"
+        """
+            :description
+                Load attributes for a txt string representation
+        """
         super().load_from_save_to_txt(s)
+        self.set_default_values(xc=self.xc,yc=self.yc,alpha=self.alpha,beta=self.beta,field_depth=self.field_depth)
         self.angle_degToRad()
+
+
+    def set_default_values(self,xc=None,yc=None,alpha=None,beta=None,field_depth=None):
+        """
+            :description
+                Set the default values
+
+            :param
+                 1. (float) xc-[m]              -- x coordinate of a point in room frame
+                 2. (float) yc-[m]              -- y coordinate of a point in room frame
+                 3. (float) alpha-[radians]     -- orientation angle
+                 4. (float) beta-[radians]      -- field opening angle
+                5   (float) field depth-[m]     -- field length
+         """
+        if xc is not None:
+            self.default_xc = xc
+        if yc is not None:
+            self.default_yc =yc
+        if alpha is not None:
+            self.default_alpha = alpha
+        if beta is not None :
+            self.default_beta = beta
+        if field_depth is not None:
+            self.default_field_depth = field_depth
 
     def coordinate_change_from_world_frame_to_camera_frame(self, x_in_room_frame, y_in_room_frame):
         """
@@ -633,6 +690,8 @@ class Camera(CameraRepresentation):
             :description
                function to call to get a picture of the room in the simulation
 
+            :param:
+                1.(Room) room   -- Room description
             :return / modify vector
                 1. (bool) if camemra is_active, self.targetCameraDistance_list -- [TargetCameraDistance, ...]
                                                                                  Contains 11, but sort by distances
@@ -705,6 +764,7 @@ class Camera(CameraRepresentation):
 
             :param
                 1.(TargetCameraDistance_list) targetCameraDistance_list    -- a list of Target
+                2.(int) length_projection                                  -- distance to project the target on virtual line
 
             :return
                 1. ([(int,int),...]) projection_list       -- [(y_down,y_up),...,(limite_fied_down,limit_field_up)]

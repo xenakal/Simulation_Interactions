@@ -106,7 +106,10 @@ class Item:
                 if isinstance(value, Item):
                     s += str(key) + ":" + str(type(value)) + " "
                 else:
-                    s += str(key) + ":" + str(value) + " "
+                    if isinstance(value,float):
+                        s  += str(key) + ": %.02f"%value + " "
+                    else:
+                        s += str(key) + ":" + str(value) + " "
 
         return s + "\n"
 
