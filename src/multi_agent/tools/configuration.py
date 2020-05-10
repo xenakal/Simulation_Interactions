@@ -55,7 +55,7 @@ class Configuration:
         self.vector_field_x = None
         self.vector_field_y = None
 
-    def is_configuration_valid(self,camera=None,room_representation=None,score_map_min = None):
+    def is_configuration_valid(self,camera,room_representation,score_map_min):
         target_all_seen = True
         score_map = True
 

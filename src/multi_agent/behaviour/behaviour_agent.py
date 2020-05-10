@@ -86,6 +86,8 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
                 camera.camera_type == mobileCam.MobileCameraType.FREE:
             no_target_movement_behaviour(configuration, camera)
 
+        configuration.track_target_list = []
+        configuration.configuration_score = 0
         return configuration
 
     elif number_of_target == 1:
@@ -308,7 +310,7 @@ def pca_methode_2D_plan(target_representation_list, point_to_track_choice=PCA_tr
     """Formating data to the method fit"""
     for target_representation in target_representation_list:
         sample.append([target_representation.xc, target_representation.yc])
-        if not int(target_representation.type) == int(TargetType.SET_FIX):
+        if not int(target_representation.target_type) == int(TargetType.SET_FIX):
             all_x.append(target_representation.xc)
             all_y.append(target_representation.yc)
 
