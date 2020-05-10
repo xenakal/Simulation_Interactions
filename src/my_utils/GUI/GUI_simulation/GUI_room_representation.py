@@ -267,10 +267,11 @@ class GUI_room_representation():
                             pt = (self.x_offset + int(x * self.scale_x), self.y_offset + int((constants.ROOM_DIMENSION_Y-y) * self.scale_y))
                             pygame.draw.circle(self.screen, RED, pt, 5)
 
-                            (x, y, index) = mem[1]
-                            pt = (self.x_offset + int(x * self.scale_x),
-                                  self.y_offset + int((constants.ROOM_DIMENSION_Y - y) * self.scale_y))
-                            pygame.draw.circle(self.screen, GREEN, pt, 5)
+                            if camera.camera_type == MobileCameraType.FREE:
+                                (x, y, index) = mem[1]
+                                pt = (self.x_offset + int(x * self.scale_x),
+                                      self.y_offset + int((constants.ROOM_DIMENSION_Y - y) * self.scale_y))
+                                pygame.draw.circle(self.screen, GREEN, pt, 5)
 
                     if len(agent.memory_of_objectives) > 0:
                             xt = agent.memory_of_objectives[-1][0]

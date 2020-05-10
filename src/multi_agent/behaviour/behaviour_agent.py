@@ -415,7 +415,6 @@ def no_targets_rotation_behaviour(configuration, camera):
         angle_edge_intersection_len = math.fabs(angle_intersection_point - (camera.alpha - camera.beta / 2))
         camera.dt_next_swipe_direction_change = angle_edge_intersection_len / camera.v_alpha_max
     else:
-
         configuration.alpha += camera.swipe_angle_direction * camera.swipe_delta_alpha
 
 

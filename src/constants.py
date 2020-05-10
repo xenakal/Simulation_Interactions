@@ -108,7 +108,7 @@ TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 3
 Refers to what data agent should use to analyse the room 
 """
 AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Best_estimation
-AGENT_CHOICE_HOW_TO_FOLLOW_TARGET = ConfigurationWaysToBeFound.MOVE_ONLY_IF_CONFIGURATION_IS_VALID
+AGENT_CHOICE_HOW_TO_FOLLOW_TARGET = ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG
 
 """
 Refers to what data should be exchanged between agent
@@ -128,7 +128,7 @@ AGENT_ALPHA_KI = 0
 AGENT_BETA_KP = 50
 AGENT_BETA_KI = 0.0
 
-MIN_CONFIGURATION_SCORE = 0.15
+MIN_CONFIGURATION_SCORE = 0.05
 
 """Refers to the min and max field in terms of the default field"""
 AGENT_CAMERA_FIELD_MIN = 0.8

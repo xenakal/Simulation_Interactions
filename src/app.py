@@ -15,6 +15,7 @@ from src.my_utils.motion import move_Target
 from src.my_utils.my_IO.IO_map import *
 from src.my_utils.my_IO.IO_data import *
 from src.constants import *
+import copy
 
 import src.multi_agent.agent.agent_interacting_room_camera
 import src.multi_agent.agent.agent_interacting_room_user
@@ -175,8 +176,6 @@ class App:
 
         for agent in self.room.information_simulation.agentUser_list:
             agent.run()
-
-
 
         """Target start to move"""
         self.targets_moving = True

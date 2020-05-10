@@ -264,6 +264,7 @@ class RoomRepresentation:
         for agent in room.information_simulation.agentCams_list:
             agentCam_representation = AgentCamRepresentation(0)
             agentCam_representation.update_from_agent(agent)
+
             self.agentCams_representation_list.append(agentCam_representation)
 
         for agent in room.information_simulation.agentUser_list:
