@@ -86,6 +86,8 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
                 camera.camera_type == mobileCam.MobileCameraType.FREE:
             no_target_movement_behaviour(configuration, camera)
 
+        configuration.track_target_list = []
+        configuration.configuration_score = 0
         return configuration
 
     elif number_of_target == 1:
