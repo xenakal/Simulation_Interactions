@@ -308,7 +308,7 @@ def pca_methode_2D_plan(target_representation_list, point_to_track_choice=PCA_tr
     """Formating data to the method fit"""
     for target_representation in target_representation_list:
         sample.append([target_representation.xc, target_representation.yc])
-        if not int(target_representation.type) == int(TargetType.SET_FIX):
+        if not int(target_representation.target_type) == int(TargetType.SET_FIX):
             all_x.append(target_representation.xc)
             all_y.append(target_representation.yc)
 

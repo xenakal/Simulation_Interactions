@@ -26,7 +26,7 @@ class MapRegionStatic:
 
         # Mesh from the maps
         self.nx, self.ny = (room.coordinate_room[2], room.coordinate_room[3])
-        self.xv, self.yv = create_region(self.nx, self.ny, 10)
+        self.xv, self.yv = create_region(int(self.nx), int(self.ny), 10)
 
         # Data save from each camera - written always as tuple (camID,res), res is an array from mesh size
         self.distances = []

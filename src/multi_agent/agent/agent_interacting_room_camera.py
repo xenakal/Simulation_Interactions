@@ -530,7 +530,6 @@ class AgentCam(AgentInteractingWithRoom):
 
         for target in self.targets_to_track:
             if target not in tracked_targets:
-                # broadcast lost target
                 self.priority_dict[target] = None
 
         for target in self.targets_to_track:
@@ -657,17 +656,17 @@ class AgentCam(AgentInteractingWithRoom):
         return real_configuration, virtual_configuration
 
     def construct_room_representation_for_a_given_target_list(self, targets):
-        target_target_estimator = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
+        singleOwnerMemory = self.pick_data(constants.AGENT_DATA_TO_PROCESS)
 
         # reconstruct the Target_TargetEstimator by flitering the targets
-        new_target_targetEstimation = SingleOwnerMemories(self.id)
-        for itemEstimationsList in target_target_estimator.items_estimations_lists:
+        new_single_owner_memory = SingleOwnerMemories(self.id)
+        for itemEstimationsList in singleOwnerMemory.items_estimations_lists:
             if itemEstimationsList.item_id in targets:
-                new_target_targetEstimation.add_itemEstimationsList(itemEstimationsList)
+                new_single_owner_memory.add_itemEstimationsList(itemEstimationsList)
 
         # find a configuration for these targets
         tracked_targets_room_representation = room.RoomRepresentation()
-        tracked_targets_room_representation.update_target_based_on_memory(new_target_targetEstimation)
+        tracked_targets_room_representation.update_target_based_on_memory(new_single_owner_memory)
         return tracked_targets_room_representation
 
     def process_single_message(self, rec_mes):

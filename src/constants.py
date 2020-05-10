@@ -108,7 +108,7 @@ TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 3
 Refers to what data agent should use to analyse the room 
 """
 AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Best_estimation
-AGENT_CHOICE_HOW_TO_FOLLOW_TARGET = ConfigurationWaysToBeFound.CONFIUGRATION_WIHTOUT_CHECK
+AGENT_CHOICE_HOW_TO_FOLLOW_TARGET = ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG
 
 """
 Refers to what data should be exchanged between agent

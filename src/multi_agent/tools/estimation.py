@@ -256,6 +256,7 @@ class SingleOwnerMemories:
     def add_itemEstimationsList(self, itemEstimationsList):
         if itemEstimationsList.item_id in self.items_discovered:
             warnings.warn("Adding estimationsList for target already existing in SingleOwnerMemory()")
+        self.items_discovered.append(itemEstimationsList.item_id)
         self.items_estimations_lists.append(itemEstimationsList)
 
     def sort(self):
