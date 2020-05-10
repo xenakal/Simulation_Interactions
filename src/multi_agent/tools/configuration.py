@@ -5,12 +5,7 @@ import src.multi_agent.elements.camera as cam
 from src import constants
 from src.multi_agent.tools.potential_field_method import plot_potential_field_dynamic, compute_potential_gradient, \
     convert_target_list_to_potential_field_input, compute_potential_field_cam
-
-
-def bound(val, val_min, val_max):
-    val = min(val, val_max)
-    val = max(val, val_min)
-    return val
+from src.my_utils.my_math.bound import bound
 
 
 def check_configuration_all_target_are_seen(camera, room_representation):
@@ -104,7 +99,6 @@ class Configuration:
             print("The target list is none")
 
     def variation_on_configuration_found(self, camera, region=VariationOnConfiguration.Small_region):
-
         if self.track_target_list == []:
             return self
 

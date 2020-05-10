@@ -73,7 +73,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
     if number_of_target < 0:
         warnings.warn("Agent ", camera.id, "sees a negative number of targets...")
 
-    if number_of_target == 0 or no_target_behaviour:
+    elif number_of_target == 0 or no_target_behaviour:
 
         configuration = Configuration(camera.xc, camera.yc, camera.xc, camera.yc, camera.alpha,
                                       camera.beta, camera.field_depth, virtual)
@@ -193,6 +193,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
     configuration.bound_to_camera_limitation(camera)
     configuration.track_target_list = target_representation_list
     configuration.compute_configuration_score()
+
     return configuration
 
 

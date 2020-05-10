@@ -407,7 +407,7 @@ class AgentCam(AgentInteractingWithRoom):
                 self.targets_to_track.remove(target.id)
                 self.priority_dict[target.id] = None
 
-           
+
         """
            ----------------------------------------------------------------------------------------------
            Check if to cameras are to close:
@@ -449,7 +449,6 @@ class AgentCam(AgentInteractingWithRoom):
 
         elif choix == constants.ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG:
             return self.find_configuration_for_tracked_targets()
-
         return None
 
     def move_based_on_config(self, configuration, last_time_move):
