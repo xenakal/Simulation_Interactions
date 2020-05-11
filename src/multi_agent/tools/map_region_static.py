@@ -6,8 +6,8 @@ from src.multi_agent.elements.camera import is_x_y_radius_in_field_not_obstructe
 
 
 def create_region(nx, ny, factor=10, x0=0, y0=0):
-    x = np.linspace(x0, nx,nx*factor)
-    y = np.linspace(y0, ny,nx*factor)
+    x = np.linspace(x0, int(nx),int(nx)*factor)
+    y = np.linspace(y0, int(ny),int(nx)*factor)
     xv, yv = np.meshgrid(x, y)
     return xv, yv
 

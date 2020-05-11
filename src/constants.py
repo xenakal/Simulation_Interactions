@@ -16,8 +16,8 @@ LOAD_DATA = LoadData.FROM_TXT_FILE
 
 
 USE_GUI = True
-USE_static_analysis = False
-USE_dynamic_analysis_simulated_room =False
+USE_static_analysis = True
+USE_dynamic_analysis_simulated_room = True
 
 INCLUDE_ERROR = True
 LOG_LEVEL = logging.INFO  #
@@ -103,7 +103,7 @@ Y_SCALE = 60
 INIT_TARGET_LIST = AgentCameraInitializeTargetList.ALL_SEEN
 """If you want to set all the agent fixed set to false"""
 AGENTS_MOVING = True
-TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 3
+TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 1
 """
 Refers to what data agent should use to analyse the room 
 """

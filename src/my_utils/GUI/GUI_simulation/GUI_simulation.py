@@ -14,7 +14,7 @@ class GUI_simulation:
         self.screen = screen
         self.GUI_option = GUI_option
 
-        self.button_simulation_1 = ButtonList(["real T", "M agent","+ received","M all agent", "prediction"], 10, -20, 0, 40, 100,20)
+        self.button_simulation_1 = ButtonList(["real T", "M agent","M Filtered", "+ received","M all agent", "prediction"], 10, -20, 0, 40, 100,20)
         self.button_simulation_2 = ButtonList(["0", "1", "2", "3", "4", "5", "6","7","8","9","10","11","12"], -35, 10, 700, 40, 35, 15)
         self.button_simulation_3 = ButtonList(["0", "1", "2", "3", "4", "5", "6","7","8","9","10","11","12"], -35, 10, 750, 40, 35, 15)
         self.button_simulation_4 = ButtonList(["save to txt","Cam ROI","Cam COV","User's O"], -100, 10, 0, 100, 100, 20)
@@ -44,6 +44,9 @@ class GUI_simulation:
 
         if self.button_simulation_1.find_button_state("M agent"):
             self.GUI_memories.drawMemory(room)
+
+        if self.button_simulation_1.find_button_state("M Filtered"):
+            self.GUI_memories.drawMemory(room, filtered=True)
 
         if self.button_simulation_1.find_button_state("M all agent"):
            self.GUI_memories.drawMemory(room, True)

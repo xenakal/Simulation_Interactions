@@ -390,7 +390,7 @@ def is_in_hidden_zone_fix_targets_matrix_x_y(room_representation, camera_id, res
         return False
 
     for target in room_representation.information_simulation.target_list:
-        if target.type == TargetType.SET_FIX:
+        if target.target_type == TargetType.SET_FIX:
             xt = target.xc
             yt = target.yc
             radius = target.radius

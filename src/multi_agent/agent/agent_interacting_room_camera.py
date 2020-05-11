@@ -174,7 +174,7 @@ class AgentCam(AgentInteractingWithRoom):
                         target_type = TargetType.UNKNOWN
                         for target_representation in self.room_representation.target_representation_list:
                             if target_representation.id == target.id:
-                                target_type = target_representation.type
+                                target_type = target_representation.target_type
 
                         # add the new information to the memory
                         target_representation = TargetRepresentation(target.id, target.xc + erreurPX,
@@ -377,7 +377,7 @@ class AgentCam(AgentInteractingWithRoom):
                -----------------------------------------------------------------------------------------------
             """
             """If the target is link to this agent then we send the message to the user"""
-            cdt_target_type_1 = not (target.type == TargetType.SET_FIX)
+            cdt_target_type_1 = not (target.target_type == TargetType.SET_FIX)
             cdt_target_type_2 = True  # not(target.type == TargetType.FIX) or is_target_changing_state #to decrease the number of messages sent
             cdt_agent_is_in_charge = self.link_target_agent.is_in_charge(target.id, self.id)
 
