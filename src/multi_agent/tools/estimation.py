@@ -350,7 +350,7 @@ class MultipleOwnerMemories:
 
     def __init__(self, current_time=0):
         self.current_time = current_time
-        self.agents_and_items_discovered = []  # TODO: voir si on a besoin de ca
+        self.agents_and_items_discovered = []
         self.single_owners_list = []
 
     def update_estimator_list(self, agent_id, item_id):

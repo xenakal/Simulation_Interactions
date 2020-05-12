@@ -93,7 +93,6 @@ class Memory:
 
         self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, item)
 
-
     def add_target_estimator(self, estimator):
         self.log_memory.info("Add memory, from agent : " + str(estimator.owner_id) + " - target " + str(estimator.item.id))
         self.memory_all_agent_from_target.add_itemEstimation(estimator)
@@ -108,7 +107,6 @@ class Memory:
         # update "global info" list
         self.memory_all_agent_from_agent.add_create_itemEstimation(time_from_estimation, agent.id,
                                                                                agent.signature,item)
-
 
     def add_agent_estimator(self, estimator):
         self.log_memory.info(
@@ -155,7 +153,6 @@ class Memory:
                                 "Combine data from agent : " + str(agent_id) + " - target " + str(agent_id))
                             self.memory_agent_from_agent.add_itemEstimation(estimateur)
 
-
     def combine_data_userCam(self, choice=1):
         if choice == 1:
             for (agent_id, target_id) in self.memory_all_agent_from_target.agents_and_items_discovered:
@@ -189,7 +186,6 @@ class Memory:
                         #self.log_memory.info("Combine data, from agent : " + str(agent_id) + " - target " + str(target_id))
                          self.memory_measured_from_target.add_itemEstimation(best_estimator[0])
             '''
-
 
     def get_previous_positions(self, targetID):
         return self.memory_measured_from_target.get_item_list(targetID)

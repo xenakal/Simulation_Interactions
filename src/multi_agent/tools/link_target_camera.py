@@ -4,7 +4,7 @@ from src import constants
 from src.multi_agent.elements.target import TargetType
 
 
-class LinkTargetCamera():
+class LinkTargetCamera:
     """
         Class Example.
 
