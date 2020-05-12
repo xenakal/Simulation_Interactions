@@ -335,13 +335,13 @@ class AgentCam(AgentInteractingWithRoom):
 
                 old_target_type = target.target_type
                 if is_moving:
-                    target.type = TargetType.MOVING
+                    target.target_type = TargetType.MOVING
                 elif is_stopped:
-                    target.type = TargetType.FIX
+                    target.target_type = TargetType.FIX
                 else:
-                    target.type = TargetType.UNKNOWN
+                    target.target_type = TargetType.UNKNOWN
 
-                if not old_target_type == target.type:
+                if not old_target_type == target.target_type:
                     is_target_changing_state = True
                     self.log_main.debug(
                         "At %.02f Target %d change state from " % (constants.get_time(), target.id) + str(

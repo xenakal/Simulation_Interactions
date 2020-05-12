@@ -75,7 +75,6 @@ class AgentInteractingWithRoom(Agent):
         """
         self.log_main.info("starting initialisation in agent_interacting_room")
         self.room_representation.init_RoomRepresentation(room)
-        self.message_statistic.init_message_static(self.room_representation)
         self.main_thread = threading.Thread(target=self.thread_run, args=[room])
 
         self.log_main.info("initialisation in agent_interacting_room_done !")

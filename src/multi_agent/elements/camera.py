@@ -260,6 +260,7 @@ def is_xc_yc_radius_in_hidden_zone_all_targets(room_representation, camera_id, x
             :return / modify vector
                 1. (bool)         -- True if the point is not hidden
     """
+
     camera = find_cam_in_camera_representation(room_representation, camera_id)
     if camera is None:
         return False
@@ -729,7 +730,7 @@ class Camera(CameraRepresentation):
         for target in target_list:
             cdt_in_field = is_x_y_radius_in_field_not_obstructed(self, target.xc, target.yc, target.radius)
             cdt_not_hidden = not is_xc_yc_radius_in_hidden_zone_all_targets(room, self.id, target.xc, target.yc,
-                                                                            target.radius)
+                                                                            0)
 
             if cdt_in_field and cdt_not_hidden:
                 self.target_in_field_list.append(target)

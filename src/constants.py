@@ -14,7 +14,6 @@ SAVE_DATA = False
 GENERATE_PLOT = False
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
-
 USE_GUI = True
 USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
@@ -58,7 +57,7 @@ TIME_STOP = 10  # s
 TIME_BTW_FRAME = .05
 TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)
 """Agent"""
-TIME_BTW_HEARTBEAT = 3 / SCALE_TIME
+TIME_BTW_HEARTBEAT = 1 / SCALE_TIME
 TIME_MAX_BTW_HEARTBEAT = 9 / SCALE_TIME
 TIME_BTW_AGENT_ESTIMATOR = 0.5 / SCALE_TIME
 TIME_BTW_TARGET_ESTIMATOR = 0.3 / SCALE_TIME
@@ -141,7 +140,7 @@ Behaviour target estimation
 """
 BEHAVIOUR_DETECTION_TYPE = BehaviourDetectorType.Use_speed_and_position
 POSITION_STD_ERROR = 0.1
-SPEED_MEAN_ERROR = 0.3
+SPEED_MEAN_ERROR = 0.1
 """
 New configuration parameter
 """
@@ -212,15 +211,15 @@ CAMERA_NUMBER_ROTATIVE = 0
 CAMERA_NUMBER_RAIL = 0
 CAMERA_NUMBER_FREE = 2
 
-RANDOM_CAMERA_BETA_BOUND = (math.radians(55),math.radians(65))
-RANDOM_CAMERA_DELTA_BETA_BOUND = (math.radians(20),math.radians(25))
+RANDOM_CAMERA_BETA_BOUND = (55,65)
+RANDOM_CAMERA_DELTA_BETA_BOUND = (20,25)
 RANDOM_CAMERA_FIELD_DEPTH_BOUND = (4,4)
 RANDOM_CAMERA_V_XY_MIN_BOUND = (0,0)
 RANDOM_CAMERA_V_XY_MAX_BOUND = (1,1)
-RANDOM_CAMERA_V_BETA_MIN_BOUND = (math.radians(0),math.radians(0))
-RANDOM_CAMERA_V_BETA_MAX_BOUND = (math.radians(15),math.radians(15))
-RANDOM_CAMERA_V_ALPHA_MIN_BOUND = (math.radians(0),math.radians(0))
-RANDOM_CAMERA_V_ALPHA_MAX_BOUND = (math.radians(35),math.radians(35))
+RANDOM_CAMERA_V_BETA_MIN_BOUND = (0,0)
+RANDOM_CAMERA_V_BETA_MAX_BOUND = (15,15)
+RANDOM_CAMERA_V_ALPHA_MIN_BOUND = (0,0)
+RANDOM_CAMERA_V_ALPHA_MAX_BOUND = (35,35)
 
 
 """---------------------------------------------------------------------------------------------------------------------
