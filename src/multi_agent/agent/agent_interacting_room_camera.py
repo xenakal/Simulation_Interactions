@@ -335,13 +335,13 @@ class AgentCam(AgentInteractingWithRoom):
 
                 old_target_type = target.target_type
                 if is_moving:
-                    target.type = TargetType.MOVING
+                    target.target_type = TargetType.MOVING
                 elif is_stopped:
-                    target.type = TargetType.FIX
+                    target.target_type = TargetType.FIX
                 else:
-                    target.type = TargetType.UNKNOWN
+                    target.target_type = TargetType.UNKNOWN
 
-                if not old_target_type == target.type:
+                if not old_target_type == target.target_type:
                     is_target_changing_state = True
                     self.log_main.debug(
                         "At %.02f Target %d change state from " % (constants.get_time(), target.id) + str(
@@ -377,7 +377,7 @@ class AgentCam(AgentInteractingWithRoom):
                -----------------------------------------------------------------------------------------------
             """
             """If the target is link to this agent then we send the message to the user"""
-            cdt_target_type_1 = not (target.type == TargetType.SET_FIX)
+            cdt_target_type_1 = not (target.target_type == TargetType.SET_FIX)
             cdt_target_type_2 = True  # not(target.type == TargetType.FIX) or is_target_changing_state #to decrease the number of messages sent
             cdt_agent_is_in_charge = self.link_target_agent.is_in_charge(target.id, self.id)
 

@@ -19,6 +19,7 @@ USE_GUI = True
 USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
 
+
 INCLUDE_ERROR = True
 LOG_LEVEL = logging.INFO  #
 
@@ -58,7 +59,7 @@ TIME_STOP = 10  # s
 TIME_BTW_FRAME = .05
 TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)
 """Agent"""
-TIME_BTW_HEARTBEAT = 3 / SCALE_TIME
+TIME_BTW_HEARTBEAT = 1 / SCALE_TIME
 TIME_MAX_BTW_HEARTBEAT = 9 / SCALE_TIME
 TIME_BTW_AGENT_ESTIMATOR = 0.5 / SCALE_TIME
 TIME_BTW_TARGET_ESTIMATOR = 0.3 / SCALE_TIME
@@ -103,7 +104,7 @@ Y_SCALE = 60
 INIT_TARGET_LIST = AgentCameraInitializeTargetList.ALL_SEEN
 """If you want to set all the agent fixed set to false"""
 AGENTS_MOVING = True
-TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 3
+TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 1
 """
 Refers to what data agent should use to analyse the room 
 """
@@ -141,7 +142,7 @@ Behaviour target estimation
 """
 BEHAVIOUR_DETECTION_TYPE = BehaviourDetectorType.Use_speed_and_position
 POSITION_STD_ERROR = 0.1
-SPEED_MEAN_ERROR = 0.3
+SPEED_MEAN_ERROR = 0.1
 """
 New configuration parameter
 """
