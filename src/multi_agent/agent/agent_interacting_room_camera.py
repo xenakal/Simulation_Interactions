@@ -174,7 +174,7 @@ class AgentCam(AgentInteractingWithRoom):
                         target_type = TargetType.UNKNOWN
                         for target_representation in self.room_representation.target_representation_list:
                             if target_representation.id == target.id:
-                                target_type = target_representation.type
+                                target_type = target_representation.target_type
 
                         # add the new information to the memory
                         target_representation = TargetRepresentation(target.id, target.xc + erreurPX,

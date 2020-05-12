@@ -198,11 +198,11 @@ class Configuration:
         delta = all_beta - self.beta
         all_field_depth = self.field_depth - delta * camera.coeff_field
         if isinstance(all_field_depth, float):
-            field_depth = camera.bound(all_field_depth, constants.AGENT_CAMERA_FIELD_MIN * camera.default_field_depth,
+            field_depth = bound(all_field_depth, constants.AGENT_CAMERA_FIELD_MIN * camera.default_field_depth,
                                        constants.AGENT_CAMERA_FIELD_MAX * camera.default_field_depth)
         else:
             for field_depth in all_field_depth:
-                field_depth = camera.bound(field_depth, constants.AGENT_CAMERA_FIELD_MIN * camera.default_field_depth,
+                field_depth = bound(field_depth, constants.AGENT_CAMERA_FIELD_MIN * camera.default_field_depth,
                                            constants.AGENT_CAMERA_FIELD_MAX * camera.default_field_depth)
 
         return all_alpha, all_beta, all_field_depth

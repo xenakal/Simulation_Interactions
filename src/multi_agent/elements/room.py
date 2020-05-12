@@ -360,7 +360,7 @@ class RoomRepresentation:
                 :param
                     1. (Target) target -- object, see class Target
         """
-        self.add_targetRepresentation(target.id, target.xc, target.yc, target.radius, target.type)
+        self.add_targetRepresentation(target.id, target.xc, target.yc, target.radius, target.target_type)
 
     def add_targetRepresentation(self, id, x, y, radius, label):
         """
