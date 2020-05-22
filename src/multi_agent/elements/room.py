@@ -340,7 +340,7 @@ class RoomRepresentation:
                     camera.yc = itemEstimation.item.camera_representation.yc
                     # self.item_speeds = [0, 0]  # [ camera.vx,  camera.vy]
                     # self.item_acceleration = [0, 0]  # [ camera.ax,  camera.ay]
-                    camera.type = itemEstimation.item.camera_representation.camera_type
+                    camera.camera_type = itemEstimation.item.camera_representation.camera_type
                     camera.alpha = itemEstimation.item.camera_representation.alpha
                     camera.beta = itemEstimation.item.camera_representation.beta
                     camera.field_depth = itemEstimation.item.camera_representation.field_depth

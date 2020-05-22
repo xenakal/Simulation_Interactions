@@ -136,6 +136,7 @@ def define_potential_type(field_type, distances, xi=None, eta=None, rho_0=None):
     if field_type == PotentialType.Repulsive_potential and eta is not None and rho_0 is not None:
         distances = np.where(distances > 0.001 * rho_0, distances, rho_0)
         distances = np.where(distances <= rho_0, distances, rho_0)
+
         return 0.5 * eta * np.square(1 / distances - 1 / rho_0)
     elif field_type == PotentialType.Attractive_potential and xi is not None:
         distances = np.where(distances > -1, distances, 0)
@@ -153,6 +154,7 @@ def define_potential_type(field_type, distances, xi=None, eta=None, rho_0=None):
 
 
 def define_grad_potential_type(choix, distances, xi=None, eta=None, rho_0=None):
+
     if choix == PotentialType.Repulsive_potential:
         distances = np.where(distances > 0.001 * rho_0, distances, rho_0)
         distances = np.where(distances <= rho_0, distances, rho_0)
@@ -175,8 +177,7 @@ def compute_part_of_potential_field(field_type, shape, X=None, Y=None, mean_x=No
 
 
 def compute_part_of_grad_potential_field(field_type, shape, X=None, Y=None, mean_x=None, mean_y=None, var_x=None,
-                                         var_y=None,
-                                         X_min=None, X_max=None, Y_min=None, Y_max=None, angle_min=None, angle_max=None,
+                                         var_y=None,X_min=None, X_max=None, Y_min=None, Y_max=None, angle_min=None, angle_max=None,
                                          xi=None, eta=None, rho_0=None):
     distances, angle = define_potential_shape(shape=shape, X=X, Y=Y, mean_x=mean_x, mean_y=mean_y, var_x=var_x,
                                               var_y=var_y, X_min=X_min, X_max=X_max, Y_min=Y_min, Y_max=Y_max,
@@ -248,11 +249,10 @@ def compute_grad_potential_for_a_given_list(target_list, X, Y, field_type, barri
             elif barrier_type == PotentialBarrier.Smooth:
                 delta_force_x, delta_force_y = compute_part_of_grad_potential_field(
                     field_type=field_type, shape=PotentialShape.Circular, X=X, mean_x=0,
-                    var_x=1 + constants.COEFF_VAR_X * distance,
-                    Y=Y, mean_y=0, var_y=1 + constants.COEFF_VAR_Y * distance, xi=xi, eta=eta, rho_0=rho_0)
+                    var_x=1 + constants.COEFF_VAR_X * distance,Y=Y, mean_y=0, var_y=1 + constants.COEFF_VAR_Y * distance,
+                    xi=xi, eta=eta, rho_0=rho_0)
 
             elif barrier_type == PotentialBarrier.Combine:
-
                 delta_force_x_hard, delta_force_y_hard = compute_part_of_grad_potential_field(field_type=field_type,
                                                                                               shape=PotentialShape.Linear_X_direction,
                                                                                               Y=Y, mean_y=0, var_y=1,
@@ -309,6 +309,7 @@ def compute_potential_for_a_given_list(target_list, X, Y, field_type, barrier_ty
             x, y, radius = target
             if rho_0_None:
                 rho_0 = radius
+
 
             potential_field += compute_part_of_potential_field(field_type=field_type,
                                                                shape=PotentialShape.Circular,
@@ -387,7 +388,6 @@ def compute_potential_gradient(X, Y, target_list, obstacle_list):
 
     force_x = attractive_force_x + repulsive_force_x
     force_y = attractive_force_y + repulsive_force_y
-
     return force_x, force_y
 
 
@@ -428,11 +428,11 @@ def compute_potential_field_cam(X, Y, n_target, beta, field_depth):
     heat_map = []
     if n_target == 1:
         heat_map = HeatMaps.HEAT_MAP_ONE_TARGET_CENTER(field_depth)
-        heat_map = HeatMaps.HEAT_MAP_INSIDE_OF_FIELD()
+        #heat_map = HeatMaps.HEAT_MAP_INSIDE_OF_FIELD()
     elif n_target >= 2:
         heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_CENTER(field_depth,beta)
         heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_FAR(field_depth,beta,-1)
-        heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_OVERLAP(field_depth, beta)
+        heat_map =  HeatMaps.HEAT_MAP_ONE_TARGET_CENTER(field_depth) + HeatMaps.HEAT_MAP_TWO_TARGET_FAR(field_depth,beta,-1)
         #heat_map = HeatMaps.HEAT_MAP_THREE_TARGET(field_depth,beta)
 
 
@@ -544,10 +544,9 @@ def plot_potential_field_and_grad(Xp, Yp, Xf, Yf, potential_field, force_x, forc
 
 if __name__ == '__main__':
     """Small exemple to what you can get"""
-
     '''
     # target_list = [(1, 1, .1), (1, 7, .1), (7, 1, .1),(7,7,0.1)]
-    target_list = [(3, 7, .3), (6, 2,.3)]
+    target_list = [(2, 3, .3), (3, 5,.3)]
     #target_list = []
     #target_list = [(4, 4, .3 * 6), (8, 4, .3 * 6)]
     #objectives_list = [(4, 4, 1)]
@@ -564,9 +563,12 @@ if __name__ == '__main__':
     plot_potential_field_and_grad(X_potential_field, Y_potential_field, X_vector_field, Y_vector_field, potential_field, force_x,
                         force_y,objectives_list,target_list)
 
+    plt.show()
+
     '''
-    X = np.arange(0, 8, 0.01)
-    Y = np.arange(-4,4, 0.01)
-    X,Y,Z = compute_potential_field_cam(X,Y,3,math.radians(60),8)
+
+    X = np.arange(0, 8, 0.005)
+    Y = np.arange(-4,4, 0.005)
+    X,Y,Z = compute_potential_field_cam(X,Y,1,math.radians(60),8)
     plot_potential_field(X,Y,Z)
     plt.show()
