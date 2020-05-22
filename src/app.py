@@ -92,6 +92,8 @@ class App:
         self.targets_moving_thread = None
 
         self.init()
+        if USE_GUI:
+            self.myGUI = GUI()
 
     def init(self):
         """"""
@@ -154,8 +156,8 @@ class App:
         self.room.des_activate_agentCam_timed()
         self.room.des_activate_camera_agentCam_timed()
 
-        if USE_GUI:
-            self.myGUI = GUI()
+        #if USE_GUI:
+            #self.myGUI = GUI()
 
         """Creating tools to analyse the situation based on the created data  => it means the best solution we could have"""
         self.static_region = MapRegionStatic(self.room)

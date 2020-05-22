@@ -51,7 +51,7 @@ class AgentInteractingWithRoom(Agent):
 
         "Attibutes"
         self.memory = Memory(self.id)
-        self.room_representation =room.RoomRepresentation(self.color)
+        self.room_representation = room.RoomRepresentation(self.color)
         self.hearbeat_tracker = HeartbeatCounterAllAgent(self.id, self.signature, self.log_main)
 
         "Create his own thread"

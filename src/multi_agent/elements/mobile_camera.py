@@ -88,7 +88,6 @@ class MobileCamera(Camera, MobileCameraRepresentation):
         self.v_beta_max = v_beta_max
         self.delta_beta = delta_beta
 
-
         """Zoom"""
         self.coeff_field = constants.COEFF_VARIATION_FROM_FIELD_DEPTH
         self.coeff_std_position = constants.COEFF_STD_VARIATION_MEASURMENT_ERROR_POSITION
@@ -130,7 +129,6 @@ class MobileCamera(Camera, MobileCameraRepresentation):
         else:
             self.beta_min = None
             self.beta_max = None
-
 
     def angle_degToRad(self):
         """
@@ -179,8 +177,6 @@ class MobileCamera(Camera, MobileCameraRepresentation):
         super().load_from_save_to_txt(s)
         self.trajectory = TrajectoryPlaner(self.trajectory)
         self.default_parameters()
-
-
 
     def my_rand(self, bound):
         """
