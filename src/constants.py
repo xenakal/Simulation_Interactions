@@ -46,7 +46,7 @@ ROOM_DIMENSION_Y = 8  # [m]
 
 """Number of data----------------------------------------------------------------------------------------------------"""
 NUMBER_OF_POINT_SIMULATED_DATA = 20  # per m for a speed of 1 m/s
-NUMBER_OF_POINT_STATIC_ANALYSIS = 5  # number of point per m
+NUMBER_OF_POINT_STATIC_ANALYSIS = 20  # number of point per m
 NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 5  # number of point per m
 
 """Time--------------------------------------------------------------------------------------------------------------"""
