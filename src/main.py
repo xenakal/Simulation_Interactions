@@ -12,7 +12,7 @@ by default in maps
 map_to_test_name = ["My_new_map"]
 
 """ Used to specify whether we want to use arguments passed from user. """
-use_args = False
+use_args = True
 
 """
 Variable here are use to set the desired parameter during the simulation.
