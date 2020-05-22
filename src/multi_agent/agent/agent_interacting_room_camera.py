@@ -706,7 +706,7 @@ class AgentCam(AgentInteractingWithRoom):
         """
         info_string = message.message
         concerned_target_id = int(message.item_ref)
-        if info_string:  # if message not empty
+        if not info_string == "[]":  # if message not empty
             self.memory.process_DKF_info(concerned_target_id, info_string, constants.get_time())
 
     def send_message_track_loose_target(self, track_loose_choice, target_id):
