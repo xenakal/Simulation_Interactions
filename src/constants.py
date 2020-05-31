@@ -11,9 +11,9 @@ In this file you have the possibility to modify the settings
 
 
 SAVE_DATA = False
-GENERATE_PLOT =False
+GENERATE_PLOT =  True
 LOAD_DATA = LoadData.FROM_TXT_FILE
-
+LOAD_DATA = LoadData.FROM_TXT_FILE
 
 USE_GUI = True
 USE_static_analysis = False
@@ -46,7 +46,7 @@ ROOM_DIMENSION_Y = 8  # [m]
 
 """Number of data----------------------------------------------------------------------------------------------------"""
 NUMBER_OF_POINT_SIMULATED_DATA = 20  # per m for a speed of 1 m/s
-NUMBER_OF_POINT_STATIC_ANALYSIS = 5  # number of point per m
+NUMBER_OF_POINT_STATIC_ANALYSIS = 20  # number of point per m
 NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 5  # number of point per m
 
 """Time--------------------------------------------------------------------------------------------------------------"""
@@ -58,7 +58,7 @@ TIME_STOP = 10  # s
 TIME_BTW_FRAME = .05
 TIME_BTW_TARGET_MOVEMENT = 1 / (NUMBER_OF_POINT_SIMULATED_DATA * SCALE_TIME)
 """Agent"""
-TIME_BTW_HEARTBEAT = 3 / SCALE_TIME
+TIME_BTW_HEARTBEAT = 1 / SCALE_TIME
 TIME_MAX_BTW_HEARTBEAT = 9 / SCALE_TIME
 TIME_BTW_AGENT_ESTIMATOR = 0.5 / SCALE_TIME
 TIME_BTW_TARGET_ESTIMATOR = 0.3 / SCALE_TIME
@@ -68,14 +68,14 @@ TIME_SEND_READ_MESSAGE = (0.3 * TIME_BTW_TARGET_MOVEMENT) / SCALE_TIME
 MAX_TIME_MESSAGE_IN_LIST = 3 / SCALE_TIME  # s
 TRESH_TIME_TO_SEND_MEMORY = 100 / SCALE_TIME  #
 "Agent-User"
-TIME_TO_SLOW_DOWN = 0.2 / SCALE_TIME
+TIME_TO_SLOW_DOWN = 0.05 / SCALE_TIME
 
 """Error on mesure---------------------------------------------------------------------------------------------------"""
 STD_MEASURMENT_ERROR_POSITION = 0.2
 STD_MEASURMENT_ERROR_SPEED = 0.1
 STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
 
-ERROR_VARIATION_ZOOM = False
+ERROR_VARIATION_ZOOM = True
 COEFF_STD_VARIATION_MEASURMENT_ERROR_POSITION = 0.05 * STD_MEASURMENT_ERROR_POSITION
 COEFF_STD_VARIATION_MEASURMENT_ERROR_SPEED = 0.01 * STD_MEASURMENT_ERROR_SPEED
 COEFF_STD_VARIATION_MEASURMENT_ERROR_ACCELERATION = 0.001 * STD_MEASURMENT_ERROR_ACCCELERATION
@@ -84,6 +84,10 @@ COEFF_STD_VARIATION_MEASURMENT_ERROR_ACCELERATION = 0.001 * STD_MEASURMENT_ERROR
 NAME_MAILBOX = "mailbox/MailBox_Agent"
 STD_RECEIVED = 0
 SEUIL_RECEIVED = 10
+
+ITEM_START_MARKER = "ITEM_START-"
+ITEM_END_MARKER = "-ITEM_END"
+ITEM_CONSTANT_TAG_MARKER = "tag#"
 
 """Option for class predication--------------------------------------------------------------------------------------"""
 NUMBER_PREDICTIONS = 3
@@ -99,7 +103,7 @@ Y_SCALE = 60
 INIT_TARGET_LIST = AgentCameraInitializeTargetList.ALL_SEEN
 """If you want to set all the agent fixed set to false"""
 AGENTS_MOVING = True
-TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 3
+TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 1
 """
 Refers to what data agent should use to analyse the room 
 """
@@ -124,7 +128,7 @@ AGENT_ALPHA_KI = 0
 AGENT_BETA_KP = 50
 AGENT_BETA_KI = 0.0
 
-MIN_CONFIGURATION_SCORE = 0.15
+MIN_CONFIGURATION_SCORE = 0.05
 
 """Refers to the min and max field in terms of the default field"""
 AGENT_CAMERA_FIELD_MIN = 0.8
@@ -137,7 +141,7 @@ Behaviour target estimation
 """
 BEHAVIOUR_DETECTION_TYPE = BehaviourDetectorType.Use_speed_and_position
 POSITION_STD_ERROR = 0.1
-SPEED_MEAN_ERROR = 0.3
+SPEED_MEAN_ERROR = 0.1
 """
 New configuration parameter
 """
@@ -183,23 +187,23 @@ If ETA = 0 => Repulsive potentials have no effects
 
 Parameters has to be set to appropriate values by trials and errors    
 """
-XI = 0.5
+XI = 50
 ETA = 5
-COEFF_RADIUS = 1
+COEFF_RADIUS = 100
 """Barrier"""
-BARRIER_TYPE = PotentialBarrier.Combine
+BARRIER_TYPE = PotentialBarrier.Combine_attract
 
 """In the smooth mode it defines how circle are deformed to become elliptical shapes"""
 COEFF_VAR_X = 100
-COEFF_VAR_Y = 10
+COEFF_VAR_Y = 2
 
 """Combine is a ration beetwen hard and smooth mode"""
-COMBINE_MODE_PROP = 0.99 # 1 = smooth mode 0 = hard mode (btw 0 and 1)
+COMBINE_MODE_PROP = 0.45# 1 = smooth mode 0 = hard mode (btw 0 and 1)
 
 """Random map creation-----------------------------------------------------------------------------------------------"""
 TARGET_NUMBER_SET_FIX = 0
 TARGET_NUMBER_UNKOWN = 5
-TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY = 3
+TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY = 1
 RANDOM_TARGET_RADIUS_BOUND = (0.1,0.3)
 RANDOM_TARGET_V_BOUND = (0.8,1.2)
 
@@ -208,15 +212,15 @@ CAMERA_NUMBER_ROTATIVE = 0
 CAMERA_NUMBER_RAIL = 0
 CAMERA_NUMBER_FREE = 2
 
-RANDOM_CAMERA_BETA_BOUND = (math.radians(55),math.radians(65))
-RANDOM_CAMERA_DELTA_BETA_BOUND = (math.radians(20),math.radians(25))
+RANDOM_CAMERA_BETA_BOUND = (55,65)
+RANDOM_CAMERA_DELTA_BETA_BOUND = (20,25)
 RANDOM_CAMERA_FIELD_DEPTH_BOUND = (4,4)
 RANDOM_CAMERA_V_XY_MIN_BOUND = (0,0)
 RANDOM_CAMERA_V_XY_MAX_BOUND = (1,1)
-RANDOM_CAMERA_V_BETA_MIN_BOUND = (math.radians(0),math.radians(0))
-RANDOM_CAMERA_V_BETA_MAX_BOUND = (math.radians(15),math.radians(15))
-RANDOM_CAMERA_V_ALPHA_MIN_BOUND = (math.radians(0),math.radians(0))
-RANDOM_CAMERA_V_ALPHA_MAX_BOUND = (math.radians(35),math.radians(35))
+RANDOM_CAMERA_V_BETA_MIN_BOUND = (0,0)
+RANDOM_CAMERA_V_BETA_MAX_BOUND = (15,15)
+RANDOM_CAMERA_V_ALPHA_MIN_BOUND = (0,0)
+RANDOM_CAMERA_V_ALPHA_MAX_BOUND = (35,35)
 
 
 """---------------------------------------------------------------------------------------------------------------------

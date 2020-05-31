@@ -1,6 +1,8 @@
 import pygame
-from src.multi_agent.agent.agent import AgentType
+
 from src import constants
+from src.multi_agent.agent.agent_representation import AgentType
+
 
 class GUI_memories:
 
@@ -16,7 +18,7 @@ class GUI_memories:
         self.scale_x = scaleX
         self.scale_y = scaleY
 
-    def drawMemory(self, room, allAgents=False):
+    def drawMemory(self, room, allAgents=False, filtered=False):
         """ Draws the previous positions of the selected targets for the selected agents. """
 
         if allAgents:
@@ -27,27 +29,19 @@ class GUI_memories:
         for agent in agents:
             for targetID in self.targets_to_display:
                 agentMemory = agent.memory
-                # draw previous target positions as read by the agent
-                for targetEstimator in agentMemory.get_previous_positions(targetID):
-                    pygame.draw.circle(self.screen, agent.camera.color,
-                                       (self.x_offset + int(targetEstimator.item_position[0] * self.scale_x),
-                                        self.y_offset + int((constants.ROOM_DIMENSION_Y-targetEstimator.item_position[1])* self.scale_y)), 2)
+                if not filtered:
+                    # draw previous target positions as read by the agent
+                    for itemEstimation in agentMemory.get_previous_positions(targetID):
+                        pygame.draw.circle(self.screen, agent.camera.color,
+                                           (self.x_offset + int(itemEstimation.item.xc * self.scale_x),
+                                            self.y_offset + int((constants.ROOM_DIMENSION_Y-itemEstimation.item.yc)* self.scale_y)), 2)
 
-                # draw positions with noise "removed" as estimated by the Kalman Filter
-                for targetEstimator in agentMemory.get_noiseless_estimations(targetID):
-                    pygame.draw.circle(self.screen, (255, 51, 255),
-                                       (self.x_offset + int(targetEstimator.item_position[0] * self.scale_x),
-                                        self.y_offset + int((constants.ROOM_DIMENSION_Y-targetEstimator.item_position[1])* self.scale_y)), 2)
-               
-                # draw internal memory of positions used for the Kalman Filtering
-                """
-                predictor = agentMemory.get_target_predictor(targetID)
-                if predictor is not None:
-                    for pos in predictor.kalman_memory:
-                        pygame.draw.circle(self.screen, (204, 0, 0),
-                                           (self.x_offset + int(pos[0] * self.scale_x),
-                                            self.y_offset + int(pos[1] * self.sscale_y)), 2)                        
-                """
+                else:
+                    # draw positions with noise "removed" as estimated by the Kalman Filter
+                    for itemEstimation in agentMemory.get_noiseless_estimations(targetID):
+                        pygame.draw.circle(self.screen, (255, 51, 255),
+                                           (self.x_offset + int(itemEstimation.item.xc * self.scale_x),
+                                            self.y_offset + int((constants.ROOM_DIMENSION_Y-itemEstimation.item.yc)* self.scale_y)), 2)
 
     def draw_mesure_and_receiveMessages(self, room):
         """ Draws the previous positions of the selected targets for the selected agents. """
@@ -57,7 +51,8 @@ class GUI_memories:
             for targetID in self.targets_to_display:
                 agentMemory = agent.memory
                 for allAgent in room.active_AgentCams_list:
-                    for targetEstimator in agentMemory.getPreviousPositions_allMessages(targetID, allAgent.id):
-                        pygame.draw.circle(self.screen, agent.camera.color,
-                                           (self.x_offset + int(targetEstimator.item_position[0] * self.scale_x),
-                                            self.y_offset + int((constants.ROOM_DIMENSION_Y-targetEstimator.item_position[1]) * self.scale_y)), 2)
+                    if not allAgent.id == agent.id:
+                        for itemEstimation in agentMemory.getPreviousPositions_allMessages(targetID, allAgent.id):
+                            pygame.draw.circle(self.screen, agent.camera.color,
+                                               (self.x_offset + int(itemEstimation.item.xc * self.scale_x),
+                                                self.y_offset + int((constants.ROOM_DIMENSION_Y-itemEstimation.item.yc) * self.scale_y)), 2)

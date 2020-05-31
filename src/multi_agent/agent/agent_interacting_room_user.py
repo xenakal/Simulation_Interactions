@@ -1,15 +1,10 @@
-from src.multi_agent.elements.target import *
-from src.multi_agent.agent.agent_interacting_room import *
+from src.multi_agent.agent.agent_representation import AgentType
+from src.multi_agent.agent.agent_interacting_room import AgentInteractingWithRoom
 from src import constants
 import time
 
+from src.my_utils.my_IO.IO_data import create_logger
 
-class AgentUserRepresentation(AgentInteractingWithRoomRepresentation):
-    def __init__(self, id, type):
-        super().__init__(id, type)
-
-    def update_from_agent(self, agent):
-        super().update_from_agent(agent)
 
 class AgentUser(AgentInteractingWithRoom):
     """
@@ -58,7 +53,6 @@ class AgentUser(AgentInteractingWithRoom):
 
         state = "processData"
         nextstate = state
-        time_last_heartbeat_sent = constants.get_time()
         execution_loop_number = 0
         execution_time_start = 0
         execution_mean_time = 0
@@ -90,7 +84,7 @@ class AgentUser(AgentInteractingWithRoom):
                 self.info_message_received.remove_message_after_given_time(constants.get_time(), constants.MAX_TIME_MESSAGE_IN_LIST)
 
                 "Send heart_beat to other agent"
-                time_last_heartbeat_sent = self.handle_hearbeat()
+                self.handle_hearbeat()
 
                 '''Message are send (Mailbox)'''
                 self.send_messages()
@@ -102,7 +96,6 @@ class AgentUser(AgentInteractingWithRoom):
                 self.process_message_sent()
 
                 self.log_room.info(self.memory.statistic_to_string() + self.message_statistic.to_string())
-
                 time.sleep(constants.TIME_SEND_READ_MESSAGE)
                 nextstate = "processData"
 

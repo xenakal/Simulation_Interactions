@@ -11,12 +11,12 @@ import src.multi_agent.agent.agent_interacting_room_camera
 
 def save_target_txt(fichier, room):
     for target in room.information_simulation.target_list:
-        fichier.write("target: " + target.save_target_to_txt())
+        fichier.write("target: " + target.save_to_txt())
 
 
 def save_agent_cam(fichier, room):
     for agent in room.information_simulation.agentCams_list:
-        fichier.write("camera: " + agent.camera.save_target_to_txt()[:-1] + " agent: " + agent.save_agent_to_txt())
+        fichier.write("camera: " + agent.camera.save_to_txt()[:-1] + " agent: " + agent.save_agent_to_txt())
 
 
 def save_room_target_camera_to_txt(filename, room):
@@ -38,7 +38,7 @@ def load_room_txt(s, room):
 
 def load_target_txt(s, room):
     target = Target()
-    target.load_from_txt(s)
+    target.load_from_save_to_txt(s)
     room.add_Target(target)
 
 
@@ -48,10 +48,10 @@ def load_agentCam_txt(s, room):
     camera_agent = re.split("camera:|agent:", s)
 
     camera = MobileCamera(-1, -1, -1, -1, -1, [], -1)
-    camera.load_from_txt(camera_agent[1])
+    camera.load_from_save_to_txt(camera_agent[1])
     agent = src.multi_agent.agent.agent_interacting_room_camera.AgentCam(camera)
 
-    agent.load_from_txt(camera_agent[2])
+    agent.load_from_save_to_txt(camera_agent[2])
     agent.camera.id = agent.id
     room.add_AgentCam(agent)
 

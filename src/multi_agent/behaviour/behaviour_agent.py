@@ -58,7 +58,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
     number_of_target = len(target_representation_list)
 
     all_fix = True
-    are_target_fix = [target.type == TargetType.FIX for target in target_representation_list]
+    are_target_fix = [target.target_type == TargetType.FIX for target in target_representation_list]
     for item in are_target_fix:
         if not item:
             all_fix = False
@@ -73,8 +73,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
     if number_of_target < 0:
         warnings.warn("Agent ", camera.id, "sees a negative number of targets...")
 
-    if number_of_target == 0 or no_target_behaviour:
-
+    elif number_of_target == 0 or no_target_behaviour:
         configuration = Configuration(camera.xc, camera.yc, camera.xc, camera.yc, camera.alpha,
                                       camera.beta, camera.field_depth, virtual)
         # all types rotate
@@ -86,6 +85,8 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
                 camera.camera_type == mobileCam.MobileCameraType.FREE:
             no_target_movement_behaviour(configuration, camera)
 
+        configuration.track_target_list = []
+        configuration.configuration_score = 0
         return configuration
 
     elif number_of_target == 1:
@@ -97,7 +98,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
         delta_x = camera.xc - xt
         delta_y = camera.yc - yt
 
-        if target.type == TargetType.FIX or target.type == TargetType.SET_FIX:
+        if target.target_type == TargetType.FIX or target.target_type == TargetType.SET_FIX:
             angle_in_room_representation = camera.alpha
         else:
             angle_in_room_representation = math.atan(delta_y / delta_x)
@@ -193,6 +194,7 @@ def get_configuration_based_on_seen_target(camera, target_representation_list, r
     configuration.bound_to_camera_limitation(camera)
     configuration.track_target_list = target_representation_list
     configuration.compute_configuration_score()
+
     return configuration
 
 
@@ -307,7 +309,7 @@ def pca_methode_2D_plan(target_representation_list, point_to_track_choice=PCA_tr
     """Formating data to the method fit"""
     for target_representation in target_representation_list:
         sample.append([target_representation.xc, target_representation.yc])
-        if not int(target_representation.type) == int(TargetType.SET_FIX):
+        if not int(target_representation.target_type) == int(TargetType.SET_FIX):
             all_x.append(target_representation.xc)
             all_y.append(target_representation.yc)
 
@@ -413,7 +415,6 @@ def no_targets_rotation_behaviour(configuration, camera):
         angle_edge_intersection_len = math.fabs(angle_intersection_point - (camera.alpha - camera.beta / 2))
         camera.dt_next_swipe_direction_change = angle_edge_intersection_len / camera.v_alpha_max
     else:
-
         configuration.alpha += camera.swipe_angle_direction * camera.swipe_delta_alpha
 
 

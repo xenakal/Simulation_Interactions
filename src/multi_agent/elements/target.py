@@ -1,15 +1,17 @@
-# -*- coding: utf-8 -*-
 import random
 import re
-import math
+import time
+
 from src import constants
-from src.my_utils.constant_class import ConfidenceFunction
-from src.my_utils.my_math.line import Line
+from src.my_utils.item import Item
+from src.my_utils.confidence import evaluate_confidence
+from src.my_utils.string_operations import parse_element
 
 
 class TargetMotion:
     FIX = 0
     LINEAR = 1
+
 
 class TargetType:
     SET_FIX = 0
@@ -18,124 +20,91 @@ class TargetType:
     MOVING = 3
 
 
-class TargetRepresentation:
+class TargetRepresentation(Item):
     """
                 Class TargetRepresentation.
 
                 Description : This class gives a representation of target
 
                     :param
-                        1. (int) id                   -- numeric value to recognize the target easily
-                        2. (int) signature            -- numeric value to identify the target
-                        3. (int) xc                   -- x value of the center of the targetRepresentation
-                        4. (int) yc                   -- y value of the center of the targetRepresentation
-                        5. (int) size                 -- radius from the center
-                        6. (TargetType) type          -- see class above, to make the difference
-                                                          between known and unkown target
-                        7. ((int),(int),(int)) color  -- color to represent the target on the maps,
-                                                         if = 0 than random color selected
+                        1. (int) id                           -- numeric value to recognize the target easily
+                        2. (float) xc - [m]                   -- x value of the targetRepresentation center
+                        3. (float) yc - [m]                   -- y value of the targetRepresentation center
+                        4. (float) vx - [m/s]                 -- x value of the targetRepresentation speed
+                        5. (float) vy - [m/s]                 -- y value of the targetRepresentation speed
+                        6. (float) ax - [m/s^2]               -- x value of the targetRepresentation acceleration
+                        7. (float) ay - [m/s^2]               -- y value of the targetRepresentation acceleration
+                        8. (int) size - [m]                   -- radius from the center
+                        9. ((int),(int),(int)) color          -- color to represent the target on the maps,
+                                                                  if = None than random color selected
 
                     :attibutes
-                        1. (int) id                   -- numeric value to recognize the target easily
-                        2. (int) xc                   -- center of the targetRepresentation
-                        3. (int) yc                   -- center of the targetRepresentation
-                        4. (int) size                 -- radius from the center
-                        5. (TargetType) type              -- TargetType see class,
-                                                         to make the difference between known and unknown target
-                        6. ((int),(int),(int)) color  -- color to represent the target on the maps, if = 0 than random
-                                                         color selected
+                        1. (type) item_type                        -- class type
+                        2. (int) id                           -- numeric value to recognize the target easily
+                        3. (int) signature                    -- numeric value to identify the target
+                        4. (float) xc                         -- x value of the targetRepresentation center
+                        5. (float) yc                         -- y value of the targetRepresentation center
+                        6. (float) vx                         -- x value of the targetRepresentation speed
+                        7. (float) vy                         -- y value of the targetRepresentation speed
+                        8. (float) ax                         -- x value of the targetRepresentation acceleration
+                        9. (float) ay                         -- y value of the targetRepresentation acceleration
+                       10. (flaot) alpha                      -- target orientation, based on vx,vy
+                       11. (int) size                         -- radius from the center
+                       12. (TargetType) target_type           -- see class TargetType, differentiate target type.
+                       13. ([int,int]) variance_on_estimation -- kalman_variance on the estimation, if not used = [-1,-1]
+                       14. ([int,int]) confidence             -- confidence on the representation [t-1,t], if not used = [-1,1]
+                                                                 confidence btw [constants.CONFIDENCE_MIN_VALUE,constants.CONFIDENCE_MAX_VALUE]
+                       15. (int) priority_level               -- priority an agent should give to the representation.
+                       16. ((int),(int),(int)) color           -- color to represent the target on the maps,
+                                                                  if = None than random color selected
 
                     :notes
-                        fells free to write some comments.
+                        1. et 2. et 3. are parameters from Item
     """
 
-    def __init__(self, id=None, x=None, y=None, radius=None, type=None, color=None):
+    def __init__(self, id=None, xc=None, yc=None, vx=0, vy=0, ax=0, ay=0, radius=None, type=None, color=None):
         """Initialisation"""
+        super().__init__(id)
 
-        " Identification name (id) + number "
-        self.id = id
-        self.signature = self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
-
-        "TargetRepresentation description on the maps"
-        "Position and Speeds"""
-        self.xc = x
-        self.yc = y
+        """Position and Speeds and accelaration"""
+        self.xc = xc
+        self.yc = yc
+        self.vx = vx
+        self.vy = vy
+        self.ax = ax
+        self.ay = ay
         self.alpha = 0
 
-        "TargetRepresentation attributes"
+        """TargetRepresentation other attributes"""
         self.radius = radius
-        self.type = type
-        self.color = color
-        self.variance_on_estimation = (0,0)
-        self.confidence_pos = [-1,-1]
+        self.target_type = type
 
+        """Attributes used by agent"""
+        self.variance_on_estimation = [-1, -1]
+        self.confidence = [-1, -1]
         self.priority_level = 0
 
+        """Attributes used for GUI"""
+        self.color = color
+
+        self.attributes_not_to_txt += ["item_type","signature","alpha","vx","vy","ax","ay","variance_on_estimation",
+                                       "confidence","priority_level","color"]
+
         "Default values"
+        if type == TargetType.SET_FIX:
+            self.vx = 0
+            self.vy = 0
+
         if color is None:
             r = random.randrange(20, 230, 1)
             g = random.randrange(20, 230, 1)
             b = random.randrange(20, 255, 1)
             self.color = (r, g, b)
 
-    def evaluate_confidence(self, error, delta_time):
-        """Method to modify the value of the confidence based on severals parameters"""
-
-        self.confidence_pos[0] = self.confidence_pos[1]
-
-        """Kalman dependency"""
-        amplitude =  (1 / math.pow(error, 2))
-
-        if amplitude > constants.CONFIDENCE_MAX_VALUE:
-            amplitude = constants.CONFIDENCE_MAX_VALUE
-        t_thresh = constants.CONFIDENCE_TIME_TO_REACH_MIN_VALUE
-        pt1 = (0, constants.CONFIDENCE_MAX_VALUE)
-        pt2 = (t_thresh, constants.CONFIDENCE_MIN_VALUE)
-        if pt1[1] < pt2[1]:
-            self.confidence_pos[1] = 0
-            return
-
-        """Time dependency"""
-        if ConfidenceFunction.EXPONENTIAL_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
-            if constants.CONFIDENCE_MIN_VALUE >= 1:
-                time_constant = -t_thresh/math.log(pt2[1]/pt1[1])
-            else:
-                time_constant = t_thresh/5
-
-            delta_t_due_to_amplitude = -time_constant*math.log(amplitude/pt1[1])
-            delta_time += delta_t_due_to_amplitude
-            self.confidence_pos[1] = pt1[1]*math.exp(-delta_time/time_constant)
-
-        elif ConfidenceFunction.EXPONENTIAL_REVERSE_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
-
-            pass
-
-        elif ConfidenceFunction.LINEAR_DECAY == constants.CONFIDENCE_FUNCTION_CHOICE:
-           if pt1[1] > pt2[1]:
-                line = Line(pt1[0],pt1[1],pt2[0],pt2[1])
-                delta_t_due_to_amplitude =  line.compute_x(amplitude)
-                delta_time += delta_t_due_to_amplitude
-                self.confidence_pos[1] = line.compute_y(delta_time,line)
-           else:
-               self.confidence_pos[1] = constants.CONFIDENCE_MIN_VALUE
-
-        elif ConfidenceFunction.STEP == constants.CONFIDENCE_FUNCTION_CHOICE:
-           if delta_time < t_thresh:
-                self.confidence_pos[1] = amplitude
-           else:
-                self.confidence_pos[1] = constants.CONFIDENCE_MIN_VALUE
-
-        self.confidence_pos[1] = min(max(self.confidence_pos[1],constants.CONFIDENCE_MIN_VALUE),constants.CONFIDENCE_MAX_VALUE)
-
-    def to_string(self):
-        """
-       :return / modify vector
-              1. (string) s0+s1 -- description of the targetRepresentation
-        """
-
-        s0 = "target " + str(self.id) + "\n"
-        s1 = "position x: " + str(self.xc) + " y: " + str(self.yc) + "\n"
-        return s0 + s1
+    def evaluate_target_confidence(self, error, delta_time):
+        """Method to modify the value of the confidence based on severals parameters, see evaluate confidence"""
+        self.confidence[0] = self.confidence[1]
+        self.confidence[1] = evaluate_confidence(error, delta_time)
 
     def __hash__(self):
         return hash(self.id)
@@ -151,165 +120,134 @@ class Target(TargetRepresentation):
             Description : This class creates fake targets (data) to run the simulation, see class TargetRepresentation.
 
                 :params
-                    1. (float) id                                   -- numerical value to recognize the target easily
-                    2. (float) xc - [m]                             -- x value of the center of the
-                                                                    targetRepresentation
-                    3. (float) yc - [m]                             -- y value of the center of the
-                                                                    targetRepresentation
-                    4. (float) vx - [m/s]                           -- x speeds
-                    5. (float) vy - [m/s]                           -- y speeds
-                    6. (float) size - [m]                           -- radius from the center
-                    7. (TargetType) type                            --  see class above, to make
-                                                                      the difference between known and unkown target
-                    8. ([(int,int),...]) trajectory_position        -- list [(x,y),...] from all the via point
-                                        - ([m],[m])
-                                                                     that the target should reach
-                    9. (string) trajectory_type                     -- "fix","linear" choice for the target's way
+                   10. (TargetMotion) trajectory_type                -- See TargetMotion, multiple way to reach a via point
+                   11. ([(int,int),...]) trajectory - [(m,m),...]    -- Tuple in a list containing all the via point (x,y) coordinate
+                   12. (int) number_of_position_reached              -- Keeps track of which was the last via point
+
+                   1. (string) trajectory_type                     -- "fix","linear" choice for the target's way
                                                                      to moove
-                   10. ([[int],...]) t_add - [s]                    -- list [[t1],[t2],...] from all the time where
+                   20. ([[int],...]) t_add - [s]                    -- list [[t1],[t2],...] from all the time where
                                                                      the target should appear in the room
-                   11. ([[int],...]) t_del - [s]                    -- list [[t1],[t2],...] from all the time where
+                   21. ([[int],...]) t_del - [s]                    -- list [[t1],[t2],...] from all the time where
                                                                      the target should disappear in the room
-                   12. (int) number_of_time_pa ssed                 -- keeps track of the apparition and disparition time
+                   12. (int) number_of_time_passed                 -- keeps track of the apparition and disparition time
                    13. (bool) is_on_map                             -- True if the target is on the maps, False otherwise
 
                 :attibutes
-                    1. (float) vx - [m/time_btw_target_mvt]           -- x speeds
-                    2. (float) vy - [m/time_btw_target_mvt]           -- y speeds
-                    3. (float) vx_max - [m/time_btw_target_mvt]       -- x speeds max
-                    4. (float) vy_max - [m/time_btw_target_mvt]       -- y speeds max
-                    5. ([(float,float),...]) trajectory_position      -- list [(x,y),...] containing all the via points
-                                                                        that the target should reach
-                    6. ([[float,float],...]) all_position             -- list [[x,y],...] containing all the previous
-                                         - ([m],[m])                     positions of the target
-                    7. ([[float],...]) t_add -                        -- list [[t1],[t2],...] containing all the times at
+                   17. (float) vx_max - [m/time_btw_target_mvt]      -- x speeds max
+                   18. (float) vy_max - [m/time_btw_target_mvt]      -- y speeds max
+
+                   19. (TargetMotion) trajectory_type                -- See TargetMotion, multiple way to reach a via point
+                   20. ([(int,int),...]) trajectory - [(m,m),...]    -- Tuple in a list containing all the via point (x,y) coordinate
+                   21. (int) number_of_position_reached              -- Keeps track of which was the last via point
+
+
+                    22. ([[float],...]) t_add -                      -- list [[t1],[t2],...] containing all the times at
                                                                          which the target should appear in the room
-                    8. ([[float],...]) t_del                          -- list [[t1],[t2],...] containing all the times at
+                    23. ([[float],...]) t_del                        -- list [[t1],[t2],...] containing all the times at
                                                                          which the target should disappear from the room
-                    9. (string) traject  ory_type                     -- "fix","linear" choice for the target's way
-                                                                          to move
-                   10. (int) self.number_of_position_reached          -- keep track from how many via points are reached
+                    24. (int) number_of_time_passed                  -- keeps track of which was the last t_add/t_del
+                    25. (bool) is_on_map                             -- True if the target is on the map
+
+                    25. ([[float,float],...]) all_position            -- list [[x,y],...] containing all the previous
+                                         - ([m],[m])                     positions of the target
 
                 :notes
-                    time_btw_target_mvt [s], see constants file
+                    attributes 1. to 15. describe in the class TargetRepresentation.
     """
 
-    def __init__(self, id=None, x=None,y=None,vx=0,vy=0,ax =0,ay= 0,trajectory_type=None,trajectory= None,type=None,
-                 radius=5, t_add=None, t_del=None):
-        # Initialisation
-        super().__init__(id, x, y, radius, type, None)
+    def __init__(self, id=None, xc=None, yc=None, vx=0, vy=0, ax=0, ay=0, radius=None, type=None, color=None,
+                 trajectory_type=None, trajectory=None, t_add=None, t_del=None):
+        super().__init__(id, xc, yc, vx, vy, ax, ay, radius, type, color)
 
-        # Target description on the maps
-        """!! Attention you responsability to get coherent speed and acceleration"""
-        self.vx_max = vx * constants.SCALE_TIME
-        self.vy_max = vy * constants.SCALE_TIME
+        """In function motion,  file motion.py, bound for the speeds"""
+        self.vx_max = self.vx
+        self.vy_max = self.vy
 
-        self.vx = vx
-        self.vy = vy
-
-        self.ax = ax
-        self.ay = ay
-
+        """Simulation for a trajectory"""
+        self.trajectory_type = trajectory_type
         self.trajectory = trajectory
-        self.all_position = []
+        self.number_of_position_reached = 0
 
-        # Apparition and disparition times
+        """Simulation for a dynamic target apparition/disparition"""
         self.t_add = t_add
         self.t_del = t_del
         self.number_of_time_passed = 0
         self.is_on_the_map = False
 
-        # Target attributes
-        self.trajectory_type = trajectory_type
-        self.number_of_position_reached = 0
+        """Save each positon --> draw on the GUI"""
+        self.all_position = []
 
-        # Default values
+        self.attributes_not_to_txt += ["number_of_position_reached","number_of_time_passed","is_on_the_map","all_position"]
+
+
+        """Default values"""
         if type == TargetType.SET_FIX:
-            self.vx = 0
-            self.vy = 0
             self.vx_max = self.vx
             self.vy_max = self.vy
 
-        if t_add == None or t_del == None :
-           self.t_add = [0]
-           self.t_del = [1000]
+        if t_add == None or t_del == None:
+            self.t_add = [0]
+            self.t_del = [constants.TIME_STOP]
 
         if trajectory == None:
-            self.trajectory = [(x, y)]
+            self.trajectory = [(xc, yc)]
 
-    def my_rand(self,bound):
-        return random.uniform(bound[0],bound[1])
+    def target_random_for_randomize(self, bound):
+        """Method to modify easily the way randomize target is done"""
+        return random.uniform(bound[0], bound[1])
 
-    def randomize(self,target_type,r_bound,v_bound,trajectory_number_of_points):
+    def randomize(self, target_type, r_bound, v_bound, trajectory_number_of_points):
+        """
+            :description
+                fill the attributes with bounded random values
+
+            :param
+                1. (TargetType) target_type                    -- see class description
+                2. ((min,max)) r_bound                         -- bound the radius
+                3. ((min,max)) v_bound                         -- bound the speed
+                4. ((min,max)) trajectory_number_of_points     -- number of trajectories
+
+            :return / modify vector
+                1. (type) name -- description
+                2. (type) name -- description
+        """
+
+        """Positions and speeds"""
+        self.xc = self.target_random_for_randomize((0, constants.ROOM_DIMENSION_X))
+        self.yc = self.target_random_for_randomize((0, constants.ROOM_DIMENSION_Y))
+        self.vx_max = self.target_random_for_randomize(v_bound)
+        self.vy_max = self.target_random_for_randomize(v_bound)
+
+        """Other attributes"""
         self.type = target_type
-        self.xc = self.my_rand((0, constants.ROOM_DIMENSION_X))
-        self.yc = self.my_rand((0, constants.ROOM_DIMENSION_Y))
-        self.radius = self.my_rand(r_bound)
-        self.vx_max = self.my_rand(v_bound)
-        self.vy_max = self.my_rand(v_bound)
+        self.radius = self.target_random_for_randomize(r_bound)
 
-
-        #TODO voir si on veut changer mais on bouge toujours de la même manière
+        """Trajectory"""
         self.trajectory_type = TargetMotion.LINEAR
         self.trajectory = [(self.xc, self.yc)]
         for n in range(trajectory_number_of_points):
             x = random.uniform(0, constants.ROOM_DIMENSION_X)
             y = random.uniform(0, constants.ROOM_DIMENSION_Y)
-            self.trajectory.append((x,y))
+            self.trajectory.append((x, y))
 
+        """Time attributes"""
         self.t_add = [0]
-        self.t_del = [1000]
+        self.t_del = [constants.TIME_STOP]
+
 
     def save_position(self):
-        """
-            :params
-
-            :return / modify vector
-                1. append the actual position the array all_position
-
-        """
+        """Add the current position to a list"""
         self.all_position.append([self.xc, self.yc])
 
-    def save_target_to_txt(self):
-        s0 = "x:%0.2f y:%0.2f vx:%0.2f vy:%0.2f r:%0.2f"%(self.xc,self.yc,self.vx_max,self.vy_max,self.radius)
-        s1 = " target_type:%d tj_type:%d"%(self.type,1)
-        s2 =" t_add:"+str(self.t_add)+" t_del:"+str(self.t_del)
-        s3 =" trajectory:"+str(self.trajectory)
-        return s0 + s1 + s2 + s3 + "\n"
 
-    def load_from_txt(self,s):
-        s = s.replace("\n", "")
-        s = s.replace(" ", "")
-        attribute = re.split("x:|y:|vx:|vy:|r:|target_type:|tj_type:|t_add:|t_del:|trajectory:", s)
 
-        self.xc = float(attribute[1])
-        self.yc = float(attribute[2])
-        self.vx = float(attribute[3])
-        self.vy = float(attribute[4])
-        self.vx_max = self.vx * constants.SCALE_TIME
-        self.vy_max = self.vy * constants.SCALE_TIME
-        self.radius = float(attribute[5])
-        self.type = float(attribute[6])
-        self.trajectory_type = float(attribute[7])
-        self.t_add = self.load_tadd_tdel(attribute[8])
-        self.t_del = self.load_tadd_tdel(attribute[9])
-        self.trajectory =self.load_trajcetory(attribute[10])
 
-    def load_tadd_tdel(self, s):
-        list = []
-        s = s[1:-1]
-        all_times = re.split(",",s)
-        for time in all_times:
-            list.append(float(time))
-        return list
+if __name__ == "__main__":
+    target = Target(0,1,2,0,0,0,0,0.3,TargetType.UNKNOWN,None,TargetMotion.LINEAR,[(0,0)],None,None)
+    t_start  = time.time()
+    print(target.attributes_to_string())
+    print(target.save_to_txt())
+    target2 = target.load_from_save_to_txt(target.save_to_txt())
+    print(target2.save_to_txt())
 
-    def load_trajcetory(self,s):
-        list = []
-        s = s[2:-2]
-        if not s == "":
-            all_trajectories = re.split("\),\(",s)
-            for trajectory in all_trajectories:
-                xy = re.split(",",trajectory)
-                if not xy == "":
-                    list.append((float(xy[0]),float(xy[1])))
-        return list

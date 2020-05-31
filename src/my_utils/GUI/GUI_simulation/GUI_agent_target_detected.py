@@ -33,7 +33,7 @@ class GUI_Agent_Target_Detected:
         n = 0
         label = self.font.render("target ", 10, WHITE)
         self.screen.blit(label, (x_off, y_off - 20))
-        for target in room.active_Target_list:
+        for target in room.target_representation_list:
             label = self.font.render(str(target.id), 10, WHITE)
             self.screen.blit(label, (x_off + 80 + n * 20, y_off - 20))
             n = n + 1
@@ -41,7 +41,7 @@ class GUI_Agent_Target_Detected:
         m = 0
         for camera in room.active_Camera_list:
             n = 0
-            for target in room.active_Target_list:
+            for target in room.target_representation_list:
                 color = RED
                 for element in camera.target_in_field_list.copy():
                     if target == element:

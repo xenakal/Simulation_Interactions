@@ -1,5 +1,5 @@
 import pygame
-from src.multi_agent.agent.agent import AgentType
+from src.multi_agent.agent.agent_representation import AgentType
 from src import constants
 
 class GUI_predictions:

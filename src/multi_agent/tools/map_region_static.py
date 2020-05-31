@@ -6,8 +6,8 @@ from src.multi_agent.elements.camera import is_x_y_radius_in_field_not_obstructe
 
 
 def create_region(nx, ny, factor=10, x0=0, y0=0):
-    x = np.linspace(x0, nx,nx*factor)
-    y = np.linspace(y0, ny,nx*factor)
+    x = np.linspace(x0, int(nx),int(nx)*factor)
+    y = np.linspace(y0, int(ny),int(nx)*factor)
     xv, yv = np.meshgrid(x, y)
     return xv, yv
 
@@ -26,7 +26,7 @@ class MapRegionStatic:
 
         # Mesh from the maps
         self.nx, self.ny = (room.coordinate_room[2], room.coordinate_room[3])
-        self.xv, self.yv = create_region(self.nx, self.ny, 10)
+        self.xv, self.yv = create_region(int(self.nx), int(self.ny), 10)
 
         # Data save from each camera - written always as tuple (camID,res), res is an array from mesh size
         self.distances = []

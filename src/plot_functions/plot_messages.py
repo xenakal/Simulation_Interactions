@@ -50,8 +50,8 @@ def filter_send_received(data):
 
 def filter_and_plot(id,data,filters_names,colors):
     try:
-        fig = plt.figure(figsize=(12, 8))
-        fig.suptitle('Exchange messages', fontsize=17, fontweight='bold', y=0.98)
+        fig = plt.figure(figsize=(12, 10))
+        fig.suptitle('Messages échangés', fontsize=17, fontweight='bold', y=0.98)
         fig.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
         ax1 = fig.add_subplot(2, 2, 1)
         ax2 = fig.add_subplot(2, 2, 2)
@@ -63,7 +63,8 @@ def filter_and_plot(id,data,filters_names,colors):
         sizes_sent = []
         sizes_rec = []
 
-
+        senders_label = []
+        receiver_label = []
         for name,color in zip(filters_names,colors):
             data_send, data_rec, n_mes = filter_send_received(filter_message_type(data, name))
             if len(all_data_send)>0:
@@ -76,16 +77,16 @@ def filter_and_plot(id,data,filters_names,colors):
             else:
                 sizes_sent.append(len(all_data_received))
 
-            plot_message_time(ax1, data_send,color)
-            plot_message_time(ax2, data_rec,color)
 
-        ax1.legend(loc=4)
-        ax1.legend(filters_names)
-        ax1.set_title("Sent messages summary", fontsize=15, fontweight='bold')
+            senders_label=plot_message_time(ax1, data_send,color,senders_label)
+            receiver_label=plot_message_time(ax2, data_rec,color,receiver_label)
 
-        ax2.legend(loc=4)
-        ax2.legend(filters_names)
-        ax2.set_title("Received messages summary", fontsize=15, fontweight='bold')
+
+        #ax1.legend(filters_names,loc=4,fontsize="x-large")
+        #ax1.set_title("messages envoyés", fontsize=15, fontweight='bold')
+
+        #ax2.legend(filters_names,loc=3, fontsize="x-large")
+        #ax2.set_title("messages reçus", fontsize=15, fontweight='bold')
 
         plot_message_bar(ax3, sizes_sent, filters_names, colors)
         plot_message_bar(ax4, sizes_rec, filters_names, colors)
@@ -93,16 +94,23 @@ def filter_and_plot(id,data,filters_names,colors):
     except:
         print("error in message plot creation")
 
-def plot_message_time(ax, data,color):
+def plot_message_time(ax, data,color, senders_label):
     times = []
     senders= []
     for item in data:
         times.append(float(item[0]))
         senders.append("agent"+str(int(item[4])))
 
-    sc1 = ax.scatter(times, senders,s=10,color=color) #, c=np.array(cov), cmap="hot", linewidth=0.01)
-    ax.set_yticklabels(senders, rotation=20)
+
+    sc1 = ax.scatter(times,senders ,s=10,color=color) #, c=np.array(cov), cmap="hot", linewidth=0.01)
+
+    for sender in senders:
+        if sender not in  senders_label:
+            senders_label.append(sender)
+
+    ax.set_yticklabels(senders_label, rotation=20)
     ax.set_xlabel("time [s]", fontsize=10)
+    return senders_label
 
 def plot_message_bar(ax,sizes,labels,colors):
     '''ax.pie(sizes, labels=labels, colors=colors,
@@ -125,8 +133,8 @@ class MessagePlot:
     def __init__(self,agent_id):
         self.data = load_message_file(agent_id)
         self.id = agent_id
-        self.colors = ['g', 'b', 'r', 'c', 'k']
-        self.names = ["heartbeat", "agentEstimator", "targetEstimator", "loosing_target", "tracking_target"]
+        self.colors = ['g', 'b', 'r','gold', 'c', 'k']
+        self.names = ["heartbeat","agentEstimation", "targetEstimation","info_DKF", "loosing_target", "tracking_target"]
 
     def plot(self):
         filter_and_plot(self.id,self.data,self.names,self.colors)
@@ -135,7 +143,7 @@ class MessagePlot:
 if __name__ == '__main__':
     constants.ResultsPath.folder = "../../results"
     constants.ResultsPath.name_simulation = "My_new_map"
-    plot_creator = MessagePlot(1)
+    plot_creator = MessagePlot(100)
     plot_creator.plot()
 
 

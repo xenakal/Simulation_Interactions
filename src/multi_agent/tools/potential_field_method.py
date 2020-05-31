@@ -1,5 +1,5 @@
 import math
-from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d import Axes3D, axes3d
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
@@ -47,7 +47,7 @@ class HeatMaps:
 
     """For one target"""
     def HEAT_MAP_ONE_TARGET_CENTER(field_depth):
-        return  [(constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth,0, 0,1,1,1,1,PotentialType.Camera_potential_steps)]
+        return  [(constants.DISTANCE_TO_KEEP_FROM_TARGET * field_depth,0, 0,1,1,1,1,PotentialType.Camera_potential_quadratic)]
 
     """For two targets"""
     def HEAT_MAP_TWO_TARGET_CENTER(field_depth,beta):
@@ -136,6 +136,7 @@ def define_potential_type(field_type, distances, xi=None, eta=None, rho_0=None):
     if field_type == PotentialType.Repulsive_potential and eta is not None and rho_0 is not None:
         distances = np.where(distances > 0.001 * rho_0, distances, rho_0)
         distances = np.where(distances <= rho_0, distances, rho_0)
+
         return 0.5 * eta * np.square(1 / distances - 1 / rho_0)
     elif field_type == PotentialType.Attractive_potential and xi is not None:
         distances = np.where(distances > -1, distances, 0)
@@ -153,6 +154,7 @@ def define_potential_type(field_type, distances, xi=None, eta=None, rho_0=None):
 
 
 def define_grad_potential_type(choix, distances, xi=None, eta=None, rho_0=None):
+
     if choix == PotentialType.Repulsive_potential:
         distances = np.where(distances > 0.001 * rho_0, distances, rho_0)
         distances = np.where(distances <= rho_0, distances, rho_0)
@@ -175,8 +177,7 @@ def compute_part_of_potential_field(field_type, shape, X=None, Y=None, mean_x=No
 
 
 def compute_part_of_grad_potential_field(field_type, shape, X=None, Y=None, mean_x=None, mean_y=None, var_x=None,
-                                         var_y=None,
-                                         X_min=None, X_max=None, Y_min=None, Y_max=None, angle_min=None, angle_max=None,
+                                         var_y=None,X_min=None, X_max=None, Y_min=None, Y_max=None, angle_min=None, angle_max=None,
                                          xi=None, eta=None, rho_0=None):
     distances, angle = define_potential_shape(shape=shape, X=X, Y=Y, mean_x=mean_x, mean_y=mean_y, var_x=var_x,
                                               var_y=var_y, X_min=X_min, X_max=X_max, Y_min=Y_min, Y_max=Y_max,
@@ -248,11 +249,10 @@ def compute_grad_potential_for_a_given_list(target_list, X, Y, field_type, barri
             elif barrier_type == PotentialBarrier.Smooth:
                 delta_force_x, delta_force_y = compute_part_of_grad_potential_field(
                     field_type=field_type, shape=PotentialShape.Circular, X=X, mean_x=0,
-                    var_x=1 + constants.COEFF_VAR_X * distance,
-                    Y=Y, mean_y=0, var_y=1 + constants.COEFF_VAR_Y * distance, xi=xi, eta=eta, rho_0=rho_0)
+                    var_x=1 + constants.COEFF_VAR_X * distance,Y=Y, mean_y=0, var_y=1 + constants.COEFF_VAR_Y * distance,
+                    xi=xi, eta=eta, rho_0=rho_0)
 
-            elif barrier_type == PotentialBarrier.Combine:
-
+            elif barrier_type == PotentialBarrier.Combine_repulse:
                 delta_force_x_hard, delta_force_y_hard = compute_part_of_grad_potential_field(field_type=field_type,
                                                                                               shape=PotentialShape.Linear_X_direction,
                                                                                               Y=Y, mean_y=0, var_y=1,
@@ -265,6 +265,26 @@ def compute_grad_potential_for_a_given_list(target_list, X, Y, field_type, barri
                     var_x=1 + constants.COEFF_VAR_X * distance,
                     Y=Y, mean_y=0, var_y=1 + constants.COEFF_VAR_Y * distance, xi=xi,
                     eta=eta, rho_0=rho_0)
+
+                delta_force_x, delta_force_y = delta_force_x_hard * (
+                        1 - constants.COMBINE_MODE_PROP) + delta_force_x_smooth * constants.COMBINE_MODE_PROP, delta_force_y_hard * (
+                                                       1 - constants.COMBINE_MODE_PROP) + delta_force_y_smooth * constants.COMBINE_MODE_PROP
+            elif barrier_type == PotentialBarrier.Combine_attract:
+                delta_force_x_hard, delta_force_y_hard = compute_part_of_grad_potential_field(field_type=field_type,
+                                                                                              shape=PotentialShape.Linear_X_direction,
+                                                                                              Y=Y, mean_y=0, var_y=1,
+                                                                                              xi=xi,
+                                                                                              eta=eta,
+                                                                                              rho_0=rho_0)
+
+                delta_force_x_smooth, delta_force_y_smooth = compute_part_of_grad_potential_field(
+                    field_type=field_type, shape=PotentialShape.Circular, X=X, mean_x=0,
+                    var_x=1 + constants.COEFF_VAR_X * distance,
+                    Y=Y, mean_y=0, var_y=1 + constants.COEFF_VAR_Y * distance, xi=xi,
+                    eta=eta, rho_0=rho_0)
+
+                delta_force_x_smooth = -delta_force_x_smooth
+                delta_force_y_smooth = -delta_force_y_smooth
 
                 delta_force_x, delta_force_y = delta_force_x_hard * (
                         1 - constants.COMBINE_MODE_PROP) + delta_force_x_smooth * constants.COMBINE_MODE_PROP, delta_force_y_hard * (
@@ -290,7 +310,6 @@ def compute_potential_for_a_given_list(target_list, X, Y, field_type, barrier_ty
         rho_0_None = True
 
     if target_list == []:
-        print("test")
         return potential_field
 
     elif len(target_list) == 1:
@@ -310,6 +329,7 @@ def compute_potential_for_a_given_list(target_list, X, Y, field_type, barrier_ty
             x, y, radius = target
             if rho_0_None:
                 rho_0 = radius
+
 
             potential_field += compute_part_of_potential_field(field_type=field_type,
                                                                shape=PotentialShape.Circular,
@@ -350,7 +370,7 @@ def compute_potential_for_a_given_list(target_list, X, Y, field_type, barrier_ty
                                                                    var_y=1 + constants.COEFF_VAR_Y * distance,
                                                                    xi=xi, eta=eta, rho_0=rho_0)
 
-            elif barrier_type == PotentialBarrier.Combine:
+            elif barrier_type == PotentialBarrier.Combine_repulse:
                 potential_field += (1 - constants.COMBINE_MODE_PROP) * compute_part_of_potential_field(
                     field_type=field_type,
                     shape=PotentialShape.Linear_X_direction,
@@ -358,6 +378,21 @@ def compute_potential_for_a_given_list(target_list, X, Y, field_type, barrier_ty
                     rho_0=rho_0)
 
                 potential_field += constants.COMBINE_MODE_PROP * compute_part_of_potential_field(field_type=field_type,
+                                                                                                 shape=PotentialShape.Circular,
+                                                                                                 X=X, mean_x=0,
+                                                                                                 var_x=1 + constants.COEFF_VAR_X * distance,
+                                                                                                 Y=Y, mean_y=0,
+                                                                                                 var_y=1 + constants.COEFF_VAR_Y * distance,
+                                                                                                 xi=xi, eta=eta,
+                                                                                                 rho_0=rho_0)
+            elif barrier_type == PotentialBarrier.Combine_attract:
+                potential_field += (1 - constants.COMBINE_MODE_PROP) * compute_part_of_potential_field(
+                    field_type=field_type,
+                    shape=PotentialShape.Linear_X_direction,
+                    Y=Y, mean_y=0, var_y=1, xi=xi, eta=eta,
+                    rho_0=rho_0)
+
+                potential_field -= constants.COMBINE_MODE_PROP * compute_part_of_potential_field(field_type=field_type,
                                                                                                  shape=PotentialShape.Circular,
                                                                                                  X=X, mean_x=0,
                                                                                                  var_x=1 + constants.COEFF_VAR_X * distance,
@@ -388,7 +423,6 @@ def compute_potential_gradient(X, Y, target_list, obstacle_list):
 
     force_x = attractive_force_x + repulsive_force_x
     force_y = attractive_force_y + repulsive_force_y
-
     return force_x, force_y
 
 
@@ -433,7 +467,7 @@ def compute_potential_field_cam(X, Y, n_target, beta, field_depth):
     elif n_target >= 2:
         heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_CENTER(field_depth,beta)
         heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_FAR(field_depth,beta,-1)
-        heat_map = HeatMaps.HEAT_MAP_TWO_TARGET_OVERLAP(field_depth, beta)
+        heat_map =  HeatMaps.HEAT_MAP_ONE_TARGET_CENTER(field_depth) + HeatMaps.HEAT_MAP_TWO_TARGET_FAR(field_depth,beta,-1)
         #heat_map = HeatMaps.HEAT_MAP_THREE_TARGET(field_depth,beta)
 
 
@@ -473,28 +507,79 @@ def plot_potential_field_dynamic(Xp, Yp, potential_field):
         plt.cla()
 
 
+def plot_xi_rho():
+    x = np.linspace(0,2.5,100)
+    y_all = []
+    rho_all = [0.5,1.0,1.5,2]
+    colors = ["g","r","c","b"]
+
+    for rho in rho_all:
+            y_all.append(define_potential_type(PotentialType.Camera_potential_quadratic, x, xi=1, eta=None, rho_0=rho))
+
+    fig = plt.figure(figsize=(8, 8))
+    ax1 = fig.add_subplot(1, 1, 1)
+    ax1.xaxis.set_tick_params(labelsize=20)
+    ax1.yaxis.set_tick_params(labelsize=20)
+    ax1.set_title("Basis functions profil in terms of rho", fontsize=25, fontweight='bold')
+
+
+    for color,y in zip(colors,y_all):
+        ax1.plot(x,y,c=color)
+
+    y_all = []
+    for rho in rho_all:
+        y_all.append(define_potential_type(PotentialType.Camera_potential_steps, x, xi=1, eta=None, rho_0=rho))
+
+
+    for color, y in zip(colors, y_all):
+        ax1.plot(x, y, '--',c=color ,linewidth = 2)
+
+    ax1.legend(["rho = 0.5[m]","rho = 1.0[m]","rho = 1.5[m]","rho = 2.0[m]"],loc=1, fontsize=25)
+
+    plt.show()
+
+
 def plot_potential_field(Xp, Yp, potential_field):
     # Plot the surface.
 
-    fig = plt.figure(figsize=(18, 8))
-    fig.suptitle('representation of the potential field', fontsize=17, fontweight='bold', y=0.98)
-    fig.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
+    fig = plt.figure(figsize=(24, 16))
     ax1 = fig.add_subplot(1, 1, 1, projection='3d')
+    ax1.xaxis.set_tick_params(labelsize=20)
+    ax1.yaxis.set_tick_params(labelsize=20)
+    ax1.zaxis.set_tick_params(labelsize=20)
 
+    '''
+    ax1.plot_wireframe(Xp, Yp, potential_field, rstride=1 ,cstride=1)
+    X = np.ravel(Xp)
+    Y = np.ravel(Yp)
+    Z = np.ravel(potential_field)
+    sc1 = ax1.plot_trisurf(X, Y, Z, linewidth=0.5, antialiased=True)
+    cb = fig.colorbar(sc1, ax=ax1)
+    cb.ax.yaxis.set_tick_params(labelsize=20)
+    '''
 
-    surf = ax1.plot_surface(Xp, Yp, potential_field, cmap="hot",
-                                 linewidth=0, antialiased=False)
+    #for angle in range(0, 360):
+    ax1.view_init(60,- 45)
+    n = 2
+    lev = np.array([0,0.2,0.4,0.6,0.8,1])/n
+    ax1.plot_surface(Xp, Yp, potential_field, rstride=1, cstride=1, alpha=0.8,cmap="hot")
+    cset = ax1.contour(Xp, Yp, potential_field,levels=lev, zdir='z', offset=1/n+0.05, cmap="hot")
+    #cset = ax1.contour(Xp, Yp,potential_field,levels= [3,4,5], zdir='x', offset= 0,colors=["red","black","red"])
+    #cset = ax1.contour(Xp, Yp, potential_field,levels=[-2,0,2], zdir='y', offset=5,colors=["red","black","red"])
 
     plt.show()
 
 def plot_potential_field_and_grad(Xp, Yp, Xf, Yf, potential_field, force_x, force_y,objectives_list,obstacle_list):
     # Plot the surface.
-    fig = plt.figure(figsize=(15, 10))
+    fig = plt.figure(figsize=(16, 8))
 
-    ax0 = fig.add_subplot(2, 3, 1)
-    ax2 = fig.add_subplot(2, 3, 4)
-    ax1 = fig.add_subplot(2, 3, (2,6), projection='3d')
+    #ax0 = fig.add_subplot(0, 0, 1)
+    ax1 = fig.add_subplot(1,2,1, projection='3d')
+    ax2 = fig.add_subplot(1,2,2)
 
+    M = np.arctan2(force_x, force_y)
+    ax2.quiver(Xf, Yf, force_x, force_y, M, scale_units="x", cmap="hsv")
+    # ax2.scatter(Xf[::3, ::3], Yf[::3, ::3], color='b', s=2)
 
     x = []
     y = []
@@ -502,7 +587,7 @@ def plot_potential_field_and_grad(Xp, Yp, Xf, Yf, potential_field, force_x, forc
        (x_o,y_o,r) = target
        x.append(x_o)
        y.append(y_o)
-    ax0.scatter(x,y,color="green")
+    ax2.scatter(x,y,color="green",s=500)
 
     x = []
     y = []
@@ -510,34 +595,47 @@ def plot_potential_field_and_grad(Xp, Yp, Xf, Yf, potential_field, force_x, forc
        (x_o, y_o, r) = target
        x.append(x_o)
        y.append(y_o)
-    ax0.scatter(x, y, color="red")
+    ax2.scatter(x, y, color="red",s=500)
+
+
+
+    potential_field = np.minimum(2000, potential_field)
+    potential_field = np.maximum(-2000, potential_field)
+    surf = ax1.plot_surface(Xp, Yp, potential_field, cmap="hot",
+                            linewidth=0, antialiased=False,alpha=0.6)
+
+    cset = ax1.contour(Xp, Yp, potential_field, levels=10, zdir='z', offset=2100, cmap="hot")
+
+
+
+    '''
     ax0.set_xbound([0, 8])
     ax0.set_ybound([0, 8])
     ax0.grid("on")
-    ax0.set_xlabel("x [m]",fontsize = 12)
-    ax0.set_ylabel("y [m]",fontsize = 12)
-    ax0.set_title("Objectives and obstacles positions",fontsize=17, fontweight='bold')
-    ax0.legend(["Objectives","Obstacles"])
+    ax0.set_xlabel("x [m]", fontsize=12)
+    ax0.set_ylabel("y [m]", fontsize=12)
+    ax0.set_title("Objectives and obstacles positions", fontsize=17, fontweight='bold')
+    ax0.legend(["Objectives", "Obstacles"])
+    '''
 
-    potential_field = np.minimum(10000, potential_field)
-    surf = ax1.plot_surface(Xp, Yp, potential_field, cmap="hot",
-                            linewidth=0, antialiased=False)
+    ax1.view_init(60, - 45)
+    ax1.xaxis.set_tick_params(labelsize=20)
+    ax1.yaxis.set_tick_params(labelsize=20)
+    ax1.zaxis.set_tick_params(labelsize=10)
+    #ax1.set_xlabel("x [m]", fontsize=15)
+    #ax1.set_ylabel("y [m]", fontsize=15)
+    #ax1.set_zlabel("Potential value [-]", fontsize=12)
+    #ax1.set_title("Potential graphical representation", fontsize=17, fontweight='bold')
 
-    ax1.set_xlabel("x [m]",fontsize = 12)
-    ax1.set_ylabel("y [m]",fontsize = 12)
-    ax1.set_zlabel("Potential value [-]",fontsize=12)
-    ax1.set_title("Potential graphical representation", fontsize=17, fontweight='bold')
-
-    M = np.arctan2(force_x, force_y)
-    ax2.quiver(Xf, Yf, force_x, force_y, M,scale_units ="x", cmap="hsv")
-    # ax2.scatter(Xf[::3, ::3], Yf[::3, ::3], color='b', s=2)
-
-    ax2.set_xbound([0,8])
-    ax2.set_ybound([0,8])
+    ax2.set_xbound([0, 8])
+    ax2.set_ybound([0, 8])
     ax2.grid("on")
-    ax2.set_xlabel("x [m]", fontsize=12)
-    ax2.set_ylabel("y [m]", fontsize=12)
-    ax2.set_title("Forces deriving from the potential", fontsize=17, fontweight='bold')
+    ax2.xaxis.set_tick_params(labelsize=20)
+    ax2.yaxis.set_tick_params(labelsize=20)
+    ax2.set_xlabel("x [m]", fontsize=15)
+    ax2.set_ylabel("y [m]", fontsize=15)
+    #ax2.legend([None,"Objectives", "Obstacles"],loc=4, fontsize=20)
+    #ax2.set_title("Forces deriving from the potential", fontsize=17, fontweight='bold')
 
 
 
@@ -546,13 +644,14 @@ def plot_potential_field_and_grad(Xp, Yp, Xf, Yf, potential_field, force_x, forc
 if __name__ == '__main__':
     """Small exemple to what you can get"""
 
-    '''
-    # target_list = [(1, 1, .1), (1, 7, .1), (7, 1, .1),(7,7,0.1)]
-    target_list = [(3, 7, .3), (6, 2,.3)]
-    #target_list = []
-    #target_list = [(4, 4, .3 * 6), (8, 4, .3 * 6)]
-    #objectives_list = [(4, 4, 1)]
+
+    target_list = [(6, 5, .3), (2, 5,.3)]
     objectives_list = []
+    '''
+    target_list = [(5, 4, .3), (3, 5, .3),(4,1,.3)]
+    objectives_list = [(7, 5, 1)]
+    '''
+
     X = np.arange(0, 8, 0.01)
     Y = np.arange(0, 8, 0.01)
     X_potential_field, Y_potential_field = np.meshgrid(X, Y)
@@ -565,9 +664,18 @@ if __name__ == '__main__':
     plot_potential_field_and_grad(X_potential_field, Y_potential_field, X_vector_field, Y_vector_field, potential_field, force_x,
                         force_y,objectives_list,target_list)
 
+    plt.show()
+
+
+
     '''
-    X = np.arange(0, 8, 0.01)
-    Y = np.arange(-4,4, 0.01)
+    X = np.arange(0, 10, 0.2)
+    Y = np.arange(-5,5, 0.2)
     X,Y,Z = compute_potential_field_cam(X,Y,3,math.radians(60),8)
     plot_potential_field(X,Y,Z)
     plt.show()
+    '''
+
+    '''
+    plot_xi_rho()
+    '''

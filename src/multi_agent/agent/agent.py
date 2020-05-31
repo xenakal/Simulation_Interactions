@@ -1,39 +1,14 @@
 import mailbox
-import math
-from src.multi_agent.communication.message import *
-from src.my_utils.my_IO.IO_data import *
-from src import constants
+import random
+import re
 import io
+import numpy as np
 
+from src.multi_agent.agent.agent_representation import AgentRepresentation
+from src.multi_agent.communication.message import ListMessage, Message
+from src.my_utils.my_IO.IO_data import create_logger, create_logger_save_data
+from src import constants
 
-class AgentType:
-    AGENT_CAM = 0
-    AGENT_USER = 100
-
-
-class AgentRepresentation:
-    def __init__(self, id, type):
-        self.id = id + int(type)
-        self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
-
-        self.type = type
-        self.is_active = False
-        self.color = 0
-
-        self.confidence = -1
-
-    def update_from_agent(self, agent):
-        self.id = agent.id
-        self.signature = agent.signature
-
-        self.type = agent.type
-        self.is_active = agent.is_active
-        self.color = agent.color
-
-        self.confidence = -1
-
-    def evaluate_confidence(self, error, delta_time, time_constants):
-        self.confidence = math.pow((1 / error), 2) * math.exp(-delta_time * time_constants)
 
 
 class Agent(AgentRepresentation):
@@ -97,7 +72,7 @@ class Agent(AgentRepresentation):
         s0 = "t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
         return s0 + "\n"
 
-    def load_from_txt(self, s):
+    def load_from_save_to_txt(self, s):
         s = s.replace("\n", "")
         s = s.replace(" ", "")
         attribute = re.split("t_add:|t_del:", s)
@@ -372,7 +347,3 @@ class AgentStatistic:
                 s = s + "Receiver agent: " + str(self.id) + " sender agent: " + str(
                     element[0]) + ", # messages = " + str(element[1]) + "\n"
         return s
-
-
-if __name__ == "__constants__":
-    pass

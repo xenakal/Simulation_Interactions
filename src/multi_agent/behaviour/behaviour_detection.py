@@ -150,11 +150,11 @@ def is_target_fix(memory_list, target_id, t, n, position_std_thresh, speed_mean_
         vx = []
         vy = []
 
-        for item in list_to_check:
-            x.append(item.item_position[0])
-            y.append(item.item_position[1])
-            vx.append(item.item_speeds[0])
-            vy.append(item.item_speeds[1])
+        for elem in list_to_check:
+            x.append(elem.item.xc)
+            y.append(elem.item.yc)
+            vx.append(elem.item.vx)
+            vy.append(elem.item.vy)
 
         x_sdt = np.std(x)
         y_sdt = np.std(y)
@@ -223,9 +223,9 @@ def is_target_leaving_cam_field(memory_list, camera, targetID, t, n):
     if n <= list_len:
         list_to_check = list_to_check[list_len - n - t:list_len - t]
 
-        for item in list_to_check:
+        for itemEstimation in list_to_check:
             field.append(
-                aCam.is_x_y_radius_in_field_not_obstructed(camera, item.item_position[0], item.item_position[1]))
+                aCam.is_x_y_radius_in_field_not_obstructed(camera, itemEstimation.item.xc, itemEstimation.item.yc))
             in_field.append(True)
             out_field.append(False)
 

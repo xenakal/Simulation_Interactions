@@ -1,16 +1,25 @@
 from src.multi_agent.elements.target import *
 import random
 import math
+
+from src.my_utils.my_math.bound import bound_angle_btw_minus_pi_plus_pi
 from src.my_utils.my_math.line import Line, distance_btw_two_point
-
-
-def born_minus_pi_plus_pi(angle):
-    return math.fmod(angle, (2 * math.pi))
+from src.my_utils.string_operations import parse_list
 
 
 def get_camera_agentCam_vs_agentCamRepresentation(agent):
-    import src.multi_agent.agent.agent_interacting_room_camera as aCam
+    """
+            :description
+                   AgentCam and AgentCamRepresentation use Camera and Camera_representation
+                   This function dectect what type the camera.
 
+            :param
+                   1. (AgentCam or AgentCamRepresentation) agent        -- An agent or its representation
+
+            :return / modify vector
+                   1. (Camera or CameraRepresentation)                 -- Return the appropriate camera.
+    """
+    import src.multi_agent.agent.agent_interacting_room_camera as aCam
     camera = None
     if isinstance(agent, aCam.AgentCam):
         camera = agent.camera
@@ -20,14 +29,21 @@ def get_camera_agentCam_vs_agentCamRepresentation(agent):
 
 
 def find_cam_in_camera_representation(room_representation, camera_id):
+    """
+            :description
+                 Return a camera associated to a given ID
+
+            :param
+                   1. (Room/Room_representation) agent        --   An agent or its representation
+                   2 (int) camera_id                          --  id referring to a camera
+
+            :return
+                   1. (Camera or CameraRepresentation)        --   Return the appropriate camera.
+    """
     for agentCam in room_representation.agentCams_representation_list:
         camera = get_camera_agentCam_vs_agentCamRepresentation(agentCam)
         if int(camera.id) == int(camera_id):
             return camera
-
-    '''
-    print(room_representation.agentCams_representation_list)
-    print("camera not found see class camera ")'''
     return None
 
 
@@ -43,9 +59,10 @@ def is_x_y_radius_in_field_not_obstructed(camera, x, y, r_target=0):
                     -> set r to zero to consider only the center
 
             :param
-                1. (int) x        -- x coordinate of a point in the room frame
-                2. (int) y        -- y coordinate of a point in the room frame
-                3. (int) r_target -- radius of a circle/Target
+                1  (CameraRepresentation)  -- Camera / CameraRepresentation containing information related to the cam
+                2. (int) x                 -- x coordinate of a point in the room frame
+                3. (int) y                 -- y coordinate of a point in the room frame
+                4. (int) r_target          -- radius of a circle/Target
 
             :return / modify vector
                 1. (bool)         -- True if (x,y) or circle limit point is between the limits
@@ -70,19 +87,9 @@ def is_x_y_radius_in_field_not_obstructed(camera, x, y, r_target=0):
 
         margin_low = beta_target_max >= -(math.fabs(camera.beta / 2))
         margin_high = beta_target_min <= math.fabs(camera.beta / 2)
-        distance = distance_btw_two_point(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
-        distance_test = camera.field_depth > distance
 
-        """
-        angle = math.atan2(y_target_in_camera_frame,x_target_in_camera_frame)
-        margin_low = angle > -(math.fabs(camera.beta / 2))
-        margin_high = angle < math.fabs(camera.beta / 2)
         distance = distance_btw_two_point(0, 0, x_target_in_camera_frame, y_target_in_camera_frame)
         distance_test = camera.field_depth > distance
-        print(margin_high)
-        print(margin_low)
-        print(distance_test)
-        """
 
         if margin_low and margin_high and distance_test:
             return True
@@ -98,11 +105,12 @@ def is_x_y_in_hidden_zone_one_target(camera, x, y, xt, yt, r_target):
                 To check if he point x,y is hidden by a target from the room
 
             :param
-                1. (int) x        -- x coordinate of a point in the room frame
-                2. (int) y        -- y coordinate of a point in the room frame
-                3. (int) xt       -- xt coordinate of the target in the room frame
-                4. (int) yt       -- yt coordinate of the target int the room frame
-                3. (int) r_target -- radius of a circle/Target
+                1. (CameraRepresentation)  -- Camera / CameraRepresentation containing information related to the cam
+                1. (int) x                 -- x coordinate of a point in the room frame
+                2. (int) y                 -- y coordinate of a point in the room frame
+                3. (int) xt                -- xt coordinate of the target in the room frame
+                4. (int) yt                -- yt coordinate of the target int the room frame
+                3. (int) r_target          -- radius of a circle/Target
 
             :return / modify vector
                 1. (bool)         -- True if (x,y) is between hidden
@@ -144,8 +152,10 @@ def is_x_y_in_hidden_zone_all_targets(room_representation, camera_id, x, y):
                 1.for every target in the room
 
             :param
-                1. (int) x        -- x coordinate of a point in the room frame
-                2. (int) y        -- y coordinate of a point in the room frame
+                1. (RoomRepresentation) -- room description of the target and the cameras
+                2. (int) camera_id      -- camera id to find it in the given room description
+                1. (int) x              -- x coordinate of a point in the room frame
+                2. (int) y              -- y coordinate of a point in the room frame
 
             :return / modify vector
                 1. (bool)         -- True if the point is not hidden
@@ -155,7 +165,7 @@ def is_x_y_in_hidden_zone_all_targets(room_representation, camera_id, x, y):
     if camera is None:
         return False
 
-    for target in room_representation.active_Target_list:
+    for target in room_representation.target_representation_list:
         xt = target.xc
         yt = target.yc
         radius = target.radius
@@ -167,20 +177,28 @@ def is_x_y_in_hidden_zone_all_targets(room_representation, camera_id, x, y):
 
 def is_x_y_in_hidden_zone_all_targets_based_on_camera(room_representation, camera, x, y):
     """
-            :description
-                Extend the function is_x_y_in_hidden_zone_one_target,
-                1.for every target in the room
-            :param
-                1. (int) x        -- x coordinate of a point in the room frame
-                2. (int) y        -- y coordinate of a point in the room frame
-            :return / modify vector
-                1. (bool)         -- True if the point is not hidden
-        """
+               :description
+                   Extend the function is_x_y_in_hidden_zone_one_target,
+                   1.for every target in the room
+
+               :param
+                   1. (RoomRepresentation)    -- room description of the target and the cameras
+                   2. (CameraRepresentation)  -- camera, not in the room description
+                   1. (int) x                 -- x coordinate of a point in the room frame
+                   2. (int) y                 -- y coordinate of a point in the room frame
+
+               :return / modify vector
+                   1. (bool)         -- True if the point is not hidden
+
+               :note
+                If the camera is in the room description equivalent to use is_x_y_in_hidden_zone_all_targets
+                with the id.
+    """
 
     if camera is None:
         return False
 
-    for target in room_representation.active_Target_list:
+    for target in room_representation.target_representation_list:
         xt = target.xc
         yt = target.yc
         radius = target.radius
@@ -196,13 +214,16 @@ def is_x_y_in_hidden_zone_fix_targets(room_representation, camera_id, x, y):
                 Extend the function is_x_y_in_hidden_zone_one_target,
                 1.for "fix" target in the room
 
+
             :param
-                1. (int) x        -- x coordinate of a point in the room frame
-                2. (int) y        -- y coordinate of a point in the room frame
+                1. (RoomRepresentation) -- room description of the target and the cameras
+                2. (int) camera_id      -- camera id to find it in the given room description
+                1. (int) x              -- x coordinate of a point in the room frame
+                2. (int) y              -- y coordinate of a point in the room frame
 
             :return / modify vector
                 1. (bool)         -- True if the point is not hidden
-        """
+    """
     camera = find_cam_in_camera_representation(room_representation, camera_id)
     if camera is None:
         return False
@@ -230,15 +251,16 @@ def is_xc_yc_radius_in_hidden_zone_all_targets(room_representation, camera_id, x
 
                   else, same function as the function is_x_y_in_hidden_zone_fix_targets
 
-
             :param
-                1. (int) x        -- x coordinate of a point in the room frame
-                2. (int) y        -- y coordinate of a point in the room frame
+                1. (RoomRepresentation) -- room description of the target and the cameras
+                2. (int) camera_id      -- camera id to find it in the given room description
+                1. (int) x              -- x coordinate of a point in the room frame
+                2. (int) y              -- y coordinate of a point in the room frame
 
             :return / modify vector
                 1. (bool)         -- True if the point is not hidden
-        """
-    r = 0
+    """
+
     camera = find_cam_in_camera_representation(room_representation, camera_id)
     if camera is None:
         return False
@@ -264,15 +286,18 @@ def is_in_hidden_zone_one_target_matrix_x_y(room_representation, camera_id, resu
     """
             :description
                 Same as is_x_y_in_hidden_zone_one_target but for x,y list
-                -> more efficient
+                -> more efficient, number of computation reduced
 
-            :param
-                1.  (np.array) result  -- array containing the results for every point
-                2. (np.array) x        -- x coordinates of points in the room frame
-                3. (np.array) y        -- y coordinates of points in the room frame
-                4. (int) xt            -- xt coordinate of the target in the room frame
-                5. (int) yt            -- yt coordinate of the target int the room frame
-                6. (int) r_target      -- radius of a circle/Target
+          :param
+                1. (RoomRepresentation) -- room description of the target and the cameras
+                2. (int) camera_id      -- camera id to find it in the given room description
+                3. (bool)         -- True if the point is not hidden
+                4.  (np.array) result  -- array containing the results for every point
+                5. (np.array) x        -- x coordinates of points in the room frame
+                6. (np.array) y        -- y coordinates of points in the room frame
+                7. (int) xt            -- xt coordinate of the target in the room frame
+                8. (int) yt            -- yt coordinate of the target int the room frame
+                9. (int) r_target      -- radius of a circle/Target
 
             :return / modify vector
                 1. (np.array)         -- 0 if (x,y) is between hidden, else 1
@@ -322,9 +347,11 @@ def is_in_hidden_zone_all_targets_matrix_x_y(room_representation, camera_id, res
                 1. to every target in the room
 
             :param
-                1.  (np.array) result  -- array containing the results for every point
-                2. (np.array) x        -- x coordinates of points in the room frame
-                3. (np.array) y        -- y coordinates of points in the room frame
+                1. (RoomRepresentation) -- room description of the target and the cameras
+                2. (int) camera_id      -- camera id to find it in the given room description
+                3.  (np.array) result  -- array containing the results for every point
+                4. (np.array) x        -- x coordinates of points in the room frame
+                5. (np.array) y        -- y coordinates of points in the room frame
 
             :return / modify vector
                 1. (np.array)         -- 0 if (x,y) is between hidden, else 1
@@ -334,7 +361,7 @@ def is_in_hidden_zone_all_targets_matrix_x_y(room_representation, camera_id, res
     if camera is None:
         return False
 
-    for target in room_representation.active_Target_list:
+    for target in room_representation.target_representation_list:
         xt = target.xc
         yt = target.yc
         radius = target.radius
@@ -350,9 +377,11 @@ def is_in_hidden_zone_fix_targets_matrix_x_y(room_representation, camera_id, res
                 1. to "fix" target in the room
 
             :param
-                1.  (np.array) result  -- array containing the results for every point
-                2. (np.array) x        -- x coordinates of points in the room frame
-                3. (np.array) y        -- y coordinates of points in the room frame
+                1. (RoomRepresentation) -- room description of the target and the cameras
+                2. (int) camera_id      -- camera id to find it in the given room description
+                3.  (np.array) result  -- array containing the results for every point
+                4. (np.array) x        -- x coordinates of points in the room frame
+                5. (np.array) y        -- y coordinates of points in the room frame
 
             :return / modify vector
                 1. (np.array)         -- 0 if (x,y) is between hidden, else 1
@@ -362,7 +391,7 @@ def is_in_hidden_zone_fix_targets_matrix_x_y(room_representation, camera_id, res
         return False
 
     for target in room_representation.information_simulation.target_list:
-        if target.type == TargetType.SET_FIX:
+        if target.target_type == TargetType.SET_FIX:
             xt = target.xc
             yt = target.yc
             radius = target.radius
@@ -371,63 +400,176 @@ def is_in_hidden_zone_fix_targets_matrix_x_y(room_representation, camera_id, res
     return result
 
 
-class CameraRepresentation:
+class CameraRepresentation(Item):
+    """
+        Class CameraRepresentation.
 
-    def __init__(self, id, xc, yc, alpha, beta, d_max, color=None):
-        self.id = id
-        self.signature = self.signature = int(random.random() * 10000000000000000) + 100  # always higher than 100
+        Description : This class contains parameter to describe a camera
+        :param
+            1. (int) id                                     -- numerical value to recognize the camera easily
+
+            2. (int) xc-[m]                                 -- x value of the center of the camera
+            3. (int) yc-[m]                                 -- y value of the center of the camera
+            4. (int) alpha-[radian]                         -- orientation angle of the camera
+            5. (string) beta-[radian]                       -- opening field of the camera
+            6. (int) field_depth-[m]                        -- depth field from the camera, upon this distance camera  does not detect anymore.
+
+            7. ((int),(int),(int)) color                    -- color to represent the camera
+
+        :attributes
+            1. (int) id                                     -- numerical value to recognize the camera easily
+            2. (int) signature                              -- numerical value to identify the camera
+
+            3. (int) xc-[m]                                 -- x value of the center of the camera
+            4. (int) yc-[m]                                 -- y value of the center of the camera
+            5. (int) alpha-[radian]                         -- orientation angle of the camera
+            6. (string) beta-[radian]                       -- opening field of the camera
+            7. (int) field_depth-[m]                        -- depth field from the camera, upon this distance camera  does not detect anymore.
+
+            8. (float) std_measurement_error_position       -- error for position measures
+            9. (float) std_measurement_error_speed          -- error for speed measures
+           10. (float) std_measurement_error_acceleration   -- error for acceleration measures
+
+           11. (bool) is_active                             -- True if the camera can take pictures
+
+           12. ((int),(int),(int)) color                    -- color to represent the camera
+           13. (list) attributes_not_to_txt                 -- to enable a choice of the attributes to save
+
+           14. (float) default_xc                           -- value to reach if camera lost for example
+           15. (float) default_yc                           -- value to reach if camera lost for example
+           16. (float) default_alpha                        -- value to reach if camera lost for example
+           17. (float) default_beta                         -- value to reach if camera lost for example
+           18. (float) default_field_depth                  -- value to reach if camera lost for example
+
+        :notes
+            attributes 1., 2. and 13. are from coming from Item class
+       """
+
+    def __init__(self, id=None, xc=None, yc=None, alpha=None, beta=None, field_depth=None, color=None):
+        super().__init__(id)
 
         "Camera description on the maps"
         self.xc = xc
         self.yc = yc
-        self.alpha = born_minus_pi_plus_pi(math.radians(alpha))  # deg rotation
-        self.beta = born_minus_pi_plus_pi(math.radians(beta))  # deg view angle
-        self.field_depth = d_max
+        self.alpha = alpha
+        self.beta = beta
+        self.field_depth = field_depth
 
         "Error"
-        self.std_measurment_error_position = constants.STD_MEASURMENT_ERROR_POSITION
-        self.std_measurment_error_speed = constants.STD_MEASURMENT_ERROR_SPEED
-        self.std_measurment_error_acceleration = constants.STD_MEASURMENT_ERROR_ACCCELERATION
+        self.std_measurement_error_position = constants.STD_MEASURMENT_ERROR_POSITION
+        self.std_measurement_error_speed = constants.STD_MEASURMENT_ERROR_SPEED
+        self.std_measurement_error_acceleration = constants.STD_MEASURMENT_ERROR_ACCCELERATION
 
         "Attibutes"
         self.is_active = False
         self.color = color
 
+        self.attributes_not_to_txt += ["item_type", "signature", "std_measurement_error_position",
+                                       "std_measurement_error_speed", "std_measurement_error_acceleration",
+                                       "is_active", "color","default_xc","default_yc", "default_alpha",
+                                       "default_beta", "default_field_depth",]
+
         "Default values"
+        self.default_xc = xc
+        self.default_yc = yc
+        self.default_alpha = bound_angle_btw_minus_pi_plus_pi(alpha)
+        self.default_beta = bound_angle_btw_minus_pi_plus_pi(beta)
+        self.default_field_depth = field_depth
+
+        if self.alpha is not None:
+            self.alpha = bound_angle_btw_minus_pi_plus_pi(alpha)  # deg rotation
+        if self.beta is not None:
+            self.beta = bound_angle_btw_minus_pi_plus_pi(beta)  # deg view angle
         if color == None:
             r = 25 + 20 * random.randrange(0, 10, 1)
             g = 25 + 20 * random.randrange(0, 10, 1)
             b = 25 + 20 * random.randrange(0, 10, 1)
             self.color = (r, g, b)
 
-    def init_from_camera(self, camera):
+    def update_from_camera(self, camera):
+        """"""
         self.id = camera.id
         self.signature = camera.signature
         self.xc = camera.xc
         self.yc = camera.yc
-        self.alpha = born_minus_pi_plus_pi(camera.alpha)
-        self.beta = born_minus_pi_plus_pi(camera.beta)
+        self.alpha = bound_angle_btw_minus_pi_plus_pi(camera.alpha)
+        self.beta = bound_angle_btw_minus_pi_plus_pi(camera.beta)
         self.field_depth = camera.field_depth
-        self.std_measurment_error_position = camera.std_measurment_error_position
-        self.std_measurment_error_speed = camera.std_measurment_error_speed
-        self.std_measurment_error_acceleration = camera.std_measurment_error_acceleration
+        self.std_measurement_error_position = camera.std_measurement_error_position
+        self.std_measurement_error_speed = camera.std_measurement_error_speed
+        self.std_measurement_error_acceleration = camera.std_measurement_error_acceleration
         self.color = camera.color
         self.is_active = camera.is_active
+        self.set_default_values(xc=self.xc, yc=self.yc, alpha=self.alpha, beta=self.beta, field_depth=self.field_depth)
 
-    def init_from_values(self, id, signature, xc, yc, alpha, beta, field_depth, error_pos, error_speed, error_acc,
-                         color, is_active):
-        self.id = id
-        self.signature = signature
-        self.xc = xc
-        self.yc = yc
-        self.alpha = born_minus_pi_plus_pi(alpha)
-        self.beta = born_minus_pi_plus_pi(beta)
-        self.field_depth = field_depth
-        self.std_measurment_error_position = error_pos
-        self.std_measurment_error_speed = error_speed
-        self.std_measurment_error_acceleration = error_acc
-        self.color = color
-        self.is_active = is_active
+
+    def angle_degToRad(self):
+        """
+           :description
+                Transforms angle attribues to radians supposing it is in degrees
+        """
+        if self.alpha is not None:
+            self.alpha = math.radians(self.alpha)
+            self.default_alpha = math.radians(self.default_alpha)
+        if self.beta is not None:
+            self.beta = math.radians(self.beta)
+            self.default_alpha = math.radians(self.default_beta)
+
+    def angle_radToDeg(self):
+        """
+           :description
+                Transforms angle attribues to degrees supposing it is in radians
+        """
+        if self.alpha is not None:
+            self.alpha = math.degrees(self.alpha)
+            self.default_alpha = math.degrees(self.default_alpha)
+
+        if self.beta is not None:
+            self.beta = math.degrees(self.beta)
+            self.default_beta = math.degrees(self.default_beta)
+
+    def save_to_txt(self):
+        """
+           :description
+                Save the attributes that are not in self.attributes_not_to_txt, angles are saved in degrees
+        """
+        self.angle_radToDeg()
+        s = super().save_to_txt()
+        self.angle_degToRad()
+        return s
+
+    def load_from_save_to_txt(self, s):
+        """
+            :description
+                Load attributes for a txt string representation
+        """
+        super().load_from_save_to_txt(s)
+        self.set_default_values(xc=self.xc,yc=self.yc,alpha=self.alpha,beta=self.beta,field_depth=self.field_depth)
+        self.angle_degToRad()
+
+
+    def set_default_values(self,xc=None,yc=None,alpha=None,beta=None,field_depth=None):
+        """
+            :description
+                Set the default values
+
+            :param
+                 1. (float) xc-[m]              -- x coordinate of a point in room frame
+                 2. (float) yc-[m]              -- y coordinate of a point in room frame
+                 3. (float) alpha-[radians]     -- orientation angle
+                 4. (float) beta-[radians]      -- field opening angle
+                5   (float) field depth-[m]     -- field length
+         """
+        if xc is not None:
+            self.default_xc = xc
+        if yc is not None:
+            self.default_yc =yc
+        if alpha is not None:
+            self.default_alpha = alpha
+        if beta is not None :
+            self.default_beta = beta
+        if field_depth is not None:
+            self.default_field_depth = field_depth
 
     def coordinate_change_from_world_frame_to_camera_frame(self, x_in_room_frame, y_in_room_frame):
         """
@@ -435,9 +577,11 @@ class CameraRepresentation:
                 To change the x_in_room_frame,y_in_room_frame coordinate in room frame
                 to x_in_camera_frame,y_in_camera_frame
 
+                 inverse transformation : coordinate_change_from_camera_frame_to_world_frame
+
             :param
-                1. (int)  x_in_camera_frame  -- x coordinate from a point in room frame
-                2. (int) y_in_camera_frame   -- y coordinate from a point in camera frame
+                1. (int)  x_in_room_frame  -- x coordinate of a point in room frame
+                2. (int) y_in_room_frame   -- y coordinate of a point in room frame
 
             :return / modify vector
                 1. (int,int) (x_in_camera_frame, y_in_camera_frame) -- x,y point transformed in the camera's frame
@@ -450,8 +594,22 @@ class CameraRepresentation:
         return x_in_camera_frame, y_in_camera_frame
 
     def coordinate_change_from_camera_frame_to_world_frame(self, x_in_cam_frame, y_in_cam_frame):
+        """
+                :description
+                    To change the x_in_room_frame,y_in_room_frame coordinate in room frame
+                    to x_in_camera_frame,y_in_camera_frame
+
+                    inverse transformation : coordinate_change_from_world_frame_to_camera_frame
+
+                :param
+                    1. (int)  x_in_camera_frame  -- x coordinate from a point in camera frame
+                    2. (int) y_in_camera_frame   -- y coordinate from a point in camera frame
+
+                :return / modify vector
+                    1. (int,int) (x_in_room_frame, y_in_room_frame) -- x,y point transformed in the room frame
+        """
         # inverse rotation
-        x_world_frame_no_offset = math.cos(-self.alpha) * x_in_cam_frame+ math.sin(-self.alpha) * y_in_cam_frame
+        x_world_frame_no_offset = math.cos(-self.alpha) * x_in_cam_frame + math.sin(-self.alpha) * y_in_cam_frame
         y_world_frame_no_offset = -math.sin(-self.alpha) * x_in_cam_frame + math.cos(-self.alpha) * y_in_cam_frame
 
         # include the offset of camera relative to room origin
@@ -459,7 +617,6 @@ class CameraRepresentation:
         y_with_offset = y_world_frame_no_offset + self.yc
 
         return x_with_offset, y_with_offset
-
 
 
 class Camera(CameraRepresentation):
@@ -470,34 +627,27 @@ class Camera(CameraRepresentation):
                               can also be use to describe real camera in the room representation.
 
                     :param
-                        1. (Room)room                          -- Room object, see class Room
-                        2. (int) id                            -- numerical value to recognize the camera easily
-                        3. (int) xc                            -- x value of the center of the camera
-                        4. (int) yc                            -- y value of the center of the camera
-                        5. (int) alpha                         -- orientation angel of the camera
-                        6. (string) beta                       -- opening field of the camera
-                        7. (int) is_fix                        -- 1 if the camera can rotate, else 0
-                        8. ((int),(int),(int)) color           -- color to represent the camera
-1
+                        8. (list) t_add-[s]                        -- Contains activation times
+                        9. (list) t_del-[s]                        -- Contains desactivation times
+
                     :attibutes
-                         1. (int) id                           -- numerical value to recognize the camera easily
-                        2. (int) signature                     -- numerical value to identify the camera
-                        3. (int) xc                            -- x value of the center of the camera
-                        4. (int) yc                            -- y value of the center of the camera
-                        5. (int) alpha                         -- orientation angel of the camera
-                        6. (string) beta                       -- opening field of the camera
-                        7. (int) is_fix                        -- 1 if the camera can rotate, else 0
-                        8. (int) is_active                     -- 1 if the camera is active, else 0
-                        9. ((int),(int),(int)) color           -- color to represent the camera
-                       10. (Room)room                          -- Room object, see class Room
-                       11. (list) target_in_field_list         -- [Target, ...] Contains every target
-                                                                  (not hidden by an other one)
-                                                                  in the triangle field of vue
-                       12. (list) targetCameraDistance_list    -- [TargetCameraDistance, ...] Contains 11, but
-                                                                  sort in terms of distance to cam
-                       13. (list) target_projection            -- [(y_down,y_up),...,(limite_fied_down,limit_field_up)],
-                                                                  uses 12 to create a representation of the 2D field
-                                                                  in 1D
+                        14. (int) xc_min-[m]                        -- limit target position
+                        15. (int) xc_max-[m]                        -- limit target position
+                        16. (int) yc_min-[m]                        -- limit target position
+                        17. (int) yc_max-[m]                        -- limit target position
+
+                        17. (list[int]) t_add-[s]                   -- Contains activation times
+                        18. (list[int]) t_del-[s]                   -- Contains desactivation times
+                        19. (int) number_of_time_passed             -- Keeps at which time it is
+
+                        20. (list[string]) attributes_not_to_txt    -- same as in CameraRepresentation
+
+                        21. (list[Target]) target_in_field_list     -- List of the target in the field
+                        22. (list[TargetCameraDistance])targetCameraDistance_list
+                                                                    -- List of the target sort by distance
+                        23  (list((int),(int))) target_projection   -- Target projection on a projection line
+
+
 
                     :notes
                         1. ! use the run() or method take_picture() to fill 11,12,13
@@ -507,7 +657,8 @@ class Camera(CameraRepresentation):
 
     """
 
-    def __init__(self, id, xc, yc, alpha, beta, filed_depth, color=None, t_add=None, t_del=None):
+    def __init__(self, id=None, xc=None, yc=None, alpha=None, beta=None, filed_depth=None, color=None, t_add=None,
+                 t_del=None):
         """Initialisation"""
         super().__init__(id, xc, yc, alpha, beta, filed_depth, color)
 
@@ -521,8 +672,10 @@ class Camera(CameraRepresentation):
         self.t_del = t_del
         self.number_of_time_passed = 0
 
-        "Default values"
+        self.attributes_not_to_txt += ["xc_min", "xc_max", "yc_min", "yc_max", "number_of_time_passed",
+                                       "target_in_field_list", "targetCameraDistance_list", "target_projection"]
 
+        "Default values"
         if t_add == None or t_del == None:
             self.t_add = [0.0]
             self.t_del = [1000.0]
@@ -538,6 +691,8 @@ class Camera(CameraRepresentation):
             :description
                function to call to get a picture of the room in the simulation
 
+            :param:
+                1.(Room) room   -- Room description
             :return / modify vector
                 1. (bool) if camemra is_active, self.targetCameraDistance_list -- [TargetCameraDistance, ...]
                                                                                  Contains 11, but sort by distances
@@ -549,49 +704,6 @@ class Camera(CameraRepresentation):
             return self.targetCameraDistance_list
         else:
             return []
-
-    def save_target_to_txt(self):
-        s0 = "x:%0.2f y:%0.2f alpha:%0.2f beta:%0.2f field_depth:%0.2f" % (
-            self.xc, self.yc, math.degrees(self.alpha), math.degrees(self.beta), self.field_depth)
-        s1 = " t_add:" + str(self.t_add) + " t_del:" + str(self.t_del)
-        return s0 + s1 + "\n"
-
-    def load_from_txt(self, s):
-        s = s.replace("\n", "")
-        s = s.replace(" ", "")
-
-        attribute = re.split("x:|y:|alpha:|beta:|field_depth:|t_add:|t_del:", s)
-
-        self.xc = float(attribute[1])
-        self.yc = float(attribute[2])
-        self.alpha = math.radians(float(attribute[3]))
-        self.beta = math.radians(float(attribute[4]))
-        self.field_depth = float(attribute[5])
-        self.t_add = self.load_tadd_tdel(attribute[6])
-        self.t_del = self.load_tadd_tdel(attribute[7])
-
-    def load_tadd_tdel(self, s):
-        list = []
-        s = s[1:-1]
-        all_times = re.split(",", s)
-        for time in all_times:
-            if not time == "":
-                list.append(float(time))
-        return list
-
-    def activate_camera(self):
-        """
-            :description
-                 modifies the state of the camera
-        """
-        self.isActive = True
-
-    def desactivate_camera(self):
-        """
-            :description
-                 modifies the state of the camera
-        """
-        self.isActive = False
 
     def take_picture(self, room, length_projection):
         """
@@ -612,13 +724,13 @@ class Camera(CameraRepresentation):
         self.target_in_field_list = []
         self.targetCameraDistance_list = []
 
-        target_list = room.active_Target_list
+        target_list = room.target_representation_list
 
         "1. Detection of all the target viewed by the cam"
         for target in target_list:
             cdt_in_field = is_x_y_radius_in_field_not_obstructed(self, target.xc, target.yc, target.radius)
             cdt_not_hidden = not is_xc_yc_radius_in_hidden_zone_all_targets(room, self.id, target.xc, target.yc,
-                                                                            target.radius)
+                                                                            0)
 
             if cdt_in_field and cdt_not_hidden:
                 self.target_in_field_list.append(target)
@@ -653,6 +765,7 @@ class Camera(CameraRepresentation):
 
             :param
                 1.(TargetCameraDistance_list) targetCameraDistance_list    -- a list of Target
+                2.(int) length_projection                                  -- distance to project the target on virtual line
 
             :return
                 1. ([(int,int),...]) projection_list       -- [(y_down,y_up),...,(limite_fied_down,limit_field_up)]
@@ -759,3 +872,13 @@ class TargetCameraDistance:
 
     def __gt__(self, other):
         return self.distance > other.distance
+
+
+if __name__ == "__main__":
+    camera = Camera(0, 1, 1, 1, 1, 5, None, [0], [100])
+    camera1 = Camera()
+    t_start = time.time()
+    print(camera.attributes_to_string())
+    print(camera.save_to_txt())
+    camera1.load_from_save_to_txt(camera.save_to_txt())
+    print(camera1.save_to_txt())

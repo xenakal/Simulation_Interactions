@@ -79,6 +79,9 @@ def plot_res(room, filename):
                                                                           constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT,
                                                                           constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_AGENT,
                                                                           filename)
+
+        analyser_agent_memory.plot_rapport(0)
+
         analyser_agent_all_memory = Analyser_Agent_Target_TargetEstimator_FormatCSV(agent.id,
                                                                                     constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT,
                                                                                     constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_ALL_AGENT,

@@ -11,8 +11,6 @@ class LoadData:
 
 
 """Agent - way to act------------------------------------------------------------------------------------------------"""
-
-
 class AgentDataToWorkWith:
     Data_measured = "Data_measured"
     Best_estimation = "Best_estimation"
@@ -29,7 +27,6 @@ class ConfigurationWaysToBeFound:
 
 
 class AgentCameraCommunicationBehaviour:
-    ALL = "all"
     DKF = "dkf"
     NONE = "none"
 
@@ -62,7 +59,8 @@ class BEHAVIOUR_NO_TARGETS_SEEN:
 class PotentialBarrier:
     Not_use = "not_use"
     Smooth = "smooth"
-    Combine = "combine"
+    Combine_attract = "combine_attract"
+    Combine_repulse = "combine_repulse"
     Hard = "hard"
 
 

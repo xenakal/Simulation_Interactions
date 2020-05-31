@@ -5,18 +5,13 @@ import src.multi_agent.elements.camera as cam
 from src import constants
 from src.multi_agent.tools.potential_field_method import plot_potential_field_dynamic, compute_potential_gradient, \
     convert_target_list_to_potential_field_input, compute_potential_field_cam
-
-
-def bound(val, val_min, val_max):
-    val = min(val, val_max)
-    val = max(val, val_min)
-    return val
+from src.my_utils.my_math.bound import bound
 
 
 def check_configuration_all_target_are_seen(camera, room_representation):
 
     # check if this configuration covers all targets
-    for targetRepresentation in room_representation.active_Target_list:
+    for targetRepresentation in room_representation.target_representation_list:
         in_field = cam.is_x_y_radius_in_field_not_obstructed(camera, targetRepresentation.xc,
                                                              targetRepresentation.yc,
                                                              targetRepresentation.radius)
@@ -38,7 +33,7 @@ class VariationOnConfiguration:
 
 class ValidConfigurationCriterion:
     ALL_TARGET_SEEN = True
-    MAP_SCORE = True
+    MAP_SCORE = False
 
 
 class Configuration:
@@ -60,7 +55,7 @@ class Configuration:
         self.vector_field_x = None
         self.vector_field_y = None
 
-    def is_configuration_valid(self,camera=None,room_representation=None,score_map_min = None):
+    def is_configuration_valid(self,camera,room_representation,score_map_min):
         target_all_seen = True
         score_map = True
 
@@ -69,6 +64,7 @@ class Configuration:
 
         if ValidConfigurationCriterion.MAP_SCORE:
             score_map = (self.configuration_score >= score_map_min)
+
         return target_all_seen and score_map
 
     def compute_configuration_score(self):
@@ -104,7 +100,6 @@ class Configuration:
             print("The target list is none")
 
     def variation_on_configuration_found(self, camera, region=VariationOnConfiguration.Small_region):
-
         if self.track_target_list == []:
             return self
 
@@ -203,11 +198,11 @@ class Configuration:
         delta = all_beta - self.beta
         all_field_depth = self.field_depth - delta * camera.coeff_field
         if isinstance(all_field_depth, float):
-            field_depth = camera.bound(all_field_depth, constants.AGENT_CAMERA_FIELD_MIN * camera.default_field_depth,
+            field_depth = bound(all_field_depth, constants.AGENT_CAMERA_FIELD_MIN * camera.default_field_depth,
                                        constants.AGENT_CAMERA_FIELD_MAX * camera.default_field_depth)
         else:
             for field_depth in all_field_depth:
-                field_depth = camera.bound(field_depth, constants.AGENT_CAMERA_FIELD_MIN * camera.default_field_depth,
+                field_depth = bound(field_depth, constants.AGENT_CAMERA_FIELD_MIN * camera.default_field_depth,
                                            constants.AGENT_CAMERA_FIELD_MAX * camera.default_field_depth)
 
         return all_alpha, all_beta, all_field_depth

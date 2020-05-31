@@ -1,3 +1,4 @@
+import copy
 import random
 import threading
 import sys
@@ -7,13 +8,14 @@ import pygame
 from src.multi_agent.elements.room import Room
 from src.multi_agent.tools.link_target_camera import *
 from src.multi_agent.tools.map_region_dyn import *
-from src.multi_agent.tools.estimator import *
+from src.multi_agent.tools.estimation import *
 from src.multi_agent.agent.agent_interacting_room_camera import AgentCameraCommunicationBehaviour
 from src.my_utils.GUI.GUI import GUI
 from src.my_utils.motion import move_Target
 from src.my_utils.my_IO.IO_map import *
 from src.my_utils.my_IO.IO_data import *
 from src.constants import *
+import copy
 
 import src.multi_agent.agent.agent_interacting_room_camera
 import src.multi_agent.agent.agent_interacting_room_user
@@ -26,7 +28,7 @@ def clean_mailbox():
 
 
 class App:
-    def __init__(self, file_name=None, is_kalman_distributed=None, kalman_type=None, t_stop=None,t_scale=None):
+    def __init__(self, file_name=None, is_kalman_distributed=None, kalman_type=None, t_stop=None, t_scale=None):
         """"""
 
         """ 
@@ -35,10 +37,10 @@ class App:
         """
         self.file_load = file_name
 
-        if  constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA or constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA_ONCE:
-           file_name = "Random_map_" + str(random.randint(1,10000))
+        if constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA or constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA_ONCE:
+            file_name = "Random_map_" + str(random.randint(1, 10000))
         elif constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET or constants.LOAD_DATA == LoadData.TARGET_FROM_TXT_CREATE_RANDOM_CAMERA or constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE:
-           file_name += "-Random_map_" + str(random.randint(1, 10000))
+            file_name += "-Random_map_" + str(random.randint(1, 10000))
 
         if not (file_name is None):
             constants.ResultsPath.name_simulation = file_name
@@ -59,7 +61,6 @@ class App:
         clean_mailbox()
         create_structur_to_save_data()
 
-
         """
             Creation of a logger to store every data
         """
@@ -74,13 +75,12 @@ class App:
         """
             Create a structure to save the generated data
         """
-        self.exact_data_target = Target_TargetEstimator()  # utilisé comme une simple liste, raison pour laquelle c'est une targetEstimator ?
+        self.exact_data_target = SingleOwnerMemories(-1)
 
         """
             Create app variables
         """
         self.filename = file_name
-
 
         """
             All required object needed to create data, analyse ideal solutions 
@@ -92,7 +92,8 @@ class App:
         self.targets_moving_thread = None
 
         self.init()
-
+        if USE_GUI:
+            self.myGUI = GUI()
 
     def init(self):
         """"""
@@ -104,7 +105,6 @@ class App:
         src.multi_agent.agent.agent_interacting_room_camera.AgentCam.time_last_message_agentEstimtor_sent = 0
         src.multi_agent.agent.agent_interacting_room_user.AgentUser.number_agentUser_created = 0
 
-
         """Start the time"""
         constants.TIME_START = time.time()
 
@@ -114,8 +114,8 @@ class App:
             load_room_target_camera_from_txt(self.file_load + ".txt", self.room)
 
         elif constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET or constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE:
-            load_room_from_txt(self.file_load+".txt",self.room)
-            load_camera_from_txt(self.file_load+".txt",self.room)
+            load_room_from_txt(self.file_load + ".txt", self.room)
+            load_camera_from_txt(self.file_load + ".txt", self.room)
             self.room.information_simulation.generate_n_m_unkown_set_fix_target(constants.TARGET_NUMBER_UNKOWN,
                                                                                 constants.TARGET_NUMBER_SET_FIX)
             save_room_target_camera_to_txt(self.filename + ".txt", self.room)
@@ -131,12 +131,15 @@ class App:
             save_room_target_camera_to_txt(self.filename + ".txt", self.room)
 
         elif constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA or constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA_ONCE:
-            self.room.information_simulation.generate_n_m_unkown_set_fix_target(constants.TARGET_NUMBER_UNKOWN,constants.TARGET_NUMBER_SET_FIX)
-            self.room.information_simulation.generate_n_m_p_k_fix_rotative_rail_free_camera(constants.CAMERA_NUMBER_FIX,constants.CAMERA_NUMBER_ROTATIVE,
-                                                                                            constants.CAMERA_NUMBER_RAIL,constants.CAMERA_NUMBER_FREE)
+            self.room.information_simulation.generate_n_m_unkown_set_fix_target(constants.TARGET_NUMBER_UNKOWN,
+                                                                                constants.TARGET_NUMBER_SET_FIX)
+            self.room.information_simulation.generate_n_m_p_k_fix_rotative_rail_free_camera(constants.CAMERA_NUMBER_FIX,
+                                                                                            constants.CAMERA_NUMBER_ROTATIVE,
+                                                                                            constants.CAMERA_NUMBER_RAIL,
+                                                                                            constants.CAMERA_NUMBER_FREE)
             save_room_target_camera_to_txt(self.filename + ".txt", self.room)
 
-        shutil.copy(constants.MapPath.MAIN_FOLDER + self.filename+".txt", constants.ResultsPath.MAIN_FOLDER)
+        shutil.copy(constants.MapPath.MAIN_FOLDER + self.filename + ".txt", constants.ResultsPath.MAIN_FOLDER)
 
         "Add one agent user to this room"
         self.room.add_create_AgentUser(1)
@@ -153,8 +156,8 @@ class App:
         self.room.des_activate_agentCam_timed()
         self.room.des_activate_camera_agentCam_timed()
 
-        if USE_GUI:
-            self.myGUI = GUI()
+        #if USE_GUI:
+            #self.myGUI = GUI()
 
         """Creating tools to analyse the situation based on the created data  => it means the best solution we could have"""
         self.static_region = MapRegionStatic(self.room)
@@ -166,18 +169,15 @@ class App:
         if USE_dynamic_analysis_simulated_room:
             self.dynamic_region.init(NUMBER_OF_POINT_DYNAMIC_ANALYSIS)
 
-
         self.link_agent_target = LinkTargetCamera(self.room)
         self.link_agent_target.update_link_camera_target()
-
 
         """Agents start to run"""
         for agent in self.room.information_simulation.agentCams_list:
             agent.run()
 
         for agent in self.room.information_simulation.agentUser_list:
-           agent.run()
-
+            agent.run()
 
         """Target start to move"""
         self.targets_moving = True
@@ -186,7 +186,7 @@ class App:
 
         self.log_app.info("Init done")
 
-    def clear(self,reset=False):
+    def clear(self, reset=False):
 
         self.log_app.info("Clear ...")
 
@@ -207,7 +207,8 @@ class App:
         if constants.SAVE_DATA and not reset:
             self.log_app.info("Saving data : generated")
             print("Saving data : generated")
-            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,self.exact_data_target.to_csv())
+            save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,
+                                         self.exact_data_target.to_csv())
 
             self.log_app.info("Data saved !")
             print("Data saved !")
@@ -240,18 +241,12 @@ class App:
             self.link_agent_target.update_link_camera_target()
             self.link_agent_target.compute_link_camera_target()
 
-            for target in self.room.active_Target_list:
+            for target in self.room.target_representation_list:
                 target.save_position()
                 constants.time_when_target_are_moved = constants.get_time()
-                self.exact_data_target.add_create_target_estimator(constants.time_when_target_are_moved,
-                                                                   self.link_agent_target.get_agent_in_charge(
-                                                                       target.id), -1, target.id, target.signature,
-                                                                   target.xc, target.yc, target.vx, target.vy,
-                                                                   target.ax, target.ay,
-                                                                   target.radius, target.type,-1)
+                self.exact_data_target.add_create_itemEstimation(constants.time_when_target_are_moved, -1, -1,
+                                                                 copy.copy(target))
                 move_Target(target, delta_time)
-
-
                 # theoritical calculation
             time_old = time.time()
 
@@ -290,7 +285,7 @@ class App:
                     self.static_region.compute_all_map(NUMBER_OF_POINT_STATIC_ANALYSIS, True)
 
                 self.myGUI.updateGUI(self.room, region, self.link_agent_target.link_camera_target)
-                (run, reset, do_next,do_previous) = self.myGUI.GUI_option.getGUI_Info()
+                (run, reset, do_next, do_previous) = self.myGUI.GUI_option.getGUI_Info()
 
             """Closing the simulation options"""
             if constants.get_time() > constants.TIME_STOP and USE_GUI:
@@ -300,7 +295,7 @@ class App:
                 run = False
 
         self.clear()
-        return (do_previous,do_next)
+        return (do_previous, do_next)
 
 
 def execute():

@@ -1,26 +1,15 @@
+import mailbox
 import threading
-# from elements.room import*
-from src.multi_agent.agent.agent import *
-from src.multi_agent.behaviour.memory import *
-from src.multi_agent.communication.message import *
+import src.multi_agent.elements.room as room
 from src import constants
-
-import src.multi_agent.elements.room
-
-class BroadcastTypes:
-    ALL = "all"
-    AGENT_CAM = "agentCams"
-    AGENT_USER = "agentUser"
-
-class MessageTypeAgentInteractingWithRoom(MessageType):
-    HEARTBEAT = "heartbeat"
-    AGENT_ESTIMATOR = "agentEstimator"
-    TARGET_ESTIMATOR = "targetEstimator"
-
-
-class AgentInteractingWithRoomRepresentation(AgentRepresentation):
-    def __init__(self, id, type):
-        super().__init__(id, type)
+from src.multi_agent.agent.agent import Agent
+from src.multi_agent.agent.agent_interacting_room_camera_representation import AgentCamRepresentation
+from src.multi_agent.agent.agent_interacting_room_representation import MessageTypeAgentInteractingWithRoom,BroadcastTypes
+from src.multi_agent.agent.agent_interacting_room_user_representation import AgentUserRepresentation
+from src.multi_agent.behaviour.memory import Memory
+from src.multi_agent.communication.message import MessageType, MessageCheckACKNACK
+from src.multi_agent.tools.estimation import ItemEstimation, ItemType
+from src.my_utils.my_IO.IO_data import save_in_csv_file_dictionnary, create_logger
 
 
 class AgentInteractingWithRoom(Agent):
@@ -62,9 +51,8 @@ class AgentInteractingWithRoom(Agent):
 
         "Attibutes"
         self.memory = Memory(self.id)
-        self.room_representation = src.multi_agent.elements.room.RoomRepresentation(self.color)
+        self.room_representation = room.RoomRepresentation(self.color)
         self.hearbeat_tracker = HeartbeatCounterAllAgent(self.id, self.signature, self.log_main)
-
 
         "Create his own thread"
         self.thread_is_running = 1
@@ -87,7 +75,6 @@ class AgentInteractingWithRoom(Agent):
         """
         self.log_main.info("starting initialisation in agent_interacting_room")
         self.room_representation.init_RoomRepresentation(room)
-        self.message_statistic.init_message_static(self.room_representation)
         self.main_thread = threading.Thread(target=self.thread_run, args=[room])
 
         self.log_main.info("initialisation in agent_interacting_room_done !")
@@ -96,7 +83,7 @@ class AgentInteractingWithRoom(Agent):
         self.log_main.debug("active_agentCams :" + str(self.room_representation.agentCams_representation_list))
         self.log_main.debug("agentUser :" + str(self.room_representation.agentUser_representation_list))
         self.log_main.debug("active_agentUser :" + str(self.room_representation.agentUser_representation_list))
-        self.log_main.debug("target :" + str(self.room_representation.active_Target_list))
+        self.log_main.debug("target :" + str(self.room_representation.target_representation_list))
 
     def run(self):
         """
@@ -108,7 +95,7 @@ class AgentInteractingWithRoom(Agent):
     def thread_run(self, room):
         pass
 
-    def clear(self,reset=False):
+    def clear(self, reset=False):
         """
             :description
                 1. Function to call to stop the agent
@@ -130,7 +117,7 @@ class AgentInteractingWithRoom(Agent):
                 constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS2 + str(self.id),
                 self.memory.memory_predictions_order_2_from_target.to_csv())
             save_in_csv_file_dictionnary(
-                constants.ResultsPath.SAVE_LOAD_DATA_AGENT_ESTIMATOR+str(self.id),
+                constants.ResultsPath.SAVE_LOAD_DATA_AGENT_ESTIMATOR + str(self.id),
                 self.memory.memory_agent_from_agent.to_csv())
             self.log_main.info("Data saved !")
 
@@ -177,7 +164,7 @@ class AgentInteractingWithRoom(Agent):
             self.process_single_message(rec_mes)
 
     def process_single_message(self, rec_mes):
-        if rec_mes.messageType == MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATOR or rec_mes.messageType == MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATOR:
+        if rec_mes.messageType == MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATION or rec_mes.messageType == MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATION:
             self.received_message_itemEstimator(rec_mes)
             self.info_message_received.del_message(rec_mes)
         elif rec_mes.messageType == MessageType.ACK or rec_mes.messageType == MessageType.NACK:
@@ -187,7 +174,7 @@ class AgentInteractingWithRoom(Agent):
             self.received_message_heartbeat(rec_mes)
             self.info_message_received.del_message(rec_mes)
 
-    def broadcast_message(self, message,broadcast_choice=None,receivers = None):
+    def broadcast_message(self, message, broadcast_choice=None, receivers=None):
         """
         :description:
             Broadcasts the message to every other known agent.
@@ -197,12 +184,12 @@ class AgentInteractingWithRoom(Agent):
         if receivers is None:
             receivers = []
 
-        if broadcast_choice == BroadcastTypes.AGENT_CAM :
+        if broadcast_choice == BroadcastTypes.AGENT_CAM:
             broadcast_list = self.room_representation.agentCams_representation_list
         elif broadcast_choice == BroadcastTypes.AGENT_USER:
             broadcast_list = self.room_representation.agentUser_representation_list
         elif broadcast_choice == BroadcastTypes.ALL:
-            broadcast_list = self.room_representation.agentCams_representation_list+\
+            broadcast_list = self.room_representation.agentCams_representation_list + \
                              self.room_representation.agentUser_representation_list
         else:
             print("can't find the right list to broadcast")
@@ -218,7 +205,7 @@ class AgentInteractingWithRoom(Agent):
 
         cdt1 = self.info_message_to_send.is_message_with_same_message(message)
         if not cdt1:
-               self.info_message_to_send.add_message(message)
+            self.info_message_to_send.add_message(message)
 
     def handle_hearbeat(self):
         self.send_message_heartbeat()
@@ -247,7 +234,7 @@ class AgentInteractingWithRoom(Agent):
             m = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, "heartbeat", "Hi there !")
 
             "Message send to every agent define in the room"
-            self.broadcast_message(m,BroadcastTypes.ALL)
+            self.broadcast_message(m, BroadcastTypes.ALL)
             self.time_last_heartbeat_sent = constants.get_time()
 
     def received_message_heartbeat(self, message):
@@ -255,33 +242,30 @@ class AgentInteractingWithRoom(Agent):
             :description
                 defines what to do when receive a heartbeat
         """
-        list_to_check = self.room_representation.agentCams_representation_list\
-        + self.room_representation.agentUser_representation_list
+        list_to_check = self.room_representation.agentCams_representation_list \
+                        + self.room_representation.agentUser_representation_list
 
         for agent in list_to_check:
             if agent.id != self.id:
-                cdt1 = message.sender_id == agent.id and message.sender_signature == agent.signature
+
+                cdt1 = message.sender_id == agent.id  #and message.sender_signature == agent.signature
                 cdt2 = (agent.is_active == False)
 
                 if cdt1 and cdt2:
                     agent.is_active = True
 
-                    import src.multi_agent.agent.agent_interacting_room_camera as agentCamRep
-                    import src.multi_agent.agent.agent_interacting_room_user as agentUserRep
-                    if isinstance(agent,agentCamRep.AgentCamRepresentation):
+                    if isinstance(agent, AgentCamRepresentation):
                         self.log_main.info("Found someone ! agent cam :" + str(agent.id))
                         agent.camera_representation.is_active = True
-                    elif isinstance(agent,agentUserRep.AgentUserRepresentation):
+                    elif isinstance(agent, AgentUserRepresentation):
                         self.log_main.info("Found someone ! agent user :" + str(agent.id))
-
 
                     self.log_main.debug(self.room_representation.agentCams_representation_list)
                     break
-
         """Add heartbeart"""
         self.hearbeat_tracker.add_heartbeat(message, self.log_main)
 
-    def send_message_itemEstimator(self, itemEstimator, receivers=None):
+    def send_message_itemEstimator(self, itemEstimation, receivers=None):
         """
                   :description
                       1. Create a message based on a TargetEstimator
@@ -294,32 +278,30 @@ class AgentInteractingWithRoom(Agent):
 
               """
 
-        s = itemEstimator.to_string()
+        s = itemEstimation.to_string()
         s = s.replace("\n", "")
         s = s.replace(" ", "")
 
-        message_type = None
-        reference_to_target = None
-        if isinstance(itemEstimator, TargetEstimator):
-            message_type = MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATOR
-            reference_to_target = itemEstimator.item_id
-        elif isinstance(itemEstimator, AgentEstimator):
-            message_type = MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATOR
-            reference_to_target = -1
-        else:
-            print("error can't send such a message type")
+        message_type = MessageTypeAgentInteractingWithRoom.ITEM_ESTIMATION
+        if itemEstimation.item_type == ItemType.AgentRepresentationEstimation:
+            message_type = MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATION
+        if itemEstimation.item_type == ItemType.TargetRepresentationEstimation:
+            message_type = MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATION
+
+        reference_to_target = itemEstimation.item.id
 
         m = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, message_type, s, reference_to_target)
-        self.broadcast_message(m,BroadcastTypes.AGENT_CAM,receivers)
+        self.broadcast_message(m, BroadcastTypes.AGENT_CAM, receivers)
 
     def send_message_timed_itemEstimator(self, item_estimator, delta_time, receivers=None):
-        cdt_message_not_to_old = ((constants.get_time() - item_estimator.time_stamp) <= constants.TRESH_TIME_TO_SEND_MEMORY)
+        cdt_message_not_to_old = (
+                    (constants.get_time() - item_estimator.time_stamp) <= constants.TRESH_TIME_TO_SEND_MEMORY)
         if cdt_message_not_to_old:
 
             table_time_sent = None
-            if isinstance(item_estimator, TargetEstimator):
+            if item_estimator.item_type == ItemType.TargetRepresentationEstimation:
                 table_time_sent = self.table_target_agent_lastTimeSent
-            elif isinstance(item_estimator, AgentEstimator):
+            elif item_estimator.item_type == ItemType.AgentRepresentationEstimation:
                 table_time_sent = self.table_agent_agent_lastTimeSent
 
             send_message_to_agent = []
@@ -329,13 +311,13 @@ class AgentInteractingWithRoom(Agent):
             if len(receivers) == 0:
                 for agent in self.room_representation.agentCams_representation_list:
                     if agent.id != self.id:
-                        if table_time_sent.should_sent_item_to_agent(item_estimator.item_id, agent.id, delta_time):
-                            table_time_sent.sent_to_at_time(item_estimator.item_id, agent.id)
+                        if table_time_sent.should_sent_item_to_agent(item_estimator.item.id, agent.id, delta_time):
+                            table_time_sent.sent_to_at_time(item_estimator.item.id, agent.id)
                             send_message_to_agent.append((agent.id, agent.signature))
             else:
                 for receiver in receivers:
-                    if table_time_sent.should_sent_item_to_agent(item_estimator.item_id, receiver[0], delta_time):
-                        table_time_sent.sent_to_at_time(item_estimator.item_id, receiver[0])
+                    if table_time_sent.should_sent_item_to_agent(item_estimator.item.id, receiver[0], delta_time):
+                        table_time_sent.sent_to_at_time(item_estimator.item.id, receiver[0])
                         send_message_to_agent.append((receiver[0], receiver[1]))
 
             if len(send_message_to_agent) > 0:
@@ -353,12 +335,12 @@ class AgentInteractingWithRoom(Agent):
         """
         s = message.message
         if not (s == ""):
-            if message.messageType == MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATOR:
-                estimator = TargetEstimator()
+            if message.messageType == MessageTypeAgentInteractingWithRoom.TARGET_ESTIMATION:
+                estimator = ItemEstimation()
                 estimator.parse_string(s)
                 self.memory.add_target_estimator(estimator)
-            elif message.messageType == MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATOR:
-                estimator = AgentEstimator()
+            elif message.messageType == MessageTypeAgentInteractingWithRoom.AGENT_ESTIMATION:
+                estimator = ItemEstimation()
                 estimator.parse_string(s)
                 self.memory.add_agent_estimator(estimator)
 
@@ -392,6 +374,7 @@ class AgentInteractingWithRoom(Agent):
         for sent_mes in self.info_message_sent.get_list():
             sent_mes.add_ack_nack(message)
 
+
 class HeartbeatCounterAllAgent:
     def __init__(self, agent_id, agent_signature, log=None):
         self.id = agent_id
@@ -411,13 +394,14 @@ class HeartbeatCounterAllAgent:
                 old_heartbeat_counter_index = self.agent_heartbeat_list.index(new_heartbeat_counter)
                 old_heartbeat_counter = self.agent_heartbeat_list[old_heartbeat_counter_index]
                 old_heartbeat_counter.add_heartbeat(m)
-                log.debug("Receive heartbeat from agent: %d at time %.02f "%(m.sender_id,constants.get_time()))
+                log.debug("Receive heartbeat from agent: %d at time %.02f " % (m.sender_id, constants.get_time()))
 
             except ValueError:
                 new_heartbeat_counter.add_heartbeat(m)
                 self.agent_heartbeat_list.append(new_heartbeat_counter)
                 if log is not None:
                     log.info("Add a new heartbeat counter for agent: " + str(m.sender_id))
+
 
 class HeartbeatCounter:
     def __init__(self, agent_id, agent_signature, max_delay):
@@ -441,6 +425,7 @@ class HeartbeatCounter:
 
     def __eq__(self, other):
         return self.agent_id == other.agent_id and self.agent_signature == other.agent_signature
+
 
 class AllItemSendToAtTime:
     def __init__(self):
@@ -519,7 +504,3 @@ class AgentTime():
 
     def __eq__(self, other):
         return self.agent_id == other.agent_id
-
-
-
-

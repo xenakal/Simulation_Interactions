@@ -2,7 +2,7 @@ from src.my_utils.GUI.button import ButtonList
 from src.my_utils.GUI.GUI_simulation.GUI_predictions import *
 from src.my_utils.GUI.GUI_simulation.GUI_room_representation import GUI_room_representation
 from src.my_utils.GUI.GUI_simulation.GUI_agent_region import *
-from src.multi_agent.agent.agent import AgentType
+from src.multi_agent.agent.agent_representation import AgentType
 
 
 class GUI_user_output:
@@ -35,7 +35,7 @@ class GUI_user_output:
             self.GUI_pred.drawPredictions(room)
 
         if self.button_simulation_1.find_button_state("real"):
-            self.GUI_room.draw_all_target(room.active_Target_list, room.coordinate_room)
+            self.GUI_room.draw_all_target(room.target_representation_list, room.coordinate_room)
             self.GUI_room.draw_all_agentCam(room.agentCams_representation_list)
 
     def display_simulation_button(self):

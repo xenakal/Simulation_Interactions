@@ -2,10 +2,10 @@ import pygame
 import math
 from src import constants
 from src.multi_agent.agent.agent_interacting_room_camera import AgentCam
+from src.multi_agent.agent.agent_representation import AgentType
 from src.multi_agent.elements.mobile_camera import MobileCameraType
-from src.multi_agent.elements.room import Room
 from src.multi_agent.elements.target import TargetType
-from src.multi_agent.agent.agent import AgentType
+
 import src.multi_agent.elements.camera as cam
 
 WHITE = (255, 255, 255)
@@ -97,7 +97,7 @@ class GUI_room_representation():
 
     def draw_all_target_room_description(self, room, agents_to_display, agentType, allAgents=False):
         for agent in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
-            self.draw_all_target(agent.room_representation.active_Target_list, room.coordinate_room)
+            self.draw_all_target(agent.room_representation.target_representation_list, room.coordinate_room)
 
     def draw_agentCam_room_description(self, room, agents_to_display, agentType, allAgents=False):
         for agent in get_agent_to_draw(room, agents_to_display, agentType, allAgents):
@@ -135,21 +135,21 @@ class GUI_room_representation():
 
     def draw_one_target(self, target, tab):
         color = WHITE
-        if target.type == TargetType.SET_FIX:
+        if target.target_type == TargetType.SET_FIX:
             color = SET_FIX_COLOR
-        elif target.type == TargetType.FIX:
+        elif target.target_type  == TargetType.FIX:
             color = FIX_COLOR
-        elif target.type == TargetType.MOVING:
+        elif target.target_type  == TargetType.MOVING:
             color = MOVING_COLOR
-        elif target.type == TargetType.UNKNOWN:
+        elif target.target_type  == TargetType.UNKNOWN:
             color = UNKNOWN_COLOR
 
-        if target.confidence_pos == [-1,-1]:
+        if target.confidence == [-1,-1]:
             color_conf = WHITE
-        elif target.confidence_pos[1] <= constants.CONFIDENCE_THRESHOLD:
+        elif target.confidence[1] <= constants.CONFIDENCE_THRESHOLD:
             color_conf = RED
-        elif target.confidence_pos[1] >= 0:
-            new_delta = target.confidence_pos[1] - constants.CONFIDENCE_THRESHOLD
+        elif target.confidence[1] >= 0:
+            new_delta = target.confidence[1] - constants.CONFIDENCE_THRESHOLD
             new_scale = (255 / (constants.CONFIDENCE_MAX_VALUE - constants.CONFIDENCE_THRESHOLD))
             value =new_scale*new_delta
             R  = max(min(255-value,255),0)
@@ -232,9 +232,10 @@ class GUI_room_representation():
             label = self.font.render(str(camera.id), 10, CAMERA)
             self.screen.blit(label, (pt_center[0]+7, pt_center[1] + 7))
 
-            self.draw_one_camera(camera)
-            if isinstance(agent,AgentCam) and  self.GUI_option.show_virtual_cam and not agent.virtual_camera is None :
-                self.draw_one_camera(agent.virtual_camera,True)
+            if True:
+                self.draw_one_camera(camera)
+                if isinstance(agent,AgentCam) and  self.GUI_option.show_virtual_cam and not agent.virtual_camera is None :
+                    self.draw_one_camera(agent.virtual_camera,True)
 
             # render form
             if not agent.is_active:
@@ -267,10 +268,11 @@ class GUI_room_representation():
                             pt = (self.x_offset + int(x * self.scale_x), self.y_offset + int((constants.ROOM_DIMENSION_Y-y) * self.scale_y))
                             pygame.draw.circle(self.screen, RED, pt, 5)
 
-                            (x, y, index) = mem[1]
-                            pt = (self.x_offset + int(x * self.scale_x),
-                                  self.y_offset + int((constants.ROOM_DIMENSION_Y - y) * self.scale_y))
-                            pygame.draw.circle(self.screen, GREEN, pt, 5)
+                            if camera.camera_type == MobileCameraType.FREE:
+                                (x, y, index) = mem[1]
+                                pt = (self.x_offset + int(x * self.scale_x),
+                                      self.y_offset + int((constants.ROOM_DIMENSION_Y - y) * self.scale_y))
+                                pygame.draw.circle(self.screen, GREEN, pt, 5)
 
                     if len(agent.memory_of_objectives) > 0:
                             xt = agent.memory_of_objectives[-1][0]
@@ -300,7 +302,7 @@ class GUI_room_representation():
             color_type = CAMERA_FREE
 
         color = RED
-        if camera.is_active == 1:
+        if camera.is_active:
             color = GREEN
         if virtual:
             color = (0, 125, 125)
@@ -316,6 +318,7 @@ class GUI_room_representation():
                 pygame.draw.arc(self.screen, color, [pt_center[0] - int(l),pt_center[1]- int(l), 2 * l, 2 * l],camera.alpha - (camera.beta / 2), camera.alpha + (camera.beta / 2), 2)
             except ValueError:
                 print("Error draw cam")
+
             self.draw_a_trajectory(camera.trajectory.trajectory, camera.color)
 
     def draw_a_trajectory(self, traj, color):
@@ -340,7 +343,7 @@ class GUI_room_representation():
                 camera = cam.get_camera_agentCam_vs_agentCamRepresentation(agent)
                 for elem in targetAgentLink.agentDistance_list:
                     if agent.id == elem.agent_id:
-                        for target in room.active_Target_list:
+                        for target in room.target_representation_list:
                             if target.id == targetAgentLink.target_id:
                                 pygame.draw.line(self.screen, agent.color, (
                                     self.x_offset + int(camera.xc * self.scale_x),
