@@ -6,7 +6,6 @@ from src import constants
 
 
 def create_structur_to_save_data():
-
     shutil.rmtree(constants.ResultsPath.MAIN_FOLDER, ignore_errors=True)
 
     try:
@@ -23,7 +22,6 @@ def create_structur_to_save_data():
         os.mkdir(constants.ResultsPath.LOG_AGENT)
         os.mkdir(constants.ResultsPath.LOG_MEMORY)
         os.mkdir(constants.ResultsPath.LOG_KALMAN)
-
 
         """Create data and it subfolder"""
         """----------------------------"""
@@ -46,10 +44,11 @@ def create_structur_to_save_data():
         """Create folder Kalman and it subfolder"""
         os.mkdir(constants.ResultsPath.DATA_KALMAN)
         os.mkdir(constants.ResultsPath.DATA_KALMAN_GLOBAL)
-        os.mkdir(constants.ResultsPath.DATA_KALMAN_DISTRIBUE)
+        os.mkdir(constants.ResultsPath.DATA_KALMAN_LOCAL)
 
         """Create folder prediction and it subfolder"""
         os.mkdir(constants.ResultsPath.DATA_KALMAN_FILTER)
+        os.mkdir(constants.ResultsPath.DATA_KALMAN_FILTER_LOCAL)
         os.mkdir(constants.ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION)
         os.mkdir(constants.ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1)
         os.mkdir(constants.ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION_TPLUS2)
@@ -64,12 +63,13 @@ def create_structur_to_save_data():
 
         os.mkdir(constants.ResultsPath.PLOT_KALMAN)
         os.mkdir(constants.ResultsPath.PLOT_KALMAN_GLOBAL)
+        os.mkdir(constants.ResultsPath.PLOT_KALMAN_LOCAL)
         os.mkdir(constants.ResultsPath.PLOT_KALMAN_GLOBAL_FILTERED)
+        os.mkdir(constants.ResultsPath.PLOT_KALMAN_LOCAL_FILTERED)
         os.mkdir(constants.ResultsPath.PLOT_KALMAN_PREDICTION)
         os.mkdir(constants.ResultsPath.PLOT_KALMAN_PREDICTION_T_PLUS_1)
         os.mkdir(constants.ResultsPath.PLOT_KALMAN_PREDICTION_T_PLUS_2)
 
-        os.mkdir(constants.ResultsPath.PLOT_KALMAN_DISTRIBUE)
     except:
         print("file exist already")
 
@@ -94,13 +94,14 @@ def create_logger(path, name, agent_id):
     logger.addHandler(ch)
     return logger
 
+
 def create_logger_save_data(path, name, agent_id):
     # log_room
     logger = logging.getLogger(name + str(agent_id))
     logger.setLevel(constants.LOG_LEVEL)
 
     # create file handler which log_messages even debug messages
-    fh = logging.FileHandler(path + name + "-agent-"+str(agent_id)+".txt", "w+")
+    fh = logging.FileHandler(path + name + "-agent-" + str(agent_id) + ".txt", "w+")
     # create console handler with a higher log_message level
     ch = logging.StreamHandler()
     ch.setLevel(logging.ERROR)
@@ -112,7 +113,6 @@ def create_logger_save_data(path, name, agent_id):
     logger.addHandler(fh)
     logger.addHandler(ch)
     return logger
-
 
 
 def save_in_csv_file(name, data_to_save):
@@ -140,6 +140,7 @@ def load_csv_file(name):
 
 def load_csv_file_dictionnary(name):
     data = []
+    import os
     with open(name + ".csv", newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:

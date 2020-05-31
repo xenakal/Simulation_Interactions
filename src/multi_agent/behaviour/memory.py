@@ -1,5 +1,6 @@
 from src.multi_agent.elements.target import TargetRepresentation
-from src.multi_agent.tools.estimation import MultipleOwnerMemories, SingleOwnerMemories, is_in_list_TargetEstimator
+from src.multi_agent.tools.estimation import MultipleOwnerMemories, SingleOwnerMemories, is_in_list_TargetEstimator, \
+    ItemEstimation
 from src.multi_agent.prediction.kalmanPrediction import KalmanPrediction
 from src.my_utils.my_IO.IO_data import *
 import numpy as np
@@ -53,6 +54,7 @@ class Memory:
         self.memory_agent_from_target = SingleOwnerMemories(agent_id)
 
         self.memory_measured_from_target = SingleOwnerMemories(agent_id)
+        self.memory_local_kf = SingleOwnerMemories(agent_id)
         self.memory_best_estimations_from_target = SingleOwnerMemories(agent_id)
         self.memory_predictions_order_1_from_target = SingleOwnerMemories(agent_id)
         self.memory_predictions_order_2_from_target = SingleOwnerMemories(agent_id)
@@ -70,7 +72,8 @@ class Memory:
         self.log_memory.info("Add memory, from agent : " + str(agent_id) + " - target " + str(item.id))
 
         # update "global info" list
-        self.memory_all_agent_from_target.add_create_itemEstimation(time_from_estimation, agent_id, agent_signature,item)
+        self.memory_all_agent_from_target.add_create_itemEstimation(time_from_estimation, agent_id, agent_signature,
+                                                                    item)
 
         # add predictor if doesn't exist yet
 
@@ -84,9 +87,9 @@ class Memory:
 
         (new_estimate_current_pos, new_var) = target_predictor.get_current_position()
 
-        kalman_target_representation = TargetRepresentation(item.id, new_estimate_current_pos[0] ,
-                                                            new_estimate_current_pos[1],new_estimate_current_pos[2],
-                                                            new_estimate_current_pos[3],0,0,
+        kalman_target_representation = TargetRepresentation(item.id, new_estimate_current_pos[0],
+                                                            new_estimate_current_pos[1], new_estimate_current_pos[2],
+                                                            new_estimate_current_pos[3], 0, 0,
                                                             item.radius, item.target_type, item.color)
 
         self.update_best_estimation(time_from_estimation, agent_id, agent_signature, kalman_target_representation)
@@ -94,7 +97,8 @@ class Memory:
         self.update_predictions_lists(time_from_estimation, agent_id, agent_signature, item)
 
     def add_target_estimator(self, estimator):
-        self.log_memory.info("Add memory, from agent : " + str(estimator.owner_id) + " - target " + str(estimator.item.id))
+        self.log_memory.info(
+            "Add memory, from agent : " + str(estimator.owner_id) + " - target " + str(estimator.item.id))
         self.memory_all_agent_from_target.add_itemEstimation(estimator)
 
     def add_create_agent_estimator_from_agent(self, time_from_estimation, agent, item):
@@ -106,7 +110,7 @@ class Memory:
 
         # update "global info" list
         self.memory_all_agent_from_agent.add_create_itemEstimation(time_from_estimation, agent.id,
-                                                                               agent.signature,item)
+                                                                   agent.signature, item)
 
     def add_agent_estimator(self, estimator):
         self.log_memory.info(
@@ -139,7 +143,6 @@ class Memory:
                             "Combine data from agent : " + str(agent_id) + " - target " + str(target_id))
                         self.memory_measured_from_target.add_itemEstimation(estimateur)
 
-
         "Combine data related to agentCam"
         if True:
             for (agent_id, agent_observed_id) in self.memory_all_agent_from_agent.agents_and_items_discovered:
@@ -157,11 +160,11 @@ class Memory:
         if choice == 1:
             for (agent_id, target_id) in self.memory_all_agent_from_target.agents_and_items_discovered:
                 for estimateur in self.memory_all_agent_from_target.get_agent_item_list(target_id, agent_id):
-                    if not is_in_list_TargetEstimator(self.memory_measured_from_target.get_item_list(target_id),estimateur):
+                    if not is_in_list_TargetEstimator(self.memory_measured_from_target.get_item_list(target_id),
+                                                      estimateur):
                         self.log_memory.info(
                             "Combine data, from agent : " + str(agent_id) + " - target " + str(target_id))
                         self.memory_measured_from_target.add_itemEstimation(estimateur)
-
 
         '''
             best_estimator = (-1,1000000000,10000000)
@@ -245,6 +248,11 @@ class Memory:
         predictor = self.get_target_predictor(seeked_target_id)
         if predictor is not None:
             predictor.assimilate(dfk_info_string, timestamp)
+            (x, var) = predictor.get_current_position()
+            kalman_target_representation = TargetRepresentation(seeked_target_id, x[0], x[1], x[2], x[3], 0, 0, 0, 0, 0)
+            new_ItemEstimation = ItemEstimation(time_stamp=constants.get_time(), owner_id=self.id,
+                                                owner_agent_signature=-1, item=kalman_target_representation)
+            self.memory_best_estimations_from_target.update_last_itemEstimation(new_ItemEstimation)
 
     def get_target_predictor(self, seeked_target_id):
         """ :return the Kalman Predictor associated with this target """
@@ -266,7 +274,6 @@ class Memory:
         predictor = KalmanPrediction(agent_id, target_id, x_init, y_init, vx_init, vy_init, ax_init, ay_init, timestamp)
         self.predictors.append(predictor)
 
-    # TODO: améliorer avec Kalman distribué
     def update_best_estimation(self, time_from_estimation, agent_id, agent_signature, item):
         """
         :description
@@ -275,7 +282,9 @@ class Memory:
 
         """
         self.memory_best_estimations_from_target.add_create_itemEstimation(time_from_estimation, agent_id,
-                                                                             agent_signature,item)
+                                                                           agent_signature, item)
+        self.memory_local_kf.add_create_itemEstimation(time_from_estimation, agent_id,
+                                                                           agent_signature, item)
 
     def get_noiseless_estimations(self, seeked_target_id):
         """
@@ -284,6 +293,9 @@ class Memory:
             else                -- TargetEstimator list
         """
         return self.memory_best_estimations_from_target.get_item_list(seeked_target_id)
+
+    def get_local_kf(self, seeked_target_id):
+        return self.memory_local_kf.get_item_list(seeked_target_id)
 
     def update_predictions_lists(self, time_from_estimation, agent_id, agent_signature, item):
 
@@ -303,7 +315,7 @@ class Memory:
         predict_ax = 0
         predict_ay = 0
         self.memory_predictions_order_1_from_target.add_create_itemEstimation(time_from_estimation, agent_id,
-                                                                             agent_signature,item)
+                                                                              agent_signature, item)
 
         self.memory_predictions_order_2_from_target.add_create_itemEstimation(time_from_estimation, agent_id,
-                                                                             agent_signature,item)
+                                                                              agent_signature, item)
