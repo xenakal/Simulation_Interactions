@@ -163,6 +163,9 @@ class ItemEstimationsList:
         if not is_in_list_TargetEstimator(self.item_estimations, item_estimation):
             self.item_estimations.append(item_estimation)
 
+    def update_last_estimation(self, item_estimation):
+        self.item_estimations[-1] = item_estimation
+
     def sort(self):
         self.item_estimations.sort(key=lambda x: x.time_stamp, reverse=True)
 
@@ -257,6 +260,11 @@ class SingleOwnerMemories:
         for item_estimation_list in self.items_estimations_lists:
             if item_estimation_list.item_id == item_estimation.item.id:
                 item_estimation_list.add_estimation(item_estimation)
+
+    def update_last_itemEstimation(self, item_estimation):
+        for item_estimation_list in self.items_estimations_lists:
+            if item_estimation_list.item_id == item_estimation.item.id:
+                item_estimation_list.update_last_estimation(item_estimation)
 
     def add_itemEstimationsList(self, itemEstimationsList):
         if itemEstimationsList.item_id in self.items_discovered:

@@ -7,8 +7,8 @@ import src.constants as constants
 import warnings
 
 DEFAULT_TIME_INCREMENT = TIME_PICTURE + TIME_SEND_READ_MESSAGE
-INTERNODAL_VALIDATION_BOUND = 25
-GAMA = 10
+INTERNODAL_VALIDATION_BOUND = 2
+GAMA = 3
 
 
 class DistributedKalmanFilter(KalmanFilter):

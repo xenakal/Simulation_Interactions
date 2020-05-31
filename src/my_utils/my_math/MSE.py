@@ -7,11 +7,23 @@ Y_INDEX = 8
 TIME_TO_COMPARE = 0
 
 
-def error_squared_discrete(data_ref_list, data_mes_list):
+def error_squared_discrete(data_ref_list, data_mes_list, remove_outliers=False):
     (t_ref, x_ref, y_ref, t_mes, x_mes, y_mes) = get_comparable_data_btw_reference_mesure(data_ref_list, data_mes_list)
     error_squared_x = error_squared_list(x_ref, x_mes)
     error_squared_y = error_squared_list(y_ref, y_mes)
     error_squared = error_squared_x_y_list(x_ref, y_ref, x_mes, y_mes)
+    if remove_outliers:
+        number_outliers_to_remove = int(len(data_mes_list)/20)
+        while number_outliers_to_remove > 0:
+            idx_max_mse = error_squared.index(min(error_squared))
+            del(error_squared[idx_max_mse])
+            del (error_squared_x[idx_max_mse])
+            del (error_squared_y[idx_max_mse])
+            del (error_squared[idx_max_mse])
+            del (error_squared_x[idx_max_mse])
+            del (error_squared_y[idx_max_mse])
+            del (error_squared_x[idx_max_mse])
+            del (error_squared_y[idx_max_mse])
     return t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x, error_squared_y, error_squared
 
 

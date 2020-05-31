@@ -299,7 +299,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         except:
             print("plot error:  plot_MSE_prediction_2_target_id")
 
-    def plot_MSE_not_interpolate_target_id(self, target_id):
+    def plot_MSE_not_interpolate_target_id(self, target_id, remove_outliers=False):
         data_ref = []
         data_mes = []
 
@@ -314,12 +314,14 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         try:
             (t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x, error_squared_y,
              error_squared) = error_squared_discrete(
-                data_ref, data_mes)
+                data_ref, data_mes, remove_outliers)
 
             self.plot_MES_target_id(target_id, t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x, error_squared_y,
                                     error_squared)
         except:
             print("error plot : plot_MSE_not_interpolate_target_id")
+            import traceback
+            traceback.print_exc()
 
     def plot_MSE_interpolate_target_id(self, target_id):
         try:
@@ -420,6 +422,37 @@ class Analyser_Target_TargetEstimator_FormatCSV:
 
     def plot_position_target_simulated_data_collected_data(self):
 
+        try:
+
+            if self.id == "":
+                title = 'Ideal solution ' + str(self.id)
+            elif int(self.id) < 100:
+                title = 'Agent Camera ' + str(self.id)
+            else:
+                title = 'Agent User ' + str(self.id)
+
+            fig_position = plt.figure(figsize=(12, 8))
+            fig_position.suptitle(title, fontsize=17, fontweight='bold', y=0.98)
+            fig_position.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
+            ax1 = fig_position.add_subplot(1, 2, 1)
+            ax2 = fig_position.add_subplot(1, 2, 2)
+
+            for element in self.simulated_data_sort_by_target:
+                sc1 = plot_target_memory_time_x_y_2D(ax1, element.data_list,
+                                                     curve_label="target" + str(element.target_id) + " - ref")
+
+            for element in self.data_sort_by_target:
+                sc2 = plot_target_memory_time_x_y_2D(ax2, element.data_list,
+                                                     curve_label="target" + str(element.target_id) + " - mes")
+            fig_position.colorbar(sc1, ax=ax1)
+            fig_position.colorbar(sc2, ax=ax2)
+            fig_position.savefig(self.path_to_save_data + self.version + "--position_agent_" + str(self.id),
+                                 transparent=False)
+            plt.close(fig_position)
+        except:
+            print("error plot :  plot_position_target_simulated_data_collected_data")
+
+    def plot_generated_local_filter(self):
         try:
 
             if self.id == "":

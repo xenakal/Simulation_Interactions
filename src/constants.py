@@ -14,6 +14,7 @@ SAVE_DATA = False
 GENERATE_PLOT = False
 LOAD_DATA = LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET
 
+
 USE_GUI = False
 USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
@@ -39,7 +40,7 @@ USE_TIMESTAMP_FOR_ASSIMILATION = True
 KALMAN_VAR_COEFFICIENT = 5
 
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
-ROOM_DIMENSION_X = 8 # [m]
+ROOM_DIMENSION_X = 8  # [m]
 ROOM_DIMENSION_Y = 8  # [m]
 
 
@@ -70,8 +71,8 @@ TRESH_TIME_TO_SEND_MEMORY = 100 / SCALE_TIME  #
 TIME_TO_SLOW_DOWN = 0.05 / SCALE_TIME
 
 """Error on mesure---------------------------------------------------------------------------------------------------"""
-STD_MEASURMENT_ERROR_POSITION = 0.2
-STD_MEASURMENT_ERROR_SPEED = 0.1
+STD_MEASURMENT_ERROR_POSITION = 0.3
+STD_MEASURMENT_ERROR_SPEED = 0.2
 STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
 
 ERROR_VARIATION_ZOOM = True
@@ -119,7 +120,7 @@ DATA_TO_SEND = "dkf"
 """
 Refers to the type of controller we use to bring the target to reference point
 """
-AGENT_MOTION_CONTROLLER = AgentCameraController.Vector_Field_Method
+AGENT_MOTION_CONTROLLER = AgentCameraController.Controller_PI
 AGENT_POS_KP = 0.4
 AGENT_POS_KI = 0.0
 AGENT_ALPHA_KP = 50
@@ -197,7 +198,7 @@ COEFF_VAR_X = 100
 COEFF_VAR_Y = 2
 
 """Combine is a ration beetwen hard and smooth mode"""
-COMBINE_MODE_PROP = 0.45# 1 = smooth mode 0 = hard mode (btw 0 and 1)
+COMBINE_MODE_PROP = 0.99  # 1 = smooth mode 0 = hard mode (btw 0 and 1)
 
 """Random map creation-----------------------------------------------------------------------------------------------"""
 TARGET_NUMBER_SET_FIX = 0
@@ -290,7 +291,7 @@ class MapPath:
 
 class ResultsPath:
     folder = "../results"
-    name_simulation = "standard"
+    name_simulation = "My_new_map"
 
     @classproperty
     def MAIN_FOLDER(cls):
@@ -319,6 +320,7 @@ class ResultsPath:
     @classproperty
     def DATA_FOLDER(cls):
         return ResultsPath.MAIN_FOLDER + "/data"
+
     @classproperty
     def DATA_MESSAGES(cls):
         return ResultsPath.DATA_FOLDER +"/messages"
@@ -364,16 +366,20 @@ class ResultsPath:
         return ResultsPath.DATA_KALMAN_GLOBAL + "/predictions"
 
     @classproperty
+    def DATA_KALMAN_LOCAL(cls):
+        return ResultsPath.DATA_KALMAN + "/kalman_local"
+
+    @classproperty
+    def DATA_KALMAN_FILTER_LOCAL(cls):
+        return ResultsPath.DATA_KALMAN_LOCAL + "/filtered_data"
+
+    @classproperty
     def DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1(cls):
         return ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION + "/t_plus_1"
 
     @classproperty
     def DATA_KALMAN_GLOBAL_PREDICTION_TPLUS2(cls):
         return ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION + "/t_plus_2"
-
-    @classproperty
-    def DATA_KALMAN_DISTRIBUE(cls):
-        return ResultsPath.DATA_KALMAN + "/kalman_distribue"
 
     @classproperty
     def SAVE_LOAD_DATA_AGENT_ESTIMATOR(cls):
@@ -404,6 +410,10 @@ class ResultsPath:
         return ResultsPath.DATA_KALMAN_FILTER + "/agent-"
 
     @classproperty
+    def SAVE_LOAD_DATA_KALMAN_LOCAL_FILTER(cls):
+        return ResultsPath.DATA_KALMAN_FILTER_LOCAL + "/agent-"
+
+    @classproperty
     def SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1(cls):
         return ResultsPath.DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1 + "/agent-"
 
@@ -432,8 +442,16 @@ class ResultsPath:
         return ResultsPath.PLOT_FOLDER + "/kalman"
 
     @classproperty
+    def PLOT_KALMAN_LOCAL(cls):
+        return ResultsPath.PLOT_KALMAN + "/kalman_local"
+
+    @classproperty
     def PLOT_KALMAN_GLOBAL(cls):
         return ResultsPath.PLOT_KALMAN + "/kalman_global"
+
+    @classproperty
+    def PLOT_KALMAN_LOCAL_FILTERED(cls):
+        return ResultsPath.PLOT_KALMAN_LOCAL + "/kalman_filtered"
 
     @classproperty
     def PLOT_KALMAN_GLOBAL_FILTERED(cls):
@@ -451,9 +469,9 @@ class ResultsPath:
     def PLOT_KALMAN_PREDICTION_T_PLUS_2(cls):
         return ResultsPath.PLOT_KALMAN_PREDICTION + "/prediction_t_plus_2"
 
-    @classproperty
-    def PLOT_KALMAN_DISTRIBUE(cls):
-        return ResultsPath.PLOT_KALMAN + "/kalman_distribue"
+    #@classproperty
+    #def PLOT_KALMAN_DISTRIBUE(cls):
+        #return ResultsPath.PLOT_KALMAN + "/kalman_distribue"
 
     @classproperty
     def PLOT_MESSAGE(cls):
@@ -462,6 +480,10 @@ class ResultsPath:
     @classproperty
     def SAVE_LAOD_PLOT_FOLDER(cls):
         return ResultsPath.PLOT_FOLDER + "/"
+
+    @classproperty
+    def SAVE_LAOD_PLOT_KALMAN_LOCAL_FILTERED(cls):
+        return ResultsPath.PLOT_KALMAN_LOCAL_FILTERED + "/"
 
     @classproperty
     def SAVE_LAOD_PLOT_KALMAN_GLOBAL_FILTERED(cls):
@@ -480,9 +502,12 @@ class ResultsPath:
         return ResultsPath.PLOT_KALMAN_GLOBAL + "/"
 
     @classproperty
+    def SAVE_LAOD_PLOT_KALMAN_LOCAL(cls):
+        return ResultsPath.PLOT_KALMAN_LOCAL + "/"
+
+    @classproperty
     def SAVE_LOAD_PLOT_MEMORY_AGENT(cls):
         return ResultsPath.PLOT_MEMORY_AGENT + "/"
-
 
     @classproperty
     def SAVE_LOAD_PLOT_MEMORY_ALL_AGENT(cls):
