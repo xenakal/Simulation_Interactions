@@ -57,15 +57,36 @@ def plot_graph_3D_2D(ax, x, y, z, size, vmin, vmax, title="title", x_label="x_ax
     # lc.set_linewidth(2)
     # line = ax.add_collection(lc)
 
+    """
+    #modification des graphes pour les rapport
     sc = ax.scatter(x, y, c=z, s=2500 * math.pow(size[0], 2) * math.pi, vmin=vmin, vmax=vmax, cmap="Spectral",
                     alpha=1)
     #ax.plot(x, y, "x", label=curve_label,size = 100)
     ax.legend(loc=4, fontsize="x-large")
+    """
+
+    sc = ax.scatter(x, y, c=z, s=2500 * math.pow(size[0], 2) * math.pi, vmin=vmin, vmax=vmax, cmap="Spectral",
+                    alpha=0.4)
+    ax.plot(x, y, "x", label=curve_label)
+    ax.legend(loc=4)
 
     return sc
 
 
 def plot_graph_2D(ax, x, y, title="title", x_label="x_axis", y_label="y_axis", curve_label="name here",symb = 'x',color = None):
+    x = np.array(x)
+    y = np.array(y)
+    ax.plot(x, y, "x", label=curve_label)
+
+    ax.grid(True)
+    ax.set_xlabel(x_label, fontsize=12)
+    ax.set_ylabel(y_label, fontsize=12)
+    ax.set_title(title, fontsize=15, fontweight='bold')
+    ax.legend(loc=4)
+
+
+    """
+    # modification des graphes pour les rapport
     x = np.array(x)
     y = np.array(y)
     if color is None:
@@ -78,6 +99,7 @@ def plot_graph_2D(ax, x, y, title="title", x_label="x_axis", y_label="y_axis", c
     ax.set_ylabel(y_label, fontsize=20)
     ax.set_title(title, fontsize=15, fontweight='bold')
     ax.legend(loc=2, fontsize=20)
+    """
 
 
 def plot_graph_x_y(ax, x, y, title="title", x_label="x_axis", y_label="y_axis", curve_label="name here",symb='x',color=None):

@@ -4,11 +4,10 @@ import math
 import random
 from sklearn.decomposition import PCA
 
-
-
-
 n_data = 1
-target = [(0,0),(10,0),(10,10),(0,10)]
+target = [(2,3),(5,6),(3,7),(4,5),(8,6)]
+
+
 #target = [(4,3)]
 sample = []
 all_x  =[]
@@ -25,10 +24,6 @@ for coord in target:
 pca = PCA(n_components=2,svd_solver="full")
 pca.fit(sample)
 
-# plot data
-fig = plt.figure(figsize=(12, 8))
-ax = fig.add_subplot(1, 1, 1)
-ax.scatter(all_x,all_y,alpha = 0.8)
 
 eigen_vector = pca.components_
 eigen_value_ = pca.explained_variance_
@@ -51,20 +46,32 @@ angle_max = math.atan2(vector_max[1],vector_max[0])
 angle = angle_min
 
 
+
+
+
+
+# plot data
+fig = plt.figure(figsize=(12, 8))
+ax = fig.add_subplot(1, 1, 1)
+
+ax.scatter(all_x,all_y,alpha = 0.8,s=500)
 for length, vector in zip(pca.explained_variance_, pca.components_):
     v = vector*np.sqrt(length)
-
     pt1 = pca.mean_
-    ax.scatter(pt1[0],pt1[1])
     pt2 = pca.mean_+v
-    ax.scatter(pt2[0],pt2[1])
+    ax.arrow(pt1[0],pt1[1],v[0],v[1], head_width=0.15, head_length=0.3, fc='black', ec='black')
 
-ax.scatter(pca.mean_[0]+math.cos(angle),pca.mean_[1]+math.sin(angle))
-ax.scatter(pca.mean_[0]+math.cos(angle_min),pca.mean_[1]+math.sin(angle_min))
-ax.scatter(pca.mean_[0]+math.cos(angle_max),pca.mean_[1]+math.sin(angle_max))
 
-plt.axis('equal')
-plt.grid()
+ax.xaxis.set_tick_params(labelsize=20)
+ax.yaxis.set_tick_params(labelsize=20)
+ax.set_xlabel("x [m]", fontsize=20)
+ax.set_ylabel("y [m]", fontsize=20)
+ax.set_title("Principal component analysis", fontsize=25, fontweight='bold')
+ax.legend(["targets positions"],loc=2, fontsize=20)
+ax.grid(True)
+ax.set_xbound(0,10)
+ax.set_ybound(0,10)
+
 fig.show()
 plt.show()
 
