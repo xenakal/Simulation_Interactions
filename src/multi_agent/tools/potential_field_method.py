@@ -1,4 +1,6 @@
 import math
+import warnings
+
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from matplotlib import cm
@@ -153,14 +155,18 @@ def define_potential_type(field_type, distances, xi=None, eta=None, rho_0=None):
 
 
 def define_grad_potential_type(choix, distances, xi=None, eta=None, rho_0=None):
-    if choix == PotentialType.Repulsive_potential:
-        distances = np.where(distances > 0.001 * rho_0, distances, rho_0)
-        distances = np.where(distances <= rho_0, distances, rho_0)
-        return 0.5 * eta * (1 / distances - 1 / rho_0) * np.square(1 / rho_0)
-    elif choix == PotentialType.Attractive_potential:
-        return -xi * distances
-    else:
-        print("error potential type not found")
+    try:
+        if choix == PotentialType.Repulsive_potential:
+            distances = np.where(distances > 0.001 * rho_0, distances, rho_0)
+            distances = np.where(distances <= rho_0, distances, rho_0)
+            return 0.5 * eta * (1 / distances - 1 / rho_0) * np.square(1 / rho_0)
+        elif choix == PotentialType.Attractive_potential:
+            return -xi * distances
+        else:
+            print("error potential type not found")
+    except ZeroDivisionError:
+        warnings.warn("divition by rho_0=0 but don't care for now")
+        return 0
 
 
 def compute_part_of_potential_field(field_type, shape, X=None, Y=None, mean_x=None, mean_y=None, var_x=None, var_y=None,
