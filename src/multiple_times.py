@@ -9,7 +9,7 @@ set the folder in which those maps are located with constants.MapPath.folder
 by default in maps
 """
 
-map_to_test_name = ["My_new_map"]
+map_to_test_name = ["test1"]
 
 """ Used to specify whether we want to use arguments passed from user. """
 use_args = False
@@ -32,27 +32,25 @@ else:
 kalman_type = [4]
 
 """Time at which the simulation should stop, the time to start is eaqual to 0 s"""
-t_stop = [1500]
+t_stop = [80]
 """When many cameras are used, it might be a good idea to slowdown the simulation using a scaling factor < 1"""
 t_scale = [1]
 
 
 
 index = 0
+iteration = 10
 
-while index < len(map_to_test_name):
+while index < iteration:
+    print("processing " + str(map_to_test_name[0]) + "etape : " + str(index) + "/" + str(iteration))
+    (is_do_previous, is_do_next) = App(map_to_test_name[0], kalman_distributed[0], kalman_type[0],
+                                       t_stop[0], t_scale[0]).main()
 
-    print("processing " + str(map_to_test_name[index]))
-    (is_do_previous, is_do_next) = App(map_to_test_name[index], kalman_distributed[index], kalman_type[index],
-                                       t_stop[index], t_scale[index]).main()
-
+    index += 1
     if is_do_previous:
-        index -= 1
-        if index < 0:
-            index = 0
-
+       pass
     elif is_do_next:
-        index += 1
+        pass
     else:
         print("exit completely")
         break

@@ -107,7 +107,7 @@ class AgentEstimatorPloter:
 
 if __name__ == '__main__':
     constants.ResultsPath.folder = "../../results"
-    constants.ResultsPath.name_simulation = "My_new_map"
+    constants.ResultsPath.name_simulation = "test1"
     agent_ploter = AgentEstimatorPloter(1)
     agent_ploter.plot()
 

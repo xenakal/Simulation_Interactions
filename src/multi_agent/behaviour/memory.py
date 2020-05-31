@@ -1,5 +1,6 @@
 from src.multi_agent.elements.target import TargetRepresentation
-from src.multi_agent.tools.estimation import MultipleOwnerMemories, SingleOwnerMemories, is_in_list_TargetEstimator
+from src.multi_agent.tools.estimation import MultipleOwnerMemories, SingleOwnerMemories, is_in_list_TargetEstimator, \
+    ItemEstimation
 from src.multi_agent.prediction.kalmanPrediction import KalmanPrediction
 from src.my_utils.my_IO.IO_data import *
 import numpy as np
@@ -307,3 +308,23 @@ class Memory:
 
         self.memory_predictions_order_2_from_target.add_create_itemEstimation(time_from_estimation, agent_id,
                                                                              agent_signature,item)
+
+    def compute_obstruction_time(self,filename,room):
+        list = self.memory_measured_from_target
+        for target in room.information_simulation.target_list:
+            obstructed_time = 0
+            item_list = list.get_item_list(target.id)
+            item_list.sort()
+            for item1,item2 in zip(item_list[:-1],item_list[1:]):
+
+                delta_t = item2.time_stamp - item1.time_stamp
+                if delta_t > 3*constants.TIME_BTW_TARGET_ESTIMATOR and 10 < item1.time_stamp < 70 :
+                    print("item1: %.02f item2: %.02f" % (item1.time_stamp, item2.time_stamp))
+                    print(delta_t)
+                    obstructed_time += delta_t
+
+            fichier = open(filename, "a")
+            fichier.write("%.02f \n"%obstructed_time)
+            fichier.close()
+
+

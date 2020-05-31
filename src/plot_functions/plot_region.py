@@ -3,7 +3,7 @@ import numpy as np
 from src import constants
 
 constants.ResultsPath.folder = "../results"
-constants.ResultsPath.name_simulation = "My_new_map"
+constants.ResultsPath.name_simulation = "test1"
 
 def plot_region():
     fig = plt.figure(figsize=(12, 8))

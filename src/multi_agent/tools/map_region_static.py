@@ -35,6 +35,9 @@ class MapRegionStatic:
 
         self.agent_id_taken_into_acount = []
 
+        self.coverage_percentage = [0,0,0,0,0,0]
+        self.n_point = 100
+
         """
         Data representing the maps after computation, array size from the matrix
         the position in the array i,j refers always to the point i,j in the mesh 
@@ -65,6 +68,10 @@ class MapRegionStatic:
 
         # Required for the computation below
         self.find_angle_view_all_cam_and_fix_obstruction()
+
+        self.coverage_percentage = [0,0,0,0,0,0]
+        self.n_point = self.nx*factor*self.ny*factor
+
 
          # Compute one for those values
         (self.minimum_id_in_view, self.minimum_dist_in_view) = self.define_region_covered_by_cams()
@@ -122,6 +129,23 @@ class MapRegionStatic:
 
             (self.minimum_id_in_view, self.minimum_dist_in_view) = self.define_region_covered_by_cams()
             self.coverage = self.define_region_covered_by_numberOfCams()
+            self.define_coverage_percentarge()
+
+
+    def define_coverage_percentarge(self):
+        self.coverage_percentage = [0,0,0,0,0,0]
+        (i_tot, j_tot) = self.coverage.shape
+        for i in range(i_tot):
+            for j in range(j_tot):
+                var = self.coverage[i,j]
+                if var < 5:
+                    self.coverage_percentage[int(var)] += 1
+                else:
+                    self.coverage_percentage[5] += 1
+
+
+        self.coverage_percentage = np.array(self.coverage_percentage)/self.n_point*100
+        print("Pourcentage couvert : %s"%self.coverage_percentage)
 
     def define_region_covered_by_cams(self):
         """

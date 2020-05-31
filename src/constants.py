@@ -11,11 +11,10 @@ In this file you have the possibility to modify the settings
 
 
 SAVE_DATA = False
-GENERATE_PLOT =  True
-LOAD_DATA = LoadData.FROM_TXT_FILE
-LOAD_DATA = LoadData.FROM_TXT_FILE
+GENERATE_PLOT = False
+LOAD_DATA = LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET
 
-USE_GUI = True
+USE_GUI = False
 USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
 
@@ -103,7 +102,7 @@ Y_SCALE = 60
 INIT_TARGET_LIST = AgentCameraInitializeTargetList.ALL_SEEN
 """If you want to set all the agent fixed set to false"""
 AGENTS_MOVING = True
-TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 1
+TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 2
 """
 Refers to what data agent should use to analyse the room 
 """
@@ -202,8 +201,8 @@ COMBINE_MODE_PROP = 0.45# 1 = smooth mode 0 = hard mode (btw 0 and 1)
 
 """Random map creation-----------------------------------------------------------------------------------------------"""
 TARGET_NUMBER_SET_FIX = 0
-TARGET_NUMBER_UNKOWN = 5
-TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY = 1
+TARGET_NUMBER_UNKOWN = 1
+TARGET_NUMBER_OF_POINTS_GENERATED_FOR_A_TRAJECTORY = 20
 RANDOM_TARGET_RADIUS_BOUND = (0.1,0.3)
 RANDOM_TARGET_V_BOUND = (0.8,1.2)
 
