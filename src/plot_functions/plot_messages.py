@@ -82,13 +82,11 @@ def filter_and_plot(id,data,filters_names,colors):
             receiver_label=plot_message_time(ax2, data_rec,color,receiver_label)
 
 
-        ax1.legend(loc=4)
-        ax1.legend(filters_names)
-        ax1.set_title("messages envoyés", fontsize=15, fontweight='bold')
+        #ax1.legend(filters_names,loc=4,fontsize="x-large")
+        #ax1.set_title("messages envoyés", fontsize=15, fontweight='bold')
 
-        ax2.legend(loc=4)
-        ax2.legend(filters_names)
-        ax2.set_title("messages reçus", fontsize=15, fontweight='bold')
+        #ax2.legend(filters_names,loc=3, fontsize="x-large")
+        #ax2.set_title("messages reçus", fontsize=15, fontweight='bold')
 
         plot_message_bar(ax3, sizes_sent, filters_names, colors)
         plot_message_bar(ax4, sizes_rec, filters_names, colors)
@@ -135,8 +133,8 @@ class MessagePlot:
     def __init__(self,agent_id):
         self.data = load_message_file(agent_id)
         self.id = agent_id
-        self.colors = ['g', 'b', 'r', 'c', 'k']
-        self.names = ["heartbeat","info_DKF","agentEstimation", "targetEstimation"] #, "loosing_target", "tracking_target"]
+        self.colors = ['g', 'b', 'r','gold', 'c', 'k']
+        self.names = ["heartbeat","agentEstimation", "targetEstimation","info_DKF", "loosing_target", "tracking_target"]
 
     def plot(self):
         filter_and_plot(self.id,self.data,self.names,self.colors)
@@ -145,7 +143,7 @@ class MessagePlot:
 if __name__ == '__main__':
     constants.ResultsPath.folder = "../../results"
     constants.ResultsPath.name_simulation = "My_new_map"
-    plot_creator = MessagePlot(2)
+    plot_creator = MessagePlot(100)
     plot_creator.plot()
 
 

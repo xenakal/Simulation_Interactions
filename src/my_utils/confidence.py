@@ -77,24 +77,26 @@ if __name__ == "__main__":
         y_exponential.append(evaluate_confidence_choice(0.1, value, ConfidenceFunction.EXPONENTIAL_DECAY))
         y_exponential_reverse.append(evaluate_confidence_choice(0.1, value, ConfidenceFunction.EXPONENTIAL_REVERSE_DECAY))
 
-    fig = plt.figure(figsize=(8, 5))
+    fig = plt.figure(figsize=(16, 8))
 
     ax0 = fig.add_subplot(1,1, 1)
+    ax0.xaxis.set_tick_params(labelsize=20)
+    ax0.yaxis.set_tick_params(labelsize=20)
 
-    ax0.plot(x, tresh_value, '--',color='black',linewidth = 3)
-    ax0.plot(x, min_value, '--',color='red',linewidth = 3)
-    ax0.plot(x, max_value, '--',color='red',linewidth = 3)
+    ax0.plot(x, tresh_value, '--',color='black',linewidth = 4)
+    ax0.plot(x, min_value, '--',color='red',linewidth = 4)
+    ax0.plot(x, max_value, '--',color='red',linewidth = 4)
 
-    ax0.plot(x, y_step)
-    ax0.plot(x, y_linear)
-    ax0.plot(x, y_exponential)
-    ax0.plot(x, y_exponential_reverse)
+    ax0.plot(x, y_step,linewidth = 2)
+    ax0.plot(x, y_linear,linewidth = 2)
+    ax0.plot(x, y_exponential,linewidth = 2)
+    ax0.plot(x, y_exponential_reverse,linewidth = 2)
 
     ax0.grid("on")
-    ax0.set_xlabel("temps [s]", fontsize=12)
-    ax0.set_ylabel("score [Min - Max]", fontsize=12)
-    ax0.set_title("Variation du score en fonction du temps", fontsize=17, fontweight='bold')
-    ax0.legend(["Threshold", "Max","Min","Step","Linear","Exponential"],loc='upper right')
+    ax0.set_xlabel("time [s]", fontsize=20)
+    ax0.set_ylabel("confidence score", fontsize=20)
+    ax0.set_title("Confidence score evolution with respect to time", fontsize=25, fontweight='bold')
+    ax0.legend(["Threshold", "Max","Min","Step","Linear","Exponential","Exponential inverted"],loc='upper right',fontsize=18)
 
 
     plt.show()

@@ -232,7 +232,7 @@ class GUI_room_representation():
             label = self.font.render(str(camera.id), 10, CAMERA)
             self.screen.blit(label, (pt_center[0]+7, pt_center[1] + 7))
 
-            if agent.is_active:
+            if True:
                 self.draw_one_camera(camera)
                 if isinstance(agent,AgentCam) and  self.GUI_option.show_virtual_cam and not agent.virtual_camera is None :
                     self.draw_one_camera(agent.virtual_camera,True)

@@ -11,12 +11,12 @@ In this file you have the possibility to modify the settings
 
 
 SAVE_DATA = False
-GENERATE_PLOT =  False
+GENERATE_PLOT =  True
 LOAD_DATA = LoadData.FROM_TXT_FILE
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
 USE_GUI = True
-USE_static_analysis = True
+USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
 
 INCLUDE_ERROR = True
@@ -75,7 +75,7 @@ STD_MEASURMENT_ERROR_POSITION = 0.2
 STD_MEASURMENT_ERROR_SPEED = 0.1
 STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
 
-ERROR_VARIATION_ZOOM = False
+ERROR_VARIATION_ZOOM = True
 COEFF_STD_VARIATION_MEASURMENT_ERROR_POSITION = 0.05 * STD_MEASURMENT_ERROR_POSITION
 COEFF_STD_VARIATION_MEASURMENT_ERROR_SPEED = 0.01 * STD_MEASURMENT_ERROR_SPEED
 COEFF_STD_VARIATION_MEASURMENT_ERROR_ACCELERATION = 0.001 * STD_MEASURMENT_ERROR_ACCCELERATION
@@ -107,7 +107,7 @@ TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 1
 """
 Refers to what data agent should use to analyse the room 
 """
-AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Prediction_t_2
+AGENT_DATA_TO_PROCESS = AgentDataToWorkWith.Best_estimation
 AGENT_CHOICE_HOW_TO_FOLLOW_TARGET = ConfigurationWaysToBeFound.TRY_TO_FIND_VALID_CONFIG
 
 """
@@ -187,18 +187,18 @@ If ETA = 0 => Repulsive potentials have no effects
 
 Parameters has to be set to appropriate values by trials and errors    
 """
-XI = 0
-ETA = 50
-COEFF_RADIUS = 10
+XI = 50
+ETA = 5
+COEFF_RADIUS = 100
 """Barrier"""
-BARRIER_TYPE = PotentialBarrier.Combine
+BARRIER_TYPE = PotentialBarrier.Combine_attract
 
 """In the smooth mode it defines how circle are deformed to become elliptical shapes"""
 COEFF_VAR_X = 100
 COEFF_VAR_Y = 2
 
 """Combine is a ration beetwen hard and smooth mode"""
-COMBINE_MODE_PROP = 0.99 # 1 = smooth mode 0 = hard mode (btw 0 and 1)
+COMBINE_MODE_PROP = 0.45# 1 = smooth mode 0 = hard mode (btw 0 and 1)
 
 """Random map creation-----------------------------------------------------------------------------------------------"""
 TARGET_NUMBER_SET_FIX = 0

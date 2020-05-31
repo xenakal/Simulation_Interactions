@@ -7,7 +7,7 @@ X_MAX = 10 + 1
 Y_MIN = 0
 Y_MAX = 10
 T_MIN = 0
-T_MAX = 20
+T_MAX = 8
 
 
 def plot_graph_3D(ax, x, y, z, title="title", x_label="x_axis", y_label="y_axis", z_label="z_label"):
@@ -58,27 +58,30 @@ def plot_graph_3D_2D(ax, x, y, z, size, vmin, vmax, title="title", x_label="x_ax
     # line = ax.add_collection(lc)
 
     sc = ax.scatter(x, y, c=z, s=2500 * math.pow(size[0], 2) * math.pi, vmin=vmin, vmax=vmax, cmap="Spectral",
-                    alpha=0.4)
-    ax.plot(x, y, "x", label=curve_label)
-    ax.legend(loc=4)
+                    alpha=1)
+    #ax.plot(x, y, "x", label=curve_label,size = 100)
+    ax.legend(loc=4, fontsize="x-large")
 
     return sc
 
 
-def plot_graph_2D(ax, x, y, title="title", x_label="x_axis", y_label="y_axis", curve_label="name here"):
+def plot_graph_2D(ax, x, y, title="title", x_label="x_axis", y_label="y_axis", curve_label="name here",symb = 'x',color = None):
     x = np.array(x)
     y = np.array(y)
-    ax.plot(x, y, "x", label=curve_label)
+    if color is None:
+        ax.scatter(x, y,s = 100, marker = symb, label=curve_label, linewidth=1)
+    else:
+        ax.scatter(x, y, s=200, marker=symb,c=color,edgecolors='red', label=curve_label, linewidth=1)
 
     ax.grid(True)
-    ax.set_xlabel(x_label, fontsize=12)
-    ax.set_ylabel(y_label, fontsize=12)
+    ax.set_xlabel(x_label, fontsize=20)
+    ax.set_ylabel(y_label, fontsize=20)
     ax.set_title(title, fontsize=15, fontweight='bold')
-    ax.legend(loc=4)
+    ax.legend(loc=2, fontsize=20)
 
 
-def plot_graph_x_y(ax, x, y, title="title", x_label="x_axis", y_label="y_axis", curve_label="name here"):
-    plot_graph_2D(ax, x, y, title=title, x_label=x_label, y_label=y_label, curve_label=curve_label)
+def plot_graph_x_y(ax, x, y, title="title", x_label="x_axis", y_label="y_axis", curve_label="name here",symb='x',color=None):
+    plot_graph_2D(ax, x, y, title=title, x_label=x_label, y_label=y_label, curve_label=curve_label,symb=symb,color=color)
     ax.set_xlim(X_MIN, X_MAX)
     ax.set_ylim(Y_MIN, Y_MAX)
 

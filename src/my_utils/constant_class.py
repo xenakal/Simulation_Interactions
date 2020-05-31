@@ -59,7 +59,8 @@ class BEHAVIOUR_NO_TARGETS_SEEN:
 class PotentialBarrier:
     Not_use = "not_use"
     Smooth = "smooth"
-    Combine = "combine"
+    Combine_attract = "combine_attract"
+    Combine_repulse = "combine_repulse"
     Hard = "hard"
 
 

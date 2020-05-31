@@ -49,9 +49,9 @@ def plot_target_memory_agent_ax_ay_2D(ax, data, curve_label="curve_label"):
                             "ax [m/s^2]", "ay [m/s^2]", curve_label=curve_label)
 
 
-def plot_target_memory_x_y(ax, data, curve_label="curve_label"):
+def plot_target_memory_x_y(ax, data, curve_label="curve_label",symb="x",color=None):
     plot_graph_x_y(ax, data[X_INDEX], data[Y_INDEX], "Trajectory x-y plane  (time [s] in color)", "x [m]", "y [m]",
-                   curve_label=curve_label)
+                   curve_label=curve_label,symb=symb,color=color)
 
 
 def plot_target_memory_time_x(ax, data, curve_label="curve_label"):
@@ -238,6 +238,55 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         init_analyse_memory_agent(self.data, self.data_sort_by_target)
         init_analyse_memory_agent(self.simulated_data, self.simulated_data_sort_by_target)
 
+
+    def plot_rapport(self, target_id):
+        fig1 = plt.figure(figsize=(20, 8))
+
+        ax1 = fig1.add_subplot(1, 2, 1)
+        ax2 = fig1.add_subplot(1, 2, 2)
+
+        fig2 = plt.figure(figsize=(12, 8))
+        ax3 = fig2.add_subplot(1, 1, 1)
+
+        ax1.xaxis.set_tick_params(labelsize=20)
+        ax1.yaxis.set_tick_params(labelsize=20)
+        ax2.xaxis.set_tick_params(labelsize=20)
+        ax2.yaxis.set_tick_params(labelsize=20)
+        ax3.xaxis.set_tick_params(labelsize=20)
+        ax3.yaxis.set_tick_params(labelsize=20)
+
+
+        for element in self.simulated_data_sort_by_target:
+            sc1 = plot_target_memory_time_x_y_2D(ax1, element.data_list,
+                                                     curve_label="target" + str(element.target_id) + " - ref")
+
+            plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id) + " - ref")
+
+        for element in self.data_sort_by_target:
+                plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id) + " - mes",symb="*",color="gold")
+
+                sc2 = plot_target_memory_agent_x_y_2D(ax2, element.data_list,
+                                                      curve_label="target" + str(element.target_id) + " - mes")
+
+                plot_target_memory_x_y(ax2, element.data_list, curve_label="target" + str(element.target_id) + " - mes",
+                                       symb="*", color="gold")
+
+                plot_target_memory_time_agent(ax3, element.data_list,
+                                             curve_label="target" + str(element.target_id) + " - mes")
+
+
+        cb = fig1.colorbar(sc1, ax=ax1)
+        cb.ax.yaxis.set_tick_params(labelsize=20)
+        cb = fig1.colorbar(sc2, ax=ax2)
+        cb.ax.yaxis.set_tick_params(labelsize=20)
+
+
+        fig1.savefig(self.path_to_save_data + self.version + "--rapport1_" + str(self.id), transparent=False)
+        fig2.savefig(self.path_to_save_data + self.version + "--rapport2_" + str(self.id), transparent=False)
+        plt.close(fig1)
+        plt.close(fig2)
+
+
     def plot_MSE_prediction_1_target_id(self, target_id):
         try:
             data_ref = []
@@ -385,6 +434,8 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             mean_error_squared_y = np.mean(error_squared_y)
             mean_error_squared_x_y = np.mean(error_squared)
 
+
+
             sc = ax.scatter(x_ref, y_ref, s=100, c=t_ref, cmap="Spectral", alpha=0.4)
             plot_graph_time_x(ax, x_ref, y_ref, "Trajectory x-y plane  (time [s] in color)", "x [m]", "y [m]",
                               curve_label="generated data (reference)")
@@ -407,6 +458,8 @@ class Analyser_Target_TargetEstimator_FormatCSV:
 
             (yb, yh) = ax1.get_ylim()
             ax1.text(0, yh, "mean error = %.2f m" % (np.sqrt(mean_error_squared_x_y)), fontweight='bold', fontsize=10)
+
+
 
             (yb, yh) = ax2.get_ylim()
             ax2.text(0, yb, "mean error = %.2f m" % (np.sqrt(mean_error_squared_x)), fontweight='bold', fontsize=10)
@@ -467,8 +520,12 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         fig_time_type_x_y.suptitle(title, fontsize=17, fontweight='bold', y=1)
         ax1 = fig_time_type_x_y.add_subplot(2, 2, 1)
         ax2 = fig_time_type_x_y.add_subplot(2, 2, 2)
+
         ax3 = fig_time_type_x_y.add_subplot(2, 2, 3)
         ax4 = fig_time_type_x_y.add_subplot(2, 2, 4)
+
+
+
         try:
 
             for element in self.simulated_data_sort_by_target:
@@ -478,6 +535,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             for element in self.data_sort_by_target:
                 plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id) + " - mes")
                 sc2 = plot_target_memory_type_x_y_2D(ax2, element.data_list,
+
                                                      curve_label="target" + str(element.target_id) + " - mes")
                 sc3 = plot_target_memory_agent_x_y_2D(ax3, element.data_list,
                                                       curve_label="target" + str(element.target_id) + " - mes")
@@ -640,3 +698,14 @@ class Analyser_Agent_Target_TargetEstimator_FormatCSV:
             plt.close(fig_time_type_x_y)
         except:
             print("plot_all_target_simulated_data_collected_data")
+
+
+if __name__ == '__main__':
+    constants.ResultsPath.folder = "../../results"
+    constants.ResultsPath.name_simulation = "My_new_map"
+
+    analyser_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(100,
+                                                                      constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT,
+                                                                      constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_AGENT,
+                                                                     )
+    analyser_agent_memory.plot_rapport(0)
