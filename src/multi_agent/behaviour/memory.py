@@ -250,7 +250,7 @@ class Memory:
             predictor.assimilate(dfk_info_string, timestamp)
             (x, var) = predictor.get_current_position()
             kalman_target_representation = TargetRepresentation(seeked_target_id, x[0], x[1], x[2], x[3], 0, 0, 0, 0, 0)
-            new_ItemEstimation = ItemEstimation(time_stamp=constants.get_time(), owner_id=self.id,
+            new_ItemEstimation = ItemEstimation(time_stamp=timestamp, owner_id=self.id,
                                                 owner_agent_signature=-1, item=kalman_target_representation)
             self.memory_best_estimations_from_target.update_last_itemEstimation(new_ItemEstimation)
 

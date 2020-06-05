@@ -14,16 +14,27 @@ def error_squared_discrete(data_ref_list, data_mes_list, remove_outliers=False):
     error_squared = error_squared_x_y_list(x_ref, y_ref, x_mes, y_mes)
     if remove_outliers:
         number_outliers_to_remove = int(len(data_mes_list)/20)
+        number_outliers_to_remove = 9
+        error_squared = error_squared[:-10]
+        error_squared_x = error_squared_x[:-10]
+        error_squared_y = error_squared_y[:-10]
+        t_ref = t_ref[:-10]
+        x_ref = x_ref[:-10]
+        y_ref = y_ref[:-10]
+        x_mes = x_mes[:-10]
+        y_mes = y_mes[:-10]
+
         while number_outliers_to_remove > 0:
-            idx_max_mse = error_squared.index(min(error_squared))
-            del(error_squared[idx_max_mse])
-            del (error_squared_x[idx_max_mse])
-            del (error_squared_y[idx_max_mse])
-            del (error_squared[idx_max_mse])
-            del (error_squared_x[idx_max_mse])
-            del (error_squared_y[idx_max_mse])
-            del (error_squared_x[idx_max_mse])
-            del (error_squared_y[idx_max_mse])
+            idx_max_mse = np.where(error_squared==min(error_squared))[0]
+            np.delete(error_squared,idx_max_mse)
+            np.delete(error_squared_x,idx_max_mse)
+            np.delete(error_squared_y,idx_max_mse)
+            np.delete(t_ref,idx_max_mse)
+            np.delete(x_ref,idx_max_mse)
+            np.delete(y_ref,idx_max_mse)
+            np.delete(x_mes,idx_max_mse)
+            np.delete(y_mes,idx_max_mse)
+            number_outliers_to_remove -= 1
     return t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x, error_squared_y, error_squared
 
 

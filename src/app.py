@@ -19,7 +19,7 @@ import copy
 
 import src.multi_agent.agent.agent_interacting_room_camera
 import src.multi_agent.agent.agent_interacting_room_user
-from src.plot_functions.main_plot import plot_res
+from src.plot_functions.main_plot import plot_res, plot_mse_kf_dkf
 
 
 def clean_mailbox():
@@ -216,6 +216,7 @@ class App:
             # plot graph
             if constants.GENERATE_PLOT:
                 self.log_app.info("Plotting data")
+                plot_mse_kf_dkf(self.room)
                 plot_res(self.room, self.filename)
                 self.log_app.info("Plotting done")
 

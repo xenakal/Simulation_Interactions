@@ -122,11 +122,7 @@ class AgentCam(AgentInteractingWithRoom):
                 FSM defining the agent's behaviour
         """
 
-        if constants.AGENTS_MOVING:
-            state = AgentCameraFSM.MOVE_CAMERA
-        else:
-            state = AgentCameraFSM.TAKE_PICTURE
-
+        state = AgentCameraFSM.TAKE_PICTURE
         nextstate = state
 
         execution_loop_number = 1
@@ -200,8 +196,7 @@ class AgentCam(AgentInteractingWithRoom):
                 if not self.is_active:
                     nextstate = AgentCameraFSM.BUG
                 else:
-                    if constants.AGENTS_MOVING:
-                        nextstate = AgentCameraFSM.COMMUNICATION
+                    nextstate = AgentCameraFSM.COMMUNICATION
                 self.log_execution.debug("Loop %d : processData state completed after : %.02f s" % (
                     execution_loop_number, constants.get_time() - execution_time_start))
 
