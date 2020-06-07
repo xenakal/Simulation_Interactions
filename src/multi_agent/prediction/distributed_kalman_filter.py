@@ -8,7 +8,7 @@ import warnings
 import random
 
 DEFAULT_TIME_INCREMENT = TIME_PICTURE + TIME_SEND_READ_MESSAGE
-INTERNODAL_VALIDATION_BOUND = .0001
+INTERNODAL_VALIDATION_BOUND = 15
 GAMA = 5
 
 
@@ -171,7 +171,7 @@ class DistributedKalmanFilter(KalmanFilter):
         region_to_validate = dot(Hij.transpose(), dot(self.inv(Nij), Hij))
         #print(self.id, " region to validate", region_to_validate)
         if region_to_validate > INTERNODAL_VALIDATION_BOUND:
-            #print(region_to_validate)
+            print(region_to_validate)
             return
         else:
             self.logger_kalman.info("Assimilation of data at time " + str(constants.get_time()) + ". Time when data "

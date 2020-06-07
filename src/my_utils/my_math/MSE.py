@@ -14,15 +14,15 @@ def error_squared_discrete(data_ref_list, data_mes_list, remove_outliers=False):
     error_squared = error_squared_x_y_list(x_ref, y_ref, x_mes, y_mes)
     if remove_outliers:
         number_outliers_to_remove = int(len(data_mes_list)/20)
-        number_outliers_to_remove = 9
-        error_squared = error_squared[:-10]
-        error_squared_x = error_squared_x[:-10]
-        error_squared_y = error_squared_y[:-10]
-        t_ref = t_ref[:-10]
-        x_ref = x_ref[:-10]
-        y_ref = y_ref[:-10]
-        x_mes = x_mes[:-10]
-        y_mes = y_mes[:-10]
+        print("removed ", number_outliers_to_remove, " outliers")
+        error_squared = error_squared[10:-10]
+        error_squared_x = error_squared_x[10:-10]
+        error_squared_y = error_squared_y[10:-10]
+        t_ref = t_ref[10:-10]
+        x_ref = x_ref[10:-10]
+        y_ref = y_ref[10:-10]
+        x_mes = x_mes[10:-10]
+        y_mes = y_mes[10:-10]
 
         while number_outliers_to_remove > 0:
             idx_max_mse = np.where(error_squared==min(error_squared))[0]

@@ -108,10 +108,14 @@ class AgentInteractingWithRoom(Agent):
                                          self.memory.memory_all_agent_from_target.to_csv())
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_ALL_AGENT + str(self.id),
                                          self.memory.memory_measured_from_target.to_csv())
+            #for i in range(len(self.memory.))
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_FILTER + str(self.id),
                                          self.memory.memory_best_estimations_from_target.to_csv())
+            global_0 = self.memory.memory_best_estimations_from_target.get_item_list(0)
+            local_0 = self.memory.memory_local_kf.get_item_list(0)
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_LOCAL_FILTER + str(self.id),
                                          self.memory.memory_local_kf.to_csv())
+            #print("local: ", self.memory.memory_local_kf.get_item_list(1)[-9].item.xc)
             save_in_csv_file_dictionnary(constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_PREDICTION_TPLUS1 + str(self.id),
                 self.memory.memory_predictions_order_1_from_target.to_csv())
             save_in_csv_file_dictionnary(

@@ -468,10 +468,6 @@ class ResultsPath:
     def PLOT_KALMAN_PREDICTION_T_PLUS_2(cls):
         return ResultsPath.PLOT_KALMAN_PREDICTION + "/prediction_t_plus_2"
 
-    #@classproperty
-    #def PLOT_KALMAN_DISTRIBUE(cls):
-        #return ResultsPath.PLOT_KALMAN + "/kalman_distribue"
-
     @classproperty
     def PLOT_MESSAGE(cls):
         return ResultsPath.PLOT_FOLDER + "/messages"
