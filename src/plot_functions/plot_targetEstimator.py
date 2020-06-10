@@ -669,3 +669,12 @@ class Analyser_Agent_Target_TargetEstimator_FormatCSV:
             plt.close(fig_time_type_x_y)
         except:
             print("plot_all_target_simulated_data_collected_data")
+
+
+if __name__ == '__main__':
+    constants.ResultsPath.folder = "../../results"
+    constants.ResultsPath.name_simulation = "attractiv_combine"
+    analyser_simulated_data = Analyser_Target_TargetEstimator_FormatCSV("",
+                                                                        constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,
+                                                                        constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER)
+    analyser_simulated_data.plot_all_target_simulated_data_collected_data()

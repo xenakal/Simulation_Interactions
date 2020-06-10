@@ -1,0 +1,73 @@
+2020-06-10 09:25:27,315 - Execution time1 - INFO - time : 4.25 s, loop 1 : completed in : 1.04 s
+2020-06-10 09:25:27,989 - Execution time1 - INFO - time : 4.92 s, loop 2 : completed in : 0.67 s
+2020-06-10 09:25:28,858 - Execution time1 - INFO - time : 5.79 s, loop 3 : completed in : 0.85 s
+2020-06-10 09:25:29,757 - Execution time1 - INFO - time : 6.69 s, loop 4 : completed in : 0.88 s
+2020-06-10 09:25:30,407 - Execution time1 - INFO - time : 7.34 s, loop 5 : completed in : 0.63 s
+2020-06-10 09:25:31,279 - Execution time1 - INFO - time : 8.21 s, loop 6 : completed in : 0.85 s
+2020-06-10 09:25:32,373 - Execution time1 - INFO - time : 9.31 s, loop 7 : completed in : 1.07 s
+2020-06-10 09:25:33,294 - Execution time1 - INFO - time : 10.23 s, loop 8 : completed in : 0.89 s
+2020-06-10 09:25:34,347 - Execution time1 - INFO - time : 11.28 s, loop 9 : completed in : 0.92 s
+2020-06-10 09:25:35,662 - Execution time1 - INFO - time : 12.59 s, loop 10 : completed in : 1.27 s
+2020-06-10 09:25:36,694 - Execution time1 - INFO - time : 13.63 s, loop 11 : completed in : 1.01 s
+2020-06-10 09:25:38,332 - Execution time1 - INFO - time : 15.26 s, loop 12 : completed in : 1.61 s
+2020-06-10 09:25:39,296 - Execution time1 - INFO - time : 16.23 s, loop 13 : completed in : 0.75 s
+2020-06-10 09:25:40,235 - Execution time1 - INFO - time : 17.17 s, loop 14 : completed in : 0.92 s
+2020-06-10 09:25:41,073 - Execution time1 - INFO - time : 18.01 s, loop 15 : completed in : 0.77 s
+2020-06-10 09:25:41,506 - Execution time1 - INFO - time : 18.44 s, loop 16 : completed in : 0.42 s
+2020-06-10 09:25:44,113 - Execution time1 - INFO - time : 21.05 s, loop 17 : completed in : 2.59 s
+2020-06-10 09:25:44,174 - Execution time1 - INFO - Execution mean time : 0.96 s
+6-10 09:25:29,757 - Execution time1 - INFO - time : 6.69 s, loop 4 : completed in : 0.88 s
+2020-06-10 09:25:30,407 - Execution time1 - INFO - time : 7.34 s, loop 5 : completed in : 0.63 s
+2020-06-10 09:25:31,279 - Execution time1 - INFO - time : 8.21 s, loop 6 : completed in : 0.85 s
+2020-06-10 09:25:32,373 - Execution time1 - INFO - time : 9.31 s, loop 7 : completed in : 1.07 s
+2020-06-10 09:25:33,294 - Execution time1 - INFO - time : 10.23 s, loop 8 : completed in : 0.89 s
+2020-06-10 09:25:34,347 - Execution time1 - INFO - time : 11.28 s, loop 9 : completed in : 0.92 s
+2020-06-10 09:25:35,662 - Execution time1 - INFO - time : 12.59 s, loop 10 : completed in : 1.27 s
+2020-06-10 09:25:36,694 - Execution time1 - INFO - time : 13.63 s, loop 11 : completed in : 1.01 s
+2020-06-10 09:25:38,332 - Execution time1 - INFO - time : 15.26 s, loop 12 : completed in : 1.61 s
+2020-06-10 09:25:39,296 - Execution time1 - INFO - time : 16.23 s, loop 13 : completed in : 0.75 s
+2020-06-10 09:25:40,235 - Execution time1 - INFO - time : 17.17 s, loop 14 : completed in : 0.92 s
+2020-06-10 09:25:41,073 - Execution time1 - INFO - time : 18.01 s, loop 15 : completed in : 0.77 s
+2020-06-10 09:25:41,506 - Execution time1 - INFO - time : 18.44 s, loop 16 : completed in : 0.42 s
+2020-06-10 09:25:44,113 - Execution time1 - INFO - time : 21.05 s, loop 17 : completed in : 2.59 s
+2020-06-10 09:25:44,174 - Execution time1 - INFO - Execution mean time : 0.96 s
+ 09:25:31,279 - Execution time1 - INFO - time : 8.21 s, loop 6 : completed in : 0.85 s
+2020-06-10 09:25:32,373 - Execution time1 - INFO - time : 9.31 s, loop 7 : completed in : 1.07 s
+2020-06-10 09:25:33,294 - Execution time1 - INFO - time : 10.23 s, loop 8 : completed in : 0.89 s
+2020-06-10 09:25:34,347 - Execution time1 - INFO - time : 11.28 s, loop 9 : completed in : 0.92 s
+2020-06-10 09:25:35,662 - Execution time1 - INFO - time : 12.59 s, loop 10 : completed in : 1.27 s
+2020-06-10 09:25:36,694 - Execution time1 - INFO - time : 13.63 s, loop 11 : completed in : 1.01 s
+2020-06-10 09:25:38,332 - Execution time1 - INFO - time : 15.26 s, loop 12 : completed in : 1.61 s
+2020-06-10 09:25:39,296 - Execution time1 - INFO - time : 16.23 s, loop 13 : completed in : 0.75 s
+2020-06-10 09:25:40,235 - Execution time1 - INFO - time : 17.17 s, loop 14 : completed in : 0.92 s
+2020-06-10 09:25:41,073 - Execution time1 - INFO - time : 18.01 s, loop 15 : completed in : 0.77 s
+2020-06-10 09:25:41,506 - Execution time1 - INFO - time : 18.44 s, loop 16 : completed in : 0.42 s
+2020-06-10 09:25:44,113 - Execution time1 - INFO - time : 21.05 s, loop 17 : completed in : 2.59 s
+2020-06-10 09:25:44,174 - Execution time1 - INFO - Execution mean time : 0.96 s
+ 09:25:39,296 - Execution time1 - INFO - time : 16.23 s, loop 13 : completed in : 0.75 s
+2020-06-10 09:25:40,235 - Execution time1 - INFO - time : 17.17 s, loop 14 : completed in : 0.92 s
+2020-06-10 09:25:41,073 - Execution time1 - INFO - time : 18.01 s, loop 15 : completed in : 0.77 s
+2020-06-10 09:25:41,506 - Execution time1 - INFO - time : 18.44 s, loop 16 : completed in : 0.42 s
+2020-06-10 09:25:44,113 - Execution time1 - INFO - time : 21.05 s, loop 17 : completed in : 2.59 s
+2020-06-10 09:25:44,174 - Execution time1 - INFO - Execution mean time : 0.96 s
+9:25:38,332 - Execution time1 - INFO - time : 15.26 s, loop 12 : completed in : 1.61 s
+2020-06-10 09:25:39,296 - Execution time1 - INFO - time : 16.23 s, loop 13 : completed in : 0.75 s
+2020-06-10 09:25:40,235 - Execution time1 - INFO - time : 17.17 s, loop 14 : completed in : 0.92 s
+2020-06-10 09:25:41,073 - Execution time1 - INFO - time : 18.01 s, loop 15 : completed in : 0.77 s
+2020-06-10 09:25:41,506 - Execution time1 - INFO - time : 18.44 s, loop 16 : completed in : 0.42 s
+2020-06-10 09:25:44,113 - Execution time1 - INFO - time : 21.05 s, loop 17 : completed in : 2.59 s
+2020-06-10 09:25:44,174 - Execution time1 - INFO - Execution mean time : 0.96 s
+10 09:25:40,235 - Execution time1 - INFO - time : 17.17 s, loop 14 : completed in : 0.92 s
+2020-06-10 09:25:41,073 - Execution time1 - INFO - time : 18.01 s, loop 15 : completed in : 0.77 s
+2020-06-10 09:25:41,506 - Execution time1 - INFO - time : 18.44 s, loop 16 : completed in : 0.42 s
+2020-06-10 09:25:44,113 - Execution time1 - INFO - time : 21.05 s, loop 17 : completed in : 2.59 s
+2020-06-10 09:25:44,174 - Execution time1 - INFO - Execution mean time : 0.96 s
+:35,662 - Execution time1 - INFO - time : 12.59 s, loop 10 : completed in : 1.27 s
+2020-06-10 09:25:36,694 - Execution time1 - INFO - time : 13.63 s, loop 11 : completed in : 1.01 s
+2020-06-10 09:25:38,332 - Execution time1 - INFO - time : 15.26 s, loop 12 : completed in : 1.61 s
+2020-06-10 09:25:39,296 - Execution time1 - INFO - time : 16.23 s, loop 13 : completed in : 0.75 s
+2020-06-10 09:25:40,235 - Execution time1 - INFO - time : 17.17 s, loop 14 : completed in : 0.92 s
+2020-06-10 09:25:41,073 - Execution time1 - INFO - time : 18.01 s, loop 15 : completed in : 0.77 s
+2020-06-10 09:25:41,506 - Execution time1 - INFO - time : 18.44 s, loop 16 : completed in : 0.42 s
+2020-06-10 09:25:44,113 - Execution time1 - INFO - time : 21.05 s, loop 17 : completed in : 2.59 s
+2020-06-10 09:25:44,174 - Execution time1 - INFO - Execution mean time : 0.96 s

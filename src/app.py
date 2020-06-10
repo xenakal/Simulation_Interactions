@@ -33,7 +33,7 @@ class App:
 
         """ 
             Modification from the constant file to get the desired parameter once runing from main
-            By default set to NONE, in this case the value taken is the one set by the constants.py file itself
+            By default set to NONE, in this case the value taken is the one set by the constants_ch1.py file itself
         """
         self.file_load = file_name
 
@@ -200,7 +200,7 @@ class App:
             agent.clear(reset=reset)
 
         for agent in self.room.information_simulation.agentUser_list:
-            agent.memory.compute_obstruction_time(self.file_load,self.room)
+            agent.memory.compute_obstruction_time(self.file_load,self.filename,self.room)
             agent.clear(reset=reset)
 
         "Clean mailbox"

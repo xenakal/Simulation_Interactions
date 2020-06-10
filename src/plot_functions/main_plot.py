@@ -9,7 +9,7 @@ from src.plot_functions.plot_targetEstimator import *
 "To plot a graph just put the agent id and run"
 
 constants.ResultsPath.folder = "../results"
-constants.ResultsPath.name_simulation = "test1"
+constants.ResultsPath.name_simulation = "attractive_combine"
 
 
 def plot_res(room, filename):
@@ -56,16 +56,17 @@ def plot_res(room, filename):
         ###agent_estimator_plot.plot()
 
         """Including every target"""
-        ###analyser_agent_memory.plot_all_target_simulated_data_collected_data()
+        analyser_agent_memory.plot_all_target_simulated_data_collected_data()
         ###analyser_kalman_global.plot_position_target_simulated_data_collected_data()
         ###analyser_kalman_local.plot_position_target_simulated_data_collected_data()
 
         """Specific to each target"""
         for target in room.information_simulation.target_list:
+            pass
             ###analyser_agent_memory.plot_MSE_not_interpolate_target_id(target.id)
-            analyser_kalman_global.plot_MSE_not_interpolate_target_id(target.id)
+            ###analyser_kalman_global.plot_MSE_not_interpolate_target_id(target.id)
             ###analyser_kalman_global.plot_MSE_interpolate_target_id(target.id)
-            analyser_kalman_local.plot_MSE_not_interpolate_target_id(target.id)
+            ###analyser_kalman_local.plot_MSE_not_interpolate_target_id(target.id)
             ###analyser_kalman_local.plot_MSE_interpolate_target_id(target.id)
             ###analyser_kalman_prediction_t1.plot_MSE_prediction_1_target_id(target.id)
             ###analyser_kalman_prediction_t2.plot_MSE_prediction_2_target_id(target.id)
@@ -95,9 +96,8 @@ def plot_res(room, filename):
 
         """Specific to each target"""
         for target in room.information_simulation.target_list:
-            pass
-            ###analyser_agent_memory.plot_a_target_simulated_data_collected_data(target.id)
-            # analyser_kalman_global.plot_a_target_simulated_data_collected_data(target.id)
+            analyser_agent_memory.plot_a_target_simulated_data_collected_data(target.id)
+            analyser_kalman_global.plot_a_target_simulated_data_collected_data(target.id)
 
     print("Done !")
 

@@ -21,7 +21,7 @@ class KalmanFilterModel:
 
     In order to not mess up the consistency when creating the models at different locations in the src, the measurement
     dimention and the distributed/centralized version are chosen automatically from the corresponding variables found in
-    constants.py.
+    constants_ch1.py.
     """
 
     def __init__(self, x_init, y_init, kalman_logger, vx_init=0, vy_init=0, ax_init=0, ay_init=0, calc_speed=False):
@@ -43,7 +43,7 @@ class KalmanFilterModel:
         elif KALMAN_MODEL_MEASUREMENT_DIM == 6:
             ret_filter = self.kalman_filter_acceleration(x_init, y_init, vx_init, vy_init, ax_init, ay_init)
         else:
-            warn("There is no implemented model for the specified input size (constants.py), default "
+            warn("There is no implemented model for the specified input size (constants_ch1.py), default "
                  "of dim 4 will be used.")
             ret_filter = self.kalman_filter_velocity(x_init, y_init, vx_init, vy_init)
 

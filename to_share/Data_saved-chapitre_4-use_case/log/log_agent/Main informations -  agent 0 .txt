@@ -1,0 +1,128 @@
+2020-06-10 09:25:23,069 - Main informations0 - INFO - Using hearbeat messages !
+2020-06-10 09:25:23,070 - Main informations0 - INFO - Time between two heartbeats of 1.00 s
+2020-06-10 09:25:23,070 - Main informations0 - INFO - Time max between two heartbeats of 3.00 s
+2020-06-10 09:25:23,086 - Main informations0 - INFO - starting initialisation in agent_interacting_room_agent_cam
+2020-06-10 09:25:23,086 - Main informations0 - INFO - starting initialisation in agent_interacting_room
+2020-06-10 09:25:23,086 - Main informations0 - INFO - initialisation in agent_interacting_room_done !
+2020-06-10 09:25:23,087 - Main informations0 - INFO - initialisation in agent_interacting_room__cam_done !
+2020-06-10 09:25:23,089 - Main informations0 - INFO - Agent 0 is activated at 0.02 s
+2020-06-10 09:25:23,090 - Main informations0 - INFO - camera of a agent 0 is activated at 0.02 s
+2020-06-10 09:25:27,139 - Main informations0 - INFO - Found someone ! agent user :100
+2020-06-10 09:25:27,139 - Main informations0 - INFO - Add a new heartbeat counter for agent: 100
+2020-06-10 09:25:27,172 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:27,189 - Main informations0 - INFO - Add a new heartbeat counter for agent: 1
+2020-06-10 09:25:29,973 - Main informations0 - INFO - Agent : 1at:  6.91s is not connected anymore, last heartbeat : 3.61 s
+2020-06-10 09:25:30,767 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:32,198 - Main informations0 - INFO - Agent : 1at:  9.13s is not connected anymore, last heartbeat : 5.16 s
+2020-06-10 09:25:36,162 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:36,936 - Main informations0 - INFO - Agent : 1at:  13.87s is not connected anymore, last heartbeat : 8.45 s
+2020-06-10 09:25:39,031 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:39,325 - Main informations0 - INFO - Agent : 1at:  16.26s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:40,301 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:40,598 - Main informations0 - INFO - Agent : 1at:  17.53s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,341 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:41,703 - Main informations0 - INFO - Agent : 1at:  18.64s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,766 - Main informations0 - INFO - Saving data ...: agent 0
+2020-06-10 09:25:41,793 - Main informations0 - INFO - Data saved !
+2020-06-10 09:25:44,078 - Main informations0 - INFO - Agent cleared 
+
+- Main informations0 - INFO - Agent 0 is activated at 0.02 s
+2020-06-10 09:25:23,090 - Main informations0 - INFO - camera of a agent 0 is activated at 0.02 s
+2020-06-10 09:25:27,139 - Main informations0 - INFO - Found someone ! agent user :100
+2020-06-10 09:25:27,139 - Main informations0 - INFO - Add a new heartbeat counter for agent: 100
+2020-06-10 09:25:27,172 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:27,189 - Main informations0 - INFO - Add a new heartbeat counter for agent: 1
+2020-06-10 09:25:29,973 - Main informations0 - INFO - Agent : 1at:  6.91s is not connected anymore, last heartbeat : 3.61 s
+2020-06-10 09:25:30,767 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:32,198 - Main informations0 - INFO - Agent : 1at:  9.13s is not connected anymore, last heartbeat : 5.16 s
+2020-06-10 09:25:36,162 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:36,936 - Main informations0 - INFO - Agent : 1at:  13.87s is not connected anymore, last heartbeat : 8.45 s
+2020-06-10 09:25:39,031 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:39,325 - Main informations0 - INFO - Agent : 1at:  16.26s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:40,301 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:40,598 - Main informations0 - INFO - Agent : 1at:  17.53s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,341 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:41,703 - Main informations0 - INFO - Agent : 1at:  18.64s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,766 - Main informations0 - INFO - Saving data ...: agent 0
+2020-06-10 09:25:41,793 - Main informations0 - INFO - Data saved !
+2020-06-10 09:25:44,078 - Main informations0 - INFO - Agent cleared 
+
+27,139 - Main informations0 - INFO - Add a new heartbeat counter for agent: 100
+2020-06-10 09:25:27,172 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:27,189 - Main informations0 - INFO - Add a new heartbeat counter for agent: 1
+2020-06-10 09:25:29,973 - Main informations0 - INFO - Agent : 1at:  6.91s is not connected anymore, last heartbeat : 3.61 s
+2020-06-10 09:25:30,767 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:32,198 - Main informations0 - INFO - Agent : 1at:  9.13s is not connected anymore, last heartbeat : 5.16 s
+2020-06-10 09:25:36,162 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:36,936 - Main informations0 - INFO - Agent : 1at:  13.87s is not connected anymore, last heartbeat : 8.45 s
+2020-06-10 09:25:39,031 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:39,325 - Main informations0 - INFO - Agent : 1at:  16.26s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:40,301 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:40,598 - Main informations0 - INFO - Agent : 1at:  17.53s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,341 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:41,703 - Main informations0 - INFO - Agent : 1at:  18.64s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,766 - Main informations0 - INFO - Saving data ...: agent 0
+2020-06-10 09:25:41,793 - Main informations0 - INFO - Data saved !
+2020-06-10 09:25:44,078 - Main informations0 - INFO - Agent cleared 
+
+is not connected anymore, last heartbeat : 3.61 s
+2020-06-10 09:25:30,767 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:32,198 - Main informations0 - INFO - Agent : 1at:  9.13s is not connected anymore, last heartbeat : 5.16 s
+2020-06-10 09:25:36,162 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:36,936 - Main informations0 - INFO - Agent : 1at:  13.87s is not connected anymore, last heartbeat : 8.45 s
+2020-06-10 09:25:39,031 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:39,325 - Main informations0 - INFO - Agent : 1at:  16.26s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:40,301 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:40,598 - Main informations0 - INFO - Agent : 1at:  17.53s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,341 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:41,703 - Main informations0 - INFO - Agent : 1at:  18.64s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,766 - Main informations0 - INFO - Saving data ...: agent 0
+2020-06-10 09:25:41,793 - Main informations0 - INFO - Data saved !
+2020-06-10 09:25:44,078 - Main informations0 - INFO - Agent cleared 
+
+- INFO - Add a new heartbeat counter for agent: 1
+2020-06-10 09:25:29,973 - Main informations0 - INFO - Agent : 1at:  6.91s is not connected anymore, last heartbeat : 3.61 s
+2020-06-10 09:25:30,767 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:32,198 - Main informations0 - INFO - Agent : 1at:  9.13s is not connected anymore, last heartbeat : 5.16 s
+2020-06-10 09:25:36,162 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:36,936 - Main informations0 - INFO - Agent : 1at:  13.87s is not connected anymore, last heartbeat : 8.45 s
+2020-06-10 09:25:39,031 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:39,325 - Main informations0 - INFO - Agent : 1at:  16.26s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:40,301 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:40,598 - Main informations0 - INFO - Agent : 1at:  17.53s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,341 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:41,703 - Main informations0 - INFO - Agent : 1at:  18.64s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,766 - Main informations0 - INFO - Saving data ...: agent 0
+2020-06-10 09:25:41,793 - Main informations0 - INFO - Data saved !
+2020-06-10 09:25:44,078 - Main informations0 - INFO - Agent cleared 
+
+is not connected anymore, last heartbeat : 3.61 s
+2020-06-10 09:25:30,767 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:32,198 - Main informations0 - INFO - Agent : 1at:  9.13s is not connected anymore, last heartbeat : 5.16 s
+2020-06-10 09:25:36,162 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:36,936 - Main informations0 - INFO - Agent : 1at:  13.87s is not connected anymore, last heartbeat : 8.45 s
+2020-06-10 09:25:39,031 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:39,325 - Main informations0 - INFO - Agent : 1at:  16.26s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:40,301 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:40,598 - Main informations0 - INFO - Agent : 1at:  17.53s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,341 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:41,703 - Main informations0 - INFO - Agent : 1at:  18.64s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,766 - Main informations0 - INFO - Saving data ...: agent 0
+2020-06-10 09:25:41,793 - Main informations0 - INFO - Data saved !
+2020-06-10 09:25:44,078 - Main informations0 - INFO - Agent cleared 
+
+is not connected anymore, last heartbeat : 3.61 s
+2020-06-10 09:25:30,767 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:32,198 - Main informations0 - INFO - Agent : 1at:  9.13s is not connected anymore, last heartbeat : 5.16 s
+2020-06-10 09:25:36,162 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:36,936 - Main informations0 - INFO - Agent : 1at:  13.87s is not connected anymore, last heartbeat : 8.45 s
+2020-06-10 09:25:39,031 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:39,325 - Main informations0 - INFO - Agent : 1at:  16.26s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:40,301 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:40,598 - Main informations0 - INFO - Agent : 1at:  17.53s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,341 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-10 09:25:41,703 - Main informations0 - INFO - Agent : 1at:  18.64s is not connected anymore, last heartbeat : 12.89 s
+2020-06-10 09:25:41,766 - Main informations0 - INFO - Saving data ...: agent 0
+2020-06-10 09:25:41,793 - Main informations0 - INFO - Data saved !
+2020-06-10 09:25:44,078 - Main informations0 - INFO - Agent cleared 
+

@@ -88,7 +88,7 @@ class TargetRepresentation(Item):
         self.color = color
 
         self.attributes_not_to_txt += ["item_type","signature","alpha","vx","vy","ax","ay","variance_on_estimation",
-                                       "confidence","priority_level","color"]
+                                       "confidence","color"]
 
         "Default values"
         if type == TargetType.SET_FIX:
@@ -220,7 +220,7 @@ class Target(TargetRepresentation):
         self.vy_max = self.target_random_for_randomize(v_bound)
 
         """Other attributes"""
-        self.type = target_type
+        self.target_type = target_type
         self.radius = self.target_random_for_randomize(r_bound)
 
         """Trajectory"""
@@ -234,6 +234,8 @@ class Target(TargetRepresentation):
         """Time attributes"""
         self.t_add = [0]
         self.t_del = [constants.TIME_STOP]
+
+
 
 
     def save_position(self):

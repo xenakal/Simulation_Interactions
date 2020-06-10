@@ -320,21 +320,30 @@ class Memory:
         self.memory_predictions_order_2_from_target.add_create_itemEstimation(time_from_estimation, agent_id,
                                                                agent_signature,item)
 
-    def compute_obstruction_time(self,filename,room):
+    def compute_obstruction_time(self,filename1,filename2,room):
         list = self.memory_measured_from_target
         for target in room.information_simulation.target_list:
-            obstructed_time = 0
+            obstructed_time = [0,0,0,0,0]
             item_list = list.get_item_list(target.id)
             item_list.sort()
             for item1,item2 in zip(item_list[:-1],item_list[1:]):
 
                 delta_t = item2.time_stamp - item1.time_stamp
-                if delta_t > 3*constants.TIME_BTW_TARGET_ESTIMATOR and 10 < item1.time_stamp < 70 :
-                    print("item1: %.02f item2: %.02f" % (item1.time_stamp, item2.time_stamp))
-                    print(delta_t)
-                    obstructed_time += delta_t
+                for n,time in enumerate(obstructed_time):
+                    if delta_t < (n+1)*constants.TIME_BTW_TARGET_ESTIMATOR and 10 < item1.time_stamp < 70 :
+                        #print("item1: %.02f item2: %.02f" % (item1.time_stamp, item2.time_stamp))
+                        #print(delta_t)
+                        obstructed_time[n] += delta_t
+                        break
+                    elif delta_t > 5*constants.TIME_BTW_TARGET_ESTIMATOR and 10 < item1.time_stamp < 70 :
+                        obstructed_time[-1] += delta_t
+                        break
 
-            fichier = open(filename, "a")
-            fichier.write("%.02f \n"%obstructed_time)
+
+            fichier = open(filename1, "a")
+            fichier.write("%s \n" % obstructed_time)
             fichier.close()
+            #fichier = open(constants.MapPath.MAIN_FOLDER +filename2, "a")
+            #fichier.write("%s \n"%obstructed_time)
+            #fichier.close()
 

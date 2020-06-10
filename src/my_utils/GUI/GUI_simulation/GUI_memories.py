@@ -51,6 +51,9 @@ class GUI_memories:
 
     def draw_mesure_and_receiveMessages(self, room):
         """ Draws the previous positions of the selected targets for the selected agents. """
+        pass
+
+        """
         agents = room.get_multiple_Agent_with_id(self.agents_to_display, AgentType.AGENT_CAM)
 
         for agent in agents:
@@ -62,3 +65,4 @@ class GUI_memories:
                             pygame.draw.circle(self.screen, agent.camera.color,
                                                (self.x_offset + int(itemEstimation.item.xc * self.scale_x),
                                                 self.y_offset + int((constants.ROOM_DIMENSION_Y-itemEstimation.item.yc) * self.scale_y)), 2)
+        """

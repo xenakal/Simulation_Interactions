@@ -334,7 +334,7 @@ class RoomRepresentation:
 
                 if agent.id == agent_detected_id:
                     is_in_RoomRepresentation = True                
-                    agent.is_active = itemEstimation.item.is_active
+                    #agent.is_active = itemEstimation.item.is_active
                     agent.evaluate_agent_confidence(0.001, constants.get_time() - itemEstimation.time_stamp)
                     camera.xc = itemEstimation.item.camera_representation.xc
                     camera.yc = itemEstimation.item.camera_representation.yc
@@ -479,13 +479,16 @@ class Room(RoomRepresentation):
 
                 if agent not in self.active_AgentCams_list:
                     self.active_AgentCams_list.append(agent)
-                    self.agentCams_representation_list = self.active_AgentCams_list
+                if agent not in self.agentCams_representation_list:
+                    self.agentCams_representation_list.append(agent)
                 agent.log_main.info("Agent %d is activated at %.02f s" % (agent.id, constants.get_time()))
 
             elif constants.get_time() > agent.t_del[agent.number_of_time_passed] and agent.is_active:
                 if agent.number_of_time_passed < len(agent.t_add) - 1:
                     agent.number_of_time_passed = agent.number_of_time_passed + 1
+
                 agent.is_active = False
+                self.active_AgentCams_list.remove(agent)
                 agent.log_main.info("Agent %d is desactivated at %.02f s" % (agent.id, constants.get_time()))
 
     def add_create_Target(self, x, y, vx, vy, trajectory_type, trajectory, type, radius, t_add, t_del):

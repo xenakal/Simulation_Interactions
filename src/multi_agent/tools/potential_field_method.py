@@ -30,10 +30,10 @@ class PotentialShape:
 class HeatMaps:
     """
         Maps are composed of multiple points
-        [(x,y,xi,rho_0,PotentialType),...]
+        [(x,y,data_saved-controller-xi,rho_0,PotentialType),...]
 
         x and y are the coordinate of the point where we set the potential function
-        xi is a factor between 0 and 1, to give more or less importance to the point
+        data_saved-controller-xi is a factor between 0 and 1, to give more or less importance to the point
         rho_0 is the radius in which the potential is determined
         PotentialType is the function we want to use
 
@@ -137,7 +137,6 @@ def define_potential_type(field_type, distances, xi=None, eta=None, rho_0=None):
     if field_type == PotentialType.Repulsive_potential and eta is not None and rho_0 is not None:
         distances = np.where(distances > 0.001 * rho_0, distances, rho_0)
         distances = np.where(distances <= rho_0, distances, rho_0)
-
         return 0.5 * eta * np.square(1 / distances - 1 / rho_0)
     elif field_type == PotentialType.Attractive_potential and xi is not None:
         distances = np.where(distances > -1, distances, 0)
@@ -455,7 +454,7 @@ def compute_potential_and_potential_gradient(X_potential_field, Y_potential_fiel
 
 def compute_potential_field_cam(X, Y, n_target, beta, field_depth):
     '''potential_field = compute_part_of_potential_field(PotentialType.Attractive_potential,PotentialShape.Angle, X=X_potential, mean_x=0, var_x=1, Y=Y_potential, mean_y=0, var_y=1,
-                           angle_min=-math.radians(30), angle_max=math.radians(30),xi = 10)
+                           angle_min=-math.radians(30), angle_max=math.radians(30),data_saved-controller-xi = 10)
     '''
 
     X_potential_field, Y_potential_field = np.meshgrid(X, Y)

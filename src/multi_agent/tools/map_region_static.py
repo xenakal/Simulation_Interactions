@@ -145,7 +145,7 @@ class MapRegionStatic:
 
 
         self.coverage_percentage = np.array(self.coverage_percentage)/self.n_point*100
-        print("Pourcentage couvert : %s"%self.coverage_percentage)
+        #print("Pourcentage couvert : %s"%self.coverage_percentage)
 
     def define_region_covered_by_cams(self):
         """

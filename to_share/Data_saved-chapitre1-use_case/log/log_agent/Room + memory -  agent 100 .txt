@@ -1,0 +1,366 @@
+2020-06-10 21:29:54,343 - Room + memory100 - INFO - Memory 0
+Statistic message 
+
+2020-06-10 21:29:54,430 - Room + memory100 - INFO - Memory 0
+Statistic message 
+
+2020-06-10 21:29:54,523 - Room + memory100 - INFO - Memory 0
+Statistic message 
+
+2020-06-10 21:29:54,610 - Room + memory100 - INFO - Memory 0
+Statistic message 
+
+2020-06-10 21:29:54,693 - Room + memory100 - INFO - Memory 0
+Statistic message 
+
+2020-06-10 21:29:54,820 - Room + memory100 - INFO - Memory 0
+Statistic message 
+
+2020-06-10 21:29:54,913 - Room + memory100 - INFO - Memory 0
+Statistic message 
+
+2020-06-10 21:29:55,022 - Room + memory100 - INFO - Memory 0
+Statistic message 
+
+2020-06-10 21:29:55,113 - Room + memory100 - INFO - Memory 0
+Statistic message 
+
+2020-06-10 21:29:55,200 - Room + memory100 - INFO - Memory 0
+Statistic message 
+
+2020-06-10 21:29:55,309 - Room + memory100 - INFO - Memory 0
+Statistic message 
+
+2020-06-10 21:29:55,417 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories1Statistic message 
+
+2020-06-10 21:29:55,502 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories1Statistic message 
+
+2020-06-10 21:29:55,588 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories1Statistic message 
+
+2020-06-10 21:29:55,779 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories2Statistic message 
+
+2020-06-10 21:29:55,867 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories2Statistic message 
+
+2020-06-10 21:29:55,959 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories2Statistic message 
+
+2020-06-10 21:29:56,086 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories3Statistic message 
+
+2020-06-10 21:29:56,174 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories3Statistic message 
+
+2020-06-10 21:29:56,265 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories3Statistic message 
+
+2020-06-10 21:29:56,398 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories4Statistic message 
+
+2020-06-10 21:29:56,483 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories4Statistic message 
+
+2020-06-10 21:29:56,568 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories4Statistic message 
+
+2020-06-10 21:29:56,651 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories4Statistic message 
+
+2020-06-10 21:29:56,761 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories5Statistic message 
+
+2020-06-10 21:29:56,846 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories5Statistic message 
+
+2020-06-10 21:29:56,945 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories6Statistic message 
+
+2020-06-10 21:29:57,045 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories6Statistic message 
+
+2020-06-10 21:29:57,159 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories7Statistic message 
+
+2020-06-10 21:29:57,270 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories7Statistic message 
+
+2020-06-10 21:29:57,356 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories7Statistic message 
+
+2020-06-10 21:29:57,479 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories8Statistic message 
+
+2020-06-10 21:29:57,567 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories8Statistic message 
+
+2020-06-10 21:29:57,651 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories8Statistic message 
+
+2020-06-10 21:29:57,763 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Statistic message 
+
+2020-06-10 21:29:57,847 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Statistic message 
+
+2020-06-10 21:29:57,934 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Statistic message 
+
+2020-06-10 21:29:58,036 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories1Statistic message 
+
+2020-06-10 21:29:58,126 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories1Statistic message 
+
+2020-06-10 21:29:58,217 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories1Statistic message 
+
+2020-06-10 21:29:58,304 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories1Statistic message 
+
+2020-06-10 21:29:58,415 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories2Statistic message 
+
+2020-06-10 21:29:58,505 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories2Statistic message 
+
+2020-06-10 21:29:58,599 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories2Statistic message 
+
+2020-06-10 21:29:58,713 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories3Statistic message 
+
+2020-06-10 21:29:58,799 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories3Statistic message 
+
+2020-06-10 21:29:58,894 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories3Statistic message 
+
+2020-06-10 21:29:58,994 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories4Statistic message 
+
+2020-06-10 21:29:59,078 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories4Statistic message 
+
+2020-06-10 21:29:59,185 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories5Statistic message 
+
+2020-06-10 21:29:59,277 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories5Statistic message 
+
+2020-06-10 21:29:59,363 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories5Statistic message 
+
+2020-06-10 21:29:59,459 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories6Statistic message 
+
+2020-06-10 21:29:59,544 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories6Statistic message 
+
+2020-06-10 21:29:59,637 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories6Statistic message 
+
+2020-06-10 21:29:59,731 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories6Statistic message 
+
+2020-06-10 21:29:59,846 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:29:59,931 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:00,018 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:00,103 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:00,193 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:00,289 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:00,374 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:00,461 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:00,552 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:00,636 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:00,730 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:00,814 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:00,912 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories9Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:01,016 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories10Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:01,100 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories10Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:01,184 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories10Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:01,278 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories10Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:01,377 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories10Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:01,462 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories10Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:01,563 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories11Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:01,647 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories11Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:01,731 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories11Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:01,856 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories12Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:01,947 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories12Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:02,038 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories12Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:02,137 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories13Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:02,222 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories13Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:02,328 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories13Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:02,449 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories14Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:02,533 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories14Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:02,624 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories14Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:02,735 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories15Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:02,819 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories15Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:02,912 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories15Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:02,996 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories15Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:03,094 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories15Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:03,179 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories15Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:03,299 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories17Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:03,402 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories17Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:03,518 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories18Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:03,614 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories18Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:03,699 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories18Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:03,799 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories19Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:03,885 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories19Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:03,968 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories19Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:04,059 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories19Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:04,203 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories20Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:04,287 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories20Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:04,387 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories21Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:04,485 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories21Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:04,576 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories21Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:04,684 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories22Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:04,769 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories22Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:04,854 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories22Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:04,960 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories23Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:05,062 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories23Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:05,147 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories23Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:05,286 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories24Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:05,374 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories24Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:05,458 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories24Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:05,577 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories25Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:05,677 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories25Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:05,772 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories25Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:05,994 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories26Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:06,180 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories26Owner: 1Item: 2#memories7Statistic message 
+
+2020-06-10 21:30:06,411 - Room + memory100 - INFO - Memory 0
+Owner: 0Item: 2#memories26Owner: 1Item: 2#memories7Statistic message 
+

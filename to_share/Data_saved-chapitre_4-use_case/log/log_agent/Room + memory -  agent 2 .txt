@@ -1,0 +1,41 @@
+2020-06-10 09:25:37,269 - Room + memory2 - INFO - Memory 12.837095499038696
+Owner: 2Item: 2#memories1Item: 1#memories1Item: 5#memories1Item: 3#memories1Statistic message 
+
+2020-06-10 09:25:39,775 - Room + memory2 - INFO - Memory 14.442609548568726
+Owner: 2Item: 2#memories1Item: 1#memories2Item: 5#memories2Item: 3#memories1Statistic message 
+
+2020-06-10 09:25:40,804 - Room + memory2 - INFO - Memory 16.96893334388733
+Owner: 2Item: 2#memories1Item: 1#memories3Item: 5#memories2Item: 3#memories1Statistic message 
+
+2020-06-10 09:25:41,746 - Room + memory2 - INFO - Memory 17.976382970809937
+Owner: 2Item: 2#memories1Item: 1#memories4Item: 5#memories2Item: 3#memories1Statistic message 
+
+2020-06-10 09:25:47,982 - Room + memory2 - INFO - Memory 19.039997816085815
+Owner: 2Item: 2#memories1Item: 1#memories5Item: 5#memories2Item: 3#memories1Statistic message 
+
+
+2020-06-10 09:25:39,775 - Room + memory2 - INFO - Memory 14.442609548568726
+Owner: 2Item: 2#memories1Item: 1#memories2Item: 5#memories2Item: 3#memories1Statistic message 
+
+2020-06-10 09:25:40,804 - Room + memory2 - INFO - Memory 16.96893334388733
+Owner: 2Item: 2#memories1Item: 1#memories3Item: 5#memories2Item: 3#memories1Statistic message 
+
+2020-06-10 09:25:41,746 - Room + memory2 - INFO - Memory 17.976382970809937
+Owner: 2Item: 2#memories1Item: 1#memories4Item: 5#memories2Item: 3#memories1Statistic message 
+
+2020-06-10 09:25:47,982 - Room + memory2 - INFO - Memory 19.039997816085815
+Owner: 2Item: 2#memories1Item: 1#memories5Item: 5#memories2Item: 3#memories1Statistic message 
+
+
+2020-06-10 09:25:40,804 - Room + memory2 - INFO - Memory 16.96893334388733
+Owner: 2Item: 2#memories1Item: 1#memories3Item: 5#memories2Item: 3#memories1Statistic message 
+
+2020-06-10 09:25:41,746 - Room + memory2 - INFO - Memory 17.976382970809937
+Owner: 2Item: 2#memories1Item: 1#memories4Item: 5#memories2Item: 3#memories1Statistic message 
+
+2020-06-10 09:25:47,982 - Room + memory2 - INFO - Memory 19.039997816085815
+Owner: 2Item: 2#memories1Item: 1#memories5Item: 5#memories2Item: 3#memories1Statistic message 
+
+mory2 - INFO - Memory 19.039997816085815
+Owner: 2Item: 2#memories1Item: 1#memories5Item: 5#memories2Item: 3#memories1Statistic message 
+

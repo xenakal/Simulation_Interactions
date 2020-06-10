@@ -1,0 +1,19 @@
+2020-06-10 21:57:02,930 - Main informations2 - INFO - Using hearbeat messages !
+2020-06-10 21:57:02,930 - Main informations2 - INFO - Time between two heartbeats of 1.00 s
+2020-06-10 21:57:02,930 - Main informations2 - INFO - Time max between two heartbeats of 3.00 s
+2020-06-10 21:57:02,939 - Main informations2 - INFO - starting initialisation in agent_interacting_room_agent_cam
+2020-06-10 21:57:02,939 - Main informations2 - INFO - starting initialisation in agent_interacting_room
+2020-06-10 21:57:02,939 - Main informations2 - INFO - initialisation in agent_interacting_room_done !
+2020-06-10 21:57:02,939 - Main informations2 - INFO - initialisation in agent_interacting_room__cam_done !
+2020-06-10 21:57:02,940 - Main informations2 - INFO - Agent 2 is activated at 0.03 s
+2020-06-10 21:57:02,940 - Main informations2 - INFO - camera of a agent 2 is activated at 0.03 s
+2020-06-10 21:57:04,269 - Main informations2 - INFO - Found someone ! agent user :100
+2020-06-10 21:57:04,269 - Main informations2 - INFO - Add a new heartbeat counter for agent: 100
+2020-06-10 21:57:04,968 - Main informations2 - INFO - Found someone ! agent cam :0
+2020-06-10 21:57:04,968 - Main informations2 - INFO - Add a new heartbeat counter for agent: 0
+2020-06-10 21:57:05,322 - Main informations2 - INFO - Found someone ! agent cam :1
+2020-06-10 21:57:05,322 - Main informations2 - INFO - Add a new heartbeat counter for agent: 1
+2020-06-10 21:57:23,515 - Main informations2 - INFO - Saving data ...: agent 2
+2020-06-10 21:57:23,539 - Main informations2 - INFO - Data saved !
+2020-06-10 21:57:23,748 - Main informations2 - INFO - Agent cleared 
+

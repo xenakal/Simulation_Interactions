@@ -1,0 +1,5 @@
+2020-06-10 21:57:04,486 - kalman_info_32 - INFO - new distributed kalman at time 1.57 s
+2020-06-10 21:57:05,901 - kalman_info_32 - INFO - new distributed kalman at time 2.99 s
+2020-06-10 21:57:08,522 - kalman_info_32 - INFO - new distributed kalman at time 5.61 s
+2020-06-10 21:57:10,962 - kalman_info_32 - INFO - new distributed kalman at time 8.05 s
+2020-06-10 21:57:12,469 - kalman_info_32 - INFO - new distributed kalman at time 9.56 s
