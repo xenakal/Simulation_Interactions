@@ -83,6 +83,11 @@ ax3.legend(["fix targets", "generated target 2's position","generated target 3's
                "generated target 5's position","filtered target 2's position","filtered target 3's position",
                "filtered target 4's position","filtered target 5's position","camera's positions"], fontsize=20,loc=3)
 
+
+fig.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- target")
+fig1.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- time")
+fig3.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- legend")
+
 plt.show()
 
 

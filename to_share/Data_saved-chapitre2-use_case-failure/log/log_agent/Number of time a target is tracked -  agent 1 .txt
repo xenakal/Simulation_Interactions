@@ -1,0 +1,98 @@
+2020-06-10 22:14:55,149 - Number of time a target is tracked1 - INFO - agent 1 time 0.31 
+target 1 is seen 1 
+
+2020-06-10 22:14:55,149 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 0.3112196922302246 MESSAGE_message#:8245723361020130
+MESSAGE_From: 1 MESSAGE_sender#2328122975769744
+MESSAGE_Receiver list : 
+MESSAGE_Type: tracking_target MESSAGE_item: 1 MESSAGE_Message: 
+
+2020-06-10 22:14:55,520 - Number of time a target is tracked1 - INFO - agent 1 time 0.68 
+target 1 is seen 1 
+target 5 is seen 1 
+
+2020-06-10 22:14:55,521 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 0.6832609176635742 MESSAGE_message#:5709468151581577
+MESSAGE_From: 1 MESSAGE_sender#2328122975769744
+MESSAGE_Receiver list : 
+MESSAGE_Type: tracking_target MESSAGE_item: 5 MESSAGE_Message: 
+
+2020-06-10 22:14:55,521 - Number of time a target is tracked1 - INFO - agent 1 time 0.68 
+target 1 is seen 1 
+target 5 is seen 1 
+target 2 is seen 1 
+
+2020-06-10 22:14:55,522 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 0.6842591762542725 MESSAGE_message#:2122459587594435
+MESSAGE_From: 1 MESSAGE_sender#2328122975769744
+MESSAGE_Receiver list : 
+MESSAGE_Type: tracking_target MESSAGE_item: 2 MESSAGE_Message: 
+
+2020-06-10 22:14:56,201 - Number of time a target is tracked1 - INFO - agent 1 time 1.36 
+target 1 is seen 1 
+target 5 is seen 1 
+target 2 is seen 1 
+target 3 is seen 1 
+
+2020-06-10 22:14:56,201 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 1.3639070987701416 MESSAGE_message#:2231369248219232
+MESSAGE_From: 1 MESSAGE_sender#2328122975769744
+MESSAGE_Receiver list : 
+MESSAGE_Type: tracking_target MESSAGE_item: 3 MESSAGE_Message: 
+
+2020-06-10 22:15:00,009 - Number of time a target is tracked1 - INFO - agent 1 time 5.17 
+target 1 is seen 1 
+target 5 is seen 1 
+target 2 is seen 1 
+target 3 is seen 1 
+target 4 is seen 1 
+
+2020-06-10 22:15:00,009 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 5.17179274559021 MESSAGE_message#:378794322237983
+MESSAGE_From: 1 MESSAGE_sender#2328122975769744
+MESSAGE_Receiver list : 
+MESSAGE_Type: tracking_target MESSAGE_item: 4 MESSAGE_Message: 
+
+2020-06-10 22:15:01,665 - Number of time a target is tracked1 - INFO - agent 1 time 6.83 
+target 1 is seen 1 
+target 5 is seen 1 
+target 2 is seen 1 
+target 3 is seen 0 
+target 4 is seen 1 
+
+2020-06-10 22:15:01,665 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 6.8277599811553955 MESSAGE_message#:8717645429394608
+MESSAGE_From: 1 MESSAGE_sender#2328122975769744
+MESSAGE_Receiver list : 
+MESSAGE_Type: loosing_target MESSAGE_item: 3 MESSAGE_Message: 
+
+2020-06-10 22:15:03,476 - Number of time a target is tracked1 - INFO - agent 1 time 8.64 
+target 1 is seen 1 
+target 5 is seen 0 
+target 2 is seen 1 
+target 3 is seen 0 
+target 4 is seen 1 
+
+2020-06-10 22:15:03,476 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 8.63820481300354 MESSAGE_message#:5393775908548704
+MESSAGE_From: 1 MESSAGE_sender#2328122975769744
+MESSAGE_Receiver list : 
+MESSAGE_Type: loosing_target MESSAGE_item: 5 MESSAGE_Message: 
+
+2020-06-10 22:15:04,920 - Number of time a target is tracked1 - INFO - agent 1 time 10.08 
+target 1 is seen 1 
+target 5 is seen 0 
+target 2 is seen 0 
+target 3 is seen 0 
+target 4 is seen 1 
+
+2020-06-10 22:15:04,920 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 10.082269668579102 MESSAGE_message#:8782311714327387
+MESSAGE_From: 1 MESSAGE_sender#2328122975769744
+MESSAGE_Receiver list : 
+MESSAGE_Type: loosing_target MESSAGE_item: 2 MESSAGE_Message: 
+
+2020-06-10 22:15:10,550 - Number of time a target is tracked1 - INFO - agent 1 time 15.71 
+target 1 is seen 1 
+target 5 is seen 0 
+target 2 is seen 0 
+target 3 is seen 0 
+target 4 is seen 0 
+
+2020-06-10 22:15:10,550 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 15.712426900863647 MESSAGE_message#:9728552618860476
+MESSAGE_From: 1 MESSAGE_sender#2328122975769744
+MESSAGE_Receiver list : 
+MESSAGE_Type: loosing_target MESSAGE_item: 4 MESSAGE_Message: 
+

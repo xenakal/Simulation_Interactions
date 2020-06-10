@@ -104,5 +104,10 @@ ax3.scatter(0, 0, marker='o', color='black', edgecolors='gold',s = 100)
 ax3.scatter(0, 0, marker='D', s=100, c='gold', edgecolors='black')
 ax3.legend(["fix targets", "generated target 2's position","filtered target 2's position","camera's positions"], fontsize=20,loc=3)
 
+
+fig.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- target")
+fig1.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- time")
+fig3.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- legend")
+
 plt.show()
 
