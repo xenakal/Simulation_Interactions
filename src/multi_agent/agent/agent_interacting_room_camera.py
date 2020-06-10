@@ -726,7 +726,6 @@ class AgentCam(AgentInteractingWithRoom):
             self.memory.process_DKF_info(concerned_target_id, info_string, constants.get_time())
 
     def send_message_track_loose_target(self, track_loose_choice, target_id):
-
         if track_loose_choice == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET or track_loose_choice == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
             message = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, track_loose_choice, "",
                                           target_id)
