@@ -59,7 +59,7 @@ The buttons and their usage:
        - **real T** - to display the generated target trajectories. 
        - **M agent** - to display the measurement taken by an *"agent-camera"*
        - **M filtered** - to display the estimates filter by an *"agent-camera"*
-       - **M received** - not use
+       - **M received** - not used
        - **M all-agent** - to display all information gathered by the agent on a particular target
        - **predictions** - to display the predictions of the kalman filter 
     
@@ -80,10 +80,10 @@ The buttons and their usage:
 This tab is use to display the *"room-representation"* (belief each *"agent-camera"* has from the *"real-room"*). 
 <img src="images/agentoutput.png" width="40%">
 
- - **prediction**  - not use
+ - **prediction**  - not used
  - **real** - to compare the *"room-representation"* with the ¨*real-room"*   
  - **column of numbers on the left** - to display informations related to the corresponding *"agent-camera n"* (n being a number).
- - **column of numbers on the right** -  not use.
+ - **column of numbers on the right** -  not used.
  
 
 
@@ -111,7 +111,7 @@ This tab shows the view seen by each camera in the room. As in reality, the dept
 
 <h3> Stat tab</h3>  
 
-This tab is finally not use   
+This tab is finally not used   
 
 <h2> Folders </h2>
 
