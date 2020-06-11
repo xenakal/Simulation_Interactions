@@ -24,7 +24,7 @@ Four scenarios, corresponding to the case study presented in the thesis, are ava
     - n - switch to the next case study
     - p - come back to previous case study
     
-    Simulated informations to display are chosen with the buttons (see section GUI description) or with  the key-borads
+    Simulated informations to display are chosen with the buttons (see section GUI interface description) or with  the key-borads
     - s - take a screen-shot of the GUI interface - available after the simulation 
     - f - hide/show camera's field of view
     - g - hide/show a grid (1 square = 1m x 1m)
@@ -34,9 +34,9 @@ Four scenarios, corresponding to the case study presented in the thesis, are ava
 3. Create your own map using the *"create map tab"*
 <img src="images/creation_tab.png" width="40%">
 
-   1. Once it is saved, it will appear in the folder map under the name of *create_map.txt*.\
+   1. Once it is saved (see *"creation tab"* description), it will appear in the folder map under the name of *create_map.txt*.
    2. Rename it.
-   3. Add it to the list of names to be run (*map_to_test_name*)  in the file *main.py*.\
+   3. Add it to the list of names to be run (*map_to_test_name*)  in the file *main.py*.
    4. Set the options in the following list :
         - kalman_distributed = True/False, to use the distributed kalman filter
         - kalman_type = 4, model use
@@ -54,24 +54,26 @@ This tab provides a graphical visualisation of the simulated situation.
 <img src="images/simulation_tab.png" width="40%">
 
 The buttons and their usage: 
+   
+   - on the top: 
+       - **real T** - to display the generated target trajectories. 
+       - **M agent** - to display the measurement taken by an *"agent-camera"*
+       - **M filtered** - to display the estimates filter by an *"agent-camera"*
+       - **M received** - not use
+       - **M all-agent** - to display all information gathered by the agent on a particular target
+       - **predictions** - to display the predictions of the kalman filter 
     
-   - **real T** - to display the generated target trajectories. 
-   - **M agent** - to display the measurement taken by an *"agent-camera"*
-   - **M filtered** - to display the estimates filter by an *"agent-camera"*
-   - **M received** - not use
-   - **M all-agent** - to display all information gathered by the agent on a particular target
-   - **predictions** - to display the predictions of the kalman filter 
-   
-   chose  multiple *"agent-cameras"* and the target with the button on the right (column of numbers)
-   
-   - **save to txt** - to save the current map in a file called *current_map.txt*.
-   - **cam ROI** - to display the region associated to each camera (distance-based criterion).
-   - **cam COV** - to display the level of coverage by the camera in each part of the room.
-   - **User's O** - to display the estimation received by the *agent-user*, also the output of the overall system. 
-   
-    
-   - **column of numbers on the left** - to display informations related to the corresponding *"agent-camera n"* (n being a number).
-   - **column of numbers on the right** -   to display informations related to the corresponding target-n (n being a number).
+        select multiple "agent-cameras" and the target with the button on the right (column of numbers)
+            
+   - on the left:
+       - **save to txt** - to save the current map in a file called *current_map.txt*.
+       - **cam ROI** - to display the region associated to each camera (distance-based criterion).
+       - **cam COV** - to display the level of coverage by the camera in each part of the room.
+       - **User's O** - to display the estimation received by the *agent-user*, also the output of the overall system.
+  
+   - on the right:  
+       - **column of numbers on the left** - to display informations related to the corresponding *"agent-camera n"* (n being a number).
+       - **column of numbers on the right** -   to display informations related to the corresponding target-n (n being a number).
   
 <h3> Agent's O tab</h3>    
 
@@ -88,6 +90,7 @@ This tab is use to display the *"room-representation"* (belief each *"agent-came
 <h3> Create map tab</h3>   
 
 <img src="images/creation_tab.png" width="40%">
+
    - **Object** - use **add**/**del**  to add/delete an object on the map, once selected simply click on somewhere in the room. 
    - **Camera** - use **add**/**del**  to add/delete a camera on the map, once selected simply click on somewhere in the room.. 
    - **Trajectory** - to create the trajectory for "moving object" or for "rail cameras"
@@ -99,12 +102,12 @@ This tab is use to display the *"room-representation"* (belief each *"agent-came
    - **Load maps** - to load the map called *create_map.txt* in the folder maps
    - **Save maps** - to save the map under the name of *create_map.txt* in the folder maps
 
+   When the button object or camera is selected, dedicated option appear on the top and on the left. 
+        
 <h3> Camera tab</h3>  
 
 This tab shows the view seen by each camera in the room. As in reality, the depth is lost. 
 <img src="images/camera.png" width="40%">
-
-
 
 <h3> Stat tab</h3>  
 
