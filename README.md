@@ -129,11 +129,11 @@ To be able use the simulator fully, the following libraries are necessary:
     
  1. **numpy** - available at https://numpy.org/
  2. **filterpy** - kalman filtering algorithm, available at https://filterpy.readthedocs.io/en/latest/
- 3. **pygame** - to use the GUI interface, available at: https://www.pygame.org/news\
+ 3. **pygame** - to use the GUI interface, available at: https://www.pygame.org/news <br>
     (required if USE_GUI == TRUE in the constants.py file)  
- 4. **sklearn** - to use the pca-method, available at: https://scikit-learn.org/stable/\
+ 4. **sklearn** - to use the pca-method, available at: https://scikit-learn.org/stable/ <br>
     (required if AGENT_MOVE == TRUE, in the constants.py file)  
- 5. **matplolib** - https://matplotlib.org/ \
+ 5. **matplolib** - https://matplotlib.org/ <br>
     (required if PLOT == TRUE or to use some plot_function, in the constants.py file)  
      
  The librairies can be all downloaded using pip.  
