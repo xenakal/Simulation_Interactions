@@ -59,7 +59,7 @@ The buttons and their usage:
        - **real T** - to display the generated target trajectories. 
        - **M agent** - to display the measurement taken by an *"agent-camera"*
        - **M filtered** - to display the estimates filter by an *"agent-camera"*
-       - **M received** - not use
+       - **M received** - not used
        - **M all-agent** - to display all information gathered by the agent on a particular target
        - **predictions** - to display the predictions of the kalman filter 
     
