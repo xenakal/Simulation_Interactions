@@ -66,8 +66,11 @@ for element,color in zip(user_plotter.data_sort_by_target,colors):
        ax1.scatter(element.data_list[7], element.data_list[8],  marker='o',color=color, edgecolors='gold', alpha=0.8,s = 100)
 
 cb=fig1.colorbar(sc1, ax=ax1)
-cb.ax.tick_params(labelsize=15)
-cb.ax.set_xlabel("time [s]", fontsize=20)
+cb.ax.tick_params(labelsize=20)
+cb.ax.set_ylabel("agent id", fontsize=20)
+cb.set_ticks([0,1])
+
+#cb.ax.set_yticklabels(["0", "1"])
 ax1.xaxis.set_tick_params(labelsize=20)
 ax1.yaxis.set_tick_params(labelsize=20)
 ax1.set_xlabel("x [m]", fontsize=20)
