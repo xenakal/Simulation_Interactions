@@ -34,14 +34,14 @@ Four scenarios, corresponding to the case study presented in the thesis, are ava
 3. Create your own map using the *"create map tab"*
 <img src="images/creation_tab.png" width="40%">
 
-       1. Once it is saved (see *"creation tab"* description), <br> it will appear in the folder map under the name of *create_map.txt*.
-       2. Rename it.
-       3. Add it to the list of names to be run (*map_to_test_name*)  in the file *main.py*.
-       4. Set the options in the following list :
-            - kalman_distributed = True/False, to use the distributed kalman filter
-            - kalman_type = 4, model use
-            - t_stop = t, time the simulation should run in s
-            - t_scale.= 1, to slow down the simulation but not used.
+   1. Once it is saved (see *"creation tab"* description), it will appear in the folder map under the name of *create_map.txt*.
+   2. Rename it.
+   3. Add it to the list of names to be run (*map_to_test_name*)  in the file *main.py*.
+   4. Set the options in the following list :
+       - kalman_distributed = True/False, to use the distributed kalman filter
+       - kalman_type = 4, model use
+       - t_stop = t, time the simulation should run in s
+       - t_scale.= 1, to slow down the simulation but not used.
 
 <h2> GUI interface description </h2>
 
