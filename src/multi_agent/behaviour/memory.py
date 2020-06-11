@@ -340,9 +340,9 @@ class Memory:
                         break
 
 
-            fichier = open(filename1, "a")
-            fichier.write("%s \n" % obstructed_time)
-            fichier.close()
+            #fichier = open(filename1, "a")
+            #fichier.write("%s \n" % obstructed_time)
+            #fichier.close()
             #fichier = open(constants.MapPath.MAIN_FOLDER +filename2, "a")
             #fichier.write("%s \n"%obstructed_time)
             #fichier.close()
