@@ -78,10 +78,6 @@ ax1.set_xbound(-1,11)
 ax1.set_ybound(-1,11)
 
 
-
-
-
-
 fig2 = plt.figure(figsize=(12, 8),tight_layout = True)
 ax2 = fig2.add_subplot(1, 1, 1)
 colors = ["black"]

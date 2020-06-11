@@ -1,0 +1,160 @@
+2020-06-07 10:23:25,062 - Message100 - INFO - RECEIVED : at 0.46 s targetEstimation item : 0 from :0
+2020-06-07 10:23:25,265 - Message100 - INFO - RECEIVED : at 0.71 s targetEstimation item : 0 from :0
+2020-06-07 10:23:25,536 - Message100 - INFO - SENT : at 1.03 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:25,548 - Message100 - INFO - RECEIVED : at 0.97 s targetEstimation item : 0 from :0
+2020-06-07 10:23:25,567 - Message100 - INFO - RECEIVED : at 0.97 s targetEstimation item : 1 from :0
+2020-06-07 10:23:25,755 - Message100 - INFO - RECEIVED : at 1.23 s targetEstimation item : 0 from :0
+2020-06-07 10:23:26,126 - Message100 - INFO - RECEIVED : at 1.24 s targetEstimation item : 1 from :0
+2020-06-07 10:23:26,147 - Message100 - INFO - RECEIVED : at 1.24 s heartbeat item : -1 from :0
+2020-06-07 10:23:26,171 - Message100 - INFO - RECEIVED : at 1.52 s targetEstimation item : 0 from :0
+2020-06-07 10:23:26,184 - Message100 - INFO - RECEIVED : at 1.52 s targetEstimation item : 1 from :0
+2020-06-07 10:23:26,370 - Message100 - INFO - RECEIVED : at 1.83 s targetEstimation item : 0 from :0
+2020-06-07 10:23:26,389 - Message100 - INFO - RECEIVED : at 1.83 s targetEstimation item : 1 from :0
+2020-06-07 10:23:26,571 - Message100 - INFO - SENT : at 2.06 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:26,674 - Message100 - INFO - RECEIVED : at 2.10 s targetEstimation item : 0 from :0
+2020-06-07 10:23:26,693 - Message100 - INFO - RECEIVED : at 2.10 s targetEstimation item : 1 from :0
+2020-06-07 10:23:26,963 - Message100 - INFO - RECEIVED : at 2.38 s targetEstimation item : 0 from :0
+2020-06-07 10:23:26,977 - Message100 - INFO - RECEIVED : at 2.38 s targetEstimation item : 1 from :0
+2020-06-07 10:23:26,993 - Message100 - INFO - RECEIVED : at 2.38 s heartbeat item : -1 from :0
+2020-06-07 10:23:27,267 - Message100 - INFO - RECEIVED : at 2.67 s targetEstimation item : 0 from :0
+2020-06-07 10:23:27,279 - Message100 - INFO - RECEIVED : at 2.67 s targetEstimation item : 1 from :0
+2020-06-07 10:23:27,551 - Message100 - INFO - RECEIVED : at 2.94 s targetEstimation item : 0 from :0
+2020-06-07 10:23:27,564 - Message100 - INFO - RECEIVED : at 2.94 s targetEstimation item : 1 from :0
+2020-06-07 10:23:27,663 - Message100 - INFO - SENT : at 3.15 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:27,758 - Message100 - INFO - RECEIVED : at 3.21 s targetEstimation item : 0 from :0
+2020-06-07 10:23:27,774 - Message100 - INFO - RECEIVED : at 3.21 s targetEstimation item : 1 from :0
+2020-06-07 10:23:28,126 - Message100 - INFO - RECEIVED : at 3.50 s targetEstimation item : 0 from :0
+2020-06-07 10:23:28,138 - Message100 - INFO - RECEIVED : at 3.50 s targetEstimation item : 1 from :0
+2020-06-07 10:23:28,152 - Message100 - INFO - RECEIVED : at 3.50 s heartbeat item : -1 from :0
+2020-06-07 10:23:28,335 - Message100 - INFO - RECEIVED : at 3.79 s targetEstimation item : 0 from :0
+2020-06-07 10:23:28,353 - Message100 - INFO - RECEIVED : at 3.79 s targetEstimation item : 1 from :0
+2020-06-07 10:23:28,633 - Message100 - INFO - RECEIVED : at 4.06 s targetEstimation item : 0 from :0
+2020-06-07 10:23:28,646 - Message100 - INFO - RECEIVED : at 4.06 s targetEstimation item : 1 from :0
+2020-06-07 10:23:28,743 - Message100 - INFO - SENT : at 4.23 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:28,929 - Message100 - INFO - RECEIVED : at 4.34 s targetEstimation item : 0 from :0
+2020-06-07 10:23:28,942 - Message100 - INFO - RECEIVED : at 4.34 s targetEstimation item : 1 from :0
+2020-06-07 10:23:29,213 - Message100 - INFO - RECEIVED : at 4.63 s targetEstimation item : 0 from :0
+2020-06-07 10:23:29,226 - Message100 - INFO - RECEIVED : at 4.63 s targetEstimation item : 1 from :0
+2020-06-07 10:23:29,239 - Message100 - INFO - RECEIVED : at 4.63 s heartbeat item : -1 from :0
+2020-06-07 10:23:29,518 - Message100 - INFO - RECEIVED : at 4.93 s targetEstimation item : 0 from :0
+2020-06-07 10:23:29,534 - Message100 - INFO - RECEIVED : at 4.93 s targetEstimation item : 1 from :0
+2020-06-07 10:23:29,800 - Message100 - INFO - SENT : at 5.29 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:29,815 - Message100 - INFO - RECEIVED : at 5.21 s targetEstimation item : 0 from :0
+2020-06-07 10:23:29,827 - Message100 - INFO - RECEIVED : at 5.21 s targetEstimation item : 1 from :0
+2020-06-07 10:23:30,017 - Message100 - INFO - RECEIVED : at 5.48 s targetEstimation item : 0 from :0
+2020-06-07 10:23:30,032 - Message100 - INFO - RECEIVED : at 5.48 s targetEstimation item : 1 from :0
+2020-06-07 10:23:30,297 - Message100 - INFO - RECEIVED : at 5.77 s targetEstimation item : 0 from :0
+2020-06-07 10:23:30,310 - Message100 - INFO - RECEIVED : at 5.77 s targetEstimation item : 1 from :0
+2020-06-07 10:23:30,666 - Message100 - INFO - RECEIVED : at 5.77 s heartbeat item : -1 from :0
+2020-06-07 10:23:30,680 - Message100 - INFO - RECEIVED : at 6.05 s targetEstimation item : 0 from :0
+2020-06-07 10:23:30,693 - Message100 - INFO - RECEIVED : at 6.05 s targetEstimation item : 1 from :0
+2020-06-07 10:23:30,875 - Message100 - INFO - SENT : at 6.36 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:30,886 - Message100 - INFO - RECEIVED : at 6.35 s targetEstimation item : 0 from :0
+2020-06-07 10:23:30,899 - Message100 - INFO - RECEIVED : at 6.35 s targetEstimation item : 1 from :0
+2020-06-07 10:23:31,167 - Message100 - INFO - RECEIVED : at 6.64 s targetEstimation item : 0 from :0
+2020-06-07 10:23:31,179 - Message100 - INFO - RECEIVED : at 6.64 s targetEstimation item : 1 from :0
+2020-06-07 10:23:31,447 - Message100 - INFO - RECEIVED : at 6.91 s targetEstimation item : 0 from :0
+2020-06-07 10:23:31,460 - Message100 - INFO - RECEIVED : at 6.91 s targetEstimation item : 1 from :0
+2020-06-07 10:23:31,816 - Message100 - INFO - RECEIVED : at 6.91 s heartbeat item : -1 from :0
+2020-06-07 10:23:31,831 - Message100 - INFO - RECEIVED : at 7.20 s targetEstimation item : 0 from :0
+2020-06-07 10:23:31,844 - Message100 - INFO - RECEIVED : at 7.20 s targetEstimation item : 1 from :0
+2020-06-07 10:23:31,940 - Message100 - INFO - SENT : at 7.43 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:32,036 - Message100 - INFO - RECEIVED : at 7.50 s targetEstimation item : 0 from :0
+2020-06-07 10:23:32,048 - Message100 - INFO - RECEIVED : at 7.50 s targetEstimation item : 1 from :0
+2020-06-07 10:23:32,402 - Message100 - INFO - RECEIVED : at 7.79 s targetEstimation item : 0 from :0
+2020-06-07 10:23:32,413 - Message100 - INFO - RECEIVED : at 7.79 s targetEstimation item : 1 from :0
+2020-06-07 10:23:32,599 - Message100 - INFO - RECEIVED : at 8.07 s targetEstimation item : 0 from :0
+2020-06-07 10:23:32,611 - Message100 - INFO - RECEIVED : at 8.07 s targetEstimation item : 1 from :0
+2020-06-07 10:23:32,882 - Message100 - INFO - RECEIVED : at 8.07 s heartbeat item : -1 from :0
+2020-06-07 10:23:32,980 - Message100 - INFO - SENT : at 8.47 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:33,161 - Message100 - INFO - RECEIVED : at 8.36 s targetEstimation item : 0 from :0
+2020-06-07 10:23:33,524 - Message100 - INFO - RECEIVED : at 8.36 s targetEstimation item : 1 from :0
+2020-06-07 10:23:33,545 - Message100 - INFO - RECEIVED : at 8.64 s targetEstimation item : 0 from :0
+2020-06-07 10:23:33,558 - Message100 - INFO - RECEIVED : at 8.64 s targetEstimation item : 1 from :0
+2020-06-07 10:23:33,572 - Message100 - INFO - RECEIVED : at 8.94 s targetEstimation item : 0 from :0
+2020-06-07 10:23:33,585 - Message100 - INFO - RECEIVED : at 8.94 s targetEstimation item : 1 from :0
+2020-06-07 10:23:34,032 - Message100 - INFO - SENT : at 9.52 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:34,132 - Message100 - INFO - RECEIVED : at 9.26 s targetEstimation item : 0 from :0
+2020-06-07 10:23:34,149 - Message100 - INFO - RECEIVED : at 9.26 s targetEstimation item : 1 from :0
+2020-06-07 10:23:34,162 - Message100 - INFO - RECEIVED : at 9.27 s heartbeat item : -1 from :0
+2020-06-07 10:23:34,174 - Message100 - INFO - RECEIVED : at 9.54 s targetEstimation item : 0 from :0
+2020-06-07 10:23:34,189 - Message100 - INFO - RECEIVED : at 9.54 s targetEstimation item : 1 from :0
+2020-06-07 10:23:34,475 - Message100 - INFO - RECEIVED : at 9.87 s targetEstimation item : 0 from :0
+2020-06-07 10:23:34,491 - Message100 - INFO - RECEIVED : at 9.87 s targetEstimation item : 1 from :0
+2020-06-07 10:23:34,762 - Message100 - INFO - RECEIVED : at 10.16 s targetEstimation item : 0 from :0
+2020-06-07 10:23:34,775 - Message100 - INFO - RECEIVED : at 10.16 s targetEstimation item : 1 from :0
+2020-06-07 10:23:35,048 - Message100 - INFO - SENT : at 10.54 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:35,059 - Message100 - INFO - RECEIVED : at 10.46 s targetEstimation item : 0 from :0
+2020-06-07 10:23:35,073 - Message100 - INFO - RECEIVED : at 10.46 s targetEstimation item : 1 from :0
+2020-06-07 10:23:35,088 - Message100 - INFO - RECEIVED : at 10.46 s heartbeat item : -1 from :0
+2020-06-07 10:23:35,363 - Message100 - INFO - RECEIVED : at 10.76 s targetEstimation item : 0 from :0
+2020-06-07 10:23:35,374 - Message100 - INFO - RECEIVED : at 10.76 s targetEstimation item : 1 from :0
+2020-06-07 10:23:35,651 - Message100 - INFO - RECEIVED : at 11.07 s targetEstimation item : 0 from :0
+2020-06-07 10:23:35,663 - Message100 - INFO - RECEIVED : at 11.07 s targetEstimation item : 1 from :0
+2020-06-07 10:23:35,944 - Message100 - INFO - RECEIVED : at 11.36 s targetEstimation item : 0 from :0
+2020-06-07 10:23:35,957 - Message100 - INFO - RECEIVED : at 11.36 s targetEstimation item : 1 from :0
+2020-06-07 10:23:36,054 - Message100 - INFO - SENT : at 11.54 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:36,254 - Message100 - INFO - RECEIVED : at 11.66 s targetEstimation item : 0 from :0
+2020-06-07 10:23:36,268 - Message100 - INFO - RECEIVED : at 11.66 s targetEstimation item : 1 from :0
+2020-06-07 10:23:36,284 - Message100 - INFO - RECEIVED : at 11.66 s heartbeat item : -1 from :0
+2020-06-07 10:23:36,562 - Message100 - INFO - RECEIVED : at 11.98 s targetEstimation item : 0 from :0
+2020-06-07 10:23:36,576 - Message100 - INFO - RECEIVED : at 11.98 s targetEstimation item : 1 from :0
+2020-06-07 10:23:36,858 - Message100 - INFO - RECEIVED : at 12.28 s targetEstimation item : 0 from :0
+2020-06-07 10:23:36,871 - Message100 - INFO - RECEIVED : at 12.28 s targetEstimation item : 1 from :0
+2020-06-07 10:23:37,058 - Message100 - INFO - SENT : at 12.54 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:37,163 - Message100 - INFO - RECEIVED : at 12.58 s targetEstimation item : 0 from :0
+2020-06-07 10:23:37,175 - Message100 - INFO - RECEIVED : at 12.58 s targetEstimation item : 1 from :0
+2020-06-07 10:23:37,449 - Message100 - INFO - RECEIVED : at 12.89 s targetEstimation item : 0 from :0
+2020-06-07 10:23:37,470 - Message100 - INFO - RECEIVED : at 12.89 s targetEstimation item : 1 from :0
+2020-06-07 10:23:37,486 - Message100 - INFO - RECEIVED : at 12.89 s heartbeat item : -1 from :0
+2020-06-07 10:23:37,772 - Message100 - INFO - RECEIVED : at 13.20 s targetEstimation item : 0 from :0
+2020-06-07 10:23:37,784 - Message100 - INFO - RECEIVED : at 13.20 s targetEstimation item : 1 from :0
+2020-06-07 10:23:38,055 - Message100 - INFO - SENT : at 13.55 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:38,065 - Message100 - INFO - RECEIVED : at 13.50 s targetEstimation item : 0 from :0
+2020-06-07 10:23:38,087 - Message100 - INFO - RECEIVED : at 13.50 s targetEstimation item : 1 from :0
+2020-06-07 10:23:38,361 - Message100 - INFO - RECEIVED : at 13.81 s targetEstimation item : 0 from :0
+2020-06-07 10:23:38,378 - Message100 - INFO - RECEIVED : at 13.81 s targetEstimation item : 1 from :0
+2020-06-07 10:23:38,741 - Message100 - INFO - RECEIVED : at 14.11 s targetEstimation item : 0 from :0
+2020-06-07 10:23:38,755 - Message100 - INFO - RECEIVED : at 14.11 s targetEstimation item : 1 from :0
+2020-06-07 10:23:38,770 - Message100 - INFO - RECEIVED : at 14.11 s heartbeat item : -1 from :0
+2020-06-07 10:23:39,045 - Message100 - INFO - RECEIVED : at 14.43 s targetEstimation item : 0 from :0
+2020-06-07 10:23:39,057 - Message100 - INFO - RECEIVED : at 14.43 s targetEstimation item : 1 from :0
+2020-06-07 10:23:39,154 - Message100 - INFO - SENT : at 14.65 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:39,340 - Message100 - INFO - RECEIVED : at 14.73 s targetEstimation item : 0 from :0
+2020-06-07 10:23:39,355 - Message100 - INFO - RECEIVED : at 14.73 s targetEstimation item : 1 from :0
+2020-06-07 10:23:39,640 - Message100 - INFO - RECEIVED : at 15.05 s targetEstimation item : 0 from :0
+2020-06-07 10:23:39,652 - Message100 - INFO - RECEIVED : at 15.05 s targetEstimation item : 1 from :0
+2020-06-07 10:23:39,940 - Message100 - INFO - RECEIVED : at 15.36 s targetEstimation item : 0 from :0
+2020-06-07 10:23:39,953 - Message100 - INFO - RECEIVED : at 15.36 s targetEstimation item : 1 from :0
+2020-06-07 10:23:39,965 - Message100 - INFO - RECEIVED : at 15.36 s heartbeat item : -1 from :0
+2020-06-07 10:23:40,255 - Message100 - INFO - SENT : at 15.73 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:40,267 - Message100 - INFO - RECEIVED : at 15.68 s targetEstimation item : 0 from :0
+2020-06-07 10:23:40,279 - Message100 - INFO - RECEIVED : at 15.68 s targetEstimation item : 1 from :0
+2020-06-07 10:23:40,562 - Message100 - INFO - RECEIVED : at 15.99 s targetEstimation item : 0 from :0
+2020-06-07 10:23:40,586 - Message100 - INFO - RECEIVED : at 15.99 s targetEstimation item : 1 from :0
+2020-06-07 10:23:40,868 - Message100 - INFO - RECEIVED : at 16.32 s targetEstimation item : 0 from :0
+2020-06-07 10:23:40,886 - Message100 - INFO - RECEIVED : at 16.32 s targetEstimation item : 1 from :0
+2020-06-07 10:23:41,246 - Message100 - INFO - RECEIVED : at 16.63 s targetEstimation item : 0 from :0
+2020-06-07 10:23:41,262 - Message100 - INFO - RECEIVED : at 16.63 s targetEstimation item : 1 from :0
+2020-06-07 10:23:41,277 - Message100 - INFO - RECEIVED : at 16.63 s heartbeat item : -1 from :0
+2020-06-07 10:23:41,381 - Message100 - INFO - SENT : at 16.87 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:41,572 - Message100 - INFO - RECEIVED : at 16.96 s targetEstimation item : 0 from :0
+2020-06-07 10:23:41,617 - Message100 - INFO - RECEIVED : at 16.96 s targetEstimation item : 1 from :0
+2020-06-07 10:23:41,982 - Message100 - INFO - RECEIVED : at 17.28 s targetEstimation item : 0 from :0
+2020-06-07 10:23:42,114 - Message100 - INFO - RECEIVED : at 17.28 s targetEstimation item : 1 from :0
+2020-06-07 10:23:42,305 - Message100 - INFO - RECEIVED : at 17.70 s targetEstimation item : 0 from :0
+2020-06-07 10:23:42,318 - Message100 - INFO - RECEIVED : at 17.70 s targetEstimation item : 1 from :0
+2020-06-07 10:23:42,333 - Message100 - INFO - RECEIVED : at 17.70 s heartbeat item : -1 from :0
+2020-06-07 10:23:42,435 - Message100 - INFO - SENT : at 17.92 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:42,634 - Message100 - INFO - RECEIVED : at 18.03 s targetEstimation item : 0 from :0
+2020-06-07 10:23:42,646 - Message100 - INFO - RECEIVED : at 18.03 s targetEstimation item : 1 from :0
+2020-06-07 10:23:42,937 - Message100 - INFO - RECEIVED : at 18.37 s targetEstimation item : 0 from :0
+2020-06-07 10:23:42,949 - Message100 - INFO - RECEIVED : at 18.37 s targetEstimation item : 1 from :0
+2020-06-07 10:23:43,227 - Message100 - INFO - RECEIVED : at 18.69 s targetEstimation item : 0 from :0
+2020-06-07 10:23:43,253 - Message100 - INFO - RECEIVED : at 18.69 s targetEstimation item : 1 from :0
+2020-06-07 10:23:43,441 - Message100 - INFO - SENT : at 18.93 s heartbeat target : -1 to :[[0, 7928062302883007]]
+2020-06-07 10:23:43,634 - Message100 - INFO - RECEIVED : at 19.00 s targetEstimation item : 0 from :0
+2020-06-07 10:23:43,648 - Message100 - INFO - RECEIVED : at 19.00 s targetEstimation item : 1 from :0
+2020-06-07 10:23:43,661 - Message100 - INFO - RECEIVED : at 19.00 s heartbeat item : -1 from :0
+2020-06-07 10:23:44,030 - Message100 - INFO - RECEIVED : at 19.39 s targetEstimation item : 0 from :0
+2020-06-07 10:23:44,140 - Message100 - INFO - RECEIVED : at 19.39 s targetEstimation item : 1 from :0
