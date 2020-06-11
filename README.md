@@ -20,9 +20,9 @@ Four scenarios, corresponding to the case study presented in the thesis, are ava
 2. Explore the several study case already available.
     
     Usefull keys: 
-    - r - reload the current study case from the start
-    - n - switch to the next study case
-    - p - come back to previous study case
+    - r - reload the current case study from the start
+    - n - switch to the next case study
+    - p - come back to previous case study
     
     Simulated informations to display are chosen with the buttons (see section GUI description) or with  the key-borads
     - s - take a screen-shot of the GUI interface - available after the simulation 
@@ -34,10 +34,10 @@ Four scenarios, corresponding to the case study presented in the thesis, are ava
 3. Create your own map using the *"create map tab"*
 <img src="images/creation_tab.png" width="40%">
 
-    1. Once it is saved, it will appear in the folder map under the name of *create_map.txt*.\
-    2. Rename it.
-    3. Add it to the list of names to be run (*map_to_test_name*)  in the file *main.py*.\
-    4. Set the options in the following list :
+   1. Once it is saved, it will appear in the folder map under the name of *create_map.txt*.\
+   2. Rename it.
+   3. Add it to the list of names to be run (*map_to_test_name*)  in the file *main.py*.\
+   4. Set the options in the following list :
         - kalman_distributed = True/False, to use the distributed kalman filter
         - kalman_type = 4, model use
         - t_stop = t, time the simulation should run in s
@@ -88,17 +88,13 @@ This tab is use to display the *"room-representation"* (belief each *"agent-came
 <h3> Create map tab</h3>   
 
 <img src="images/creation_tab.png" width="40%">
-
    - **Object** - use **add**/**del**  to add/delete an object on the map, once selected simply click on somewhere in the room. 
    - **Camera** - use **add**/**del**  to add/delete a camera on the map, once selected simply click on somewhere in the room.. 
-   - **Trajectory** - to create the trajectory for "moving object" or for "rail cameras".
-    
+   - **Trajectory** - to create the trajectory for "moving object" or for "rail cameras"
       1. Add the object or the camera on the map first.   
       2. Select **add_point** and click on the object, then click elsewhere in the room to add via points. 
       3. Save the trajectory
-      4. Check the trajectory by selecting **show_traj** and placing the mouse on the object or the camera.
-      
-      
+      4. Check the trajectory by selecting **show_traj** and placing the mouse on the object or the camera
    - **Clear** - to clear map from all the elements
    - **Load maps** - to load the map called *create_map.txt* in the folder maps
    - **Save maps** - to save the map under the name of *create_map.txt* in the folder maps
@@ -106,6 +102,7 @@ This tab is use to display the *"room-representation"* (belief each *"agent-came
 <h3> Camera tab</h3>  
 
 This tab shows the view seen by each camera in the room. As in reality, the depth is lost. 
+<img src="images/camera.png" width="40%">
 
 
 
