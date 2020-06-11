@@ -34,7 +34,7 @@ Four scenarios, corresponding to the case study presented in the thesis, are ava
 3. Create your own map using the *"create map tab"*
 <img src="images/creation_tab.png" width="40%">
 
-       1. Once it is saved (see *"creation tab"* description), it will appear in the folder map under the name of *create_map.txt*.
+       1. Once it is saved (see *"creation tab"* description), <br> it will appear in the folder map under the name of *create_map.txt*.
        2. Rename it.
        3. Add it to the list of names to be run (*map_to_test_name*)  in the file *main.py*.
        4. Set the options in the following list :
