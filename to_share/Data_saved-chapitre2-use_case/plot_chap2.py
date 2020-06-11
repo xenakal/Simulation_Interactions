@@ -79,9 +79,9 @@ for color in colors:
 for color in colors:
     ax3.scatter(0, 0, marker='o', color=color, edgecolors='black',s = 100)
 ax3.scatter(0, 0, marker='D', s=100, c='gold', edgecolors='black')
-ax3.legend(["fix targets", "generated target 2's position","generated target 3's position","generated target 4's position",
-               "generated target 5's position","filtered target 2's position","filtered target 3's position",
-               "filtered target 4's position","filtered target 5's position","camera's positions"], fontsize=20,loc=3)
+ax3.legend(["fix targets", "generated position of target 2","generated position of target 3","generated position of target 4",
+            "generated position of target 5","filtered position of target 2","filtered position of target 3",
+               "filtered position of target 4","filtered position of target 5","positions of the cameras"], fontsize=20,loc=3)
 
 
 fig.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- target")

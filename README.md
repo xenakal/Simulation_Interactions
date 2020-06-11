@@ -122,6 +122,8 @@ This tab is finally not use
    - **to_share**, contains genral results that shows the overall possiblities given by simulations. Results are classified  as they are used in the 
    chapter of the thesis. 
     
+<h2> Class diagram </h2>    
+<img src="images/class-diagram.svg" width="40%">
 
 
 <h2> Dependancies </h2>
@@ -138,3 +140,8 @@ To be able use the simulator fully, the following libraries are necessary:
      
  The librairies can be all downloaded using pip.  
 <h2> License </h2>
+
+<h2> Authors </h2>
+
+**Winant** Antoine <br>
+**Xenakis** Alexandros

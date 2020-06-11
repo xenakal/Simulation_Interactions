@@ -52,7 +52,7 @@ ax.set_ybound(-1,11)
 
 fig1 = plt.figure(figsize=(12, 8),tight_layout = True)
 ax1 = fig1.add_subplot(1, 1, 1)
-colors = ["black","black","black"]
+colors = ["red","red","black"]
 
 plot_scenario_last(fig1,ax1,controller_ploter_0.data)
 plot_scenario_last(fig1,ax1,controller_ploter_1.data)
@@ -105,12 +105,12 @@ ax3.scatter(0, 0, marker='x', color='red', edgecolors='gold',s = 100)
 ax3.scatter(0, 0, marker='x', color='black', edgecolors='gold',s = 100)
 ax3.scatter(0, 0, marker='o', color='black', edgecolors='gold',s = 100)
 ax3.scatter(0, 0, marker='D', s=100, c='gold', edgecolors='black')
-ax3.legend(["fix targets", "generated target 2's position","filtered target 2's position","camera's positions"], fontsize=20,loc=3)
+ax3.legend(["fix targets", "generated positon of target 2","filtered position of target 2","camera's positions"], fontsize=20,loc=3)
 
 
 fig.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- target")
 fig1.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- target-time")
-fig3.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- time")
+fig2.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- time")
 fig3.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- legend")
 
 plt.show()

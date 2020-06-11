@@ -50,13 +50,13 @@ def filter_send_received(data):
 
 def filter_and_plot(id,data,filters_names,colors):
     try:
-        fig = plt.figure(figsize=(12, 16))
+        fig = plt.figure(figsize=(12, 7))
         fig.suptitle('Messages exchanged', fontsize=17, fontweight='bold', y=0.98)
         fig.subplots_adjust(bottom=0.10, left=0.1, right=0.90, top=0.90)
-        ax1 = fig.add_subplot(2, 2, 1)
-        ax2 = fig.add_subplot(2, 2, 2)
-        ax3 = fig.add_subplot(2, 2, 3)
-        ax4 = fig.add_subplot(2, 2, 4)
+        ax1 = fig.add_subplot(1,2, 1)
+        ax2 = fig.add_subplot(1,2, 2)
+        #ax3 = fig.add_subplot(2, 2, 3)
+        #ax4 = fig.add_subplot(2, 2, 4)
 
         ax1.xaxis.set_tick_params(labelsize=20)
         ax1.yaxis.set_tick_params(labelsize=17)
@@ -68,11 +68,13 @@ def filter_and_plot(id,data,filters_names,colors):
         ax2.set_xlabel("time [s]", fontsize=20)
         ax2.set_ylabel("", fontsize=20)
 
+        '''
         ax3.xaxis.set_tick_params(labelsize=15)
         ax3.yaxis.set_tick_params(labelsize=20)
 
         ax4.xaxis.set_tick_params(labelsize=15)
         ax4.yaxis.set_tick_params(labelsize=20)
+        '''
 
 
         all_data_send,all_data_received,n_all_data = filter_send_received(data)
@@ -103,7 +105,7 @@ def filter_and_plot(id,data,filters_names,colors):
 
         print(receiver_label)
         #ax1.legend(filters_names,loc=4,fontsize="x-large")
-        ax1.set_title("send", fontsize=15, fontweight='bold')
+        ax1.set_title("sent", fontsize=15, fontweight='bold')
         ax1.set_yticks([senders_label[0]-0.85,senders_label[0],senders_label[0]+0.05,senders_label[0]+0.1,senders_label[0]+0.15,senders_label[0]+0.2,senders_label[0]+0.25,senders_label[0]+1])
         if senders_label[0] == 2:
             senders_label[0] = 100
@@ -126,12 +128,14 @@ def filter_and_plot(id,data,filters_names,colors):
         ax2.set_yticklabels(["","","","agent" + str(receiver_label[0]),"","","","","","agent"+ str(receiver_label[1]),"","",""], rotation=20)
         ax2.grid(True)
 
+        '''
         plot_message_bar(ax3, sizes_sent, filters_names, colors)
         plot_message_bar(ax4, sizes_rec, filters_names, colors)
 
         ax3.set_xticklabels(["heartbeat","agent-estimation","target-estimation","info-DKF","losing-target","tracking-target"], rotation=45,ha='center')
         ax4.set_xticklabels(["heartbeat", "agent-estimation", "target-estimation", "info-DKF", "losing-target", "tracking-target"],
             rotation=45, ha='center')
+        '''
         fig.savefig(constants.ResultsPath.PLOT_MESSAGE + "/message_agent_" + str(id))
     except:
         print("error in message plot creation")
