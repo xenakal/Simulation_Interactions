@@ -7,8 +7,8 @@ import numpy as np
 ############### TOOLS ################
 
 # init logger
-output_filepath = "../dkf_evaluation/"
-logger = log.create_kf_logger(output_filepath, "MSE_measurements")
+output_filepath = "./"
+logger = log.create_kf_logger(output_filepath, "MSE_measurements22")
 logger.info("-----------------------------------------------------------------------")
 logger.info("----  MSE of filtered measurements for DKF performance evaluation  ----")
 logger.info("-----------------------------------------------------------------------")

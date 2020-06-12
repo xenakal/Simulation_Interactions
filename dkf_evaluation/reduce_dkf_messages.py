@@ -8,7 +8,7 @@ import numpy as np
 ############### TOOLS ################
 
 # init logger
-output_filepath = "../dkf_evaluation/"
+output_filepath = "/"
 logger = log.create_kf_logger(output_filepath, "MSE_vs_INNOVATION_LOWER_BOUND2")
 logger.info("--------------------------------------------------------------")
 logger.info("----  MSE & #messages function of INNOVATION LOWER BOUND  ----")
