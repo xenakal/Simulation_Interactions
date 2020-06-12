@@ -1,0 +1,17 @@
+2020-06-11 19:32:07,532 - Number of time a target is tracked0 - INFO - agent 0 time 0.77 
+target 0 is seen 1 
+
+2020-06-11 19:32:07,533 - Number of time a target is tracked0 - INFO - MESSAGE_Timestamp: 0.7690365314483643 MESSAGE_message#:7271275974177830
+MESSAGE_From: 0 MESSAGE_sender#5350369346494084
+MESSAGE_Receiver list : 
+MESSAGE_Type: tracking_target MESSAGE_item: 0 MESSAGE_Message: 
+
+2020-06-11 19:32:08,069 - Number of time a target is tracked0 - INFO - agent 0 time 1.31 
+target 0 is seen 1 
+target 1 is seen 1 
+
+2020-06-11 19:32:08,069 - Number of time a target is tracked0 - INFO - MESSAGE_Timestamp: 1.3054280281066895 MESSAGE_message#:7391883099291346
+MESSAGE_From: 0 MESSAGE_sender#5350369346494084
+MESSAGE_Receiver list : 
+MESSAGE_Type: tracking_target MESSAGE_item: 1 MESSAGE_Message: 
+

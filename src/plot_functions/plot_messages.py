@@ -110,6 +110,7 @@ def plot_message_time(ax, data,color, senders_label):
 
     ax.set_yticklabels(senders_label, rotation=20)
     ax.set_xlabel("time [s]", fontsize=10)
+    #ax.set_xbound(0,20)
     return senders_label
 
 def plot_message_bar(ax,sizes,labels,colors):
@@ -142,7 +143,7 @@ class MessagePlot:
 
 if __name__ == '__main__':
     constants.ResultsPath.folder = "../../results"
-    constants.ResultsPath.name_simulation = "My_new_map"
+    constants.ResultsPath.name_simulation = "test1-Random_map_7884"
     plot_creator = MessagePlot(100)
     plot_creator.plot()
 

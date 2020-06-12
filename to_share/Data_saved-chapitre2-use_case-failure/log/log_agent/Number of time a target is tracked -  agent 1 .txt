@@ -1,0 +1,96 @@
+2020-06-11 19:24:19,215 - Number of time a target is tracked1 - INFO - agent 1 time 0.26 
+target 1 is seen 1 
+
+2020-06-11 19:24:19,216 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 0.2652900218963623 MESSAGE_message#:4584533534874822
+MESSAGE_From: 1 MESSAGE_sender#746357629262620
+MESSAGE_Receiver list : 
+MESSAGE_Type: tracking_target MESSAGE_item: 1 MESSAGE_Message: 
+
+2020-06-11 19:24:19,522 - Number of time a target is tracked1 - INFO - agent 1 time 0.57 
+target 1 is seen 1 
+target 5 is seen 1 
+
+2020-06-11 19:24:19,523 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 0.572439432144165 MESSAGE_message#:6243582671125562
+MESSAGE_From: 1 MESSAGE_sender#746357629262620
+MESSAGE_Receiver list : 
+MESSAGE_Type: tracking_target MESSAGE_item: 5 MESSAGE_Message: 
+
+2020-06-11 19:24:19,523 - Number of time a target is tracked1 - INFO - agent 1 time 0.57 
+target 1 is seen 1 
+target 5 is seen 1 
+target 2 is seen 1 
+
+2020-06-11 19:24:19,523 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 0.572439432144165 MESSAGE_message#:9842314974633388
+MESSAGE_From: 1 MESSAGE_sender#746357629262620
+MESSAGE_Receiver list : 
+MESSAGE_Type: tracking_target MESSAGE_item: 2 MESSAGE_Message: 
+
+2020-06-11 19:24:20,206 - Number of time a target is tracked1 - INFO - agent 1 time 1.26 
+target 1 is seen 1 
+target 5 is seen 1 
+target 2 is seen 1 
+target 3 is seen 1 
+
+2020-06-11 19:24:20,206 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 1.2553071975708008 MESSAGE_message#:7982105895076256
+MESSAGE_From: 1 MESSAGE_sender#746357629262620
+MESSAGE_Receiver list : 
+MESSAGE_Type: tracking_target MESSAGE_item: 3 MESSAGE_Message: 
+
+2020-06-11 19:24:21,969 - Number of time a target is tracked1 - INFO - agent 1 time 3.02 
+target 1 is seen 1 
+target 5 is seen 1 
+target 2 is seen 1 
+target 3 is seen 0 
+
+2020-06-11 19:24:21,969 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 3.0183756351470947 MESSAGE_message#:6117227179086848
+MESSAGE_From: 1 MESSAGE_sender#746357629262620
+MESSAGE_Receiver list : 
+MESSAGE_Type: loosing_target MESSAGE_item: 3 MESSAGE_Message: 
+
+2020-06-11 19:24:23,830 - Number of time a target is tracked1 - INFO - agent 1 time 4.88 
+target 1 is seen 1 
+target 5 is seen 0 
+target 2 is seen 1 
+target 3 is seen 0 
+
+2020-06-11 19:24:23,830 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 4.879245281219482 MESSAGE_message#:6579832376419162
+MESSAGE_From: 1 MESSAGE_sender#746357629262620
+MESSAGE_Receiver list : 
+MESSAGE_Type: loosing_target MESSAGE_item: 5 MESSAGE_Message: 
+
+2020-06-11 19:24:23,831 - Number of time a target is tracked1 - INFO - agent 1 time 4.88 
+target 1 is seen 1 
+target 5 is seen 0 
+target 2 is seen 1 
+target 3 is seen 0 
+target 4 is seen 1 
+
+2020-06-11 19:24:23,831 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 4.880244255065918 MESSAGE_message#:7890655556005391
+MESSAGE_From: 1 MESSAGE_sender#746357629262620
+MESSAGE_Receiver list : 
+MESSAGE_Type: tracking_target MESSAGE_item: 4 MESSAGE_Message: 
+
+2020-06-11 19:24:25,257 - Number of time a target is tracked1 - INFO - agent 1 time 6.31 
+target 1 is seen 1 
+target 5 is seen 0 
+target 2 is seen 0 
+target 3 is seen 0 
+target 4 is seen 1 
+
+2020-06-11 19:24:25,257 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 6.306346893310547 MESSAGE_message#:734910372803785
+MESSAGE_From: 1 MESSAGE_sender#746357629262620
+MESSAGE_Receiver list : 
+MESSAGE_Type: loosing_target MESSAGE_item: 2 MESSAGE_Message: 
+
+2020-06-11 19:24:30,660 - Number of time a target is tracked1 - INFO - agent 1 time 11.71 
+target 1 is seen 1 
+target 5 is seen 0 
+target 2 is seen 0 
+target 3 is seen 0 
+target 4 is seen 0 
+
+2020-06-11 19:24:30,661 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 11.710222005844116 MESSAGE_message#:7161756865122733
+MESSAGE_From: 1 MESSAGE_sender#746357629262620
+MESSAGE_Receiver list : 
+MESSAGE_Type: loosing_target MESSAGE_item: 4 MESSAGE_Message: 
+

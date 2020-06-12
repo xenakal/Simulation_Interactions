@@ -1,0 +1,174 @@
+2020-06-11 19:17:14,762 - Room + memory1 - INFO - Memory 0.2653522491455078
+Owner: 1Item: 5#memories1Item: 1#memories1Item: 2#memories1Statistic message 
+
+2020-06-11 19:17:15,066 - Room + memory1 - INFO - Memory 0.5819647312164307
+Owner: 1Item: 5#memories2Item: 1#memories2Item: 2#memories2Statistic message 
+
+2020-06-11 19:17:15,389 - Room + memory1 - INFO - Memory 0.9004242420196533
+Owner: 1Item: 5#memories3Item: 1#memories3Item: 2#memories3Item: 3#memories1Statistic message 
+
+2020-06-11 19:17:15,842 - Room + memory1 - INFO - Memory 1.224109411239624
+Owner: 1Item: 5#memories4Item: 1#memories3Item: 2#memories4Item: 3#memories2Statistic message 
+
+2020-06-11 19:17:16,306 - Room + memory1 - INFO - Memory 1.7056283950805664
+Owner: 1Item: 5#memories5Item: 1#memories4Item: 2#memories5Item: 3#memories3Statistic message 
+
+2020-06-11 19:17:16,656 - Room + memory1 - INFO - Memory 2.144951105117798
+Owner: 1Item: 5#memories6Item: 1#memories5Item: 2#memories6Item: 3#memories3Statistic message 
+
+2020-06-11 19:17:17,021 - Room + memory1 - INFO - Memory 2.4945974349975586
+Owner: 1Item: 5#memories7Item: 1#memories6Item: 2#memories7Item: 3#memories3Statistic message 
+
+2020-06-11 19:17:17,307 - Room + memory1 - INFO - Memory 2.8552443981170654
+Owner: 1Item: 5#memories8Item: 1#memories6Item: 2#memories8Item: 3#memories3Statistic message 
+
+2020-06-11 19:17:17,612 - Room + memory1 - INFO - Memory 3.1379270553588867
+Owner: 1Item: 5#memories9Item: 1#memories6Item: 2#memories9Item: 3#memories3Statistic message 
+
+2020-06-11 19:17:17,943 - Room + memory1 - INFO - Memory 3.4448916912078857
+Owner: 1Item: 5#memories10Item: 1#memories7Item: 2#memories10Item: 3#memories3Statistic message 
+
+2020-06-11 19:17:18,498 - Room + memory1 - INFO - Memory 3.7707719802856445
+Owner: 1Item: 5#memories10Item: 1#memories8Item: 2#memories11Item: 3#memories3Statistic message 
+
+2020-06-11 19:17:18,886 - Room + memory1 - INFO - Memory 4.3401713371276855
+Owner: 1Item: 5#memories10Item: 1#memories9Item: 2#memories12Item: 3#memories3Statistic message 
+
+2020-06-11 19:17:19,234 - Room + memory1 - INFO - Memory 4.717783689498901
+Owner: 1Item: 5#memories10Item: 1#memories10Item: 2#memories13Item: 3#memories3Item: 4#memories1Statistic message 
+
+2020-06-11 19:17:19,657 - Room + memory1 - INFO - Memory 5.059865474700928
+Owner: 1Item: 5#memories10Item: 1#memories11Item: 2#memories14Item: 3#memories3Item: 4#memories2Statistic message 
+
+2020-06-11 19:17:20,042 - Room + memory1 - INFO - Memory 5.4903082847595215
+Owner: 1Item: 5#memories10Item: 1#memories12Item: 2#memories14Item: 3#memories3Item: 4#memories3Statistic message 
+
+2020-06-11 19:17:20,406 - Room + memory1 - INFO - Memory 5.918526649475098
+Owner: 1Item: 5#memories10Item: 1#memories13Item: 2#memories15Item: 3#memories3Item: 4#memories4Statistic message 
+
+2020-06-11 19:17:20,762 - Room + memory1 - INFO - Memory 6.274712562561035
+Owner: 1Item: 5#memories10Item: 1#memories14Item: 2#memories16Item: 3#memories3Item: 4#memories5Statistic message 
+
+2020-06-11 19:17:21,148 - Room + memory1 - INFO - Memory 6.599848985671997
+Owner: 1Item: 5#memories10Item: 1#memories15Item: 2#memories16Item: 3#memories3Item: 4#memories6Statistic message 
+
+2020-06-11 19:17:21,428 - Room + memory1 - INFO - Memory 6.97907018661499
+Owner: 1Item: 5#memories10Item: 1#memories16Item: 2#memories16Item: 3#memories3Item: 4#memories7Statistic message 
+
+2020-06-11 19:17:21,810 - Room + memory1 - INFO - Memory 7.274383306503296
+Owner: 1Item: 5#memories10Item: 1#memories17Item: 2#memories16Item: 3#memories3Item: 4#memories8Statistic message 
+
+2020-06-11 19:17:22,139 - Room + memory1 - INFO - Memory 7.640771150588989
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories9Statistic message 
+
+2020-06-11 19:17:22,491 - Room + memory1 - INFO - Memory 7.96596622467041
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories10Statistic message 
+
+2020-06-11 19:17:22,849 - Room + memory1 - INFO - Memory 8.331896305084229
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories11Statistic message 
+
+2020-06-11 19:17:23,231 - Room + memory1 - INFO - Memory 8.722103357315063
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories12Statistic message 
+
+2020-06-11 19:17:23,569 - Room + memory1 - INFO - Memory 9.059310913085938
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories13Statistic message 
+
+2020-06-11 19:17:24,053 - Room + memory1 - INFO - Memory 9.389425992965698
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories14Statistic message 
+
+2020-06-11 19:17:24,373 - Room + memory1 - INFO - Memory 9.873132944107056
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories15Statistic message 
+
+2020-06-11 19:17:24,695 - Room + memory1 - INFO - Memory 10.193525075912476
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories16Statistic message 
+
+2020-06-11 19:17:25,138 - Room + memory1 - INFO - Memory 10.515000343322754
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories17Statistic message 
+
+2020-06-11 19:17:25,460 - Room + memory1 - INFO - Memory 10.956737518310547
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories18Statistic message 
+
+2020-06-11 19:17:25,808 - Room + memory1 - INFO - Memory 11.288113355636597
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories19Statistic message 
+
+2020-06-11 19:17:26,158 - Room + memory1 - INFO - Memory 11.626366376876831
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories20Statistic message 
+
+2020-06-11 19:17:26,445 - Room + memory1 - INFO - Memory 11.975160360336304
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories21Statistic message 
+
+2020-06-11 19:17:26,750 - Room + memory1 - INFO - Memory 12.261620044708252
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories22Statistic message 
+
+2020-06-11 19:17:27,037 - Room + memory1 - INFO - Memory 12.566915512084961
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories23Statistic message 
+
+2020-06-11 19:17:27,357 - Room + memory1 - INFO - Memory 12.85560655593872
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories24Statistic message 
+
+2020-06-11 19:17:27,714 - Room + memory1 - INFO - Memory 13.178272485733032
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories25Statistic message 
+
+2020-06-11 19:17:28,026 - Room + memory1 - INFO - Memory 13.531069278717041
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories26Statistic message 
+
+2020-06-11 19:17:28,355 - Room + memory1 - INFO - Memory 13.841930627822876
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories27Statistic message 
+
+2020-06-11 19:17:28,659 - Room + memory1 - INFO - Memory 14.171002388000488
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories28Statistic message 
+
+2020-06-11 19:17:28,955 - Room + memory1 - INFO - Memory 14.48058295249939
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories29Statistic message 
+
+2020-06-11 19:17:29,297 - Room + memory1 - INFO - Memory 14.77135944366455
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories30Statistic message 
+
+2020-06-11 19:17:29,642 - Room + memory1 - INFO - Memory 15.113236904144287
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories31Statistic message 
+
+2020-06-11 19:17:29,954 - Room + memory1 - INFO - Memory 15.458160161972046
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories32Statistic message 
+
+2020-06-11 19:17:30,300 - Room + memory1 - INFO - Memory 15.771793365478516
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories33Statistic message 
+
+2020-06-11 19:17:30,694 - Room + memory1 - INFO - Memory 16.117159366607666
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories34Statistic message 
+
+2020-06-11 19:17:31,112 - Room + memory1 - INFO - Memory 16.51235842704773
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories35Statistic message 
+
+2020-06-11 19:17:31,477 - Room + memory1 - INFO - Memory 16.936840534210205
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories36Statistic message 
+
+2020-06-11 19:17:31,763 - Room + memory1 - INFO - Memory 17.295600652694702
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories37Statistic message 
+
+2020-06-11 19:17:32,111 - Room + memory1 - INFO - Memory 17.580000400543213
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories38Statistic message 
+
+2020-06-11 19:17:32,443 - Room + memory1 - INFO - Memory 17.930291414260864
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories39Statistic message 
+
+2020-06-11 19:17:32,761 - Room + memory1 - INFO - Memory 18.267077207565308
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories40Statistic message 
+
+2020-06-11 19:17:33,065 - Room + memory1 - INFO - Memory 18.577309370040894
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories41Statistic message 
+
+2020-06-11 19:17:33,393 - Room + memory1 - INFO - Memory 18.881569623947144
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories42Statistic message 
+
+2020-06-11 19:17:33,817 - Room + memory1 - INFO - Memory 19.256811141967773
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories43Statistic message 
+
+2020-06-11 19:17:34,145 - Room + memory1 - INFO - Memory 19.633235454559326
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories44Statistic message 
+
+2020-06-11 19:17:34,451 - Room + memory1 - INFO - Memory 19.96163582801819
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories45Statistic message 
+
+2020-06-11 19:17:35,698 - Room + memory1 - INFO - Memory 20.28214120864868
+Owner: 1Item: 5#memories10Item: 1#memories18Item: 2#memories16Item: 3#memories3Item: 4#memories46Statistic message 
+

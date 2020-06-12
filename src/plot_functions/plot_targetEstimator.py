@@ -49,9 +49,9 @@ def plot_target_memory_agent_ax_ay_2D(ax, data, curve_label="curve_label"):
                             "ax [m/s^2]", "ay [m/s^2]", curve_label=curve_label)
 
 
-def plot_target_memory_x_y(ax, data, curve_label="curve_label", symb="x", color=None):
+def plot_target_memory_x_y(ax, data, curve_label="curve_label"):
     plot_graph_x_y(ax, data[X_INDEX], data[Y_INDEX], "Trajectory x-y plane  (time [s] in color)", "x [m]", "y [m]",
-                   curve_label=curve_label, symb=symb, color=color)
+                   curve_label=curve_label)
 
 
 def plot_target_memory_time_x(ax, data, curve_label="curve_label"):
@@ -190,10 +190,6 @@ class TargetSortedTargetEstimator:
     def add_target_estimator(self, data):
         for i in range(len(constants.TARGET_ESTIMATOR_CSV_FIELDNAMES)):
             try:
-                if (i == 6 or i == 7) and data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]][0] == "[":
-                    data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]] = data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[
-                        i]][1:-1]
-
                 self.data_list[i].append(float(data[constants.TARGET_ESTIMATOR_CSV_FIELDNAMES[i]]))
             except ValueError:
                 print("problème pas grave mais c'est bien que ça print pour pas oublier")
@@ -559,7 +555,6 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         fig_time_type_x_y.suptitle(title, fontsize=17, fontweight='bold', y=1)
         ax1 = fig_time_type_x_y.add_subplot(2, 2, 1)
         ax2 = fig_time_type_x_y.add_subplot(2, 2, 2)
-
         ax3 = fig_time_type_x_y.add_subplot(2, 2, 3)
         ax4 = fig_time_type_x_y.add_subplot(2, 2, 4)
 
@@ -572,7 +567,6 @@ class Analyser_Target_TargetEstimator_FormatCSV:
             for element in self.data_sort_by_target:
                 plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id) + " - mes")
                 sc2 = plot_target_memory_type_x_y_2D(ax2, element.data_list,
-
                                                      curve_label="target" + str(element.target_id) + " - mes")
                 sc3 = plot_target_memory_agent_x_y_2D(ax3, element.data_list,
                                                       curve_label="target" + str(element.target_id) + " - mes")
@@ -739,10 +733,8 @@ class Analyser_Agent_Target_TargetEstimator_FormatCSV:
 
 if __name__ == '__main__':
     constants.ResultsPath.folder = "../../results"
-    constants.ResultsPath.name_simulation = "My_new_map"
-
-    analyser_agent_memory = Analyser_Target_TargetEstimator_FormatCSV(100,
-                                                                      constants.ResultsPath.SAVE_LOAD_DATA_MEMORY_AGENT,
-                                                                      constants.ResultsPath.SAVE_LOAD_PLOT_MEMORY_AGENT,
-                                                                      )
-    analyser_agent_memory.plot_rapport(0)
+    constants.ResultsPath.name_simulation = "attractiv_combine"
+    analyser_simulated_data = Analyser_Target_TargetEstimator_FormatCSV("",
+                                                                        constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,
+                                                                        constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER)
+    analyser_simulated_data.plot_all_target_simulated_data_collected_data()

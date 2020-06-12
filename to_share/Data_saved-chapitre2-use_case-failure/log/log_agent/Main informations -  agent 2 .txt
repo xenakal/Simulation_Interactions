@@ -1,0 +1,43 @@
+2020-06-11 19:24:18,969 - Main informations2 - INFO - Using hearbeat messages !
+2020-06-11 19:24:18,969 - Main informations2 - INFO - Time between two heartbeats of 1.00 s
+2020-06-11 19:24:18,969 - Main informations2 - INFO - Time max between two heartbeats of 3.00 s
+2020-06-11 19:24:18,978 - Main informations2 - INFO - starting initialisation in agent_interacting_room_agent_cam
+2020-06-11 19:24:18,978 - Main informations2 - INFO - starting initialisation in agent_interacting_room
+2020-06-11 19:24:18,978 - Main informations2 - INFO - initialisation in agent_interacting_room_done !
+2020-06-11 19:24:18,978 - Main informations2 - INFO - initialisation in agent_interacting_room__cam_done !
+2020-06-11 19:24:18,979 - Main informations2 - INFO - Agent 2 is activated at 0.03 s
+2020-06-11 19:24:18,979 - Main informations2 - INFO - camera of a agent 2 is activated at 0.03 s
+2020-06-11 19:24:20,316 - Main informations2 - INFO - Found someone ! agent user :100
+2020-06-11 19:24:20,317 - Main informations2 - INFO - Add a new heartbeat counter for agent: 100
+2020-06-11 19:24:20,317 - Main informations2 - INFO - Found someone ! agent cam :0
+2020-06-11 19:24:20,317 - Main informations2 - INFO - Add a new heartbeat counter for agent: 0
+2020-06-11 19:24:20,983 - Main informations2 - INFO - Agent 2 is desactivated at 2.03 s
+2020-06-11 19:24:21,022 - Main informations2 - INFO - Found someone ! agent cam :1
+2020-06-11 19:24:21,022 - Main informations2 - INFO - Add a new heartbeat counter for agent: 1
+2020-06-11 19:24:30,975 - Main informations2 - INFO - Agent 2 is activated at 12.02 s
+2020-06-11 19:24:33,237 - Main informations2 - INFO - Agent : 0at:  14.29s is not connected anymore, last heartbeat : 1.18 s
+2020-06-11 19:24:33,237 - Main informations2 - INFO - Agent : 1at:  14.29s is not connected anymore, last heartbeat : 1.26 s
+2020-06-11 19:24:33,691 - Main informations2 - INFO - Found someone ! agent cam :1
+2020-06-11 19:24:33,691 - Main informations2 - INFO - Found someone ! agent cam :0
+2020-06-11 19:24:33,927 - Main informations2 - INFO - Agent : 0at:  14.98s is not connected anymore, last heartbeat : 3.78 s
+2020-06-11 19:24:33,927 - Main informations2 - INFO - Agent : 1at:  14.98s is not connected anymore, last heartbeat : 3.62 s
+2020-06-11 19:24:35,574 - Main informations2 - INFO - Found someone ! agent cam :1
+2020-06-11 19:24:35,575 - Main informations2 - INFO - Found someone ! agent cam :0
+2020-06-11 19:24:35,799 - Main informations2 - INFO - Agent : 0at:  16.85s is not connected anymore, last heartbeat : 7.36 s
+2020-06-11 19:24:35,799 - Main informations2 - INFO - Agent : 1at:  16.85s is not connected anymore, last heartbeat : 8.17 s
+2020-06-11 19:24:36,402 - Main informations2 - INFO - Found someone ! agent cam :0
+2020-06-11 19:24:36,403 - Main informations2 - INFO - Found someone ! agent cam :1
+2020-06-11 19:24:36,620 - Main informations2 - INFO - Agent : 0at:  17.67s is not connected anymore, last heartbeat : 10.65 s
+2020-06-11 19:24:36,620 - Main informations2 - INFO - Agent : 1at:  17.67s is not connected anymore, last heartbeat : 9.44 s
+2020-06-11 19:24:36,698 - Main informations2 - INFO - Found someone ! agent cam :0
+2020-06-11 19:24:36,914 - Main informations2 - INFO - Agent : 0at:  17.96s is not connected anymore, last heartbeat : 10.65 s
+2020-06-11 19:24:37,711 - Main informations2 - INFO - Found someone ! agent cam :0
+2020-06-11 19:24:37,712 - Main informations2 - INFO - Found someone ! agent cam :1
+2020-06-11 19:24:37,936 - Main informations2 - INFO - Agent : 0at:  18.99s is not connected anymore, last heartbeat : 12.70 s
+2020-06-11 19:24:37,936 - Main informations2 - INFO - Agent : 1at:  18.99s is not connected anymore, last heartbeat : 14.07 s
+2020-06-11 19:24:39,475 - Main informations2 - INFO - Saving data ...: agent 2
+2020-06-11 19:24:39,486 - Main informations2 - INFO - Data saved !
+2020-06-11 19:24:45,460 - Main informations2 - INFO - Found someone ! agent cam :0
+2020-06-11 19:24:45,471 - Main informations2 - INFO - Found someone ! agent cam :1
+2020-06-11 19:24:45,537 - Main informations2 - INFO - Agent cleared 
+

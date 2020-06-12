@@ -114,7 +114,7 @@ class LinkTargetCamera:
 
                                 "Check is the camera can see the target for a given room geometry"
 
-                                if cdt_in_field and cdt_not_hidden and camera.is_active and cdt_condifdence_high_enough:
+                                if cdt_in_field and cdt_not_hidden and camera.is_active and cdt_condifdence_high_enough and agent.is_active:
                                     "Distance computation"
                                     distance_to_target = np.power(np.power((camera.xc - target.xc), 2)
                                                                   + np.power((camera.yc - target.yc), 2), 0.5)

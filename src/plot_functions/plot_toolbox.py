@@ -3,11 +3,11 @@ import math
 from src import constants
 
 X_MIN = 0
-X_MAX = 50
+X_MAX = 10
 Y_MIN = 0
-Y_MAX = 50
+Y_MAX = 10
 T_MIN = 0
-T_MAX = 50
+T_MAX = 70
 
 
 def plot_graph_3D(ax, x, y, z, title="title", x_label="x_axis", y_label="y_axis", z_label="z_label"):

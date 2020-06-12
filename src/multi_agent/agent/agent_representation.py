@@ -1,3 +1,4 @@
+from src import constants
 from src.my_utils.confidence import evaluate_confidence
 from src.my_utils.item import Item
 
@@ -30,3 +31,5 @@ class AgentRepresentation(Item):
 
     def evaluate_agent_confidence(self,error,delta_time):
         self.confidence = evaluate_confidence(error,delta_time)
+        if not constants.AGENTS_MOVING:
+            self.confidence = constants.CONFIDENCE_MAX_VALUE

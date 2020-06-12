@@ -1,0 +1,12 @@
+2020-06-11 20:47:36,488 - /Log_app-1 - INFO - app started
+2020-06-11 20:47:36,488 - /Log_app-1 - INFO - file name : My_new_map
+2020-06-11 20:47:36,488 - /Log_app-1 - INFO - Using distributed kalman : False
+2020-06-11 20:47:36,488 - /Log_app-1 - INFO - Kalman type: 4
+2020-06-11 20:47:36,488 - /Log_app-1 - INFO - Simulation end in time : 20.00 s
+2020-06-11 20:47:36,488 - /Log_app-1 - INFO - Scaling time factor : 1.00 s
+2020-06-11 20:47:36,488 - /Log_app-1 - INFO - Starting init ...
+2020-06-11 20:47:36,506 - /Log_app-1 - INFO - Init done
+2020-06-11 20:47:55,996 - /Log_app-1 - INFO - Clear ...
+2020-06-11 20:47:56,475 - /Log_app-1 - INFO - Saving data : generated
+2020-06-11 20:47:56,483 - /Log_app-1 - INFO - Data saved !
+2020-06-11 20:47:56,484 - /Log_app-1 - INFO - App cleared !

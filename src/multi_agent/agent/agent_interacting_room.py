@@ -258,6 +258,7 @@ class AgentInteractingWithRoom(Agent):
                     if isinstance(agent, AgentCamRepresentation):
                         self.log_main.info("Found someone ! agent cam :" + str(agent.id))
                         agent.camera_representation.is_active = True
+
                     elif isinstance(agent, AgentUserRepresentation):
                         self.log_main.info("Found someone ! agent user :" + str(agent.id))
 

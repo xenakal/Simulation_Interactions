@@ -1,0 +1,25 @@
+2020-06-11 19:17:14,398 - Main informations0 - INFO - Using hearbeat messages !
+2020-06-11 19:17:14,398 - Main informations0 - INFO - Time between two heartbeats of 1.00 s
+2020-06-11 19:17:14,398 - Main informations0 - INFO - Time max between two heartbeats of 3.00 s
+2020-06-11 19:17:14,417 - Main informations0 - INFO - starting initialisation in agent_interacting_room_agent_cam
+2020-06-11 19:17:14,417 - Main informations0 - INFO - starting initialisation in agent_interacting_room
+2020-06-11 19:17:14,418 - Main informations0 - INFO - initialisation in agent_interacting_room_done !
+2020-06-11 19:17:14,418 - Main informations0 - INFO - initialisation in agent_interacting_room__cam_done !
+2020-06-11 19:17:14,420 - Main informations0 - INFO - Agent 0 is activated at 0.03 s
+2020-06-11 19:17:14,421 - Main informations0 - INFO - camera of a agent 0 is activated at 0.03 s
+2020-06-11 19:17:16,157 - Main informations0 - INFO - Found someone ! agent user :100
+2020-06-11 19:17:16,157 - Main informations0 - INFO - Add a new heartbeat counter for agent: 100
+2020-06-11 19:17:17,201 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-11 19:17:17,201 - Main informations0 - INFO - Add a new heartbeat counter for agent: 1
+2020-06-11 19:17:17,201 - Main informations0 - INFO - Found someone ! agent cam :2
+2020-06-11 19:17:17,201 - Main informations0 - INFO - Add a new heartbeat counter for agent: 2
+2020-06-11 19:17:18,850 - Main informations0 - INFO - Agent : 1at:  4.46s is not connected anymore, last heartbeat : 1.23 s
+2020-06-11 19:17:18,850 - Main informations0 - INFO - Agent : 2at:  4.46s is not connected anymore, last heartbeat : 1.27 s
+2020-06-11 19:17:19,406 - Main informations0 - INFO - Found someone ! agent cam :2
+2020-06-11 19:17:19,406 - Main informations0 - INFO - Found someone ! agent cam :1
+2020-06-11 19:17:33,132 - Main informations0 - INFO - Agent : 2at:  18.74s is not connected anymore, last heartbeat : 15.68 s
+2020-06-11 19:17:33,253 - Main informations0 - INFO - Found someone ! agent cam :2
+2020-06-11 19:17:34,500 - Main informations0 - INFO - Saving data ...: agent 0
+2020-06-11 19:17:34,535 - Main informations0 - INFO - Data saved !
+2020-06-11 19:17:34,830 - Main informations0 - INFO - Agent cleared 
+
