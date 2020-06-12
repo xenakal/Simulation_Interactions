@@ -729,6 +729,7 @@ class AgentCam(AgentInteractingWithRoom):
 
     def send_message_track_loose_target(self, track_loose_choice, target_id):
         if track_loose_choice == MessageTypeAgentCameraInteractingWithRoom.TRACKING_TARGET or track_loose_choice == MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET:
+            print(track_loose_choice)
             message = MessageCheckACKNACK(constants.get_time(), self.id, self.signature, track_loose_choice, "",
                                           target_id)
             self.log_target_tracked.info(message.to_string())

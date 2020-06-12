@@ -9,8 +9,8 @@ constants.ResultsPath.folder = "../../to_share"
 constants.ResultsPath.name_simulation = "chapitre1-use_case"
 
 
-#constants.ResultsPath.folder = "../../results"
-#constants.ResultsPath.name_simulation = "Simple_map"
+constants.ResultsPath.folder = "../../results"
+constants.ResultsPath.name_simulation = "Simple_map"
 
 target_ploter = analyser_simulated_data = Analyser_Target_TargetEstimator_FormatCSV("",
                                                                         constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,

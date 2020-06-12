@@ -1,0 +1,183 @@
+2020-06-12 18:01:18,432 - Message0 - INFO - SENT : at 0.48 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:18,455 - Message0 - INFO - SENT : at 0.48 s tracking_target target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:18,478 - Message0 - INFO - SENT : at 0.49 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:18,530 - Message0 - INFO - RECEIVED : at 0.49 s agentEstimation item : 1 from :1
+2020-06-12 18:01:18,574 - Message0 - INFO - RECEIVED : at 0.49 s tracking_target item : 1 from :1
+2020-06-12 18:01:18,589 - Message0 - INFO - RECEIVED : at 0.49 s info_DKF item : 1 from :1
+2020-06-12 18:01:18,837 - Message0 - INFO - SENT : at 0.89 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:18,880 - Message0 - INFO - RECEIVED : at 0.89 s info_DKF item : 1 from :1
+2020-06-12 18:01:19,117 - Message0 - INFO - SENT : at 1.17 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:19,130 - Message0 - INFO - SENT : at 1.17 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:19,144 - Message0 - INFO - SENT : at 1.17 s tracking_target target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:19,159 - Message0 - INFO - SENT : at 1.17 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:19,219 - Message0 - INFO - RECEIVED : at 1.05 s heartbeat item : -1 from :100
+2020-06-12 18:01:19,233 - Message0 - INFO - RECEIVED : at 1.16 s agentEstimation item : 1 from :1
+2020-06-12 18:01:19,249 - Message0 - INFO - RECEIVED : at 1.16 s info_DKF item : 1 from :1
+2020-06-12 18:01:19,266 - Message0 - INFO - RECEIVED : at 1.16 s heartbeat item : -1 from :1
+2020-06-12 18:01:19,496 - Message0 - INFO - SENT : at 1.17 s heartbeat target : -1 to :[[1, 3858849658836706], [100, 552782867140100]]
+2020-06-12 18:01:19,543 - Message0 - INFO - RECEIVED : at 1.45 s info_DKF item : 1 from :1
+2020-06-12 18:01:19,780 - Message0 - INFO - SENT : at 1.56 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:19,796 - Message0 - INFO - SENT : at 1.84 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:19,838 - Message0 - INFO - RECEIVED : at 1.79 s agentEstimation item : 1 from :1
+2020-06-12 18:01:19,852 - Message0 - INFO - RECEIVED : at 1.79 s info_DKF item : 1 from :1
+2020-06-12 18:01:20,082 - Message0 - INFO - SENT : at 1.56 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:20,096 - Message0 - INFO - SENT : at 1.83 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:20,111 - Message0 - INFO - SENT : at 1.84 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:20,125 - Message0 - INFO - SENT : at 2.14 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:20,140 - Message0 - INFO - SENT : at 2.14 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:20,145 - Message0 - INFO - SENT : at 2.14 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:20,187 - Message0 - INFO - RECEIVED : at 2.07 s info_DKF item : 1 from :1
+2020-06-12 18:01:20,200 - Message0 - INFO - RECEIVED : at 2.12 s heartbeat item : -1 from :100
+2020-06-12 18:01:20,430 - Message0 - INFO - SENT : at 2.49 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:20,444 - Message0 - INFO - SENT : at 2.49 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:20,458 - Message0 - INFO - SENT : at 2.49 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:20,464 - Message0 - INFO - SENT : at 2.49 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:20,521 - Message0 - INFO - RECEIVED : at 2.33 s agentEstimation item : 1 from :1
+2020-06-12 18:01:20,536 - Message0 - INFO - RECEIVED : at 2.33 s info_DKF item : 1 from :1
+2020-06-12 18:01:20,551 - Message0 - INFO - RECEIVED : at 2.33 s heartbeat item : -1 from :1
+2020-06-12 18:01:20,783 - Message0 - INFO - SENT : at 2.49 s heartbeat target : -1 to :[[1, 3858849658836706], [100, 552782867140100]]
+2020-06-12 18:01:20,790 - Message0 - INFO - SENT : at 2.84 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:20,805 - Message0 - INFO - SENT : at 2.84 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:20,811 - Message0 - INFO - SENT : at 2.84 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:20,851 - Message0 - INFO - RECEIVED : at 2.69 s info_DKF item : 1 from :1
+2020-06-12 18:01:21,083 - Message0 - INFO - SENT : at 3.14 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:21,097 - Message0 - INFO - SENT : at 3.14 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:21,109 - Message0 - INFO - SENT : at 3.14 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:21,113 - Message0 - INFO - SENT : at 3.14 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:21,155 - Message0 - INFO - RECEIVED : at 3.00 s agentEstimation item : 1 from :1
+2020-06-12 18:01:21,171 - Message0 - INFO - RECEIVED : at 3.00 s info_DKF item : 1 from :1
+2020-06-12 18:01:21,185 - Message0 - INFO - RECEIVED : at 3.00 s tracking_target item : 2 from :1
+2020-06-12 18:01:21,202 - Message0 - INFO - RECEIVED : at 3.00 s info_DKF item : 2 from :1
+2020-06-12 18:01:21,221 - Message0 - INFO - RECEIVED : at 3.14 s heartbeat item : -1 from :100
+2020-06-12 18:01:21,458 - Message0 - INFO - SENT : at 3.51 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:21,471 - Message0 - INFO - SENT : at 3.51 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:21,477 - Message0 - INFO - SENT : at 3.51 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:21,533 - Message0 - INFO - RECEIVED : at 3.34 s info_DKF item : 1 from :1
+2020-06-12 18:01:21,548 - Message0 - INFO - RECEIVED : at 3.34 s info_DKF item : 2 from :1
+2020-06-12 18:01:21,569 - Message0 - INFO - RECEIVED : at 3.34 s heartbeat item : -1 from :1
+2020-06-12 18:01:21,800 - Message0 - INFO - SENT : at 3.51 s heartbeat target : -1 to :[[1, 3858849658836706], [100, 552782867140100]]
+2020-06-12 18:01:21,804 - Message0 - INFO - SENT : at 3.86 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:21,816 - Message0 - INFO - SENT : at 3.86 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:21,830 - Message0 - INFO - SENT : at 3.86 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:21,877 - Message0 - INFO - RECEIVED : at 3.67 s agentEstimation item : 1 from :1
+2020-06-12 18:01:21,889 - Message0 - INFO - RECEIVED : at 3.68 s info_DKF item : 1 from :1
+2020-06-12 18:01:21,902 - Message0 - INFO - RECEIVED : at 3.68 s info_DKF item : 2 from :1
+2020-06-12 18:01:22,135 - Message0 - INFO - SENT : at 3.86 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:22,143 - Message0 - INFO - SENT : at 4.19 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:22,155 - Message0 - INFO - SENT : at 4.19 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:22,169 - Message0 - INFO - SENT : at 4.19 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:22,212 - Message0 - INFO - RECEIVED : at 4.02 s info_DKF item : 1 from :1
+2020-06-12 18:01:22,225 - Message0 - INFO - RECEIVED : at 4.02 s info_DKF item : 2 from :1
+2020-06-12 18:01:22,237 - Message0 - INFO - RECEIVED : at 4.15 s heartbeat item : -1 from :100
+2020-06-12 18:01:22,467 - Message0 - INFO - SENT : at 4.52 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:22,482 - Message0 - INFO - SENT : at 4.53 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:22,497 - Message0 - INFO - SENT : at 4.53 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:22,503 - Message0 - INFO - SENT : at 4.53 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:22,560 - Message0 - INFO - RECEIVED : at 4.34 s agentEstimation item : 1 from :1
+2020-06-12 18:01:22,576 - Message0 - INFO - RECEIVED : at 4.34 s info_DKF item : 1 from :1
+2020-06-12 18:01:22,588 - Message0 - INFO - RECEIVED : at 4.34 s info_DKF item : 2 from :1
+2020-06-12 18:01:22,602 - Message0 - INFO - RECEIVED : at 4.34 s heartbeat item : -1 from :1
+2020-06-12 18:01:22,842 - Message0 - INFO - SENT : at 4.53 s heartbeat target : -1 to :[[1, 3858849658836706], [100, 552782867140100]]
+2020-06-12 18:01:22,850 - Message0 - INFO - SENT : at 4.90 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:22,864 - Message0 - INFO - SENT : at 4.90 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:22,905 - Message0 - INFO - RECEIVED : at 4.69 s info_DKF item : 1 from :1
+2020-06-12 18:01:22,922 - Message0 - INFO - RECEIVED : at 4.69 s info_DKF item : 2 from :1
+2020-06-12 18:01:23,151 - Message0 - INFO - SENT : at 5.21 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:23,165 - Message0 - INFO - SENT : at 5.21 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:23,178 - Message0 - INFO - SENT : at 5.21 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:23,221 - Message0 - INFO - RECEIVED : at 5.04 s agentEstimation item : 1 from :1
+2020-06-12 18:01:23,233 - Message0 - INFO - RECEIVED : at 5.04 s info_DKF item : 1 from :1
+2020-06-12 18:01:23,245 - Message0 - INFO - RECEIVED : at 5.04 s info_DKF item : 2 from :1
+2020-06-12 18:01:23,258 - Message0 - INFO - RECEIVED : at 5.24 s heartbeat item : -1 from :100
+2020-06-12 18:01:23,492 - Message0 - INFO - SENT : at 5.55 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:23,506 - Message0 - INFO - SENT : at 5.55 s loosing_target target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:23,561 - Message0 - INFO - RECEIVED : at 5.38 s info_DKF item : 1 from :1
+2020-06-12 18:01:23,575 - Message0 - INFO - RECEIVED : at 5.38 s info_DKF item : 2 from :1
+2020-06-12 18:01:23,588 - Message0 - INFO - RECEIVED : at 5.38 s heartbeat item : -1 from :1
+2020-06-12 18:01:23,819 - Message0 - INFO - SENT : at 5.55 s heartbeat target : -1 to :[[1, 3858849658836706], [100, 552782867140100]]
+2020-06-12 18:01:23,824 - Message0 - INFO - SENT : at 5.88 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:23,835 - Message0 - INFO - SENT : at 5.88 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:23,877 - Message0 - INFO - RECEIVED : at 5.72 s agentEstimation item : 1 from :1
+2020-06-12 18:01:23,891 - Message0 - INFO - RECEIVED : at 5.72 s info_DKF item : 1 from :1
+2020-06-12 18:01:23,905 - Message0 - INFO - RECEIVED : at 5.73 s info_DKF item : 2 from :1
+2020-06-12 18:01:24,143 - Message0 - INFO - SENT : at 6.19 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:24,185 - Message0 - INFO - RECEIVED : at 6.09 s info_DKF item : 1 from :1
+2020-06-12 18:01:24,201 - Message0 - INFO - RECEIVED : at 6.09 s info_DKF item : 2 from :1
+2020-06-12 18:01:24,449 - Message0 - INFO - SENT : at 6.49 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:24,465 - Message0 - INFO - SENT : at 6.49 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:24,480 - Message0 - INFO - SENT : at 6.49 s tracking_target target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:24,494 - Message0 - INFO - SENT : at 6.49 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:24,538 - Message0 - INFO - RECEIVED : at 6.29 s heartbeat item : -1 from :100
+2020-06-12 18:01:24,550 - Message0 - INFO - RECEIVED : at 6.41 s agentEstimation item : 1 from :1
+2020-06-12 18:01:24,563 - Message0 - INFO - RECEIVED : at 6.41 s info_DKF item : 1 from :1
+2020-06-12 18:01:24,577 - Message0 - INFO - RECEIVED : at 6.41 s info_DKF item : 2 from :1
+2020-06-12 18:01:24,590 - Message0 - INFO - RECEIVED : at 6.41 s heartbeat item : -1 from :1
+2020-06-12 18:01:24,842 - Message0 - INFO - SENT : at 6.90 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:24,854 - Message0 - INFO - SENT : at 6.90 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:24,910 - Message0 - INFO - RECEIVED : at 6.72 s info_DKF item : 1 from :1
+2020-06-12 18:01:24,924 - Message0 - INFO - RECEIVED : at 6.72 s info_DKF item : 2 from :1
+2020-06-12 18:01:25,159 - Message0 - INFO - SENT : at 6.90 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:25,179 - Message0 - INFO - SENT : at 6.90 s heartbeat target : -1 to :[[1, 3858849658836706], [100, 552782867140100]]
+2020-06-12 18:01:25,184 - Message0 - INFO - SENT : at 7.22 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:25,196 - Message0 - INFO - SENT : at 7.22 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:25,208 - Message0 - INFO - SENT : at 7.22 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:25,261 - Message0 - INFO - RECEIVED : at 7.11 s agentEstimation item : 1 from :1
+2020-06-12 18:01:25,276 - Message0 - INFO - RECEIVED : at 7.11 s info_DKF item : 1 from :1
+2020-06-12 18:01:25,291 - Message0 - INFO - RECEIVED : at 7.11 s info_DKF item : 2 from :1
+2020-06-12 18:01:25,544 - Message0 - INFO - SENT : at 7.22 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:25,549 - Message0 - INFO - SENT : at 7.60 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:25,562 - Message0 - INFO - SENT : at 7.61 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:25,575 - Message0 - INFO - SENT : at 7.61 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:25,616 - Message0 - INFO - RECEIVED : at 7.38 s heartbeat item : -1 from :100
+2020-06-12 18:01:25,632 - Message0 - INFO - RECEIVED : at 7.45 s info_DKF item : 1 from :1
+2020-06-12 18:01:25,646 - Message0 - INFO - RECEIVED : at 7.45 s info_DKF item : 2 from :1
+2020-06-12 18:01:25,662 - Message0 - INFO - RECEIVED : at 7.45 s heartbeat item : -1 from :1
+2020-06-12 18:01:25,898 - Message0 - INFO - SENT : at 7.96 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:25,910 - Message0 - INFO - SENT : at 7.96 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:25,922 - Message0 - INFO - SENT : at 7.96 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:25,928 - Message0 - INFO - SENT : at 7.96 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:25,984 - Message0 - INFO - RECEIVED : at 7.81 s agentEstimation item : 1 from :1
+2020-06-12 18:01:25,997 - Message0 - INFO - RECEIVED : at 7.81 s info_DKF item : 1 from :1
+2020-06-12 18:01:26,014 - Message0 - INFO - RECEIVED : at 7.81 s info_DKF item : 2 from :1
+2020-06-12 18:01:26,250 - Message0 - INFO - SENT : at 7.96 s heartbeat target : -1 to :[[1, 3858849658836706], [100, 552782867140100]]
+2020-06-12 18:01:26,256 - Message0 - INFO - SENT : at 8.31 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:26,271 - Message0 - INFO - SENT : at 8.31 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:26,276 - Message0 - INFO - SENT : at 8.31 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:26,318 - Message0 - INFO - RECEIVED : at 8.14 s info_DKF item : 1 from :1
+2020-06-12 18:01:26,332 - Message0 - INFO - RECEIVED : at 8.14 s info_DKF item : 2 from :1
+2020-06-12 18:01:26,576 - Message0 - INFO - SENT : at 8.63 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:26,589 - Message0 - INFO - SENT : at 8.64 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:26,601 - Message0 - INFO - SENT : at 8.64 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:26,606 - Message0 - INFO - SENT : at 8.64 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:26,648 - Message0 - INFO - RECEIVED : at 8.42 s heartbeat item : -1 from :100
+2020-06-12 18:01:26,661 - Message0 - INFO - RECEIVED : at 8.48 s agentEstimation item : 1 from :1
+2020-06-12 18:01:26,677 - Message0 - INFO - RECEIVED : at 8.48 s info_DKF item : 1 from :1
+2020-06-12 18:01:26,690 - Message0 - INFO - RECEIVED : at 8.49 s info_DKF item : 2 from :1
+2020-06-12 18:01:26,704 - Message0 - INFO - RECEIVED : at 8.49 s heartbeat item : -1 from :1
+2020-06-12 18:01:26,945 - Message0 - INFO - SENT : at 9.00 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:26,957 - Message0 - INFO - SENT : at 9.00 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:26,962 - Message0 - INFO - SENT : at 9.00 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:27,019 - Message0 - INFO - RECEIVED : at 8.84 s info_DKF item : 1 from :1
+2020-06-12 18:01:27,035 - Message0 - INFO - RECEIVED : at 8.84 s info_DKF item : 2 from :1
+2020-06-12 18:01:27,273 - Message0 - INFO - SENT : at 9.00 s heartbeat target : -1 to :[[1, 3858849658836706], [100, 552782867140100]]
+2020-06-12 18:01:27,277 - Message0 - INFO - SENT : at 9.33 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:27,289 - Message0 - INFO - SENT : at 9.33 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:27,301 - Message0 - INFO - SENT : at 9.33 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:27,315 - Message0 - INFO - SENT : at 9.33 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:27,360 - Message0 - INFO - RECEIVED : at 9.17 s agentEstimation item : 1 from :1
+2020-06-12 18:01:27,372 - Message0 - INFO - RECEIVED : at 9.17 s info_DKF item : 1 from :1
+2020-06-12 18:01:27,385 - Message0 - INFO - RECEIVED : at 9.18 s info_DKF item : 2 from :1
+2020-06-12 18:01:27,622 - Message0 - INFO - SENT : at 9.68 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:27,637 - Message0 - INFO - SENT : at 9.68 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:27,680 - Message0 - INFO - RECEIVED : at 9.49 s heartbeat item : -1 from :100
+2020-06-12 18:01:27,694 - Message0 - INFO - RECEIVED : at 9.52 s info_DKF item : 1 from :1
+2020-06-12 18:01:27,707 - Message0 - INFO - RECEIVED : at 9.52 s info_DKF item : 2 from :1
+2020-06-12 18:01:27,720 - Message0 - INFO - RECEIVED : at 9.52 s heartbeat item : -1 from :1
+2020-06-12 18:01:27,961 - Message0 - INFO - SENT : at 9.68 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:27,975 - Message0 - INFO - SENT : at 10.02 s agentEstimation target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:27,989 - Message0 - INFO - SENT : at 10.02 s info_DKF target : 0 to :[[1, 3858849658836706]]
+2020-06-12 18:01:28,003 - Message0 - INFO - SENT : at 10.02 s info_DKF target : 2 to :[[1, 3858849658836706]]
+2020-06-12 18:01:28,009 - Message0 - INFO - SENT : at 10.02 s targetEstimation target : 2 to :[[100, 552782867140100]]
+2020-06-12 18:01:28,065 - Message0 - INFO - RECEIVED : at 9.87 s agentEstimation item : 1 from :1
+2020-06-12 18:01:28,078 - Message0 - INFO - RECEIVED : at 9.87 s info_DKF item : 1 from :1
+2020-06-12 18:01:28,092 - Message0 - INFO - RECEIVED : at 9.87 s info_DKF item : 2 from :1

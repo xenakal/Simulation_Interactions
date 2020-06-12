@@ -1,0 +1,90 @@
+2020-06-12 18:01:18,611 - Room + memory1 - INFO - Memory 0.4831373691558838
+Owner: 1Item: 1#memories1Statistic message 
+
+2020-06-12 18:01:18,884 - Room + memory1 - INFO - Memory 0.885983943939209
+Owner: 1Item: 1#memories2Statistic message 
+
+2020-06-12 18:01:19,169 - Room + memory1 - INFO - Memory 1.1568546295166016
+Owner: 1Item: 1#memories3Statistic message 
+
+2020-06-12 18:01:19,517 - Room + memory1 - INFO - Memory 1.4440879821777344
+Owner: 1Item: 1#memories4Statistic message 
+
+2020-06-12 18:01:19,797 - Room + memory1 - INFO - Memory 1.7918751239776611
+Owner: 1Item: 1#memories5Statistic message 
+
+2020-06-12 18:01:20,049 - Room + memory1 - INFO - Memory 2.0711252689361572
+Owner: 1Item: 1#memories6Statistic message 
+
+2020-06-12 18:01:20,405 - Room + memory1 - INFO - Memory 2.324453592300415
+Owner: 1Item: 1#memories7Statistic message 
+
+2020-06-12 18:01:20,720 - Room + memory1 - INFO - Memory 2.682729721069336
+Owner: 1Item: 1#memories8Item: 2#memories1Statistic message 
+
+2020-06-12 18:01:21,053 - Room + memory1 - INFO - Memory 2.9974660873413086
+Owner: 1Item: 1#memories9Item: 2#memories2Statistic message 
+
+2020-06-12 18:01:21,390 - Room + memory1 - INFO - Memory 3.332630157470703
+Owner: 1Item: 1#memories10Item: 2#memories3Statistic message 
+
+2020-06-12 18:01:21,734 - Room + memory1 - INFO - Memory 3.6717374324798584
+Owner: 1Item: 1#memories11Item: 2#memories4Statistic message 
+
+2020-06-12 18:01:22,056 - Room + memory1 - INFO - Memory 4.015362024307251
+Owner: 1Item: 1#memories12Item: 2#memories5Statistic message 
+
+2020-06-12 18:01:22,402 - Room + memory1 - INFO - Memory 4.337240695953369
+Owner: 1Item: 1#memories13Item: 2#memories6Statistic message 
+
+2020-06-12 18:01:22,755 - Room + memory1 - INFO - Memory 4.688639879226685
+Owner: 1Item: 1#memories14Item: 2#memories7Statistic message 
+
+2020-06-12 18:01:23,092 - Room + memory1 - INFO - Memory 5.035987138748169
+Owner: 1Item: 1#memories15Item: 2#memories8Statistic message 
+
+2020-06-12 18:01:23,439 - Room + memory1 - INFO - Memory 5.372609853744507
+Owner: 1Item: 1#memories16Item: 2#memories9Statistic message 
+
+2020-06-12 18:01:23,794 - Room + memory1 - INFO - Memory 5.719945430755615
+Owner: 1Item: 1#memories17Item: 2#memories10Statistic message 
+
+2020-06-12 18:01:24,127 - Room + memory1 - INFO - Memory 6.081571102142334
+Owner: 1Item: 1#memories18Item: 2#memories11Statistic message 
+
+2020-06-12 18:01:24,434 - Room + memory1 - INFO - Memory 6.407336711883545
+Owner: 1Item: 1#memories19Item: 2#memories12Statistic message 
+
+2020-06-12 18:01:24,819 - Room + memory1 - INFO - Memory 6.717177391052246
+Owner: 1Item: 1#memories20Item: 2#memories13Statistic message 
+
+2020-06-12 18:01:25,166 - Room + memory1 - INFO - Memory 7.103210926055908
+Owner: 1Item: 1#memories21Item: 2#memories14Statistic message 
+
+2020-06-12 18:01:25,520 - Room + memory1 - INFO - Memory 7.4466423988342285
+Owner: 1Item: 1#memories22Item: 2#memories15Statistic message 
+
+2020-06-12 18:01:25,853 - Room + memory1 - INFO - Memory 7.804074048995972
+Owner: 1Item: 1#memories23Item: 2#memories16Statistic message 
+
+2020-06-12 18:01:26,198 - Room + memory1 - INFO - Memory 8.13476037979126
+Owner: 1Item: 1#memories24Item: 2#memories17Statistic message 
+
+2020-06-12 18:01:26,547 - Room + memory1 - INFO - Memory 8.478799819946289
+Owner: 1Item: 1#memories25Item: 2#memories18Statistic message 
+
+2020-06-12 18:01:26,884 - Room + memory1 - INFO - Memory 8.830962419509888
+Owner: 1Item: 1#memories26Item: 2#memories19Statistic message 
+
+2020-06-12 18:01:27,226 - Room + memory1 - INFO - Memory 9.16704249382019
+Owner: 1Item: 1#memories27Item: 2#memories20Statistic message 
+
+2020-06-12 18:01:27,582 - Room + memory1 - INFO - Memory 9.507695198059082
+Owner: 1Item: 1#memories28Item: 2#memories21Statistic message 
+
+2020-06-12 18:01:27,902 - Room + memory1 - INFO - Memory 9.865232229232788
+Owner: 1Item: 1#memories29Item: 2#memories22Statistic message 
+
+2020-06-12 18:01:28,592 - Room + memory1 - INFO - Memory 10.182427644729614
+Owner: 1Item: 1#memories30Item: 2#memories23Statistic message 
+
