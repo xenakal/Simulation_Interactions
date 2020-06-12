@@ -1,0 +1,127 @@
+-----------------------------------------------------------------------
+----  MSE of filtered measurements for DKF performance evaluation  ----
+-----------------------------------------------------------------------
+SCENARIO: RECTANGLE WITH 2 AGENTS
+	ITERATION 0
+		local mse = 0.364977
+		global mse = 0.389936
+	ITERATION 1
+		local mse = 0.309950
+		global mse = 0.347216
+	ITERATION 2
+		local mse = 0.319093
+		global mse = 0.357786
+	ITERATION 3
+		local mse = 0.387270
+		global mse = 0.420202
+	ITERATION 4
+		local mse = 0.372067
+		global mse = 0.388381
+	ITERATION 5
+		local mse = 0.322284
+		global mse = 0.349976
+	ITERATION 6
+		local mse = 0.347065
+		global mse = 0.386070
+	ITERATION 7
+		local mse = 0.306133
+		global mse = 0.327866
+	ITERATION 8
+		local mse = 0.302891
+		global mse = 0.338620
+	ITERATION 9
+		local mse = 0.288202
+		global mse = 0.309565
+SCENARIO: RECTANGLE WITH 3 AGENTS
+	ITERATION 0
+		local mse = 0.243580
+		global mse = 0.241018
+	ITERATION 1
+		local mse = 0.250925
+		global mse = 0.248026
+	ITERATION 2
+		local mse = 0.256048
+		global mse = 0.250327
+	ITERATION 3
+		local mse = 0.204358
+		global mse = 0.179556
+	ITERATION 4
+		local mse = 0.261012
+		global mse = 0.251918
+	ITERATION 5
+		local mse = 0.309768
+		global mse = 0.290674
+	ITERATION 6
+		local mse = 0.298009
+		global mse = 0.260667
+	ITERATION 7
+		local mse = 0.241144
+		global mse = 0.249183
+	ITERATION 8
+		local mse = 0.274184
+		global mse = 0.270819
+	ITERATION 9
+		local mse = 0.251516
+		global mse = 0.264133
+SCENARIO: RECTANGLE WITH 4 AGENTS
+	ITERATION 0
+		local mse = 0.339996
+		global mse = 0.329211
+	ITERATION 1
+		local mse = 0.302208
+		global mse = 0.293209
+	ITERATION 2
+		local mse = 0.316504
+		global mse = 0.295899
+	ITERATION 3
+		local mse = 0.299705
+		global mse = 0.270110
+	ITERATION 4
+		local mse = 0.274182
+		global mse = 0.258137
+	ITERATION 5
+		local mse = 0.326982
+		global mse = 0.313892
+	ITERATION 6
+		local mse = 0.337030
+		global mse = 0.306463
+	ITERATION 7
+		local mse = 0.423018
+		global mse = 0.416624
+	ITERATION 8
+		local mse = 0.340580
+		global mse = 0.323971
+	ITERATION 9
+		local mse = 0.316817
+		global mse = 0.291108
+SCENARIO: RECTANGLE WITH 5 AGENTS
+	ITERATION 0
+		local mse = 0.409244
+		global mse = 0.404077
+	ITERATION 1
+		local mse = 0.428896
+		global mse = 0.362737
+	ITERATION 2
+		local mse = 0.324613
+		global mse = 0.307642
+	ITERATION 3
+		local mse = 0.506550
+		global mse = 0.468989
+	ITERATION 4
+		local mse = 0.374637
+		global mse = 0.345106
+	ITERATION 5
+		local mse = 0.294229
+		global mse = 0.272577
+	ITERATION 6
+		local mse = 0.467081
+		global mse = 0.427805
+	ITERATION 7
+		local mse = 0.472112
+		global mse = 0.465332
+	ITERATION 8
+		local mse = 0.438509
+		global mse = 0.367616
+	ITERATION 9
+		local mse = 0.477219
+		global mse = 0.446182

@@ -1,5 +1,5 @@
 from src.app import *
-from src import constants
+import src.constants
 
 """
 map_to_test_name is a list taking multiple maps's name. 
@@ -12,7 +12,7 @@ map_to_test_name = ["Simple_map", "Super_use-case_fix", "Super_use-case_fix_fail
 map_to_test_name = ["dkf_test_4_targets"]
 
 """ Used to specify whether we want to use arguments passed from user. """
-use_args = True
+use_args = False
 
 """
 Variable here are use to set the desired parameter during the simulation.
@@ -20,7 +20,7 @@ Variable here are use to set the desired parameter during the simulation.
 
 """Kalman centralised VS Kalman distributed to track the targets"""
 if not use_args:
-    kalman_distributed = [False, False, False, False]
+    kalman_distributed = [True, False, False, False]
 else:
     kalman_distributed = [sys.argv[1] == "T"]
 

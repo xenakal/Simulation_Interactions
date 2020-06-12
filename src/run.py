@@ -21,7 +21,7 @@ Variable here are use to set the desired parameter during the simulation.
 
 """Kalman centralised VS Kalman distributed to track the targets"""
 if not use_args:
-    kalman_distributed = [False,False,False,False]
+    kalman_distributed = [True,False,False,False]
 else:
     kalman_distributed = [sys.argv[1] == "T"]
 
