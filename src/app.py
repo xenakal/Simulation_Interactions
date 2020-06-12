@@ -14,12 +14,12 @@ from src.my_utils.GUI.GUI import GUI
 from src.my_utils.motion import move_Target
 from src.my_utils.my_IO.IO_map import *
 from src.my_utils.my_IO.IO_data import *
-from src.constants import *
+from src import constants
 import copy
 
 import src.multi_agent.agent.agent_interacting_room_camera
 import src.multi_agent.agent.agent_interacting_room_user
-from src.plot_functions.main_plot import plot_res, plot_mse_kf_dkf
+from src.plot_functions.main_plot import plot_res
 
 
 def clean_mailbox():
@@ -37,9 +37,9 @@ class App:
         """
         self.file_load = file_name
 
-        if constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA or constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA_ONCE:
+        if constants.LOAD_DATA == constants.LoadData.CREATE_RANDOM_DATA or constants.LOAD_DATA == constants.LoadData.CREATE_RANDOM_DATA_ONCE:
             file_name = "Random_map_" + str(random.randint(1, 10000))
-        elif constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET or constants.LOAD_DATA == LoadData.TARGET_FROM_TXT_CREATE_RANDOM_CAMERA or constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE:
+        elif constants.LOAD_DATA == constants.LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET or constants.LOAD_DATA == constants.LoadData.TARGET_FROM_TXT_CREATE_RANDOM_CAMERA or constants.LOAD_DATA == constants.LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE:
             file_name += "-Random_map_" + str(random.randint(1, 10000))
 
         if not (file_name is None):
@@ -92,8 +92,9 @@ class App:
         self.targets_moving_thread = None
 
         self.init()
-        if USE_GUI:
+        if constants.USE_GUI:
             self.myGUI = GUI()
+
 
     def init(self):
         """"""
@@ -106,14 +107,14 @@ class App:
         src.multi_agent.agent.agent_interacting_room_user.AgentUser.number_agentUser_created = 0
 
         """Start the time"""
-        constants.TIME_START = time.time()
+        constants.TIME_START = constants.time.time()
 
         """Create a new room and load it from it representation in .txt file"""
         self.room = Room()
-        if constants.LOAD_DATA == LoadData.FROM_TXT_FILE:
+        if constants.LOAD_DATA == constants.LoadData.FROM_TXT_FILE:
             load_room_target_camera_from_txt(self.file_load + ".txt", self.room)
 
-        elif constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET or constants.LOAD_DATA == LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE:
+        elif constants.LOAD_DATA == constants.LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET or constants.LOAD_DATA == constants.LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE:
             load_room_from_txt(self.file_load + ".txt", self.room)
             load_camera_from_txt(self.file_load + ".txt", self.room)
             self.room.information_simulation.generate_n_m_unkown_set_fix_target(constants.TARGET_NUMBER_UNKOWN,
@@ -121,7 +122,7 @@ class App:
             save_room_target_camera_to_txt(self.filename + ".txt", self.room)
 
 
-        elif constants.LOAD_DATA == LoadData.TARGET_FROM_TXT_CREATE_RANDOM_CAMERA:
+        elif constants.LOAD_DATA == constants.LoadData.TARGET_FROM_TXT_CREATE_RANDOM_CAMERA:
             load_room_from_txt(self.file_load + ".txt", self.room)
             load_target_from_txt(self.file_load + ".txt", self.room)
             self.room.information_simulation.generate_n_m_p_k_fix_rotative_rail_free_camera(constants.CAMERA_NUMBER_FIX,
@@ -130,7 +131,7 @@ class App:
                                                                                             constants.CAMERA_NUMBER_FREE)
             save_room_target_camera_to_txt(self.filename + ".txt", self.room)
 
-        elif constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA or constants.LOAD_DATA == LoadData.CREATE_RANDOM_DATA_ONCE:
+        elif constants.LOAD_DATA == constants.LoadData.CREATE_RANDOM_DATA or constants.LOAD_DATA == constants.LoadData.CREATE_RANDOM_DATA_ONCE:
             self.room.information_simulation.generate_n_m_unkown_set_fix_target(constants.TARGET_NUMBER_UNKOWN,
                                                                                 constants.TARGET_NUMBER_SET_FIX)
             self.room.information_simulation.generate_n_m_p_k_fix_rotative_rail_free_camera(constants.CAMERA_NUMBER_FIX,
@@ -163,11 +164,11 @@ class App:
         self.static_region = MapRegionStatic(self.room)
         self.dynamic_region = MapRegionDynamic(self.room)
 
-        if USE_static_analysis:
-            self.static_region.init(NUMBER_OF_POINT_STATIC_ANALYSIS, True)
+        if constants.USE_static_analysis:
+            self.static_region.init(constants.NUMBER_OF_POINT_STATIC_ANALYSIS, True)
 
-        if USE_dynamic_analysis_simulated_room:
-            self.dynamic_region.init(NUMBER_OF_POINT_DYNAMIC_ANALYSIS)
+        if constants.USE_dynamic_analysis_simulated_room:
+            self.dynamic_region.init(constants.NUMBER_OF_POINT_DYNAMIC_ANALYSIS)
 
         self.link_agent_target = LinkTargetCamera(self.room)
         self.link_agent_target.update_link_camera_target()
@@ -219,7 +220,6 @@ class App:
             # plot graph
             if constants.GENERATE_PLOT:
                 self.log_app.info("Plotting data")
-                plot_mse_kf_dkf(self.room)
                 plot_res(self.room, self.filename)
                 self.log_app.info("Plotting done")
 
@@ -229,18 +229,18 @@ class App:
         self.log_app.info("Reset ...")
         self.clear(reset=True)
         if constants.LoadData.CREATE_RANDOM_DATA_ONCE or constants.LoadData.CAMERA_FROM_TXT_CREATE_RANDOM_TARGET_ONCE:
-            constants.LOAD_DATA = LoadData.FROM_TXT_FILE
+            constants.LOAD_DATA = constants.LoadData.FROM_TXT_FILE
             self.file_load = self.filename
 
         self.init()
         self.log_app.info("Reset done !")
 
     def move_all_targets_thread(self):
-        time_old = time.time()
+        time_old = constants.time.time()
         while self.targets_moving:
 
-            time.sleep(TIME_BTW_TARGET_MOVEMENT)
-            delta_time = time.time() - time_old
+            constants.time.sleep(constants.TIME_BTW_TARGET_MOVEMENT)
+            delta_time = constants.time.time() - time_old
 
             self.link_agent_target.update_link_camera_target()
             self.link_agent_target.compute_link_camera_target()
@@ -252,7 +252,7 @@ class App:
                                                                  copy.copy(target))
                 move_Target(target, delta_time)
                 # theoritical calculation
-            time_old = time.time()
+            time_old = constants.time.time()
 
     def main(self):
         run = True
@@ -262,7 +262,7 @@ class App:
 
         """Event loo^p"""
         while run:
-            time.sleep(constants.TIME_BTW_FRAME)
+            constants.time.sleep(constants.TIME_BTW_FRAME)
 
             if reset:
                 self.reset()
@@ -279,20 +279,20 @@ class App:
                 push r - reset the simulatio from the start
                 push s - to take a screen_shot from the window GUI
             """
-            if USE_GUI:
-                if USE_dynamic_analysis_simulated_room:
+            if constants.USE_GUI:
+                if constants.USE_dynamic_analysis_simulated_room:
                     region = self.dynamic_region
-                    region.init(NUMBER_OF_POINT_DYNAMIC_ANALYSIS)
-                    self.dynamic_region.compute_all_map(NUMBER_OF_POINT_DYNAMIC_ANALYSIS)
+                    region.init(constants.NUMBER_OF_POINT_DYNAMIC_ANALYSIS)
+                    self.dynamic_region.compute_all_map(constants.NUMBER_OF_POINT_DYNAMIC_ANALYSIS)
                 else:
                     region = self.static_region
-                    self.static_region.compute_all_map(NUMBER_OF_POINT_STATIC_ANALYSIS, True)
+                    self.static_region.compute_all_map(constants.NUMBER_OF_POINT_STATIC_ANALYSIS, True)
 
                 self.myGUI.updateGUI(self.room, region, self.link_agent_target.link_camera_target)
                 (run, reset, do_next, do_previous) = self.myGUI.GUI_option.getGUI_Info()
 
             """Closing the simulation options"""
-            if constants.get_time() > constants.TIME_STOP and USE_GUI:
+            if constants.get_time() > constants.TIME_STOP and constants.USE_GUI:
                 run = False
                 pygame.quit()
             elif constants.get_time() > constants.TIME_STOP:

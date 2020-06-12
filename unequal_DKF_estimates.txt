@@ -1,4 +1,0 @@
-Note that the synchronous case is mathematically equivalent to the centralized KF, however the asynchronous is not. 
-
-
-Un premier problème c'est côté asynchrone. Comme les messages peuvent venir dans des od

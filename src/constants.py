@@ -11,11 +11,10 @@ In this file you have the possibility to modify the settings
 
 
 SAVE_DATA = True
-GENERATE_PLOT = True
+GENERATE_PLOT = False
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
-
-USE_GUI = False
+USE_GUI = True
 USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
 
@@ -38,6 +37,7 @@ DISTRIBUTED_KALMAN = False
 KALMAN_MODEL_MEASUREMENT_DIM = 4
 USE_TIMESTAMP_FOR_ASSIMILATION = True
 KALMAN_VAR_COEFFICIENT = 5
+
 
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
 ROOM_DIMENSION_X = 10  # [m]
@@ -71,8 +71,8 @@ TIME_BTW_TARGET_ESTIMATOR = TIME_PICTURE
 TIME_TO_SLOW_DOWN = 0.05
 
 """Error on mesure---------------------------------------------------------------------------------------------------"""
-STD_MEASURMENT_ERROR_POSITION = 0.2
-STD_MEASURMENT_ERROR_SPEED = 0.1
+STD_MEASURMENT_ERROR_POSITION = .5
+STD_MEASURMENT_ERROR_SPEED = .5
 STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
 
 ERROR_VARIATION_ZOOM = True
@@ -289,8 +289,8 @@ class MapPath:
 
 
 class ResultsPath:
-    folder = "../results"
-    name_simulation = "My_new_map.txt"
+    folder = "/results"
+    name_simulation = "My_new_map"
 
     @classproperty
     def MAIN_FOLDER(cls):
@@ -467,10 +467,6 @@ class ResultsPath:
     @classproperty
     def PLOT_KALMAN_PREDICTION_T_PLUS_2(cls):
         return ResultsPath.PLOT_KALMAN_PREDICTION + "/prediction_t_plus_2"
-
-    #@classproperty
-    #def PLOT_KALMAN_DISTRIBUE(cls):
-        #return ResultsPath.PLOT_KALMAN + "/kalman_distribue"
 
     @classproperty
     def PLOT_MESSAGE(cls):

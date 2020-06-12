@@ -2,14 +2,11 @@ from filterpy.kalman import KalmanFilter
 import numpy as np
 from numpy import eye, dot, zeros, isscalar
 from filterpy.common import reshape_z
-from src.constants import TIME_SEND_READ_MESSAGE, TIME_PICTURE, STD_MEASURMENT_ERROR_POSITION
-import src.constants as constants
+import src.constants
 import warnings
 import random
 
-DEFAULT_TIME_INCREMENT = TIME_PICTURE + TIME_SEND_READ_MESSAGE
-INTERNODAL_VALIDATION_BOUND = .0001
-GAMA = 5
+DEFAULT_TIME_INCREMENT = src.constants.TIME_PICTURE + src.constants.TIME_SEND_READ_MESSAGE
 
 
 class DistributedKalmanFilter(KalmanFilter):
@@ -51,18 +48,26 @@ class DistributedKalmanFilter(KalmanFilter):
 
         self.id = random.randint(0, 20)
 
+
         # creation of log file
         self.logger_kalman = logger
-        self.logger_kalman.info("new distributed kalman at time %.02f s" % constants.get_time())
+        self.logger_kalman.info("new distributed kalman at time %.02f s" % src.constants.get_time())
+
+        f = open("../validation_bounds", "r+")
+        [self.NODAL_VALIDATION_BOUND, self.INTERNODAL_VALIDATION_BOUND] = [int(_) for _ in f.read().split(" ")]
+        f.close()
+        f = open("../innovation_bound", "r+")
+        [self.INNOVATION_BOUND] = [float(_) for _ in f.read().split(" ")]
+        f.close()
 
     def predict(self, u=None, B=None, F=None, Q=None):
-        #print(self.id, " predict !")
+        # print(self.id, " predict !")
         super().predict(u, B, F, Q)
         self.PI = self.inv(self.P)
         self.PI_prior = self.PI.copy()
 
     def update(self, z, R=None, H=None, timestamp=-1):
-        #print(self.id, " update !")
+        # print(self.id, " update !")
         if timestamp == -1:
             warnings.warn("timestamp not specified: default time increment will be used")
 
@@ -81,9 +86,9 @@ class DistributedKalmanFilter(KalmanFilter):
         v = z - dot(self.H, self.x_prior)
         S = self.R + dot(self.H, dot(self.P_prior, self.H.T))
         validation_region = dot(v.T, dot(self.inv(S), v))
-        if validation_region >= GAMA:
-            #print(validation_region)
-            return
+        if validation_region >= self.NODAL_VALIDATION_BOUND:
+            # print("rejected nodal validation region:", validation_region)
+            return True
 
         # set to None to force recompute
         self._log_likelihood = None
@@ -135,7 +140,7 @@ class DistributedKalmanFilter(KalmanFilter):
         self.P_post = self.P
 
     def assimilate(self, dkf_info_string, tj):
-        #print(self.id, " assimilate !")
+        # print(self.id, " assimilate !")
         """
         Assimilates the local estimation recieved from another node to the local estimation of the global state.
 
@@ -147,6 +152,9 @@ class DistributedKalmanFilter(KalmanFilter):
         if tj < self.curr_ti:
             print("probleeeem")
             return
+
+        if self.z_current is None:
+            return []
 
         self.prev_ti = self.curr_ti
         self.curr_ti = tj
@@ -169,14 +177,14 @@ class DistributedKalmanFilter(KalmanFilter):
         Nij = dot(self.H.T, dot(Nij_subexpression, self.H))
         Hij = dot(Y_minus, state_error_info) - dot(self.H.T, dot(self.H, xj_prior))
         region_to_validate = dot(Hij.transpose(), dot(self.inv(Nij), Hij))
-        #print(self.id, " region to validate", region_to_validate)
-        if region_to_validate > INTERNODAL_VALIDATION_BOUND:
-            #print(region_to_validate)
+        if region_to_validate > self.INTERNODAL_VALIDATION_BOUND:
+            # print("rejected internodal validation region:", region_to_validate)
             return
         else:
-            self.logger_kalman.info("Assimilation of data at time " + str(constants.get_time()) + ". Time when data "
-                                                                                                  "was sent: " +
-                                    str(tj) + ". Time of last local measurement: " + str(self.curr_ti))
+            self.logger_kalman.info(
+                "Assimilation of data at time " + str(src.constants.get_time()) + ". Time when data "
+                                                                                  "was sent: " +
+                str(tj) + ". Time of last local measurement: " + str(self.curr_ti))
 
         # PI(tj|tj) = PI(tj|τi) + variance_error_info
         self.PI_global = PIj_prior + variance_error_info
@@ -193,6 +201,8 @@ class DistributedKalmanFilter(KalmanFilter):
         self.P = self.P_global.copy()
 
     def state_error_info(self):
+        if self.z_current is None:
+            return np.array([])
         RI = self.inv(self.R)
         HRI = dot(self.H.T, RI)
         state_error_info = dot(HRI, self.z_current)
@@ -200,6 +210,8 @@ class DistributedKalmanFilter(KalmanFilter):
         return state_error_info
 
     def variance_error_info(self):
+        if self.z_current is None:
+            return np.array([[]])
         RI = self.inv(self.R)
         var_error_info = dot(dot(self.H.T, RI), self.H)
         self.logger_kalman.info("Calc var_error_info = " + str(var_error_info))
@@ -217,6 +229,12 @@ class DistributedKalmanFilter(KalmanFilter):
 
     def get_DKF_info_string(self):
         return self.errors_info_toString()
+
+    def innovation_smaller_than_bound(self):
+        innovation_x_y = np.abs(np.mean(self.y[0:2]))
+        # print(innovation_x_y, "bound = ", self.INNOVATION_BOUND)
+        # print("innovation = ", innovation_x_y, " bound = ", self.INNOVATION_BOUND)
+        return innovation_x_y < self.INNOVATION_BOUND
 
 
 def npArray_to_String(array):

@@ -1,3 +1,5 @@
+import copy
+
 from src.multi_agent.elements.target import TargetRepresentation
 from src.multi_agent.tools.estimation import MultipleOwnerMemories, SingleOwnerMemories, is_in_list_TargetEstimator, \
     ItemEstimation
@@ -63,6 +65,10 @@ class Memory:
 
         "Logger to keep track of every send and received messages"
         self.log_memory = create_logger(constants.ResultsPath.LOG_MEMORY, "Memory", self.id)
+        self.log_memory_local_kf = create_logger(constants.ResultsPath.LOG_MEMORY, "LOCAL_KF", self.id)
+        self.log_memory_global_kf = create_logger(constants.ResultsPath.LOG_MEMORY, "GLOBAL_KF", self.id)
+        self.log_all_kf_actions = create_logger(constants.ResultsPath.LOG_MEMORY, "ALL_KF", self.id)
+
 
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, item):
         """
@@ -227,6 +233,12 @@ class Memory:
             return []
         return predictor.get_predictions()
 
+    def innovation_smaller_than_bound(self, seeked_target_id):
+        predictor = self.get_target_predictor(seeked_target_id)
+        if predictor is None:
+            return True
+        return predictor.innovation_smaller_than_bound()
+
     def get_DKF_info_string(self, seeked_target_id):
         """
         :description:
@@ -247,20 +259,17 @@ class Memory:
         """
         predictor = self.get_target_predictor(seeked_target_id)
         if predictor is not None:
+            before = self.memory_best_estimations_from_target.get_item_list(seeked_target_id)[-1].item.xc
             predictor.assimilate(dfk_info_string, timestamp)
             (x, var) = predictor.get_current_position()
-            try:
-                last_target_estimation = self.memory_best_estimations_from_target.get_item_list(seeked_target_id)[0]
-                kalman_target_representation = TargetRepresentation(seeked_target_id, x[0], x[1], x[2], x[3], 0, 0,
-                                                                    last_target_estimation.item.radius,
-                                                                    last_target_estimation.item.target_type,
-                                                                    last_target_estimation.item.color)
+            self.memory_best_estimations_from_target.update_last_itemEstimation(x[0], x[1], x[2], x[3], seeked_target_id)
 
-                new_ItemEstimation = ItemEstimation(time_stamp=timestamp, owner_id=self.id,
-                                                    owner_agent_signature=-1, item=kalman_target_representation)
-                self.memory_best_estimations_from_target.update_last_itemEstimation(new_ItemEstimation)
-            except IndexError:
-                pass
+            after = self.memory_best_estimations_from_target.get_item_list(seeked_target_id)[-1].item.xc
+
+            self.log_all_kf_actions.info("ASSIMILATE")
+            self.log_all_kf_actions.info("local: {}".format(self.memory_local_kf.get_item_list(0)[-1].item.xc))
+            self.log_all_kf_actions.info("global: {}".format(self.memory_best_estimations_from_target.get_item_list(0)[-1].item.xc))
+            self.log_all_kf_actions.info("before: {}, after: {}".format(before, after))
 
     def get_target_predictor(self, seeked_target_id):
         """ :return the Kalman Predictor associated with this target """
@@ -290,9 +299,17 @@ class Memory:
 
         """
         self.memory_best_estimations_from_target.add_create_itemEstimation(time_from_estimation, agent_id,
-                                                                           agent_signature, item)
+                                                                           agent_signature, copy.copy(item))
         self.memory_local_kf.add_create_itemEstimation(time_from_estimation, agent_id,
-                                                                           agent_signature, item)
+                                                                           agent_signature, copy.copy(item))
+        """
+        if len(self.memory_local_kf.get_item_list(0)) > 1:
+            self.log_all_kf_actions.info("UPDATE")
+            self.log_all_kf_actions.info("local: {}".format(self.memory_local_kf.get_item_list(0)[-1].item.xc))
+            self.log_all_kf_actions.info("global: {}".format(self.memory_best_estimations_from_target.get_item_list(0)[-1].item.xc))
+            self.log_memory_local_kf.info(self.memory_local_kf.get_item_list(0)[-2].item.xc)
+            self.log_memory_global_kf.info(self.memory_best_estimations_from_target.get_item_list(0)[-2].item.xc)
+        """
 
     def get_noiseless_estimations(self, seeked_target_id):
         """

@@ -1,0 +1,6 @@
+pygame~=1.9.6
+matplotlib~=3.2.1
+numpy~=1.18.2
+scikit-learn~=0.22.2.post1
+scipy~=1.4.1
+filterpy~=1.4.5
