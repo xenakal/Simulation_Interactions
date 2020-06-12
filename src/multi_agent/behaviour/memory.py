@@ -266,7 +266,7 @@ class Memory:
 
             after = self.memory_best_estimations_from_target.get_item_list(seeked_target_id)[-1].item.xc
 
-            if self.memory_local_kf.get_item_list(0) is not None:
+            if self.memory_local_kf.get_item_list(0):
                 self.log_all_kf_actions.info("ASSIMILATE")
                 self.log_all_kf_actions.info("local: {}".format(self.memory_local_kf.get_item_list(0)[-1].item.xc))
                 self.log_all_kf_actions.info("global: {}".format(self.memory_best_estimations_from_target.get_item_list(0)[-1].item.xc))
