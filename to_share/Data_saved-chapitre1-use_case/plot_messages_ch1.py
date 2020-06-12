@@ -10,6 +10,8 @@ def load_message_file(agent_id):
         lines = fichier.readlines()
         fichier.close()
 
+        print(lines)
+
         data = []
         for line in lines:
             if line[0] == "#":
@@ -192,8 +194,8 @@ if __name__ == '__main__':
     constants.ResultsPath.folder = "../"
     constants.ResultsPath.name_simulation =  "chapitre1-use_case"
 
-    #constants.ResultsPath.folder = "../../results"
-    #constants.ResultsPath.name_simulation = "Simple_map"
+    constants.ResultsPath.folder = "../../results"
+    constants.ResultsPath.name_simulation = "Simple_map"
     plot_creator = MessagePlot(0)
     plot_creator.plot()
     plot_creator = MessagePlot(1)

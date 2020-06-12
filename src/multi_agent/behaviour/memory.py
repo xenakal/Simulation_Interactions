@@ -249,7 +249,12 @@ class Memory:
         if predictor is not None:
             predictor.assimilate(dfk_info_string, timestamp)
             (x, var) = predictor.get_current_position()
-            kalman_target_representation = TargetRepresentation(seeked_target_id, x[0], x[1], x[2], x[3], 0, 0, 0, 0, 0)
+            last_target_estimation = self.memory_best_estimations_from_target.get_item_list(seeked_target_id)[0]
+            kalman_target_representation = TargetRepresentation(seeked_target_id, x[0], x[1], x[2], x[3], 0, 0,
+                                                                last_target_estimation.item.radius,
+                                                                last_target_estimation.item.target_type,
+                                                                last_target_estimation.item.color)
+
             new_ItemEstimation = ItemEstimation(time_stamp=timestamp, owner_id=self.id,
                                                 owner_agent_signature=-1, item=kalman_target_representation)
             self.memory_best_estimations_from_target.update_last_itemEstimation(new_ItemEstimation)
