@@ -11,11 +11,11 @@ In this file you have the possibility to modify the settings
 
 
 SAVE_DATA = True
-GENERATE_PLOT = True
+GENERATE_PLOT = False
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
 
-USE_GUI = False
+USE_GUI = True
 USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
 

@@ -10,8 +10,6 @@ def load_message_file(agent_id):
         lines = fichier.readlines()
         fichier.close()
 
-        print(lines)
-
         data = []
         for line in lines:
             if line[0] == "#":

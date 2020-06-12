@@ -1,12 +1,12 @@
-2020-06-10 23:05:22,211 - /Log_app-1 - INFO - app started
-2020-06-10 23:05:22,211 - /Log_app-1 - INFO - file name : Simple_map
-2020-06-10 23:05:22,211 - /Log_app-1 - INFO - Using distributed kalman : False
-2020-06-10 23:05:22,211 - /Log_app-1 - INFO - Kalman type: 4
-2020-06-10 23:05:22,211 - /Log_app-1 - INFO - Simulation end in time : 10.00 s
-2020-06-10 23:05:22,212 - /Log_app-1 - INFO - Scaling time factor : 1.00 s
-2020-06-10 23:05:22,212 - /Log_app-1 - INFO - Starting init ...
-2020-06-10 23:05:22,237 - /Log_app-1 - INFO - Init done
-2020-06-10 23:05:32,232 - /Log_app-1 - INFO - Clear ...
-2020-06-10 23:05:32,983 - /Log_app-1 - INFO - Saving data : generated
-2020-06-10 23:05:32,989 - /Log_app-1 - INFO - Data saved !
-2020-06-10 23:05:32,989 - /Log_app-1 - INFO - App cleared !
+2020-06-12 16:29:48,434 - /Log_app-1 - INFO - app started
+2020-06-12 16:29:48,434 - /Log_app-1 - INFO - file name : Simple_map
+2020-06-12 16:29:48,434 - /Log_app-1 - INFO - Using distributed kalman : False
+2020-06-12 16:29:48,434 - /Log_app-1 - INFO - Kalman type: 4
+2020-06-12 16:29:48,435 - /Log_app-1 - INFO - Simulation end in time : 10.00 s
+2020-06-12 16:29:48,435 - /Log_app-1 - INFO - Scaling time factor : 1.00 s
+2020-06-12 16:29:48,436 - /Log_app-1 - INFO - Starting init ...
+2020-06-12 16:29:48,465 - /Log_app-1 - INFO - Init done
+2020-06-12 16:29:58,483 - /Log_app-1 - INFO - Clear ...
+2020-06-12 16:29:59,416 - /Log_app-1 - INFO - Saving data : generated
+2020-06-12 16:29:59,421 - /Log_app-1 - INFO - Data saved !
+2020-06-12 16:29:59,421 - /Log_app-1 - INFO - App cleared !
