@@ -123,7 +123,6 @@ class AgentCam(AgentInteractingWithRoom):
             :description
                 FSM defining the agent's behaviour
         """
-
         state = AgentCameraFSM.TAKE_PICTURE
         nextstate = state
 

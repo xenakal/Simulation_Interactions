@@ -10,10 +10,10 @@ by default in maps
 """
 
 map_to_test_name = ["Simple_map","Super_use-case_fix","Super_use-case_fix_failure","Super_use-case"]
-map_to_test_name = ["My_new_map"]
+map_to_test_name = ["Simple_map"]
 
 """ Used to specify whether we want to use arguments passed from user. """
-use_args = True
+use_args = False
 
 """
 Variable here are use to set the desired parameter during the simulation.
