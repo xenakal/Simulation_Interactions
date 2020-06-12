@@ -126,9 +126,9 @@ class KalmanFilterModel:
                         [0., 1., 0., 0.],
                         [0., 0., 1., 0.],
                         [0., 0., 0., 1.]])
-        f.P *= 2.
-        v_error_p = STD_MEASURMENT_ERROR_POSITION ** 2
-        v_error_v = STD_MEASURMENT_ERROR_SPEED ** 2
+        f.P *= 200.
+        v_error_p = STD_MEASURMENT_ERROR_POSITION
+        v_error_v = STD_MEASURMENT_ERROR_SPEED
 
         f.R = np.array([[constants.KALMAN_VAR_COEFFICIENT * v_error_p, 0., 0., 0.],
                         [0., constants.KALMAN_VAR_COEFFICIENT * v_error_p, 0., 0.],

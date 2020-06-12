@@ -12,6 +12,25 @@ constants.ResultsPath.folder = "../results"
 constants.ResultsPath.name_simulation = "attractive_combine"
 
 
+def plot_mse_kf_dkf(room):
+    local_mse = np.empty(len(room.active_AgentCams_list))
+    global_mse = np.empty(len(room.active_AgentCams_list))
+
+    for i, agent in enumerate(room.active_AgentCams_list):
+        analyser_kalman_global = Analyser_Target_TargetEstimator_FormatCSV(agent.id,
+                                                                           constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_GLOBAL_FILTER,
+                                                                           constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_GLOBAL_FILTERED)
+
+        analyser_kalman_local = Analyser_Target_TargetEstimator_FormatCSV(agent.id,
+                                                                          constants.ResultsPath.SAVE_LOAD_DATA_KALMAN_LOCAL_FILTER,
+                                                                          constants.ResultsPath.SAVE_LAOD_PLOT_KALMAN_LOCAL_FILTERED)
+        for target in room.information_simulation.target_list:
+            local_mse[i] = analyser_kalman_local.get_MSE(target.id)
+            global_mse[i] = analyser_kalman_global.get_MSE(target.id)
+
+    print("local_mse:", local_mse)
+    print("global_mse:", global_mse)
+
 def plot_res(room, filename):
     print("Generating plots ...")
     print("plot simulated_data")
@@ -70,6 +89,7 @@ def plot_res(room, filename):
             ###analyser_kalman_local.plot_MSE_interpolate_target_id(target.id)
             ###analyser_kalman_prediction_t1.plot_MSE_prediction_1_target_id(target.id)
             ###analyser_kalman_prediction_t2.plot_MSE_prediction_2_target_id(target.id)
+            pass
 
     "PLOT FOR AGENT USER"
     for agent in room.active_AgentUser_list:

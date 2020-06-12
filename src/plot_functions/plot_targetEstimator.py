@@ -234,6 +234,65 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         init_analyse_memory_agent(self.data, self.data_sort_by_target)
         init_analyse_memory_agent(self.simulated_data, self.simulated_data_sort_by_target)
 
+    def get_MSE(self, target_id):
+        data_ref = []
+        data_mes = []
+        for element in self.simulated_data_sort_by_target:
+            if target_id == int(element.target_id):
+                data_ref = element.data_list
+        for element in self.data_sort_by_target:
+            if target_id == int(element.target_id):
+                data_mes = element.data_list
+        (t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x, error_squared_y,
+         error_squared) = error_squared_discrete(
+            data_ref, data_mes, True)
+        return np.sqrt(np.mean(error_squared))
+
+    def plot_rapport(self, target_id):
+        fig1 = plt.figure(figsize=(20, 8))
+
+        ax1 = fig1.add_subplot(1, 2, 1)
+        ax2 = fig1.add_subplot(1, 2, 2)
+
+        fig2 = plt.figure(figsize=(12, 8))
+        ax3 = fig2.add_subplot(1, 1, 1)
+
+        ax1.xaxis.set_tick_params(labelsize=20)
+        ax1.yaxis.set_tick_params(labelsize=20)
+        ax2.xaxis.set_tick_params(labelsize=20)
+        ax2.yaxis.set_tick_params(labelsize=20)
+        ax3.xaxis.set_tick_params(labelsize=20)
+        ax3.yaxis.set_tick_params(labelsize=20)
+
+        for element in self.simulated_data_sort_by_target:
+            sc1 = plot_target_memory_time_x_y_2D(ax1, element.data_list,
+                                                 curve_label="target" + str(element.target_id) + " - ref")
+
+            plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id) + " - ref")
+
+        for element in self.data_sort_by_target:
+            plot_target_memory_x_y(ax1, element.data_list, curve_label="target" + str(element.target_id) + " - mes",
+                                   symb="*", color="gold")
+
+            sc2 = plot_target_memory_agent_x_y_2D(ax2, element.data_list,
+                                                  curve_label="target" + str(element.target_id) + " - mes")
+
+            plot_target_memory_x_y(ax2, element.data_list, curve_label="target" + str(element.target_id) + " - mes",
+                                   symb="*", color="gold")
+
+            plot_target_memory_time_agent(ax3, element.data_list,
+                                          curve_label="target" + str(element.target_id) + " - mes")
+
+        cb = fig1.colorbar(sc1, ax=ax1)
+        cb.ax.yaxis.set_tick_params(labelsize=20)
+        cb = fig1.colorbar(sc2, ax=ax2)
+        cb.ax.yaxis.set_tick_params(labelsize=20)
+
+        fig1.savefig(self.path_to_save_data + self.version + "--rapport1_" + str(self.id), transparent=False)
+        fig2.savefig(self.path_to_save_data + self.version + "--rapport2_" + str(self.id), transparent=False)
+        plt.close(fig1)
+        plt.close(fig2)
+
     def plot_MSE_prediction_1_target_id(self, target_id):
         try:
             data_ref = []
@@ -498,6 +557,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         ax2 = fig_time_type_x_y.add_subplot(2, 2, 2)
         ax3 = fig_time_type_x_y.add_subplot(2, 2, 3)
         ax4 = fig_time_type_x_y.add_subplot(2, 2, 4)
+
         try:
 
             for element in self.simulated_data_sort_by_target:

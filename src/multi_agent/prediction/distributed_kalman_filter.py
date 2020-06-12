@@ -5,10 +5,11 @@ from filterpy.common import reshape_z
 from src.constants import TIME_SEND_READ_MESSAGE, TIME_PICTURE, STD_MEASURMENT_ERROR_POSITION
 import src.constants as constants
 import warnings
+import random
 
 DEFAULT_TIME_INCREMENT = TIME_PICTURE + TIME_SEND_READ_MESSAGE
-INTERNODAL_VALIDATION_BOUND = 2
-GAMA = 3
+INTERNODAL_VALIDATION_BOUND = .0001
+GAMA = 5
 
 
 class DistributedKalmanFilter(KalmanFilter):
@@ -48,16 +49,20 @@ class DistributedKalmanFilter(KalmanFilter):
         else:
             self.model_F = model_F  # function to get the transition matrix ( use: F = self.model_F(dt) )
 
+        self.id = random.randint(0, 20)
+
         # creation of log file
         self.logger_kalman = logger
         self.logger_kalman.info("new distributed kalman at time %.02f s" % constants.get_time())
 
     def predict(self, u=None, B=None, F=None, Q=None):
+        #print(self.id, " predict !")
         super().predict(u, B, F, Q)
         self.PI = self.inv(self.P)
         self.PI_prior = self.PI.copy()
 
     def update(self, z, R=None, H=None, timestamp=-1):
+        #print(self.id, " update !")
         if timestamp == -1:
             warnings.warn("timestamp not specified: default time increment will be used")
 
@@ -130,6 +135,7 @@ class DistributedKalmanFilter(KalmanFilter):
         self.P_post = self.P
 
     def assimilate(self, dkf_info_string, tj):
+        #print(self.id, " assimilate !")
         """
         Assimilates the local estimation recieved from another node to the local estimation of the global state.
 
@@ -163,8 +169,9 @@ class DistributedKalmanFilter(KalmanFilter):
         Nij = dot(self.H.T, dot(Nij_subexpression, self.H))
         Hij = dot(Y_minus, state_error_info) - dot(self.H.T, dot(self.H, xj_prior))
         region_to_validate = dot(Hij.transpose(), dot(self.inv(Nij), Hij))
+        #print(self.id, " region to validate", region_to_validate)
         if region_to_validate > INTERNODAL_VALIDATION_BOUND:
-            # print(region_to_validate)
+            #print(region_to_validate)
             return
         else:
             self.logger_kalman.info("Assimilation of data at time " + str(constants.get_time()) + ". Time when data "

@@ -36,8 +36,8 @@ INIT_show_grid = True
 """Options for Kalman Filter-----------------------------------------------------------------------------------------"""
 DISTRIBUTED_KALMAN = False
 KALMAN_MODEL_MEASUREMENT_DIM = 4
-USE_TIMESTAMP_FOR_ASSIMILATION = True
-KALMAN_VAR_COEFFICIENT = 5
+USE_TIMESTAMP_FOR_ASSIMILATION = False
+KALMAN_VAR_COEFFICIENT = 1
 
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
 ROOM_DIMENSION_X = 10  # [m]
@@ -72,7 +72,7 @@ TIME_TO_SLOW_DOWN = 0.05
 
 """Error on mesure---------------------------------------------------------------------------------------------------"""
 STD_MEASURMENT_ERROR_POSITION = 0.2
-STD_MEASURMENT_ERROR_SPEED = 0.1
+STD_MEASURMENT_ERROR_SPEED = 0.3
 STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
 
 ERROR_VARIATION_ZOOM = True
@@ -102,7 +102,7 @@ Y_SCALE = 60
 """Agent - way to act------------------------------------------------------------------------------------------------"""
 INIT_TARGET_LIST = AgentCameraInitializeTargetList.ALL_SEEN
 """If you want to set all the agent fixed set to false"""
-AGENTS_MOVING = True
+AGENTS_MOVING = False
 TARGET_NUMBER_OF_AGENT_SHOULD_TRACK = 1
 """
 Refers to what data agent should use to analyse the room 
