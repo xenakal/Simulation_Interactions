@@ -9,7 +9,7 @@ set the folder in which those maps are located with constants.MapPath.folder
 by default in maps
 """
 map_to_test_name = ["Simple_map", "Super_use-case_fix", "Super_use-case_fix_failure", "Super_use-case"]
-map_to_test_name = ["dkf_test_4_targets"]
+map_to_test_name = ["Simple_map", "dkf_test_4_targets"]
 
 """ Used to specify whether we want to use arguments passed from user. """
 use_args = False

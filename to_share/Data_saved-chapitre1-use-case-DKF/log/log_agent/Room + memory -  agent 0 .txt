@@ -1,0 +1,87 @@
+2020-06-12 18:01:18,600 - Room + memory0 - INFO - Memory 0.4781510829925537
+Owner: 0Item: 0#memories1Statistic message 
+
+2020-06-12 18:01:18,888 - Room + memory0 - INFO - Memory 0.8909866809844971
+Owner: 0Item: 0#memories2Item: 2#memories1Statistic message 
+
+2020-06-12 18:01:19,274 - Room + memory0 - INFO - Memory 1.1658458709716797
+Owner: 0Item: 0#memories3Item: 2#memories2Statistic message 
+
+2020-06-12 18:01:19,548 - Room + memory0 - INFO - Memory 1.5527944564819336
+Owner: 0Item: 0#memories4Item: 2#memories3Statistic message 
+
+2020-06-12 18:01:19,857 - Room + memory0 - INFO - Memory 1.8317792415618896
+Owner: 0Item: 0#memories5Item: 2#memories4Statistic message 
+
+2020-06-12 18:01:20,205 - Room + memory0 - INFO - Memory 2.1359522342681885
+Owner: 0Item: 0#memories6Item: 2#memories5Statistic message 
+
+2020-06-12 18:01:20,557 - Room + memory0 - INFO - Memory 2.4847233295440674
+Owner: 0Item: 0#memories7Item: 2#memories6Statistic message 
+
+2020-06-12 18:01:20,857 - Room + memory0 - INFO - Memory 2.8372292518615723
+Owner: 0Item: 0#memories8Item: 2#memories7Statistic message 
+
+2020-06-12 18:01:21,230 - Room + memory0 - INFO - Memory 3.1368319988250732
+Owner: 0Item: 0#memories9Item: 2#memories8Statistic message 
+
+2020-06-12 18:01:21,576 - Room + memory0 - INFO - Memory 3.5091943740844727
+Owner: 0Item: 0#memories10Item: 2#memories9Statistic message 
+
+2020-06-12 18:01:21,910 - Room + memory0 - INFO - Memory 3.856523275375366
+Owner: 0Item: 0#memories11Item: 2#memories10Statistic message 
+
+2020-06-12 18:01:22,245 - Room + memory0 - INFO - Memory 4.18863844871521
+Owner: 0Item: 0#memories12Item: 2#memories11Statistic message 
+
+2020-06-12 18:01:22,615 - Room + memory0 - INFO - Memory 4.522071361541748
+Owner: 0Item: 0#memories13Item: 2#memories11Statistic message 
+
+2020-06-12 18:01:22,929 - Room + memory0 - INFO - Memory 4.894067049026489
+Owner: 0Item: 0#memories14Item: 2#memories11Statistic message 
+
+2020-06-12 18:01:23,266 - Room + memory0 - INFO - Memory 5.205057859420776
+Owner: 0Item: 0#memories15Item: 2#memories11Statistic message 
+
+2020-06-12 18:01:23,594 - Room + memory0 - INFO - Memory 5.54540228843689
+Owner: 0Item: 0#memories16Item: 2#memories11Statistic message 
+
+2020-06-12 18:01:23,912 - Room + memory0 - INFO - Memory 5.870728254318237
+Owner: 0Item: 0#memories17Item: 2#memories11Statistic message 
+
+2020-06-12 18:01:24,207 - Room + memory0 - INFO - Memory 6.185467720031738
+Owner: 0Item: 0#memories18Item: 2#memories11Statistic message 
+
+2020-06-12 18:01:24,598 - Room + memory0 - INFO - Memory 6.482136964797974
+Owner: 0Item: 0#memories19Item: 2#memories12Statistic message 
+
+2020-06-12 18:01:24,932 - Room + memory0 - INFO - Memory 6.882741451263428
+Owner: 0Item: 0#memories20Item: 2#memories13Statistic message 
+
+2020-06-12 18:01:25,300 - Room + memory0 - INFO - Memory 7.211921453475952
+Owner: 0Item: 0#memories21Item: 2#memories14Statistic message 
+
+2020-06-12 18:01:25,671 - Room + memory0 - INFO - Memory 7.5992138385772705
+Owner: 0Item: 0#memories22Item: 2#memories15Statistic message 
+
+2020-06-12 18:01:26,022 - Room + memory0 - INFO - Memory 7.951667785644531
+Owner: 0Item: 0#memories23Item: 2#memories16Statistic message 
+
+2020-06-12 18:01:26,339 - Room + memory0 - INFO - Memory 8.302271842956543
+Owner: 0Item: 0#memories24Item: 2#memories17Statistic message 
+
+2020-06-12 18:01:26,713 - Room + memory0 - INFO - Memory 8.629480361938477
+Owner: 0Item: 0#memories25Item: 2#memories18Statistic message 
+
+2020-06-12 18:01:27,044 - Room + memory0 - INFO - Memory 8.995501518249512
+Owner: 0Item: 0#memories26Item: 2#memories19Statistic message 
+
+2020-06-12 18:01:27,392 - Room + memory0 - INFO - Memory 9.324150562286377
+Owner: 0Item: 0#memories27Item: 2#memories20Statistic message 
+
+2020-06-12 18:01:27,727 - Room + memory0 - INFO - Memory 9.672636985778809
+Owner: 0Item: 0#memories28Item: 2#memories21Statistic message 
+
+2020-06-12 18:01:28,099 - Room + memory0 - INFO - Memory 10.010818004608154
+Owner: 0Item: 0#memories29Item: 2#memories22Statistic message 
+

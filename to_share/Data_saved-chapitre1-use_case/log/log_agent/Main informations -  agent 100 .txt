@@ -1,13 +1,13 @@
-2020-06-12 16:29:48,458 - Main informations100 - INFO - Using hearbeat messages !
-2020-06-12 16:29:48,458 - Main informations100 - INFO - Time between two heartbeats of 1.00 s
-2020-06-12 16:29:48,458 - Main informations100 - INFO - Time max between two heartbeats of 3.00 s
-2020-06-12 16:29:48,461 - Main informations100 - INFO - starting initialisation in agent_interacting_room
-2020-06-12 16:29:48,461 - Main informations100 - INFO - initialisation in agent_interacting_room_done !
-2020-06-12 16:29:49,797 - Main informations100 - INFO - Found someone ! agent cam :1
-2020-06-12 16:29:49,797 - Main informations100 - INFO - Add a new heartbeat counter for agent: 1
-2020-06-12 16:29:49,892 - Main informations100 - INFO - Found someone ! agent cam :0
-2020-06-12 16:29:49,892 - Main informations100 - INFO - Add a new heartbeat counter for agent: 0
-2020-06-12 16:29:59,310 - Main informations100 - INFO - Saving data ...: agent 100
-2020-06-12 16:29:59,319 - Main informations100 - INFO - Data saved !
-2020-06-12 16:29:59,414 - Main informations100 - INFO - Agent cleared 
+2020-06-12 17:55:12,607 - Main informations100 - INFO - Using hearbeat messages !
+2020-06-12 17:55:12,607 - Main informations100 - INFO - Time between two heartbeats of 1.00 s
+2020-06-12 17:55:12,608 - Main informations100 - INFO - Time max between two heartbeats of 3.00 s
+2020-06-12 17:55:12,611 - Main informations100 - INFO - starting initialisation in agent_interacting_room
+2020-06-12 17:55:12,612 - Main informations100 - INFO - initialisation in agent_interacting_room_done !
+2020-06-12 17:55:14,257 - Main informations100 - INFO - Found someone ! agent cam :1
+2020-06-12 17:55:14,257 - Main informations100 - INFO - Add a new heartbeat counter for agent: 1
+2020-06-12 17:55:14,640 - Main informations100 - INFO - Found someone ! agent cam :0
+2020-06-12 17:55:14,640 - Main informations100 - INFO - Add a new heartbeat counter for agent: 0
+2020-06-12 17:55:23,487 - Main informations100 - INFO - Saving data ...: agent 100
+2020-06-12 17:55:23,496 - Main informations100 - INFO - Data saved !
+2020-06-12 17:55:23,590 - Main informations100 - INFO - Agent cleared 
 

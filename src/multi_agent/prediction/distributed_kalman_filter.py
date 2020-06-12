@@ -54,7 +54,7 @@ class DistributedKalmanFilter(KalmanFilter):
         self.logger_kalman.info("new distributed kalman at time %.02f s" % src.constants.get_time())
 
         f = open("../validation_bounds", "r+")
-        [self.NODAL_VALIDATION_BOUND, self.INTERNODAL_VALIDATION_BOUND] = [int(_) for _ in f.read().split(" ")]
+        [self.NODAL_VALIDATION_BOUND, self.INTERNODAL_VALIDATION_BOUND] = [float(_) for _ in f.read().split(" ")]
         f.close()
         f = open("../innovation_bound", "r+")
         [self.INNOVATION_BOUND] = [float(_) for _ in f.read().split(" ")]
