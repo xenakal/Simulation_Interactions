@@ -174,7 +174,7 @@ MIN_ANGLE_DIFF_AGENTS = 0.4
 """Target_representation--------------------------------------------------------------------------------------------"""
 CONFIDENCE_MAX_VALUE = 100
 CONFIDENCE_MIN_VALUE = 0
-CONFIDENCE_TIME_TO_REACH_MIN_VALUE = 10
+CONFIDENCE_TIME_TO_REACH_MIN_VALUE = 2.5
 CONFIDENCE_THRESHOLD = 50
 CONFIDENCE_FUNCTION_CHOICE = ConfidenceFunction.LINEAR_DECAY
 
@@ -187,7 +187,7 @@ If ETA = 0 => Repulsive potentials have no effects
 
 Parameters has to be set to appropriate values by trials and errors    
 """
-XI = 5
+XI = 0
 ETA = 50
 COEFF_RADIUS = 10
 """Barrier"""
@@ -290,7 +290,7 @@ class MapPath:
 
 class ResultsPath:
     folder = "../results"
-    name_simulation = "My_new_map"
+    name_simulation = "My_new_map.txt"
 
     @classproperty
     def MAIN_FOLDER(cls):

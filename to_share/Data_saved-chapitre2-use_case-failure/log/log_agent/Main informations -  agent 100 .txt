@@ -1,21 +1,20 @@
-2020-06-10 22:14:54,873 - Main informations100 - INFO - Using hearbeat messages !
-2020-06-10 22:14:54,873 - Main informations100 - INFO - Time between two heartbeats of 1.00 s
-2020-06-10 22:14:54,874 - Main informations100 - INFO - Time max between two heartbeats of 3.00 s
-2020-06-10 22:14:54,876 - Main informations100 - INFO - starting initialisation in agent_interacting_room
-2020-06-10 22:14:54,876 - Main informations100 - INFO - initialisation in agent_interacting_room_done !
-2020-06-10 22:14:56,081 - Main informations100 - INFO - Found someone ! agent cam :2
-2020-06-10 22:14:56,082 - Main informations100 - INFO - Add a new heartbeat counter for agent: 2
-2020-06-10 22:14:56,535 - Main informations100 - INFO - Found someone ! agent cam :1
-2020-06-10 22:14:56,535 - Main informations100 - INFO - Add a new heartbeat counter for agent: 1
-2020-06-10 22:14:57,166 - Main informations100 - INFO - Found someone ! agent cam :0
-2020-06-10 22:14:57,166 - Main informations100 - INFO - Add a new heartbeat counter for agent: 0
-2020-06-10 22:14:58,947 - Main informations100 - INFO - Agent : 2at:  4.11s is not connected anymore, last heartbeat : 1.04 s
-2020-06-10 22:15:02,686 - Main informations100 - INFO - Agent : 1at:  7.85s is not connected anymore, last heartbeat : 4.84 s
-2020-06-10 22:15:03,163 - Main informations100 - INFO - Found someone ! agent cam :1
-2020-06-10 22:15:11,163 - Main informations100 - INFO - Found someone ! agent cam :2
-2020-06-10 22:15:12,136 - Main informations100 - INFO - Agent : 2at:  17.30s is not connected anymore, last heartbeat : 14.29 s
-2020-06-10 22:15:12,464 - Main informations100 - INFO - Found someone ! agent cam :2
-2020-06-10 22:15:16,260 - Main informations100 - INFO - Saving data ...: agent 100
-2020-06-10 22:15:16,270 - Main informations100 - INFO - Data saved !
-2020-06-10 22:15:16,375 - Main informations100 - INFO - Agent cleared 
+2020-06-11 19:24:18,975 - Main informations100 - INFO - Using hearbeat messages !
+2020-06-11 19:24:18,975 - Main informations100 - INFO - Time between two heartbeats of 1.00 s
+2020-06-11 19:24:18,975 - Main informations100 - INFO - Time max between two heartbeats of 3.00 s
+2020-06-11 19:24:18,978 - Main informations100 - INFO - starting initialisation in agent_interacting_room
+2020-06-11 19:24:18,978 - Main informations100 - INFO - initialisation in agent_interacting_room_done !
+2020-06-11 19:24:20,480 - Main informations100 - INFO - Found someone ! agent cam :2
+2020-06-11 19:24:20,481 - Main informations100 - INFO - Add a new heartbeat counter for agent: 2
+2020-06-11 19:24:20,486 - Main informations100 - INFO - Found someone ! agent cam :1
+2020-06-11 19:24:20,487 - Main informations100 - INFO - Add a new heartbeat counter for agent: 1
+2020-06-11 19:24:21,318 - Main informations100 - INFO - Found someone ! agent cam :0
+2020-06-11 19:24:21,318 - Main informations100 - INFO - Add a new heartbeat counter for agent: 0
+2020-06-11 19:24:23,156 - Main informations100 - INFO - Agent : 2at:  4.20s is not connected anymore, last heartbeat : 1.19 s
+2020-06-11 19:24:33,344 - Main informations100 - INFO - Found someone ! agent cam :2
+2020-06-11 19:24:42,277 - Main informations100 - INFO - Agent : 2at:  23.33s is not connected anymore, last heartbeat : 20.14 s
+2020-06-11 19:24:42,277 - Main informations100 - INFO - Agent : 1at:  23.33s is not connected anymore, last heartbeat : 20.08 s
+2020-06-11 19:24:42,295 - Main informations100 - INFO - Agent : 0at:  23.34s is not connected anymore, last heartbeat : 19.74 s
+2020-06-11 19:24:45,537 - Main informations100 - INFO - Saving data ...: agent 100
+2020-06-11 19:24:45,549 - Main informations100 - INFO - Data saved !
+2020-06-11 19:24:45,743 - Main informations100 - INFO - Agent cleared 
 

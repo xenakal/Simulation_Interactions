@@ -1,324 +1,263 @@
-2020-06-10 22:24:42,149 - Message0 - INFO - RECEIVED : at 0.26 s agentEstimation item : 2 from :2
-2020-06-10 22:24:42,167 - Message0 - INFO - RECEIVED : at 0.26 s tracking_target item : 1 from :2
-2020-06-10 22:24:42,410 - Message0 - INFO - SENT : at 0.26 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:42,429 - Message0 - INFO - SENT : at 0.26 s tracking_target target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:42,438 - Message0 - INFO - SENT : at 0.27 s targetEstimation target : 4 to :[[100, 328405729472514]]
-2020-06-10 22:24:42,446 - Message0 - INFO - SENT : at 0.58 s targetEstimation target : 4 to :[[100, 328405729472514]]
-2020-06-10 22:24:42,484 - Message0 - INFO - RECEIVED : at 0.27 s agentEstimation item : 1 from :1
-2020-06-10 22:24:42,499 - Message0 - INFO - RECEIVED : at 0.27 s tracking_target item : 1 from :1
-2020-06-10 22:24:42,814 - Message0 - INFO - RECEIVED : at 0.94 s agentEstimation item : 1 from :1
-2020-06-10 22:24:43,050 - Message0 - INFO - SENT : at 0.95 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:43,120 - Message0 - INFO - RECEIVED : at 0.94 s agentEstimation item : 1 from :1
-2020-06-10 22:24:43,132 - Message0 - INFO - RECEIVED : at 0.95 s agentEstimation item : 2 from :2
-2020-06-10 22:24:43,139 - Message0 - INFO - RECEIVED : at 1.03 s heartbeat item : -1 from :100
-2020-06-10 22:24:43,445 - Message0 - INFO - RECEIVED : at 1.29 s tracking_target item : 3 from :1
-2020-06-10 22:24:43,461 - Message0 - INFO - RECEIVED : at 1.29 s heartbeat item : -1 from :1
-2020-06-10 22:24:43,475 - Message0 - INFO - RECEIVED : at 0.95 s tracking_target item : 4 from :2
-2020-06-10 22:24:43,491 - Message0 - INFO - RECEIVED : at 1.36 s heartbeat item : -1 from :2
-2020-06-10 22:24:43,746 - Message0 - INFO - SENT : at 0.95 s targetEstimation target : 4 to :[[100, 328405729472514]]
-2020-06-10 22:24:43,787 - Message0 - INFO - SENT : at 1.23 s targetEstimation target : 4 to :[[100, 328405729472514]]
-2020-06-10 22:24:43,795 - Message0 - INFO - SENT : at 1.23 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:43,808 - Message0 - INFO - SENT : at 1.56 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:43,825 - Message0 - INFO - SENT : at 1.56 s targetEstimation target : 4 to :[[100, 328405729472514]]
-2020-06-10 22:24:43,842 - Message0 - INFO - SENT : at 1.92 s targetEstimation target : 4 to :[[100, 328405729472514]]
-2020-06-10 22:24:44,436 - Message0 - INFO - SENT : at 2.29 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:44,492 - Message0 - INFO - RECEIVED : at 1.71 s agentEstimation item : 1 from :1
-2020-06-10 22:24:44,504 - Message0 - INFO - RECEIVED : at 1.85 s agentEstimation item : 2 from :2
-2020-06-10 22:24:44,520 - Message0 - INFO - RECEIVED : at 2.05 s heartbeat item : -1 from :100
-2020-06-10 22:24:44,545 - Message0 - INFO - RECEIVED : at 2.37 s agentEstimation item : 1 from :1
-2020-06-10 22:24:44,559 - Message0 - INFO - RECEIVED : at 2.56 s agentEstimation item : 2 from :2
-2020-06-10 22:24:44,574 - Message0 - INFO - RECEIVED : at 2.56 s heartbeat item : -1 from :2
-2020-06-10 22:24:44,823 - Message0 - INFO - SENT : at 2.29 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:45,122 - Message0 - INFO - SENT : at 3.00 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:45,134 - Message0 - INFO - SENT : at 3.00 s tracking_target target : 3 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:45,193 - Message0 - INFO - RECEIVED : at 3.10 s heartbeat item : -1 from :100
-2020-06-10 22:24:45,208 - Message0 - INFO - RECEIVED : at 3.06 s agentEstimation item : 1 from :1
-2020-06-10 22:24:45,223 - Message0 - INFO - RECEIVED : at 3.28 s agentEstimation item : 2 from :2
-2020-06-10 22:24:45,243 - Message0 - INFO - RECEIVED : at 3.28 s tracking_target item : 2 from :2
-2020-06-10 22:24:45,519 - Message0 - INFO - SENT : at 3.30 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:45,568 - Message0 - INFO - RECEIVED : at 3.49 s heartbeat item : -1 from :1
-2020-06-10 22:24:45,584 - Message0 - INFO - RECEIVED : at 3.67 s heartbeat item : -1 from :2
-2020-06-10 22:24:45,871 - Message0 - INFO - SENT : at 3.69 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:45,920 - Message0 - INFO - RECEIVED : at 3.81 s agentEstimation item : 1 from :1
-2020-06-10 22:24:46,177 - Message0 - INFO - SENT : at 4.05 s tracking_target target : 2 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:46,242 - Message0 - INFO - RECEIVED : at 3.81 s agentEstimation item : 1 from :1
-2020-06-10 22:24:46,257 - Message0 - INFO - RECEIVED : at 4.01 s agentEstimation item : 2 from :2
-2020-06-10 22:24:46,280 - Message0 - INFO - RECEIVED : at 4.11 s heartbeat item : -1 from :100
-2020-06-10 22:24:46,581 - Message0 - INFO - SENT : at 4.36 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:46,607 - Message0 - INFO - SENT : at 4.74 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:46,898 - Message0 - INFO - SENT : at 4.36 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:46,913 - Message0 - INFO - SENT : at 5.08 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:46,957 - Message0 - INFO - RECEIVED : at 4.48 s agentEstimation item : 1 from :1
-2020-06-10 22:24:46,973 - Message0 - INFO - RECEIVED : at 4.76 s agentEstimation item : 2 from :2
-2020-06-10 22:24:47,258 - Message0 - INFO - SENT : at 5.08 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:47,264 - Message0 - INFO - SENT : at 5.44 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:47,329 - Message0 - INFO - RECEIVED : at 4.76 s agentEstimation item : 2 from :2
-2020-06-10 22:24:47,346 - Message0 - INFO - RECEIVED : at 4.76 s heartbeat item : -1 from :2
-2020-06-10 22:24:47,362 - Message0 - INFO - RECEIVED : at 5.17 s agentEstimation item : 1 from :1
-2020-06-10 22:24:47,376 - Message0 - INFO - RECEIVED : at 5.17 s tracking_target item : 4 from :1
-2020-06-10 22:24:47,393 - Message0 - INFO - RECEIVED : at 5.16 s heartbeat item : -1 from :100
-2020-06-10 22:24:47,708 - Message0 - INFO - SENT : at 5.44 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:47,755 - Message0 - INFO - RECEIVED : at 5.65 s agentEstimation item : 2 from :2
-2020-06-10 22:24:47,769 - Message0 - INFO - RECEIVED : at 5.65 s tracking_target item : 0 from :2
-2020-06-10 22:24:48,050 - Message0 - INFO - SENT : at 5.85 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:48,067 - Message0 - INFO - SENT : at 6.23 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:48,111 - Message0 - INFO - RECEIVED : at 5.97 s agentEstimation item : 1 from :1
-2020-06-10 22:24:48,146 - Message0 - INFO - RECEIVED : at 5.97 s heartbeat item : -1 from :1
-2020-06-10 22:24:48,165 - Message0 - INFO - RECEIVED : at 6.21 s heartbeat item : -1 from :100
-2020-06-10 22:24:48,507 - Message0 - INFO - RECEIVED : at 6.56 s agentEstimation item : 2 from :2
-2020-06-10 22:24:48,771 - Message0 - INFO - SENT : at 6.61 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:48,779 - Message0 - INFO - SENT : at 6.61 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:48,792 - Message0 - INFO - SENT : at 6.95 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:48,877 - Message0 - INFO - RECEIVED : at 6.74 s agentEstimation item : 1 from :1
-2020-06-10 22:24:49,162 - Message0 - INFO - SENT : at 7.33 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:49,206 - Message0 - INFO - RECEIVED : at 7.07 s loosing_target item : 3 from :1
-2020-06-10 22:24:49,263 - Message0 - INFO - RECEIVED : at 7.07 s heartbeat item : -1 from :1
-2020-06-10 22:24:49,283 - Message0 - INFO - RECEIVED : at 7.26 s heartbeat item : -1 from :100
-2020-06-10 22:24:49,677 - Message0 - INFO - RECEIVED : at 7.45 s agentEstimation item : 1 from :1
-2020-06-10 22:24:49,972 - Message0 - INFO - SENT : at 7.33 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:49,979 - Message0 - INFO - SENT : at 7.73 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:49,994 - Message0 - INFO - SENT : at 7.73 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:50,007 - Message0 - INFO - SENT : at 7.73 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:50,026 - Message0 - INFO - SENT : at 8.15 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:50,041 - Message0 - INFO - SENT : at 8.15 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:50,054 - Message0 - INFO - SENT : at 8.15 s targetEstimation target : 5 to :[[100, 328405729472514]]
-2020-06-10 22:24:50,096 - Message0 - INFO - RECEIVED : at 7.45 s agentEstimation item : 1 from :1
-2020-06-10 22:24:50,109 - Message0 - INFO - RECEIVED : at 7.28 s agentEstimation item : 2 from :2
-2020-06-10 22:24:50,121 - Message0 - INFO - RECEIVED : at 8.03 s agentEstimation item : 2 from :2
-2020-06-10 22:24:50,145 - Message0 - INFO - RECEIVED : at 8.16 s agentEstimation item : 1 from :1
-2020-06-10 22:24:50,164 - Message0 - INFO - RECEIVED : at 8.16 s loosing_target item : 5 from :1
-2020-06-10 22:24:50,181 - Message0 - INFO - RECEIVED : at 8.16 s heartbeat item : -1 from :1
-2020-06-10 22:24:50,465 - Message0 - INFO - SENT : at 8.15 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:50,471 - Message0 - INFO - SENT : at 8.63 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:50,496 - Message0 - INFO - SENT : at 8.63 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:50,517 - Message0 - INFO - SENT : at 8.63 s targetEstimation target : 5 to :[[100, 328405729472514]]
-2020-06-10 22:24:50,824 - Message0 - INFO - SENT : at 8.63 s tracking_target target : 5 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:50,846 - Message0 - INFO - SENT : at 9.00 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:50,859 - Message0 - INFO - SENT : at 9.00 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:50,875 - Message0 - INFO - SENT : at 9.00 s targetEstimation target : 5 to :[[100, 328405729472514]]
-2020-06-10 22:24:50,933 - Message0 - INFO - RECEIVED : at 8.16 s heartbeat item : -1 from :1
-2020-06-10 22:24:51,208 - Message0 - INFO - SENT : at 9.00 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:51,224 - Message0 - INFO - SENT : at 9.38 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:51,237 - Message0 - INFO - SENT : at 9.38 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:51,252 - Message0 - INFO - SENT : at 9.38 s targetEstimation target : 5 to :[[100, 328405729472514]]
-2020-06-10 22:24:51,327 - Message0 - INFO - RECEIVED : at 8.16 s heartbeat item : -1 from :1
-2020-06-10 22:24:51,344 - Message0 - INFO - RECEIVED : at 8.31 s heartbeat item : -1 from :100
-2020-06-10 22:24:51,629 - Message0 - INFO - SENT : at 9.00 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:51,647 - Message0 - INFO - SENT : at 9.80 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:51,663 - Message0 - INFO - SENT : at 9.80 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:51,684 - Message0 - INFO - SENT : at 9.80 s targetEstimation target : 5 to :[[100, 328405729472514]]
-2020-06-10 22:24:51,988 - Message0 - INFO - SENT : at 9.80 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:52,002 - Message0 - INFO - SENT : at 10.17 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:52,014 - Message0 - INFO - SENT : at 10.17 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:52,028 - Message0 - INFO - SENT : at 10.17 s targetEstimation target : 5 to :[[100, 328405729472514]]
-2020-06-10 22:24:52,089 - Message0 - INFO - RECEIVED : at 8.31 s heartbeat item : -1 from :100
-2020-06-10 22:24:52,104 - Message0 - INFO - RECEIVED : at 8.35 s heartbeat item : -1 from :2
-2020-06-10 22:24:52,120 - Message0 - INFO - RECEIVED : at 8.73 s agentEstimation item : 2 from :2
-2020-06-10 22:24:52,137 - Message0 - INFO - RECEIVED : at 8.89 s agentEstimation item : 1 from :1
-2020-06-10 22:24:52,165 - Message0 - INFO - RECEIVED : at 9.24 s heartbeat item : -1 from :1
-2020-06-10 22:24:52,436 - Message0 - INFO - SENT : at 10.17 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:52,447 - Message0 - INFO - SENT : at 10.62 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:52,461 - Message0 - INFO - SENT : at 10.62 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:52,481 - Message0 - INFO - SENT : at 10.62 s targetEstimation target : 5 to :[[100, 328405729472514]]
-2020-06-10 22:24:52,522 - Message0 - INFO - RECEIVED : at 9.24 s heartbeat item : -1 from :1
-2020-06-10 22:24:52,779 - Message0 - INFO - SENT : at 10.61 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:52,785 - Message0 - INFO - SENT : at 10.96 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:52,801 - Message0 - INFO - SENT : at 10.96 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:52,816 - Message0 - INFO - SENT : at 10.96 s targetEstimation target : 5 to :[[100, 328405729472514]]
-2020-06-10 22:24:52,858 - Message0 - INFO - RECEIVED : at 9.24 s heartbeat item : -1 from :1
-2020-06-10 22:24:53,200 - Message0 - INFO - RECEIVED : at 9.24 s heartbeat item : -1 from :1
-2020-06-10 22:24:53,214 - Message0 - INFO - RECEIVED : at 9.42 s heartbeat item : -1 from :100
-2020-06-10 22:24:53,242 - Message0 - INFO - RECEIVED : at 9.61 s agentEstimation item : 1 from :1
-2020-06-10 22:24:53,259 - Message0 - INFO - RECEIVED : at 9.52 s agentEstimation item : 2 from :2
-2020-06-10 22:24:53,524 - Message0 - INFO - SENT : at 11.29 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:53,537 - Message0 - INFO - SENT : at 11.29 s loosing_target target : 4 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:53,541 - Message0 - INFO - SENT : at 11.30 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:53,554 - Message0 - INFO - SENT : at 11.30 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:53,570 - Message0 - INFO - SENT : at 11.30 s targetEstimation target : 5 to :[[100, 328405729472514]]
-2020-06-10 22:24:53,590 - Message0 - INFO - SENT : at 11.70 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:53,604 - Message0 - INFO - SENT : at 11.70 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:53,646 - Message0 - INFO - RECEIVED : at 9.52 s agentEstimation item : 2 from :2
-2020-06-10 22:24:53,910 - Message0 - INFO - SENT : at 11.30 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:53,929 - Message0 - INFO - SENT : at 12.09 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:53,942 - Message0 - INFO - SENT : at 12.09 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:53,988 - Message0 - INFO - RECEIVED : at 9.52 s agentEstimation item : 2 from :2
-2020-06-10 22:24:54,251 - Message0 - INFO - SENT : at 12.09 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:54,321 - Message0 - INFO - RECEIVED : at 9.52 s agentEstimation item : 2 from :2
-2020-06-10 22:24:54,370 - Message0 - INFO - RECEIVED : at 9.52 s heartbeat item : -1 from :2
-2020-06-10 22:24:54,621 - Message0 - INFO - SENT : at 12.43 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:54,649 - Message0 - INFO - SENT : at 12.81 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:54,664 - Message0 - INFO - SENT : at 12.81 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:54,990 - Message0 - INFO - SENT : at 12.43 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:54,995 - Message0 - INFO - SENT : at 12.80 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:55,008 - Message0 - INFO - SENT : at 13.17 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:55,032 - Message0 - INFO - SENT : at 13.17 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:55,048 - Message0 - INFO - SENT : at 13.17 s targetEstimation target : 5 to :[[100, 328405729472514]]
-2020-06-10 22:24:55,091 - Message0 - INFO - RECEIVED : at 9.52 s heartbeat item : -1 from :2
-2020-06-10 22:24:55,109 - Message0 - INFO - RECEIVED : at 10.03 s loosing_target item : 2 from :1
-2020-06-10 22:24:55,127 - Message0 - INFO - RECEIVED : at 10.44 s heartbeat item : -1 from :100
-2020-06-10 22:24:55,141 - Message0 - INFO - RECEIVED : at 10.41 s heartbeat item : -1 from :1
-2020-06-10 22:24:55,161 - Message0 - INFO - RECEIVED : at 10.34 s agentEstimation item : 2 from :2
-2020-06-10 22:24:55,177 - Message0 - INFO - RECEIVED : at 10.41 s agentEstimation item : 1 from :1
-2020-06-10 22:24:55,214 - Message0 - INFO - RECEIVED : at 11.11 s agentEstimation item : 2 from :2
-2020-06-10 22:24:55,232 - Message0 - INFO - RECEIVED : at 11.13 s agentEstimation item : 1 from :1
-2020-06-10 22:24:55,250 - Message0 - INFO - RECEIVED : at 11.64 s heartbeat item : -1 from :100
-2020-06-10 22:24:55,568 - Message0 - INFO - SENT : at 13.72 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:55,583 - Message0 - INFO - SENT : at 13.72 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:55,662 - Message0 - INFO - RECEIVED : at 11.64 s heartbeat item : -1 from :100
-2020-06-10 22:24:55,930 - Message0 - INFO - SENT : at 13.72 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:55,943 - Message0 - INFO - SENT : at 13.72 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:55,947 - Message0 - INFO - SENT : at 14.11 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:55,959 - Message0 - INFO - SENT : at 14.11 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:56,271 - Message0 - INFO - SENT : at 14.44 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:56,283 - Message0 - INFO - SENT : at 14.44 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:56,296 - Message0 - INFO - SENT : at 14.44 s targetEstimation target : 5 to :[[100, 328405729472514]]
-2020-06-10 22:24:56,341 - Message0 - INFO - RECEIVED : at 11.64 s heartbeat item : -1 from :100
-2020-06-10 22:24:56,360 - Message0 - INFO - RECEIVED : at 11.89 s agentEstimation item : 2 from :2
-2020-06-10 22:24:56,377 - Message0 - INFO - RECEIVED : at 11.89 s heartbeat item : -1 from :2
-2020-06-10 22:24:56,395 - Message0 - INFO - RECEIVED : at 11.43 s heartbeat item : -1 from :1
-2020-06-10 22:24:56,426 - Message0 - INFO - RECEIVED : at 11.82 s agentEstimation item : 1 from :1
-2020-06-10 22:24:56,441 - Message0 - INFO - RECEIVED : at 12.53 s heartbeat item : -1 from :1
-2020-06-10 22:24:56,456 - Message0 - INFO - RECEIVED : at 12.62 s agentEstimation item : 2 from :2
-2020-06-10 22:24:56,482 - Message0 - INFO - RECEIVED : at 12.64 s heartbeat item : -1 from :100
-2020-06-10 22:24:56,501 - Message0 - INFO - RECEIVED : at 12.52 s agentEstimation item : 1 from :1
-2020-06-10 22:24:56,514 - Message0 - INFO - RECEIVED : at 12.98 s loosing_target item : 4 from :2
-2020-06-10 22:24:56,548 - Message0 - INFO - RECEIVED : at 12.98 s heartbeat item : -1 from :2
-2020-06-10 22:24:56,563 - Message0 - INFO - RECEIVED : at 13.22 s agentEstimation item : 1 from :1
-2020-06-10 22:24:56,578 - Message0 - INFO - RECEIVED : at 13.22 s loosing_target item : 1 from :1
-2020-06-10 22:24:56,593 - Message0 - INFO - RECEIVED : at 13.39 s agentEstimation item : 2 from :2
-2020-06-10 22:24:56,607 - Message0 - INFO - RECEIVED : at 13.95 s agentEstimation item : 1 from :1
-2020-06-10 22:24:56,622 - Message0 - INFO - RECEIVED : at 13.84 s heartbeat item : -1 from :100
-2020-06-10 22:24:56,639 - Message0 - INFO - RECEIVED : at 14.16 s agentEstimation item : 2 from :2
-2020-06-10 22:24:56,652 - Message0 - INFO - RECEIVED : at 14.16 s loosing_target item : 1 from :2
-2020-06-10 22:24:56,666 - Message0 - INFO - RECEIVED : at 14.17 s heartbeat item : -1 from :2
-2020-06-10 22:24:56,921 - Message0 - INFO - SENT : at 14.44 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:56,953 - Message0 - INFO - SENT : at 15.10 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:56,967 - Message0 - INFO - SENT : at 15.10 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:57,037 - Message0 - INFO - RECEIVED : at 14.17 s heartbeat item : -1 from :2
-2020-06-10 22:24:57,050 - Message0 - INFO - RECEIVED : at 14.96 s agentEstimation item : 2 from :2
-2020-06-10 22:24:57,064 - Message0 - INFO - RECEIVED : at 14.86 s heartbeat item : -1 from :100
-2020-06-10 22:24:57,342 - Message0 - INFO - SENT : at 15.10 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:57,386 - Message0 - INFO - SENT : at 15.52 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:57,399 - Message0 - INFO - SENT : at 15.52 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:57,448 - Message0 - INFO - RECEIVED : at 14.67 s agentEstimation item : 1 from :1
-2020-06-10 22:24:57,467 - Message0 - INFO - RECEIVED : at 15.35 s agentEstimation item : 1 from :1
-2020-06-10 22:24:57,748 - Message0 - INFO - SENT : at 15.10 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:57,753 - Message0 - INFO - SENT : at 15.52 s loosing_target target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:57,771 - Message0 - INFO - SENT : at 15.92 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:57,784 - Message0 - INFO - SENT : at 15.92 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:57,841 - Message0 - INFO - RECEIVED : at 15.69 s agentEstimation item : 2 from :2
-2020-06-10 22:24:57,863 - Message0 - INFO - RECEIVED : at 15.79 s heartbeat item : -1 from :1
-2020-06-10 22:24:57,882 - Message0 - INFO - RECEIVED : at 15.90 s heartbeat item : -1 from :100
-2020-06-10 22:24:58,142 - Message0 - INFO - SENT : at 15.92 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:58,160 - Message0 - INFO - SENT : at 16.31 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:58,490 - Message0 - INFO - SENT : at 16.31 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:58,519 - Message0 - INFO - SENT : at 16.67 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:58,532 - Message0 - INFO - SENT : at 16.67 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:58,576 - Message0 - INFO - RECEIVED : at 16.14 s agentEstimation item : 1 from :1
-2020-06-10 22:24:58,590 - Message0 - INFO - RECEIVED : at 16.40 s agentEstimation item : 2 from :2
-2020-06-10 22:24:58,603 - Message0 - INFO - RECEIVED : at 16.40 s heartbeat item : -1 from :2
-2020-06-10 22:24:58,848 - Message0 - INFO - SENT : at 16.32 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:24:58,861 - Message0 - INFO - SENT : at 16.67 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:58,875 - Message0 - INFO - SENT : at 17.03 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:58,888 - Message0 - INFO - SENT : at 17.03 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:58,931 - Message0 - INFO - RECEIVED : at 16.89 s agentEstimation item : 1 from :1
-2020-06-10 22:24:58,944 - Message0 - INFO - RECEIVED : at 16.89 s heartbeat item : -1 from :1
-2020-06-10 22:24:58,951 - Message0 - INFO - RECEIVED : at 16.97 s heartbeat item : -1 from :100
-2020-06-10 22:24:59,290 - Message0 - INFO - RECEIVED : at 17.21 s agentEstimation item : 2 from :2
-2020-06-10 22:24:59,584 - Message0 - INFO - SENT : at 17.39 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:59,604 - Message0 - INFO - SENT : at 17.39 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:59,626 - Message0 - INFO - SENT : at 17.73 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:24:59,639 - Message0 - INFO - SENT : at 17.73 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:24:59,681 - Message0 - INFO - RECEIVED : at 17.60 s heartbeat item : -1 from :2
-2020-06-10 22:24:59,695 - Message0 - INFO - RECEIVED : at 17.66 s agentEstimation item : 1 from :1
-2020-06-10 22:24:59,955 - Message0 - INFO - SENT : at 17.39 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:24:59,967 - Message0 - INFO - SENT : at 17.39 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:25:00,022 - Message0 - INFO - SENT : at 18.13 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:00,037 - Message0 - INFO - SENT : at 18.13 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:00,087 - Message0 - INFO - RECEIVED : at 17.96 s heartbeat item : -1 from :1
-2020-06-10 22:25:00,105 - Message0 - INFO - RECEIVED : at 18.02 s heartbeat item : -1 from :100
-2020-06-10 22:25:00,395 - Message0 - INFO - SENT : at 18.13 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:25:00,469 - Message0 - INFO - RECEIVED : at 18.02 s heartbeat item : -1 from :100
-2020-06-10 22:25:00,731 - Message0 - INFO - SENT : at 18.58 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:00,777 - Message0 - INFO - SENT : at 18.58 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:00,807 - Message0 - INFO - SENT : at 18.90 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:00,826 - Message0 - INFO - SENT : at 18.90 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:00,868 - Message0 - INFO - RECEIVED : at 18.02 s heartbeat item : -1 from :100
-2020-06-10 22:25:01,129 - Message0 - INFO - SENT : at 18.58 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:25:01,220 - Message0 - INFO - RECEIVED : at 18.02 s heartbeat item : -1 from :100
-2020-06-10 22:25:01,234 - Message0 - INFO - RECEIVED : at 18.01 s agentEstimation item : 2 from :2
-2020-06-10 22:25:01,251 - Message0 - INFO - RECEIVED : at 18.28 s agentEstimation item : 1 from :1
-2020-06-10 22:25:01,267 - Message0 - INFO - RECEIVED : at 18.78 s heartbeat item : -1 from :2
-2020-06-10 22:25:01,282 - Message0 - INFO - RECEIVED : at 19.09 s heartbeat item : -1 from :100
-2020-06-10 22:25:01,295 - Message0 - INFO - RECEIVED : at 18.78 s agentEstimation item : 2 from :2
-2020-06-10 22:25:01,313 - Message0 - INFO - RECEIVED : at 19.21 s heartbeat item : -1 from :1
-2020-06-10 22:25:01,558 - Message0 - INFO - SENT : at 18.90 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:25:01,563 - Message0 - INFO - SENT : at 19.30 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:01,579 - Message0 - INFO - SENT : at 19.30 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:01,593 - Message0 - INFO - SENT : at 19.30 s loosing_target target : 5 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:25:01,612 - Message0 - INFO - SENT : at 19.74 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:01,627 - Message0 - INFO - SENT : at 19.74 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:01,693 - Message0 - INFO - RECEIVED : at 18.81 s agentEstimation item : 1 from :1
-2020-06-10 22:25:01,713 - Message0 - INFO - RECEIVED : at 19.53 s agentEstimation item : 1 from :1
-2020-06-10 22:25:01,743 - Message0 - INFO - RECEIVED : at 19.58 s agentEstimation item : 2 from :2
-2020-06-10 22:25:02,005 - Message0 - INFO - SENT : at 19.74 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:25:02,022 - Message0 - INFO - SENT : at 20.18 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:02,037 - Message0 - INFO - SENT : at 20.18 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:02,085 - Message0 - INFO - RECEIVED : at 19.92 s heartbeat item : -1 from :2
-2020-06-10 22:25:02,107 - Message0 - INFO - RECEIVED : at 20.14 s heartbeat item : -1 from :100
-2020-06-10 22:25:02,390 - Message0 - INFO - SENT : at 20.55 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:02,403 - Message0 - INFO - SENT : at 20.55 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:02,451 - Message0 - INFO - RECEIVED : at 20.14 s heartbeat item : -1 from :100
-2020-06-10 22:25:02,732 - Message0 - INFO - SENT : at 19.74 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:25:02,739 - Message0 - INFO - SENT : at 20.55 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:25:02,768 - Message0 - INFO - SENT : at 20.91 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:03,154 - Message0 - INFO - RECEIVED : at 20.14 s heartbeat item : -1 from :100
-2020-06-10 22:25:03,170 - Message0 - INFO - RECEIVED : at 20.30 s agentEstimation item : 1 from :1
-2020-06-10 22:25:03,192 - Message0 - INFO - RECEIVED : at 20.30 s heartbeat item : -1 from :1
-2020-06-10 22:25:03,207 - Message0 - INFO - RECEIVED : at 20.26 s agentEstimation item : 2 from :2
-2020-06-10 22:25:03,219 - Message0 - INFO - RECEIVED : at 20.96 s agentEstimation item : 1 from :1
-2020-06-10 22:25:03,234 - Message0 - INFO - RECEIVED : at 21.14 s agentEstimation item : 2 from :2
-2020-06-10 22:25:03,246 - Message0 - INFO - RECEIVED : at 21.22 s heartbeat item : -1 from :100
-2020-06-10 22:25:03,490 - Message0 - INFO - SENT : at 20.91 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:03,495 - Message0 - INFO - SENT : at 21.27 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:25:03,507 - Message0 - INFO - SENT : at 21.27 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:03,525 - Message0 - INFO - SENT : at 21.27 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:03,546 - Message0 - INFO - SENT : at 21.67 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:03,559 - Message0 - INFO - SENT : at 21.67 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:03,611 - Message0 - INFO - RECEIVED : at 21.62 s agentEstimation item : 1 from :1
-2020-06-10 22:25:03,632 - Message0 - INFO - RECEIVED : at 21.62 s heartbeat item : -1 from :1
-2020-06-10 22:25:03,880 - Message0 - INFO - SENT : at 22.05 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:03,896 - Message0 - INFO - SENT : at 22.05 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:03,983 - Message0 - INFO - RECEIVED : at 21.82 s agentEstimation item : 2 from :2
-2020-06-10 22:25:04,245 - Message0 - INFO - SENT : at 22.05 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:25:04,267 - Message0 - INFO - SENT : at 22.05 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:25:04,271 - Message0 - INFO - SENT : at 22.41 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:04,284 - Message0 - INFO - SENT : at 22.41 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:04,329 - Message0 - INFO - RECEIVED : at 22.24 s agentEstimation item : 1 from :1
-2020-06-10 22:25:04,346 - Message0 - INFO - RECEIVED : at 22.36 s heartbeat item : -1 from :100
-2020-06-10 22:25:04,369 - Message0 - INFO - RECEIVED : at 22.45 s agentEstimation item : 2 from :2
-2020-06-10 22:25:04,388 - Message0 - INFO - RECEIVED : at 22.45 s heartbeat item : -1 from :2
-2020-06-10 22:25:04,641 - Message0 - INFO - SENT : at 22.82 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:04,669 - Message0 - INFO - SENT : at 22.82 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:04,963 - Message0 - INFO - SENT : at 22.82 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:25:04,968 - Message0 - INFO - SENT : at 23.15 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:04,981 - Message0 - INFO - SENT : at 23.15 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:05,051 - Message0 - INFO - RECEIVED : at 22.93 s agentEstimation item : 1 from :1
-2020-06-10 22:25:05,313 - Message0 - INFO - SENT : at 23.15 s heartbeat target : -1 to :[[1, 9210261144501142], [2, 8172554305123635], [100, 328405729472514]]
-2020-06-10 22:25:05,324 - Message0 - INFO - SENT : at 23.49 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:05,337 - Message0 - INFO - SENT : at 23.49 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:05,379 - Message0 - INFO - RECEIVED : at 22.93 s agentEstimation item : 1 from :1
-2020-06-10 22:25:05,645 - Message0 - INFO - SENT : at 23.49 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:25:05,651 - Message0 - INFO - SENT : at 23.83 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:05,710 - Message0 - INFO - RECEIVED : at 22.93 s agentEstimation item : 1 from :1
-2020-06-10 22:25:06,001 - Message0 - INFO - SENT : at 23.83 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:06,027 - Message0 - INFO - SENT : at 24.13 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:06,040 - Message0 - INFO - SENT : at 24.13 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:06,103 - Message0 - INFO - RECEIVED : at 22.93 s agentEstimation item : 1 from :1
-2020-06-10 22:25:06,121 - Message0 - INFO - RECEIVED : at 23.54 s heartbeat item : -1 from :100
-2020-06-10 22:25:06,379 - Message0 - INFO - SENT : at 24.13 s agentEstimation target : 0 to :[[1, 9210261144501142], [2, 8172554305123635]]
-2020-06-10 22:25:06,385 - Message0 - INFO - SENT : at 24.56 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:06,399 - Message0 - INFO - SENT : at 24.56 s targetEstimation target : 2 to :[[100, 328405729472514]]
-2020-06-10 22:25:06,471 - Message0 - INFO - RECEIVED : at 23.54 s heartbeat item : -1 from :100
-2020-06-10 22:25:06,738 - Message0 - INFO - SENT : at 24.89 s targetEstimation target : 3 to :[[100, 328405729472514]]
-2020-06-10 22:25:06,781 - Message0 - INFO - SENT : at 24.89 s targetEstimation target : 2 to :[[100, 328405729472514]]
+2020-06-11 19:17:14,698 - Message0 - INFO - SENT : at 0.26 s targetEstimation target : 4 to :[[100, 8944350748831655]]
+2020-06-11 19:17:14,743 - Message0 - INFO - RECEIVED : at 0.26 s agentEstimation item : 2 from :2
+2020-06-11 19:17:14,756 - Message0 - INFO - RECEIVED : at 0.27 s agentEstimation item : 1 from :1
+2020-06-11 19:17:14,774 - Message0 - INFO - RECEIVED : at 0.26 s tracking_target item : 1 from :2
+2020-06-11 19:17:15,011 - Message0 - INFO - SENT : at 0.26 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:15,025 - Message0 - INFO - SENT : at 0.26 s tracking_target target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:15,037 - Message0 - INFO - SENT : at 0.61 s targetEstimation target : 4 to :[[100, 8944350748831655]]
+2020-06-11 19:17:15,083 - Message0 - INFO - RECEIVED : at 0.27 s tracking_target item : 1 from :1
+2020-06-11 19:17:15,379 - Message0 - INFO - RECEIVED : at 0.90 s agentEstimation item : 1 from :1
+2020-06-11 19:17:15,402 - Message0 - INFO - RECEIVED : at 0.92 s agentEstimation item : 2 from :2
+2020-06-11 19:17:15,671 - Message0 - INFO - SENT : at 0.93 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:15,685 - Message0 - INFO - SENT : at 0.93 s targetEstimation target : 4 to :[[100, 8944350748831655]]
+2020-06-11 19:17:15,699 - Message0 - INFO - SENT : at 1.27 s targetEstimation target : 4 to :[[100, 8944350748831655]]
+2020-06-11 19:17:15,776 - Message0 - INFO - RECEIVED : at 0.92 s agentEstimation item : 2 from :2
+2020-06-11 19:17:16,019 - Message0 - INFO - SENT : at 1.27 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:16,037 - Message0 - INFO - SENT : at 1.61 s targetEstimation target : 4 to :[[100, 8944350748831655]]
+2020-06-11 19:17:16,094 - Message0 - INFO - RECEIVED : at 0.92 s agentEstimation item : 2 from :2
+2020-06-11 19:17:16,117 - Message0 - INFO - RECEIVED : at 0.92 s tracking_target item : 4 from :2
+2020-06-11 19:17:16,135 - Message0 - INFO - RECEIVED : at 1.03 s heartbeat item : -1 from :100
+2020-06-11 19:17:16,150 - Message0 - INFO - RECEIVED : at 1.23 s tracking_target item : 3 from :1
+2020-06-11 19:17:16,387 - Message0 - INFO - SENT : at 1.61 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:16,391 - Message0 - INFO - SENT : at 1.99 s targetEstimation target : 4 to :[[100, 8944350748831655]]
+2020-06-11 19:17:16,426 - Message0 - INFO - RECEIVED : at 1.23 s tracking_target item : 3 from :1
+2020-06-11 19:17:16,747 - Message0 - INFO - RECEIVED : at 1.23 s tracking_target item : 3 from :1
+2020-06-11 19:17:17,009 - Message0 - INFO - SENT : at 2.26 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:17,088 - Message0 - INFO - RECEIVED : at 1.23 s tracking_target item : 3 from :1
+2020-06-11 19:17:17,101 - Message0 - INFO - RECEIVED : at 1.23 s heartbeat item : -1 from :1
+2020-06-11 19:17:17,114 - Message0 - INFO - RECEIVED : at 1.27 s heartbeat item : -1 from :2
+2020-06-11 19:17:17,127 - Message0 - INFO - RECEIVED : at 2.13 s heartbeat item : -1 from :100
+2020-06-11 19:17:17,140 - Message0 - INFO - RECEIVED : at 1.71 s agentEstimation item : 2 from :2
+2020-06-11 19:17:17,155 - Message0 - INFO - RECEIVED : at 1.71 s agentEstimation item : 1 from :1
+2020-06-11 19:17:17,181 - Message0 - INFO - RECEIVED : at 2.50 s agentEstimation item : 1 from :1
+2020-06-11 19:17:17,195 - Message0 - INFO - RECEIVED : at 2.52 s agentEstimation item : 2 from :2
+2020-06-11 19:17:17,437 - Message0 - INFO - SENT : at 2.26 s targetEstimation target : 4 to :[[100, 8944350748831655]]
+2020-06-11 19:17:17,451 - Message0 - INFO - SENT : at 2.60 s targetEstimation target : 4 to :[[100, 8944350748831655]]
+2020-06-11 19:17:17,536 - Message0 - INFO - RECEIVED : at 2.84 s tracking_target item : 2 from :2
+2020-06-11 19:17:17,779 - Message0 - INFO - SENT : at 2.60 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:17,793 - Message0 - INFO - SENT : at 3.04 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:17,807 - Message0 - INFO - SENT : at 3.38 s targetEstimation target : 4 to :[[100, 8944350748831655]]
+2020-06-11 19:17:18,122 - Message0 - INFO - SENT : at 3.38 s tracking_target target : 3 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:18,489 - Message0 - INFO - SENT : at 3.71 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:18,571 - Message0 - INFO - RECEIVED : at 3.14 s loosing_target item : 3 from :1
+2020-06-11 19:17:18,590 - Message0 - INFO - RECEIVED : at 3.20 s heartbeat item : -1 from :100
+2020-06-11 19:17:18,603 - Message0 - INFO - RECEIVED : at 3.31 s agentEstimation item : 2 from :2
+2020-06-11 19:17:18,854 - Message0 - INFO - SENT : at 3.71 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:18,869 - Message0 - INFO - SENT : at 4.09 s loosing_target target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:18,908 - Message0 - INFO - SENT : at 4.46 s targetEstimation target : 4 to :[[100, 8944350748831655]]
+2020-06-11 19:17:18,949 - Message0 - INFO - RECEIVED : at 3.31 s agentEstimation item : 2 from :2
+2020-06-11 19:17:19,198 - Message0 - INFO - SENT : at 4.46 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:19,202 - Message0 - INFO - SENT : at 4.80 s targetEstimation target : 4 to :[[100, 8944350748831655]]
+2020-06-11 19:17:19,213 - Message0 - INFO - SENT : at 4.80 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:19,224 - Message0 - INFO - SENT : at 4.80 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:19,302 - Message0 - INFO - RECEIVED : at 3.31 s agentEstimation item : 2 from :2
+2020-06-11 19:17:19,319 - Message0 - INFO - RECEIVED : at 3.14 s agentEstimation item : 1 from :1
+2020-06-11 19:17:19,338 - Message0 - INFO - RECEIVED : at 3.73 s heartbeat item : -1 from :2
+2020-06-11 19:17:19,352 - Message0 - INFO - RECEIVED : at 3.78 s heartbeat item : -1 from :1
+2020-06-11 19:17:19,365 - Message0 - INFO - RECEIVED : at 4.22 s heartbeat item : -1 from :100
+2020-06-11 19:17:19,389 - Message0 - INFO - RECEIVED : at 3.77 s agentEstimation item : 1 from :1
+2020-06-11 19:17:19,401 - Message0 - INFO - RECEIVED : at 4.37 s agentEstimation item : 1 from :1
+2020-06-11 19:17:19,654 - Message0 - INFO - SENT : at 4.80 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:19,699 - Message0 - INFO - SENT : at 5.26 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:19,740 - Message0 - INFO - RECEIVED : at 4.37 s agentEstimation item : 1 from :1
+2020-06-11 19:17:20,030 - Message0 - INFO - SENT : at 5.26 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:20,060 - Message0 - INFO - SENT : at 5.26 s tracking_target target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:20,117 - Message0 - INFO - RECEIVED : at 4.37 s agentEstimation item : 1 from :1
+2020-06-11 19:17:20,132 - Message0 - INFO - RECEIVED : at 4.20 s agentEstimation item : 2 from :2
+2020-06-11 19:17:20,146 - Message0 - INFO - RECEIVED : at 4.60 s tracking_target item : 0 from :2
+2020-06-11 19:17:20,161 - Message0 - INFO - RECEIVED : at 4.72 s loosing_target item : 5 from :1
+2020-06-11 19:17:20,183 - Message0 - INFO - RECEIVED : at 5.00 s heartbeat item : -1 from :2
+2020-06-11 19:17:20,206 - Message0 - INFO - RECEIVED : at 5.06 s agentEstimation item : 1 from :1
+2020-06-11 19:17:20,223 - Message0 - INFO - RECEIVED : at 5.32 s heartbeat item : -1 from :100
+2020-06-11 19:17:20,233 - Message0 - INFO - RECEIVED : at 4.99 s agentEstimation item : 2 from :2
+2020-06-11 19:17:20,613 - Message0 - INFO - RECEIVED : at 5.93 s agentEstimation item : 1 from :1
+2020-06-11 19:17:21,020 - Message0 - INFO - SENT : at 6.14 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:21,070 - Message0 - INFO - SENT : at 6.15 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:21,131 - Message0 - INFO - RECEIVED : at 6.28 s heartbeat item : -1 from :1
+2020-06-11 19:17:21,145 - Message0 - INFO - RECEIVED : at 5.81 s agentEstimation item : 2 from :2
+2020-06-11 19:17:21,175 - Message0 - INFO - RECEIVED : at 6.35 s agentEstimation item : 2 from :2
+2020-06-11 19:17:21,199 - Message0 - INFO - RECEIVED : at 6.62 s agentEstimation item : 1 from :1
+2020-06-11 19:17:21,215 - Message0 - INFO - RECEIVED : at 6.35 s heartbeat item : -1 from :2
+2020-06-11 19:17:21,504 - Message0 - INFO - SENT : at 6.61 s loosing_target target : 1 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:21,531 - Message0 - INFO - SENT : at 7.10 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:21,573 - Message0 - INFO - RECEIVED : at 6.37 s heartbeat item : -1 from :100
+2020-06-11 19:17:21,591 - Message0 - INFO - RECEIVED : at 7.08 s agentEstimation item : 2 from :2
+2020-06-11 19:17:21,883 - Message0 - INFO - SENT : at 7.10 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:21,938 - Message0 - INFO - RECEIVED : at 7.29 s agentEstimation item : 1 from :1
+2020-06-11 19:17:21,952 - Message0 - INFO - RECEIVED : at 7.29 s heartbeat item : -1 from :1
+2020-06-11 19:17:21,983 - Message0 - INFO - RECEIVED : at 7.39 s heartbeat item : -1 from :100
+2020-06-11 19:17:22,242 - Message0 - INFO - SENT : at 7.48 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:22,276 - Message0 - INFO - SENT : at 7.84 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:22,290 - Message0 - INFO - SENT : at 7.85 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:22,350 - Message0 - INFO - RECEIVED : at 7.65 s loosing_target item : 2 from :1
+2020-06-11 19:17:22,367 - Message0 - INFO - RECEIVED : at 7.81 s agentEstimation item : 2 from :2
+2020-06-11 19:17:22,384 - Message0 - INFO - RECEIVED : at 7.81 s tracking_target item : 5 from :2
+2020-06-11 19:17:22,788 - Message0 - INFO - RECEIVED : at 7.81 s tracking_target item : 5 from :2
+2020-06-11 19:17:23,118 - Message0 - INFO - SENT : at 7.48 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:23,133 - Message0 - INFO - SENT : at 7.84 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:23,155 - Message0 - INFO - SENT : at 7.84 s loosing_target target : 4 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:23,189 - Message0 - INFO - SENT : at 8.64 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:23,206 - Message0 - INFO - SENT : at 8.64 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:23,220 - Message0 - INFO - SENT : at 8.64 s targetEstimation target : 5 to :[[100, 8944350748831655]]
+2020-06-11 19:17:23,264 - Message0 - INFO - RECEIVED : at 7.81 s tracking_target item : 5 from :2
+2020-06-11 19:17:23,279 - Message0 - INFO - RECEIVED : at 7.97 s agentEstimation item : 1 from :1
+2020-06-11 19:17:23,293 - Message0 - INFO - RECEIVED : at 8.35 s heartbeat item : -1 from :1
+2020-06-11 19:17:23,310 - Message0 - INFO - RECEIVED : at 8.44 s heartbeat item : -1 from :100
+2020-06-11 19:17:23,329 - Message0 - INFO - RECEIVED : at 8.57 s agentEstimation item : 2 from :2
+2020-06-11 19:17:23,358 - Message0 - INFO - RECEIVED : at 8.57 s heartbeat item : -1 from :2
+2020-06-11 19:17:23,376 - Message0 - INFO - RECEIVED : at 8.74 s agentEstimation item : 1 from :1
+2020-06-11 19:17:23,668 - Message0 - INFO - SENT : at 8.27 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:23,686 - Message0 - INFO - SENT : at 8.27 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:23,710 - Message0 - INFO - SENT : at 8.27 s targetEstimation target : 5 to :[[100, 8944350748831655]]
+2020-06-11 19:17:23,714 - Message0 - INFO - SENT : at 8.64 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:23,766 - Message0 - INFO - SENT : at 9.27 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:23,802 - Message0 - INFO - SENT : at 9.27 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:23,830 - Message0 - INFO - SENT : at 9.27 s targetEstimation target : 5 to :[[100, 8944350748831655]]
+2020-06-11 19:17:23,874 - Message0 - INFO - RECEIVED : at 8.74 s agentEstimation item : 1 from :1
+2020-06-11 19:17:24,147 - Message0 - INFO - SENT : at 9.27 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:24,161 - Message0 - INFO - SENT : at 9.27 s loosing_target target : 1 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:24,239 - Message0 - INFO - RECEIVED : at 8.74 s agentEstimation item : 1 from :1
+2020-06-11 19:17:24,253 - Message0 - INFO - RECEIVED : at 9.07 s loosing_target item : 1 from :1
+2020-06-11 19:17:24,277 - Message0 - INFO - RECEIVED : at 8.95 s loosing_target item : 4 from :2
+2020-06-11 19:17:24,299 - Message0 - INFO - RECEIVED : at 9.37 s agentEstimation item : 2 from :2
+2020-06-11 19:17:24,310 - Message0 - INFO - RECEIVED : at 9.49 s heartbeat item : -1 from :100
+2020-06-11 19:17:24,323 - Message0 - INFO - RECEIVED : at 9.80 s heartbeat item : -1 from :2
+2020-06-11 19:17:24,590 - Message0 - INFO - SENT : at 9.74 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:24,642 - Message0 - INFO - SENT : at 10.18 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:24,655 - Message0 - INFO - SENT : at 10.18 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:24,704 - Message0 - INFO - RECEIVED : at 9.41 s agentEstimation item : 1 from :1
+2020-06-11 19:17:24,718 - Message0 - INFO - RECEIVED : at 10.21 s agentEstimation item : 1 from :1
+2020-06-11 19:17:25,019 - Message0 - INFO - SENT : at 9.74 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:25,026 - Message0 - INFO - SENT : at 10.18 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:25,034 - Message0 - INFO - SENT : at 10.60 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:25,054 - Message0 - INFO - SENT : at 10.60 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:25,076 - Message0 - INFO - SENT : at 10.60 s targetEstimation target : 5 to :[[100, 8944350748831655]]
+2020-06-11 19:17:25,137 - Message0 - INFO - RECEIVED : at 10.28 s agentEstimation item : 2 from :2
+2020-06-11 19:17:25,161 - Message0 - INFO - RECEIVED : at 10.28 s loosing_target item : 1 from :2
+2020-06-11 19:17:25,177 - Message0 - INFO - RECEIVED : at 10.50 s heartbeat item : -1 from :100
+2020-06-11 19:17:25,192 - Message0 - INFO - RECEIVED : at 10.53 s heartbeat item : -1 from :1
+2020-06-11 19:17:25,469 - Message0 - INFO - SENT : at 9.74 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:25,564 - Message0 - INFO - SENT : at 11.07 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:25,714 - Message0 - INFO - SENT : at 11.07 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:25,790 - Message0 - INFO - RECEIVED : at 10.96 s agentEstimation item : 1 from :1
+2020-06-11 19:17:25,805 - Message0 - INFO - RECEIVED : at 11.32 s agentEstimation item : 2 from :2
+2020-06-11 19:17:26,068 - Message0 - INFO - SENT : at 11.07 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:26,163 - Message0 - INFO - RECEIVED : at 11.58 s heartbeat item : -1 from :100
+2020-06-11 19:17:26,174 - Message0 - INFO - RECEIVED : at 11.63 s agentEstimation item : 1 from :1
+2020-06-11 19:17:26,453 - Message0 - INFO - SENT : at 11.66 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:26,477 - Message0 - INFO - SENT : at 11.66 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:26,494 - Message0 - INFO - SENT : at 12.03 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:26,507 - Message0 - INFO - SENT : at 12.03 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:26,548 - Message0 - INFO - RECEIVED : at 12.08 s agentEstimation item : 2 from :2
+2020-06-11 19:17:26,792 - Message0 - INFO - SENT : at 12.03 s loosing_target target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:26,812 - Message0 - INFO - SENT : at 12.39 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:26,830 - Message0 - INFO - SENT : at 12.39 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:26,875 - Message0 - INFO - RECEIVED : at 12.27 s agentEstimation item : 1 from :1
+2020-06-11 19:17:26,889 - Message0 - INFO - RECEIVED : at 12.37 s heartbeat item : -1 from :2
+2020-06-11 19:17:27,138 - Message0 - INFO - SENT : at 12.39 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:27,186 - Message0 - INFO - RECEIVED : at 12.63 s heartbeat item : -1 from :100
+2020-06-11 19:17:27,220 - Message0 - INFO - RECEIVED : at 12.70 s agentEstimation item : 2 from :2
+2020-06-11 19:17:27,497 - Message0 - INFO - SENT : at 11.07 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:27,511 - Message0 - INFO - SENT : at 12.73 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:27,548 - Message0 - INFO - SENT : at 12.73 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:27,580 - Message0 - INFO - SENT : at 13.09 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:27,596 - Message0 - INFO - SENT : at 13.09 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:27,650 - Message0 - INFO - RECEIVED : at 12.87 s agentEstimation item : 1 from :1
+2020-06-11 19:17:27,666 - Message0 - INFO - RECEIVED : at 12.87 s heartbeat item : -1 from :1
+2020-06-11 19:17:27,911 - Message0 - INFO - SENT : at 13.09 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:27,916 - Message0 - INFO - SENT : at 13.09 s loosing_target target : 5 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:27,925 - Message0 - INFO - SENT : at 13.51 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:27,938 - Message0 - INFO - SENT : at 13.51 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:27,996 - Message0 - INFO - RECEIVED : at 13.37 s agentEstimation item : 2 from :2
+2020-06-11 19:17:28,011 - Message0 - INFO - RECEIVED : at 13.37 s heartbeat item : -1 from :2
+2020-06-11 19:17:28,023 - Message0 - INFO - RECEIVED : at 13.54 s agentEstimation item : 1 from :1
+2020-06-11 19:17:28,322 - Message0 - INFO - SENT : at 13.88 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:28,361 - Message0 - INFO - RECEIVED : at 13.68 s heartbeat item : -1 from :100
+2020-06-11 19:17:28,607 - Message0 - INFO - SENT : at 13.88 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:28,623 - Message0 - INFO - SENT : at 13.88 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:28,638 - Message0 - INFO - SENT : at 14.21 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:28,652 - Message0 - INFO - SENT : at 14.21 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:28,693 - Message0 - INFO - RECEIVED : at 14.05 s agentEstimation item : 2 from :2
+2020-06-11 19:17:28,707 - Message0 - INFO - RECEIVED : at 14.18 s agentEstimation item : 1 from :1
+2020-06-11 19:17:28,962 - Message0 - INFO - SENT : at 13.51 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:28,979 - Message0 - INFO - SENT : at 14.56 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:28,993 - Message0 - INFO - SENT : at 14.56 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:29,035 - Message0 - INFO - RECEIVED : at 14.38 s loosing_target item : 0 from :2
+2020-06-11 19:17:29,053 - Message0 - INFO - RECEIVED : at 14.38 s heartbeat item : -1 from :2
+2020-06-11 19:17:29,304 - Message0 - INFO - SENT : at 14.56 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:29,325 - Message0 - INFO - SENT : at 14.90 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:29,371 - Message0 - INFO - RECEIVED : at 14.70 s agentEstimation item : 2 from :2
+2020-06-11 19:17:29,384 - Message0 - INFO - RECEIVED : at 14.78 s agentEstimation item : 1 from :1
+2020-06-11 19:17:29,632 - Message0 - INFO - SENT : at 14.90 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:29,638 - Message0 - INFO - SENT : at 14.90 s loosing_target target : 5 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:29,659 - Message0 - INFO - SENT : at 15.23 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:29,678 - Message0 - INFO - SENT : at 15.23 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:29,713 - Message0 - INFO - RECEIVED : at 15.01 s heartbeat item : -1 from :100
+2020-06-11 19:17:29,944 - Message0 - INFO - SENT : at 15.23 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:29,999 - Message0 - INFO - RECEIVED : at 15.37 s agentEstimation item : 2 from :2
+2020-06-11 19:17:30,013 - Message0 - INFO - RECEIVED : at 15.47 s agentEstimation item : 1 from :1
+2020-06-11 19:17:30,028 - Message0 - INFO - RECEIVED : at 15.47 s heartbeat item : -1 from :1
+2020-06-11 19:17:30,350 - Message0 - INFO - RECEIVED : at 15.68 s tracking_target item : 0 from :2
+2020-06-11 19:17:30,362 - Message0 - INFO - RECEIVED : at 15.68 s heartbeat item : -1 from :2
+2020-06-11 19:17:30,618 - Message0 - INFO - SENT : at 15.55 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:30,630 - Message0 - INFO - SENT : at 15.55 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:30,643 - Message0 - INFO - SENT : at 15.87 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:30,676 - Message0 - INFO - SENT : at 16.21 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:30,689 - Message0 - INFO - SENT : at 16.21 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:30,730 - Message0 - INFO - RECEIVED : at 16.07 s agentEstimation item : 2 from :2
+2020-06-11 19:17:30,743 - Message0 - INFO - RECEIVED : at 16.13 s agentEstimation item : 1 from :1
+2020-06-11 19:17:30,757 - Message0 - INFO - RECEIVED : at 16.27 s heartbeat item : -1 from :100
+2020-06-11 19:17:31,000 - Message0 - INFO - SENT : at 15.87 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:31,013 - Message0 - INFO - SENT : at 15.87 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:31,031 - Message0 - INFO - SENT : at 15.87 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:31,086 - Message0 - INFO - RECEIVED : at 16.52 s heartbeat item : -1 from :1
+2020-06-11 19:17:31,369 - Message0 - INFO - SENT : at 16.60 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:31,390 - Message0 - INFO - SENT : at 16.96 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:31,447 - Message0 - INFO - RECEIVED : at 16.78 s agentEstimation item : 2 from :2
+2020-06-11 19:17:31,462 - Message0 - INFO - RECEIVED : at 16.97 s agentEstimation item : 1 from :1
+2020-06-11 19:17:31,722 - Message0 - INFO - SENT : at 16.60 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:31,734 - Message0 - INFO - SENT : at 16.60 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:31,747 - Message0 - INFO - SENT : at 16.96 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:31,781 - Message0 - INFO - SENT : at 17.32 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:31,793 - Message0 - INFO - SENT : at 17.32 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:31,827 - Message0 - INFO - RECEIVED : at 17.27 s heartbeat item : -1 from :100
+2020-06-11 19:17:32,079 - Message0 - INFO - SENT : at 16.97 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:32,084 - Message0 - INFO - SENT : at 17.32 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:32,103 - Message0 - INFO - SENT : at 17.67 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:32,130 - Message0 - INFO - SENT : at 17.67 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:32,193 - Message0 - INFO - RECEIVED : at 17.47 s agentEstimation item : 2 from :2
+2020-06-11 19:17:32,216 - Message0 - INFO - RECEIVED : at 17.59 s agentEstimation item : 1 from :1
+2020-06-11 19:17:32,466 - Message0 - INFO - SENT : at 18.06 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:32,480 - Message0 - INFO - SENT : at 18.06 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:32,576 - Message0 - INFO - RECEIVED : at 17.59 s agentEstimation item : 1 from :1
+2020-06-11 19:17:32,815 - Message0 - INFO - SENT : at 18.06 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:32,838 - Message0 - INFO - SENT : at 18.06 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:32,846 - Message0 - INFO - SENT : at 18.41 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:32,860 - Message0 - INFO - SENT : at 18.41 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:32,902 - Message0 - INFO - RECEIVED : at 17.59 s agentEstimation item : 1 from :1
+2020-06-11 19:17:33,179 - Message0 - INFO - RECEIVED : at 17.59 s agentEstimation item : 1 from :1
+2020-06-11 19:17:33,191 - Message0 - INFO - RECEIVED : at 17.59 s heartbeat item : -1 from :1
+2020-06-11 19:17:33,204 - Message0 - INFO - RECEIVED : at 17.81 s heartbeat item : -1 from :2
+2020-06-11 19:17:33,216 - Message0 - INFO - RECEIVED : at 18.14 s agentEstimation item : 2 from :2
+2020-06-11 19:17:33,228 - Message0 - INFO - RECEIVED : at 18.28 s agentEstimation item : 1 from :1
+2020-06-11 19:17:33,240 - Message0 - INFO - RECEIVED : at 18.32 s heartbeat item : -1 from :100
+2020-06-11 19:17:33,498 - Message0 - INFO - SENT : at 18.74 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:33,563 - Message0 - INFO - RECEIVED : at 18.88 s agentEstimation item : 2 from :2
+2020-06-11 19:17:33,576 - Message0 - INFO - RECEIVED : at 18.88 s heartbeat item : -1 from :2
+2020-06-11 19:17:33,647 - Message0 - INFO - RECEIVED : at 18.90 s agentEstimation item : 1 from :1
+2020-06-11 19:17:33,673 - Message0 - INFO - RECEIVED : at 18.90 s heartbeat item : -1 from :1
+2020-06-11 19:17:33,920 - Message0 - INFO - SENT : at 18.74 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:33,933 - Message0 - INFO - SENT : at 18.74 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:33,945 - Message0 - INFO - SENT : at 19.10 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:33,957 - Message0 - INFO - SENT : at 19.10 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:33,999 - Message0 - INFO - SENT : at 19.52 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:34,288 - Message0 - INFO - SENT : at 19.10 s heartbeat target : -1 to :[[1, 1680528522599403], [2, 3697878892614189], [100, 8944350748831655]]
+2020-06-11 19:17:34,294 - Message0 - INFO - SENT : at 19.52 s agentEstimation target : 0 to :[[1, 1680528522599403], [2, 3697878892614189]]
+2020-06-11 19:17:34,305 - Message0 - INFO - SENT : at 19.52 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:34,333 - Message0 - INFO - SENT : at 19.89 s targetEstimation target : 3 to :[[100, 8944350748831655]]
+2020-06-11 19:17:34,348 - Message0 - INFO - SENT : at 19.89 s targetEstimation target : 2 to :[[100, 8944350748831655]]
+2020-06-11 19:17:34,393 - Message0 - INFO - RECEIVED : at 19.34 s heartbeat item : -1 from :100
+2020-06-11 19:17:34,407 - Message0 - INFO - RECEIVED : at 19.62 s agentEstimation item : 2 from :2
+2020-06-11 19:17:34,421 - Message0 - INFO - RECEIVED : at 19.65 s agentEstimation item : 1 from :1
+2020-06-11 19:17:34,436 - Message0 - INFO - RECEIVED : at 19.95 s loosing_target item : 0 from :2
+2020-06-11 19:17:34,456 - Message0 - INFO - RECEIVED : at 19.95 s heartbeat item : -1 from :2

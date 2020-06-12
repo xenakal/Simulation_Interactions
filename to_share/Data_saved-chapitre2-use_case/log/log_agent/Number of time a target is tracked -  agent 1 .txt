@@ -1,98 +1,96 @@
-2020-06-10 21:57:03,174 - Number of time a target is tracked1 - INFO - agent 1 time 0.26 
+2020-06-11 19:20:44,695 - Number of time a target is tracked1 - INFO - agent 1 time 0.27 
 target 1 is seen 1 
 
-2020-06-10 21:57:03,174 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 0.2625541687011719 MESSAGE_message#:6195180069442690
-MESSAGE_From: 1 MESSAGE_sender#9672301955964470
+2020-06-11 19:20:44,695 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 0.2707657814025879 MESSAGE_message#:1664483035971438
+MESSAGE_From: 1 MESSAGE_sender#381635475267014
 MESSAGE_Receiver list : 
 MESSAGE_Type: tracking_target MESSAGE_item: 1 MESSAGE_Message: 
 
-2020-06-10 21:57:03,508 - Number of time a target is tracked1 - INFO - agent 1 time 0.60 
+2020-06-11 19:20:45,003 - Number of time a target is tracked1 - INFO - agent 1 time 0.58 
 target 1 is seen 1 
 target 5 is seen 1 
 
-2020-06-10 21:57:03,509 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 0.5973234176635742 MESSAGE_message#:2952076249151802
-MESSAGE_From: 1 MESSAGE_sender#9672301955964470
+2020-06-11 19:20:45,003 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 0.5788660049438477 MESSAGE_message#:3727458233047512
+MESSAGE_From: 1 MESSAGE_sender#381635475267014
 MESSAGE_Receiver list : 
 MESSAGE_Type: tracking_target MESSAGE_item: 5 MESSAGE_Message: 
 
-2020-06-10 21:57:03,509 - Number of time a target is tracked1 - INFO - agent 1 time 0.60 
+2020-06-11 19:20:45,003 - Number of time a target is tracked1 - INFO - agent 1 time 0.58 
 target 1 is seen 1 
 target 5 is seen 1 
 target 2 is seen 1 
 
-2020-06-10 21:57:03,510 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 0.598320484161377 MESSAGE_message#:3271406910498100
-MESSAGE_From: 1 MESSAGE_sender#9672301955964470
+2020-06-11 19:20:45,003 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 0.5788660049438477 MESSAGE_message#:5731628682687427
+MESSAGE_From: 1 MESSAGE_sender#381635475267014
 MESSAGE_Receiver list : 
 MESSAGE_Type: tracking_target MESSAGE_item: 2 MESSAGE_Message: 
 
-2020-06-10 21:57:04,160 - Number of time a target is tracked1 - INFO - agent 1 time 1.25 
+2020-06-11 19:20:45,649 - Number of time a target is tracked1 - INFO - agent 1 time 1.22 
 target 1 is seen 1 
 target 5 is seen 1 
 target 2 is seen 1 
 target 3 is seen 1 
 
-2020-06-10 21:57:04,160 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 1.2480969429016113 MESSAGE_message#:4112721187079621
-MESSAGE_From: 1 MESSAGE_sender#9672301955964470
+2020-06-11 19:20:45,649 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 1.2249417304992676 MESSAGE_message#:2716374537020013
+MESSAGE_From: 1 MESSAGE_sender#381635475267014
 MESSAGE_Receiver list : 
 MESSAGE_Type: tracking_target MESSAGE_item: 3 MESSAGE_Message: 
 
-2020-06-10 21:57:08,019 - Number of time a target is tracked1 - INFO - agent 1 time 5.11 
-target 1 is seen 1 
-target 5 is seen 1 
-target 2 is seen 1 
-target 3 is seen 1 
-target 4 is seen 1 
-
-2020-06-10 21:57:08,019 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 5.107341289520264 MESSAGE_message#:2506185510958374
-MESSAGE_From: 1 MESSAGE_sender#9672301955964470
-MESSAGE_Receiver list : 
-MESSAGE_Type: tracking_target MESSAGE_item: 4 MESSAGE_Message: 
-
-2020-06-10 21:57:09,819 - Number of time a target is tracked1 - INFO - agent 1 time 6.91 
+2020-06-11 19:20:47,549 - Number of time a target is tracked1 - INFO - agent 1 time 3.12 
 target 1 is seen 1 
 target 5 is seen 1 
 target 2 is seen 1 
 target 3 is seen 0 
-target 4 is seen 1 
 
-2020-06-10 21:57:09,819 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 6.906985282897949 MESSAGE_message#:5757424214122794
-MESSAGE_From: 1 MESSAGE_sender#9672301955964470
+2020-06-11 19:20:47,549 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 3.124851942062378 MESSAGE_message#:6861590519546688
+MESSAGE_From: 1 MESSAGE_sender#381635475267014
 MESSAGE_Receiver list : 
 MESSAGE_Type: loosing_target MESSAGE_item: 3 MESSAGE_Message: 
 
-2020-06-10 21:57:11,590 - Number of time a target is tracked1 - INFO - agent 1 time 8.68 
+2020-06-11 19:20:49,325 - Number of time a target is tracked1 - INFO - agent 1 time 4.90 
+target 1 is seen 1 
+target 5 is seen 0 
+target 2 is seen 1 
+target 3 is seen 0 
+
+2020-06-11 19:20:49,326 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 4.901491165161133 MESSAGE_message#:7651246098965784
+MESSAGE_From: 1 MESSAGE_sender#381635475267014
+MESSAGE_Receiver list : 
+MESSAGE_Type: loosing_target MESSAGE_item: 5 MESSAGE_Message: 
+
+2020-06-11 19:20:49,617 - Number of time a target is tracked1 - INFO - agent 1 time 5.19 
 target 1 is seen 1 
 target 5 is seen 0 
 target 2 is seen 1 
 target 3 is seen 0 
 target 4 is seen 1 
 
-2020-06-10 21:57:11,590 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 8.677856922149658 MESSAGE_message#:1906159263134941
-MESSAGE_From: 1 MESSAGE_sender#9672301955964470
+2020-06-11 19:20:49,617 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 5.193426132202148 MESSAGE_message#:2470259881461748
+MESSAGE_From: 1 MESSAGE_sender#381635475267014
 MESSAGE_Receiver list : 
-MESSAGE_Type: loosing_target MESSAGE_item: 5 MESSAGE_Message: 
+MESSAGE_Type: tracking_target MESSAGE_item: 4 MESSAGE_Message: 
 
-2020-06-10 21:57:12,908 - Number of time a target is tracked1 - INFO - agent 1 time 10.00 
+2020-06-11 19:20:50,579 - Number of time a target is tracked1 - INFO - agent 1 time 6.16 
 target 1 is seen 1 
 target 5 is seen 0 
 target 2 is seen 0 
 target 3 is seen 0 
 target 4 is seen 1 
 
-2020-06-10 21:57:12,908 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 9.996670722961426 MESSAGE_message#:7032540444390211
-MESSAGE_From: 1 MESSAGE_sender#9672301955964470
+2020-06-11 19:20:50,580 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 6.1561315059661865 MESSAGE_message#:6378559741713044
+MESSAGE_From: 1 MESSAGE_sender#381635475267014
 MESSAGE_Receiver list : 
 MESSAGE_Type: loosing_target MESSAGE_item: 2 MESSAGE_Message: 
 
-2020-06-10 21:57:18,608 - Number of time a target is tracked1 - INFO - agent 1 time 15.70 
+2020-06-11 19:20:56,450 - Number of time a target is tracked1 - INFO - agent 1 time 12.03 
 target 1 is seen 1 
 target 5 is seen 0 
 target 2 is seen 0 
 target 3 is seen 0 
 target 4 is seen 0 
 
-2020-06-10 21:57:18,608 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 15.69619870185852 MESSAGE_message#:7934888893607075
-MESSAGE_From: 1 MESSAGE_sender#9672301955964470
+2020-06-11 19:20:56,453 - Number of time a target is tracked1 - INFO - MESSAGE_Timestamp: 12.029359102249146 MESSAGE_message#:1608401682955109
+MESSAGE_From: 1 MESSAGE_sender#381635475267014
 MESSAGE_Receiver list : 
 MESSAGE_Type: loosing_target MESSAGE_item: 4 MESSAGE_Message: 
 

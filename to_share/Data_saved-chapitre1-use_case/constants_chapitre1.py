@@ -290,7 +290,7 @@ class MapPath:
 
 class ResultsPath:
     folder = "../results"
-    name_simulation = "My_new_map"
+    name_simulation = "My_new_map.txt"
 
     @classproperty
     def MAIN_FOLDER(cls):

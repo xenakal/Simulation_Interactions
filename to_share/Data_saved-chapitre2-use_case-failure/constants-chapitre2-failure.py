@@ -15,7 +15,7 @@ GENERATE_PLOT = False
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
 
-USE_GUI = True
+USE_GUI = False
 USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
 
@@ -174,7 +174,7 @@ MIN_ANGLE_DIFF_AGENTS = 0.4
 """Target_representation--------------------------------------------------------------------------------------------"""
 CONFIDENCE_MAX_VALUE = 100
 CONFIDENCE_MIN_VALUE = 0
-CONFIDENCE_TIME_TO_REACH_MIN_VALUE = 10
+CONFIDENCE_TIME_TO_REACH_MIN_VALUE = 2.5
 CONFIDENCE_THRESHOLD = 50
 CONFIDENCE_FUNCTION_CHOICE = ConfidenceFunction.LINEAR_DECAY
 
@@ -290,7 +290,7 @@ class MapPath:
 
 class ResultsPath:
     folder = "../results"
-    name_simulation = "My_new_map"
+    name_simulation = "My_new_map.txt"
 
     @classproperty
     def MAIN_FOLDER(cls):

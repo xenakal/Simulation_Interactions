@@ -1,15 +1,15 @@
-2020-06-07 10:20:58,654 - Main informations0 - INFO - Using hearbeat messages !
-2020-06-07 10:20:58,654 - Main informations0 - INFO - Time between two heartbeats of 1.00 s
-2020-06-07 10:20:58,654 - Main informations0 - INFO - Time max between two heartbeats of 9.00 s
-2020-06-07 10:20:58,663 - Main informations0 - INFO - starting initialisation in agent_interacting_room_agent_cam
-2020-06-07 10:20:58,663 - Main informations0 - INFO - starting initialisation in agent_interacting_room
-2020-06-07 10:20:58,663 - Main informations0 - INFO - initialisation in agent_interacting_room_done !
-2020-06-07 10:20:58,664 - Main informations0 - INFO - initialisation in agent_interacting_room__cam_done !
-2020-06-07 10:20:58,665 - Main informations0 - INFO - Agent 0 is activated at 0.02 s
-2020-06-07 10:20:58,665 - Main informations0 - INFO - camera of a agent 0 is activated at 0.02 s
-2020-06-07 10:20:59,753 - Main informations0 - INFO - Found someone ! agent user :100
-2020-06-07 10:20:59,753 - Main informations0 - INFO - Add a new heartbeat counter for agent: 100
-2020-06-07 10:21:20,998 - Main informations0 - INFO - Saving data ...: agent 0
-2020-06-07 10:21:21,111 - Main informations0 - INFO - Data saved !
-2020-06-07 10:21:21,345 - Main informations0 - INFO - Agent cleared 
+2020-06-11 19:36:42,177 - Main informations0 - INFO - Using hearbeat messages !
+2020-06-11 19:36:42,178 - Main informations0 - INFO - Time between two heartbeats of 1.00 s
+2020-06-11 19:36:42,178 - Main informations0 - INFO - Time max between two heartbeats of 3.00 s
+2020-06-11 19:36:42,186 - Main informations0 - INFO - starting initialisation in agent_interacting_room_agent_cam
+2020-06-11 19:36:42,186 - Main informations0 - INFO - starting initialisation in agent_interacting_room
+2020-06-11 19:36:42,186 - Main informations0 - INFO - initialisation in agent_interacting_room_done !
+2020-06-11 19:36:42,187 - Main informations0 - INFO - initialisation in agent_interacting_room__cam_done !
+2020-06-11 19:36:42,187 - Main informations0 - INFO - Agent 0 is activated at 0.02 s
+2020-06-11 19:36:42,187 - Main informations0 - INFO - camera of a agent 0 is activated at 0.02 s
+2020-06-11 19:36:43,271 - Main informations0 - INFO - Found someone ! agent user :100
+2020-06-11 19:36:43,272 - Main informations0 - INFO - Add a new heartbeat counter for agent: 100
+2020-06-11 19:37:02,502 - Main informations0 - INFO - Saving data ...: agent 0
+2020-06-11 19:37:02,556 - Main informations0 - INFO - Data saved !
+2020-06-11 19:37:02,903 - Main informations0 - INFO - Agent cleared 
 

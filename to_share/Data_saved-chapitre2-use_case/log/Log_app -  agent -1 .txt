@@ -1,12 +1,12 @@
-2020-06-10 21:57:02,911 - /Log_app-1 - INFO - app started
-2020-06-10 21:57:02,911 - /Log_app-1 - INFO - file name : Super_use-case_fix
-2020-06-10 21:57:02,911 - /Log_app-1 - INFO - Using distributed kalman : False
-2020-06-10 21:57:02,911 - /Log_app-1 - INFO - Kalman type: 4
-2020-06-10 21:57:02,911 - /Log_app-1 - INFO - Simulation end in time : 20.00 s
-2020-06-10 21:57:02,911 - /Log_app-1 - INFO - Scaling time factor : 1.00 s
-2020-06-10 21:57:02,911 - /Log_app-1 - INFO - Starting init ...
-2020-06-10 21:57:02,946 - /Log_app-1 - INFO - Init done
-2020-06-10 21:57:22,923 - /Log_app-1 - INFO - Clear ...
-2020-06-10 21:57:24,003 - /Log_app-1 - INFO - Saving data : generated
-2020-06-10 21:57:24,025 - /Log_app-1 - INFO - Data saved !
-2020-06-10 21:57:24,025 - /Log_app-1 - INFO - App cleared !
+2020-06-11 19:20:44,423 - /Log_app-1 - INFO - app started
+2020-06-11 19:20:44,423 - /Log_app-1 - INFO - file name : Super_use-case_fix
+2020-06-11 19:20:44,424 - /Log_app-1 - INFO - Using distributed kalman : False
+2020-06-11 19:20:44,424 - /Log_app-1 - INFO - Kalman type: 4
+2020-06-11 19:20:44,424 - /Log_app-1 - INFO - Simulation end in time : 20.00 s
+2020-06-11 19:20:44,424 - /Log_app-1 - INFO - Scaling time factor : 1.00 s
+2020-06-11 19:20:44,424 - /Log_app-1 - INFO - Starting init ...
+2020-06-11 19:20:44,460 - /Log_app-1 - INFO - Init done
+2020-06-11 19:21:04,459 - /Log_app-1 - INFO - Clear ...
+2020-06-11 19:21:07,905 - /Log_app-1 - INFO - Saving data : generated
+2020-06-11 19:21:07,925 - /Log_app-1 - INFO - Data saved !
+2020-06-11 19:21:07,925 - /Log_app-1 - INFO - App cleared !

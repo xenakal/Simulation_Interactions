@@ -24,7 +24,6 @@ controller_ploter_2 = ControllerPlot(2)
 fig = plt.figure(figsize=(12, 8),tight_layout = True)
 ax = fig.add_subplot(1, 1, 1)
 
-
 plot_scenario_last(fig,ax,controller_ploter_0.data)
 plot_scenario_last(fig,ax,controller_ploter_1.data)
 plot_scenario_last(fig,ax,controller_ploter_2.data)
@@ -45,11 +44,11 @@ plot_scenario_last(fig,ax,controller_ploter_2.data)
 
 cb = fig.colorbar(sc, ax=ax)
 cb.ax.tick_params(labelsize=15)
-cb.ax.set_xlabel("time [s]", fontsize=20)
-ax.xaxis.set_tick_params(labelsize=20)
-ax.yaxis.set_tick_params(labelsize=20)
-ax.set_xlabel("x [m]", fontsize=20)
-ax.set_ylabel("y [m]", fontsize=20)
+cb.ax.set_ylabel("time [s]", fontsize=25)
+ax.xaxis.set_tick_params(labelsize=25)
+ax.yaxis.set_tick_params(labelsize=25)
+ax.set_xlabel("x [m]", fontsize=25)
+ax.set_ylabel("y [m]", fontsize=25)
 ax.set_title("", fontsize=25, fontweight='bold')
 ax.grid(True)
 ax.set_xbound(-1,16)
@@ -64,10 +63,10 @@ offset = 0
 for element,color in zip(user_plotter.data_sort_by_target,colors):
         sc1 = ax1.scatter(element.data_list[1], np.array(element.data_list[2])+offset,  marker='o',color=color, edgecolors='black', alpha=0.8,s = 100)
         offset += 0.1
-ax1.legend(["target_2", "target_3", "target_4","target_5","target 2"],loc=1, fontsize=25)
+#ax1.legend(["target_2", "target_3", "target_4","target_5","target 2"],loc=1, fontsize=25)
 ax1.set_yticks([0+offset/2,1+offset/2,2+offset/2])
 ax1.set_yticklabels(["agent 0","agent 1","agent 2"],rotation = 30)
-ax1.xaxis.set_tick_params(labelsize=20)
+ax1.xaxis.set_tick_params(labelsize=25)
 ax1.yaxis.set_tick_params(labelsize=20)
 ax1.set_xlabel("time [s]", fontsize=25)
 ax1.set_ylabel("agent's id", fontsize=25)
@@ -93,11 +92,11 @@ plot_scenario(fig2,ax2,controller_ploter_2.data)
 
 cb = fig2.colorbar(sc, ax=ax2)
 cb.ax.tick_params(labelsize=15)
-cb.ax.set_xlabel("time [s]", fontsize=20)
-ax2.xaxis.set_tick_params(labelsize=20)
-ax2.yaxis.set_tick_params(labelsize=20)
-ax2.set_xlabel("x [m]", fontsize=20)
-ax2.set_ylabel("y [m]", fontsize=20)
+cb.ax.set_ylabel("time [s]", fontsize=25)
+ax2.xaxis.set_tick_params(labelsize=25)
+ax2.yaxis.set_tick_params(labelsize=25)
+ax2.set_xlabel("x [m]", fontsize=25)
+ax2.set_ylabel("y [m]", fontsize=25)
 ax2.set_title("", fontsize=25, fontweight='bold')
 ax2.grid(True)
 ax2.set_xbound(-1,16)
@@ -115,10 +114,9 @@ for color in colors:
     ax3.scatter(0, 0, marker='o', color=color, edgecolors='black',s = 100)
 ax3.scatter(0, 0, marker='D', s=100, c='gold', edgecolors='black')
 ax3.scatter(0, 0, marker='*', s=100, c='orangered', edgecolors='black')
-ax3.legend(["fix targets", "generated target 2's position","generated target 3's position","generated target 4's position",
-               "generated target 5's position","filtered target 2's position","filtered target 3's position",
-               "filtered target 4's position","filtered target 5's position","camera's positions","camera's targeted positions"], fontsize=20,loc=3)
-
+ax3.legend(["fix targets", "generated position of target 2","generated position of target 3","generated position of target 4",
+            "generated position of target 5","filtered position of target 2","filtered position of target 3",
+               "filtered position of target 4","filtered position of target 5","positions of the cameras","targeted position of the cameras"], fontsize=20,loc=3)
 fig.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- target")
 fig1.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- time")
 fig2.savefig(constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER + "-- agent")

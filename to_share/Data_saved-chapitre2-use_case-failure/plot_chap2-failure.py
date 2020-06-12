@@ -7,6 +7,9 @@ import numpy as np
 constants.ResultsPath.folder = "../../to_share"
 constants.ResultsPath.name_simulation = "chapitre2-use_case-failure"
 
+#constants.ResultsPath.folder = "../../results"
+#constants.ResultsPath.name_simulation = "Super_use-case_fix_failure"
+
 target_ploter = analyser_simulated_data = Analyser_Target_TargetEstimator_FormatCSV("",
                                                                         constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,
                                                                         constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER)
@@ -37,11 +40,11 @@ for element,color in zip(user_plotter.data_sort_by_target,colors):
         ax.scatter(element.data_list[7], element.data_list[8],  marker='o',color=color, edgecolors='black', alpha=0.9,s = 100)
 cb = fig.colorbar(sc, ax=ax)
 cb.ax.tick_params(labelsize=15)
-cb.ax.set_xlabel("time [s]", fontsize=20)
-ax.xaxis.set_tick_params(labelsize=20)
-ax.yaxis.set_tick_params(labelsize=20)
-ax.set_xlabel("x [m]", fontsize=20)
-ax.set_ylabel("y [m]", fontsize=20)
+cb.ax.set_ylabel("time [s]", fontsize=25)
+ax.xaxis.set_tick_params(labelsize=25)
+ax.yaxis.set_tick_params(labelsize=25)
+ax.set_xlabel("x [m]", fontsize=25)
+ax.set_ylabel("y [m]", fontsize=25)
 ax.set_title("", fontsize=25, fontweight='bold')
 ax.grid(True)
 ax.set_xbound(-1,16)
@@ -59,7 +62,7 @@ for element,color in zip(user_plotter.data_sort_by_target,colors):
 ax1.legend(["target_2", "target_3", "target_4","target_5","target 2"],loc=1, fontsize=25)
 ax1.set_yticks([0+offset/2,1+offset/2,2+offset/2])
 ax1.set_yticklabels(["agent 0","agent 1","agent 2"],rotation = 30)
-ax1.xaxis.set_tick_params(labelsize=20)
+ax1.xaxis.set_tick_params(labelsize=25)
 ax1.yaxis.set_tick_params(labelsize=20)
 ax1.set_xlabel("time [s]", fontsize=25)
 ax1.set_ylabel("agent's id", fontsize=25)

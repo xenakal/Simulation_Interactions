@@ -10,7 +10,7 @@ constants.ResultsPath.folder = "../../to_share"
 constants.ResultsPath.name_simulation = "controller-repulsive-mode"
 
 #constants.ResultsPath.folder = "../../results"
-#constants.ResultsPath.name_simulation = "Super_use-case"
+#constants.ResultsPath.name_simulation = "My_new_map"
 
 target_ploter = analyser_simulated_data = Analyser_Target_TargetEstimator_FormatCSV("",
                                                                         constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,
@@ -34,7 +34,7 @@ for element,color in zip(target_ploter.simulated_data_sort_by_target,colors):
 
 cb = fig.colorbar(sc, ax=ax)
 cb.ax.tick_params(labelsize=15)
-cb.ax.set_xlabel("time [s]", fontsize=20)
+cb.ax.set_ylabel("time [s]", fontsize=20)
 ax.xaxis.set_tick_params(labelsize=20)
 ax.yaxis.set_tick_params(labelsize=20)
 ax.set_xlabel("x [m]", fontsize=20)
@@ -71,7 +71,7 @@ ax2.set_xlabel("x [m]", fontsize=20)
 ax2.set_ylabel("y [m]", fontsize=20)
 ax2.set_title("", fontsize=25, fontweight='bold')
 ax2.grid(True)
-ax2.set_xbound(-1,16)
+ax2.set_xbound(-1,11)
 ax2.set_ybound(-1,11)
 
 
@@ -85,8 +85,10 @@ for color in colors:
     ax3.scatter(0, 0, marker='o', color=color, edgecolors='black',s = 100)
 ax3.scatter(0, 0, marker='D', s=100, c='gold', edgecolors='black')
 ax3.scatter(0, 0, marker='*', s=100, c='orangered', edgecolors='black')
-ax3.legend(["generated target 2's position","generated target 5's position","filtered target 2's position",
-            "filtered target 5's position","camera's positions","camera's targeted positions"], fontsize=20,loc=3)
+ax3.legend(["generated position of target 0","generated position of target 1","filtered position of target 0",
+            "filtered of target 1","positions of the cameras","argeted positions of the cameras"], fontsize=20,loc=3)
+
+
 
 
 
