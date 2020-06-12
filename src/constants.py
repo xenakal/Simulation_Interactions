@@ -10,12 +10,12 @@ In this file you have the possibility to modify the settings
 """Options-----------------------------------------------------------------------------------------------------------"""
 
 
-SAVE_DATA = True
+SAVE_DATA = False
 GENERATE_PLOT = False
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
 
-USE_GUI = False
+USE_GUI = True
 USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
 
