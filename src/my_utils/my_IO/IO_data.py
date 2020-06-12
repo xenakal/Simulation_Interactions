@@ -74,6 +74,26 @@ def create_structur_to_save_data():
         print("file exist already")
 
 
+def create_kf_logger(path, name):
+    # log_room
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+
+    # create file handler which log_messages even debug messages
+    fh = logging.FileHandler(path + name, "w+")
+    fh.setLevel(logging.DEBUG)
+    # create console handler with a higher log_message level
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.ERROR)
+    # create formatter and add it to the handlers
+    formatter = logging.Formatter('%(message)s')
+    fh.setFormatter(formatter)
+    ch.setFormatter(formatter)
+    # add the handlers to the logger_message
+    logger.addHandler(fh)
+    logger.addHandler(ch)
+    return logger
+
 def create_logger(path, name, agent_id):
     # log_room
     logger = logging.getLogger(name + str(agent_id))

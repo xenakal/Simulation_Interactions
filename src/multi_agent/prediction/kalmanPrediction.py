@@ -45,6 +45,8 @@ class KalmanPrediction:
         # timestamp of last measurement received
         self.prev_timestamp = timestamp
 
+        self.pivot_point_detected = False
+
     def add_measurement(self, z, timestamp):
         """
         :description
@@ -60,24 +62,20 @@ class KalmanPrediction:
         kalman_memory_element.append(timestamp)
         self.kalman_memory.append(kalman_memory_element)
 
-        pivot_detected = False
         # a pivot is defined as a change of direction (in our case equivalent to change in speed in either axis)
-        if self.pivot_point_detected_speed():
+        if self.pivot_point_detected_speed() or self.pivot_point_detected:
             # print("pivot: ", self.agent_id, constants.get_time())
             # filter reset to "forget" the previous information
             self.reset_filter(*z)
             # memory reset as well
             self.kalman_memory = [kalman_memory_element]
-            pivot_detected = True
 
         dt = timestamp - self.prev_timestamp
         self.prev_timestamp = timestamp
         F = self.filter_model.model_F(dt)
         self.filter.predict(F=F)
 
-        self.filter.update(np.array(z[:KALMAN_MODEL_MEASUREMENT_DIM]), timestamp=timestamp)
-
-        return pivot_detected
+        self.pivot_point_detected = self.filter.update(np.array(z[:KALMAN_MODEL_MEASUREMENT_DIM]), timestamp=timestamp)
 
     def pivot_point_detected_speed(self):
         """
@@ -87,6 +85,7 @@ class KalmanPrediction:
         :return:
             True if a pivot point is detected, False otherwise.
         """
+        return False
         n = 4
         list_to_check = self.kalman_memory
         list_len = len(list_to_check)
@@ -135,6 +134,9 @@ class KalmanPrediction:
             print("current_state: ", current_state)
 
         return predictions
+
+    def innovation_smaller_than_bound(self):
+        return self.filter.innovation_smaller_than_bound()
 
     def get_current_position(self):
         return self.filter.x, self.filter.P

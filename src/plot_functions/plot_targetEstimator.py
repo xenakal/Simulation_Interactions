@@ -250,6 +250,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
         (t_ref, x_ref, y_ref, x_mes, y_mes, error_squared_x, error_squared_y,
          error_squared) = error_squared_discrete(
             data_ref, data_mes, True)
+
         return np.sqrt(np.mean(error_squared))
 
     def plot_rapport(self, target_id):
@@ -289,7 +290,7 @@ class Analyser_Target_TargetEstimator_FormatCSV:
 
         cb = fig1.colorbar(sc1, ax=ax1)
         cb.ax.yaxis.set_tick_params(labelsize=20)
-        cb = fig1.colorbar(sc2, ax=ax2)
+        #cb = fig1.colorbar(sc2, ax=ax2)
         cb.ax.yaxis.set_tick_params(labelsize=20)
 
         fig1.savefig(self.path_to_save_data + self.version + "--rapport1_" + str(self.id), transparent=False)

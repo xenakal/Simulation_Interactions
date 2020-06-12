@@ -1,0 +1,732 @@
+--------------------------------------------------------------
+----  MSE & #messages function of INNOVATION LOWER BOUND  ----
+--------------------------------------------------------------
+SCENARIO: INNOVATION BOUND = 0.00
+	ITERATION 0
+		local mse = 0.285539
+		global mse = 0.278468
+		numer of DKF messages = 671
+	ITERATION 1
+		local mse = 0.267236
+		global mse = 0.246121
+		numer of DKF messages = 610
+	ITERATION 2
+		local mse = 0.287653
+		global mse = 0.277613
+		numer of DKF messages = 463
+	ITERATION 3
+		local mse = 0.307163
+		global mse = 0.285960
+		numer of DKF messages = 431
+	ITERATION 4
+		local mse = 0.362488
+		global mse = 0.343062
+		numer of DKF messages = 409
+	ITERATION 5
+		local mse = 0.376316
+		global mse = 0.358604
+		numer of DKF messages = 391
+	ITERATION 6
+		local mse = 0.346407
+		global mse = 0.325345
+		numer of DKF messages = 396
+	ITERATION 7
+		local mse = 0.381782
+		global mse = 0.368319
+		numer of DKF messages = 371
+	ITERATION 8
+		local mse = 0.403749
+		global mse = 0.394029
+		numer of DKF messages = 373
+	ITERATION 9
+		local mse = 0.337296
+		global mse = 0.334697
+		numer of DKF messages = 346
+	ITERATION 10
+		local mse = 0.288415
+		global mse = 0.255009
+		numer of DKF messages = 347
+	ITERATION 11
+		local mse = 0.393226
+		global mse = 0.381048
+		numer of DKF messages = 338
+	ITERATION 12
+		local mse = 0.429218
+		global mse = 0.386473
+		numer of DKF messages = 344
+	ITERATION 13
+		local mse = 0.428917
+		global mse = 0.419805
+		numer of DKF messages = 319
+	ITERATION 14
+		local mse = 0.462265
+		global mse = 0.459708
+		numer of DKF messages = 329
+	ITERATION 15
+		local mse = 0.336947
+		global mse = 0.319079
+		numer of DKF messages = 322
+	ITERATION 16
+		local mse = 0.331659
+		global mse = 0.331653
+		numer of DKF messages = 310
+	ITERATION 17
+		local mse = 0.334120
+		global mse = 0.285940
+		numer of DKF messages = 301
+	ITERATION 18
+		local mse = 0.347347
+		global mse = 0.332068
+		numer of DKF messages = 553
+	ITERATION 19
+		local mse = 0.290730
+		global mse = 0.277469
+		numer of DKF messages = 545
+SCENARIO: INNOVATION BOUND = 0.05
+	ITERATION 0
+		local mse = 0.278064
+		global mse = 0.285344
+		numer of DKF messages = 486
+	ITERATION 1
+		local mse = 0.302320
+		global mse = 0.274606
+		numer of DKF messages = 350
+	ITERATION 2
+		local mse = 0.339601
+		global mse = 0.319295
+		numer of DKF messages = 381
+	ITERATION 3
+		local mse = 0.355147
+		global mse = 0.344722
+		numer of DKF messages = 367
+	ITERATION 4
+		local mse = 0.360610
+		global mse = 0.336301
+		numer of DKF messages = 307
+	ITERATION 5
+		local mse = 0.366745
+		global mse = 0.345643
+		numer of DKF messages = 270
+	ITERATION 6
+		local mse = 0.473034
+		global mse = 0.429151
+		numer of DKF messages = 263
+	ITERATION 7
+		local mse = 0.395372
+		global mse = 0.364581
+		numer of DKF messages = 295
+	ITERATION 8
+		local mse = 0.394954
+		global mse = 0.385802
+		numer of DKF messages = 294
+	ITERATION 9
+		local mse = 0.342921
+		global mse = 0.324863
+		numer of DKF messages = 308
+	ITERATION 10
+		local mse = 0.368671
+		global mse = 0.368279
+		numer of DKF messages = 290
+	ITERATION 11
+		local mse = 0.339795
+		global mse = 0.316305
+		numer of DKF messages = 304
+	ITERATION 12
+		local mse = 0.370590
+		global mse = 0.334586
+		numer of DKF messages = 306
+	ITERATION 13
+		local mse = 0.291943
+		global mse = 0.281419
+		numer of DKF messages = 403
+	ITERATION 14
+		local mse = 0.421123
+		global mse = 0.444497
+		numer of DKF messages = 245
+	ITERATION 15
+		local mse = 0.527656
+		global mse = 0.510921
+		numer of DKF messages = 240
+	ITERATION 16
+		local mse = 0.323157
+		global mse = 0.281173
+		numer of DKF messages = 281
+	ITERATION 17
+		local mse = 0.503639
+		global mse = 0.468792
+		numer of DKF messages = 295
+	ITERATION 18
+		local mse = 0.346254
+		global mse = 0.338082
+		numer of DKF messages = 351
+	ITERATION 19
+		local mse = 0.373548
+		global mse = 0.372179
+		numer of DKF messages = 362
+SCENARIO: INNOVATION BOUND = 0.10
+	ITERATION 0
+		local mse = 0.461035
+		global mse = 0.422073
+		numer of DKF messages = 261
+	ITERATION 1
+		local mse = 0.369258
+		global mse = 0.372507
+		numer of DKF messages = 264
+	ITERATION 2
+		local mse = 0.363465
+		global mse = 0.362864
+		numer of DKF messages = 226
+	ITERATION 3
+		local mse = 0.519082
+		global mse = 0.484542
+		numer of DKF messages = 233
+	ITERATION 4
+		local mse = 0.377932
+		global mse = 0.378405
+		numer of DKF messages = 256
+	ITERATION 5
+		local mse = 0.461418
+		global mse = 0.458985
+		numer of DKF messages = 216
+	ITERATION 6
+		local mse = 0.354178
+		global mse = 0.331164
+		numer of DKF messages = 254
+	ITERATION 7
+		local mse = 0.373234
+		global mse = 0.329191
+		numer of DKF messages = 232
+	ITERATION 8
+		local mse = 0.330064
+		global mse = 0.317725
+		numer of DKF messages = 244
+	ITERATION 9
+		local mse = 0.363127
+		global mse = 0.330682
+		numer of DKF messages = 257
+	ITERATION 10
+		local mse = 0.405939
+		global mse = 0.370854
+		numer of DKF messages = 218
+	ITERATION 11
+		local mse = 0.347823
+		global mse = 0.329245
+		numer of DKF messages = 239
+	ITERATION 12
+		local mse = 0.378293
+		global mse = 0.392842
+		numer of DKF messages = 289
+	ITERATION 13
+		local mse = 0.273783
+		global mse = 0.274919
+		numer of DKF messages = 293
+	ITERATION 14
+		local mse = 0.393761
+		global mse = 0.371522
+		numer of DKF messages = 293
+	ITERATION 15
+		local mse = 0.327474
+		global mse = 0.283039
+		numer of DKF messages = 279
+	ITERATION 16
+		local mse = 0.479939
+		global mse = 0.459645
+		numer of DKF messages = 196
+	ITERATION 17
+		local mse = 0.515592
+		global mse = 0.388429
+		numer of DKF messages = 224
+	ITERATION 18
+		local mse = 0.649522
+		global mse = 0.381644
+		numer of DKF messages = 215
+	ITERATION 19
+		local mse = 0.378096
+		global mse = 0.351329
+		numer of DKF messages = 283
+SCENARIO: INNOVATION BOUND = 0.20
+	ITERATION 0
+		local mse = 0.351677
+		global mse = 0.339291
+		numer of DKF messages = 246
+	ITERATION 1
+		local mse = 0.354142
+		global mse = 0.336855
+		numer of DKF messages = 255
+	ITERATION 2
+		local mse = 0.357690
+		global mse = 0.342869
+		numer of DKF messages = 251
+	ITERATION 3
+		local mse = 0.444057
+		global mse = 0.425776
+		numer of DKF messages = 240
+	ITERATION 4
+		local mse = 0.501549
+		global mse = 0.496311
+		numer of DKF messages = 198
+	ITERATION 5
+		local mse = 0.398231
+		global mse = 0.423640
+		numer of DKF messages = 158
+	ITERATION 6
+		local mse = 0.419499
+		global mse = 0.390391
+		numer of DKF messages = 154
+	ITERATION 7
+		local mse = 0.341164
+		global mse = 0.331675
+		numer of DKF messages = 155
+	ITERATION 8
+		local mse = 0.589623
+		global mse = 0.584166
+		numer of DKF messages = 156
+	ITERATION 9
+		local mse = 0.503601
+		global mse = 0.455219
+		numer of DKF messages = 149
+	ITERATION 10
+		local mse = 0.552551
+		global mse = 0.548580
+		numer of DKF messages = 137
+	ITERATION 11
+		local mse = 0.467912
+		global mse = 0.456954
+		numer of DKF messages = 146
+	ITERATION 12
+		local mse = 0.495785
+		global mse = 0.517568
+		numer of DKF messages = 141
+	ITERATION 13
+		local mse = 0.431971
+		global mse = 0.445447
+		numer of DKF messages = 145
+	ITERATION 14
+		local mse = 0.427854
+		global mse = 0.409254
+		numer of DKF messages = 146
+	ITERATION 15
+		local mse = 0.485069
+		global mse = 0.430260
+		numer of DKF messages = 134
+	ITERATION 16
+		local mse = 0.545715
+		global mse = 0.551185
+		numer of DKF messages = 138
+	ITERATION 17
+		local mse = 0.479345
+		global mse = 0.467340
+		numer of DKF messages = 133
+	ITERATION 18
+		local mse = 0.600771
+		global mse = 0.570241
+		numer of DKF messages = 123
+	ITERATION 19
+		local mse = 0.426238
+		global mse = 0.399487
+		numer of DKF messages = 139
+SCENARIO: INNOVATION BOUND = 0.30
+	ITERATION 0
+		local mse = 0.433150
+		global mse = 0.476975
+		numer of DKF messages = 110
+	ITERATION 1
+		local mse = 0.551282
+		global mse = 0.516922
+		numer of DKF messages = 118
+	ITERATION 2
+		local mse = 0.536140
+		global mse = 0.536924
+		numer of DKF messages = 122
+	ITERATION 3
+		local mse = 0.378608
+		global mse = 0.361455
+		numer of DKF messages = 108
+	ITERATION 4
+		local mse = 0.406082
+		global mse = 0.455277
+		numer of DKF messages = 112
+	ITERATION 5
+		local mse = 0.628777
+		global mse = 0.657689
+		numer of DKF messages = 116
+	ITERATION 6
+		local mse = 0.433355
+		global mse = 0.398207
+		numer of DKF messages = 110
+	ITERATION 7
+		local mse = 0.410622
+		global mse = 0.405053
+		numer of DKF messages = 109
+	ITERATION 8
+		local mse = 0.495437
+		global mse = 0.489825
+		numer of DKF messages = 110
+	ITERATION 9
+		local mse = 0.450592
+		global mse = 0.422897
+		numer of DKF messages = 116
+	ITERATION 10
+		local mse = 0.339642
+		global mse = 0.362790
+		numer of DKF messages = 111
+	ITERATION 11
+		local mse = 0.423202
+		global mse = 0.422105
+		numer of DKF messages = 112
+	ITERATION 12
+		local mse = 0.472530
+		global mse = 0.467884
+		numer of DKF messages = 104
+	ITERATION 13
+		local mse = 0.450510
+		global mse = 0.470571
+		numer of DKF messages = 108
+	ITERATION 14
+		local mse = 0.461616
+		global mse = 0.458481
+		numer of DKF messages = 108
+	ITERATION 15
+		local mse = 0.465946
+		global mse = 0.418017
+		numer of DKF messages = 112
+	ITERATION 16
+		local mse = 0.725329
+		global mse = 0.706406
+		numer of DKF messages = 103
+	ITERATION 17
+		local mse = 0.511752
+		global mse = 0.480044
+		numer of DKF messages = 100
+	ITERATION 18
+		local mse = 0.607898
+		global mse = 0.588419
+		numer of DKF messages = 106
+	ITERATION 19
+		local mse = 0.677471
+		global mse = 0.667733
+		numer of DKF messages = 113
+SCENARIO: INNOVATION BOUND = 0.40
+	ITERATION 0
+		local mse = 0.463222
+		global mse = 0.469183
+		numer of DKF messages = 94
+	ITERATION 1
+		local mse = 0.441142
+		global mse = 0.467586
+		numer of DKF messages = 93
+	ITERATION 2
+		local mse = 0.423197
+		global mse = 0.423249
+		numer of DKF messages = 86
+	ITERATION 3
+		local mse = 0.457744
+		global mse = 0.468414
+		numer of DKF messages = 90
+	ITERATION 4
+		local mse = 0.398618
+		global mse = 0.388040
+		numer of DKF messages = 88
+	ITERATION 5
+		local mse = 0.331178
+		global mse = 0.321359
+		numer of DKF messages = 84
+	ITERATION 6
+		local mse = 0.594675
+		global mse = 0.568370
+		numer of DKF messages = 92
+	ITERATION 7
+		local mse = 0.383328
+		global mse = 0.394062
+		numer of DKF messages = 79
+	ITERATION 8
+		local mse = 0.456837
+		global mse = 0.443988
+		numer of DKF messages = 86
+	ITERATION 9
+		local mse = 0.528072
+		global mse = 0.519153
+		numer of DKF messages = 75
+	ITERATION 10
+		local mse = 0.478411
+		global mse = 0.475730
+		numer of DKF messages = 100
+	ITERATION 11
+		local mse = 0.388242
+		global mse = 0.375650
+		numer of DKF messages = 103
+	ITERATION 12
+		local mse = 0.376294
+		global mse = 0.368505
+		numer of DKF messages = 100
+	ITERATION 13
+		local mse = 0.334805
+		global mse = 0.365032
+		numer of DKF messages = 104
+	ITERATION 14
+		local mse = 0.390199
+		global mse = 0.374603
+		numer of DKF messages = 123
+	ITERATION 15
+		local mse = 0.420209
+		global mse = 0.392038
+		numer of DKF messages = 122
+	ITERATION 16
+		local mse = 0.347700
+		global mse = 0.339236
+		numer of DKF messages = 112
+	ITERATION 17
+		local mse = 0.302198
+		global mse = 0.318631
+		numer of DKF messages = 114
+	ITERATION 18
+		local mse = 0.336990
+		global mse = 0.325152
+		numer of DKF messages = 108
+	ITERATION 19
+		local mse = 0.323300
+		global mse = 0.312713
+		numer of DKF messages = 113
+SCENARIO: INNOVATION BOUND = 0.50
+	ITERATION 0
+		local mse = 0.368864
+		global mse = 0.366996
+		numer of DKF messages = 91
+	ITERATION 1
+		local mse = 0.308429
+		global mse = 0.322638
+		numer of DKF messages = 93
+	ITERATION 2
+		local mse = 0.385344
+		global mse = 0.390996
+		numer of DKF messages = 87
+	ITERATION 3
+		local mse = 0.396355
+		global mse = 0.397254
+		numer of DKF messages = 74
+	ITERATION 4
+		local mse = 0.377256
+		global mse = 0.410460
+		numer of DKF messages = 90
+	ITERATION 5
+		local mse = 0.379319
+		global mse = 0.357406
+		numer of DKF messages = 97
+	ITERATION 6
+		local mse = 0.374323
+		global mse = 0.380919
+		numer of DKF messages = 86
+	ITERATION 7
+		local mse = 0.440852
+		global mse = 0.455213
+		numer of DKF messages = 73
+	ITERATION 8
+		local mse = 0.400041
+		global mse = 0.422383
+		numer of DKF messages = 84
+	ITERATION 9
+		local mse = 0.393104
+		global mse = 0.403167
+		numer of DKF messages = 73
+	ITERATION 10
+		local mse = 0.353763
+		global mse = 0.362661
+		numer of DKF messages = 79
+	ITERATION 11
+		local mse = 0.389651
+		global mse = 0.402629
+		numer of DKF messages = 71
+	ITERATION 12
+		local mse = 0.439879
+		global mse = 0.441149
+		numer of DKF messages = 81
+	ITERATION 13
+		local mse = 0.384466
+		global mse = 0.377312
+		numer of DKF messages = 77
+	ITERATION 14
+		local mse = 0.440741
+		global mse = 0.422145
+		numer of DKF messages = 81
+	ITERATION 15
+		local mse = 0.498173
+		global mse = 0.500473
+		numer of DKF messages = 99
+	ITERATION 16
+		local mse = 0.366132
+		global mse = 0.372641
+		numer of DKF messages = 87
+	ITERATION 17
+		local mse = 0.419412
+		global mse = 0.415215
+		numer of DKF messages = 75
+	ITERATION 18
+		local mse = 0.557870
+		global mse = 0.553512
+		numer of DKF messages = 76
+	ITERATION 19
+		local mse = 0.619206
+		global mse = 0.592710
+		numer of DKF messages = 73
+SCENARIO: INNOVATION BOUND = 0.60
+	ITERATION 0
+		local mse = 0.393743
+		global mse = 0.430816
+		numer of DKF messages = 71
+	ITERATION 1
+		local mse = 0.455465
+		global mse = 0.449388
+		numer of DKF messages = 50
+	ITERATION 2
+		local mse = 0.458169
+		global mse = 0.463211
+		numer of DKF messages = 52
+	ITERATION 3
+		local mse = 0.446116
+		global mse = 0.445746
+		numer of DKF messages = 43
+	ITERATION 4
+		local mse = 0.326683
+		global mse = 0.349852
+		numer of DKF messages = 62
+	ITERATION 5
+		local mse = 0.301686
+		global mse = 0.308686
+		numer of DKF messages = 55
+	ITERATION 6
+		local mse = 0.484588
+		global mse = 0.500442
+		numer of DKF messages = 58
+	ITERATION 7
+		local mse = 0.616261
+		global mse = 0.623151
+		numer of DKF messages = 43
+	ITERATION 8
+		local mse = 0.624697
+		global mse = 0.635939
+		numer of DKF messages = 45
+	ITERATION 9
+		local mse = 0.523762
+		global mse = 0.507233
+		numer of DKF messages = 48
+	ITERATION 10
+		local mse = 0.553397
+		global mse = 0.546096
+		numer of DKF messages = 49
+	ITERATION 11
+		local mse = 0.459752
+		global mse = 0.454855
+		numer of DKF messages = 53
+	ITERATION 12
+		local mse = 0.624141
+		global mse = 0.619400
+		numer of DKF messages = 53
+	ITERATION 13
+		local mse = 0.453247
+		global mse = 0.461343
+		numer of DKF messages = 57
+	ITERATION 14
+		local mse = 0.477067
+		global mse = 0.482139
+		numer of DKF messages = 51
+	ITERATION 15
+		local mse = 0.319309
+		global mse = 0.333450
+		numer of DKF messages = 67
+	ITERATION 16
+		local mse = 0.447699
+		global mse = 0.464214
+		numer of DKF messages = 39
+	ITERATION 17
+		local mse = 0.472540
+		global mse = 0.464915
+		numer of DKF messages = 50
+	ITERATION 18
+		local mse = 0.433419
+		global mse = 0.431879
+		numer of DKF messages = 55
+	ITERATION 19
+		local mse = 0.437195
+		global mse = 0.433504
+		numer of DKF messages = 65
+SCENARIO: INNOVATION BOUND = 0.70
+	ITERATION 0
+		local mse = 0.361009
+		global mse = 0.361487
+		numer of DKF messages = 32
+	ITERATION 1
+		local mse = 0.450140
+		global mse = 0.455458
+		numer of DKF messages = 39
+	ITERATION 2
+		local mse = 0.369919
+		global mse = 0.378497
+		numer of DKF messages = 29
+	ITERATION 3
+		local mse = 0.436565
+		global mse = 0.447668
+		numer of DKF messages = 33
+	ITERATION 4
+		local mse = 0.375926
+		global mse = 0.376495
+		numer of DKF messages = 34
+	ITERATION 5
+		local mse = 0.394298
+		global mse = 0.410257
+		numer of DKF messages = 37
+	ITERATION 6
+		local mse = 0.361331
+		global mse = 0.370513
+		numer of DKF messages = 37
+	ITERATION 7
+		local mse = 0.473390
+		global mse = 0.464046
+		numer of DKF messages = 36
+	ITERATION 8
+		local mse = 0.439231
+		global mse = 0.461782
+		numer of DKF messages = 34
+	ITERATION 9
+		local mse = 0.340363
+		global mse = 0.341294
+		numer of DKF messages = 30
+	ITERATION 10
+		local mse = 0.386492
+		global mse = 0.401017
+		numer of DKF messages = 44
+	ITERATION 11
+		local mse = 0.453995
+		global mse = 0.451877
+		numer of DKF messages = 33
+	ITERATION 12
+		local mse = 0.497355
+		global mse = 0.511791
+		numer of DKF messages = 34
+	ITERATION 13
+		local mse = 0.383262
+		global mse = 0.397400
+		numer of DKF messages = 30
+	ITERATION 14
+		local mse = 0.308205
+		global mse = 0.332727
+		numer of DKF messages = 36
+	ITERATION 15
+		local mse = 0.364737
+		global mse = 0.372316
+		numer of DKF messages = 26
+	ITERATION 16
+		local mse = 0.518118
+		global mse = 0.521213
+		numer of DKF messages = 36
+	ITERATION 17
+		local mse = 0.396724
+		global mse = 0.420514
+		numer of DKF messages = 28
+	ITERATION 18
+		local mse = 0.371026
+		global mse = 0.393511
+		numer of DKF messages = 36
+	ITERATION 19
+		local mse = 0.371026
+		global mse = 0.393511
+		numer of DKF messages = 36

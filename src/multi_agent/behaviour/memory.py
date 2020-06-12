@@ -69,6 +69,7 @@ class Memory:
         self.log_memory_global_kf = create_logger(constants.ResultsPath.LOG_MEMORY, "GLOBAL_KF", self.id)
         self.log_all_kf_actions = create_logger(constants.ResultsPath.LOG_MEMORY, "ALL_KF", self.id)
 
+
     def add_create_target_estimator(self, time_from_estimation, agent_id, agent_signature, item):
         """
         :description
@@ -231,6 +232,12 @@ class Memory:
         if predictor is None:
             return []
         return predictor.get_predictions()
+
+    def innovation_smaller_than_bound(self, seeked_target_id):
+        predictor = self.get_target_predictor(seeked_target_id)
+        if predictor is None:
+            return True
+        return predictor.innovation_smaller_than_bound()
 
     def get_DKF_info_string(self, seeked_target_id):
         """

@@ -358,7 +358,7 @@ class AgentCam(AgentInteractingWithRoom):
                 self.table_all_target_number_times_seen.update_lost(target.id)
                 self.send_message_track_loose_target(MessageTypeAgentCameraInteractingWithRoom.LOSING_TARGET, target.id)
 
-            if constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.DKF:
+            if constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.DKF and target.confidence[1] > constants.CONFIDENCE_THRESHOLD:
                 self.send_message_DKF_info(target.id)
 
             elif constants.DATA_TO_SEND == AgentCameraCommunicationBehaviour.NONE:
@@ -678,6 +678,11 @@ class AgentCam(AgentInteractingWithRoom):
             Send a message containing the information needed for the distribution of the Kalman Filter.
         :param (int) target_id  -- id of tracked target for which we're sending the info
         """
+
+        # only transmit information that contains enough information
+        if self.memory.innovation_smaller_than_bound(target_id):
+            print("innovation too low")
+            return
 
         dkf_info_string = self.memory.get_DKF_info_string(target_id)
         # message containing the DKF information to send

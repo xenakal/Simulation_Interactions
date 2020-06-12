@@ -11,10 +11,10 @@ In this file you have the possibility to modify the settings
 
 
 SAVE_DATA = True
-GENERATE_PLOT = True
+GENERATE_PLOT = False
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
-USE_GUI = True
+USE_GUI = False
 USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
 
@@ -37,6 +37,7 @@ DISTRIBUTED_KALMAN = False
 KALMAN_MODEL_MEASUREMENT_DIM = 4
 USE_TIMESTAMP_FOR_ASSIMILATION = False
 KALMAN_VAR_COEFFICIENT = 1
+
 
 """Option for ROOM---------------------------------------------------------------------------------------------------"""
 ROOM_DIMENSION_X = 8  # [m]
@@ -70,8 +71,8 @@ TRESH_TIME_TO_SEND_MEMORY = 100 / SCALE_TIME  #
 TIME_TO_SLOW_DOWN = 0.05 / SCALE_TIME
 
 """Error on mesure---------------------------------------------------------------------------------------------------"""
-STD_MEASURMENT_ERROR_POSITION = 0.2
-STD_MEASURMENT_ERROR_SPEED = 0.3
+STD_MEASURMENT_ERROR_POSITION = .5
+STD_MEASURMENT_ERROR_SPEED = .5
 STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
 
 ERROR_VARIATION_ZOOM = True
@@ -289,7 +290,7 @@ class MapPath:
 
 
 class ResultsPath:
-    folder = "../results"
+    folder = "/results"
     name_simulation = "My_new_map"
 
     @classproperty

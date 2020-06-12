@@ -5,8 +5,10 @@ from src.my_utils.constant_class import ConfidenceFunction
 from src.my_utils.my_math.line import Line
 import matplotlib.pyplot as plt
 
+
 def evaluate_confidence(error, delta_time):
    return evaluate_confidence_choice(error,delta_time,constants.CONFIDENCE_FUNCTION_CHOICE)
+
 
 def evaluate_confidence_choice(error, delta_time,choice):
     """Method to modify the value of the confidence based on severals parameters"""

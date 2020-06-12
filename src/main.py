@@ -1,5 +1,5 @@
 from src.app import *
-from src import constants
+import src.constants
 
 """
 map_to_test_name is a list taking multiple maps's name. 
@@ -9,10 +9,10 @@ set the folder in which those maps are located with constants.MapPath.folder
 by default in maps
 """
 
-map_to_test_name = ["My_new_map"]
+map_to_test_name = ["dkf_test_4_targets"]
 
 """ Used to specify whether we want to use arguments passed from user. """
-use_args = True
+use_args = False
 
 """
 Variable here are use to set the desired parameter during the simulation.
@@ -20,7 +20,7 @@ Variable here are use to set the desired parameter during the simulation.
 
 """Kalman centralised VS Kalman distributed to track the targets"""
 if not use_args:
-    kalman_distributed = [False]
+    kalman_distributed = [True]
 else:
     kalman_distributed = [sys.argv[1] == "T"]
 
@@ -32,7 +32,7 @@ else:
 kalman_type = [4]
 
 """Time at which the simulation should stop, the time to start is eaqual to 0 s"""
-t_stop = [150]
+t_stop = [50]
 """When many cameras are used, it might be a good idea to slowdown the simulation using a scaling factor < 1"""
 t_scale = [1]
 
