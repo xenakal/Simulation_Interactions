@@ -21,7 +21,7 @@ Variable here are use to set the desired parameter during the simulation.
 
 """Kalman centralised VS Kalman distributed to track the targets"""
 if not use_args:
-    kalman_distributed = [True,False,False,False]
+    kalman_distributed = [False,False,False,False]
 else:
     kalman_distributed = [sys.argv[1] == "T"]
 
@@ -33,7 +33,7 @@ else:
 kalman_type = [4,4,4,4]
 
 """Time at which the simulation should stop, the time to start is eaqual to 0 s"""
-t_stop = [10,90,90,90]
+t_stop = [90,90,90,90]
 """When many cameras are used, it might be a good idea to slowdown the simulation using a scaling factor < 1"""
 t_scale = [1,1,1,1]
 
