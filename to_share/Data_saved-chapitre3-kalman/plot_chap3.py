@@ -7,6 +7,8 @@ import numpy as np
 
 constants.ResultsPath.folder = "../../to_share"
 constants.ResultsPath.name_simulation = "chapitre3-kalman"
+constants.ResultsPath.folder = "../../results"
+constants.ResultsPath.name_simulation = "dkf_test_4_targets"
 
 target_ploter = Analyser_Target_TargetEstimator_FormatCSV("",constants.ResultsPath.SAVE_LOAD_DATA_REFERENCE,
                                                                         constants.ResultsPath.SAVE_LAOD_PLOT_FOLDER)

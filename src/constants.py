@@ -11,7 +11,7 @@ In this file you have the possibility to modify the settings
 
 
 SAVE_DATA = True
-GENERATE_PLOT = False
+GENERATE_PLOT = True
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
 

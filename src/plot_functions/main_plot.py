@@ -71,7 +71,7 @@ def plot_res(room, filename):
         message_plot = MessagePlot(agent.id)
         agent_estimator_plot = AgentEstimatorPloter(agent.id)
         "Graph to plot"
-        ###message_plot.plot()
+        message_plot.plot()
         ###agent_estimator_plot.plot()
 
         """Including every target"""
