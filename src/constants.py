@@ -10,11 +10,11 @@ In this file you have the possibility to modify the settings
 """Options-----------------------------------------------------------------------------------------------------------"""
 
 
-SAVE_DATA = True
+SAVE_DATA = False
 GENERATE_PLOT = False
 LOAD_DATA = LoadData.FROM_TXT_FILE
 
-USE_GUI = False
+USE_GUI = True
 USE_static_analysis = False
 USE_dynamic_analysis_simulated_room = False
 
@@ -71,8 +71,8 @@ TIME_BTW_TARGET_ESTIMATOR = TIME_PICTURE
 TIME_TO_SLOW_DOWN = 0.05
 
 """Error on mesure---------------------------------------------------------------------------------------------------"""
-STD_MEASURMENT_ERROR_POSITION = .5
-STD_MEASURMENT_ERROR_SPEED = .5
+STD_MEASURMENT_ERROR_POSITION = .2
+STD_MEASURMENT_ERROR_SPEED = .1
 STD_MEASURMENT_ERROR_ACCCELERATION = 0.00001
 
 ERROR_VARIATION_ZOOM = True
