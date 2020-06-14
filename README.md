@@ -12,7 +12,7 @@ The system develloped is composed of two types of agent : the agent-camera and t
 
 <h2> Quick start guide </h2>
 
-Four scenarios, corresponding to the case study presented in the thesis, are available to be tested. A video showing directly the result of the simulation is also directly available in the video file.
+Four scenarios, corresponding to the case study presented in the thesis, are available to be tested. Four videos showing the simulation of these four scenarios are available in the video file.
 
 
 1. Run the file *main.py* is run and the GUI interface shoud appear on the *"simulation tab"*. 
