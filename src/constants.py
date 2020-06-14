@@ -16,7 +16,7 @@ LOAD_DATA = LoadData.FROM_TXT_FILE
 
 USE_GUI = True
 USE_static_analysis = False
-USE_dynamic_analysis_simulated_room = False
+USE_dynamic_analysis_simulated_room = True
 
 INCLUDE_ERROR = True
 LOG_LEVEL = logging.INFO  #
@@ -47,7 +47,7 @@ ROOM_DIMENSION_Y = 10  # [m]
 """Number of data----------------------------------------------------------------------------------------------------"""
 NUMBER_OF_POINT_SIMULATED_DATA = 10  # per m for a speed of 1 m/s
 NUMBER_OF_POINT_STATIC_ANALYSIS = 15  # number of point per m
-NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 5  # number of point per m
+NUMBER_OF_POINT_DYNAMIC_ANALYSIS = 2  # number of point per m
 
 """Time--------------------------------------------------------------------------------------------------------------"""
 """global parameter for the simulation"""
@@ -64,7 +64,7 @@ MAX_TIME_MESSAGE_IN_LIST = 3   # s
 TRESH_TIME_TO_SEND_MEMORY = 100  #
 """Agent"""
 TIME_BTW_HEARTBEAT = 1
-TIME_MAX_BTW_HEARTBEAT = 3
+TIME_MAX_BTW_HEARTBEAT = 9
 TIME_BTW_AGENT_ESTIMATOR = 0.5
 TIME_BTW_TARGET_ESTIMATOR = TIME_PICTURE
 "Agent-User"
