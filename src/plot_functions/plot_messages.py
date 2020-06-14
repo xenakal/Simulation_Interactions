@@ -136,10 +136,12 @@ def plot_message_pie(ax, sizes, labels, colors):
            autopct='%1.1f%%', shadow=False, startangle=90)
 
 
-def get_num_dkf_messages(agent_id):
+def get_num_dkf_messages_percentage(agent_id):
     data = load_message_file(agent_id)
-    n_mess = number_messages_sent(filter_message_type(data, "info_DKF"))
-    return n_mess
+    n_mess_dkf = number_messages_sent(filter_message_type(data, "info_DKF"))
+    n_mess_tot = number_messages_sent(data)
+    print("total = ", n_mess_tot, " dkf = ", n_mess_dkf, " ratio = ", n_mess_dkf/n_mess_tot)
+    return float(n_mess_dkf)/float(n_mess_tot)
 
 
 class MessagePlot:

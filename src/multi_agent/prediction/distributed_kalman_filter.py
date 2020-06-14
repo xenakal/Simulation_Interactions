@@ -48,7 +48,6 @@ class DistributedKalmanFilter(KalmanFilter):
 
         self.id = random.randint(0, 20)
 
-
         # creation of log file
         self.logger_kalman = logger
         self.logger_kalman.info("new distributed kalman at time %.02f s" % src.constants.get_time())
@@ -56,6 +55,7 @@ class DistributedKalmanFilter(KalmanFilter):
         f = open("../validation_bounds", "r+")
         [self.NODAL_VALIDATION_BOUND, self.INTERNODAL_VALIDATION_BOUND] = [float(_) for _ in f.read().split(" ")]
         f.close()
+        print(self.NODAL_VALIDATION_BOUND)
         f = open("../innovation_bound", "r+")
         [self.INNOVATION_BOUND] = [float(_) for _ in f.read().split(" ")]
         f.close()
@@ -86,8 +86,9 @@ class DistributedKalmanFilter(KalmanFilter):
         v = z - dot(self.H, self.x_prior)
         S = self.R + dot(self.H, dot(self.P_prior, self.H.T))
         validation_region = dot(v.T, dot(self.inv(S), v))
+        # print("nodal validation region = ", validation_region)
         if validation_region >= self.NODAL_VALIDATION_BOUND:
-            # print("rejected nodal validation region:", validation_region)
+            print("rejected nodal validation region:", validation_region)
             return True
 
         # set to None to force recompute

@@ -1,0 +1,1040 @@
+--------------------------------------------------------------
+----  MSE & #messages function of INNOVATION LOWER BOUND  ----
+--------------------------------------------------------------
+SCENARIO: INNOVATION BOUND = 0.00
+	ITERATION 0
+		local mse = 0.295629
+		global mse = 0.289403
+		percentage of dkf messages = 0.63
+	ITERATION 1
+		local mse = 0.342770
+		global mse = 0.293467
+		percentage of dkf messages = 0.61
+	ITERATION 2
+		local mse = 0.257505
+		global mse = 0.229050
+		percentage of dkf messages = 0.62
+	ITERATION 3
+		local mse = 0.383327
+		global mse = 0.362483
+		percentage of dkf messages = 0.61
+	ITERATION 4
+		local mse = 0.283995
+		global mse = 0.273712
+		percentage of dkf messages = 0.61
+	ITERATION 5
+		local mse = 0.297447
+		global mse = 0.289919
+		percentage of dkf messages = 0.62
+	ITERATION 6
+		local mse = 0.279196
+		global mse = 0.264654
+		percentage of dkf messages = 0.61
+	ITERATION 7
+		local mse = 0.309603
+		global mse = 0.288036
+		percentage of dkf messages = 0.61
+	ITERATION 8
+		local mse = 0.279160
+		global mse = 0.291120
+		percentage of dkf messages = 0.63
+	ITERATION 9
+		local mse = 0.369170
+		global mse = 0.327419
+		percentage of dkf messages = 0.62
+	ITERATION 10
+		local mse = 0.270280
+		global mse = 0.257542
+		percentage of dkf messages = 0.62
+	ITERATION 11
+		local mse = 0.321354
+		global mse = 0.290023
+		percentage of dkf messages = 0.63
+	ITERATION 12
+		local mse = 0.288374
+		global mse = 0.246884
+		percentage of dkf messages = 0.64
+	ITERATION 13
+		local mse = 0.404938
+		global mse = 0.395023
+		percentage of dkf messages = 0.65
+	ITERATION 14
+		local mse = 0.311475
+		global mse = 0.316298
+		percentage of dkf messages = 0.67
+SCENARIO: INNOVATION BOUND = 0.05
+	ITERATION 0
+		local mse = 0.351006
+		global mse = 0.318882
+		percentage of dkf messages = 0.59
+	ITERATION 1
+		local mse = 0.366697
+		global mse = 0.327785
+		percentage of dkf messages = 0.62
+	ITERATION 2
+		local mse = 0.297031
+		global mse = 0.295536
+		percentage of dkf messages = 0.62
+	ITERATION 3
+		local mse = 0.318770
+		global mse = 0.279842
+		percentage of dkf messages = 0.61
+	ITERATION 4
+		local mse = 0.264264
+		global mse = 0.249028
+		percentage of dkf messages = 0.61
+	ITERATION 5
+		local mse = 0.315182
+		global mse = 0.296350
+		percentage of dkf messages = 0.60
+	ITERATION 6
+		local mse = 0.236930
+		global mse = 0.231726
+		percentage of dkf messages = 0.57
+	ITERATION 7
+		local mse = 0.324372
+		global mse = 0.275942
+		percentage of dkf messages = 0.57
+	ITERATION 8
+		local mse = 0.335646
+		global mse = 0.292968
+		percentage of dkf messages = 0.60
+	ITERATION 9
+		local mse = 0.340895
+		global mse = 0.342782
+		percentage of dkf messages = 0.61
+	ITERATION 10
+		local mse = 0.319326
+		global mse = 0.277352
+		percentage of dkf messages = 0.58
+	ITERATION 11
+		local mse = 0.420120
+		global mse = 0.376413
+		percentage of dkf messages = 0.58
+	ITERATION 12
+		local mse = 0.284129
+		global mse = 0.268262
+		percentage of dkf messages = 0.60
+	ITERATION 13
+		local mse = 0.218679
+		global mse = 0.203896
+		percentage of dkf messages = 0.61
+	ITERATION 14
+		local mse = 0.350582
+		global mse = 0.318228
+		percentage of dkf messages = 0.59
+SCENARIO: INNOVATION BOUND = 0.10
+	ITERATION 0
+		local mse = 0.262150
+		global mse = 0.258071
+		percentage of dkf messages = 0.57
+	ITERATION 1
+		local mse = 0.221593
+		global mse = 0.213004
+		percentage of dkf messages = 0.51
+	ITERATION 2
+		local mse = 0.222493
+		global mse = 0.222740
+		percentage of dkf messages = 0.55
+	ITERATION 3
+		local mse = 0.250766
+		global mse = 0.230060
+		percentage of dkf messages = 0.61
+	ITERATION 4
+		local mse = 0.314644
+		global mse = 0.293403
+		percentage of dkf messages = 0.55
+	ITERATION 5
+		local mse = 0.386362
+		global mse = 0.367485
+		percentage of dkf messages = 0.54
+	ITERATION 6
+		local mse = 0.281801
+		global mse = 0.277156
+		percentage of dkf messages = 0.58
+	ITERATION 7
+		local mse = 0.269530
+		global mse = 0.241878
+		percentage of dkf messages = 0.55
+	ITERATION 8
+		local mse = 0.338761
+		global mse = 0.321516
+		percentage of dkf messages = 0.56
+	ITERATION 9
+		local mse = 0.285732
+		global mse = 0.287288
+		percentage of dkf messages = 0.56
+	ITERATION 10
+		local mse = 0.353828
+		global mse = 0.330744
+		percentage of dkf messages = 0.59
+	ITERATION 11
+		local mse = 0.370751
+		global mse = 0.346868
+		percentage of dkf messages = 0.58
+	ITERATION 12
+		local mse = 0.313152
+		global mse = 0.306384
+		percentage of dkf messages = 0.57
+	ITERATION 13
+		local mse = 0.301558
+		global mse = 0.300891
+		percentage of dkf messages = 0.60
+	ITERATION 14
+		local mse = 0.262623
+		global mse = 0.260447
+		percentage of dkf messages = 0.59
+SCENARIO: INNOVATION BOUND = 0.15
+	ITERATION 0
+		local mse = 0.376692
+		global mse = 0.352989
+		percentage of dkf messages = 0.50
+	ITERATION 1
+		local mse = 0.465315
+		global mse = 0.426312
+		percentage of dkf messages = 0.56
+	ITERATION 2
+		local mse = 0.344709
+		global mse = 0.291255
+		percentage of dkf messages = 0.54
+	ITERATION 3
+		local mse = 0.306226
+		global mse = 0.286424
+		percentage of dkf messages = 0.51
+	ITERATION 4
+		local mse = 0.265067
+		global mse = 0.261605
+		percentage of dkf messages = 0.47
+	ITERATION 5
+		local mse = 0.374960
+		global mse = 0.359156
+		percentage of dkf messages = 0.57
+	ITERATION 6
+		local mse = 0.350939
+		global mse = 0.338637
+		percentage of dkf messages = 0.54
+	ITERATION 7
+		local mse = 0.448612
+		global mse = 0.409279
+		percentage of dkf messages = 0.52
+	ITERATION 8
+		local mse = 0.350116
+		global mse = 0.341521
+		percentage of dkf messages = 0.53
+	ITERATION 9
+		local mse = 0.318714
+		global mse = 0.299151
+		percentage of dkf messages = 0.54
+	ITERATION 10
+		local mse = 0.319016
+		global mse = 0.305168
+		percentage of dkf messages = 0.55
+	ITERATION 11
+		local mse = 0.367189
+		global mse = 0.352642
+		percentage of dkf messages = 0.51
+	ITERATION 12
+		local mse = 0.330535
+		global mse = 0.320346
+		percentage of dkf messages = 0.52
+	ITERATION 13
+		local mse = 0.283821
+		global mse = 0.276578
+		percentage of dkf messages = 0.51
+	ITERATION 14
+		local mse = 0.405865
+		global mse = 0.392080
+		percentage of dkf messages = 0.53
+SCENARIO: INNOVATION BOUND = 0.20
+	ITERATION 0
+		local mse = 0.294671
+		global mse = 0.277275
+		percentage of dkf messages = 0.51
+	ITERATION 1
+		local mse = 0.336887
+		global mse = 0.335223
+		percentage of dkf messages = 0.47
+	ITERATION 2
+		local mse = 0.364984
+		global mse = 0.309488
+		percentage of dkf messages = 0.49
+	ITERATION 3
+		local mse = 0.315672
+		global mse = 0.312298
+		percentage of dkf messages = 0.50
+	ITERATION 4
+		local mse = 0.380959
+		global mse = 0.382856
+		percentage of dkf messages = 0.46
+	ITERATION 5
+		local mse = 0.305149
+		global mse = 0.294709
+		percentage of dkf messages = 0.48
+	ITERATION 6
+		local mse = 0.277122
+		global mse = 0.265648
+		percentage of dkf messages = 0.47
+	ITERATION 7
+		local mse = 0.269292
+		global mse = 0.253699
+		percentage of dkf messages = 0.51
+	ITERATION 8
+		local mse = 0.250144
+		global mse = 0.243460
+		percentage of dkf messages = 0.48
+	ITERATION 9
+		local mse = 0.359201
+		global mse = 0.337377
+		percentage of dkf messages = 0.49
+	ITERATION 10
+		local mse = 0.305071
+		global mse = 0.302995
+		percentage of dkf messages = 0.51
+	ITERATION 11
+		local mse = 0.404818
+		global mse = 0.385437
+		percentage of dkf messages = 0.58
+	ITERATION 12
+		local mse = 0.313262
+		global mse = 0.314410
+		percentage of dkf messages = 0.54
+	ITERATION 13
+		local mse = 0.386587
+		global mse = 0.391598
+		percentage of dkf messages = 0.49
+	ITERATION 14
+		local mse = 0.447777
+		global mse = 0.426504
+		percentage of dkf messages = 0.51
+SCENARIO: INNOVATION BOUND = 0.25
+	ITERATION 0
+		local mse = 0.345507
+		global mse = 0.340513
+		percentage of dkf messages = 0.44
+	ITERATION 1
+		local mse = 0.394136
+		global mse = 0.379484
+		percentage of dkf messages = 0.43
+	ITERATION 2
+		local mse = 0.403165
+		global mse = 0.391623
+		percentage of dkf messages = 0.47
+	ITERATION 3
+		local mse = 0.369230
+		global mse = 0.362530
+		percentage of dkf messages = 0.48
+	ITERATION 4
+		local mse = 0.359864
+		global mse = 0.371249
+		percentage of dkf messages = 0.45
+	ITERATION 5
+		local mse = 0.284574
+		global mse = 0.258273
+		percentage of dkf messages = 0.44
+	ITERATION 6
+		local mse = 0.338009
+		global mse = 0.338193
+		percentage of dkf messages = 0.47
+	ITERATION 7
+		local mse = 0.341054
+		global mse = 0.348974
+		percentage of dkf messages = 0.46
+	ITERATION 8
+		local mse = 0.286270
+		global mse = 0.292402
+		percentage of dkf messages = 0.45
+	ITERATION 9
+		local mse = 0.374759
+		global mse = 0.381592
+		percentage of dkf messages = 0.47
+	ITERATION 10
+		local mse = 0.491520
+		global mse = 0.477902
+		percentage of dkf messages = 0.45
+	ITERATION 11
+		local mse = 0.435976
+		global mse = 0.404672
+		percentage of dkf messages = 0.48
+	ITERATION 12
+		local mse = 0.342494
+		global mse = 0.368606
+		percentage of dkf messages = 0.47
+	ITERATION 13
+		local mse = 0.398282
+		global mse = 0.379607
+		percentage of dkf messages = 0.48
+	ITERATION 14
+		local mse = 0.296402
+		global mse = 0.296059
+		percentage of dkf messages = 0.40
+SCENARIO: INNOVATION BOUND = 0.30
+	ITERATION 0
+		local mse = 0.336617
+		global mse = 0.345328
+		percentage of dkf messages = 0.43
+	ITERATION 1
+		local mse = 0.317591
+		global mse = 0.305632
+		percentage of dkf messages = 0.39
+	ITERATION 2
+		local mse = 0.337673
+		global mse = 0.343626
+		percentage of dkf messages = 0.39
+	ITERATION 3
+		local mse = 0.337451
+		global mse = 0.335231
+		percentage of dkf messages = 0.41
+	ITERATION 4
+		local mse = 0.356061
+		global mse = 0.348702
+		percentage of dkf messages = 0.38
+	ITERATION 5
+		local mse = 0.273382
+		global mse = 0.272803
+		percentage of dkf messages = 0.37
+	ITERATION 6
+		local mse = 0.420342
+		global mse = 0.404520
+		percentage of dkf messages = 0.39
+	ITERATION 7
+		local mse = 0.334907
+		global mse = 0.352730
+		percentage of dkf messages = 0.38
+	ITERATION 8
+		local mse = 0.323174
+		global mse = 0.312432
+		percentage of dkf messages = 0.40
+	ITERATION 9
+		local mse = 0.314122
+		global mse = 0.288588
+		percentage of dkf messages = 0.41
+	ITERATION 10
+		local mse = 0.357296
+		global mse = 0.358425
+		percentage of dkf messages = 0.40
+	ITERATION 11
+		local mse = 0.380102
+		global mse = 0.371059
+		percentage of dkf messages = 0.43
+	ITERATION 12
+		local mse = 0.361411
+		global mse = 0.347247
+		percentage of dkf messages = 0.38
+	ITERATION 13
+		local mse = 0.358414
+		global mse = 0.330978
+		percentage of dkf messages = 0.37
+	ITERATION 14
+		local mse = 0.449294
+		global mse = 0.417543
+		percentage of dkf messages = 0.45
+SCENARIO: INNOVATION BOUND = 0.35
+	ITERATION 0
+		local mse = 0.329538
+		global mse = 0.337606
+		percentage of dkf messages = 0.33
+	ITERATION 1
+		local mse = 0.329003
+		global mse = 0.325805
+		percentage of dkf messages = 0.34
+	ITERATION 2
+		local mse = 0.394528
+		global mse = 0.380494
+		percentage of dkf messages = 0.30
+	ITERATION 3
+		local mse = 0.442651
+		global mse = 0.434049
+		percentage of dkf messages = 0.37
+	ITERATION 4
+		local mse = 0.322980
+		global mse = 0.333197
+		percentage of dkf messages = 0.32
+	ITERATION 5
+		local mse = 0.321826
+		global mse = 0.316640
+		percentage of dkf messages = 0.34
+	ITERATION 6
+		local mse = 0.356497
+		global mse = 0.331720
+		percentage of dkf messages = 0.35
+	ITERATION 7
+		local mse = 0.394947
+		global mse = 0.405331
+		percentage of dkf messages = 0.37
+	ITERATION 8
+		local mse = 0.365384
+		global mse = 0.361952
+		percentage of dkf messages = 0.35
+	ITERATION 9
+		local mse = 0.382518
+		global mse = 0.360620
+		percentage of dkf messages = 0.30
+	ITERATION 10
+		local mse = 0.285403
+		global mse = 0.297306
+		percentage of dkf messages = 0.41
+	ITERATION 11
+		local mse = 0.406913
+		global mse = 0.410302
+		percentage of dkf messages = 0.37
+	ITERATION 12
+		local mse = 0.382053
+		global mse = 0.353149
+		percentage of dkf messages = 0.29
+	ITERATION 13
+		local mse = 0.419541
+		global mse = 0.436957
+		percentage of dkf messages = 0.35
+	ITERATION 14
+		local mse = 0.366024
+		global mse = 0.338140
+		percentage of dkf messages = 0.38
+SCENARIO: INNOVATION BOUND = 0.40
+	ITERATION 0
+		local mse = 0.352544
+		global mse = 0.363519
+		percentage of dkf messages = 0.34
+	ITERATION 1
+		local mse = 0.421252
+		global mse = 0.389418
+		percentage of dkf messages = 0.29
+	ITERATION 2
+		local mse = 0.305868
+		global mse = 0.312645
+		percentage of dkf messages = 0.24
+	ITERATION 3
+		local mse = 0.293572
+		global mse = 0.279017
+		percentage of dkf messages = 0.30
+	ITERATION 4
+		local mse = 0.360387
+		global mse = 0.360153
+		percentage of dkf messages = 0.30
+	ITERATION 5
+		local mse = 0.398937
+		global mse = 0.354076
+		percentage of dkf messages = 0.33
+	ITERATION 6
+		local mse = 0.311908
+		global mse = 0.308421
+		percentage of dkf messages = 0.35
+	ITERATION 7
+		local mse = 0.430849
+		global mse = 0.431434
+		percentage of dkf messages = 0.31
+	ITERATION 8
+		local mse = 0.318321
+		global mse = 0.320985
+		percentage of dkf messages = 0.40
+	ITERATION 9
+		local mse = 0.413939
+		global mse = 0.396432
+		percentage of dkf messages = 0.30
+	ITERATION 10
+		local mse = 0.368602
+		global mse = 0.370772
+		percentage of dkf messages = 0.27
+	ITERATION 11
+		local mse = 0.405177
+		global mse = 0.374629
+		percentage of dkf messages = 0.32
+	ITERATION 12
+		local mse = 0.407349
+		global mse = 0.414537
+		percentage of dkf messages = 0.33
+	ITERATION 13
+		local mse = 0.278318
+		global mse = 0.287240
+		percentage of dkf messages = 0.35
+	ITERATION 14
+		local mse = 0.419289
+		global mse = 0.427945
+		percentage of dkf messages = 0.23
+SCENARIO: INNOVATION BOUND = 0.45
+	ITERATION 0
+		local mse = 0.389278
+		global mse = 0.379143
+		percentage of dkf messages = 0.23
+	ITERATION 1
+		local mse = 0.386713
+		global mse = 0.384517
+		percentage of dkf messages = 0.29
+	ITERATION 2
+		local mse = 0.301783
+		global mse = 0.288734
+		percentage of dkf messages = 0.25
+	ITERATION 3
+		local mse = 0.348691
+		global mse = 0.355420
+		percentage of dkf messages = 0.31
+	ITERATION 4
+		local mse = 0.339770
+		global mse = 0.341781
+		percentage of dkf messages = 0.30
+	ITERATION 5
+		local mse = 0.431373
+		global mse = 0.424685
+		percentage of dkf messages = 0.27
+	ITERATION 6
+		local mse = 0.263018
+		global mse = 0.277178
+		percentage of dkf messages = 0.26
+	ITERATION 7
+		local mse = 0.390080
+		global mse = 0.396820
+		percentage of dkf messages = 0.25
+	ITERATION 8
+		local mse = 0.251981
+		global mse = 0.258807
+		percentage of dkf messages = 0.28
+	ITERATION 9
+		local mse = 0.325771
+		global mse = 0.338090
+		percentage of dkf messages = 0.27
+	ITERATION 10
+		local mse = 0.311755
+		global mse = 0.322233
+		percentage of dkf messages = 0.29
+	ITERATION 11
+		local mse = 0.374966
+		global mse = 0.380271
+		percentage of dkf messages = 0.19
+	ITERATION 12
+		local mse = 0.231100
+		global mse = 0.234754
+		percentage of dkf messages = 0.21
+	ITERATION 13
+		local mse = 0.281094
+		global mse = 0.310254
+		percentage of dkf messages = 0.31
+	ITERATION 14
+		local mse = 0.426768
+		global mse = 0.421462
+		percentage of dkf messages = 0.30
+SCENARIO: INNOVATION BOUND = 0.50
+	ITERATION 0
+		local mse = 0.351095
+		global mse = 0.322029
+		percentage of dkf messages = 0.20
+	ITERATION 1
+		local mse = 0.307574
+		global mse = 0.321147
+		percentage of dkf messages = 0.23
+	ITERATION 2
+		local mse = 0.426445
+		global mse = 0.432577
+		percentage of dkf messages = 0.29
+	ITERATION 3
+		local mse = 0.355643
+		global mse = 0.354779
+		percentage of dkf messages = 0.23
+	ITERATION 4
+		local mse = 0.377210
+		global mse = 0.376740
+		percentage of dkf messages = 0.20
+	ITERATION 5
+		local mse = 0.375329
+		global mse = 0.363974
+		percentage of dkf messages = 0.25
+	ITERATION 6
+		local mse = 0.270600
+		global mse = 0.266563
+		percentage of dkf messages = 0.24
+	ITERATION 7
+		local mse = 0.278499
+		global mse = 0.288691
+		percentage of dkf messages = 0.23
+	ITERATION 8
+		local mse = 0.282385
+		global mse = 0.294026
+		percentage of dkf messages = 0.24
+	ITERATION 9
+		local mse = 0.339054
+		global mse = 0.367876
+		percentage of dkf messages = 0.27
+	ITERATION 10
+		local mse = 0.496571
+		global mse = 0.489707
+		percentage of dkf messages = 0.22
+	ITERATION 11
+		local mse = 0.478989
+		global mse = 0.494756
+		percentage of dkf messages = 0.28
+	ITERATION 12
+		local mse = 0.304454
+		global mse = 0.315601
+		percentage of dkf messages = 0.22
+	ITERATION 13
+		local mse = 0.433297
+		global mse = 0.427595
+		percentage of dkf messages = 0.32
+	ITERATION 14
+		local mse = 0.377643
+		global mse = 0.392607
+		percentage of dkf messages = 0.23
+SCENARIO: INNOVATION BOUND = 0.55
+	ITERATION 0
+		local mse = 0.321359
+		global mse = 0.312883
+		percentage of dkf messages = 0.24
+	ITERATION 1
+		local mse = 0.479969
+		global mse = 0.471332
+		percentage of dkf messages = 0.24
+	ITERATION 2
+		local mse = 0.370141
+		global mse = 0.373527
+		percentage of dkf messages = 0.22
+	ITERATION 3
+		local mse = 0.303414
+		global mse = 0.308214
+		percentage of dkf messages = 0.16
+	ITERATION 4
+		local mse = 0.419524
+		global mse = 0.402937
+		percentage of dkf messages = 0.21
+	ITERATION 5
+		local mse = 0.299727
+		global mse = 0.304926
+		percentage of dkf messages = 0.10
+	ITERATION 6
+		local mse = 0.363030
+		global mse = 0.358637
+		percentage of dkf messages = 0.22
+	ITERATION 7
+		local mse = 0.368625
+		global mse = 0.374618
+		percentage of dkf messages = 0.21
+	ITERATION 8
+		local mse = 0.303801
+		global mse = 0.296175
+		percentage of dkf messages = 0.19
+	ITERATION 9
+		local mse = 0.307788
+		global mse = 0.321246
+		percentage of dkf messages = 0.18
+	ITERATION 10
+		local mse = 0.401167
+		global mse = 0.411395
+		percentage of dkf messages = 0.24
+	ITERATION 11
+		local mse = 0.305555
+		global mse = 0.310124
+		percentage of dkf messages = 0.17
+	ITERATION 12
+		local mse = 0.332356
+		global mse = 0.327363
+		percentage of dkf messages = 0.18
+	ITERATION 13
+		local mse = 0.357399
+		global mse = 0.354487
+		percentage of dkf messages = 0.14
+	ITERATION 14
+		local mse = 0.381614
+		global mse = 0.388105
+		percentage of dkf messages = 0.26
+SCENARIO: INNOVATION BOUND = 0.60
+	ITERATION 0
+		local mse = 0.354594
+		global mse = 0.356122
+		percentage of dkf messages = 0.14
+	ITERATION 1
+		local mse = 0.336978
+		global mse = 0.339920
+		percentage of dkf messages = 0.09
+	ITERATION 2
+		local mse = 0.401829
+		global mse = 0.403777
+		percentage of dkf messages = 0.12
+	ITERATION 3
+		local mse = 0.347149
+		global mse = 0.348832
+		percentage of dkf messages = 0.11
+	ITERATION 4
+		local mse = 0.398941
+		global mse = 0.408944
+		percentage of dkf messages = 0.14
+	ITERATION 5
+		local mse = 0.307171
+		global mse = 0.331344
+		percentage of dkf messages = 0.13
+	ITERATION 6
+		local mse = 0.413866
+		global mse = 0.383864
+		percentage of dkf messages = 0.12
+	ITERATION 7
+		local mse = 0.373927
+		global mse = 0.368362
+		percentage of dkf messages = 0.15
+	ITERATION 8
+		local mse = 0.284557
+		global mse = 0.286647
+		percentage of dkf messages = 0.14
+	ITERATION 9
+		local mse = 0.523740
+		global mse = 0.529631
+		percentage of dkf messages = 0.22
+	ITERATION 10
+		local mse = 0.470612
+		global mse = 0.473019
+		percentage of dkf messages = 0.12
+	ITERATION 11
+		local mse = 0.374482
+		global mse = 0.386194
+		percentage of dkf messages = 0.19
+	ITERATION 12
+		local mse = 0.388403
+		global mse = 0.390519
+		percentage of dkf messages = 0.15
+	ITERATION 13
+		local mse = 0.360142
+		global mse = 0.365739
+		percentage of dkf messages = 0.13
+	ITERATION 14
+		local mse = 0.318314
+		global mse = 0.322685
+		percentage of dkf messages = 0.14
+SCENARIO: INNOVATION BOUND = 0.65
+	ITERATION 0
+		local mse = 0.295949
+		global mse = 0.303232
+		percentage of dkf messages = 0.15
+	ITERATION 1
+		local mse = 0.318471
+		global mse = 0.320602
+		percentage of dkf messages = 0.11
+	ITERATION 2
+		local mse = 0.297327
+		global mse = 0.313542
+		percentage of dkf messages = 0.14
+	ITERATION 3
+		local mse = 0.333832
+		global mse = 0.335907
+		percentage of dkf messages = 0.09
+	ITERATION 4
+		local mse = 0.450401
+		global mse = 0.438622
+		percentage of dkf messages = 0.11
+	ITERATION 5
+		local mse = 0.314009
+		global mse = 0.317688
+		percentage of dkf messages = 0.14
+	ITERATION 6
+		local mse = 0.365941
+		global mse = 0.374992
+		percentage of dkf messages = 0.06
+	ITERATION 7
+		local mse = 0.351088
+		global mse = 0.354658
+		percentage of dkf messages = 0.10
+	ITERATION 8
+		local mse = 0.335289
+		global mse = 0.336117
+		percentage of dkf messages = 0.11
+	ITERATION 9
+		local mse = 0.315961
+		global mse = 0.312012
+		percentage of dkf messages = 0.10
+	ITERATION 10
+		local mse = 0.370258
+		global mse = 0.365508
+		percentage of dkf messages = 0.08
+	ITERATION 11
+		local mse = 0.374945
+		global mse = 0.381256
+		percentage of dkf messages = 0.11
+	ITERATION 12
+		local mse = 0.353410
+		global mse = 0.359337
+		percentage of dkf messages = 0.06
+	ITERATION 13
+		local mse = 0.303368
+		global mse = 0.312040
+		percentage of dkf messages = 0.06
+	ITERATION 14
+		local mse = 0.339169
+		global mse = 0.346109
+		percentage of dkf messages = 0.10
+SCENARIO: INNOVATION BOUND = 0.70
+	ITERATION 0
+		local mse = 0.272956
+		global mse = 0.272424
+		percentage of dkf messages = 0.07
+	ITERATION 1
+		local mse = 0.413241
+		global mse = 0.420027
+		percentage of dkf messages = 0.11
+	ITERATION 2
+		local mse = 0.377987
+		global mse = 0.382555
+		percentage of dkf messages = 0.07
+	ITERATION 3
+		local mse = 0.329813
+		global mse = 0.333096
+		percentage of dkf messages = 0.12
+	ITERATION 4
+		local mse = 0.466267
+		global mse = 0.465987
+		percentage of dkf messages = 0.10
+	ITERATION 5
+		local mse = 0.345842
+		global mse = 0.348863
+		percentage of dkf messages = 0.07
+	ITERATION 6
+		local mse = 0.360281
+		global mse = 0.361888
+		percentage of dkf messages = 0.10
+	ITERATION 7
+		local mse = 0.347185
+		global mse = 0.353125
+		percentage of dkf messages = 0.11
+	ITERATION 8
+		local mse = 0.401921
+		global mse = 0.395846
+		percentage of dkf messages = 0.12
+	ITERATION 9
+		local mse = 0.366757
+		global mse = 0.367523
+		percentage of dkf messages = 0.07
+	ITERATION 10
+		local mse = 0.302432
+		global mse = 0.308016
+		percentage of dkf messages = 0.05
+	ITERATION 11
+		local mse = 0.394610
+		global mse = 0.393678
+		percentage of dkf messages = 0.09
+	ITERATION 12
+		local mse = 0.351405
+		global mse = 0.339109
+		percentage of dkf messages = 0.13
+	ITERATION 13
+		local mse = 0.324328
+		global mse = 0.328843
+		percentage of dkf messages = 0.07
+	ITERATION 14
+		local mse = 0.277562
+		global mse = 0.282560
+		percentage of dkf messages = 0.06
+SCENARIO: INNOVATION BOUND = 0.75
+	ITERATION 0
+		local mse = 0.361996
+		global mse = 0.367193
+		percentage of dkf messages = 0.09
+	ITERATION 1
+		local mse = 0.239844
+		global mse = 0.242703
+		percentage of dkf messages = 0.04
+	ITERATION 2
+		local mse = 0.368996
+		global mse = 0.372677
+		percentage of dkf messages = 0.05
+	ITERATION 3
+		local mse = 0.455645
+		global mse = 0.457926
+		percentage of dkf messages = 0.05
+	ITERATION 4
+		local mse = 0.284565
+		global mse = 0.284683
+		percentage of dkf messages = 0.05
+	ITERATION 5
+		local mse = 0.394237
+		global mse = 0.386192
+		percentage of dkf messages = 0.06
+	ITERATION 6
+		local mse = 0.390784
+		global mse = 0.371161
+		percentage of dkf messages = 0.02
+	ITERATION 7
+		local mse = 0.342610
+		global mse = 0.346197
+		percentage of dkf messages = 0.14
+	ITERATION 8
+		local mse = 0.372286
+		global mse = 0.371635
+		percentage of dkf messages = 0.08
+	ITERATION 9
+		local mse = 0.390337
+		global mse = 0.394532
+		percentage of dkf messages = 0.09
+	ITERATION 10
+		local mse = 0.381594
+		global mse = 0.393127
+		percentage of dkf messages = 0.10
+	ITERATION 11
+		local mse = 0.310109
+		global mse = 0.312851
+		percentage of dkf messages = 0.04
+	ITERATION 12
+		local mse = 0.307233
+		global mse = 0.313785
+		percentage of dkf messages = 0.05
+	ITERATION 13
+		local mse = 0.353611
+		global mse = 0.361329
+		percentage of dkf messages = 0.06
+	ITERATION 14
+		local mse = 0.442528
+		global mse = 0.447506
+		percentage of dkf messages = 0.05
+SCENARIO: INNOVATION BOUND = 0.80
+	ITERATION 0
+		local mse = 0.274686
+		global mse = 0.282406
+		percentage of dkf messages = 0.03
+	ITERATION 1
+		local mse = 0.369936
+		global mse = 0.362230
+		percentage of dkf messages = 0.04
+	ITERATION 2
+		local mse = 0.412154
+		global mse = 0.421395
+		percentage of dkf messages = 0.11
+	ITERATION 3
+		local mse = 0.347563
+		global mse = 0.345016
+		percentage of dkf messages = 0.07
+	ITERATION 4
+		local mse = 0.291770
+		global mse = 0.295109
+		percentage of dkf messages = 0.03
+	ITERATION 5
+		local mse = 0.325218
+		global mse = 0.323710
+		percentage of dkf messages = 0.03
+	ITERATION 6
+		local mse = 0.450437
+		global mse = 0.448353
+		percentage of dkf messages = 0.01
+	ITERATION 7
+		local mse = 0.366323
+		global mse = 0.371252
+		percentage of dkf messages = 0.06
+	ITERATION 8
+		local mse = 0.362345
+		global mse = 0.359380
+		percentage of dkf messages = 0.06
+	ITERATION 9
+		local mse = 0.333558
+		global mse = 0.328381
+		percentage of dkf messages = 0.04
+	ITERATION 10
+		local mse = 0.345912
+		global mse = 0.347509
+		percentage of dkf messages = 0.03
+	ITERATION 11
+		local mse = 0.371136
+		global mse = 0.377988
+		percentage of dkf messages = 0.09
+	ITERATION 12
+		local mse = 0.462378
+		global mse = 0.470227
+		percentage of dkf messages = 0.07
+	ITERATION 13
+		local mse = 0.268491
+		global mse = 0.268740
+		percentage of dkf messages = 0.02
+	ITERATION 14
+		local mse = 0.326082
+		global mse = 0.340526
+		percentage of dkf messages = 0.05

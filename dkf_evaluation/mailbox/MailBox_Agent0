@@ -1,0 +1,19 @@
+From MAILER-DAEMON Sat Jun 13 17:21:55 2020
+MESSAGE_Timestamp: 3.132683277130127 MESSAGE_message#:5583505113303617
+MESSAGE_From: 1 MESSAGE_sender#6961858276150712
+MESSAGE_Receiver list : 
+MESSAGE_To: 0 MESSAGE_receiver#3915514708542657
+MESSAGE_To: 2 MESSAGE_receiver#4804897830807543
+MESSAGE_To: 3 MESSAGE_receiver#2393045403617893
+MESSAGE_Type: agentEstimation MESSAGE_item: 1 MESSAGE_Message: #ITEM_Timestamp:0.044101715087890625#ITEM_Time_to_compare:0#ITEM_Owner_id:1#ITEM_Owner_signature:6961858276150712#ITEM_Item_type:agent_representation_estimation#ITEM_Item:ITEM_START-tag#69618tag#69618item_type:<class'src.multi_agent.agent.agent_interacting_room_camera_representation.AgentCamRepresentation'>tag#69618id:1tag#69618signature:6961858276150712tag#69618type:0tag#69618is_active:Truetag#69618color:(125,205,85)tag#69618confidence:-1tag#69618camera_representation:ITEM_START-tag#32230tag#32230item_type:<class'src.multi_agent.elements.mobile_camera.MobileCameraRepresentation'>tag#32230id:1tag#32230signature:3223078936769641tag#32230xc:50.2tag#32230yc:50.3tag#32230alpha:-2.356194490192345tag#32230beta:1.5707963267948966tag#32230field_depth:152.0tag#32230std_measurement_error_position:0.5tag#32230std_measurement_error_speed:0.5tag#32230std_measurement_error_acceleration:1e-05tag#32230is_active:Truetag#32230color:(125,205,85)tag#32230default_xc:50.2tag#32230default_yc:50.3tag#32230default_alpha:-2.356194490192345tag#32230default_beta:1.5707963267948966tag#32230default_field_depth:152.0tag#32230camera_type:0tag#32230trajectory:[]-ITEM_END-ITEM_END
+
+From MAILER-DAEMON Sat Jun 13 17:21:55 2020
+MESSAGE_Timestamp: 3.3933372497558594 MESSAGE_message#:7134716144688452
+MESSAGE_From: 1 MESSAGE_sender#6961858276150712
+MESSAGE_Receiver list : 
+MESSAGE_To: 0 MESSAGE_receiver#3915514708542657
+MESSAGE_To: 2 MESSAGE_receiver#4804897830807543
+MESSAGE_To: 3 MESSAGE_receiver#2393045403617893
+MESSAGE_To: 100 MESSAGE_receiver#2203851492836947
+MESSAGE_Type: heartbeat MESSAGE_item: -1 MESSAGE_Message: Hi there !
+

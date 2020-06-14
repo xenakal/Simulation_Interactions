@@ -1,940 +1,813 @@
--------------------------------------------------------------
+--------------------------------------------------------------
 ----  MSE & #messages function of INNOVATION LOWER BOUND  ----
 --------------------------------------------------------------
 SCENARIO: INNOVATION BOUND = 0.00
 	ITERATION 0
-		local mse = 0.263492
-		global mse = 0.258983
-		numer of DKF messages = 146
+		local mse = 0.288383
+		global mse = 0.258745
+		percentage of dkf messages = 0.64
 	ITERATION 1
-		local mse = 0.212210
-		global mse = 0.209357
-		numer of DKF messages = 120
+		local mse = 0.442485
+		global mse = 0.374844
+		percentage of dkf messages = 0.61
 	ITERATION 2
-		local mse = 0.289864
-		global mse = 0.265672
-		numer of DKF messages = 130
+		local mse = 0.307592
+		global mse = 0.294988
+		percentage of dkf messages = 0.62
 	ITERATION 3
-		local mse = 0.290753
-		global mse = 0.274274
-		numer of DKF messages = 127
+		local mse = 0.293460
+		global mse = 0.274248
+		percentage of dkf messages = 0.64
 	ITERATION 4
-		local mse = 0.275283
-		global mse = 0.260210
-		numer of DKF messages = 123
+		local mse = 0.326612
+		global mse = 0.300743
+		percentage of dkf messages = 0.61
 	ITERATION 5
-		local mse = 0.217451
-		global mse = 0.211788
-		numer of DKF messages = 116
+		local mse = 0.345561
+		global mse = 0.315467
+		percentage of dkf messages = 0.62
 	ITERATION 6
-		local mse = 0.286129
-		global mse = 0.281556
-		numer of DKF messages = 115
+		local mse = 0.336805
+		global mse = 0.325608
+		percentage of dkf messages = 0.62
 	ITERATION 7
-		local mse = 0.291757
-		global mse = 0.273696
-		numer of DKF messages = 105
+		local mse = 0.452869
+		global mse = 0.428920
+		percentage of dkf messages = 0.62
 	ITERATION 8
-		local mse = 0.187212
-		global mse = 0.172625
-		numer of DKF messages = 100
+		local mse = 0.272477
+		global mse = 0.243234
+		percentage of dkf messages = 0.63
 	ITERATION 9
-		local mse = 0.213825
-		global mse = 0.206834
-		numer of DKF messages = 98
+		local mse = 0.315793
+		global mse = 0.269203
+		percentage of dkf messages = 0.62
 	ITERATION 10
-		local mse = 0.253062
-		global mse = 0.250771
-		numer of DKF messages = 99
+		local mse = 0.348421
+		global mse = 0.312227
+		percentage of dkf messages = 0.63
 	ITERATION 11
-		local mse = 0.317944
-		global mse = 0.267809
-		numer of DKF messages = 95
+		local mse = 0.519115
+		global mse = 0.512521
+		percentage of dkf messages = 0.62
 	ITERATION 12
-		local mse = 0.278516
-		global mse = 0.247737
-		numer of DKF messages = 96
+		local mse = 0.352277
+		global mse = 0.336889
+		percentage of dkf messages = 0.63
 	ITERATION 13
-		local mse = 0.220396
-		global mse = 0.223417
-		numer of DKF messages = 95
+		local mse = 0.389212
+		global mse = 0.341972
+		percentage of dkf messages = 0.62
 	ITERATION 14
-		local mse = 0.265524
-		global mse = 0.236807
-		numer of DKF messages = 92
+		local mse = 0.288982
+		global mse = 0.264415
+		percentage of dkf messages = 0.63
 	ITERATION 15
-		local mse = 0.369520
-		global mse = 0.366251
-		numer of DKF messages = 89
+		local mse = 0.427497
+		global mse = 0.369480
+		percentage of dkf messages = 0.61
 	ITERATION 16
-		local mse = 0.244774
-		global mse = 0.232107
-		numer of DKF messages = 89
+		local mse = 0.367929
+		global mse = 0.323908
+		percentage of dkf messages = 0.61
 	ITERATION 17
-		local mse = 0.299345
-		global mse = 0.295317
-		numer of DKF messages = 86
+		local mse = 0.352557
+		global mse = 0.336075
+		percentage of dkf messages = 0.61
 	ITERATION 18
-		local mse = 0.290485
-		global mse = 0.280004
-		numer of DKF messages = 82
+		local mse = 0.525546
+		global mse = 0.546385
+		percentage of dkf messages = 0.61
 	ITERATION 19
-		local mse = 0.336519
-		global mse = 0.343586
-		numer of DKF messages = 78
+		local mse = 0.431534
+		global mse = 0.431027
+		percentage of dkf messages = 0.63
 SCENARIO: INNOVATION BOUND = 0.05
 	ITERATION 0
-		local mse = 0.318418
-		global mse = 0.314359
-		numer of DKF messages = 72
+		local mse = 0.436207
+		global mse = 0.409050
+		percentage of dkf messages = 0.61
 	ITERATION 1
-		local mse = 0.399899
-		global mse = 0.416438
-		numer of DKF messages = 77
+		local mse = 0.339687
+		global mse = 0.346291
+		percentage of dkf messages = 0.62
 	ITERATION 2
-		local mse = 0.300567
-		global mse = 0.303656
-		numer of DKF messages = 72
+		local mse = 0.404674
+		global mse = 0.375189
+		percentage of dkf messages = 0.58
 	ITERATION 3
-		local mse = 0.347355
-		global mse = 0.322005
-		numer of DKF messages = 73
+		local mse = 0.383943
+		global mse = 0.374321
+		percentage of dkf messages = 0.60
 	ITERATION 4
-		local mse = 0.364584
-		global mse = 0.364858
-		numer of DKF messages = 69
+		local mse = 0.451235
+		global mse = 0.418802
+		percentage of dkf messages = 0.57
 	ITERATION 5
-		local mse = 0.300460
-		global mse = 0.306082
-		numer of DKF messages = 69
+		local mse = 0.454765
+		global mse = 0.420683
+		percentage of dkf messages = 0.62
 	ITERATION 6
-		local mse = 0.295444
-		global mse = 0.290355
-		numer of DKF messages = 62
+		local mse = 0.391213
+		global mse = 0.397831
+		percentage of dkf messages = 0.61
 	ITERATION 7
-		local mse = 0.404665
-		global mse = 0.379181
-		numer of DKF messages = 61
+		local mse = 0.289919
+		global mse = 0.270659
+		percentage of dkf messages = 0.63
 	ITERATION 8
-		local mse = 0.313409
-		global mse = 0.313055
-		numer of DKF messages = 61
+		local mse = 0.471859
+		global mse = 0.442549
+		percentage of dkf messages = 0.61
 	ITERATION 9
-		local mse = 0.346557
-		global mse = 0.323111
-		numer of DKF messages = 58
+		local mse = 0.429644
+		global mse = 0.443590
+		percentage of dkf messages = 0.60
 	ITERATION 10
-		local mse = 0.265076
-		global mse = 0.285329
-		numer of DKF messages = 57
+		local mse = 0.316123
+		global mse = 0.288224
+		percentage of dkf messages = 0.64
 	ITERATION 11
-		local mse = 0.318079
-		global mse = 0.282421
-		numer of DKF messages = 57
+		local mse = 0.385959
+		global mse = 0.320379
+		percentage of dkf messages = 0.56
 	ITERATION 12
-		local mse = 0.458789
-		global mse = 0.425561
-		numer of DKF messages = 51
+		local mse = 0.467303
+		global mse = 0.444877
+		percentage of dkf messages = 0.59
 	ITERATION 13
-		local mse = 0.309006
-		global mse = 0.316926
-		numer of DKF messages = 53
+		local mse = 0.448547
+		global mse = 0.392496
+		percentage of dkf messages = 0.60
 	ITERATION 14
-		local mse = 0.240526
-		global mse = 0.238339
-		numer of DKF messages = 56
+		local mse = 0.579982
+		global mse = 0.543391
+		percentage of dkf messages = 0.57
 	ITERATION 15
-		local mse = 0.371167
-		global mse = 0.379272
-		numer of DKF messages = 42
+		local mse = 0.378634
+		global mse = 0.383358
+		percentage of dkf messages = 0.60
 	ITERATION 16
-		local mse = 0.332183
-		global mse = 0.326765
-		numer of DKF messages = 49
+		local mse = 0.375589
+		global mse = 0.408044
+		percentage of dkf messages = 0.63
 	ITERATION 17
-		local mse = 0.509870
-		global mse = 0.461521
-		numer of DKF messages = 47
+		local mse = 0.492829
+		global mse = 0.504943
+		percentage of dkf messages = 0.63
 	ITERATION 18
-		local mse = 0.367160
-		global mse = 0.364625
-		numer of DKF messages = 47
+		local mse = 0.412919
+		global mse = 0.403103
+		percentage of dkf messages = 0.58
 	ITERATION 19
-		local mse = 0.299168
-		global mse = 0.318281
-		numer of DKF messages = 44
+		local mse = 0.455565
+		global mse = 0.422950
+		percentage of dkf messages = 0.57
 SCENARIO: INNOVATION BOUND = 0.10
 	ITERATION 0
-		local mse = 0.348438
-		global mse = 0.326912
-		numer of DKF messages = 39
+		local mse = 0.458326
+		global mse = 0.445076
+		percentage of dkf messages = 0.58
 	ITERATION 1
-		local mse = 0.312351
-		global mse = 0.333878
-		numer of DKF messages = 47
+		local mse = 0.356000
+		global mse = 0.358255
+		percentage of dkf messages = 0.60
 	ITERATION 2
-		local mse = 0.443330
-		global mse = 0.503087
-		numer of DKF messages = 43
+		local mse = 0.374639
+		global mse = 0.342224
+		percentage of dkf messages = 0.61
 	ITERATION 3
-		local mse = 0.526188
-		global mse = 0.526126
-		numer of DKF messages = 48
+		local mse = 0.364715
+		global mse = 0.358510
+		percentage of dkf messages = 0.58
 	ITERATION 4
-		local mse = 0.408387
-		global mse = 0.404430
-		numer of DKF messages = 42
+		local mse = 0.347955
+		global mse = 0.361825
+		percentage of dkf messages = 0.62
 	ITERATION 5
-		local mse = 0.309601
-		global mse = 0.304986
-		numer of DKF messages = 38
+		local mse = 0.398623
+		global mse = 0.369951
+		percentage of dkf messages = 0.58
 	ITERATION 6
-		local mse = 0.341170
-		global mse = 0.312894
-		numer of DKF messages = 37
+		local mse = 0.370680
+		global mse = 0.358661
+		percentage of dkf messages = 0.59
 	ITERATION 7
-		local mse = 0.368155
-		global mse = 0.353996
-		numer of DKF messages = 44
+		local mse = 0.405028
+		global mse = 0.407809
+		percentage of dkf messages = 0.62
 	ITERATION 8
-		local mse = 0.342816
-		global mse = 0.380106
-		numer of DKF messages = 46
+		local mse = 0.412134
+		global mse = 0.379616
+		percentage of dkf messages = 0.58
 	ITERATION 9
-		local mse = 0.542526
-		global mse = 0.564165
-		numer of DKF messages = 35
+		local mse = 0.291969
+		global mse = 0.276093
+		percentage of dkf messages = 0.60
 	ITERATION 10
-		local mse = 0.401293
-		global mse = 0.378879
-		numer of DKF messages = 40
+		local mse = 0.471768
+		global mse = 0.432446
+		percentage of dkf messages = 0.58
 	ITERATION 11
-		local mse = 0.544635
-		global mse = 0.489324
-		numer of DKF messages = 42
+		local mse = 0.558606
+		global mse = 0.548738
+		percentage of dkf messages = 0.56
 	ITERATION 12
-		local mse = 0.345050
-		global mse = 0.326020
-		numer of DKF messages = 40
+		local mse = 0.416221
+		global mse = 0.416534
+		percentage of dkf messages = 0.58
 	ITERATION 13
-		local mse = 0.289146
-		global mse = 0.270567
-		numer of DKF messages = 34
+		local mse = 0.382546
+		global mse = 0.367578
+		percentage of dkf messages = 0.63
 	ITERATION 14
-		local mse = 0.440115
-		global mse = 0.421846
-		numer of DKF messages = 36
+		local mse = 0.430607
+		global mse = 0.431161
+		percentage of dkf messages = 0.58
 	ITERATION 15
-		local mse = 0.343842
-		global mse = 0.321593
-		numer of DKF messages = 34
+		local mse = 0.519007
+		global mse = 0.516467
+		percentage of dkf messages = 0.58
 	ITERATION 16
-		local mse = 0.448344
-		global mse = 0.401516
-		numer of DKF messages = 39
+		local mse = 0.378364
+		global mse = 0.403261
+		percentage of dkf messages = 0.55
 	ITERATION 17
-		local mse = 0.420566
-		global mse = 0.342810
-		numer of DKF messages = 34
+		local mse = 0.316181
+		global mse = 0.339961
+		percentage of dkf messages = 0.59
 	ITERATION 18
-		local mse = 0.456671
-		global mse = 0.453865
-		numer of DKF messages = 41
+		local mse = 0.473206
+		global mse = 0.489655
+		percentage of dkf messages = 0.58
 	ITERATION 19
-		local mse = 0.334845
-		global mse = 0.313938
-		numer of DKF messages = 33
+		local mse = 0.349336
+		global mse = 0.365104
+		percentage of dkf messages = 0.54
 SCENARIO: INNOVATION BOUND = 0.15
 	ITERATION 0
-		local mse = 0.389143
-		global mse = 0.360084
-		numer of DKF messages = 34
+		local mse = 0.477166
+		global mse = 0.426249
+		percentage of dkf messages = 0.52
 	ITERATION 1
-		local mse = 0.375537
-		global mse = 0.344482
-		numer of DKF messages = 34
+		local mse = 0.394415
+		global mse = 0.409555
+		percentage of dkf messages = 0.52
 	ITERATION 2
-		local mse = 0.469161
-		global mse = 0.431743
-		numer of DKF messages = 40
+		local mse = 0.476752
+		global mse = 0.406075
+		percentage of dkf messages = 0.54
 	ITERATION 3
-		local mse = 0.368790
-		global mse = 0.409593
-		numer of DKF messages = 38
+		local mse = 0.388039
+		global mse = 0.362183
+		percentage of dkf messages = 0.57
 	ITERATION 4
-		local mse = 0.444942
-		global mse = 0.430046
-		numer of DKF messages = 37
+		local mse = 0.302412
+		global mse = 0.306848
+		percentage of dkf messages = 0.55
 	ITERATION 5
-		local mse = 0.472280
-		global mse = 0.552482
-		numer of DKF messages = 31
+		local mse = 0.421687
+		global mse = 0.393744
+		percentage of dkf messages = 0.51
 	ITERATION 6
-		local mse = 0.404934
-		global mse = 0.411340
-		numer of DKF messages = 33
+		local mse = 0.440220
+		global mse = 0.426872
+		percentage of dkf messages = 0.53
 	ITERATION 7
-		local mse = 0.444083
-		global mse = 0.421665
-		numer of DKF messages = 26
+		local mse = 0.771168
+		global mse = 0.776303
+		percentage of dkf messages = 0.55
 	ITERATION 8
-		local mse = 0.536557
-		global mse = 0.512695
-		numer of DKF messages = 30
+		local mse = 0.460731
+		global mse = 0.444944
+		percentage of dkf messages = 0.49
 	ITERATION 9
-		local mse = 0.447741
-		global mse = 0.486817
-		numer of DKF messages = 32
+		local mse = 0.408902
+		global mse = 0.383817
+		percentage of dkf messages = 0.55
 	ITERATION 10
-		local mse = 0.428521
-		global mse = 0.430943
-		numer of DKF messages = 30
+		local mse = 0.405666
+		global mse = 0.399261
+		percentage of dkf messages = 0.57
 	ITERATION 11
-		local mse = 0.406133
-		global mse = 0.358159
-		numer of DKF messages = 25
+		local mse = 0.429212
+		global mse = 0.377954
+		percentage of dkf messages = 0.55
 	ITERATION 12
-		local mse = 0.387779
-		global mse = 0.382205
-		numer of DKF messages = 27
+		local mse = 0.489756
+		global mse = 0.489604
+		percentage of dkf messages = 0.51
 	ITERATION 13
-		local mse = 0.477143
-		global mse = 0.456787
-		numer of DKF messages = 30
+		local mse = 0.360050
+		global mse = 0.353679
+		percentage of dkf messages = 0.54
 	ITERATION 14
-		local mse = 0.527792
-		global mse = 0.538316
-		numer of DKF messages = 26
+		local mse = 0.471736
+		global mse = 0.417658
+		percentage of dkf messages = 0.55
 	ITERATION 15
-		local mse = 0.279378
-		global mse = 0.295966
-		numer of DKF messages = 30
+		local mse = 0.468449
+		global mse = 0.462403
+		percentage of dkf messages = 0.55
 	ITERATION 16
-		local mse = 0.527162
-		global mse = 0.509944
-		numer of DKF messages = 28
+		local mse = 0.529029
+		global mse = 0.524297
+		percentage of dkf messages = 0.59
 	ITERATION 17
-		local mse = 0.531384
-		global mse = 0.541797
-		numer of DKF messages = 27
+		local mse = 0.360820
+		global mse = 0.384619
+		percentage of dkf messages = 0.51
 	ITERATION 18
-		local mse = 0.420200
-		global mse = 0.403325
-		numer of DKF messages = 30
+		local mse = 0.398896
+		global mse = 0.389047
+		percentage of dkf messages = 0.54
 	ITERATION 19
-		local mse = 0.382817
-		global mse = 0.375876
-		numer of DKF messages = 32
+		local mse = 0.404299
+		global mse = 0.338940
+		percentage of dkf messages = 0.56
 SCENARIO: INNOVATION BOUND = 0.20
 	ITERATION 0
-		local mse = 0.620036
-		global mse = 0.608401
-		numer of DKF messages = 31
+		local mse = 0.443315
+		global mse = 0.471147
+		percentage of dkf messages = 0.53
 	ITERATION 1
-		local mse = 0.453236
-		global mse = 0.494571
-		numer of DKF messages = 26
+		local mse = 0.630494
+		global mse = 0.635106
+		percentage of dkf messages = 0.50
 	ITERATION 2
-		local mse = 0.563311
-		global mse = 0.562393
-		numer of DKF messages = 25
+		local mse = 0.440022
+		global mse = 0.484104
+		percentage of dkf messages = 0.47
 	ITERATION 3
-		local mse = 0.627916
-		global mse = 0.561097
-		numer of DKF messages = 27
+		local mse = 0.480656
+		global mse = 0.506691
+		percentage of dkf messages = 0.46
 	ITERATION 4
-		local mse = 0.475347
-		global mse = 0.450887
-		numer of DKF messages = 27
+		local mse = 0.473808
+		global mse = 0.481532
+		percentage of dkf messages = 0.50
 	ITERATION 5
-		local mse = 0.396783
-		global mse = 0.394453
-		numer of DKF messages = 27
+		local mse = 0.318199
+		global mse = 0.311547
+		percentage of dkf messages = 0.47
 	ITERATION 6
-		local mse = 0.446147
-		global mse = 0.414118
-		numer of DKF messages = 22
+		local mse = 0.451315
+		global mse = 0.446601
+		percentage of dkf messages = 0.53
 	ITERATION 7
-		local mse = 0.417150
-		global mse = 0.398737
-		numer of DKF messages = 29
+		local mse = 0.390881
+		global mse = 0.395278
+		percentage of dkf messages = 0.50
 	ITERATION 8
-		local mse = 0.444391
-		global mse = 0.455082
-		numer of DKF messages = 21
+		local mse = 0.470511
+		global mse = 0.506524
+		percentage of dkf messages = 0.58
 	ITERATION 9
-		local mse = 0.521309
-		global mse = 0.524826
-		numer of DKF messages = 23
+		local mse = 0.424538
+		global mse = 0.462464
+		percentage of dkf messages = 0.56
 	ITERATION 10
-		local mse = 0.411534
-		global mse = 0.415612
-		numer of DKF messages = 24
+		local mse = 0.501198
+		global mse = 0.471818
+		percentage of dkf messages = 0.41
 	ITERATION 11
-		local mse = 0.443914
-		global mse = 0.392554
-		numer of DKF messages = 25
+		local mse = 0.622933
+		global mse = 0.620914
+		percentage of dkf messages = 0.48
 	ITERATION 12
-		local mse = 0.611080
-		global mse = 0.574243
-		numer of DKF messages = 26
+		local mse = 0.546884
+		global mse = 0.591480
+		percentage of dkf messages = 0.50
 	ITERATION 13
-		local mse = 0.435815
-		global mse = 0.361321
-		numer of DKF messages = 18
+		local mse = 0.380957
+		global mse = 0.367987
+		percentage of dkf messages = 0.55
 	ITERATION 14
-		local mse = 0.329735
-		global mse = 0.330696
-		numer of DKF messages = 27
+		local mse = 0.522410
+		global mse = 0.580797
+		percentage of dkf messages = 0.51
 	ITERATION 15
-		local mse = 0.461529
-		global mse = 0.405875
-		numer of DKF messages = 23
+		local mse = 0.396564
+		global mse = 0.426620
+		percentage of dkf messages = 0.49
 	ITERATION 16
-		local mse = 0.450648
-		global mse = 0.428406
-		numer of DKF messages = 23
+		local mse = 0.772899
+		global mse = 0.682364
+		percentage of dkf messages = 0.51
 	ITERATION 17
-		local mse = 0.633518
-		global mse = 0.622432
-		numer of DKF messages = 23
+		local mse = 0.378779
+		global mse = 0.329275
+		percentage of dkf messages = 0.51
 	ITERATION 18
-		local mse = 0.449667
-		global mse = 0.461753
-		numer of DKF messages = 20
+		local mse = 0.470188
+		global mse = 0.517065
+		percentage of dkf messages = 0.51
 	ITERATION 19
-		local mse = 0.510531
-		global mse = 0.523464
-		numer of DKF messages = 24
+		local mse = 0.494835
+		global mse = 0.465247
+		percentage of dkf messages = 0.47
 SCENARIO: INNOVATION BOUND = 0.25
 	ITERATION 0
-		local mse = 0.586959
-		global mse = 0.617979
-		numer of DKF messages = 24
+		local mse = 0.473904
+		global mse = 0.420644
+		percentage of dkf messages = 0.51
 	ITERATION 1
-		local mse = 0.499957
-		global mse = 0.445545
-		numer of DKF messages = 20
+		local mse = 0.847058
+		global mse = 0.860425
+		percentage of dkf messages = 0.48
 	ITERATION 2
-		local mse = 0.446423
-		global mse = 0.434356
-		numer of DKF messages = 14
+		local mse = 0.442299
+		global mse = 0.471612
+		percentage of dkf messages = 0.52
 	ITERATION 3
-		local mse = 0.354278
-		global mse = 0.351463
-		numer of DKF messages = 24
+		local mse = 0.499454
+		global mse = 0.459598
+		percentage of dkf messages = 0.49
 	ITERATION 4
-		local mse = 0.399230
-		global mse = 0.399102
-		numer of DKF messages = 17
+		local mse = 0.379239
+		global mse = 0.419565
+		percentage of dkf messages = 0.46
 	ITERATION 5
-		local mse = 0.358560
-		global mse = 0.364708
-		numer of DKF messages = 23
+		local mse = 0.365711
+		global mse = 0.370256
+		percentage of dkf messages = 0.45
 	ITERATION 6
-		local mse = 0.415417
-		global mse = 0.428137
-		numer of DKF messages = 23
+		local mse = 0.438757
+		global mse = 0.436408
+		percentage of dkf messages = 0.48
 	ITERATION 7
-		local mse = 0.484934
-		global mse = 0.462904
-		numer of DKF messages = 22
+		local mse = 0.568488
+		global mse = 0.581874
+		percentage of dkf messages = 0.50
 	ITERATION 8
-		local mse = 0.443057
-		global mse = 0.469214
-		numer of DKF messages = 23
+		local mse = 0.556485
+		global mse = 0.497941
+		percentage of dkf messages = 0.49
 	ITERATION 9
-		local mse = 0.580161
-		global mse = 0.559159
-		numer of DKF messages = 20
+		local mse = 0.430817
+		global mse = 0.471682
+		percentage of dkf messages = 0.45
 	ITERATION 10
-		local mse = 0.560675
-		global mse = 0.536765
-		numer of DKF messages = 21
+		local mse = 0.439961
+		global mse = 0.543278
+		percentage of dkf messages = 0.49
 	ITERATION 11
-		local mse = 0.450667
-		global mse = 0.489937
-		numer of DKF messages = 19
+		local mse = 0.493228
+		global mse = 0.464647
+		percentage of dkf messages = 0.47
 	ITERATION 12
-		local mse = 0.459679
-		global mse = 0.463879
-		numer of DKF messages = 17
+		local mse = 0.414083
+		global mse = 0.476532
+		percentage of dkf messages = 0.50
 	ITERATION 13
-		local mse = 0.688183
-		global mse = 0.580498
-		numer of DKF messages = 15
+		local mse = 0.586454
+		global mse = 0.568004
+		percentage of dkf messages = 0.36
 	ITERATION 14
-		local mse = 0.525173
-		global mse = 0.482783
-		numer of DKF messages = 21
+		local mse = 0.691223
+		global mse = 0.712853
+		percentage of dkf messages = 0.44
 	ITERATION 15
-		local mse = 0.463439
-		global mse = 0.460842
-		numer of DKF messages = 14
+		local mse = 0.537079
+		global mse = 0.529447
+		percentage of dkf messages = 0.46
 	ITERATION 16
-		local mse = 0.370135
-		global mse = 0.346643
-		numer of DKF messages = 12
+		local mse = 0.413627
+		global mse = 0.453914
+		percentage of dkf messages = 0.45
 	ITERATION 17
-		local mse = 0.384784
-		global mse = 0.390861
-		numer of DKF messages = 20
+		local mse = 0.506892
+		global mse = 0.531719
+		percentage of dkf messages = 0.46
 	ITERATION 18
-		local mse = 0.614121
-		global mse = 0.419857
-		numer of DKF messages = 19
+		local mse = 0.564097
+		global mse = 0.720653
+		percentage of dkf messages = 0.49
 	ITERATION 19
-		local mse = 0.452824
-		global mse = 0.457418
-		numer of DKF messages = 17
+		local mse = 0.488875
+		global mse = 0.496355
+		percentage of dkf messages = 0.47
 SCENARIO: INNOVATION BOUND = 0.30
 	ITERATION 0
-		local mse = 0.569062
-		global mse = 0.595106
-		numer of DKF messages = 18
+		local mse = 0.544328
+		global mse = 0.534222
+		percentage of dkf messages = 0.49
 	ITERATION 1
-		local mse = 0.498944
-		global mse = 0.498695
-		numer of DKF messages = 17
+		local mse = 0.713277
+		global mse = 0.677983
+		percentage of dkf messages = 0.51
 	ITERATION 2
-		local mse = 0.491488
-		global mse = 0.423840
-		numer of DKF messages = 13
+		local mse = 0.526817
+		global mse = 0.610483
+		percentage of dkf messages = 0.51
 	ITERATION 3
-		local mse = 0.435525
-		global mse = 0.462241
-		numer of DKF messages = 13
+		local mse = 0.476785
+		global mse = 0.476431
+		percentage of dkf messages = 0.47
 	ITERATION 4
-		local mse = 0.433358
-		global mse = 0.466283
-		numer of DKF messages = 14
+		local mse = 0.416287
+		global mse = 0.466171
+		percentage of dkf messages = 0.47
 	ITERATION 5
-		local mse = 0.835335
-		global mse = 0.876430
-		numer of DKF messages = 17
+		local mse = 0.573789
+		global mse = 0.515799
+		percentage of dkf messages = 0.44
 	ITERATION 6
-		local mse = 0.399707
-		global mse = 0.448872
-		numer of DKF messages = 15
+		local mse = 0.671344
+		global mse = 0.649825
+		percentage of dkf messages = 0.46
 	ITERATION 7
-		local mse = 0.410639
-		global mse = 0.458865
-		numer of DKF messages = 20
+		local mse = 0.450584
+		global mse = 0.475928
+		percentage of dkf messages = 0.42
 	ITERATION 8
-		local mse = 0.562716
-		global mse = 0.593414
-		numer of DKF messages = 18
+		local mse = 0.533577
+		global mse = 0.481871
+		percentage of dkf messages = 0.43
 	ITERATION 9
-		local mse = 0.520267
-		global mse = 0.474009
-		numer of DKF messages = 19
+		local mse = 0.622238
+		global mse = 0.546606
+		percentage of dkf messages = 0.45
 	ITERATION 10
-		local mse = 0.566602
-		global mse = 0.597758
-		numer of DKF messages = 15
+		local mse = 0.493354
+		global mse = 0.500170
+		percentage of dkf messages = 0.42
 	ITERATION 11
-		local mse = 0.809502
-		global mse = 0.833845
-		numer of DKF messages = 17
+		local mse = 0.626940
+		global mse = 0.629432
+		percentage of dkf messages = 0.46
 	ITERATION 12
-		local mse = 0.529302
-		global mse = 0.540028
-		numer of DKF messages = 14
+		local mse = 0.474722
+		global mse = 0.511254
+		percentage of dkf messages = 0.43
 	ITERATION 13
-		local mse = 0.466446
-		global mse = 0.510255
-		numer of DKF messages = 17
+		local mse = 0.542792
+		global mse = 0.549295
+		percentage of dkf messages = 0.38
 	ITERATION 14
-		local mse = 0.802516
-		global mse = 0.841940
-		numer of DKF messages = 15
+		local mse = 0.641068
+		global mse = 0.737046
+		percentage of dkf messages = 0.49
 	ITERATION 15
-		local mse = 0.395422
-		global mse = 0.370644
-		numer of DKF messages = 13
+		local mse = 0.570205
+		global mse = 0.613785
+		percentage of dkf messages = 0.50
 	ITERATION 16
-		local mse = 0.394040
-		global mse = 0.405030
-		numer of DKF messages = 18
+		local mse = 0.371215
+		global mse = 0.394059
+		percentage of dkf messages = 0.37
 	ITERATION 17
-		local mse = 0.549403
-		global mse = 0.707140
-		numer of DKF messages = 13
+		local mse = 0.680381
+		global mse = 0.699081
+		percentage of dkf messages = 0.48
 	ITERATION 18
-		local mse = 0.469287
-		global mse = 0.470027
-		numer of DKF messages = 12
+		local mse = 0.686834
+		global mse = 0.668734
+		percentage of dkf messages = 0.43
 	ITERATION 19
-		local mse = 0.598372
-		global mse = 0.589215
-		numer of DKF messages = 15
+		local mse = 0.527039
+		global mse = 0.540023
+		percentage of dkf messages = 0.48
 SCENARIO: INNOVATION BOUND = 0.35
 	ITERATION 0
-		local mse = 0.488494
-		global mse = 0.536252
-		numer of DKF messages = 20
+		local mse = 0.526928
+		global mse = 0.524631
+		percentage of dkf messages = 0.35
 	ITERATION 1
-		local mse = 0.388309
-		global mse = 0.404325
-		numer of DKF messages = 18
+		local mse = 0.412058
+		global mse = 0.516903
+		percentage of dkf messages = 0.31
 	ITERATION 2
-		local mse = 0.504683
-		global mse = 0.554909
-		numer of DKF messages = 13
+		local mse = 0.375203
+		global mse = 0.400063
+		percentage of dkf messages = 0.42
 	ITERATION 3
-		local mse = 0.450066
-		global mse = 0.438097
-		numer of DKF messages = 12
+		local mse = 0.618875
+		global mse = 0.621790
+		percentage of dkf messages = 0.44
 	ITERATION 4
-		local mse = 0.564905
-		global mse = 0.625179
-		numer of DKF messages = 15
+		local mse = 0.412629
+		global mse = 0.393011
+		percentage of dkf messages = 0.38
 	ITERATION 5
-		local mse = 0.689822
-		global mse = 0.503463
-		numer of DKF messages = 12
+		local mse = 0.593158
+		global mse = 0.611869
+		percentage of dkf messages = 0.42
 	ITERATION 6
-		local mse = 0.353983
-		global mse = 0.363466
-		numer of DKF messages = 13
+		local mse = 0.581600
+		global mse = 0.634614
+		percentage of dkf messages = 0.34
 	ITERATION 7
-		local mse = 0.480117
-		global mse = 0.580536
-		numer of DKF messages = 19
+		local mse = 0.343661
+		global mse = 0.406463
+		percentage of dkf messages = 0.46
 	ITERATION 8
-		local mse = 0.587647
-		global mse = 0.603191
-		numer of DKF messages = 19
+		local mse = 0.417306
+		global mse = 0.387944
+		percentage of dkf messages = 0.31
 	ITERATION 9
-		local mse = 0.436307
-		global mse = 0.560793
-		numer of DKF messages = 13
+		local mse = 0.710052
+		global mse = 0.702968
+		percentage of dkf messages = 0.26
 	ITERATION 10
-		local mse = 0.461840
-		global mse = 0.510582
-		numer of DKF messages = 16
+		local mse = 0.424082
+		global mse = 0.422758
+		percentage of dkf messages = 0.41
 	ITERATION 11
-		local mse = 0.445599
-		global mse = 0.519632
-		numer of DKF messages = 14
+		local mse = 0.522984
+		global mse = 0.577806
+		percentage of dkf messages = 0.44
 	ITERATION 12
-		local mse = 0.553208
-		global mse = 0.592182
-		numer of DKF messages = 15
+		local mse = 0.791020
+		global mse = 0.842421
+		percentage of dkf messages = 0.44
 	ITERATION 13
-		local mse = 0.466832
-		global mse = 0.465656
-		numer of DKF messages = 13
+		local mse = 0.619684
+		global mse = 0.591424
+		percentage of dkf messages = 0.47
 	ITERATION 14
-		local mse = 0.436553
-		global mse = 0.545307
-		numer of DKF messages = 13
+		local mse = 0.594839
+		global mse = 0.579837
+		percentage of dkf messages = 0.41
 	ITERATION 15
-		local mse = 0.719027
-		global mse = 0.715919
-		numer of DKF messages = 12
+		local mse = 0.621099
+		global mse = 0.610173
+		percentage of dkf messages = 0.44
 	ITERATION 16
-		local mse = 0.554759
-		global mse = 0.609797
-		numer of DKF messages = 13
+		local mse = 0.582322
+		global mse = 0.558022
+		percentage of dkf messages = 0.48
 	ITERATION 17
-		local mse = 0.458710
-		global mse = 0.464476
-		numer of DKF messages = 17
+		local mse = 0.454825
+		global mse = 0.341812
+		percentage of dkf messages = 0.31
 	ITERATION 18
-		local mse = 0.706476
-		global mse = 0.726687
-		numer of DKF messages = 13
+		local mse = 0.430703
+		global mse = 0.475568
+		percentage of dkf messages = 0.44
 	ITERATION 19
-		local mse = 0.697215
-		global mse = 0.678604
-		numer of DKF messages = 14
+		local mse = 0.662077
+		global mse = 0.720823
+		percentage of dkf messages = 0.48
 SCENARIO: INNOVATION BOUND = 0.40
 	ITERATION 0
-		local mse = 0.566777
-		global mse = 0.532183
-		numer of DKF messages = 11
+		local mse = 0.537519
+		global mse = 0.530088
+		percentage of dkf messages = 0.32
 	ITERATION 1
-		local mse = 0.762105
-		global mse = 0.687456
-		numer of DKF messages = 14
+		local mse = 0.556714
+		global mse = 0.575398
+		percentage of dkf messages = 0.40
 	ITERATION 2
-		local mse = 0.778974
-		global mse = 0.864418
-		numer of DKF messages = 12
+		local mse = 0.589601
+		global mse = 0.580724
+		percentage of dkf messages = 0.42
 	ITERATION 3
-		local mse = 0.488579
-		global mse = 0.531075
-		numer of DKF messages = 12
+		local mse = 0.648213
+		global mse = 0.658080
+		percentage of dkf messages = 0.45
 	ITERATION 4
-		local mse = 0.539686
-		global mse = 0.489942
-		numer of DKF messages = 15
+		local mse = 0.500817
+		global mse = 0.478383
+		percentage of dkf messages = 0.38
 	ITERATION 5
-		local mse = 0.386915
-		global mse = 0.390571
-		numer of DKF messages = 14
+		local mse = 0.733181
+		global mse = 0.814827
+		percentage of dkf messages = 0.38
 	ITERATION 6
-		local mse = 0.538589
-		global mse = 0.527523
-		numer of DKF messages = 18
+		local mse = 0.525623
+		global mse = 0.569052
+		percentage of dkf messages = 0.27
 	ITERATION 7
-		local mse = 0.483428
-		global mse = 0.558955
-		numer of DKF messages = 18
+		local mse = 0.536853
+		global mse = 0.596878
+		percentage of dkf messages = 0.43
 	ITERATION 8
-		local mse = 0.473464
-		global mse = 0.477442
-		numer of DKF messages = 19
+		local mse = 0.502058
+		global mse = 0.505578
+		percentage of dkf messages = 0.38
 	ITERATION 9
-		local mse = 0.268006
-		global mse = 0.283137
-		numer of DKF messages = 18
+		local mse = 0.461936
+		global mse = 0.488239
+		percentage of dkf messages = 0.36
 	ITERATION 10
-		local mse = 0.427137
-		global mse = 0.426725
-		numer of DKF messages = 14
+		local mse = 0.482534
+		global mse = 0.477233
+		percentage of dkf messages = 0.26
 	ITERATION 11
-		local mse = 0.487244
-		global mse = 0.479828
-		numer of DKF messages = 18
+		local mse = 0.503889
+		global mse = 0.469710
+		percentage of dkf messages = 0.28
 	ITERATION 12
-		local mse = 0.389905
-		global mse = 0.419727
-		numer of DKF messages = 18
+		local mse = 0.602312
+		global mse = 0.622540
+		percentage of dkf messages = 0.39
 	ITERATION 13
-		local mse = 0.511389
-		global mse = 0.494775
-		numer of DKF messages = 12
+		local mse = 0.559551
+		global mse = 0.591336
+		percentage of dkf messages = 0.41
 	ITERATION 14
-		local mse = 0.427365
-		global mse = 0.451472
-		numer of DKF messages = 17
+		local mse = 0.597577
+		global mse = 0.665014
+		percentage of dkf messages = 0.35
 	ITERATION 15
-		local mse = 0.819547
-		global mse = 0.766342
-		numer of DKF messages = 15
+		local mse = 0.703793
+		global mse = 0.664320
+		percentage of dkf messages = 0.37
 	ITERATION 16
-		local mse = 0.591596
-		global mse = 0.576989
-		numer of DKF messages = 15
+		local mse = 0.401673
+		global mse = 0.419816
+		percentage of dkf messages = 0.33
 	ITERATION 17
-		local mse = 0.537391
-		global mse = 0.539477
-		numer of DKF messages = 8
+		local mse = 0.631587
+		global mse = 0.490014
+		percentage of dkf messages = 0.39
 	ITERATION 18
-		local mse = 0.715227
-		global mse = 0.721804
-		numer of DKF messages = 10
+		local mse = 0.701107
+		global mse = 0.628546
+		percentage of dkf messages = 0.38
 	ITERATION 19
-		local mse = 0.575603
-		global mse = 0.558636
-		numer of DKF messages = 7
+		local mse = 0.431598
+		global mse = 0.515576
+		percentage of dkf messages = 0.41
 SCENARIO: INNOVATION BOUND = 0.45
 	ITERATION 0
-		local mse = 0.514600
-		global mse = 0.503699
-		numer of DKF messages = 9
+		local mse = 0.653573
+		global mse = 0.661742
+		percentage of dkf messages = 0.45
 	ITERATION 1
-		local mse = 0.431889
-		global mse = 0.494505
-		numer of DKF messages = 8
+		local mse = 0.818744
+		global mse = 0.911137
+		percentage of dkf messages = 0.30
 	ITERATION 2
-		local mse = 0.628701
-		global mse = 0.615269
-		numer of DKF messages = 12
+		local mse = 0.450139
+		global mse = 0.476227
+		percentage of dkf messages = 0.32
 	ITERATION 3
-		local mse = 0.507718
-		global mse = 0.503426
-		numer of DKF messages = 12
+		local mse = 0.516219
+		global mse = 0.526562
+		percentage of dkf messages = 0.42
 	ITERATION 4
-		local mse = 0.740450
-		global mse = 0.759130
-		numer of DKF messages = 17
+		local mse = 0.494255
+		global mse = 0.494969
+		percentage of dkf messages = 0.28
 	ITERATION 5
-		local mse = 0.616609
-		global mse = 0.613193
-		numer of DKF messages = 11
+		local mse = 0.579735
+		global mse = 0.590993
+		percentage of dkf messages = 0.27
 	ITERATION 6
-		local mse = 1.108870
-		global mse = 0.454214
-		numer of DKF messages = 7
+		local mse = 0.649048
+		global mse = 0.690939
+		percentage of dkf messages = 0.38
 	ITERATION 7
-		local mse = 0.552785
-		global mse = 0.532209
-		numer of DKF messages = 7
+		local mse = 0.510184
+		global mse = 0.500025
+		percentage of dkf messages = 0.30
 	ITERATION 8
-		local mse = 0.627908
-		global mse = 0.649296
-		numer of DKF messages = 9
+		local mse = 0.373085
+		global mse = 0.425367
+		percentage of dkf messages = 0.31
 	ITERATION 9
-		local mse = 0.549224
-		global mse = 0.509400
-		numer of DKF messages = 9
+		local mse = 0.757743
+		global mse = 0.632691
+		percentage of dkf messages = 0.26
 	ITERATION 10
-		local mse = 0.448040
-		global mse = 0.510671
-		numer of DKF messages = 9
+		local mse = 0.450497
+		global mse = 0.415993
+		percentage of dkf messages = 0.24
 	ITERATION 11
-		local mse = 0.533624
-		global mse = 0.509832
-		numer of DKF messages = 13
+		local mse = 0.654218
+		global mse = 0.697985
+		percentage of dkf messages = 0.32
 	ITERATION 12
-		local mse = 0.427491
-		global mse = 0.454327
-		numer of DKF messages = 9
+		local mse = 0.371314
+		global mse = 0.388624
+		percentage of dkf messages = 0.40
 	ITERATION 13
-		local mse = 0.519612
-		global mse = 0.490402
-		numer of DKF messages = 8
+		local mse = 0.526563
+		global mse = 0.537429
+		percentage of dkf messages = 0.23
 	ITERATION 14
-		local mse = 0.379123
-		global mse = 0.439517
-		numer of DKF messages = 7
+		local mse = 0.467748
+		global mse = 0.407236
+		percentage of dkf messages = 0.25
 	ITERATION 15
-		local mse = 0.808864
-		global mse = 0.824444
-		numer of DKF messages = 5
+		local mse = 0.662277
+		global mse = 0.703150
+		percentage of dkf messages = 0.41
 	ITERATION 16
-		local mse = 0.691379
-		global mse = 0.625175
-		numer of DKF messages = 7
+		local mse = 1.492207
+		global mse = 1.494719
+		percentage of dkf messages = 0.38
 	ITERATION 17
-		local mse = 0.774635
-		global mse = 0.841826
-		numer of DKF messages = 11
+		local mse = 1.622229
+		global mse = 1.611140
+		percentage of dkf messages = 0.38
 	ITERATION 18
-		local mse = 0.623746
-		global mse = 0.674619
-		numer of DKF messages = 11
+		local mse = 0.835812
+		global mse = 0.835654
+		percentage of dkf messages = 0.36
 	ITERATION 19
-		local mse = 0.754974
-		global mse = 0.590059
-		numer of DKF messages = 6
-SCENARIO: INNOVATION BOUND = 0.50
-	ITERATION 0
-		local mse = 0.844281
-		global mse = 0.761129
-		numer of DKF messages = 7
-	ITERATION 1
- 		local mse = 0.600759
-		global mse = 0.649445
-		numer of DKF messages = 10
-	ITERATION 2
-		local mse = 0.441332
-		global mse = 0.461911
-		numer of DKF messages = 6
-	ITERATION 3
-		local mse = 0.617793
-		global mse = 0.609962
-		numer of DKF messages = 13
-	ITERATION 4
-		local mse = 0.558819
-		global mse = 0.573601
-		numer of DKF messages = 15
-	ITERATION 5
-		local mse = 0.414507
-		global mse = 0.425346
-		numer of DKF messages = 14
-	ITERATION 6
-		local mse = 0.579299
-		global mse = 0.578654
-		numer of DKF messages = 11
-	ITERATION 7
-		local mse = 0.336383
-		global mse = 0.360123
-		numer of DKF messages = 9
-	ITERATION 8
-		local mse = 0.455333
-		global mse = 0.457058
-		numer of DKF messages = 9
-	ITERATION 9
-		local mse = 0.428639
-		global mse = 0.441112
-		numer of DKF messages = 13
-	ITERATION 10
-		local mse = 0.544450
-		global mse = 0.646813
-		numer of DKF messages = 3
-	ITERATION 11
-		local mse = 0.584167
-		global mse = 0.624619
-		numer of DKF messages = 8
-	ITERATION 12
-		local mse = 0.502539
-		global mse = 0.542667
-		numer of DKF messages = 12
-	ITERATION 13
-		local mse = 0.619547
-		global mse = 0.632095
-		numer of DKF messages = 13
-	ITERATION 14
-		local mse = 0.398712
-		global mse = 0.398695
-		numer of DKF messages = 8
-	ITERATION 15
-		local mse = 0.535345
-		global mse = 0.510445
-		numer of DKF messages = 10
-	ITERATION 16
-		local mse = 0.536780
-		global mse = 0.460722
-		numer of DKF messages = 9
-	ITERATION 17
-		local mse = 0.379179
-		global mse = 0.433858
-		numer of DKF messages = 13
-	ITERATION 18
-		local mse = 0.801724
-		global mse = 0.792000
-		numer of DKF messages = 3
-	ITERATION 19
-		local mse = 0.751478
-		global mse = 0.731729
-		numer of DKF messages = 7
-SCENARIO: INNOVATION BOUND = 0.55
-	ITERATION 0
-		local mse = 0.783489
-		global mse = 0.809478
-		numer of DKF messages = 5
-	ITERATION 1
-		local mse = 0.572770
-		global mse = 0.528538
-		numer of DKF messages = 8
-	ITERATION 2
-		local mse = 0.519437
-		global mse = 0.455923
-		numer of DKF messages = 2
-	ITERATION 3
-		local mse = 0.462858
-		global mse = 0.444283
-		numer of DKF messages = 14
-	ITERATION 4
-		local mse = 0.561234
-		global mse = 0.549928
-		numer of DKF messages = 7
-	ITERATION 5
-		local mse = 0.550480
-		global mse = 0.583175
-		numer of DKF messages = 9
-	ITERATION 6
-		local mse = 0.553837
-		global mse = 0.523609
-		numer of DKF messages = 8
-	ITERATION 7
-		local mse = 0.501340
-		global mse = 0.491979
-		numer of DKF messages = 14
-	ITERATION 8
-		local mse = 0.369708
-		global mse = 0.397376
-		numer of DKF messages = 6
-	ITERATION 9
-		local mse = 0.454862
-		global mse = 0.406325
-		numer of DKF messages = 14
-	ITERATION 10
-		local mse = 0.474187
-		global mse = 0.474187
-		numer of DKF messages = 0
-	ITERATION 11
+		local mse = 0.904925
+		global mse = 0.904272
+		percentage of dkf messages = 0.37
