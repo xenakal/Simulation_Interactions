@@ -1,8 +1,0 @@
------------------------------------------------------------------------
-----  MSE of filtered measurements for DKF performance evaluation  ----
------------------------------------------------------------------------
-SCENARIO: RECTANGLE WITH 2 AGENTS
-	ITERATION 0
-		local mse = 0.277443
-		global mse = 0.324810
-	ITERATION 1

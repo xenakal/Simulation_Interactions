@@ -1,13 +1,4 @@
 From MAILER-DAEMON Sat Jun 13 17:21:55 2020
-MESSAGE_Timestamp: 3.1387407779693604 MESSAGE_message#:656384273045642
-MESSAGE_From: 3 MESSAGE_sender#2393045403617893
-MESSAGE_Receiver list : 
-MESSAGE_To: 0 MESSAGE_receiver#3915514708542657
-MESSAGE_To: 1 MESSAGE_receiver#6961858276150712
-MESSAGE_To: 2 MESSAGE_receiver#4804897830807543
-MESSAGE_Type: agentEstimation MESSAGE_item: 3 MESSAGE_Message: #ITEM_Timestamp:0.044782161712646484#ITEM_Time_to_compare:0#ITEM_Owner_id:3#ITEM_Owner_signature:2393045403617893#ITEM_Item_type:agent_representation_estimation#ITEM_Item:ITEM_START-tag#23930tag#23930item_type:<class'src.multi_agent.agent.agent_interacting_room_camera_representation.AgentCamRepresentation'>tag#23930id:3tag#23930signature:2393045403617893tag#23930type:0tag#23930is_active:Truetag#23930color:(45,165,145)tag#23930confidence:-1tag#23930camera_representation:ITEM_START-tag#81662tag#81662item_type:<class'src.multi_agent.elements.mobile_camera.MobileCameraRepresentation'>tag#81662id:3tag#81662signature:8166235542806371tag#81662xc:50.1tag#81662yc:0.0tag#81662alpha:2.356194490192345tag#81662beta:1.5707963267948966tag#81662field_depth:152.0tag#81662std_measurement_error_position:0.5tag#81662std_measurement_error_speed:0.5tag#81662std_measurement_error_acceleration:1e-05tag#81662is_active:Truetag#81662color:(45,165,145)tag#81662default_xc:50.1tag#81662default_yc:0.0tag#81662default_alpha:2.356194490192345tag#81662default_beta:1.5707963267948966tag#81662default_field_depth:152.0tag#81662camera_type:0tag#81662trajectory:[]-ITEM_END-ITEM_END
-
-From MAILER-DAEMON Sat Jun 13 17:21:55 2020
 MESSAGE_Timestamp: 3.3928110599517822 MESSAGE_message#:7282579510595737
 MESSAGE_From: 3 MESSAGE_sender#2393045403617893
 MESSAGE_Receiver list : 
