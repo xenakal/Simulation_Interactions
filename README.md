@@ -9,6 +9,8 @@ The develloped system is composed of two types of agents: the agent-cameras and 
     
    - The **"agent-users"** receive estimates from several agent-cameras and combine them 
       to reconstruct the target's trajectories 
+      
+ More detailed inforamtions can be found in the file : thesis.pdf 
 
 <h2> Quick start guide </h2>
 
