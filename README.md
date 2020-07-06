@@ -1,9 +1,9 @@
 <h1> Master thesis : Multi-agent system</h1>
 
-As part of the reseach to conceptualize a **multi-agent system** aimed for the recognition and tracking of several
-targets in a room, this simulator was developped to validate several ideas.
+As part of the reseach to conceptualize a **multi-agent system** aimed at the recognition and tracking of several
+targets in a room, this simulator was developped to validate different ideas.
 
-The system develloped is composed of two types of agent : the agent-camera and the agent-user.
+The develloped system is composed of two types of agents: the agent-cameras and the agent-user.
     
    - The **"agent-cameras"** collect and filter the data.
     
@@ -15,10 +15,10 @@ The system develloped is composed of two types of agent : the agent-camera and t
 Four scenarios, corresponding to the case study presented in the thesis, are available to be tested. Four videos showing the simulation of these four scenarios are available in the video file.
 
 
-1. Run the file *main.py* is run and the GUI interface shoud appear on the *"simulation tab"*. 
+1. Run the file *main.py* and the GUI interface shoud appear on the *"simulation tab"*. 
 <img src="images/simulation_tab.png" width="40%">
 
-2. Explore the several study case already available.
+2. Explore the several case study already available.
     
     Usefull keys: 
     - r - reload the current case study from the start
@@ -141,6 +141,10 @@ To be able use the simulator fully, the following libraries are necessary:
      
  The librairies can be all downloaded using pip.  
 <h2> License </h2>
+
+© Winant Antoine, Xenakis Alexandros 
+
+Licenced under the [MIT License](LICENSE).
 
 <h2> Authors </h2>
 
