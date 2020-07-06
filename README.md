@@ -144,7 +144,7 @@ To be able use the simulator fully, the following libraries are necessary:
 
 © Winant Antoine, Xenakis Alexandros 
 
-Licenced under the [MIT License](LICENSE).
+Licensed under the [MIT License](LICENSE).
 
 <h2> Authors </h2>
 
