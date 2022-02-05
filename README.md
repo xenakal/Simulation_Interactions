@@ -17,10 +17,10 @@ The develloped system is composed of two types of agents: the agent-cameras and 
 Four scenarios, corresponding to the case study presented in the thesis, are available to be tested. Four videos showing the simulation of these four scenarios are available in the video file.
 
 
-1. Run the file *main.py* and the GUI interface shoud appear on the *"simulation tab"*. 
+1. Run the file *main.py* and the GUI interface shoud appear on the *"simulation"* tab. 
 <img src="images/simulation_tab.png" width="40%">
 
-2. Explore the several case study already available.
+2. Explore the several casees available out of the box.
     
     Usefull keys: 
     - r - reload the current case study from the start
@@ -34,10 +34,10 @@ Four scenarios, corresponding to the case study presented in the thesis, are ava
     - o - haide/show the objective the agent-camera should reach
     - v - hide/show the virtual camrea
     
-3. Create your own map using the *"create map tab"*
+3. Create your own map using the *"create map"* tab
 <img src="images/creation_tab.png" width="40%">
 
-   1. Once it is saved (see *"creation tab"* description), it will appear in the folder map under the name of *create_map.txt*.
+   1. Once it's saved (see the *"creation"* tab description), it will appear in the folder map under the name of *create_map.txt*.
    2. Rename it.
    3. Add it to the list of names to be run (*map_to_test_name*)  in the file *main.py*.
    4. Set the options in the following list :
@@ -48,8 +48,8 @@ Four scenarios, corresponding to the case study presented in the thesis, are ava
 
 <h2> GUI interface description </h2>
 
-This interface is totaly optional to obtain the results, however it helps to visualize  dynamically a situation. 
-It can be turn on/off by changing the option USE_GUI in the file *constants.py* 
+This interface is totaly optional to obtain the results, however it helps to visualize dynamically a situation. 
+It can be turn on/off by changing the option USE_GUI in the file *constants.py*.
 
 <h3> Simulation tab</h3>
 
@@ -105,7 +105,7 @@ This tab is use to display the *"room-representation"* (belief each *"agent-came
    - **Load maps** - to load the map called *create_map.txt* in the folder maps
    - **Save maps** - to save the map under the name of *create_map.txt* in the folder maps
 
-   When the button object or camera is selected, dedicated option appear on the top and on the left. 
+   When the button object or camera is selected, dedicated options appear on the top and on the left. 
         
 <h3> Camera tab</h3>  
 
@@ -114,12 +114,12 @@ This tab shows the view seen by each camera in the room. As in reality, the dept
 
 <h3> Stat tab</h3>  
 
-This tab is finally not used   
+This tab is not used.   
 
 <h2> Folders </h2>
 
    - **src**,  contains the source code
-   - **maps**, contains several maps used as input for the system - new maps can be created with the *create map tab* in the GUI interface.
+   - **maps**, contains several maps used as input for the system - new maps can be created with the *create map* tab in the GUI interface.
    - **results**, contains results of a simulation - a new file named after the map is created after each simulation and data can be saved/plotted by enabling the option in the *constants.py* file.\
    (SAVE_DATA=TRUE and PLOT_DATA = TRUE)
    - **to_share**, contains genral results that shows the overall possiblities given by simulations. Results are classified  as they are used in the 
